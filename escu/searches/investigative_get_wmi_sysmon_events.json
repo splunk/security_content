@@ -1,0 +1,47 @@
+{
+    "channel": "ESCU",
+    "creation_date": "2018-10-23",
+    "data_metadata": {
+        "data_sourcetypes": [
+            "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Sysmon"
+        ]
+    },
+    "fields_required": [
+        "process",
+        "dest"
+    ],
+    "how_to_implement": "To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate events for WMI activity. In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "modification_date": "2018-10-23",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "search": "| from datamodel Application_State.Processes | search process=*{process}* dest={dest}",
+    "search": "sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode>18 EventCode<22 host={dest} | rename host as dest | table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter",
+    "search_description": "This search queries Sysmon WMI events for the host of interest.",
+    "search_id": "155e0571-7db6-42f2-aa62-9a3a4cf35c94",
+    "search_name": "Get Sysmon WMI Activity for Host",
+    "search_type": "investigative",
+    "search_window": {
+        "earliest_time_offset": 7200,
+        "latest_time_offset": 7200
+    },
+    "spec_version": 1,
+    "version": "1.0"
+}

@@ -1,0 +1,83 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "dest, user, process",
+            "rule_description": "The system $dest$ had a shim database installed.",
+            "rule_title": "Shim Database Installation on $dest$"
+        },
+        "risk": {
+            "risk_object": "dest",
+            "risk_object_type": ["system"],
+            "risk_score": 20
+        },
+        "suppress": {
+            "suppress_fields": "dest,user",
+            "suppress_period": "14400s"
+        }
+    },
+    "creation_date": "2017-10-03",
+    "data_metadata": {
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "data_sourcetypes": [
+            "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
+    },
+    "eli5": "This search looks for the execution of sdbinst.exe with command-line arguments of -q and -p.  The -q option performs a silent installation with no visible window, status, or warning information.  The -p option allows the shim database to contain patches.  It will return the count, the first time, and the last time these command-line arguments were seen on each endpoint and by each user.",
+    "how_to_implement": "To successfully implement this search, you need to ingest logs with both the process name and command-line from your endpoints. If you are using Sysmon, you will need to have a Splunk Universal Forwarder on each endpoint that you want to collect the data on.  You will also need to have to deploy the Sysmon TA on these endpoints and on your search head.  You must have at least version 6.0.4 of the Sysmon TA.",
+    "known_false_positives": "None identified",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Persistence",
+            "Application Shimming"
+        ],
+        "nist": [
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2017-10-10",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "(sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational OR tag=process) process=*sdbinst* cmdline=\"*-p*\" cmdline=\"*-q*\" | stats count min(_time) as firstTime max(_time) as lastTime by dest, user, process, cmdline | `ctime(firstTime)`| `ctime(lastTime)`",
+    "search_description": "This search detects the process execution and arguments required to silently create a shim database.  The sdbinst.exe application is used to install shim database files (.sdb). A shim is a small library which transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.",
+    "search_id": "404620de-46d8-48b6-90cc-8a8d7b0876a3",
+    "search_name": "Shim Database Installation With Suspicious Parameters",
+    "search_type": "detection",
+    "security_domain": "endpoint",
+    "spec_version": 1,
+    "version": "1.0"
+}

@@ -1,0 +1,86 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "src, query",
+            "rule_description": "A DNS TXT record response of over 100 characters was detected.",
+            "rule_title": "Long DNS TXT Record Response"
+        },
+        "risk": {
+            "risk_object": "src",
+            "risk_object_type": ["system"],
+            "risk_score": 70
+        },
+        "suppress": {
+            "suppress_fields": "src",
+            "suppress_period": "86400s"
+        }
+    },
+    "creation_date": "2017-06-18",
+    "data_metadata": {
+        "data_models": [
+            "Network_Resolution"
+        ],
+        "data_source": [
+            "DNS"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Bro"
+        ]
+    },
+    "eli5": "This search uses the Network_Resolution data model and gathers all the answers to DNS queries for TXT records. The query then looks at the answer section and calculates the length of the answer. The search will then return information for those responses that exceed 100 characters in length.",
+    "how_to_implement": "To successfully implement this search you need to ingest data from your DNS logs, or monitor DNS traffic using Stream, Bro or something similar. Specifically, this query requires that the DNS data model is populated with information regarding the DNS record type that is being returned as well as the data in the answer section of the protocol.",
+    "known_false_positives": "It's possible that legitimate TXT record responses can be long enough to trigger this search. You can modify the packet threshold for this search to help mitigate false positives.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 8",
+            "CIS 12",
+            "CIS 13"
+        ],
+        "kill_chain_phases": [
+            "Command and Control"
+        ],
+        "mitre_attack": [
+            "Command and Control",
+            "Exfiltration",
+            "Commonly Used Port"
+        ],
+        "nist": [
+            "PR.DS",
+            "PR.PT",
+            "DE.AE",
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2017-09-18",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Resolution where DNS.message_type=response AND DNS.record_type=TXT by DNS.src DNS.dest DNS.answer DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval anslen=len(answer) | search anslen>100 | `ctime(firstTime)` | `ctime(lastTime)` | rename src as \"Source IP\", dest as \"Destination IP\", answer as \"DNS Answer\" anslen as \"Answer Length\" record_type as \"DNS Record Type\" firstTime as \"First Time\" lastTime as \"Last Time\" count as Count | table \"Source IP\" \"Destination IP\" \"DNS Answer\" \"DNS Record Type\"  \"Answer Length\" Count \"First Time\" \"Last Time\"",
+    "search_description": "This search is used to detect attempts to use DNS tunneling, by calculating the length of responses to DNS TXT queries. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting unusually large volumes of DNS traffic.",
+    "search_id": "05437c07-62f5-452e-afdc-04dd44815bb9",
+    "search_name": "Detect Long DNS TXT Record Response",
+    "search_type": "detection",
+    "security_domain": "network",
+    "spec_version": 1,
+    "version": "1.0"
+}

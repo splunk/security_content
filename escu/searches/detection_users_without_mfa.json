@@ -1,0 +1,81 @@
+{
+    "asset_type": "AWS Instance",
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "user",
+            "rule_description": "API Activity detected from $user$ without MFA enabled.",
+            "rule_title": "API Activity detected from $user$ without MFA enabled"
+        },
+        "risk": {
+            "risk_object": "user",
+            "risk_object_type": ["user"],
+            "risk_score": 30
+        },
+        "suppress": {
+            "suppress_fields": "user",
+            "suppress_period": "84600s"
+        }
+    },
+    "creation_date": "2018-05-17",
+    "data_metadata": {
+        "data_source": [
+            "AWS CloudTrail logs"
+        ],
+        "data_sourcetypes": [
+            "aws:cloudtrail"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 16"
+        ],
+        "mitre_attack": [
+            "Execution"
+        ],
+        "nist": [
+            "DE.DP",
+            "PR.AC"
+        ]
+    },
+    "modification_date": "2018-05-17",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 8 * * *",
+        "earliest_time": "-1d@d",
+        "latest_time": "-10m@m"
+    },
+    "search": "sourcetype=aws:cloudtrail userIdentity.sessionContext.attributes.mfaAuthenticated=false | search NOT [| inputlookup aws_service_accounts | fields identity | rename identity as user]| stats  count min(_time) as firstTime max(_time) as lastTime values(eventName) by userIdentity.arn userIdentity.type user | `ctime(firstTime)`  | `ctime(lastTime)`",
+
+    "eli5": " In this search, we query CloudTrail logs and specifically look for events where the multi factor authentication context of the user's session is false which basically means, that the user does not have MFA enabled on AWS. We then filter out all the known AWS service accounts since service accounts typically do not have MFA enabled. The search then creates a table of the first and last time a user without MFA was detected, the values and count of the API calls made, the type of user identity, ARN and the name of the user.",
+
+    "search_description": "This search looks for CloudTrail events where a user logged into the AWS account, is making API calls and has not enabled Multi Factor authentication. Multi factor authentication adds a layer of security by forcing the users to type a unique authentication code from an approved authentication device when they access AWS websites or services. AWS Best Practices recommend that you enable MFA for privileged IAM users.",
+
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Leverage the support search <code>Create a list of approved AWS service accounts</code>: run it once every 30 days to create a list of service accounts and validate them.",
+
+    "known_false_positives": "Many service accounts configured within an AWS infrastructure do not have multi factor authentication enabled. Please ignore the service accounts, if triggered and instead add them to the aws_service_accounts.csv file to fine tune the detection. It is also possible that the search detects users in your environment using Single Sign-On systems, since the MFA is not handled by AWS.",
+
+    "search_id": "2a9b80d3-6340-4345-w5ad-212bf5d1dac4",
+    "search_name": "Detect API activity from users without MFA",
+    "search_type": "detection",
+    "security_domain": "network",
+    "spec_version": 1,
+    "version": "1.0"
+}

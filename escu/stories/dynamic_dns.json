@@ -1,0 +1,53 @@
+{
+    "category": "Malware",
+    "channel": "ESCU",
+    "creation_date": "2017-11-21",
+    "description": "Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.",
+    "id": "8169f17b-ef68-4b59-aae8-5869073014e1",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2018-09-06",
+    "name": "Dynamic DNS",
+    "narrative": "Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow users to rapidly update domain resolutions to IP infrastructure. While their usage can be benign, malicious actors can abuse DDNS to host harmful payloads or interactive-command-and-control infrastructure. These attackers will manually update or automate domain resolution changes by routing dynamic domains to IP addresses that circumvent firewall blocks and blacklists and frustrate a network defender's analytic and investigative processes. These searches will look for DNS queries made from within your infrastructure to suspicious dynamic domains and then investigate more deeply, when appropriate. While this list of top-level dynamic domains is not exhaustive, it can be dynamically updated as new suspicious dynamic domains are identified.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "references": [
+        "https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html",
+        "https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/",
+        "http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/",
+        "https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html"
+    ],
+    "searches": {
+        "contextual_searches": [
+            "Get Notable Info",
+            "Get Notable History",
+            "Get User Information from Identity Table",
+            "Get Authentication Logs For Endpoint",
+            "Get Risk Modifiers For User",
+            "Get Risk Modifiers For Endpoint"
+        ],
+        "detection_searches": [
+            "Detect hosts connecting to dynamic domain providers",
+            "Detect web traffic to dynamic domain providers"
+        ],
+        "investigative_searches": [
+            "Get DNS Server History for a host",
+            "Get DNS traffic ratio",
+            "Get Process responsible for the DNS traffic",
+            "Investigate Web Activity From src_ip"
+        ],
+        "support_searches": []
+    },
+    "spec_version": 1,
+    "version": "2.0"
+}

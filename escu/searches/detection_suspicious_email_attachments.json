@@ -1,0 +1,82 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "high",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "src_user, file_name",
+            "rule_description": "The sender $src_user$ has sent an email with a suspicious file named $file_name$",
+            "rule_title": "Suspicious Email Attachment from $src_user$"
+        },
+        "risk": {
+            "risk_object": "src_user",
+            "risk_object_type": ["user"],
+            "risk_score": 60
+        },
+        "suppress": {
+            "suppress_fields": "src_user,message_id",
+            "suppress_period": "86400s"
+        }
+    },
+    "creation_date": "2017-04-20",
+    "data_metadata": {
+        "data_models": [
+            "Email"
+        ],
+        "data_source": [
+            "Email"
+        ],
+        "providing_technologies": [
+            "Microsoft Exchange"
+        ]
+    },
+    "eli5": "This search looks at any email messages with attachments and checks the file names of those attachments against an included lookup file to see if it has a suspicious file extension.",
+    "how_to_implement": "You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model.",
+    "known_false_positives": "None identified",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 3",
+            "CIS 7",
+            "CIS 12"
+        ],
+        "kill_chain_phases": [
+            "Delivery"
+        ],
+        "mitre_attack": [
+            "Execution",
+            "Defense Evasion"
+        ],
+        "nist": [
+            "DE.AE",
+            "PR.IP"
+        ]
+    },
+    "modification_date": "2017-09-19",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name=\"*\" by All_Email.src_user, All_Email.file_name All_Email.message_id | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Email\")` | `suspicious_email_attachments`",
+    "search_description": "This search looks for emails that have attachments with suspicious file extensions.",
+    "search_id": "473bd65f-06ca-4dfe-a2b8-ba04ab4a0084",
+    "search_name": "Suspicious Email Attachment Extensions",
+    "search_type": "detection",
+    "security_domain": "network",
+    "spec_version": 1,
+    "version": "1.0"
+}

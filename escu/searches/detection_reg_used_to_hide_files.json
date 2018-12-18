@@ -1,0 +1,82 @@
+{
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "dest, process, cmdline",
+            "rule_description": "Regedit.exe is used by attackers to hide malware files/directories in windows environments via registry key settings. This rule detects command-line arguments used to hide a file/directory",
+            "rule_title": "Regedit.exe used to hide a file/directory on $dest$ "
+        },
+        "risk": {
+            "risk_object": "dest",
+            "risk_object_type": ["system"],
+            "risk_score": 50
+        },
+        "suppress": {
+            "suppress_fields": "dest,cmdline",
+            "suppress_period": "86400s"
+        }
+    },
+    "creation_date": "2017-10-27",
+    "data_metadata": {
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "data_sourcetypes": [
+            "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
+    },
+    "eli5": "Reg.exe is a binary native to Windows platform used to edit the registry hives of the system. Attackers can leverage this binary to hide files by passing in arguments that are used to hide the files. In the search, we first gather results with keywords, add, Hidden, and REG_DWORD, that will be in the raw event and filter by process and the command-line. We then leverage regular expressions on the command-line field to look for /d value as 2 which is responsible for hiding a file or directory.",
+    "how_to_implement": "You need to be ingesting logs with both the process name and command-line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.",
+    "known_false_positives": "None at the moment",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Defense Evasion",
+            "Persistence"
+        ],
+        "nist": [
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2017-10-30",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational add Hidden REG_DWORD | search process=*reg.exe cmdline=*add* cmdline=*Hidden* cmdline=*REG_DWORD* | regex cmdline= \"(/d\\s+2)\" | stats count values(cmdline) min(_time) as firstTime max(_time) as lastTime by dest process | `ctime(firstTime)` |`ctime(lastTime)`",
+    "search_description": "The search looks for command-line arguments used to hide a file or directory using the reg add command.",
+    "search_id": "c77162d3-f93c-45cc-80c8-22f6b5264x9f",
+    "search_name": "Reg.exe used to hide files/directories via registry keys",
+    "search_type": "detection",
+    "security_domain": "endpoint",
+    "spec_version": 1,
+    "version": "1.0"
+}

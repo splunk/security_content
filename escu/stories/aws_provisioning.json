@@ -1,0 +1,48 @@
+{
+    "category": "Cloud Security",
+    "channel": "ESCU",
+    "creation_date": "2018-03-16",
+    "description": "Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.",
+    "id": "3338b567-3804-4261-9889-cf0ca4753c7f",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "modification_date": "2018-03-16",
+    "name": "AWS Suspicious Provisioning Activities",
+    "narrative": "Because most enterprise AWS activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).<br/>This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "references": [
+        "https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf"
+    ],
+    "searches": {
+        "contextual_searches": [
+        ],
+        "detection_searches": [
+            "AWS Cloud Provisioning From Previously Unseen Country",
+            "AWS Cloud Provisioning From Previously Unseen Region",
+            "AWS Cloud Provisioning From Previously Unseen City",
+            "AWS Cloud Provisioning From Previously Unseen IP Address"
+        ],
+        "investigative_searches": [
+            "Get All AWS Activity From City",
+            "Get All AWS Activity From Country",
+            "Get All AWS Activity From Region",
+            "Get All AWS Activity From IP Address"
+        ],
+        "support_searches": [
+            "Previously Seen AWS Provisioning Activity Sources"
+        ]
+    },
+    "spec_version": 1,
+    "version": "1.0"
+}

@@ -1,0 +1,85 @@
+{
+    "asset_type": "S3 Bucket",
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "user",
+            "rule_description": "A spike in the number of S3 buckets deleted by $user$ was detected.",
+            "rule_title": "Spike detected in S3 bucket deletion activity by $user$."
+        },
+        "risk": {
+            "risk_object": "user",
+            "risk_object_type": ["user"],
+            "risk_score": 30
+        },
+        "suppress": {
+            "suppress_fields": "user",
+            "suppress_period": "14400s"
+        }
+    },
+    "creation_date": "2018-07-17",
+    "data_metadata": {
+        "data_source": [
+            "AWS CloudTrail logs"
+        ],
+        "data_sourcetypes": [
+            "aws:cloudtrail"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
+    },
+    "eli5": "This search and its corresponding subsearch run through the following series of steps: <ol><li>Retrieve all the AWS CloudTrail log entries that have recorded AWS API calls specifically for deletion of S3 buckets.</li><li>Kick off a subsearch that retrieves the same data and pulls out and converts the ARN into a more friendly format.</li><li>Count the number of API calls per ARN.</li><li>Load the cache file that contains the number of data points, the count from the latest hour, the API call average, and the standard deviation for each ARN.</li><li>Drop the count from the latest hour, since it is unnecessary, and merge the rest of the data with the results of the <code>stats</code> command. </li><li>Rename <code>apiCalls</code> as <code>latestCount</code>.</li><li>Calculate the new average value for each ARN with the latest count, weighting the past more heavily than the current hour. It does the same for the standard deviation&#151;weighting the past more heavily than the current.</li><li>Update the cache file with the latest results.</li><li>Set the minimum threshold for the number of data points and the number of standard deviations away from the mean it must be to be considered a spike.</li><li>Make a determination regarding whether or not the current count is a spike by checking to see if the minimum data-point threshold has been met and if the count is a sufficient number of standard deviations away from the average.</li><li>Filter out anything that it determines is not a spike and returns the list of ARNs to the main search. </li></ol>The main search subsequently gets the names of the deleted S3 buckets, the number of unique API calls, and the total number of API calls for each of these user ARNs.",
+
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. You can modify <code>dataPointThreshold</code> and <code>deviationThreshold</code> to better fit your environment. The <code>dataPointThreshold</code> variable is the minimum number of data points required to have a statistically significant amount of data to determine. The <code>deviationThreshold</code> variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the \"Baseline of S3 Bucket deletion activity by ARN\" support search once to create a baseline of previously seen S3 bucket-deletion activity.",
+
+    "known_false_positives": "Based on the values of<code>dataPointThreshold</code> and <code>deviationThreshold</code>, the false positive rate may vary. Please modify this according the your environment.",
+
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 13"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Credential Access", "Execution"
+        ],
+        "nist": [
+            "DE.DP",
+            "DE.CM",
+            "PR.AC"
+        ]
+    },
+    "modification_date": "2018-11-27",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search_description": "This search detects users creating spikes in API activity related to deletion of S3 buckets in your AWS environment. It will also update the cache file that factors in the latest data.",
+
+    "search": "sourcetype=aws:cloudtrail eventName=DeleteBucket [search sourcetype=aws:cloudtrail eventName=DeleteBucket | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup s3_deletion_baseline append=t | fields - latestCount | stats values(*) as * by arn | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720 | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls, 2)*719 + (latestCount-newAvgApiCalls)*(latestCount-avgApiCalls))/720)) | eval avgApiCalls=coalesce(newAvgApiCalls, avgApiCalls), stdevApiCalls=coalesce(newStdevApiCalls, stdevApiCalls), numDataPoints=if(isnull(latestCount), numDataPoints, numDataPoints+1) | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup s3_deletion_baseline | eval dataPointThreshold = 15, deviationThreshold = 3 | eval isSpike=if((latestCount > avgApiCalls+deviationThreshold*stdevApiCalls) AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn | spath output=bucketName path=requestParameters.bucketName | stats values(bucketName) as bucketName, count as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user",
+
+    "search_id": "ad12w478-84a8-4641-a3w1-e32372q4bd53",
+    "search_name": "Detect Spike in S3 Bucket deletion",
+    "search_type": "detection",
+    "security_domain": "network",
+    "spec_version": 1,
+    "version": "1.0"
+}

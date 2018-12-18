@@ -1,0 +1,50 @@
+{
+    "channel": "ESCU",
+    "creation_date": "2018-08-07",
+    "data_metadata": {
+        "data_source": [
+            "Endpoint"
+        ],
+        "data_sourcetypes": [
+            "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
+    },
+    "fields_required": [
+        "dest"
+    ],
+    "how_to_implement": "To successfully implement this search, you must be ingesting endpoint data via Microsoft Windows Sysmon and must extract the Image and Parent Image field.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2018-08-07",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "search": "| search sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational process=reg.exe signature_id=13 dest={dest} | table _time dest action object object_path EventDescription Details",
+
+    "search_description": "This search queries the Sysmon logs to give you details of the latest registry values for a specific destination computer.",
+    "search_id": "fecf2918-670d-4f1c-872b-3d7317a41xf9",
+    "search_name": "Get Registry Activities",
+    "search_type": "investigative",
+    "search_window": {
+        "earliest_time_offset": 0,
+        "latest_time_offset": 86400
+    },
+    "spec_version": 1,
+    "version": "1.0"
+}

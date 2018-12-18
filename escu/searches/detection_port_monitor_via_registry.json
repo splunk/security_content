@@ -1,0 +1,89 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "dest, user, registry_path",
+            "rule_description": "A registry key associated with adding print monitors can potentially be misused by giving it a path of a malicious .dll in the registry.",
+            "rule_title": "Registry Key changes for Print Monitors detected on $dest$"
+        },
+        "risk": {
+            "risk_object": "dest",
+            "risk_object_type": ["system"],
+            "risk_score": 30
+        },
+        "suppress": {
+            "suppress_fields": "dest, registry_path",
+            "suppress_period": "86400s"
+        }
+    },
+    "creation_date": "2017-12-01",
+    "data_metadata": {
+        "data_models": [
+            "Endpoint"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon"
+        ]
+    },
+    "eli5": "In this search, we look for modifications to registry keys used for adding print-monitor entries on Microsoft platforms via the <code>registry_path</code> field in the endpoint data model. It then provides the destination, command used to initiate the change, the user who conducted this activity, the resource affected (registry_key_name), and the entire path of the registry.",
+
+    "how_to_implement": "To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report registry modifications.",
+
+    "known_false_positives": "You will encounter noise from legitimate print-monitor registry entries.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 8",
+            "CIS 5"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Persistence",
+            "Privilege Escalation",
+            "Local Port Monitor"
+        ],
+        "nist": [
+            "PR.PT",
+            "DE.CM",
+            "PR.AC"
+        ]
+    },
+    "modification_date": "2018-11-02",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND Registry.registry_path=\"*CurrentControlSet\\\\Control\\\\Print\\\\Monitors*\" by Registry.dest, Registry.registry_key_name Registry.status Registry.user Registry.registry_path Registry.action | `drop_dm_object_name(Registry)`",
+
+    "search_description": "This search looks for registry activity associated with modifications to the registry key <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Print\\Monitors</code>. In this scenario, an attacker can load an arbitrary .dll into the print-monitor registry by giving the full path name to the after.dll. The system will execute the .dll with elevated (SYSTEM) permissions and will persist after reboot.",
+
+    "search_id": "f5f6af30-7ba7-4295-bfe9-07de87c01bbc",
+    "search_name": "Monitor Registry Keys for Print Monitors",
+    "search_type": "detection",
+    "security_domain": "endpoint",
+    "spec_version": 1,
+    "version": "1.0"
+}

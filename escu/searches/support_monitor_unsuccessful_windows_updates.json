@@ -1,0 +1,44 @@
+{
+    "channel": "ESCU",
+    "creation_date": "2017-08-24",
+    "data_metadata": {
+        "data_models": [
+            "Updates"
+        ],
+        "data_source": [
+            "Windows Updates"
+        ],
+        "providing_technologies": [
+            "Microsoft Windows"
+        ]
+    },
+    "eli5": "This search gives you the count of the number of systems that attempted and failed to install a Windows update each day.",
+    "how_to_implement": "You must be ingesting your Windows Update Logs",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "modification_date": "2017-09-14",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "scheduling": {
+        "earliest_time": "-30d@d",
+        "latest_time": "-10m@m"
+    },
+    "search": "| tstats `summariesonly` dc(Updates.dest) as count FROM datamodel=Updates where Updates.vendor_product=\"Microsoft Windows\" AND Updates.status=failure by _time span=1d",
+    "search_description": "This search is intended to give you a feel for how often Windows updates fail to install in your environment. Fluctuations in these numbers will allow you to determine when you should be concerned.",
+    "search_id": "6a4dbd1b-4502-4a11-943a-82b5ae7a42d7",
+    "search_name": "Windows Updates Install Failures",
+    "search_type": "support",
+    "spec_version": 1,
+    "status": "production",
+    "version": "1.0"
+}

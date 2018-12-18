@@ -1,0 +1,84 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "high",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "src, url, dest",
+            "rule_description": "The host $src$ has been detected making a web request to $url$, which is a listed as a dynamic DNS provider.",
+            "rule_title": "Dynamic DNS web traffic detected on $src$."
+        },
+        "risk": {
+            "risk_object": "src",
+            "risk_object_type": ["system"],
+            "risk_score": 40
+        },
+        "suppress": {
+            "suppress_fields": "src, url , dest",
+            "suppress_period": "86400s"
+        }
+    },
+    "creation_date": "2018-09-06",
+    "data_metadata": {
+        "data_models": [
+            "Web"
+        ],
+        "data_source": [
+            "Web Traffic"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Bro",
+            "Bluecoat",
+            "Palo Alto Firewall"
+        ]
+    },
+    "eli5": "This search looks for hosts in your environment that may be communicating with a dynamic DNS provider. It checks each URL an endpoint is connecting to against a list of dynamic DNS providers. It returns the source and destination IP address of the web request, the URL requested, and the first time the event occurred.",
+
+    "how_to_implement": "This search requires you to be ingesting web-traffic logs. You can obtain these logs from indexing data from a web proxy or by using a network-traffic-analysis tool, such as Bro or Splunk Stream. The web data model must contain the URL being requested, the IP address of the host initiating the request, and the destination IP. This search also leverages a lookup file, <code>dynamic_dns_providers_default.csv</code>, which contains a non-exhaustive list of dynamic DNS providers. Consider periodically updating this local lookup file with new domains.",
+
+    "known_false_positives": "It is possible that list of dynamic DNS providers is outdated and/or that the URL being requested is legitimate.",
+
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 7","CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Command and Control","Actions on Objectives"
+        ],
+        "mitre_attack": ["Command and Control","Web Service","Exfiltration Over Command and Control Channel","Defense Evasion"],
+        "nist": [
+            "PR.IP","DE.DP"
+        ]
+    },
+    "modification_date": "2018-09-06",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "| tstats summariesonly=true allow_old_summaries=true count values(Web.url) as url min(_time) as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `dynamic_dns_web_traffic`",
+
+    "search_description": "This search looks for web connections to dynamic DNS providers.",
+
+    "search_id": "134da869-e264-4a8f-8d7e-fcd01c18f301",
+    "search_name": "Detect web traffic to dynamic domain providers",
+    "search_type": "detection",
+    "security_domain": "network",
+    "spec_version": 1,
+    "version": "1.0"
+}

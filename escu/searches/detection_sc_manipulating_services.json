@@ -1,0 +1,93 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "dest, user, process",
+            "rule_description": "This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.",
+            "rule_title": "Sc.exe Manipulating Windows Services"
+        },
+        "risk": {
+            "risk_object": "dest",
+            "risk_object_type": ["system"],
+            "risk_score": 60
+        },
+        "suppress": {
+            "suppress_fields": "dest, cmdline",
+            "suppress_period": "28800s"
+        }
+    },
+    "creation_date": "2017-11-03",
+    "data_metadata": {
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "data_sourcetypes": [
+            "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
+    },
+    "eli5": "This search looks for the execution of sc.exe with parameters that indicate the utility is being used to create a new Windows service, or modify an existing one. Attackers often create a new service to host their malicious code, or they may take a non-critical service or one that is disabled, and modify it to point to their malware and enable the service if necessary. It is unusual for a service to be created or modified using the sc.exe utility.",
+    "how_to_implement": "To successfully implement this search you need to be ingesting logs with both the process name and command-line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.",
+    "known_false_positives": "Using sc.exe to manipulate Windows services is uncommon. However, there may be legitimate instances of this behavior. It is important to validate and investigate as appropriate.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 3",
+            "CIS 5",
+            "CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Installation"
+        ],
+        "mitre_attack": [
+            "Persistence",
+            "Privilege Escalation",
+            "New Service",
+            "Modify Existing Service",
+            "Defense Evasion",
+            "Disabling Security Tools"
+        ],
+        "nist": [
+            "PR.IP",
+            "PR.PT",
+            "PR.AC",
+            "PR.AT",
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2017-11-03",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "(sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational OR tag=process) process=*sc.exe* AND (cmdline=\"* create *\" OR cmdline=\"* config *\") | stats count min(_time) as firstTime max(_time) as lastTime by dest, user, process, cmdline | `ctime(firstTime)`| `ctime(lastTime)`",
+    "search_description": "This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.",
+    "search_id": "f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d",
+    "search_name": "Sc.exe Manipulating Windows Services",
+    "search_type": "detection",
+    "security_domain": "endpoint",
+    "spec_version": 1,
+    "version": "1.0"
+}

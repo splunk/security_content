@@ -1,0 +1,82 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "low",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "dest",
+            "rule_description": "Read/Write attempt to a USB was detected on this host",
+            "rule_title": "Read/Write attempt to a USB detected on $dest$"
+        },
+        "risk": {
+            "risk_object": "dest",
+            "risk_object_type": ["system"],
+            "risk_score": 20
+        },
+        "suppress": {
+            "suppress_fields": "dest",
+            "suppress_period": "86400s"
+        }
+    },
+    "creation_date": "2017-08-03",
+    "data_metadata": {
+        "data_models": [
+            "Change_Analysis"
+        ],
+        "data_source": [
+            "Windows Security Audit logs"
+        ],
+        "providing_technologies": [
+            "Microsoft Windows"
+        ]
+    },
+    "eli5": "USB is a common attack vector for delivering or propagating malicious code, or the exfiltration of data. Your corporation may have a policy of not allowing removable media at all, or may only allow approved media to be used on specific hosts by specific users. By logging USB activity from Windows and other endpoints gathered using the Universal Forwarder, you can gain an understanding of what systems might be vulnerable to attack via removable media, or what users might need additional security training. This search is looking for event_id 4656 for failure and 4663 for successful USB read/write attempts from Windows Security Event logs, which is the event code generated when a files are read from and written to a removable storage device",
+    "how_to_implement": "To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663 and 4656. Ensure that the field from the event logs is being mapped to the result_id field in the Change_Analysis data model. To minimize the alert volume, this search leverages the Assets and Identity framework to filter out events from those assets not marked high priority in the Enterprise Security Assets and Identity Framework.",
+    "known_false_positives": "Legitimate USB activity will also be detected. Please verify and investigate as appropriate.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 13"
+        ],
+        "kill_chain_phases": [
+            "Installation",
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Exfiltration"
+        ],
+        "nist": [
+            "PR.PT",
+            "PR.DS"
+        ]
+    },
+    "modification_date": "2017-11-27",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+    },
+    "search": "| tstats `summariesonly` count earliest(_time) AS earliest latest(_time) AS latest from datamodel=Change_Analysis where (nodename = All_Changes) All_Changes.result=\"Removable Storage device\" (All_Changes.result_id=4663 OR All_Changes.result_id=4656) (All_Changes.src_priority=high) by All_Changes.dest | `drop_dm_object_name(\"All_Changes\")`| `ctime(earliest)`| `ctime(latest)` ",
+    "search_description": "The search is used to detect hosts that generate Windows Event ID 4663 for successful attempts to write to or read from a removable storage and Event ID 4656 for failures, which occurs when a USB drive is plugged in. In this scenario we are querying the Change_Analysis data model to look for Windows Event ID 4656 or 4663 where the priority of the affected host is marked as high in the ES Assets and Identity Framework.",
+    "search_id": "104658f4-afdc-499f-9719-17a43f9826f5",
+    "search_name": "Detect USB device insertion",
+    "search_type": "detection",
+    "security_domain": "endpoint",
+    "spec_version": 1,
+    "status": "production",
+    "team_notes": "Updated the search so that only USB events are flagged to reduce FPs. This eventID is also the MS recommended way of monitoring USB insertions",
+    "version": "1.0"
+}

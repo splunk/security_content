@@ -1,0 +1,78 @@
+{
+    "asset_type": "Endpoint",
+    "channel": "ESCU",
+    "confidence": "medium",
+    "correlation_rule": {
+        "notable": {
+            "nes_fields": "dest, user",
+            "rule_description": "This search detects new connections made to the router devices at $dest$",
+            "rule_title": "Detected a New Router Login"
+        },
+        "risk": {
+            "risk_object": "dest",
+            "risk_object_type": ["system"],
+            "risk_score": 20
+        },
+        "suppress": {
+            "suppress_fields": "dest,user",
+            "suppress_period": "86400s"
+        }
+    },
+    "creation_date": "2017-07-18",
+    "data_metadata": {
+        "data_models": [
+            "Authentication"
+        ],
+        "data_source": [
+            "Network Equipment"
+        ],
+        "providing_technologies": [
+            "Active Directory",
+            "Palo Alto Firewall"
+        ]
+    },
+    "eli5": "Attackers will often attempt to compromise network devices such as routers for a variety of nefarious purposes, including modifying VPN settings or re-routing network traffic. Typically, only a relatively small number of user accounts log into these devices on a regular basis. This search identifies 'new' connections to your routers by checking to see if a similar login was made in the last 30 days. Routers are identified by checking the IP address against those categorized as a \"router\" in the ES assets and identity framework.",
+    "how_to_implement": "To successfully implement this search, you must ensure the network router devices are categorized as \"router\" in the Assets and identity table. You must also populate the Authentication data model with logs related to users authenticating to routing infrastructure.",
+    "known_false_positives": "Legitimate router connections may appear as new connections",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 11"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "nist": [
+            "PR.PT",
+            "PR.AC",
+            "PR.IP"
+        ]
+    },
+    "modification_date": "2017-09-12",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "cron_schedule": "0 0 * * *",
+        "earliest_time": "-30d@d",
+        "latest_time": "-10m@m"
+    },
+    "search": "| tstats `summariesonly` count earliest(_time) as earliest latest(_time) as latest from datamodel=Authentication where Authentication.dest_category=router by Authentication.dest Authentication.user| eval isOutlier=if(earliest >= relative_time(now(), \"-30d@d\"), 1, 0) | where isOutlier=1| `ctime(earliest)`| `ctime(latest)` | `drop_dm_object_name(\"Authentication\")`",
+    "search_description": "The search queries the authentication logs for assets that are categorized as routers in the ES Assets and Identity Framework, to identify connections that have not been seen before in the last 30 days.",
+    "search_id": "104658f4-afdc-499e-9719-17243rr826f1",
+    "search_name": "Detect New Login Attempts to Routers",
+    "search_type": "detection",
+    "security_domain": "network",
+    "spec_version": 1,
+    "version": "1.0"
+}

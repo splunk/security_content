@@ -1,0 +1,50 @@
+{
+    "channel": "ESCU",
+    "creation_date": "2017-08-22",
+    "data_metadata": {
+        "data_source": [
+            "Endpoint"
+        ],
+        "data_sourcetypes": [
+            "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
+    },
+    "fields_required": [
+        "process",
+        "dest"
+    ],
+    "how_to_implement": "To successfully implement this search you must be ingesting endpoint data via Microsoft-Windows-Sysmon and extract the Image and Parent Image field.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2017-09-10",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "search": "| search sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational process={process} dest={dest} | table parent_process parent_process_id",
+    "search_description": "This search queries the Application State data model to give you details about the parent process of a process running on a host which is under investigation. Enter the values of the process name in question and the dest_ip",
+    "search_id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+    "search_name": "Get Parent Process Info",
+    "search_type": "investigative",
+    "search_window": {
+        "earliest_time_offset": 0,
+        "latest_time_offset": 86400
+    },
+    "spec_version": 1,
+    "version": "1.0"
+}

@@ -1,0 +1,45 @@
+{
+    "channel": "ESCU",
+    "creation_date": "2018-04-01",
+    "data_metadata": {
+        "data_source": [
+            "AWS CloudTrail logs"
+        ],
+        "data_sourcetypes": [
+            "aws:cloudtrail"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
+    },
+    "eli5": "In this support search, we are looking for successful API calls made by user roles within your AWS infrastructure. The intent is to create an initial baseline cache of names of the API calls per security role for the previous 30 days--including the earliest and latest times seen in our dataset--grouped by the value of user role and the name of the API call. It is also worth noting that the role of a particular user is parsed as \"userName\" in the CloudTrail logs.",
+
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the user role entries in <code>previously_seen_api_calls_from_user_roles.csv</code>, which is a lookup file created as a result of running this support search.",
+
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2018-04-16",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "scheduling": {
+        "earliest_time": "-30d@d",
+        "latest_time": "-10m@m"
+    },
+    "search": "sourcetype=aws:cloudtrail eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole | stats earliest(_time) as earliest latest(_time) as latest by userName eventName | outputlookup previously_seen_api_calls_from_user_roles | stats count",
+    "search_description": "This search looks for successful API calls made by different user roles, then creates a baseline of the earliest and latest times we have encountered this user role. It also returns the name of the API call in our dataset--grouped by user role and name of the API call--that occurred within the last 30 days. In this support search, we are only looking for events where the user identity is Assumed Role.",
+    "search_id": "fc0edc95-fq2c-48b0-9f6f-63da3289fd03",
+    "search_name": "Previously seen API call per user roles in CloudTrail",
+    "search_type": "support",
+    "spec_version": 1,
+    "version": "1.0"
+}

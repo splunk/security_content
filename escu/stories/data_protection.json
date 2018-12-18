@@ -1,0 +1,51 @@
+{
+    "category": "Abuse",
+    "channel": "ESCU",
+    "creation_date": "2017-06-01",
+    "description": "Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.",
+    "id": "91c676cf-0b23-438d-abee-f6335e1fce33",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2017-09-14",
+    "name": "Data Protection",
+    "narrative": "Attackers can leverage a variety of resources to compromise or exfiltrate enterprise data. Common exfiltration techniques include remote-access channels via low-risk, high-payoff active-collections operations and close-access operations using insiders and removable media. While this Analytic Story is not a comprehensive listing of all the methods by which attackers can exfiltrate data, it provides a useful starting point.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "references": [
+        "https://www.cisecurity.org/controls/data-protection/",
+        "https://www.sans.org/reading-room/whitepapers/dns/splunk-detect-dns-tunneling-37022",
+        "https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/"
+    ],
+    "searches": {
+        "contextual_searches": [
+            "Get Notable Info",
+            "Get Notable History",
+            "Get User Information from Identity Table",
+            "Get Authentication Logs For Endpoint",
+            "Get Risk Modifiers For User",
+            "Get Risk Modifiers For Endpoint"
+        ],
+        "detection_searches": [
+            "Detection of DNS Tunnels",
+            "Detect USB device insertion",
+            "Detect hosts connecting to dynamic domain providers"
+        ],
+        "investigative_searches": [
+            "Get DNS Server History for a host",
+            "Get Process responsible for the DNS traffic"
+        ],
+        "support_searches": []
+    },
+    "spec_version": 1,
+    "version": "1.0"
+}

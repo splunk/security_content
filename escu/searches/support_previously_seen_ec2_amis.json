@@ -1,0 +1,43 @@
+{
+    "channel": "ESCU",
+    "creation_date": "2018-03-12",
+    "data_metadata": {
+        "data_source": [
+            "AWS CloudTrail logs"
+        ],
+        "data_sourcetypes": [
+            "aws:cloudtrail"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
+    },
+    "eli5": "In this support search, we create a table of the earliest and latest time that a specific AMI ID has been seen. This table is then outputted to a csv file.",
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "modification_date": "2018-03-12",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "scheduling": {
+        "earliest_time": "-90d@d",
+        "latest_time": "-10m@m"
+    },
+    "search": "sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | rename requestParameters.instancesSet.items{}.imageId as amiID | stats earliest(_time) as earliest latest(_time) as latest by amiID | outputlookup previously_seen_ec2_amis.csv | stats count",
+    "search_description": "This search builds a table of previously seen AMIs used to launch EC2 instances",
+    "search_id": "bb1bd99d-1e93-45f1-9571-cfed42d372b9",
+    "search_name": "Previously Seen EC2 AMIs",
+    "search_type": "support",
+    "spec_version": 1,
+    "version": "1.0"
+}
