@@ -1,44 +1,44 @@
 {
-    "channel": "ESCU",
-    "creation_date": "2017-06-24",
-    "data_metadata": {
-        "data_models": [
-            "Network_Traffic"
-        ],
-        "data_source": [
-            "Network Communication"
-        ],
-        "providing_technologies": [
-            "Splunk Stream",
-            "Bro"
-        ]
-    },
-    "eli5": "For each port being accessed on the network, this search gives the total number of connections observed, and the number of unique IP addresses making those connections.",
-    "how_to_implement": "To successfully implement this search, you must be ingesting network traffic, and populating the Network_Traffic data model.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+  "channel": "ESCU",
+  "creation_date": "2017-06-24",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
     ],
-    "modification_date": "2017-09-13",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "data_source": [
+      "Network Communication"
     ],
-    "scheduling": {
-        "earliest_time": "-30d@d",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count dc(All_Traffic.src) as numberOfUniqueHosts from datamodel=Network_Traffic by All_Traffic.dest_port | `drop_dm_object_name(\"All_Traffic\")` | sort - count",
-    "search_description": "The search counts the number of times a connection was observed to each destination port, and the number of unique source IPs connecting to them.",
-    "search_id": "9f3bae5a-9fe3-49df-8c84-5edc51d84b7f",
-    "search_name": "Count of Unique IPs Connecting to Ports",
-    "search_type": "support",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "eli5": "For each port being accessed on the network, this search gives the total number of connections observed, and the number of unique IP addresses making those connections.",
+  "how_to_implement": "To successfully implement this search, you must be ingesting network traffic, and populating the Network_Traffic data model.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2017-09-13",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-30d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count dc(All_Traffic.src) as numberOfUniqueHosts from datamodel=Network_Traffic by All_Traffic.dest_port | `drop_dm_object_name(\"All_Traffic\")` | sort - count",
+  "search_description": "The search counts the number of times a connection was observed to each destination port, and the number of unique source IPs connecting to them.",
+  "search_id": "9f3bae5a-9fe3-49df-8c84-5edc51d84b7f",
+  "search_name": "Count of Unique IPs Connecting to Ports",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
 }

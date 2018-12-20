@@ -1,66 +1,66 @@
 {
-    "category": "Adversary Tactics",
-    "channel": "ESCU",
-    "creation_date": "2018-06-01",
-    "description": "Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.",
-    "id": "943773c6-c4de-4f38-89a8-0b92f98804d8",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+  "category": "Adversary Tactics",
+  "channel": "ESCU",
+  "creation_date": "2018-06-01",
+  "description": "Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.",
+  "id": "943773c6-c4de-4f38-89a8-0b92f98804d8",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "modification_date": "2018-06-01",
+  "name": "Command and Control",
+  "narrative": "Threat actors typically architect and implement an infrastructure to use in various ways during the course of their attack campaigns. In some cases, they leverage this infrastructure for scanning and performing reconnaissance activities. In others, they may use this infrastructure to launch actual attacks. One of the most important functions of this infrastructure is to establish servers that will communicate with implants on compromised endpoints. These servers establish a command and control channel that is used to proxy data between the compromised endpoint and the attacker. These channels relay commands from the attacker to the compromised endpoint and the output of those commands back to the attacker.<br></br>Because this communication is so critical for an adversary, they often use techniques designed to hide the true nature of the communications. There are many different techniques used to establish and communicate over these channels. This Analytic Story provides searches that look for a variety of the techniques used for these channels, as well as indications that these channels are active, by examining logs associated with border control devices and network-access control lists.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "references": [
+    "https://attack.mitre.org/wiki/Command_and_Control",
+    "https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint",
+      "Get Risk Modifiers For User",
+      "Get Risk Modifiers For Endpoint",
+      "AWS Network Interface details via resourceId"
     ],
-    "modification_date": "2018-06-01",
-    "name": "Command and Control",
-    "narrative": "Threat actors typically architect and implement an infrastructure to use in various ways during the course of their attack campaigns. In some cases, they leverage this infrastructure for scanning and performing reconnaissance activities. In others, they may use this infrastructure to launch actual attacks. One of the most important functions of this infrastructure is to establish servers that will communicate with implants on compromised endpoints. These servers establish a command and control channel that is used to proxy data between the compromised endpoint and the attacker. These channels relay commands from the attacker to the compromised endpoint and the output of those commands back to the attacker.<br></br>Because this communication is so critical for an adversary, they often use techniques designed to hide the true nature of the communications. There are many different techniques used to establish and communicate over these channels. This Analytic Story provides searches that look for a variety of the techniques used for these channels, as well as indications that these channels are active, by examining logs associated with border control devices and network-access control lists.", 
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+    "detection_searches": [
+      "Detect Large Outbound ICMP Packets",
+      "Protocol or Port Mismatch",
+      "Detection of DNS Tunnels",
+      "TOR Traffic",
+      "Prohibited Network Traffic Allowed",
+      "Clients Connecting to Multiple DNS Servers",
+      "DNS Query Length With High Standard Deviation",
+      "Detect hosts connecting to dynamic domain providers",
+      "Excessive DNS Failures",
+      "Detect Long DNS TXT Record Response",
+      "DNS Query Requests Resolved by Unauthorized DNS Servers",
+      "Detect Spike in blocked Outbound Traffic from your AWS"
     ],
-    "references": [
-        "https://attack.mitre.org/wiki/Command_and_Control",
-        "https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware"
+    "investigative_searches": [
+      "Get Process Info",
+      "Get Process responsible for the DNS traffic",
+      "Get DNS Server History for a host",
+      "Get DNS traffic ratio",
+      "Get All AWS Activity From IP Address",
+      "Get Process Information For Port Activity"
     ],
-    "searches": {
-        "contextual_searches": [
-            "Get Notable Info",
-            "Get Notable History",
-            "Get User Information from Identity Table",
-            "Get Authentication Logs For Endpoint",
-            "Get Risk Modifiers For User",
-            "Get Risk Modifiers For Endpoint",
-            "AWS Network Interface details via resourceId"
-        ],
-        "detection_searches": [
-            "Detect Large Outbound ICMP Packets",
-            "Protocol or Port Mismatch",
-            "Detection of DNS Tunnels",
-            "TOR Traffic",
-            "Prohibited Network Traffic Allowed",
-            "Clients Connecting to Multiple DNS Servers",
-            "DNS Query Length With High Standard Deviation",
-            "Detect hosts connecting to dynamic domain providers",
-            "Excessive DNS Failures",
-            "Detect Long DNS TXT Record Response",
-            "DNS Query Requests Resolved by Unauthorized DNS Servers",
-            "Detect Spike in blocked Outbound Traffic from your AWS"
-        ],
-        "investigative_searches": [
-            "Get Process Info",
-            "Get Process responsible for the DNS traffic",
-            "Get DNS Server History for a host",
-            "Get DNS traffic ratio",
-            "Get All AWS Activity From IP Address",
-            "Get Process Information For Port Activity"
-        ],
-        "support_searches": [
-            "Baseline of blocked outbound traffic from AWS"
-        ]
-    },
-    "spec_version": 1,
-    "version": "1.0"
+    "support_searches": [
+      "Baseline of blocked outbound traffic from AWS"
+    ]
+  },
+  "spec_version": 1,
+  "version": "1.0"
 }

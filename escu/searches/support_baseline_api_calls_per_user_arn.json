@@ -1,43 +1,43 @@
 {
-    "channel": "ESCU",
-    "creation_date": "2018-04-09",
-    "data_metadata": {
-        "data_source": [
-            "AWS CloudTrail logs"
-        ],
-        "data_sourcetypes": [
-            "aws:cloudtrail"
-        ],
-        "providing_technologies": [
-            "AWS"
-        ]
-    },
-    "eli5": "This search returns all log events that are API calls, pulls out the ARN that initiated each call, and collects them in one-hour groupings. Next, it calculates the number of API calls made per ARN per hour. For each ARN, it calculates the average and standard deviation of this count on a per-hour basis.  It also includes the number of data points each ARN had. This table is then stored in a lookup file.",
-    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+  "channel": "ESCU",
+  "creation_date": "2018-04-09",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
     ],
-    "modification_date": "2018-04-09",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "data_sourcetypes": [
+      "aws:cloudtrail"
     ],
-    "scheduling": {
-        "earliest_time": "-90d@d",
-        "latest_time": "-10m@m" 
-    },
-    "search": "sourcetype=aws:cloudtrail eventType=AwsApiCall | spath output=arn path=userIdentity.arn | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls) as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls, stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup api_call_by_user_baseline | stats count",
-    "search_description": "This search establishes, on a per-hour basis, the average and the standard deviation of the number of API calls made by each user. Also recorded is the number of data points for each user. This table is then outputted to a lookup file to allow the detection search to operate quickly.",
-    "search_id": "fc0edc96-ff2b-48b0-9f6f-63da3783fd63",
-    "search_name": "Baseline of API Calls per User ARN",
-    "search_type": "support",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "This search returns all log events that are API calls, pulls out the ARN that initiated each call, and collects them in one-hour groupings. Next, it calculates the number of API calls made per ARN per hour. For each ARN, it calculates the average and standard deviation of this count on a per-hour basis.  It also includes the number of data points each ARN had. This table is then stored in a lookup file.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2018-04-09",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-90d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail eventType=AwsApiCall | spath output=arn path=userIdentity.arn | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls) as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls, stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup api_call_by_user_baseline | stats count",
+  "search_description": "This search establishes, on a per-hour basis, the average and the standard deviation of the number of API calls made by each user. Also recorded is the number of data points for each user. This table is then outputted to a lookup file to allow the detection search to operate quickly.",
+  "search_id": "fc0edc96-ff2b-48b0-9f6f-63da3783fd63",
+  "search_name": "Baseline of API Calls per User ARN",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
 }

@@ -1,76 +1,74 @@
 {
-    "asset_type": "AWS Instance",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "user",
-            "rule_description": "A new API call made by $user$ has been detected. This API activity has either never been seen before or has not been seen within the last hour.",
-            "rule_title": "New API call by $user$ detected"
-        },
-        "risk": {
-            "risk_object": "user",
-            "risk_object_type": ["user"],
-            "risk_score": 10
-        },
-        "suppress": {
-            "suppress_fields": "user",
-            "suppress_period": "86400s"
-        }
+  "asset_type": "AWS Instance",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "user",
+      "rule_description": "A new API call made by $user$ has been detected. This API activity has either never been seen before or has not been seen within the last hour.",
+      "rule_title": "New API call by $user$ detected"
     },
-    "creation_date": "2018-04-01",
-    "data_metadata": {
-        "data_source": [
-            "AWS CloudTrail logs"
-        ],
-        "data_sourcetypes": [
-            "aws:cloudtrail"
-        ],
-        "providing_technologies": [
-            "AWS"
-        ]
+    "risk": {
+      "risk_object": "user",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 10
     },
-    "eli5": "The subsearch will execute first and return the user roles and names of the API calls completed within the last hour, where the type of user identity is <code>AssumedRole</code>. It then appends the historical data to those results in the lookup file. Next, it recalculates the <code>earliest</code> and <code>latest</code> fields for each user role, as well as the name of the API call, and returns only those roles and API calls that have first been seen in the past hour. This is combined with the main search to return the values of API calls, name of the user role, and the earliest and latest time of this activity. It is worth noting that the name of the role of a particular user is parsed as \"userName\" in the CloudTrail logs.",
-
-    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. This search works best when you run the \"Previously seen API call per user roles in CloudTrail\" support search once to create a history of previously seen user roles.",
-
-    "known_false_positives": "It is possible that there are legitimate user roles making new or infrequently used API calls in your infrastructure, causing the search to trigger.",
-
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "suppress": {
+      "suppress_fields": "user",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2018-04-01",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 1"
-        ],
-        "nist": [
-            "ID.AM"
-        ]
-    },
-    "modification_date": "2018-04-16",
-    "original_authors": [
-        {
-
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_sourcetypes": [
+      "aws:cloudtrail"
     ],
-    "scheduling": {
-        "cron_schedule": "30 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search": "sourcetype=aws:cloudtrail eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole [search sourcetype=aws:cloudtrail eventType=AwsApiCall errorCode=success  userIdentity.type=AssumedRole | stats earliest(_time) as earliest latest(_time) as latest by userName eventName |  inputlookup append=t previously_seen_api_calls_from_user_roles | stats min(earliest) as earliest, max(latest) as latest by userName eventName | outputlookup previously_seen_api_calls_from_user_roles| eval newApiCallfromUserRole=if(earliest>=relative_time(now(), \"-70m@m\"), 1, 0) | where newApiCallfromUserRole=1 | `ctime(earliest)` | `ctime(latest)` | table eventName userName]  |rename userName as user| stats values(eventName) earliest(_time) as earliest latest(_time) as latest by user | `ctime(earliest)` | `ctime(latest)`",
-    "search_description": "This search detects new API calls that have either never been seen before or that have not been seen in the previous hour, where the identity type is <code>AssumedRole</code>.",
-    "search_id": "22773e84-bac0-4595-b086-20d3f335b4f1",
-    "search_name": "Detect new API calls from user roles",
-    "search_type": "detection",
-    "security_domain": "endpoint",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "The subsearch will execute first and return the user roles and names of the API calls completed within the last hour, where the type of user identity is <code>AssumedRole</code>. It then appends the historical data to those results in the lookup file. Next, it recalculates the <code>earliest</code> and <code>latest</code> fields for each user role, as well as the name of the API call, and returns only those roles and API calls that have first been seen in the past hour. This is combined with the main search to return the values of API calls, name of the user role, and the earliest and latest time of this activity. It is worth noting that the name of the role of a particular user is parsed as \"userName\" in the CloudTrail logs.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. This search works best when you run the \"Previously seen API call per user roles in CloudTrail\" support search once to create a history of previously seen user roles.",
+  "known_false_positives": "It is possible that there are legitimate user roles making new or infrequently used API calls in your infrastructure, causing the search to trigger.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 1"
+    ],
+    "nist": [
+      "ID.AM"
+    ]
+  },
+  "modification_date": "2018-04-16",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "30 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole [search sourcetype=aws:cloudtrail eventType=AwsApiCall errorCode=success  userIdentity.type=AssumedRole | stats earliest(_time) as earliest latest(_time) as latest by userName eventName |  inputlookup append=t previously_seen_api_calls_from_user_roles | stats min(earliest) as earliest, max(latest) as latest by userName eventName | outputlookup previously_seen_api_calls_from_user_roles| eval newApiCallfromUserRole=if(earliest>=relative_time(now(), \"-70m@m\"), 1, 0) | where newApiCallfromUserRole=1 | `ctime(earliest)` | `ctime(latest)` | table eventName userName]  |rename userName as user| stats values(eventName) earliest(_time) as earliest latest(_time) as latest by user | `ctime(earliest)` | `ctime(latest)`",
+  "search_description": "This search detects new API calls that have either never been seen before or that have not been seen in the previous hour, where the identity type is <code>AssumedRole</code>.",
+  "search_id": "22773e84-bac0-4595-b086-20d3f335b4f1",
+  "search_name": "Detect new API calls from user roles",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "1.0"
 }

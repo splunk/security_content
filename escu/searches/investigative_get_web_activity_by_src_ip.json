@@ -1,48 +1,48 @@
 {
-    "channel": "ESCU",
-    "creation_date": "2018-06-15",
-    "data_metadata": {
-        "data_models": [
-            "Web"
-        ],
-        "data_source": [
-            "Web"
-        ],
-        "providing_technologies": [
-            "Splunk Stream",
-            "Bro",
-            "Bluecoat",
-            "Palo Alto Firewall"
-        ]
-    },
-    "fields_required": [
-        "src_ip"
+  "channel": "ESCU",
+  "creation_date": "2018-06-15",
+  "data_metadata": {
+    "data_models": [
+      "Web"
     ],
-    "how_to_implement": "To successfully implement this search, you must be ingesting your web traffic and populating the web data model.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "data_source": [
+      "Web"
     ],
-    "modification_date": "2018-06-15",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "search": "| from datamodel Web.Web | search src={src_ip}",
-    "search_description": "This search searches for all web activity from a specific host. During an investigation, it is important to profile web activity to characterize user or host activity.",
-    "search_id": "2f5b960b-71df-49c0-affc-74992ce60e45",
-    "search_name": "Investigate Web Activity From src_ip",
-    "search_type": "investigative",
-    "search_window": {
-        "earliest_time_offset": 3600,
-        "latest_time_offset": 3600
-    },
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro",
+      "Bluecoat",
+      "Palo Alto Firewall"
+    ]
+  },
+  "fields_required": [
+    "src_ip"
+  ],
+  "how_to_implement": "To successfully implement this search, you must be ingesting your web traffic and populating the web data model.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2018-06-15",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "search": "| from datamodel Web.Web | search src={src_ip}",
+  "search_description": "This search searches for all web activity from a specific host. During an investigation, it is important to profile web activity to characterize user or host activity.",
+  "search_id": "2f5b960b-71df-49c0-affc-74992ce60e45",
+  "search_name": "Investigate Web Activity From src_ip",
+  "search_type": "investigative",
+  "search_window": {
+    "earliest_time_offset": 3600,
+    "latest_time_offset": 3600
+  },
+  "spec_version": 1,
+  "version": "1.0"
 }

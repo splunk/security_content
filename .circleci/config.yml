@@ -16,7 +16,7 @@ jobs:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:2.7.13
-      
+
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - checkout
-      
+
       - run: *apt-install
 
       - run:

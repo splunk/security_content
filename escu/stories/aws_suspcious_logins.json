@@ -1,45 +1,45 @@
 {
-    "category": "Cloud Security",
-    "channel": "ESCU",
-    "creation_date": "2018-02-24",
-    "description": "Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. ",
-    "id": "2e8948a5-5239-406b-b56b-6c59f1268af3",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+  "category": "Cloud Security",
+  "channel": "ESCU",
+  "creation_date": "2018-02-24",
+  "description": "Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. ",
+  "id": "2e8948a5-5239-406b-b56b-6c59f1268af3",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-02-09",
+  "name": "Suspicious AWS Login Activities",
+  "narrative": "It is important to monitor and control who has access to your AWS infrastructure. Detecting suspicious logins to your AWS infrastructure will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any EC2 instances created by the attacker.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "references": [
+    "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html   "
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table"
     ],
-    "modification_date": "2018-02-09",
-    "name": "Suspicious AWS Login Activities",
-    "narrative": "It is important to monitor and control who has access to your AWS infrastructure. Detecting suspicious logins to your AWS infrastructure will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any EC2 instances created by the attacker.",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "detection_searches": [
+      "Detect new user AWS Console Login"
     ],
-    "references": [
-        "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html   "
+    "investigative_searches": [
+      "AWS Investigate User Activities By ARN"
     ],
-    "searches": {
-        "contextual_searches": [
-            "Get Notable Info",
-            "Get Notable History",
-            "Get User Information from Identity Table"
-        ],
-        "detection_searches": [
-            "Detect new user AWS Console Login"
-        ],
-        "investigative_searches": [
-            "AWS Investigate User Activities By ARN"
-        ],
-        "support_searches": [
-            "Previously seen users in CloudTrail"
-        ]
-    },
-    "spec_version": 1,
-    "version": "1.0"
+    "support_searches": [
+      "Previously seen users in CloudTrail"
+    ]
+  },
+  "spec_version": 1,
+  "version": "1.0"
 }

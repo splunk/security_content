@@ -1,83 +1,84 @@
 {
-    "asset_type": "Endpoint",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "src_ip, dest_ip",
-            "rule_description": "Large outbound ICMP packet detected.",
-            "rule_title": "Large ICMP packet from $src_ip$ to $dest_ip$ detected"
-        },
-        "risk": {
-            "risk_object": "src_ip",
-            "risk_object_type": ["system"],
-            "risk_score": 50
-        },
-        "suppress": {
-            "suppress_fields": "src_ip",
-            "suppress_period": "28800s"
-        }
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src_ip, dest_ip",
+      "rule_description": "Large outbound ICMP packet detected.",
+      "rule_title": "Large ICMP packet from $src_ip$ to $dest_ip$ detected"
     },
-    "creation_date": "2018-06-01",
-    "data_metadata": {
-        "data_models": [
-            "Network_Traffic"
-        ],
-        "data_source": [
-            "Network Communications"
-        ],
-        "providing_technologies": [
-            "Bro",
-            "Splunk Stream",
-            "Palo Alto Firewall"
-        ]
+    "risk": {
+      "risk_object": "src_ip",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 50
     },
-
-    "eli5": "This search works by looking at fields in the Network_Traffic data model, which is populated by various firewalls and passive networking monitoring technologies. Specifically, the search looks for ICMP packets larger than 1,000 bytes with a destination that is external to your organization.",
-    "how_to_implement": "In order to run this search effectively, we highly recommend that you leverage the Assets and Identity framework. It is important that you have a good understanding of how your network segments are designed and that you are able to distinguish internal from external address space. Add a category named <code>internal</code> to the CIDRs that host the company's assets in the <code>assets_by_cidr.csv</code> lookup file, which is located in <code>$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/</code>. More information on updating this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata. This search also requires you to be ingesting your network traffic and populating the Network_Traffic data model",
-    "known_false_positives": "ICMP packets are used in a variety of ways to help troubleshoot networking issues and ensure the proper flow of traffic. As such, it is possible that a large ICMP packet could be perfectly legitimate. If large ICMP packets are associated with command and control traffic, there will typically be a large number of these packets observed over time. If the search is providing a large number of false positives, you can modify the search to adjust the byte threshold or whitelist specific IP addresses, as necessary.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+    "suppress": {
+      "suppress_fields": "src_ip",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2018-06-01",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 9",
-            "CIS 12"
-        ],
-        "kill_chain_phases": [
-            "Command and Control"
-        ],
-        "mitre_attack": [
-            "Command and Control",
-            "Standard Non-Application Layer Protocol"
-        ],
-        "nist": [
-            "DE.AE"
-        ]
-    },
-    "modification_date": "2018-06-01",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+    "data_source": [
+      "Network Communications"
     ],
-    "scheduling": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count earliest(_time) as earliest latest(_time) as latest values(All_Traffic.action) values(All_Traffic.bytes) from datamodel=Network_Traffic where All_Traffic.action !=blocked All_Traffic.dest_category !=internal (All_Traffic.protocol=icmp OR All_Traffic.transport=icmp) All_Traffic.bytes > 1000 by All_Traffic.src_ip All_Traffic.dest_ip | `drop_dm_object_name(\"All_Traffic\")` | search ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) | convert ctime(earliest) ctime(latest)",
-    "search_description": "This search looks for outbound ICMP packets with a packet size larger than 1,000 bytes. Various threat actors have been known to use ICMP as a command and control channel for their attack infrastructure. Large ICMP packets from an endpoint to a remote host may be indicative of this activity.",
-    "search_id": "e9c102de-4d43-42a7-b1c8-8062ea297419",
-    "search_name": "Detect Large Outbound ICMP Packets",
-    "search_type": "detection",
-    "security_domain": "network",
-    "spec_version": 1,
-    "version": "2.0"
+    "providing_technologies": [
+      "Bro",
+      "Splunk Stream",
+      "Palo Alto Firewall"
+    ]
+  },
+  "eli5": "This search works by looking at fields in the Network_Traffic data model, which is populated by various firewalls and passive networking monitoring technologies. Specifically, the search looks for ICMP packets larger than 1,000 bytes with a destination that is external to your organization.",
+  "how_to_implement": "In order to run this search effectively, we highly recommend that you leverage the Assets and Identity framework. It is important that you have a good understanding of how your network segments are designed and that you are able to distinguish internal from external address space. Add a category named <code>internal</code> to the CIDRs that host the company's assets in the <code>assets_by_cidr.csv</code> lookup file, which is located in <code>$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/</code>. More information on updating this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata. This search also requires you to be ingesting your network traffic and populating the Network_Traffic data model",
+  "known_false_positives": "ICMP packets are used in a variety of ways to help troubleshoot networking issues and ensure the proper flow of traffic. As such, it is possible that a large ICMP packet could be perfectly legitimate. If large ICMP packets are associated with command and control traffic, there will typically be a large number of these packets observed over time. If the search is providing a large number of false positives, you can modify the search to adjust the byte threshold or whitelist specific IP addresses, as necessary.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 9",
+      "CIS 12"
+    ],
+    "kill_chain_phases": [
+      "Command and Control"
+    ],
+    "mitre_attack": [
+      "Command and Control",
+      "Standard Non-Application Layer Protocol"
+    ],
+    "nist": [
+      "DE.AE"
+    ]
+  },
+  "modification_date": "2018-06-01",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count earliest(_time) as earliest latest(_time) as latest values(All_Traffic.action) values(All_Traffic.bytes) from datamodel=Network_Traffic where All_Traffic.action !=blocked All_Traffic.dest_category !=internal (All_Traffic.protocol=icmp OR All_Traffic.transport=icmp) All_Traffic.bytes > 1000 by All_Traffic.src_ip All_Traffic.dest_ip | `drop_dm_object_name(\"All_Traffic\")` | search ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) | convert ctime(earliest) ctime(latest)",
+  "search_description": "This search looks for outbound ICMP packets with a packet size larger than 1,000 bytes. Various threat actors have been known to use ICMP as a command and control channel for their attack infrastructure. Large ICMP packets from an endpoint to a remote host may be indicative of this activity.",
+  "search_id": "e9c102de-4d43-42a7-b1c8-8062ea297419",
+  "search_name": "Detect Large Outbound ICMP Packets",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "2.0"
 }

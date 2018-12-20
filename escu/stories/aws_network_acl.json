@@ -1,51 +1,52 @@
 {
-    "category": "Cloud Security",
-    "channel": "ESCU",
-    "creation_date": "2018-01-10",
-    "description": "Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.",
-    "id": "2e8948a5-5239-406b-b56b-6c50ff268af4",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+  "category": "Cloud Security",
+  "channel": "ESCU",
+  "creation_date": "2018-01-10",
+  "description": "Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.",
+  "id": "2e8948a5-5239-406b-b56b-6c50ff268af4",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-05-21",
+  "name": "AWS Network ACL Activity",
+  "narrative": "AWS CloudTrail is an AWS service that helps you enable governance, compliance, and operational/risk auditing of your AWS account. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. It is crucial for a company to monitor events and actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs to ensure that your servers are not vulnerable to attacks. This analytic story contains detection searches that leverage CloudTrail logs from AWS to check for bad configurations and malicious activity in your AWS network access controls.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "references": [
+    "https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html",
+    "https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "AWS Network ACL Details from ID",
+      "AWS Network Interface details via resourceId"
     ],
-    "modification_date": "2018-05-21",
-    "name": "AWS Network ACL Activity",
-    "narrative": "AWS CloudTrail is an AWS service that helps you enable governance, compliance, and operational/risk auditing of your AWS account. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. It is crucial for a company to monitor events and actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs to ensure that your servers are not vulnerable to attacks. This analytic story contains detection searches that leverage CloudTrail logs from AWS to check for bad configurations and malicious activity in your AWS network access controls.",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "detection_searches": [
+      "AWS Network Access Control List Created with All Open Ports",
+      "AWS Network Access Control List Deleted",
+      "Detect Spike in blocked Outbound Traffic from your AWS",
+      "Detect Spike in Network ACL Activity"
     ],
-    "references": [
-        "https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html",
-        "https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/"
+    "investigative_searches": [
+      "AWS Investigate User Activities By ARN"
     ],
-    "searches": {
-        "contextual_searches": [
-            "Get Notable Info",
-            "Get Notable History",
-            "Get User Information from Identity Table",
-            "AWS Network ACL Details from ID",
-            "AWS Network Interface details via resourceId"
-        ],
-        "detection_searches": [
-            "AWS Network Access Control List Created with All Open Ports",
-            "AWS Network Access Control List Deleted",
-            "Detect Spike in blocked Outbound Traffic from your AWS",
-            "Detect Spike in Network ACL Activity"
-        ],
-        "investigative_searches": [
-            "AWS Investigate User Activities By ARN"
-        ],
-        "support_searches": ["Baseline of blocked outbound traffic from AWS",
-            "Baseline of Network ACL Activity by ARN"
-        ]
-    },
-    "spec_version": 1,
-    "version": "2.0"
+    "support_searches": [
+      "Baseline of blocked outbound traffic from AWS",
+      "Baseline of Network ACL Activity by ARN"
+    ]
+  },
+  "spec_version": 1,
+  "version": "2.0"
 }

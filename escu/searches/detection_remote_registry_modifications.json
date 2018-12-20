@@ -1,86 +1,85 @@
 {
-    "asset_type": "Endpoint",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "dest, user",
-            "rule_description": "A registry key was modified remotely using the machine $dest$ by $user$.",
-            "rule_title": "Remote Registry Key Modification detection on $dest$"
-        },
-        "risk": {
-            "risk_object": "dest",
-            "risk_object_type": ["system"],
-            "risk_score": 30
-        },
-        "suppress": {
-            "suppress_fields": "dest, user,registry_path",
-            "suppress_period": "14400s"
-        }
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, user",
+      "rule_description": "A registry key was modified remotely using the machine $dest$ by $user$.",
+      "rule_title": "Remote Registry Key Modification detection on $dest$"
     },
-    "creation_date": "2018-05-31",
-    "data_metadata": {
-        "data_models": [
-            "Endpoint"
-        ],
-        "data_source": [
-            "Endpoint Intel"
-        ],
-        "providing_technologies": [
-            "Carbon Black Response",
-            "CrowdStrike Falcon",
-            "Sysmon"
-        ]
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 30
     },
-    "eli5": "This search looks for modifications made to the Windows registry from remote locations using reg.exe&#151;a tool used to create/update/delete/modify Windows registry keys. It is accomplished through specifying the machine names in the registry path, by entering double backslashes, followed by a computer name. In this search, we look for registry changes where the registry path contains the name of a remote computer. The search returns the number of times the remote server has been accessed, the first and last times the activity occurred, the name of the modified registry path, the host on which the modification took place, and the name of the user that performed the modification.",
-
-    "how_to_implement": "To successfully implement this search, you must populate the <code>Change_Analysis</code> data model. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.",
-
-    "known_false_positives": "This technique may be legitimately used by administrators to modify remote registries, so it's important to filter these events out.",
-
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "suppress": {
+      "suppress_fields": "dest, user,registry_path",
+      "suppress_period": "14400s"
+    }
+  },
+  "creation_date": "2018-05-31",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 8"
-        ],
-        "kill_chain_phases": [
-            "Actions on Objectives"
-        ],
-        "mitre_attack": [
-            "Defense Evasion",
-            "Persistence",
-            "Lateral Movement"
-        ],
-        "nist": [
-            "PR.PT",
-            "DE.CM"
-        ]
-    },
-    "modification_date": "2018-05-31",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_source": [
+      "Endpoint Intel"
     ],
-    "scheduling": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path=\"\\\\\\\\*\"  by Registry.dest , Registry.status, Registry.user | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(Registry)`",
-    "search_description": "This search monitors for remote modifications to registry keys.",
-    "search_id": "c9f4b923-f8af-4155-b697-1354f5dcbc5e",
-    "search_name": "Remote Registry Key modifications",
-    "search_type": "detection",
-    "security_domain": "endpoint",
-    "spec_version": 1,
-    "version": "2.0"
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon"
+    ]
+  },
+  "eli5": "This search looks for modifications made to the Windows registry from remote locations using reg.exe&#151;a tool used to create/update/delete/modify Windows registry keys. It is accomplished through specifying the machine names in the registry path, by entering double backslashes, followed by a computer name. In this search, we look for registry changes where the registry path contains the name of a remote computer. The search returns the number of times the remote server has been accessed, the first and last times the activity occurred, the name of the modified registry path, the host on which the modification took place, and the name of the user that performed the modification.",
+  "how_to_implement": "To successfully implement this search, you must populate the <code>Change_Analysis</code> data model. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.",
+  "known_false_positives": "This technique may be legitimately used by administrators to modify remote registries, so it's important to filter these events out.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Defense Evasion",
+      "Persistence",
+      "Lateral Movement"
+    ],
+    "nist": [
+      "PR.PT",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2018-05-31",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path=\"\\\\\\\\*\"  by Registry.dest , Registry.status, Registry.user | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(Registry)`",
+  "search_description": "This search monitors for remote modifications to registry keys.",
+  "search_id": "c9f4b923-f8af-4155-b697-1354f5dcbc5e",
+  "search_name": "Remote Registry Key modifications",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "2.0"
 }

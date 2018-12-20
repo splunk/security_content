@@ -1,44 +1,44 @@
 {
-    "channel": "ESCU",
-    "creation_date": "2017-04-24",
-    "data_metadata": {
-        "data_models": [
-            "Network_Traffic"
-        ],
-        "data_source": [
-            "Network Communication"
-        ],
-        "providing_technologies": [
-            "Splunk Stream",
-            "Bro"
-        ]
-    },
-    "eli5": "This search counts the numbers of times the system has received a connection to TCP/ 3389, the default port used for RDP traffic.",
-    "how_to_implement": "To successfully implement this search you must ingest network traffic and populate the Network_Traffic data model. If a system receives a lot of remote desktop traffic, you can apply the category common_rdp_destination to it.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+  "channel": "ESCU",
+  "creation_date": "2017-04-24",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
     ],
-    "modification_date": "2017-09-15",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "data_source": [
+      "Network Communication"
     ],
-    "scheduling": {
-        "earliest_time": "-30d@d",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=3389 by All_Traffic.dest | `drop_dm_object_name(\"All_Traffic\")` | sort - count",
-    "search_description": "This search counts the numbers of times the system has created remote desktop traffic",
-    "search_id": "baaeea15-fe8a-4090-92c2-5b60943bb608",
-    "search_name": "Identify Systems Receiving Remote Desktop Traffic",
-    "search_type": "support",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "eli5": "This search counts the numbers of times the system has received a connection to TCP/ 3389, the default port used for RDP traffic.",
+  "how_to_implement": "To successfully implement this search you must ingest network traffic and populate the Network_Traffic data model. If a system receives a lot of remote desktop traffic, you can apply the category common_rdp_destination to it.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2017-09-15",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-30d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=3389 by All_Traffic.dest | `drop_dm_object_name(\"All_Traffic\")` | sort - count",
+  "search_description": "This search counts the numbers of times the system has created remote desktop traffic",
+  "search_id": "baaeea15-fe8a-4090-92c2-5b60943bb608",
+  "search_name": "Identify Systems Receiving Remote Desktop Traffic",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
 }

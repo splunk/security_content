@@ -1,49 +1,49 @@
 {
-    "channel": "ESCU",
-    "creation_date": "2017-04-10",
-    "data_metadata": {
-        "data_models": [
-            "Application_State"
-        ],
-        "data_source": [
-            "Endpoint Intel"
-        ],
-        "providing_technologies": [
-            "Carbon Black Response",
-            "CrowdStrike Falcon",
-            "Sysmon",
-            "Tanium",
-            "Ziften"
-        ]
-    },
-    "fields_required": [
-        "dest"
+  "channel": "ESCU",
+  "creation_date": "2017-04-10",
+  "data_metadata": {
+    "data_models": [
+      "Application_State"
     ],
-    "how_to_implement": "You must be ingesting endpoint data that associates processes with network events. This can come from endpoint protection products such as carbon black, or endpoint data sources such as Sysmon.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_source": [
+      "Endpoint Intel"
     ],
-    "modification_date": "2017-11-09",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
-    ],
-    "search": "| tstats allow_old_summaries=true values(All_Application_State.process) as \"process\" from datamodel=Application_State where nodename=All_Application_State.Ports All_Application_State.Ports.dest_port=53 All_Application_State.dest={dest}",
-    "search_description": "While investigating, an analyst will want to know what process and parent_ process is responsible for generating suspicious DNS traffic. Use the following search and enter the value of src_ip in the search to get specific details on the process responsible for creating the DNS traffic.",
-    "search_id": "910e6512-edc9-4f93-ba24-5b786f47a672",
-    "search_name": "Get Process responsible for the DNS traffic",
-    "search_type": "investigative",
-    "search_window": {
-        "earliest_time_offset": 3600,
-        "latest_time_offset": 86400
-    },
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "fields_required": [
+    "dest"
+  ],
+  "how_to_implement": "You must be ingesting endpoint data that associates processes with network events. This can come from endpoint protection products such as carbon black, or endpoint data sources such as Sysmon.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2017-11-09",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "search": "| tstats allow_old_summaries=true values(All_Application_State.process) as \"process\" from datamodel=Application_State where nodename=All_Application_State.Ports All_Application_State.Ports.dest_port=53 All_Application_State.dest={dest}",
+  "search_description": "While investigating, an analyst will want to know what process and parent_ process is responsible for generating suspicious DNS traffic. Use the following search and enter the value of src_ip in the search to get specific details on the process responsible for creating the DNS traffic.",
+  "search_id": "910e6512-edc9-4f93-ba24-5b786f47a672",
+  "search_name": "Get Process responsible for the DNS traffic",
+  "search_type": "investigative",
+  "search_window": {
+    "earliest_time_offset": 3600,
+    "latest_time_offset": 86400
+  },
+  "spec_version": 1,
+  "version": "1.0"
 }

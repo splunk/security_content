@@ -1,52 +1,52 @@
 {
-    "category": "Malware",
-    "channel": "ESCU",
-    "creation_date": "2017-11-02",
-    "description": "Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.",
-    "id": "6dbd810e-f66d-414b-8dfc-e46de55cbfe2",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+  "category": "Malware",
+  "channel": "ESCU",
+  "creation_date": "2017-11-02",
+  "description": "Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.",
+  "id": "6dbd810e-f66d-414b-8dfc-e46de55cbfe2",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "modification_date": "2017-11-02",
+  "name": "Windows Service Abuse",
+  "narrative": "The Windows operating system uses a services architecture to allow for running code in the background, similar to a UNIX daemon. Attackers will often leverage Windows services for persistence, hiding in plain sight, seeking the ability to run privileged code that can interact with the kernel. In many cases, attackers will create a new service to host their malicious code. Attackers have also been observed modifying unnecessary or unused services to point to their own code, as opposed to what was intended. In these cases, attackers often use tools to create or modify services in ways that are not typical for most environments, providing opportunities for detection.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "references": [
+    "https://attack.mitre.org/wiki/Technique/T1050",
+    "https://attack.mitre.org/wiki/Technique/T1031"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint",
+      "Get Risk Modifiers For User",
+      "Get Risk Modifiers For Endpoint"
     ],
-    "modification_date": "2017-11-02",
-    "name": "Windows Service Abuse",
-    "narrative": "The Windows operating system uses a services architecture to allow for running code in the background, similar to a UNIX daemon. Attackers will often leverage Windows services for persistence, hiding in plain sight, seeking the ability to run privileged code that can interact with the kernel. In many cases, attackers will create a new service to host their malicious code. Attackers have also been observed modifying unnecessary or unused services to point to their own code, as opposed to what was intended. In these cases, attackers often use tools to create or modify services in ways that are not typical for most environments, providing opportunities for detection.",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+    "detection_searches": [
+      "Sc.exe Manipulating Windows Services",
+      "Reg.exe Manipulating Windows Services Registry Keys",
+      "First Time Seen Running Windows Service"
     ],
-    "references": [
-        "https://attack.mitre.org/wiki/Technique/T1050",
-        "https://attack.mitre.org/wiki/Technique/T1031"
+    "investigative_searches": [
+      "Get Process Info",
+      "Get Parent Process Info"
     ],
-    "searches": {
-        "contextual_searches": [
-            "Get Notable Info",
-            "Get Notable History",
-            "Get User Information from Identity Table",
-            "Get Authentication Logs For Endpoint",
-            "Get Risk Modifiers For User",
-            "Get Risk Modifiers For Endpoint"
-        ],
-        "detection_searches": [
-            "Sc.exe Manipulating Windows Services",
-            "Reg.exe Manipulating Windows Services Registry Keys",
-            "First Time Seen Running Windows Service"
-        ],
-        "investigative_searches": [
-            "Get Process Info",
-            "Get Parent Process Info"
-        ],
-        "support_searches": [
-            "Previously Seen Running Windows Services"
-        ]
-    },
-    "spec_version": 1,
-    "version": "3.0"
+    "support_searches": [
+      "Previously Seen Running Windows Services"
+    ]
+  },
+  "spec_version": 1,
+  "version": "3.0"
 }

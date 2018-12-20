@@ -1,90 +1,87 @@
 {
-    "asset_type": "Endpoint",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "dest,process_name",
-            "rule_description": "Net.exe was used to create or delete hidden network shares by $user$ on $dest$",
-            "rule_title": "Hidden File shares created/deleted on $dest$"
-        },
-        "risk": {
-            "risk_object": "dest",
-            "risk_object_type": ["system"],
-            "risk_score": 50
-        },
-        "suppress": {
-            "suppress_fields": "dest,process_name",
-            "suppress_period": "86400s"
-        }
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest,process_name",
+      "rule_description": "Net.exe was used to create or delete hidden network shares by $user$ on $dest$",
+      "rule_title": "Hidden File shares created/deleted on $dest$"
     },
-    "creation_date": "2018-06-14",
-    "data_metadata": {
-        "data_models": [
-            "Endpoint"
-        ],
-        "data_source": [
-            "Endpoint Intel"
-        ],
-        "providing_technologies": [
-            "Carbon Black Response",
-            "CrowdStrike Falcon",
-            "Sysmon",
-            "Tanium",
-            "Ziften"
-        ]
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 50
     },
-    "eli5": "Net.exe is a built-in command-line tool on Windows that can be used to create, delete, and manage shared resources on the computer, both locally and remotely. Though this tool is used by Microsoft administrators to manage the network shares, attackers also leverage it to create and delete hidden file shares by appending \"$\" after the name of the share. To look for hidden shares, use a regular expression to look for a <code>(name_file_share)$</code>. In this search, we are looking for the command-line execution of net.exe with command-line parameters such as <code>net</code>, <code>share</code>, or <code>delete</code> that may correspond to the creation of hidden shares",
-
-    "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
-
-    "known_false_positives": "Administrators often leverage net.exe to create or delete network shares. You should verify that the activity was intentional and is legitimate.",
-
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "suppress": {
+      "suppress_fields": "dest,process_name",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2018-06-14",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 8"
-        ],
-        "kill_chain_phases": [
-            "Actions on Objectives"
-        ],
-        "mitre_attack": [
-            "Execution",
-            "Command-Line Interface",
-            "Persistence"
-        ],
-        "nist": [
-            "PR.PT",
-            "DE.CM"
-        ]
-    },
-    "modification_date": "2018-11-15",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_source": [
+      "Endpoint Intel"
     ],
-    "scheduling": {
-        "cron_schedule": "5 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search (process=*share* OR process=*delete*)| regex process=\"\\S+[$]\"",
-
-    "search_description": "This search looks for the creation or deletion of hidden shares using net.exe.",
-
-    "search_id": "qw9919ed-fe5f-492c-b139-151bb162140e",
-    "search_name": "Create or delete hidden shares using net.exe",
-    "search_type": "detection",
-    "security_domain": "endpoint",
-    "spec_version": 1,
-    "version": "3.0"
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "eli5": "Net.exe is a built-in command-line tool on Windows that can be used to create, delete, and manage shared resources on the computer, both locally and remotely. Though this tool is used by Microsoft administrators to manage the network shares, attackers also leverage it to create and delete hidden file shares by appending \"$\" after the name of the share. To look for hidden shares, use a regular expression to look for a <code>(name_file_share)$</code>. In this search, we are looking for the command-line execution of net.exe with command-line parameters such as <code>net</code>, <code>share</code>, or <code>delete</code> that may correspond to the creation of hidden shares",
+  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+  "known_false_positives": "Administrators often leverage net.exe to create or delete network shares. You should verify that the activity was intentional and is legitimate.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Execution",
+      "Command-Line Interface",
+      "Persistence"
+    ],
+    "nist": [
+      "PR.PT",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2018-11-15",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "5 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search (process=*share* OR process=*delete*)| regex process=\"\\S+[$]\"",
+  "search_description": "This search looks for the creation or deletion of hidden shares using net.exe.",
+  "search_id": "qw9919ed-fe5f-492c-b139-151bb162140e",
+  "search_name": "Create or delete hidden shares using net.exe",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "3.0"
 }

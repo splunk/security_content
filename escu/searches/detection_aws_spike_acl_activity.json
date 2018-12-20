@@ -1,84 +1,84 @@
 {
-    "asset_type": "AWS Instance",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "user",
-            "rule_description": "A spike in the number of AWS API calls related to network ACLs by $user$ was detected.",
-            "rule_title": "Spike in AWS Network ACL activity detected by $user$"
-        },
-        "risk": {
-            "risk_object": "user",
-            "risk_object_type": ["user"],
-            "risk_score": 30
-        },
-        "suppress": {
-            "suppress_fields": "user",
-            "suppress_period": "14400s"
-        }
+  "asset_type": "AWS Instance",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "user",
+      "rule_description": "A spike in the number of AWS API calls related to network ACLs by $user$ was detected.",
+      "rule_title": "Spike in AWS Network ACL activity detected by $user$"
     },
-    "creation_date": "2018-05-17",
-    "data_metadata": {
-        "data_source": [
-            "AWS CloudTrail logs"
-        ],
-        "data_sourcetypes": [
-            "aws:cloudtrail"
-        ],
-        "providing_technologies": [
-            "AWS"
-        ]
+    "risk": {
+      "risk_object": "user",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 30
     },
-    "eli5": "This search and its corresponding subsearch run through the following series of steps: <ol><li>Retrieve all the AWS CloudTrail log entries that have recorded AWS API calls specifically for creating/modifying/replacing network Access Control Lists (ACLs).</li><li>Kick off a subsearch that retrieves the same data and pulls out the ARN into a more friendly format.</li><li>Count the number of API calls per Amazon Resource Name (ARN).</li><li>Load the cache file that contains the number of data points, the count from the latest hour, the API call average, and the standard deviation for each ARN.</li><li>Drop the count from the latest hour, since it is not necessary, and merge the rest of the data with the results of the stats command. </li><li>Rename <code>apiCalls</code> as <code>latestCount</code>.</li><li>Calculate the new average value for each ARN with the latest count, weighting the past much more heavily than the current hour. They do the same for the standard deviation--weighting the past more heavily than the current.</li><li>Update the cache file with the latest results.</li><li>Set the minimum threshold for the number of data points and set the number of standard deviations away from the mean it must be to be considered a spike.</li><li>Make a determination regarding whether or not the current count is a spike by checking to see if the minimum data-point threshold has been met and the count is a sufficient number of standard deviations away from the average.</li><li>Filter out anything that it determines is not a spike and return the list of ARNs to the main search. </li></ol>The main search subsequently gets the names of all the API calls, the number of unique API calls, and the total number of API calls for each of these ARNs. Finally, it looks up the average and standard deviation and returns both the average and the number of standard deviations the spike is from the average.",
-
-    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. You can modify <code>dataPointThreshold</code> and <code>deviationThreshold</code> to better fit your environment. The <code>dataPointThreshold</code> variable is the minimum number of data points required to have a statistically significant amount of data to determine. The <code>deviationThreshold</code> variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the \"Baseline of Network ACL Activity by ARN\" support search once to create a lookup file of previously seen Network ACL Activity. To add or remove API event names related to network ACLs, edit the macro <code>NetworkACLEvents</code>.",
-
-    "known_false_positives": "The false-positive rate may vary based on the values of<code>dataPointThreshold</code> and <code>deviationThreshold</code>. Please modify this according the your environment.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "suppress": {
+      "suppress_fields": "user",
+      "suppress_period": "14400s"
+    }
+  },
+  "creation_date": "2018-05-17",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 12","CIS 11"
-        ],
-        "kill_chain_phases": [
-            "Actions on Objectives"
-        ],
-        "mitre_attack": [
-            "Persistence","Exfiltration"
-        ],
-        "nist": [
-            "DE.DP",
-            "DE.CM",
-            "PR.AC"
-        ]
-    },
-    "modification_date": "2018-05-21",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_sourcetypes": [
+      "aws:cloudtrail"
     ],
-    "scheduling": {
-        "cron_schedule": "10 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search_description": "This search will detect users creating spikes in API activity related to network access-control lists (ACLs)in your AWS environment.",
-
-    "search": "sourcetype=aws:cloudtrail `NetworkACLEvents` [search sourcetype=aws:cloudtrail `NetworkACLEvents` | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup network_acl_activity_baseline append=t | fields - latestCount | stats values(*) as * by arn | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720 | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls, 2)*719 + (latestCount-newAvgApiCalls)*(latestCount-avgApiCalls))/720)) | eval avgApiCalls=coalesce(newAvgApiCalls, avgApiCalls), stdevApiCalls=coalesce(newStdevApiCalls, stdevApiCalls), numDataPoints=if(isnull(latestCount), numDataPoints, numDataPoints+1) | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup network_acl_activity_baseline | eval dataPointThreshold = 15, deviationThreshold = 3 | eval isSpike=if((latestCount > avgApiCalls+deviationThreshold*stdevApiCalls) AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn | stats values(eventName) as eventNames, count as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user",
-
-    "search_id": "ada0f478-84a8-4641-a1f1-e32372d4bd53",
-    "search_name": "Detect Spike in Network ACL Activity",
-    "search_type": "detection",
-    "security_domain": "network",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "This search and its corresponding subsearch run through the following series of steps: <ol><li>Retrieve all the AWS CloudTrail log entries that have recorded AWS API calls specifically for creating/modifying/replacing network Access Control Lists (ACLs).</li><li>Kick off a subsearch that retrieves the same data and pulls out the ARN into a more friendly format.</li><li>Count the number of API calls per Amazon Resource Name (ARN).</li><li>Load the cache file that contains the number of data points, the count from the latest hour, the API call average, and the standard deviation for each ARN.</li><li>Drop the count from the latest hour, since it is not necessary, and merge the rest of the data with the results of the stats command. </li><li>Rename <code>apiCalls</code> as <code>latestCount</code>.</li><li>Calculate the new average value for each ARN with the latest count, weighting the past much more heavily than the current hour. They do the same for the standard deviation--weighting the past more heavily than the current.</li><li>Update the cache file with the latest results.</li><li>Set the minimum threshold for the number of data points and set the number of standard deviations away from the mean it must be to be considered a spike.</li><li>Make a determination regarding whether or not the current count is a spike by checking to see if the minimum data-point threshold has been met and the count is a sufficient number of standard deviations away from the average.</li><li>Filter out anything that it determines is not a spike and return the list of ARNs to the main search. </li></ol>The main search subsequently gets the names of all the API calls, the number of unique API calls, and the total number of API calls for each of these ARNs. Finally, it looks up the average and standard deviation and returns both the average and the number of standard deviations the spike is from the average.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. You can modify <code>dataPointThreshold</code> and <code>deviationThreshold</code> to better fit your environment. The <code>dataPointThreshold</code> variable is the minimum number of data points required to have a statistically significant amount of data to determine. The <code>deviationThreshold</code> variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the \"Baseline of Network ACL Activity by ARN\" support search once to create a lookup file of previously seen Network ACL Activity. To add or remove API event names related to network ACLs, edit the macro <code>NetworkACLEvents</code>.",
+  "known_false_positives": "The false-positive rate may vary based on the values of<code>dataPointThreshold</code> and <code>deviationThreshold</code>. Please modify this according the your environment.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 12",
+      "CIS 11"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Persistence",
+      "Exfiltration"
+    ],
+    "nist": [
+      "DE.DP",
+      "DE.CM",
+      "PR.AC"
+    ]
+  },
+  "modification_date": "2018-05-21",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "10 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail `NetworkACLEvents` [search sourcetype=aws:cloudtrail `NetworkACLEvents` | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup network_acl_activity_baseline append=t | fields - latestCount | stats values(*) as * by arn | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720 | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls, 2)*719 + (latestCount-newAvgApiCalls)*(latestCount-avgApiCalls))/720)) | eval avgApiCalls=coalesce(newAvgApiCalls, avgApiCalls), stdevApiCalls=coalesce(newStdevApiCalls, stdevApiCalls), numDataPoints=if(isnull(latestCount), numDataPoints, numDataPoints+1) | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup network_acl_activity_baseline | eval dataPointThreshold = 15, deviationThreshold = 3 | eval isSpike=if((latestCount > avgApiCalls+deviationThreshold*stdevApiCalls) AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn | stats values(eventName) as eventNames, count as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user",
+  "search_description": "This search will detect users creating spikes in API activity related to network access-control lists (ACLs)in your AWS environment.",
+  "search_id": "ada0f478-84a8-4641-a1f1-e32372d4bd53",
+  "search_name": "Detect Spike in Network ACL Activity",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
 }

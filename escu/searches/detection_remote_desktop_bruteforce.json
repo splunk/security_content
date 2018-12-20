@@ -1,86 +1,88 @@
 {
-    "asset_type": "Endpoint",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "dest, src",
-            "rule_description": "Remote-desktop traffic detected from $src$ to $dest$. This activity is consistent with a brute-force attack.",
-            "rule_title": "Bruteforce Remote Desktop Network Traffic detected from $src$ to $dest$"
-        },
-        "risk": {
-            "risk_object": "src",
-            "risk_object_type": ["system"],
-            "risk_score": 75
-        },
-        "suppress": {
-            "suppress_fields": "dest,src",
-            "suppress_period": "28800s"
-        }
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, src",
+      "rule_description": "Remote-desktop traffic detected from $src$ to $dest$. This activity is consistent with a brute-force attack.",
+      "rule_title": "Bruteforce Remote Desktop Network Traffic detected from $src$ to $dest$"
     },
-    "creation_date": "2018-12-14",
-    "data_metadata": {
-        "data_models": [
-            "Network_Traffic"
-        ],
-        "data_source": [
-            "Network Communications"
-        ],
-        "providing_technologies": [
-            "Bro",
-            "Splunk Stream"
-        ]
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 75
     },
-    "eli5": "This search monitors for abnormal amounts of remote-desktop (RDP) traffic from a source to a destination that may be indicative of a brute-force attack. It does this by filtering out RDP traffic from the Network_Traffic.All_Traffic data model, using twice the standard deviation of all source-to-destination connections. If any tuple is within more than two standard deviations of all other usual RDP traffic flows, it is indicative of a brute-force attack.",
-    "how_to_implement": "You must ensure that your network traffic data is populating the Network_Traffic data model.",
-    "known_false_positives": "RDP gateways may have unusually high amounts of traffic from all other hosts' RDP applications in the network.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "jhernandez@splunk.com",
-            "name": "Jose Hernandez"
-        }
+    "suppress": {
+      "suppress_fields": "dest,src",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2018-12-14",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 12",
-            "CIS 9",
-            "CIS 16"
-        ],
-        "kill_chain_phases": [
-            "Reconnaissance",
-						"Delivery"
-        ],
-        "mitre_attack": [
-            "Credential Access",
-            "Remote Desktop Protocol",
-            "Lateral Movement"
-        ],
-        "nist": [
-            "DE.AE",
-            "PR.AC",
-            "PR.IP"
-        ]
-    },
-    "modification_date": "2018-12-14",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "jhernandez@splunk.com",
-            "name": "Jose Hernandez"
-        }
+    "data_source": [
+      "Network Communications"
     ],
-    "scheduling": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev avg(count) AS avg p50(count) AS p50| where count>(stdev*2) | rename All_Traffic.src AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count avg p50 stdev",
-    "search_description": "This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.",
-    "search_id": "a98727cc-286b-4ff2-b898-41df64695923",
-    "search_name": "Remote Desktop Network Bruteforce",
-    "search_type": "detection",
-    "security_domain": "network",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "Bro",
+      "Splunk Stream"
+    ]
+  },
+  "eli5": "This search monitors for abnormal amounts of remote-desktop (RDP) traffic from a source to a destination that may be indicative of a brute-force attack. It does this by filtering out RDP traffic from the Network_Traffic.All_Traffic data model, using twice the standard deviation of all source-to-destination connections. If any tuple is within more than two standard deviations of all other usual RDP traffic flows, it is indicative of a brute-force attack.",
+  "how_to_implement": "You must ensure that your network traffic data is populating the Network_Traffic data model.",
+  "known_false_positives": "RDP gateways may have unusually high amounts of traffic from all other hosts' RDP applications in the network.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "jhernandez@splunk.com",
+      "name": "Jose Hernandez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 12",
+      "CIS 9",
+      "CIS 16"
+    ],
+    "kill_chain_phases": [
+      "Reconnaissance",
+      "Delivery"
+    ],
+    "mitre_attack": [
+      "Credential Access",
+      "Remote Desktop Protocol",
+      "Lateral Movement"
+    ],
+    "nist": [
+      "DE.AE",
+      "PR.AC",
+      "PR.IP"
+    ]
+  },
+  "modification_date": "2018-12-14",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "jhernandez@splunk.com",
+      "name": "Jose Hernandez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev avg(count) AS avg p50(count) AS p50| where count>(stdev*2) | rename All_Traffic.src AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count avg p50 stdev",
+  "search_description": "This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.",
+  "search_id": "a98727cc-286b-4ff2-b898-41df64695923",
+  "search_name": "Remote Desktop Network Bruteforce",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
 }

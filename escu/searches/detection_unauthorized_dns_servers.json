@@ -1,84 +1,84 @@
 {
-    "asset_type": "Endpoint",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "dest, src",
-            "rule_description": "The table represents a list of unauthorized DNS servers interacting with hosts in your network",
-            "rule_title": "DNS requests resolved by unauthorized DNS servers"
-        },
-        "suppress": {
-            "suppress_fields": "dest,src",
-            "suppress_period": "28800s"
-        }
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, src",
+      "rule_description": "The table represents a list of unauthorized DNS servers interacting with hosts in your network",
+      "rule_title": "DNS requests resolved by unauthorized DNS servers"
     },
-    "creation_date": "2017-07-08",
-    "data_metadata": {
-        "data_models": [
-            "Network_Resolution"
-        ],
-        "data_source": [
-            "DNS"
-        ],
-        "providing_technologies": [
-            "Splunk Stream",
-            "Bro"
-        ]
-    },
-    "eli5": "Clients should be resolving their DNS requests via a trusted DNS server. This search will identify DNS queries being sent to unauthorized DNS servers by comparing the destination and source of the traffic with assets marked as DNS servers.",
-    "how_to_implement": "To successfully implement this search you will need to ensure that DNS data is populating the Network_Resolution data model. It also requires that your DNS servers are identified correctly in the Assets and Identity table of Enterprise Security.",
-    "known_false_positives": "Legitimate DNS activity can be detected in this search. Investigate, verify and update the list of authorized DNS servers as appropriate.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "suppress": {
+      "suppress_fields": "dest,src",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2017-07-08",
+  "data_metadata": {
+    "data_models": [
+      "Network_Resolution"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 1",
-            "CIS 3",
-            "CIS 8",
-            "CIS 12"
-        ],
-        "kill_chain_phases": [
-            "Command and Control"
-        ],
-        "mitre_attack": [
-            "Exfiltration",
-            "Command and Control",
-            "Defense Evasion",
-            "Commonly Used Port"
-        ],
-        "nist": [
-            "ID.AM",
-            "PR.DS",
-            "PR.IP",
-            "DE.AE",
-            "DE.CM"
-        ]
-    },
-    "modification_date": "2017-09-18",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_source": [
+      "DNS"
     ],
-    "scheduling": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count from datamodel=Network_Resolution where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src DNS.dest | `drop_dm_object_name(\"DNS\")`",
-    "search_description": "This search will detect DNS requests resolved by unauthorized DNS servers. Legitimate DNS servers should be identified in the Enterprise Security Assets and Identity Framework.",
-    "search_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f6",
-    "search_name": "DNS Query Requests Resolved by Unauthorized DNS Servers",
-    "search_type": "detection",
-    "security_domain": "network",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "eli5": "Clients should be resolving their DNS requests via a trusted DNS server. This search will identify DNS queries being sent to unauthorized DNS servers by comparing the destination and source of the traffic with assets marked as DNS servers.",
+  "how_to_implement": "To successfully implement this search you will need to ensure that DNS data is populating the Network_Resolution data model. It also requires that your DNS servers are identified correctly in the Assets and Identity table of Enterprise Security.",
+  "known_false_positives": "Legitimate DNS activity can be detected in this search. Investigate, verify and update the list of authorized DNS servers as appropriate.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 1",
+      "CIS 3",
+      "CIS 8",
+      "CIS 12"
+    ],
+    "kill_chain_phases": [
+      "Command and Control"
+    ],
+    "mitre_attack": [
+      "Exfiltration",
+      "Command and Control",
+      "Defense Evasion",
+      "Commonly Used Port"
+    ],
+    "nist": [
+      "ID.AM",
+      "PR.DS",
+      "PR.IP",
+      "DE.AE",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2017-09-18",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count from datamodel=Network_Resolution where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src DNS.dest | `drop_dm_object_name(\"DNS\")`",
+  "search_description": "This search will detect DNS requests resolved by unauthorized DNS servers. Legitimate DNS servers should be identified in the Enterprise Security Assets and Identity Framework.",
+  "search_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f6",
+  "search_name": "DNS Query Requests Resolved by Unauthorized DNS Servers",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
 }

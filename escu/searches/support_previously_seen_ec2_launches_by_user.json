@@ -1,43 +1,43 @@
 {
-    "channel": "ESCU",
-    "creation_date": "2018-03-15",
-    "data_metadata": {
-        "data_source": [
-            "AWS CloudTrail logs"
-        ],
-        "data_sourcetypes": [
-            "aws:cloudtrail"
-        ],
-        "providing_technologies": [
-            "AWS"
-        ]
-    },
-    "eli5": "In this support search, we create a table of the earliest and latest times that an ARN has launched a EC2 instance. This table is then outputted to a csv file.",
-    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+  "channel": "ESCU",
+  "creation_date": "2018-03-15",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
     ],
-    "modification_date": "2018-03-15",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "data_sourcetypes": [
+      "aws:cloudtrail"
     ],
-    "scheduling": {
-        "earliest_time": "-90d@d",
-        "latest_time": "-10m@m"
-    },
-    "search": "sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | rename userIdentity.arn as arn | stats earliest(_time) as firstTime latest(_time) as lastTime by arn | outputlookup previously_seen_ec2_launches_by_user.csv | stats count",
-    "search_description": "This search builds a table of previously seen ARNs that have launched a EC2 instance.",
-    "search_id": "6c767ac0-0906-4355-9a83-927f5ee7bdad",
-    "search_name": "Previously Seen EC2 Launches By User",
-    "search_type": "support",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "In this support search, we create a table of the earliest and latest times that an ARN has launched a EC2 instance. This table is then outputted to a csv file.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2018-03-15",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-90d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | rename userIdentity.arn as arn | stats earliest(_time) as firstTime latest(_time) as lastTime by arn | outputlookup previously_seen_ec2_launches_by_user.csv | stats count",
+  "search_description": "This search builds a table of previously seen ARNs that have launched a EC2 instance.",
+  "search_id": "6c767ac0-0906-4355-9a83-927f5ee7bdad",
+  "search_name": "Previously Seen EC2 Launches By User",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
 }

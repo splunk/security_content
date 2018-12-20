@@ -1,72 +1,72 @@
 {
-    "category": "Adversary Tactics",
-    "channel": "ESCU",
-    "creation_date": "2017-04-19",
-    "description": "Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.",
-    "id": "30874d4f-20a1-488f-85ec-5d52ef74e3f9",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        },
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
-    ],
-    "modification_date": "2018-05-31",
-    "name": "Windows Persistence Techniques",
-    "narrative": "Maintaining persistence is one of the first steps taken by attackers after the initial compromise. Attackers leverage various custom and built-in tools to ensure survivability and persistent access within a compromised enterprise. This Analytic Story provides searches to help you identify various behaviors used by attackers to maintain persistent access to a Windows environment.",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        },
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
-    ],
-    "references": [
-        "http://www.fuzzysecurity.com/tutorials/19.html",
-        "https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html",
-        "http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/",
-        "https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html",
-        "https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf"
-    ],
-    "searches": {
-        "contextual_searches": [
-            "Get Notable Info",
-            "Get Notable History",
-            "Get User Information from Identity Table",
-            "Get Authentication Logs For Endpoint",
-            "Get Risk Modifiers For User",
-            "Get Risk Modifiers For Endpoint"
-        ],
-        "detection_searches": [
-            "Registry Keys for Creating SHIM Databases",
-            "Shim Database Installation With Suspicious Parameters",
-            "Shim Database File Creation",
-            "Registry Keys Used For Persistence",
-            "Schtasks used for forcing a reboot",
-            "Sc.exe Manipulating Windows Services",
-            "Reg.exe Manipulating Windows Services Registry Keys",
-            "Hiding Files And Directories With Attrib.exe",
-            "Reg.exe used to hide files/directories via registry keys",
-            "Detect Path Interception By Creation Of program.exe",
-            "Monitor Registry Keys for Print Monitors",
-            "Remote Registry Key modifications"
-        ],
-        "investigative_searches": [
-            "Get Process Info",
-            "Get Parent Process Info"
-        ],
-        "support_searches": []
+  "category": "Adversary Tactics",
+  "channel": "ESCU",
+  "creation_date": "2017-04-19",
+  "description": "Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.",
+  "id": "30874d4f-20a1-488f-85ec-5d52ef74e3f9",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
     },
-    "spec_version": 1,
-    "version": "2.0"
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-05-31",
+  "name": "Windows Persistence Techniques",
+  "narrative": "Maintaining persistence is one of the first steps taken by attackers after the initial compromise. Attackers leverage various custom and built-in tools to ensure survivability and persistent access within a compromised enterprise. This Analytic Story provides searches to help you identify various behaviors used by attackers to maintain persistent access to a Windows environment.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    },
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "references": [
+    "http://www.fuzzysecurity.com/tutorials/19.html",
+    "https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html",
+    "http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/",
+    "https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html",
+    "https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint",
+      "Get Risk Modifiers For User",
+      "Get Risk Modifiers For Endpoint"
+    ],
+    "detection_searches": [
+      "Registry Keys for Creating SHIM Databases",
+      "Shim Database Installation With Suspicious Parameters",
+      "Shim Database File Creation",
+      "Registry Keys Used For Persistence",
+      "Schtasks used for forcing a reboot",
+      "Sc.exe Manipulating Windows Services",
+      "Reg.exe Manipulating Windows Services Registry Keys",
+      "Hiding Files And Directories With Attrib.exe",
+      "Reg.exe used to hide files/directories via registry keys",
+      "Detect Path Interception By Creation Of program.exe",
+      "Monitor Registry Keys for Print Monitors",
+      "Remote Registry Key modifications"
+    ],
+    "investigative_searches": [
+      "Get Process Info",
+      "Get Parent Process Info"
+    ],
+    "support_searches": []
+  },
+  "spec_version": 1,
+  "version": "2.0"
 }

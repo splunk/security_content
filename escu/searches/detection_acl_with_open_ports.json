@@ -1,80 +1,81 @@
 {
-    "asset_type": "AWS Instance",
-    "channel": "ESCU",
-    "confidence": "medium",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "account_id, src, src_user",
-            "rule_description": "$src_user$ created a network access control list with all ports open.",
-            "rule_title": "Network ACL created with all ports open by $src_user$"
-        },
-        "risk": {
-            "risk_object": "src_user",
-            "risk_object_type": ["user"],
-            "risk_score": 30
-        },
-        "suppress": {
-            "suppress_fields": "src_user",
-            "suppress_period": "14400s"
-        }
+  "asset_type": "AWS Instance",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "account_id, src, src_user",
+      "rule_description": "$src_user$ created a network access control list with all ports open.",
+      "rule_title": "Network ACL created with all ports open by $src_user$"
     },
-    "creation_date": "2017-01-08",
-    "data_metadata": {
-        "data_source": [
-            "AWS CloudTrail logs"
-        ],
-        "data_sourcetypes": [
-            "aws:cloudtrail"
-        ],
-        "providing_technologies": [
-            "AWS"
-        ]
+    "risk": {
+      "risk_object": "src_user",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 30
     },
-    "eli5": "A network access control list (ACL) is a layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. Network ACLs with all open ports have a larger attack surface. This search looks for events within your CloudTrail logs to check if there were any Network ACLs created with ports ranging from 1024 to 65525. This search will create a table comprised of AWS account id, src, user and all parameters of the request made by the user and the server response.",
-    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail inputs.",
-    "known_false_positives": "It's possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "suppress": {
+      "suppress_fields": "src_user",
+      "suppress_period": "14400s"
+    }
+  },
+  "creation_date": "2017-01-08",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 11"
-        ],
-        "kill_chain_phases": [
-            "Actions on Objectives"
-        ],
-        "mitre_attack": [
-            "Persistence"
-        ],
-        "nist": [
-            "DE.DP",
-            "DE.AE"
-        ]
-    },
-    "modification_date": "2017-01-10",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_sourcetypes": [
+      "aws:cloudtrail"
     ],
-    "scheduling": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-1d@d",
-        "latest_time": "-10m@m"
-    },
-    "search": "sourcetype=aws:cloudtrail eventName=CreateNetworkAclEntry | mvexpand requestParameters | mvexpand responseElements | search requestParameters.portRange.from=1024 requestParameters.portRange.to=65525 requestParameters.ruleAction=allow | rename userIdentity.arn as arn | rename requestParameters.networkAclId as networkAclId | table _time aws_account_id src userName arn networkAclId requestParameters.* responseElements.*",
-    
-    "search_description": "The search looks for CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.",
-    "search_id": "ada0f478-84a8-4641-a3f1-d82362d6bd75",
-    "search_name": "AWS Network Access Control List Created with All Open Ports",
-    "search_type": "detection",
-    "security_domain": "network",
-    "spec_version": 1,
-    "version": "1.0"
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "A network access control list (ACL) is a layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. Network ACLs with all open ports have a larger attack surface. This search looks for events within your CloudTrail logs to check if there were any Network ACLs created with ports ranging from 1024 to 65525. This search will create a table comprised of AWS account id, src, user and all parameters of the request made by the user and the server response.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail inputs.",
+  "known_false_positives": "It's possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 11"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Persistence"
+    ],
+    "nist": [
+      "DE.DP",
+      "DE.AE"
+    ]
+  },
+  "modification_date": "2017-01-10",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-1d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail eventName=CreateNetworkAclEntry | mvexpand requestParameters | mvexpand responseElements | search requestParameters.portRange.from=1024 requestParameters.portRange.to=65525 requestParameters.ruleAction=allow | rename userIdentity.arn as arn | rename requestParameters.networkAclId as networkAclId | table _time aws_account_id src userName arn networkAclId requestParameters.* responseElements.*",
+  "search_description": "The search looks for CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.",
+  "search_id": "ada0f478-84a8-4641-a3f1-d82362d6bd75",
+  "search_name": "AWS Network Access Control List Created with All Open Ports",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
 }

@@ -1,90 +1,90 @@
 {
-    "asset_type": "Endpoint",
-    "channel": "ESCU",
-    "confidence": "High",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "dest, user, process_name",
-            "rule_description": "An attempt to modify the default PowerShell execution policy in the registry to \"Unrestricted\" was detected on $dest$.",
-            "rule_title": "Attempt To Set PowerShell Execution Policy To \"Unrestricted\" On $dest$."
-        },
-        "risk": {
-            "risk_object": "dest",
-            "risk_object_type": ["system"],
-            "risk_score": 60
-        },
-        "suppress": {
-            "suppress_fields": "process_name, dest",
-            "suppress_period": "86400s"
-        }
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "High",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, user, process_name",
+      "rule_description": "An attempt to modify the default PowerShell execution policy in the registry to \"Unrestricted\" was detected on $dest$.",
+      "rule_title": "Attempt To Set PowerShell Execution Policy To \"Unrestricted\" On $dest$."
     },
-    "creation_date": "2018-08-28",
-    "data_metadata": {
-        "data_models": [
-            "Endpoint"
-        ],
-        "data_source": [
-            "Endpoint Intel"
-        ],
-        "providing_technologies": [
-            "Carbon Black Response",
-            "CrowdStrike Falcon",
-            "Sysmon",
-            "Tanium",
-            "Ziften"
-        ]
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 60
     },
-    "eli5": "This search looks for the process reg.exe with the \"add\" parameter, which indicates the creation of a new value or modification of an existing value in the registry. In addition, it looks for parameters that specify the registry key to be added or modified, as well as the value of \"Unrestricted\". The appearance of \"ExecutionPolicy\" at the beginning of the search is there to optimize the search performance by first looking for that keyword, and then further searching through the matching events for further details.",
-
-     "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
-
-    "known_false_positives": "Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to \"Unrestricted\" as this search is designed to identify would be unusual. Hits should be reviewed and investigated as appropriate.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+    "suppress": {
+      "suppress_fields": "process_name, dest",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2018-08-28",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 3",
-            "CIS 8"
-        ],
-        "kill_chain_phases": [
-            "Installation",
-            "Actions on Objectives"
-        ],
-        "mitre_attack": [
-            "Execution",
-            "PowerShell",
-            "Scripting"
-        ],
-        "nist": [
-            "PR.PT",
-            "DE.CM",
-            "PR.IP"
-        ]
-    },
-    "modification_date": "2018-12-03",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "rvaldez@splunk.com",
-            "name": "Rico Valdez"
-        }
+    "data_source": [
+      "Endpoint Intel"
     ],
-    "scheduling": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-    },
-    "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=reg.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| search (process=*add*  process=*Software\\\\Microsoft\\\\Powershell\\\\1\\\\ShellIds\\\\Microsoft.PowerShell* process=*ExecutionPolicy* process=*Unrestricted*)",
-    "search_description": "This search looks for the execution of reg.exe with parameters that indicate an attempt to set the default PowerShell execution policy on the system to \"Unrestricted\"",
-    "search_id": "c2590137-0b08-4985-9ec5-6ae23d92f63d",
-    "search_name": "Attempt To Set Default PowerShell Execution Policy To Unrestricted",
-    "search_type": "detection",
-    "security_domain": "endpoint",
-    "spec_version": 1,
-    "version": "3.0"
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "eli5": "This search looks for the process reg.exe with the \"add\" parameter, which indicates the creation of a new value or modification of an existing value in the registry. In addition, it looks for parameters that specify the registry key to be added or modified, as well as the value of \"Unrestricted\". The appearance of \"ExecutionPolicy\" at the beginning of the search is there to optimize the search performance by first looking for that keyword, and then further searching through the matching events for further details.",
+  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+  "known_false_positives": "Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to \"Unrestricted\" as this search is designed to identify would be unusual. Hits should be reviewed and investigated as appropriate.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 3",
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Installation",
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Execution",
+      "PowerShell",
+      "Scripting"
+    ],
+    "nist": [
+      "PR.PT",
+      "DE.CM",
+      "PR.IP"
+    ]
+  },
+  "modification_date": "2018-12-03",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=reg.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| search (process=*add*  process=*Software\\\\Microsoft\\\\Powershell\\\\1\\\\ShellIds\\\\Microsoft.PowerShell* process=*ExecutionPolicy* process=*Unrestricted*)",
+  "search_description": "This search looks for the execution of reg.exe with parameters that indicate an attempt to set the default PowerShell execution policy on the system to \"Unrestricted\"",
+  "search_id": "c2590137-0b08-4985-9ec5-6ae23d92f63d",
+  "search_name": "Attempt To Set Default PowerShell Execution Policy To Unrestricted",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "3.0"
 }
