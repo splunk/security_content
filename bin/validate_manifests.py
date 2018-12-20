@@ -382,7 +382,7 @@ def main():
     errors = False
     story_manifests = {}
     story_schema_file = path.join(
-        MANIFEST_DIRECTORY,
+        path.expanduser(MANIFEST_DIRECTORY),
         'spec/analytic_story.json.spec')
     story_schema = json.loads(open(story_schema_file, 'rb').read())
     story_manifest_files = path.join(MANIFEST_DIRECTORY, "*/stories/*.json")
