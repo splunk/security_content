@@ -32,7 +32,7 @@
             "Sysmon"
         ]
     },
-    "eli5": "This search looks at file modifications across your hosts and creates notable events when it identifies files with extensions associated with the SamSam ransomware, including \".stubbin,\" \".berkshire\," \".satoshi,\" \".sophos,\" or \".keyxml\." Files with these extensions have been observed in Sam Sam attacks consisting of payload data or keying material.",
+    "eli5": "This search looks at file modifications across your hosts and creates notable events when it identifies files with extensions associated with the SamSam ransomware, including `.stubbin`, `.berkshire\," \".satoshi,\" \".sophos,\" or \".keyxml\." Files with these extensions have been observed in Sam Sam attacks consisting of payload data or keying material.",
     "how_to_implement": "You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.",
     "known_false_positives": "Because these extensions are not typically used in normal operations, you should investigate all results.",
     "maintainers": [
