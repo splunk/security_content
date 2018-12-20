@@ -1,0 +1,12 @@
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v2.0.0  # Use the ref you want to point at
+  hooks:
+    - id: trailing-whitespace
+    - id: check-executables-have-shebangs
+    - id: check-json
+    - id: check-symlinks
+    - id: check-yaml
+    - id: pretty-format-json
+      args: [--autofix]
+    - id: flake8
+    - id: requirements-txt-fixer
