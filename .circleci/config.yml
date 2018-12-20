@@ -3,6 +3,12 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 
+dependencies:
+  cache_directories:
+    - "~/.apt-cache"
+  pre:
+    - sudo rm -rf /var/cache/apt/archives && sudo ln -s ~/.apt-cache /var/cache/apt/archives && mkdir -p ~/.apt-cache/partial
+
 apt-run: &apt-install
   name: install system packages
   command: |
@@ -29,11 +35,17 @@ jobs:
 
       - run: *apt-install
 
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: install python dependencies
           command: |
-            mkdir -p ./venv
-            virtualenv ./venv
-            . venv/bin/activate
+            rm -rf venv
+            virtualenv --clear venv
+            source venv/bin/activate
             pip install -q -r requirements.txt
             python bin/validate_manifests.py
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
