@@ -3,13 +3,13 @@
 Take the manifest files and build files for Enterprise Security
 '''
 import glob
-import os.path
+from os import path, environ
 import json
 import jsonschema
 
 # HIGH Level Fields
 
-MANIFEST_DIRECTORY = ""
+MANIFEST_DIRECTORY = environ["CIRCLE_WORKING_DIRECTORY"]
 
 STORY_CATEGORIES = [
     "Abuse", "Adversary Tactics", "Best Practices",
@@ -381,11 +381,11 @@ def main():
 
     errors = False
     story_manifests = {}
-    story_schema_file = os.path.join(
+    story_schema_file = path.join(
         MANIFEST_DIRECTORY,
         'spec/analytic_story.json.spec')
     story_schema = json.loads(open(story_schema_file, 'rb').read())
-    story_manifest_files = os.path.join(MANIFEST_DIRECTORY, "*/stories/*.json")
+    story_manifest_files = path.join(MANIFEST_DIRECTORY, "*/stories/*.json")
     for story_manifest_file in glob.glob(story_manifest_files):
         try:
             story_manifest_data = json.loads(
@@ -407,30 +407,30 @@ def main():
         if story_errors:
             errors = True
             for err in story_errors:
-                print os.path.basename(story_manifest_file)
+                print path.basename(story_manifest_file)
                 print "\t%s" % err
 
         story_manifests[story_manifest_data['name']] = story_manifest_data
 
-    detection_search_schema_file = os.path.join(
+    detection_search_schema_file = path.join(
         MANIFEST_DIRECTORY, 'spec/detection_search.json.spec')
     detection_search_schema = json.loads(
         open(detection_search_schema_file, 'rb').read())
-    contextual_search_schema_file = os.path.join(
+    contextual_search_schema_file = path.join(
         MANIFEST_DIRECTORY, 'spec/contextual_search.json.spec')
     contextual_search_schema = json.loads(
         open(contextual_search_schema_file, 'rb').read())
-    investigative_search_schema_file = os.path.join(
+    investigative_search_schema_file = path.join(
         MANIFEST_DIRECTORY, 'spec/investigative_search.json.spec')
     investigative_search_schema = json.loads(
         open(investigative_search_schema_file, 'rb').read())
-    support_search_schema_file = os.path.join(
+    support_search_schema_file = path.join(
         MANIFEST_DIRECTORY, 'spec/support_search.json.spec')
     support_search_schema = json.loads(
         open(support_search_schema_file, 'rb').read())
 
     search_manifests = {}
-    search_manifest_files = os.path.join(
+    search_manifest_files = path.join(
         MANIFEST_DIRECTORY, "*/searches/*.json")
     for search_manifest_file in glob.glob(search_manifest_files):
         try:
@@ -481,7 +481,7 @@ def main():
         if sm_errors:
             errors = True
             for err in sm_errors:
-                print os.path.basename(search_manifest_file)
+                print path.basename(search_manifest_file)
                 print "\t%s" % err
 
         search_manifests[search_manifest_data['search_name']
