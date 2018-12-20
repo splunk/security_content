@@ -32,7 +32,6 @@ jobs:
       - run:
           name: install python dependencies
           command: |
-            apt-get
             mkdir -p ./venv
             virtualenv ./venv
             . venv/bin/activate
