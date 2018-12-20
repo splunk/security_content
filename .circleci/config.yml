@@ -6,8 +6,8 @@
 apt-run: &apt-install
   name: install system packages
   command: |
-    apt update
-    apt install -y enchant
+    sudo apt update
+    sudo apt install -y enchant
 
 version: 2
 jobs:
