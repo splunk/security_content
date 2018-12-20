@@ -385,7 +385,7 @@ def main():
         path.expanduser(MANIFEST_DIRECTORY),
         'spec/analytic_story.json.spec')
     story_schema = json.loads(open(story_schema_file, 'rb').read())
-    story_manifest_files = path.join(MANIFEST_DIRECTORY, "*/stories/*.json")
+    story_manifest_files = path.join(path.expanduser(MANIFEST_DIRECTORY), "*/stories/*.json")
     for story_manifest_file in glob.glob(story_manifest_files):
         try:
             story_manifest_data = json.loads(
@@ -413,25 +413,25 @@ def main():
         story_manifests[story_manifest_data['name']] = story_manifest_data
 
     detection_search_schema_file = path.join(
-        MANIFEST_DIRECTORY, 'spec/detection_search.json.spec')
+        path.expanduser(MANIFEST_DIRECTORY), 'spec/detection_search.json.spec')
     detection_search_schema = json.loads(
         open(detection_search_schema_file, 'rb').read())
     contextual_search_schema_file = path.join(
-        MANIFEST_DIRECTORY, 'spec/contextual_search.json.spec')
+        path.expanduser(MANIFEST_DIRECTORY), 'spec/contextual_search.json.spec')
     contextual_search_schema = json.loads(
         open(contextual_search_schema_file, 'rb').read())
     investigative_search_schema_file = path.join(
-        MANIFEST_DIRECTORY, 'spec/investigative_search.json.spec')
+        path.expanduser(MANIFEST_DIRECTORY), 'spec/investigative_search.json.spec')
     investigative_search_schema = json.loads(
         open(investigative_search_schema_file, 'rb').read())
     support_search_schema_file = path.join(
-        MANIFEST_DIRECTORY, 'spec/support_search.json.spec')
+        path.expanduser(MANIFEST_DIRECTORY), 'spec/support_search.json.spec')
     support_search_schema = json.loads(
         open(support_search_schema_file, 'rb').read())
 
     search_manifests = {}
     search_manifest_files = path.join(
-        MANIFEST_DIRECTORY, "*/searches/*.json")
+        path.expanduser(MANIFEST_DIRECTORY), "*/searches/*.json")
     for search_manifest_file in glob.glob(search_manifest_files):
         try:
             search_manifest_data = json.loads(
