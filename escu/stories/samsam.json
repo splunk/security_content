@@ -49,8 +49,7 @@
             "Detect attackers scanning for vulnerable JBoss servers",
             "Detect malicious requests to exploit JBoss servers",
 
-            
-            "File with Samsam Extension",
+ "File with Samsam Extension",
             "Samsam Test File Write",
             "Batch File Write to System32"
         ],
