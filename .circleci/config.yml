@@ -5,7 +5,7 @@
 
 apt-run: &apt-install
   name: install system packages
-  command: |
+  comman: |
     sudo apt update
     sudo apt install -y enchant
 
