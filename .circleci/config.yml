@@ -2,6 +2,13 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
+
+apt-run: &apt-install
+  name: install system packages
+  command: |
+    apt update
+    apt install -y enchant
+
 version: 2
 jobs:
   build:
@@ -19,39 +26,14 @@ jobs:
 
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+      
+      - run: *apt-install
 
       - run:
-          name: install dependencies
+          name: install python dependencies
           command: |
+            apt-get
             mkdir -p ./venv
             virtualenv ./venv
             . venv/bin/activate
             pip install -r requirements.txt
-
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-        
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            python manage.py test
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
-          
