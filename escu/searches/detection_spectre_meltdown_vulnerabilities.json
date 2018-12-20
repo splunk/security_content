@@ -1,78 +1,80 @@
 {
-    "asset_type": "Endpoint",
-    "channel": "ESCU",
-    "confidence": "high",
-    "correlation_rule": {
-        "notable": {
-            "nes_fields": "dest",
-            "rule_description": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities.",
-            "rule_title": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities"
-        },
-        "risk": {
-            "risk_object": "dest",
-            "risk_object_type": ["system"],
-            "risk_score": 100
-        },
-        "suppress": {
-            "suppress_fields": "dest",
-            "suppress_period": "86400s"
-        }
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "high",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest",
+      "rule_description": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities.",
+      "rule_title": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities"
     },
-    "creation_date": "2018-01-07",
-    "data_metadata": {
-        "data_models": [
-            "Vulnerabilities"
-        ],
-        "data_source": [
-            "Vulnerability Scanner"
-        ],
-        "providing_technologies": [
-            "Nessus",
-            "Qualys"
-        ]
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 100
     },
-    "eli5": "This search looks for the three CVEs associated with the Spectre and Meltdown vulnerabilities.",
-    "how_to_implement": "The search requires that you are ingesting your vulnerability-scanner data and that it reports the CVE of the vulnerability identified.",
-    "known_false_positives": "It is possible that your vulnerability scanner is not detecting that the patches have been applied.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "suppress": {
+      "suppress_fields": "dest",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2018-01-07",
+  "data_metadata": {
+    "data_models": [
+      "Vulnerabilities"
     ],
-    "mappings": {
-        "cis20": [
-            "CIS 4"
-        ],
-        "nist": [
-            "ID.RA",
-            "RS.MI",
-            "PR.IP",
-            "DE.CM"
-        ]
-    },
-    "modification_date": "2017-01-07",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "data_source": [
+      "Vulnerability Scanner"
     ],
-    "scheduling": {
-        "cron_schedule": "0 6 * * *",
-        "earliest_time": "-25h@h",
-        "latest_time": "-1h@h"
-    },
-    "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest",
-    "search_description": "The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.",
-    "search_id": "354be8e0-32cd-4da0-8c47-796de13b60ea",
-    "search_name": "Spectre and Meltdown Vulnerable Systems",
-    "search_type": "detection",
-    "security_domain": "endpoint",
-    "spec_version": 1,
-    "status": "production",
-    "team_notes": "Updated the search so that only USB events are flagged to reduce FPs. This eventID is also the MS recommended way of monitoring USB insertions",
-    "version": "1.0"
+    "providing_technologies": [
+      "Nessus",
+      "Qualys"
+    ]
+  },
+  "eli5": "This search looks for the three CVEs associated with the Spectre and Meltdown vulnerabilities.",
+  "how_to_implement": "The search requires that you are ingesting your vulnerability-scanner data and that it reports the CVE of the vulnerability identified.",
+  "known_false_positives": "It is possible that your vulnerability scanner is not detecting that the patches have been applied.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 4"
+    ],
+    "nist": [
+      "ID.RA",
+      "RS.MI",
+      "PR.IP",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2017-01-07",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 6 * * *",
+    "earliest_time": "-25h@h",
+    "latest_time": "-1h@h"
+  },
+  "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest",
+  "search_description": "The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.",
+  "search_id": "354be8e0-32cd-4da0-8c47-796de13b60ea",
+  "search_name": "Spectre and Meltdown Vulnerable Systems",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "status": "production",
+  "team_notes": "Updated the search so that only USB events are flagged to reduce FPs. This eventID is also the MS recommended way of monitoring USB insertions",
+  "version": "1.0"
 }
