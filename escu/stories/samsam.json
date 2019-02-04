@@ -2,7 +2,7 @@
   "category": "Malware",
   "channel": "ESCU",
   "creation_date": "2018-12-13",
-  "description": "XXXX- update XXX Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, system processes run from unexpected locations, and more.",
+  "description": "Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.",
   "id": "c4b89506-fbcf-4cb7-bfd6-527e54789604",
   "maintainers": [
     {
@@ -47,6 +47,7 @@
       "Remote Desktop Network Traffic",
       "Detect attackers scanning for vulnerable JBoss servers",
       "Detect malicious requests to exploit JBoss servers",
+      "Remote Desktop Network Bruteforce",
       "File with Samsam Extension",
       "Samsam Test File Write",
       "Batch File Write to System32"
@@ -55,6 +56,7 @@
       "Get Process Info",
       "Get Process Information For Port Activity",
       "Investigate Web Activity From Host",
+      "Investigate Successful Remote Desktop Authentications",
       "Get Parent Process Info"
     ],
     "support_searches": [

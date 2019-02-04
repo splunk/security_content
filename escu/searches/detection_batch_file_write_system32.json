@@ -49,7 +49,7 @@
       "CIS 8"
     ],
     "kill_chain_phases": [
-      "Actions on Objectives"
+      "Delivery"
     ],
     "mitre_attack": [],
     "nist": [
@@ -70,7 +70,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`| rex field=file_name \"(?<file_extension>\\.[^\\.]+)$\" | search file_path=*system32* AND file_extension=.bat",
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.dest) as dest values(Filesystem.file_name) as file_name values(Filesystem.user) as user from datamodel=Endpoint.Filesystem by Filesystem.file_path | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`| rex field=file_name \"(?<file_extension>\\.[^\\.]+)$\" | search file_path=*system32* AND file_extension=.bat",
   "search_description": "The search looks for a batch file (.bat) written to the Windows system directory tree.",
   "search_id": "503d17cb-9eab-4cf8-a20e-01d5c6987ae3",
   "search_name": "Batch File Write to System32",

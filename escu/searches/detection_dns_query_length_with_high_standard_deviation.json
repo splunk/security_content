@@ -8,6 +8,13 @@
       "rule_description": "Filter DNS requests and compute the standard deviation then filter on 2 times the standard deviation",
       "rule_title": "DNS query length with high standard deviation"
     },
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
     "suppress": {
       "suppress_fields": "query",
       "suppress_period": "43200s"

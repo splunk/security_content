@@ -204,7 +204,8 @@
               "Qualys",
               "Sysmon",
               "Tanium",
-              "Ziften"
+              "Ziften",
+              "osquery"
             ]
           },
           "minItems": 0,

@@ -8,6 +8,13 @@
       "rule_description": "Search for exploitation of the Splunk Open Redirect Vulnerability",
       "rule_title": "Open Redirect in Splunk Web"
     },
+    "risk": {
+      "risk_object": "host",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
     "suppress": {
       "suppress_fields": "host",
       "suppress_period": "14400s"

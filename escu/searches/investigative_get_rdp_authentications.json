@@ -34,7 +34,7 @@
   "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature_id=4624 Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app Authentication.user Authentication.signature Authentication.src_nt_domain | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"Authentication\")`| table firstTime lastTime src src_nt_domain dest user app count | sort count",
   "search_description": "This search returns the source, destination, and user for all successful remote-desktop authentications. A successful authentication after a brute-force attack on a destination machine is suspicious behavior. ",
   "search_id": "b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc",
-  "search_name": "Investigate successful Remote Desktop authentications",
+  "search_name": "Investigate Successful Remote Desktop Authentications",
   "search_type": "investigative",
   "search_window": {
     "earliest_time_offset": 86400,

@@ -8,6 +8,13 @@
       "rule_description": "The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.",
       "rule_title": "Large Volume of DNS ANY Queries"
     },
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 60
+    },
     "suppress": {
       "suppress_fields": "dest",
       "suppress_period": "7200s"
