@@ -8,6 +8,13 @@
       "rule_description": "This search allows you to identify the endpoints that have connected to more than five DNS servers over the time frame specified in the search.",
       "rule_title": "Client $src$ Connecting to Multiple DNS Servers"
     },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 80
+    },
     "suppress": {
       "suppress_fields": "src",
       "suppress_period": "86400s"

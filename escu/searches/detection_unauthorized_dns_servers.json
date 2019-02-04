@@ -8,6 +8,13 @@
       "rule_description": "The table represents a list of unauthorized DNS servers interacting with hosts in your network",
       "rule_title": "DNS requests resolved by unauthorized DNS servers"
     },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
     "suppress": {
       "suppress_fields": "dest,src",
       "suppress_period": "28800s"

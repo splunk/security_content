@@ -8,6 +8,13 @@
       "rule_description": "This search is used to examine web sessions in order to identify unnaturally rapid clicks with near-perfect cadence (high periodicity or low standard deviation), which resemble a script-driven session.",
       "rule_title": "Web Fraud Detection: Anomalous User Clickspeed"
     },
+    "risk": {
+      "risk_object": "session_id",
+      "risk_object_type": [
+        "other"
+      ],
+      "risk_score": 40
+    },
     "suppress": {
       "suppress_fields": "session_id",
       "suppress_period": "3600s"

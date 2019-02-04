@@ -8,6 +8,13 @@
       "rule_description": "This search looks for the use of cleartext protocols that are known to pass authentication information in the clear. The cleartext credentials are typically passed at the beginning of the session.",
       "rule_title": "Possible credential leak over cleartext protocol"
     },
+    "risk": {
+      "risk_object": "user",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 60
+    },
     "suppress": {
       "suppress_fields": "dest",
       "suppress_period": "86400s"
