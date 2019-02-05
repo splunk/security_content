@@ -48,7 +48,7 @@ PROVIDING_TECHNOLOGIES = [
     "Splunk Stream", "Active Directory", "Bluecoat",
     "Carbon Black Response", "Carbon Black Protect", "CrowdStrike Falcon",
     "Microsoft Exchange", "Nessus", "Palo Alto Firewall", "Qualys",
-    "Sysmon", "Tanium", "Ziften", "AWS"
+    "Sysmon", "Tanium", "Ziften", "AWS", "OSquery"
 ]
 
 KILL_CHAIN_PHASES = [
