@@ -99,7 +99,7 @@ class DomainFuzz(object):
 
         for d in self.domains:
             # if not self.__validate_domain(d['domain-name']):
-                # p_err("debug: invalid domain %s\n" % d['domain-name'])
+            #   p_err("debug: invalid domain %s\n" % d['domain-name'])
             if self.__validate_domain(d['domain-name']) and d['domain-name'] not in seen:
                 seen.add(d['domain-name'])
                 filtered.append(d)
