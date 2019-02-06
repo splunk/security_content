@@ -12,8 +12,8 @@ dependencies:
 apt-run: &apt-install
   name: install system packages
   command: |
-    sudo apt update -s
-    sudo apt install -s -y enchant
+    sudo apt update -qq
+    sudo apt install -y enchant -qq
 
 version: 2.1
 
