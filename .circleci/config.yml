@@ -54,12 +54,20 @@ jobs:
           command: |
             source venv/bin/activate
             python bin/manifest_to_escu.py
+      - run:
+          name: run manifest to usecase library
+          command: |
+            source venv/bin/activate
+            python bin/manifest_to_usecaselibrary.py
       - store_artifacts:
           path: ~/repo/src/default/analyticstories.conf
           destination: src/default/analyticstories.conf
       - store_artifacts:
           path: ~/repo/src/default/analytic_stories.conf
           destination: src/default/analytic_stories.conf
+      - store_artifacts:
+          path: ~/repo/src/default/savedsearches.conf
+          destination: src/default/savedsearches.conf
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
