@@ -39,7 +39,7 @@ jobs:
       - run: *apt-install
 
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run:
           name: install python dependencies
           command: |
