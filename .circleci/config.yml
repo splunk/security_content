@@ -109,10 +109,5 @@ workflows:
   build_and_update_src:
     jobs:
       - build
-      - hold: # <<< A job that will require manual approval in the CircleCI web application.
-          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
-          requires: # We only run the "hold" job when test2 has succeeded
-            - build
-      - update-sources:
-          requires:
-            - hold    
+        # implemtent a tag for job update-sources 
+        # https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag
