@@ -6,6 +6,7 @@ import glob
 from os import path, environ
 import json
 import jsonschema
+import sys
 
 # HIGH Level Fields
 
@@ -47,7 +48,7 @@ PROVIDING_TECHNOLOGIES = [
     "Splunk Stream", "Active Directory", "Bluecoat",
     "Carbon Black Response", "Carbon Black Protect", "CrowdStrike Falcon",
     "Microsoft Exchange", "Nessus", "Palo Alto Firewall", "Qualys",
-    "Sysmon", "Tanium", "Ziften", "AWS"
+    "Sysmon", "Tanium", "Ziften", "AWS", "OSquery"
 ]
 
 KILL_CHAIN_PHASES = [
@@ -268,7 +269,8 @@ def validate_search_manifest(search):
                     data_model)
 
     if 'providing_technologies' in search['data_metadata']:
-        for providing_technology in search['data_metadata']['providing_technologies']:
+        for providing_technology in \
+                search['data_metadata']['providing_technologies']:
             if providing_technology not in PROVIDING_TECHNOLOGIES:
                 errors.append(
                     'ERRORS: Unknown product in providing technologies: %s' %
@@ -277,16 +279,19 @@ def validate_search_manifest(search):
     if search['search_type'] == 'detection':
         try:
             if search['correlation_rule']['risk']:
-                for risk_object_type in search['correlation_rule']['risk']['risk_object_type']:
+                for risk_object_type in \
+                        search['correlation_rule']['risk']['risk_object_type']:
                     if risk_object_type not in RISK_OBJECCT_TYPE:
                         errors.append(
-                            'ERRORS: Unknown risk object type, must be system, user, or other got: %s' %
+                            'ERRORS: Unknown risk object type, must be system, \
+                                    user, or other got: %s' %
                             risk_object_type)
         except BaseException:
             errors.append('WARNING: correlation_rule is missing risk object')
 
     if 'providing_technologies' in search['data_metadata']:
-        for providing_technology in search['data_metadata']['providing_technologies']:
+        for providing_technology in \
+                search['data_metadata']['providing_technologies']:
             if providing_technology not in PROVIDING_TECHNOLOGIES:
                 errors.append(
                     'ERRORS: Unknown product in providing technologies: %s' %
@@ -296,20 +301,25 @@ def validate_search_manifest(search):
     if '| tstats' in search['search'] or 'datamodel' in search['search']:
         if 'data_models' not in search['data_metadata']:
             errors.append(
-                "The search uses a data model but 'data_models' field is not set")
+                "The search uses a data model but 'data_models' \
+                        field is not set")
 
-        if 'data_models' in search and not search['data_metadata']['data_models']:
+        if 'data_models' in search and not \
+                search['data_metadata']['data_models']:
             errors.append(
                 "The search uses a data model but 'data_models' is empty")
 
     if 'sourcetype' in search['search']:
         if 'data_sourcetypes' not in search['data_metadata']:
             errors.append(
-                "The search specifies a sourcetype but 'data_sourcetypes' field is not set")
+                "The search specifies a sourcetype but 'data_sourcetypes' \
+                        field is not set")
 
-        if 'data_sourcetypes' in search and not search['data_metadata']['data_sourcetypes']:
+        if 'data_sourcetypes' in search and not \
+                search['data_metadata']['data_sourcetypes']:
             errors.append(
-                "The search specifies a sourcetype but 'data_sourcetypes' is empty")
+                "The search specifies a sourcetype but \
+                        'data_sourcetypes' is empty")
 
     try:
         search['search_description'].encode('ascii')
@@ -334,7 +344,8 @@ def validate_search_manifest(search):
         except UnicodeEncodeError:
             errors.append("known_false_positives not ascii")
 
-    if 'correlation_rule' in search and 'notable' in search['correlation_rule']:
+    if 'correlation_rule' in search and 'notable' in \
+            search['correlation_rule']:
         try:
             search['correlation_rule']['notable']['rule_title'].encode('ascii')
         except UnicodeEncodeError:
@@ -385,7 +396,8 @@ def main():
         path.expanduser(MANIFEST_DIRECTORY),
         'spec/analytic_story.json.spec')
     story_schema = json.loads(open(story_schema_file, 'rb').read())
-    story_manifest_files = path.join(path.expanduser(MANIFEST_DIRECTORY), "*/stories/*.json")
+    story_manifest_files = path.join(path.expanduser(MANIFEST_DIRECTORY),
+                                     "*/stories/*.json")
     for story_manifest_file in glob.glob(story_manifest_files):
         try:
             story_manifest_data = json.loads(
@@ -417,11 +429,13 @@ def main():
     detection_search_schema = json.loads(
         open(detection_search_schema_file, 'rb').read())
     contextual_search_schema_file = path.join(
-        path.expanduser(MANIFEST_DIRECTORY), 'spec/contextual_search.json.spec')
+        path.expanduser(MANIFEST_DIRECTORY),
+        'spec/contextual_search.json.spec')
     contextual_search_schema = json.loads(
         open(contextual_search_schema_file, 'rb').read())
     investigative_search_schema_file = path.join(
-        path.expanduser(MANIFEST_DIRECTORY), 'spec/investigative_search.json.spec')
+        path.expanduser(MANIFEST_DIRECTORY),
+        'spec/investigative_search.json.spec')
     investigative_search_schema = json.loads(
         open(investigative_search_schema_file, 'rb').read())
     support_search_schema_file = path.join(
@@ -442,7 +456,8 @@ def main():
             print e
             continue
 
-        if 'status' in search_manifest_data and search_manifest_data['status'] == 'development':
+        if 'status' in search_manifest_data and \
+                search_manifest_data['status'] == 'development':
             continue
 
         if 'search_type' not in search_manifest_data:
@@ -499,7 +514,8 @@ def main():
 
                 if search_manifests[ds]['search_type'] != 'detection':
                     errors = True
-                    print "ERROR: \"%s\" mislabeled \"%s\" as a detection search" % (
+                    print "ERROR: \"%s\" mislabeled \"%s\" \
+                        as a detection search" % (
                         story_name, ds)
 
         if 'investigative_searches' in story_data['searches']:
@@ -514,7 +530,8 @@ def main():
 
                 if search_manifests[invs]['search_type'] != 'investigative':
                     errors = True
-                    print "ERROR: \"%s\" mislabeled \"%s\" as a investigative search" % (
+                    print "ERROR: \"%s\" mislabeled \"%s\" \
+                            as a investigative search" % (
                         story_name, invs)
 
         if 'contextual_searches' in story_data['searches']:
@@ -522,12 +539,14 @@ def main():
                 if cs not in search_manifests:
                     print "INFO: %s has a contextual search, \
                         %s, not in local repo. Verify name of search provided \
-                        in Enterprise Security Content Updates" % (story_name, cs)
+                        in Enterprise Security Content Updates" \
+                        % (story_name, cs)
                     continue
 
                 if search_manifests[cs]['search_type'] != 'contextual':
                     errors = True
-                    print "ERROR: \"%s\" mislabeled \"%s\" as a contextual search" % (
+                    print "ERROR: \"%s\" mislabeled \"%s\" \
+                           as a contextual search" % (
                         story_name, cs)
 
         if 'support_searches' in story_data['searches']:
@@ -541,12 +560,16 @@ def main():
 
                 if search_manifests[ss]['search_type'] != 'support':
                     errors = True
-                    print "ERROR: \"%s\" mislabeled \"%s\" as a support search" % (
+                    print "ERROR: \"%s\" mislabeled \"%s\" \
+                        as a support search" % (
                         story_name, ss)
 
     print "%d story manifests checked" % len(story_manifests)
     print "%d search manifests checked" % len(search_manifests)
-    if not errors:
+
+    if errors:
+        sys.exit("Errors found")
+    else:
         print "No errors found"
 
 
