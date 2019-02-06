@@ -11,7 +11,7 @@ import sys
 # HIGH Level Fields
 
 MANIFEST_DIRECTORY = str(environ["CIRCLE_WORKING_DIRECTORY"] +
-        "security-content/")
+        "/security-content")
 
 print MANIFEST_DIRECTORY
 
