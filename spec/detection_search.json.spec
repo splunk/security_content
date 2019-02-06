@@ -205,7 +205,7 @@
               "Sysmon",
               "Tanium",
               "Ziften",
-              "osquery"
+              "OSquery"
             ]
           },
           "minItems": 0,

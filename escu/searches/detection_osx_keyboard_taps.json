@@ -29,7 +29,7 @@
       "Endpoint"
     ],
     "providing_technologies": [
-      "osquery"
+      "OSquery"
     ]
   },
   "eli5": "The search leverages Alerts generated from the osquery osx-attacks.conf pack search `Keyboard_Event_Taps` to detect when a process is monitoring the keystrokes of a machine, This is a common technique used by macOS remote access trojans to log keystrokes from a machine",
