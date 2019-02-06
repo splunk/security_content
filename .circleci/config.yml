@@ -34,7 +34,7 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
 
       - run: *apt-install
 
@@ -70,7 +70,12 @@ jobs:
           name: store updated analyticstories.conf
           command: |
             cd security-content
-            git status
+            git config credential.helper 'cache --timeout=120'
+            git config user.email "research@splunk.com"
+            git config user.name "Deployment Bot"
+            git commit --allow-empty -m "updating src files"
+            # Push quietly to prevent showing the token in log
+            git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
       - store_artifacts:
           path: ~/repo/src/default/analyticstories.conf
           destination: src/default/analyticstories.conf
