@@ -28,12 +28,12 @@ jobs:
   build:
     executor: content-executor
     steps:
-      - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run:
           name: checkout repo
           command: |
             git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run: *apt-install
       - run:
           name: install python dependencies
@@ -62,7 +62,7 @@ jobs:
             source venv/bin/activate
             python bin/manifest_to_usecaselibrary.py
       - persist_to_workspace:
-          root: ~/repo/security-content/src
+          root: security-content/src/default
           paths:
               - analyticstories.conf
               - analytic_stories.conf
