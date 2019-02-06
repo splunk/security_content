@@ -61,7 +61,7 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/manifest_to_usecaselibrary.py
-      - persis_to_workspace:
+      - persist_to_workspace:
           root: ~/repo/security-content/src
           paths:
               - analyticstories.conf
