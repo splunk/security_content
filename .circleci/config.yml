@@ -31,7 +31,10 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - checkout
+      - run:
+          name: checkout repo
+          command: |
+            git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
 
       - run: *apt-install
 
@@ -40,6 +43,7 @@ jobs:
       - run:
           name: install python dependencies
           command: |
+            cd security-content
             rm -rf venv
             virtualenv --clear venv
             source venv/bin/activate
@@ -47,18 +51,26 @@ jobs:
       - run:
           name: run validate manifest
           command: |
+            cd security-content
             source venv/bin/activate
             python bin/validate_manifests.py
       - run:
           name: run manifest to escu
           command: |
+            cd security-content
             source venv/bin/activate
             python bin/manifest_to_escu.py
       - run:
           name: run manifest to usecase library
           command: |
+            cd security-content
             source venv/bin/activate
             python bin/manifest_to_usecaselibrary.py
+      - run:
+          name: store updated analyticstories.conf
+          command: |
+            cd security-content
+            git status
       - store_artifacts:
           path: ~/repo/src/default/analyticstories.conf
           destination: src/default/analyticstories.conf
