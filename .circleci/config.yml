@@ -15,7 +15,7 @@ apt-run: &apt-install
     sudo apt update -s
     sudo apt install -s -y enchant
 
-version: 2
+version: 2.1
 
 executors:
   content-executor:
@@ -99,7 +99,7 @@ jobs:
           destination: src/default/savedsearches.conf
 
 workflows:
-  version: 2
+  version: 2.1
 
   build_and_update_src:
     jobs:
