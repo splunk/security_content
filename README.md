@@ -15,3 +15,6 @@ For getting pre-commit checks, install the hooks see below for steps:
 1. Install circleci [CLI Tool](https://circleci.com/docs/2.0/local-cli/#installation)
 2. create virtualenv and install requirements: `virtualenv venv && source venv/bin/activate && pip install -r requirements.txt`
 3. install pre-commit `pre-commit install`
+
+To test a local change to CI or build make sure you are running docker and then
+`circleci local execute`
