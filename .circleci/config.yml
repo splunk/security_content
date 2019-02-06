@@ -90,7 +90,7 @@ jobs:
             git config user.email "research@splunk.com"
             git config user.name "research bot"
             git add src/default/*
-            git commit --allow-empty -m "updating src files"
+            git commit --allow-empty -m "updating src files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
       - store_artifacts:
