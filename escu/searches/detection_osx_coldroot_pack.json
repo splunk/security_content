@@ -29,7 +29,7 @@
       "Endpoint"
     ],
     "providing_technologies": [
-      "osquery"
+      "OSquery"
     ]
   },
   "eli5": "The search looks at the Alerts data model to identify those  generated from the osquery osx-attacks.conf pack, which search for the ColdRoot RAT.",

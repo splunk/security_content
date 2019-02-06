@@ -3,7 +3,7 @@
   "channel": "ESCU",
   "creation_date": "2019-01-29",
   "description": "Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.",
-  "id": "bd91a2bc-d20b-4f44-a982-1bea98e86390",
+  "id": "ad7eb6e0-f06c-4781-b145-a42bd59c56e9",
   "maintainers": [
     {
       "company": "Splunk",
