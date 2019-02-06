@@ -12,34 +12,29 @@ dependencies:
 apt-run: &apt-install
   name: install system packages
   command: |
-    sudo apt update
-    sudo apt install -y enchant
+    sudo apt update -s
+    sudo apt install -s -y enchant
 
 version: 2
-jobs:
-  build:
+
+executors:
+  content-executor:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:2.7.13
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     working_directory: ~/repo
 
+
+jobs:
+  build:
+    executor: content-executor
     steps:
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run:
           name: checkout repo
           command: |
             git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
-
       - run: *apt-install
-
-      - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run:
           name: install python dependencies
           command: |
@@ -66,15 +61,31 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/manifest_to_usecaselibrary.py
+      - persis_to_workspace:
+          root: ~/repo/security-content/src
+          paths:
+              - analyticstories.conf
+              - analytic_stories.conf
+              - savedsearches.conf
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
+          paths:
+            - "venv"
+  update-sources:
+    executor: content-executor
+    steps:
+      - attach_workspace:
+        # Must be absolute path or relative path from working_directory
+          at: ~/repo/security-content/src 
       - run:
           name: store updated analyticstories.conf
           command: |
             cd security-content
             git config credential.helper 'cache --timeout=120'
             git config user.email "research@splunk.com"
-            git config user.name "Deployment Bot"
+            git config user.name "research bot"
             git add src/default/*
-            git commit --allow-empty -m "updating src files [skip ci]"
+            git commit --allow-empty -m "updating src files"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
       - store_artifacts:
@@ -86,7 +97,13 @@ jobs:
       - store_artifacts:
           path: ~/repo/src/default/savedsearches.conf
           destination: src/default/savedsearches.conf
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
-          paths:
-            - "venv"
+
+workflows:
+  version: 2
+
+  build_and_update_src:
+    jobs:
+      - build
+      - update-sources:
+          requires:
+            - build
