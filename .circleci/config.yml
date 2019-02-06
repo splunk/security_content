@@ -90,7 +90,7 @@ jobs:
             git config user.email "research@splunk.com"
             git config user.name "research bot"
             git add src/default/*
-            git commit --allow-empty -m "updating src files [ci skip]"
+            git commit --allow-empty -m "updating src files"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
       - store_artifacts:
@@ -109,6 +109,10 @@ workflows:
   build_and_update_src:
     jobs:
       - build
+      - hold: # <<< A job that will require manual approval in the CircleCI web application.
+          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+          requires: # We only run the "hold" job when test2 has succeeded
+            - build
       - update-sources:
           requires:
-            - build
+            - hold    
