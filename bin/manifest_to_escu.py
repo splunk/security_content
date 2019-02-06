@@ -10,7 +10,7 @@ import re
 ALL_UUIDS = []
 
 MANIFEST_DIRECTORY = "."
-OUTPUT_DIRECTORY = 'src/'
+OUTPUT_DIRECTORY = 'src/default/'
 
 def markdown(x):
   markdown=str(x)
@@ -372,7 +372,7 @@ def main():
             asconf.write("narrative = %s\n" % narrative)
         asconf.write("\n")
 
-    usconf = open('usage_searches.conf', 'r')
+    usconf = open('src/default/usage_searches.conf', 'r')
     usage_searches = usconf.read()
     usconf.close()
     ssconf.write('####################################################################\n\n')
