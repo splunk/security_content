@@ -74,13 +74,18 @@ jobs:
   update-sources:
     executor: content-executor
     steps:
+      - run:
+          name: checkout repo
+          command: |
+            git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
       - attach_workspace:
         # Must be absolute path or relative path from working_directory
-          at: ~/repo/security-content/src 
+          at: ~/repo/updated 
       - run:
           name: store updated analyticstories.conf
           command: |
             cd security-content
+            cp -v ~/repo/updated/* src/default/
             git config credential.helper 'cache --timeout=120'
             git config user.email "research@splunk.com"
             git config user.name "research bot"
