@@ -25,7 +25,7 @@ executors:
 
 
 jobs:
-  build:
+  validate-content:
     executor: content-executor
     steps:
       - run:
@@ -71,7 +71,7 @@ jobs:
           key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
           paths:
             - "venv"
-  update-sources:
+  build-sources:
     executor: content-executor
     steps:
       - run:
@@ -107,11 +107,11 @@ workflows:
   version: 2.1
   validate:
     jobs:
-      - build
+      - validate-content
   validate-and-build:
     jobs:
-        - build
-        - build_and_update_src:
+      - validate-content
+      - build-sources:
           filters:
             tags:
               only: /^v.*/
