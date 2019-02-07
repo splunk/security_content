@@ -105,12 +105,13 @@ jobs:
 
 workflows:
   version: 2.1
-  build:
+  validate:
     jobs:
       - build
-  build_and_update_src:
+  validate-and-build:
     jobs:
-        - build:
+        - build
+        - build_and_update_src:
           filters:
             tags:
               only: /^v.*/
