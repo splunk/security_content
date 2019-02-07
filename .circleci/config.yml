@@ -30,8 +30,11 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            export BRANCH=if [-z "$CIRCLE_BRANCH"] then "develop" fi
-            git clone --branch $BRANCH https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run: *apt-install
@@ -77,8 +80,10 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            export BRANCH=if [-z "$CIRCLE_BRANCH"] then "develop" fi
-            git clone --branch ${BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
       - attach_workspace:
         # Must be absolute path or relative path from working_directory
           at: ~/repo/updated 
