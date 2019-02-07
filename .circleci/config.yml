@@ -23,7 +23,7 @@ executors:
       - image: circleci/python:2.7.13
     working_directory: ~/repo
     environment:
-        - BRANCH: if [[$CIRCLE_BRANCH] then $CIRCL_BRANCH else develop fi
+        - BRANCH: if [[$CIRCLE_BRANCH] then $CIRCLE_BRANCH else develop fi
 
 
 jobs:
