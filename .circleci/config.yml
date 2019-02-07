@@ -109,7 +109,16 @@ jobs:
       - store_artifacts:
           path: ~/repo/src/default/savedsearches.conf
           destination: src/default/savedsearches.conf
-
+  publish-github-release:
+    docker:
+      - image: cibuilds/github:0.10
+    steps:
+      - attach_workspace:
+          at: ~/repo/update 
+      - run:
+          name: publish release on gitHub
+          command: |
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated
 workflows:
   version: 2.1
   validate-and-build:
@@ -126,5 +135,15 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+      - publish-github-release:
+          requires:
+            - validate-content
+            - build-sources
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
 
             
