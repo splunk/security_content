@@ -30,7 +30,7 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            export BRANCH=if [[$CIRCLE_BRANCH] then $CIRCLE_BRANCH else "develop" fi
+            export BRANCH=if [-z "$CIRCLE_BRANCH"] then "develop" fi
             git clone --branch $BRANCH https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
@@ -77,7 +77,7 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            export BRANCH=if [[$CIRCLE_BRANCH] then $CIRCLE_BRANCH else "develop" fi
+            export BRANCH=if [-z "$CIRCLE_BRANCH"] then "develop" fi
             git clone --branch ${BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
       - attach_workspace:
         # Must be absolute path or relative path from working_directory
