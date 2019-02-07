@@ -84,6 +84,7 @@ jobs:
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
       - attach_workspace:
         # Must be absolute path or relative path from working_directory
           at: ~/repo/updated 
