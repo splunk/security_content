@@ -112,6 +112,10 @@ workflows:
     jobs:
       - validate-content
       - build-sources:
+          requires:
+            - validate-content
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
