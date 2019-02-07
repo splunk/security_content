@@ -117,7 +117,7 @@ jobs:
       - attach_workspace:
           at: ~/repo/updated 
       - run:
-          name: publish release on gitHub
+          name: publish release on github
           command: |
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated
 workflows:
