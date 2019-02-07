@@ -105,9 +105,6 @@ jobs:
 
 workflows:
   version: 2.1
-  validate:
-    jobs:
-      - validate-content
   validate-and-build:
     jobs:
       - validate-content
@@ -117,3 +114,4 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+            
