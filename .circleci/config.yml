@@ -25,7 +25,7 @@ executors:
 
 
 jobs:
-  build:
+  validate-content:
     executor: content-executor
     steps:
       - run:
@@ -71,7 +71,7 @@ jobs:
           key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
           paths:
             - "venv"
-  update-sources:
+  build-sources:
     executor: content-executor
     steps:
       - run:
@@ -105,9 +105,17 @@ jobs:
 
 workflows:
   version: 2.1
-
-  build_and_update_src:
+  validate:
     jobs:
-      - build
-        # implemtent a tag for job update-sources 
-        # https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag
+      - validate-content
+  validate-and-build:
+    jobs:
+      - validate-content
+      - build-sources:
+          requires:
+            - validate-content
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
