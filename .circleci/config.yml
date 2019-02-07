@@ -108,6 +108,9 @@ workflows:
   validate-and-build:
     jobs:
       - validate-content
+          filters:
+            tags:
+              only: /.*/
       - build-sources:
           requires:
             - validate-content
