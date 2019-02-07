@@ -22,6 +22,8 @@ executors:
     docker:
       - image: circleci/python:2.7.13
     working_directory: ~/repo
+    environment:
+        - BRANCH: if [[$CIRCLE_BRANCH] then $CIRCL_BRANCH else develop fi
 
 
 jobs:
@@ -31,7 +33,7 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            git clone --branch ${BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run: *apt-install
@@ -77,7 +79,7 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            git clone --branch ${BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
       - attach_workspace:
         # Must be absolute path or relative path from working_directory
           at: ~/repo/updated 
