@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/splunk/security-content/tree/develop.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/develop)
+
 # security-content
 Contains a collection of security stories with their corresponding detection, investigative, contexual and support splunk searches
 
