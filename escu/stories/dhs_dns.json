@@ -1,30 +1,32 @@
 {
-  "category": "Malware",
+  "category": "Adversary Tactics",
   "channel": "ESCU",
-  "creation_date": "2019-01-29",
-  "description": "Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.",
-  "id": "ad7eb6e0-f06c-4781-b145-a42bd59c56e9",
+  "creation_date": "2019-02-09",
+  "description": "",
+  "id": "ad7eb6e0-f06c-4781-b145-a422d59c26e9",
   "maintainers": [
     {
       "company": "Splunk",
-      "email": "jhernandez@splunk.com",
-      "name": "Jose Hernandez"
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
     }
   ],
-  "modification_date": "2019-01-09",
-  "name": "ColdRoot MacOS RAT",
-  "narrative": "Conventional wisdom holds that Apple's MacOS operating system is significantly less vulnerable to attack than Windows machines. While that point is debatable, it is true that attacks against MacOS systems are much less common. However, this fact does not mean that Macs are impervious to breaches. To the contrary, research has shown that that Mac malware is increasing at an alarming rate. According to AV-test, in 2018, there were 86,865 new MacOS malware variants, up from 27,338 the year before&#151;a 31% increase. In contrast, the independent research firm found that new Windows malware had increased from 65.17M to 76.86M during that same period, less than half the rate of growth. The bottom line is that while the numbers look a lot smaller than Windows, it's definitely time to take Mac security more seriously.<br></br>This Analytic Story addresses the ColdRoot remote access trojan (RAT), which was uploaded to Github in 2016, but was still escaping detection by the first quarter of 2018, when a new, more feature-rich variant was discovered masquerading as an Apple audio driver. Among other capabilities, the Pascal-based ColdRoot can heist passwords from users' keychains and remotely control infected machines without detection. In the initial report of his findings, Patrick Wardle, Chief Research Officer for Digita Security, explained that the new ColdRoot RAT could start and kill processes on the breached system, spawn new remote-desktop sessions, take screen captures and assemble them into a live stream of the victim's desktop, and more.<br></br>Searches in this Analytic Story leverage the capabilities of OSquery to address ColdRoot detection from several different angles, such as looking for the existence of associated files and processes, and monitoring for signs of an installed keylogger.",
+  "modification_date": "2019-02-09",
+  "name": "DHS Report- DNS Hijacking",
+  "narrative": "",
   "original_authors": [
     {
       "company": "Splunk",
-      "email": "jhernandez@splunk.com",
-      "name": "Jose Hernandez"
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
     }
   ],
   "references": [
-    "https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/",
-    "https://objective-see.com/blog/blog_0x2A.html",
-    "https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/"
+    "https://blog.malwarebytes.com/cybercrime/2015/09/dns-hijacks-what-to-look-for/",
+    "https://www.darkreading.com/attacks-breaches/dns-hijacking-the-silent-threat-thats-putting-your-network-at-risk/a/d-id/1330922",
+    "https://blog.talosintelligence.com/2018/11/dnspionage-campaign-targets-middle-east.html",
+    "https://www.fireeye.com/blog/threat-research/2019/01/global-dns-hijacking-campaign-dns-record-manipulation-at-scale.html",
+    "https://www.splunk.com/blog/2019/01/25/cisa-emergency-directive-19-01-doing-things-the-easy-way-in-splunk.html"
   ],
   "searches": {
     "contextual_searches": [
@@ -36,14 +38,25 @@
       "Get Risk Modifiers For Endpoint"
     ],
     "detection_searches": [
-      "Processes Tapping Keyboard Events",
-      "Osquery pack - ColdRoot detection"
+      "Monitor DNS For Brand Abuse",
+      "Clients Connecting to Multiple DNS Servers",
+      "DNS Query Length With High Standard Deviation",
+      "Detection of DNS Tunnels",
+      "Detect hosts connecting to dynamic domain providers",
+      "Detect web traffic to dynamic domain providers",
+      "Excessive DNS Failures",
+      "Detect Long DNS TXT Record Response",
+      "DNS Query Requests Resolved by Unauthorized DNS Servers"
     ],
     "investigative_searches": [
-      "Investigate Network Traffic From src_ip",
+      "Get DNS Server History for a host",
+      "Get DNS traffic ratio",
+      "Get Process responsible for the DNS traffic",
       "Investigate Web Activity From src_ip"
     ],
-    "support_searches": []
+    "support_searches": [
+      "DNSTwist Domain Names"
+    ]
   },
   "spec_version": 1,
   "version": "1.0"
