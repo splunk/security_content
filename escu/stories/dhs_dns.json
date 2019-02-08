@@ -38,14 +38,8 @@
       "Get Risk Modifiers For Endpoint"
     ],
     "detection_searches": [
-      "Monitor DNS For Brand Abuse",
       "Clients Connecting to Multiple DNS Servers",
-      "DNS Query Length With High Standard Deviation",
-      "Detection of DNS Tunnels",
       "Detect hosts connecting to dynamic domain providers",
-      "Detect web traffic to dynamic domain providers",
-      "Excessive DNS Failures",
-      "Detect Long DNS TXT Record Response",
       "DNS Query Requests Resolved by Unauthorized DNS Servers"
     ],
     "investigative_searches": [
