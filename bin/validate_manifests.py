@@ -10,7 +10,10 @@ import sys
 
 # HIGH Level Fields
 
-MANIFEST_DIRECTORY = environ["CIRCLE_WORKING_DIRECTORY"]
+MANIFEST_DIRECTORY = str(environ["CIRCLE_WORKING_DIRECTORY"] +
+        "/security-content")
+
+print MANIFEST_DIRECTORY
 
 STORY_CATEGORIES = [
     "Abuse", "Adversary Tactics", "Best Practices",

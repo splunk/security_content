@@ -12,40 +12,135 @@ dependencies:
 apt-run: &apt-install
   name: install system packages
   command: |
-    sudo apt update
-    sudo apt install -y enchant
+    sudo apt update -qq
+    sudo apt install -y enchant -qq
 
-version: 2
-jobs:
-  build:
+version: 2.1
+
+executors:
+  content-executor:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:2.7.13
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     working_directory: ~/repo
 
+jobs:
+  validate-content:
+    executor: content-executor
     steps:
-      - checkout
-
-      - run: *apt-install
-
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
+      - run: *apt-install
       - run:
           name: install python dependencies
           command: |
+            cd security-content
             rm -rf venv
             virtualenv --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
+      - run:
+          name: run validate manifest
+          command: |
+            cd security-content
+            source venv/bin/activate
             python bin/validate_manifests.py
+      - run:
+          name: run manifest to escu
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/manifest_to_escu.py
+      - run:
+          name: run manifest to usecase library
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/manifest_to_usecaselibrary.py
+      - persist_to_workspace:
+          root: security-content/src/default
+          paths:
+              - analyticstories.conf
+              - analytic_stories.conf
+              - savedsearches.conf
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
           paths:
             - "venv"
+  build-sources:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - attach_workspace:
+        # Must be absolute path or relative path from working_directory
+          at: ~/repo/updated 
+      - run:
+          name: store updated analyticstories.conf
+          command: |
+            cd security-content
+            cp -v ~/repo/updated/* src/default/
+            git config credential.helper 'cache --timeout=120'
+            git config user.email "research@splunk.com"
+            git config user.name "research bot"
+            git config --global push.default simple
+            git add src/default/*
+            git commit --allow-empty -m "updating src files [ci skip]"
+            # Push quietly to prevent showing the token in log
+            git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
+            tar -czvf content-pack.tar.gz src/* 
+      - persist_to_workspace:
+          root: security-content/
+          paths:
+              - content-pack.tar.gz
+  publish-github-release:
+    docker:
+      - image: cibuilds/github:0.10
+    steps:
+      - attach_workspace:
+          at: ~/repo/updated 
+      - run:
+          name: publish release on github
+          command: |
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated/content-pack.tar.gz
+workflows:
+  version: 2.1
+  validate-and-build:
+    jobs:
+      - validate-content:
+          filters:
+            tags:
+              only: /.*/
+      - build-sources:
+          requires:
+            - validate-content
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - publish-github-release:
+          requires:
+            - validate-content
+            - build-sources
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
+
+            
