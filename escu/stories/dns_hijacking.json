@@ -12,7 +12,7 @@
     }
   ],
   "modification_date": "2019-02-09",
-  "name": "DHS Report- DNS Hijacking",
+  "name": "DNS Hijacking detection base on DHS Directive",
   "narrative": "",
   "original_authors": [
     {
@@ -48,9 +48,7 @@
       "Get Process responsible for the DNS traffic",
       "Investigate Web Activity From src_ip"
     ],
-    "support_searches": [
-      "DNSTwist Domain Names"
-    ]
+    "support_searches": []
   },
   "spec_version": 1,
   "version": "1.0"
