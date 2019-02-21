@@ -1,0 +1,81 @@
+{
+  "asset_type": "AWS Instance",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "userName",
+      "rule_description": "An abnormally high number of instances were launched by a user within in a 10-minute window",
+      "rule_title": "High Number of instances launched by $userName$"
+    },
+    "risk": {
+      "risk_object": "userName",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 30
+    },
+    "suppress": {
+      "suppress_fields": "userName",
+      "suppress_period": "3600s"
+    }
+  },
+  "creation_date": "2018-02-26",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
+    ],
+    "data_sourcetypes": [
+      "aws:cloudtrail"
+    ],
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "In this search, we query CloudTrail logs to look for events where an instance is successfully launched by a particular user. Since we want to detect a high number of instances launched within a short period, we create event buckets for 10-minute windows. We then calculate the total number of instances launched by a particular user, as well as the average and standard deviation values. Assign a <code>threshold_value</code> in the search. Start with 3 (but it will likely need to be tweaked for your environment). The <code>eval</code> function will set the outlier 1 if the number of instances is greater than the average number of instances terminated, added to the multiplied value of threshold and standard deviation. For your reference, we then keep only the outliers and calculate the number of standard deviations away the value is from the average.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. The threshold value should be tuned to your environment.",
+  "known_false_positives": "Many service accounts configured within an AWS infrastructure are known to exhibit this behavior. Please adjust the threshold values and filter out service accounts from the output. Always verify if this search alerted on a human user.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 13"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Execution"
+    ],
+    "nist": [
+      "DE.DP",
+      "DE.AE"
+    ]
+  },
+  "modification_date": "2018-02-26",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "*/10 * * * *",
+    "earliest_time": "-30d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | bucket span=10m _time | stats count AS instances_launched by _time userName | eventstats avg(instances_launched) as total_launched_avg, stdev(instances_launched) as total_launched_stdev | eval threshold_value = 4 | eval isOutlier=if(instances_launched > total_launched_avg+(total_launched_stdev * threshold_value), 1, 0) | search isOutlier=1 AND _time >= relative_time(now(), \"-10m@m\") | eval num_standard_deviations_away = round(abs(instances_launched - total_launched_avg) / total_launched_stdev, 2) | table _time, userName, instances_launched, num_standard_deviations_away, total_launched_avg, total_launched_stdev",
+  "search_description": "This search looks for CloudTrail events where a user successfully launches an abnormally high number of instances.",
+  "search_id": "2a9b80d3-6340-4345-b5ad-290bf5d0dac4",
+  "search_name": "Abnormally High AWS Instances Launched by User",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}

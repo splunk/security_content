@@ -1,0 +1,78 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "high",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src_user, file_name",
+      "rule_description": "The sender $src_user$ has sent an email with a suspicious amount of spaces in the file name: $file_name$",
+      "rule_title": "Suspicious Email Attachment from $src_user$"
+    },
+    "risk": {
+      "risk_object": "src_user",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 60
+    },
+    "suppress": {
+      "suppress_fields": "src_user",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2017-04-21",
+  "data_metadata": {
+    "data_models": [
+      "Email"
+    ],
+    "data_source": [
+      "Email"
+    ],
+    "providing_technologies": [
+      "Microsoft Exchange"
+    ]
+  },
+  "eli5": "This search looks at any emails with file attachment names that contain many spaces relative to the length of the file name. Specifically, it checks if spaces make up more than 10% of the number of characters in the file name. This percentage can be tuned for each environment. The search will then output the message ID of the email, the count, the recipient address and the recipient user, first and last time this event was seen and the space ratio of the file attachment name.",
+  "how_to_implement": "You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model. The threshold ratio is set to 10%, but this value can be configured to suit each environment.",
+  "known_false_positives": "None at this time",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 7"
+    ],
+    "kill_chain_phases": [
+      "Delivery"
+    ],
+    "mitre_attack": [],
+    "nist": [
+      "PR.IP"
+    ]
+  },
+  "modification_date": "2017-09-19",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count values(All_Email.recipient) as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name=\"*\" by All_Email.src_user, All_Email.file_name All_Email.message_id | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Email\")` | eval space_ratio = (mvcount(split(file_name,\" \"))-1)/len(file_name) | search space_ratio >= 0.1 |  rex field=recipient_address \"(?<recipient_user>.*)@\"",
+  "search_description": "Attackers often use spaces as a means to obfuscate an attachment's file extension. This search looks for messages with email attachments that have many spaces within the filename.",
+  "search_id": "56e877a6-1455-4479-ada6-0550dc1e22f8",
+  "search_name": "Email Attachments With Lots Of Spaces",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "2.0"
+}

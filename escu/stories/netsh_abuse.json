@@ -1,0 +1,50 @@
+{
+  "category": "Abuse",
+  "channel": "ESCU",
+  "creation_date": "2017-01-04",
+  "description": "Detect activities and various techniques associated with the abuse of <code>netsh.exe</code>, which can disable local firewall settings or set up a remote connection to a host from an infected system.",
+  "id": "2b1800dd-92f9-47ec-a981-fdf1351e5f65",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2017-01-05",
+  "name": "Netsh Abuse",
+  "narrative": "It is a common practice for attackers of all types to leverage native Windows tools and functionality to execute commands for malicious reasons. One such tool on Windows OS is <code>netsh.exe</code>,a command-line scripting utility that allows you to--either locally or remotely--display or modify the network configuration of a computer that is currently running. <code>Netsh.exe</code> can be used to discover and disable local firewall settings. It can also be used to set up a remote connection to a host from an infected system.<br></br>To get started, run the detection search to identify parent processes of <code>netsh.exe</code>.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "references": [
+    "https://technet.microsoft.com/library/bb490939.aspx",
+    "https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html",
+    "http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint",
+      "Get Risk Modifiers For User",
+      "Get Risk Modifiers For Endpoint"
+    ],
+    "detection_searches": [
+      "Processes created by netsh",
+      "Processes launching netsh"
+    ],
+    "investigative_searches": [
+      "Get Process Info",
+      "Get Parent Process Info",
+      "Investigate Web Activity From Host"
+    ],
+    "support_searches": []
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}

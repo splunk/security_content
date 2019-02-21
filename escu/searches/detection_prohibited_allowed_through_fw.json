@@ -1,0 +1,88 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src_ip, dest_ip",
+      "rule_description": "This search looks for network traffic defined by port and transport in the ES lookup table \"lookup_interesting_ports\", that is marked as prohibited, and yet has an 'allow' action in the Network_Traffic data model. This should help to identify areas where a network device is not properly configured.",
+      "rule_title": "Prohibited Network Traffic Allowed from $src_ip$"
+    },
+    "risk": {
+      "risk_object": "src_ip",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
+    "suppress": {
+      "suppress_fields": "dest_ip,src_ip",
+      "suppress_period": "14400s"
+    }
+  },
+  "creation_date": "2017-04-18",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
+    ],
+    "data_source": [
+      "Network Communications"
+    ],
+    "providing_technologies": [
+      "Palo Alto Firewall",
+      "Bro",
+      "Splunk Stream"
+    ]
+  },
+  "eli5": "The search looks for traffic marked 'is_prohibited' in the Enterprise Security lookup table 'interesting_ports_lookup', and then determines if any network devices have an associated 'allow' action on that traffic by checking the Network_Traffic data model.",
+  "how_to_implement": "In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.",
+  "known_false_positives": "None identified",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 9",
+      "CIS 12"
+    ],
+    "kill_chain_phases": [
+      "Delivery",
+      "Command and Control"
+    ],
+    "mitre_attack": [
+      "Command and Control",
+      "Commonly Used Port",
+      "Exfiltration",
+      "Exfiltration Over Alternative Protocol"
+    ],
+    "nist": [
+      "DE.AE",
+      "PR.AC"
+    ]
+  },
+  "modification_date": "2017-09-11",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port OUTPUT app is_prohibited note transport | search is_prohibited=true | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Traffic\")`",
+  "search_description": "This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table \"lookup_interesting_ports\", that is marked as prohibited, and has an associated 'allow' action in the Network_Traffic data model. This could be indicative of a misconfigured network device.",
+  "search_id": "ce5a0962-849f-4720-a678-753fe6674479",
+  "search_name": "Prohibited Network Traffic Allowed",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}

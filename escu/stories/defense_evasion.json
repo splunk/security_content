@@ -1,0 +1,49 @@
+{
+  "category": "Adversary Tactics",
+  "channel": "ESCU",
+  "creation_date": "2017-10-11",
+  "description": "Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious <code>reg.exe</code> processes, files hidden with <code>attrib.exe</code> and disabling user-account control, among many others ",
+  "id": "56e24a28-5003-4047-b2db-e8f3c4618064",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2018-05-31",
+  "name": "Windows Defense Evasion Tactics",
+  "narrative": "Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adversaries employ in a variety of ways to bypass or defeat defensive security measures. There are many techniques enumerated by the MITRE ATT&CK framework that are applicable in this context. This Analytic Story includes searches designed to identify the use of such techniques on Windows platforms.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "references": [
+    "https://attack.mitre.org/wiki/Defense_Evasion"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint"
+    ],
+    "detection_searches": [
+      "Suspicious Reg.exe Process",
+      "Disabling Remote User Account Control",
+      "Hiding Files And Directories With Attrib.exe",
+      "Reg.exe used to hide files/directories via registry keys",
+      "Remote Registry Key modifications"
+    ],
+    "investigative_searches": [
+      "Get Process Info",
+      "Get Parent Process Info"
+    ],
+    "support_searches": []
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}

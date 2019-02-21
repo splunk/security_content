@@ -1,0 +1,87 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, src",
+      "rule_description": "Remote Desktop Traffic detected between $src$ and $dest$.  These two systems typically do not communicate with RDP",
+      "rule_title": "Uncommon Remote Desktop Network Traffic between $src$ and $dest$"
+    },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 50
+    },
+    "suppress": {
+      "suppress_fields": "dest,src",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2016-09-13",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
+    ],
+    "data_source": [
+      "Network Communications"
+    ],
+    "providing_technologies": [
+      "Bro",
+      "Splunk Stream"
+    ]
+  },
+  "eli5": "This search finds systems that do not commonly communicate use remote desktop.  It does this by filtering out all systems that have the \"common_rdp_source\" or \"common_rdp_destination\" category applied to that system.  Categories are applied to systems using the Assets and Identity framework.",
+  "how_to_implement": "To successfully implement this search you need to identify systems that commonly originate remote desktop traffic and that commonly receive remote desktop traffic. You can use the included support search \"Identify Systems Creating Remote Desktop Traffic\" to identify systems that originate the traffic and the search \"Identify Systems Receiving Remote Desktop Traffic\" to identify systems that receive a lot of remote desktop traffic. After identifying these systems, you will need to add the \"common_rdp_source\" or \"common_rdp_destination\" category to that system depending on the usage, using the Enterprise Security Assets and Identities framework.  This can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.",
+  "known_false_positives": "Remote Desktop may be used legitimately by users on the network.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 3",
+      "CIS 9",
+      "CIS 16"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Lateral Movement",
+      "Remote Desktop Protocol",
+      "Commonly Used Port"
+    ],
+    "nist": [
+      "DE.AE",
+      "PR.AC",
+      "PR.IP"
+    ]
+  },
+  "modification_date": "2017-09-15",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(\"All_Traffic\")` | `ctime(firstTime)`| `ctime(lastTime)`",
+  "search_description": "This search looks for network traffic on TCP/3389, the default port used by remote desktop. While remote desktop traffic is not uncommon on a network, it is usually associated with known hosts. This search allows for whitelisting both source and destination hosts to remove them from the output of the search so you can focus on the uncommon uses of remote desktop on your network.",
+  "search_id": "272b8407-842d-4b3d-bead-a704584003d3",
+  "search_name": "Remote Desktop Network Traffic",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}

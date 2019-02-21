@@ -1,0 +1,55 @@
+{
+  "category": "Adversary Tactics",
+  "channel": "ESCU",
+  "creation_date": "2018-05-31",
+  "description": "Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.",
+  "id": "2b1800dd-92f9-47dd-a981-fdf1351e5d55",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-05-31",
+  "name": "Suspicious Windows Registry Activities",
+  "narrative": "Attackers are developing increasingly sophisticated techniques for hijacking target servers, while evading detection. One such technique that has become progressively more common is registry modification.<br></br> The registry is a key component of the Windows operating system. It has a hierarchical database called \"registry\" that contains settings, options, and values for executables. Once the threat actor gains access to a machine, they can use reg.exe to modify their account to obtain administrator-level privileges, maintain persistence, and move laterally within the environment.<br></br> The searches in this story are designed to help you detect behaviors associated with manipulation of the Windows registry.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "references": [
+    "https://redcanary.com/blog/windows-registry-attacks-threat-detection/",
+    "https://attack.mitre.org/wiki/Technique/T1112"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint",
+      "Get Risk Modifiers For User",
+      "Get Risk Modifiers For Endpoint"
+    ],
+    "detection_searches": [
+      "Remote Registry Key modifications",
+      "Suspicious Changes to File Associations",
+      "Disabling Remote User Account Control",
+      "Registry Keys for Creating SHIM Databases",
+      "Monitor Registry Keys for Print Monitors",
+      "Reg.exe used to hide files/directories via registry keys",
+      "Registry Keys Used For Persistence",
+      "Registry Keys Used For Privilege Escalation"
+    ],
+    "investigative_searches": [
+      "Get Process Info",
+      "Get Parent Process Info",
+      "Get Registry Activities"
+    ],
+    "support_searches": []
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}

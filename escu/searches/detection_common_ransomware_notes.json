@@ -1,0 +1,86 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "high",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, file_name",
+      "rule_description": "A file modification associated with a ransomware victim notification file detected on $dest$",
+      "rule_title": "Ransomware Note File detected on $dest$"
+    },
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 80
+    },
+    "suppress": {
+      "suppress_fields": "dest,file_name",
+      "suppress_period": "14400s"
+    }
+  },
+  "creation_date": "2017-08-21",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
+    "data_source": [
+      "Endpoint Intel"
+    ],
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon"
+    ]
+  },
+  "eli5": "This search looks at file modifications in the Change Analysis data model. It checks modified file names against an included lookup file, which contains the names of note files left behind by ransomware (to inform the victim how they can pay the ransom and retrieve their files). The search returns a list of files with matching names.",
+  "how_to_implement": "You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.",
+  "known_false_positives": "It's possible that a legitimate file could be created with the same name used by ransomware note files.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    },
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [],
+    "nist": [
+      "PR.PT",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2018-11-15",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`|`ransomware_notes`",
+  "search_description": "The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.",
+  "search_id": "ada0f478-84a8-4641-a3f1-d82362d6bd71",
+  "search_name": "Common Ransomware Notes",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "2.0"
+}

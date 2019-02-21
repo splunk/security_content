@@ -1,0 +1,85 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src_ip, dest_ip",
+      "rule_description": "Network traffic accessing TOR detected from $src_ip$",
+      "rule_title": "TOR Network Traffic Allowed from $src_ip$"
+    },
+    "risk": {
+      "risk_object": "src_ip",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
+    "suppress": {
+      "suppress_fields": "src_ip",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2017-08-21",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
+    ],
+    "data_source": [
+      "Network Communications"
+    ],
+    "providing_technologies": [
+      "Palo Alto Firewall",
+      "Bro",
+      "Splunk Stream"
+    ]
+  },
+  "eli5": "The search leverages the Enterprise Security Network_Traffic data model to look for network traffic that has been identified as TOR and marked as 'allowed'.",
+  "how_to_implement": "In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.",
+  "known_false_positives": "None at this time",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 9",
+      "CIS 12"
+    ],
+    "kill_chain_phases": [
+      "Command and Control"
+    ],
+    "mitre_attack": [
+      "Command and Control",
+      "Commonly Used Port",
+      "Exfiltration"
+    ],
+    "nist": [
+      "DE.AE"
+    ]
+  },
+  "modification_date": "2017-09-11",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=tor AND All_Traffic.action=allowed by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Traffic\")`",
+  "search_description": "This search looks for network traffic identified as The Onion Router (TOR), a benign anonymity network which can be abused for a variety of nefarious purposes.",
+  "search_id": "ea688274-9c06-4473-b951-e4cb7a5d7a45",
+  "search_name": "TOR Traffic",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}

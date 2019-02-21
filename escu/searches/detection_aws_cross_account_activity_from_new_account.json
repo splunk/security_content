@@ -1,0 +1,82 @@
+{
+  "asset_type": "AWS Instance",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "requestingAccountId, requestedAccountId, src_user, dest_user",
+      "rule_description": "Access to $dest_user$ was requested for the first time by $src_user$",
+      "rule_title": "AWS Account $dest_user$ access by $src_user$"
+    },
+    "risk": {
+      "risk_object": "dest_user",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 20
+    },
+    "suppress": {
+      "suppress_fields": "requestingAccountId, requestedAccountId",
+      "suppress_period": "14400s"
+    }
+  },
+  "creation_date": "2018-02-01",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
+    ],
+    "data_sourcetypes": [
+      "aws:cloudtrail"
+    ],
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "This search<ol><li>Retrieves the <b>AssumeRole</b> event</li><li>Verifies that the log entry contains a value for the account ID of the requesting account</li><li>Ensures that the requesting account ID does not match the account ID of the requested account</li><li>Pulls in the previously seen requesting and requested account IDs</li><li>Splits up and executes multiple search paths at the same.</li><li>The first path determines the <b>firstTime</b> and <b>lastTime</b> entries for the cache file</li><li>Outputs the data to the cache file.</li><li>Creates a conditional statement that is always false (both because we don't want these values to exit the search pipeline and because we think we're clever).</li></ol>The second pipeline adds the <b>firstTime</b> and <b>lastTime</b> entries to search results. Next, it filters out any account pairs that haven't been seen for the first time within the last hour. The <code>isnotnull(_time)</code> will remove the entries from the cache file.<br></br>The search finishes by gathering the data that it will display to the user.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Run the <code>Previously Seen AWS Cross Account Activity</code> support search only once to create the baseline of previously seen cross account activity. Thanks to Pablo Vega at Recurly for suggesting improvements to the search.",
+  "known_false_positives": "Using multiple AWS accounts and roles is perfectly valid behavior. It's suspicious when an account requests privileges of an account it hasn't before. You should validate with the account owner that this is a legitimate request.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 16"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Credential Access"
+    ],
+    "nist": [
+      "PR.AC",
+      "PR.DS",
+      "DE.AE"
+    ]
+  },
+  "modification_date": "2018-11-02",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "5 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail eventName=AssumeRole | spath output=requestingAccountId path=userIdentity.accountId | spath output=requestedAccountId path=resources{}.accountId | search requestingAccountId=* | where requestingAccountId != requestedAccountId | inputlookup append=t previously_seen_aws_cross_account_activity | multireport [| stats min(eval(coalesce(firstTime, strptime(_time,\"%Y-%m-%d %H:%M:%S\")))) as firstTime max(eval(coalesce(strptime(_time,\"%Y-%m-%d %H:%M:%S\"), lastTime))) as lastTime by requestingAccountId, requestedAccountId | outputlookup previously_seen_aws_cross_account_activity | where fact=fiction] [| eventstats min(eval(coalesce(firstTime, strptime(_time,\"%Y-%m-%d %H:%M:%S\")))) as firstTime, max(eval(coalesce(strptime(_time,\"%Y-%m-%d %H:%M:%S\"), lastTime))) as lastTime by requestingAccountId, requestedAccountId | where firstTime >= relative_time(now(), \"-70m@m\") AND isnotnull(_time) | spath output=accessKeyId path=responseElements.credentials.accessKeyId | spath output=requestingARN path=resources{}.ARN | stats values(awsRegion) as awsRegion values(firstTime) as firstTime values(lastTime) as lastTime values(sharedEventID) as sharedEventID, values(requestingARN) as src_user, values(responseElements.assumedRoleUser.arn) as dest_user by _time, requestingAccountId, requestedAccountId, accessKeyId] | table _time, firstTime, lastTime, src_user, requestingAccountId, dest_user, requestedAccountId, awsRegion, accessKeyId, sharedEventID",
+  "search_description": "This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.",
+  "search_id": "64fbbddf-fabf-4edf-80b3-0cc36ef37727",
+  "search_name": "AWS Cross Account Activity From Previously Unseen Account",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "2.0"
+}

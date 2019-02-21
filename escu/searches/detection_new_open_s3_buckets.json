@@ -1,0 +1,84 @@
+{
+  "asset_type": "S3 Bucket",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "user",
+      "rule_description": "An open/public S3 bucket, $bucketName$, was created by $user$.",
+      "rule_title": "Public S3 bucket $bucketName$ created by $user$"
+    },
+    "risk": {
+      "risk_object": "user",
+      "risk_object_type": [
+        "user"
+      ],
+      "risk_score": 70
+    },
+    "suppress": {
+      "suppress_fields": "user,bucketName",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2018-07-25",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
+    ],
+    "data_sourcetypes": [
+      "aws:cloudtrail"
+    ],
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "This search queries CloudTrail logs for events with S3 bucket access controls given to the \"All Users\" group, which allows anyone in the world access to the resource. This search generates a table displaying the time when the bucket was made public, the permission of the S3 bucket, the bucket name, and the ARN of the user who created the bucket.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), and then configure your CloudTrail inputs. The threshold value should be tuned to your environment.",
+  "known_false_positives": "While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the \"All Users\" group.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 13"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Execution",
+      "Initial Access",
+      "Exfiltration"
+    ],
+    "nist": [
+      "PR.DS",
+      "PR.AC",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2018-07-25",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "5 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail AllUsers eventName=PutBucketAcl | spath output=userIdentityArn path=userIdentity.arn | spath output=bucketName path=requestParameters.bucketName | spath output=aclControlList path=requestParameters.AccessControlPolicy.AccessControlList | spath input=aclControlList output=grantee path=Grant{} | mvexpand grantee | spath input=grantee | search Grantee.URI=*AllUsers | rename userIdentityArn as user| table _time, src,awsRegion Permission, Grantee.URI, bucketName, user",
+  "search_description": "This search looks for CloudTrail events where a user has created an open/public S3 bucket.",
+  "search_id": "2a9b80d3-6340-4345-b5ad-290bf3d0dac4",
+  "search_name": "Detect New Open S3 buckets",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}

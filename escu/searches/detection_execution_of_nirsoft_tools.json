@@ -1,0 +1,86 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, user, process",
+      "rule_description": "This search looks for specific arguments passed via the command line and detects execution of tools built by NirSoft, which are often abused by attackers.",
+      "rule_title": "Potential abuse of NirSoft tools on $dest$"
+    },
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 80
+    },
+    "suppress": {
+      "suppress_fields": "dest, process",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2018-09-11",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
+    "data_source": [
+      "Endpoint Intel"
+    ],
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "eli5": "The search looks for process-creation events accompanied by specific command-line arguments (\"scomma\" and \"stext\"). These parameters may be leveraged by a set of free, legitimate tools built by NirSoft. Attackers have been seen abusing the tools' capabilities to steal passwords, set up key loggers, recover account information from mail clients, and conduct other nefarious activities. The search will identify the count, the first and last times a process is executed, the command-line arguments, and the parent process.",
+  "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+  "known_false_positives": "While legitimate, these NirSoft tools are prone to abuse. You should verfiy that the tool was used for a legitimate purpose.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 3"
+    ],
+    "kill_chain_phases": [
+      "Installation",
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Third-party Software",
+      "Account Discovery"
+    ],
+    "nist": [
+      "PR.IP"
+    ]
+  },
+  "modification_date": "2018-12-03",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process=\"* /stext *\" OR Processes.process=\"* /scomma *\" ) by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` |`ctime(lastTime)`",
+  "search_description": "This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.",
+  "search_id": "1297fb80-f42a-4q4a-9c8b-78c061417cf6",
+  "search_name": "Detection of tools built by NirSoft",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "2.0"
+}

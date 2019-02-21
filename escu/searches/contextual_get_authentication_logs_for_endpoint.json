@@ -1,0 +1,47 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2017-04-10",
+  "data_metadata": {
+    "data_models": [
+      "Authentication"
+    ],
+    "data_source": [
+      "Authentication"
+    ],
+    "providing_technologies": [
+      "Microsoft Windows",
+      "Linux",
+      "macOS"
+    ]
+  },
+  "fields_required": [
+    "dest"
+  ],
+  "how_to_implement": "To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2017-11-01",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "search": "| tstats count from datamodel=Authentication where Authentication.dest={dest} by _time, Authentication.dest, Authentication.user, Authentication.app, Authentication.action | `drop_dm_object_name(\"Authentication\")`",
+  "search_description": "This search returns all users that have attempted to access a particular endpoint.",
+  "search_id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+  "search_name": "Get Authentication Logs For Endpoint",
+  "search_type": "contextual",
+  "search_window": {
+    "earliest_time_offset": 43200,
+    "latest_time_offset": 1
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}

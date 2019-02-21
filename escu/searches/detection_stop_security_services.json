@@ -1,0 +1,90 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "high",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, process, user",
+      "rule_description": "Attempt to stop a security-related service on $dest$",
+      "rule_title": "Attempt to Stop Security Service On $dest$"
+    },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 50
+    },
+    "suppress": {
+      "suppress_fields": "dest, user",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2018-04-09",
+  "data_metadata": {
+    "data_source": [
+      "Endpoint Intel"
+    ],
+    "data_sourcetypes": [
+      "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+    ],
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "eli5": "This search looks for the processes <b>net.exe</b> and <b>sc.exe</b> with a parameter of <code>\"stop\"</code>. It then searches a list of security-related services included in a lookup file for matches on the command line. Results are subsequently returned in table format. The included lookup file can be modified to update the services to monitor.",
+  "how_to_implement": "You must be ingesting logs with both the process name and command line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. The search is shipped with a lookup file, <code>security_services.csv</code>, that can be edited to update the list of services to monitor. This lookup file can be edited directly where it lives in <code>$SPLUNK_HOME/etc/apps/DA-ESS-ContentUpdate/lookups</code>, or via the Splunk console. You should add the names of services an attacker might use on the command line and surround with asterisks (<b>*</b>), so that they work properly when searching the command line. The file should be updated with the names of any services you would like to monitor for attempts to stop the service.,",
+  "known_false_positives": "None identified. Attempts to disable security-related services should be identified and understood.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 3",
+      "CIS 5",
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Installation",
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Defense Evasion",
+      "Disabling Security Tools"
+    ],
+    "nist": [
+      "PR.PT",
+      "DE.CM",
+      "PR.IP"
+    ]
+  },
+  "modification_date": "2017-09-15",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational (process=net.exe OR process=sc.exe) cmdline=\"* stop *\" | lookup security_services_lookup service as cmdline OUTPUTNEW category, description | search category=security | table _time, dest, user, parent_process, cmdline, description",
+  "search_description": "This search looks for attempts to stop security-related services on the endpoint.",
+  "search_id": "c8e349c6-b97c-486e-8949-bd7bcd1f3910",
+  "search_name": "Attempt To Stop Security Service",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "1.0"
+}

@@ -1,0 +1,45 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2018-03-12",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
+    ],
+    "data_sourcetypes": [
+      "aws:cloudtrail"
+    ],
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "fields_required": [
+    "user"
+  ],
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-03-12",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "search": "| search sourcetype=aws:cloudtrail user={user} | table _time userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType ",
+  "search_description": "This search lists all the logged CloudTrail activities by a specific user and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and the user's identity information.",
+  "search_id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd76",
+  "search_name": "Investigate AWS User Activities by user field",
+  "search_type": "investigative",
+  "search_window": {
+    "earliest_time_offset": 14400,
+    "latest_time_offset": 0
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}

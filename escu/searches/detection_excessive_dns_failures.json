@@ -1,0 +1,88 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src, query",
+      "rule_description": "This search identifies DNS query failures by counting the number of DNS responses that do not indicate success and triggers on more than 50 occurrences.",
+      "rule_title": "Excessive DNS Failures"
+    },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 20
+    },
+    "suppress": {
+      "suppress_fields": "src,query",
+      "suppress_period": "43200s"
+    }
+  },
+  "creation_date": "2016-09-13",
+  "data_metadata": {
+    "data_models": [
+      "Network_Resolution"
+    ],
+    "data_source": [
+      "DNS"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "eli5": "This search looks at DNS traffic with a reply code that is NOT indicative of a successful response. Numerous unsuccessful replies may be indicative of DNS protocol tampering or other malicious activity. If more than 50 of these unsuccessful responses are observed over the time frame of the search, a notable event will be generated.",
+  "how_to_implement": "To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.",
+  "known_false_positives": "It is possible legitimate traffic can trigger this rule. Please investigate as appropriate. The threshold for generating an event can also be customized to better suit your environment.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 8",
+      "CIS 9",
+      "CIS 12"
+    ],
+    "kill_chain_phases": [
+      "Command and Control"
+    ],
+    "mitre_attack": [
+      "Exfiltration",
+      "Exfiltration Over Alternative Protocol",
+      "Command and Control",
+      "Commonly Used Port"
+    ],
+    "nist": [
+      "PR.PT",
+      "DE.AE",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2017-09-18",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count values(\"DNS.query\") as queries from datamodel=Network_Resolution where nodename=DNS \"DNS.reply_code\"!=\"No Error\" \"DNS.reply_code\"!=\"NoError\" DNS.reply_code!=\"unknown\" NOT \"DNS.query\"=\"*.arpa\" \"DNS.query\"=\"*.*\" by \"DNS.src\",\"DNS.query\"| `drop_dm_object_name(\"DNS\")`| lookup cim_corporate_web_domain_lookup domain as query OUTPUT domain| where isnull(domain)| lookup update=true alexa_lookup_by_str domain as query OUTPUT rank| where isnull(rank)| stats sum(count) as count mode(queries) as queries by src| `get_asset(src)`| where count>50",
+  "search_description": "This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.",
+  "search_id": "104658f4-afdc-499e-9719-17243f9826f1",
+  "search_name": "Excessive DNS Failures",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}

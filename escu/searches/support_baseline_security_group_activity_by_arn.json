@@ -1,0 +1,43 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2018-04-17",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
+    ],
+    "data_sourcetypes": [
+      "aws:cloudtrail"
+    ],
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "Use this search to create a baseline for API calls related to security groups by the users who initiated this activity. It returns all logged API calls for all security-group-related activity, pulls out the ARN that initiated each call, and collects the <code>eventNames</code> in one-hour groupings. Next, it calculates the number of API calls made per ARN per hour. For each ARN, it calculates the average and standard deviation of this count on a per-hour basis. It also includes the number of data points for each ARN. This table is stored in a lookup file.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs. To add or remove API event names for security groups, edit the macro <code>securityGroupAPIs</code>.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-04-17",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-90d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail `securityGroupAPIs` | spath output=arn path=userIdentity.arn | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls) as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls, stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup security_group_activity_baseline | stats count",
+  "search_description": "This search establishes, on a per-hour basis, the average and the standard deviation for the number of API calls related to security groups made by each user. Also recorded is the number of data points for each user. This table is then outputted to a lookup file to allow the detection search to operate quickly.",
+  "search_id": "fc0edd96-ff2b-48b0-9f1f-63da3783fd63",
+  "search_name": "Baseline of Security Group Activity by ARN",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
+}

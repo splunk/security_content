@@ -1,0 +1,45 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2018-10-08",
+  "data_metadata": {
+    "data_source": [
+      "Network Communications"
+    ],
+    "data_sourcetypes": [
+      "stream:http"
+    ],
+    "providing_technologies": [
+      "Splunk Stream"
+    ]
+  },
+  "fields_required": [
+    "session_id"
+  ],
+  "how_to_implement": "This search leverages data extracted from Stream:HTTP. You must configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment server.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-10-08",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "search": "| search sourcetype=stream:http {session_id} | stats values(url) values(http_user_agent) by src_ip status",
+  "search_description": "This search helps an analyst investigate a notable event to find out more about a specific web session. The search looks for a specific web session ID in the HTTP web traffic and outputs the URL and user agents, grouped by source IP address and HTTP status code.",
+  "search_id": "bc91a8cf-35e7-4bb2-1120-e756cc06fd89",
+  "search_name": "Get Web Session Information via session_id",
+  "search_type": "investigative",
+  "search_window": {
+    "earliest_time_offset": 3600,
+    "latest_time_offset": 3600
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}

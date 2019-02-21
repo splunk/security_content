@@ -1,0 +1,43 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2018-01-08",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
+    ],
+    "data_sourcetypes": [
+      "aws:cloudtrail"
+    ],
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "In this support search, we create a table of the first time (earliest) and most recent time (latest) that this region has been seen in our dataset, grouped by the value <code>awsRegion</code>. We only look for those events where an instance has been started. All of these entries will be added to the <code>previously_seen_aws_regions.csv</code> lookup file, which will act like a baseline for detections. Please validate the entries of region names in the lookup file.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-01-08",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-30d@d",
+    "latest_time": "-10m@m"
+  },
+  "search": "sourcetype=aws:cloudtrail StartInstances | stats earliest(_time) as earliest latest(_time) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv | stats count",
+  "search_description": "This search looks for CloudTrail events where an AWS instance is started and creates a baseline of most recent time (latest) and the first time (earliest) we've seen this region in our dataset grouped by the value awsRegion for the last 30 days",
+  "search_id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd63",
+  "search_name": "Previously Seen AWS Regions",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
+}

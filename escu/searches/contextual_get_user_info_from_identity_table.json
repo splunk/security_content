@@ -1,0 +1,42 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2017-04-10",
+  "data_metadata": {
+    "data_source": [
+      "Identity Table"
+    ],
+    "providing_technologies": [
+      "Splunk Enterprise Security"
+    ]
+  },
+  "fields_required": [
+    "user"
+  ],
+  "how_to_implement": "To successfully implement this search you must have populated the identity table with information about your users.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2017-09-20",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "search": "| `identities` | search identity={user} | table _time, identity, first, last, email, category, watchlist",
+  "search_description": "Gather more information about the user identified in the Notable Event.",
+  "search_id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+  "search_name": "Get User Information from Identity Table",
+  "search_type": "contextual",
+  "search_window": {
+    "earliest_time_offset": 864000,
+    "latest_time_offset": 86400
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}
