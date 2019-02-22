@@ -9,10 +9,11 @@ reviewers:
   - d1vious
   - rvaldez617
   - patel-bhavin
+  - russnolen
 
 # A number of reviewers added to the pull request
 # Set 0 to add all the reviewers (default: 0)
-numberOfReviewers: 0
+numberOfReviewers: 1
 
 # A list of assignees, overrides reviewers if set
 # assignees:
