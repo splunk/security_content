@@ -46,7 +46,8 @@
       "Get DNS Server History for a host",
       "Get DNS traffic ratio",
       "Get Process responsible for the DNS traffic",
-      "Investigate Web Activity From src_ip"
+      "Investigate Web Activity From src_ip",
+      "Get History Of Email Sources"
     ],
     "support_searches": []
   },

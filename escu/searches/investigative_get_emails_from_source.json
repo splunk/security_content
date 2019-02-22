@@ -1,0 +1,45 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2019-02-21",
+  "data_metadata": {
+    "data_models": [
+      "Email"
+    ],
+    "data_source": [
+      "Email"
+    ],
+    "providing_technologies": [
+      "Microsoft Exchange"
+    ]
+  },
+  "fields_required": [
+    "src"
+  ],
+  "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "modification_date": "2019-02-21",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email by All_Email.src | `drop_dm_object_name(\"Email\")` | `ctime(firstTime)` | `ctime(lastTime)` | sort -count | rename All_Email.src as source firstTime as \"First Time\", lastTime as \"Last Time\"",
+  "search_description": "This search returns a list of all email sources seen in the 48 hours prior to the notable event to 24 hours after, and the number of emails from each source.",
+  "search_id": "ddc7af28-c34d-4392-af93-7f29a4e8806c",
+  "search_name": "Get History Of Email Sources",
+  "search_type": "investigative",
+  "search_window": {
+    "earliest_time_offset": 172800,
+    "latest_time_offset": 86400
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}
