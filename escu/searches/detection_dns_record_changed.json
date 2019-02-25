@@ -75,6 +75,16 @@
       "name": "Jose Hernandez"
     }
   ],
+  "phantom_playbooks": [
+    {
+      "phantom_server": "automation (hostname)",
+      "playbook_display_name": "DNS record change investigation",
+      "playbook_name": "community/excessive_account_lockouts_enrichment_and_response",
+      "playbook_url": "https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/",
+      "sensitivity": "green",
+      "severity": "medium"
+    }
+  ],
   "scheduling": {
     "cron_schedule": "0 * * * *",
     "earliest_time": "-70m@m",
