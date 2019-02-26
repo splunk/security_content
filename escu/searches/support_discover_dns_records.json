@@ -3,7 +3,7 @@
   "creation_date": "2019-02-14",
   "data_metadata": {
     "data_models": [
-      "Network_Traffic"
+      "Network_Resolution"
     ],
     "data_source": [
       "Network Communication"
