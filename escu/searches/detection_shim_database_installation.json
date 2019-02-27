@@ -74,7 +74,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "(sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational OR tag=process) process=*sdbinst* cmdline=\"*-p*\" cmdline=\"*-q*\" | stats count min(_time) as firstTime max(_time) as lastTime by dest, user, process, cmdline | `ctime(firstTime)`| `ctime(lastTime)`",
+  "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sdbinst.exe Processes.process=\"*-p*\" Processes.process=\"*-q*\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`",
   "search_description": "This search detects the process execution and arguments required to silently create a shim database.  The sdbinst.exe application is used to install shim database files (.sdb). A shim is a small library which transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.",
   "search_id": "404620de-46d8-48b6-90cc-8a8d7b0876a3",
   "search_name": "Shim Database Installation With Suspicious Parameters",

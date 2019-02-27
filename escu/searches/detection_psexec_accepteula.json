@@ -4,7 +4,7 @@
   "confidence": "medium",
   "correlation_rule": {
     "notable": {
-      "nes_fields": "dest,parent_process",
+      "nes_fields": "dest,process_name",
       "rule_description": "The process pssxec.exe was run with the -accepteula flag on $dest$ by $user$.",
       "rule_title": "PsExec executed with accepteula flag on $dest$."
     },
@@ -16,7 +16,7 @@
       "risk_score": 75
     },
     "suppress": {
-      "suppress_fields": "dest, parent_process",
+      "suppress_fields": "dest, process_name",
       "suppress_period": "86400s"
     }
   },
@@ -58,7 +58,7 @@
       "DE.CM"
     ]
   },
-  "modification_date": "2018-03-28",
+  "modification_date": "2019-02-26",
   "original_authors": [
     {
       "company": "Splunk",
@@ -71,7 +71,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "sourcetype=xmlwineventlog:microsoft-windows-sysmon/operational process=PsExec.exe accepteula  | search cmdline=*accepteula* | stats count values(cmdline) as cmdlines, min(_time) as firstTime, max(_time) as lastTime by dest, user, parent_process | `ctime(firstTime)`| `ctime(lastTime)` | table firstTime, lastTime, count, dest, user, parent_process, cmdlines",
+  "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = PsExec.exe Processes.process = \"*accepteula*\" by Processes.process_name Processes.dest  Processes.parent_process_name | `drop_dm_object_name(Processes)`| `ctime(firstTime)`| `ctime(lastTime)`",
   "search_description": "This search looks for events where <code>PsExec.exe</code> is run with the <code>accepteula</code> flag in the command line. PsExec is a built-in Windows utility that enables you to execute processes on other systems. It is fully interactive for console applications. This tool is widely used for launching interactive command prompts on remote systems. Threat actors leverage this extensively for executing code on compromised systems. If an attacker is running PsExec for the first time, they will be prompted to accept the end-user license agreement (EULA), which can be passed as the argument <code>accepteula</code> within the command line.",
   "search_id": "b89919ed-fe5f-492c-b139-151xb162040e",
   "search_name": "Detect PsExec With accepteula Flag",

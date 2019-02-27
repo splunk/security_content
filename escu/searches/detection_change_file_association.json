@@ -22,11 +22,11 @@
   },
   "creation_date": "2018-01-26",
   "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
     "data_source": [
       "Endpoint Intel"
-    ],
-    "data_sourcetypes": [
-      "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
     ],
     "providing_technologies": [
       "Carbon Black Response",

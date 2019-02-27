@@ -4,8 +4,8 @@
   "confidence": "medium",
   "correlation_rule": {
     "notable": {
-      "nes_fields": "dest, user, process, cmdline",
-      "rule_description": "The system $dest$ executed a command-line argument, $cmdline$, that has not previously been seen.",
+      "nes_fields": "dest, user, process",
+      "rule_description": "The system $dest$ executed a command-line argument, $process$, that has not previously been seen.",
       "rule_title": "First-time seen command-line argument was detected on $dest$."
     },
     "risk": {
@@ -16,17 +16,17 @@
       "risk_score": 50
     },
     "suppress": {
-      "suppress_fields": "dest, process, cmdline",
+      "suppress_fields": "dest, process",
       "suppress_period": "86400s"
     }
   },
   "creation_date": "2018-04-09",
   "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
     "data_source": [
       "Endpoint Intel"
-    ],
-    "data_sourcetypes": [
-      "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
     ],
     "providing_technologies": [
       "Carbon Black Response",
@@ -67,7 +67,7 @@
       "PR.IP"
     ]
   },
-  "modification_date": "2018-04-16",
+  "modification_date": "2019-26-02",
   "original_authors": [
     {
       "company": "Splunk",
