@@ -75,7 +75,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe by Processes.parent_process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` |search [`prohibited_apps_launching_cmd`]",
+  "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe by Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` |search [`prohibited_apps_launching_cmd`]",
   "search_description": "This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe.",
   "search_id": "dcfd6b40-42f9-469d-a433-2e53f7486664",
   "search_name": "Detect Prohibited Applications Spawning cmd.exe",

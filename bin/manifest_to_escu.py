@@ -1,56 +1,38 @@
-'''
-Take the manifest files and build files for Enterprise Security Content Updates with markdown syntax
-'''
+# Take the manifest files and build files for Enterprise Security Content Updates with markdown syntax
+
 import datetime
 import glob
 import json
 import os
-import re
 
 ALL_UUIDS = []
 
 MANIFEST_DIRECTORY = "."
 OUTPUT_DIRECTORY = 'src/default/'
 
+
 def markdown(x):
-  markdown=str(x)
+    markdown = str(x)
+    markdown = markdown.replace("<code>", "`")
+    markdown = markdown.replace("</code>", "`")
+    markdown = markdown.replace("<b>", "**")
+    markdown = markdown.replace("</b>", "**")
+    # list tag replacements
+    markdown = markdown.replace("<ol><li>", "\\\n\\\n1. ")
+    markdown = markdown.replace("</li><li>", "\\\n\\\n1. ")
+    markdown = markdown.replace("</li></ol>", "")
+    markdown = markdown.replace("</li></ul>", "")
+    markdown = markdown.replace("<ul><li>", "\\\n\\\n1. ")
+    # break tags replacements
+    markdown = markdown.replace("<br></br>", "\\\n\\\n")
+    markdown = markdown.replace("<br/><br/>", "\\\n\\\n")
+    markdown = markdown.replace("<br/>", "\\\n\\\n")
+    return markdown
 
-
-  #code and bold tags
-  markdown = markdown.replace("<code>","`")
-  markdown = markdown.replace("</code>","`")
-  markdown = markdown.replace("<b>","**")
-  markdown = markdown.replace("</b>","**")
-  #list tag replacements
-  markdown = markdown.replace("<ol><li>","\\\n\\\n1. ")
-  markdown = markdown.replace("</li><li>","\\\n\\\n1. ")
-  markdown = markdown.replace("</li></ol>","")
-  markdown = markdown.replace("</li></ul>","")
-  markdown = markdown.replace("<ul><li>","\\\n\\\n1. ")
-
-  #break tags replacements
-  markdown = markdown.replace("<br></br>","\\\n\\\n")
-  markdown = markdown.replace("<br/><br/>","\\\n\\\n")
-  markdown = markdown.replace("<br/>","\\\n\\\n")
-
- #investigative and contextual seaches
-  exp ="({\w+})"
-
-  token=re.findall(exp,markdown)
-  if token:
-    markdown = markdown.replace("{","$")
-    markdown = markdown.replace("}","$")
-    markdown = markdown.replace("$$","{}")
-
-
-
-  return markdown
 
 def main():
-    ''' Create conf files from manifest files '''
-
+    # Create conf files from manifest files
     ssconf = open(OUTPUT_DIRECTORY + 'savedsearches.conf', 'w')
-    #csconf = open(OUTPUT_DIRECTORY + 'correlationsearches.conf', 'w')
     asconf = open(OUTPUT_DIRECTORY + 'analytic_stories.conf', 'w')
 
     story_manifests = []
@@ -104,18 +86,20 @@ def main():
         full_stories[story['name']]['support_searches'] = []
         all_searches = []
         if 'detection_searches' in story['searches']:
-            full_stories[story['name']]['detection_searches'] = ["ESCU - %s - Rule" % ds for ds in story['searches']['detection_searches']]
-
-            #print full_stories[story['name']]['detection_searches']
+            full_stories[story['name']]['detection_searches'] = ["ESCU - %s - Rule" % ds for ds in
+                                                                 story['searches']['detection_searches']]
             all_searches += story['searches']['detection_searches']
         if 'investigative_searches' in story['searches']:
-            full_stories[story['name']]['investigative_searches'] = ["ESCU - " + invs for invs in story['searches']['investigative_searches']]
+            full_stories[story['name']]['investigative_searches'] = ["ESCU - " + invs for invs in
+                                                                     story['searches']['investigative_searches']]
             all_searches += story['searches']['investigative_searches']
         if 'contextual_searches' in story['searches']:
-            full_stories[story['name']]['contextual_searches'] = ["ESCU - " + cs for cs in story['searches']['contextual_searches']]
+            full_stories[story['name']]['contextual_searches'] = ["ESCU - " + cs for cs in
+                                                                  story['searches']['contextual_searches']]
             all_searches += story['searches']['contextual_searches']
         if 'support_searches' in story['searches']:
-            full_stories[story['name']]['support_searches'] = ["ESCU - " + ss for ss in story['searches']['support_searches']]
+            full_stories[story['name']]['support_searches'] = ["ESCU - " + ss for ss in
+                                                               story['searches']['support_searches']]
             all_searches += story['searches']['support_searches']
 
         # Mark each search with what analytic stories it belongs too
@@ -200,7 +184,6 @@ def main():
         if 'data_models' in search['data_metadata']:
             ssconf.write("action.escu.data_models = %s\n" % json.dumps(search['data_metadata']['data_models']))
 
-
         if search['search_type'] == 'detection':
             ssconf.write("action.escu.full_search_name = ESCU - %s - Rule\n" % search['search_name'])
         else:
@@ -208,16 +191,16 @@ def main():
         if 'mappings' in search:
             ssconf.write("action.escu.mappings = %s\n" % json.dumps(search['mappings']))
         if 'known_false_positives' in search:
-            known_false_positives=markdown(search['known_false_positives'])
+            known_false_positives = markdown(search['known_false_positives'])
             ssconf.write("action.escu.known_false_positives = %s\n" % known_false_positives)
         else:
             ssconf.write("action.escu.known_false_positives = None at this time\n")
 
-
         if 'search_type' in search:
             ssconf.write("action.escu.search_type = %s\n" % search['search_type'])
         if 'providing_technologies' in search['data_metadata']:
-            ssconf.write("action.escu.providing_technologies = %s\n" % json.dumps(search['data_metadata']['providing_technologies']))
+            ssconf.write("action.escu.providing_technologies = %s\n" %
+                         json.dumps(search['data_metadata']['providing_technologies']))
         if 'analytic_story' in search:
             ssconf.write("action.escu.analytic_story = %s\n" % json.dumps(search['analytic_story']))
         if 'fields_required' in search:
@@ -227,19 +210,15 @@ def main():
             ssconf.write("action.escu.latest_time_offset = %s\n" % search['search_window']['latest_time_offset'])
 
         if 'phantom_playbooks' in search:
-            #print "Found"
+
             for p in (search['phantom_playbooks']):
-
-                playbook_name=p['playbook_name']
                 ssconf.write("action.runphantomplaybook = 1\n")
-
                 ssconf.write("action.runphantomplaybook.param.phantom_server = %s\n" % p['phantom_server'])
                 ssconf.write("action.runphantomplaybook.param.playbook_name = %s\n" % p['playbook_name'])
                 ssconf.write("action.runphantomplaybook.param.playbook_display_name = %s\n" % p['playbook_display_name'])
                 ssconf.write("action.runphantomplaybook.param.playbook_url = %s\n" % p['playbook_url'])
                 ssconf.write("action.runphantomplaybook.param.sensitivity = %s\n" % p['sensitivity'])
                 ssconf.write("action.runphantomplaybook.param.severity = %s\n" % p['severity'])
-
 
         if 'correlation_rule' in search:
             ssconf.write("action.correlationsearch.enabled = 1\n")
@@ -249,8 +228,10 @@ def main():
                 ssconf.write("action.notable = 1\n")
                 if 'nes_fields' in search['correlation_rule']['notable']:
                     ssconf.write("action.notable.param.nes_fields = %s\n" % search['correlation_rule']['notable']['nes_fields'])
-                ssconf.write("action.notable.param.rule_description = %s\n" % search['correlation_rule']['notable']['rule_description'])
-                ssconf.write("action.notable.param.rule_title = %s\n" % search['correlation_rule']['notable']['rule_title'])
+                ssconf.write("action.notable.param.rule_description = %s\n" %
+                             search['correlation_rule']['notable']['rule_description'])
+                ssconf.write("action.notable.param.rule_title = %s\n" %
+                             search['correlation_rule']['notable']['rule_title'])
                 ssconf.write("action.notable.param.security_domain = %s\n" % search['security_domain'])
                 ssconf.write("action.notable.param.severity = %s\n" % search['confidence'])
 
@@ -258,37 +239,45 @@ def main():
                 for cs in contextual_searches:
                     cs_string += "     - %s\\n" % cs
 
-
                 invs_string = ""
                 for invs in investigative_searches:
                     invs_string += "     - %s\\n" % invs
 
-
                 if 'phantom_playbooks' in search:
-                    #print type(search['phantom_playbooks'])
+
                     for p in (search['phantom_playbooks']):
-                        playbook_next_steps_string="Splunk>Phantom Response Playbook - Monitor enrichment of the Splunk>Phantom Playbook called " + str(p['playbook_display_name']) + " and answer any analyst prompts in Mission Control with a response decision. Link to the playbook " + str(p['playbook_url'])
-                        #print playbook_next_steps_string
-
-                        next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n1. [[action|runphantomplaybook]]: Phantom playbook recommendations:\\n%s\\n2. [[action|escu_contextualize]]: Based on ESCU context gathering recommendations:\\n%s\\n3. [[action|escu_investigate]]: Based on ESCU investigate recommendations:\\n%s\"}" % (playbook_next_steps_string,cs_string, invs_string)
+                        playbook_next_steps_string = "Splunk>Phantom Response Playbook - Monitor enrichment of the \
+                            Splunk>Phantom Playbook called " + str(p['playbook_display_name']) + " and answer any \
+                            analyst prompt in Mission Control with a response decision. \
+                            Link to the playbook " + str(p['playbook_url'])
+                        next_steps = "{\"version\": 1, \"data\": \"Recommended following \
+                            steps:\\n\\n1. [[action|runphantomplaybook]]: Phantom playbook \
+                            recommendations:\\n%s\\n2. [[action|escu_contextualize]]: Based \
+                            on ESCU context gathering recommendations:\\n%s\\n3. [[action|escu_investigate]]: \
+                            Based on ESCU investigate recommendations:\\n%s\"}" % (playbook_next_steps_string,
+                                                                                   cs_string, invs_string)
                         ssconf.write("action.notable.param.next_steps = %s\n" % next_steps)
-                        ssconf.write("action.notable.param.recommended_actions = runphantomplaybook, escu_contextualize, escu_investigate\n")
+                        ssconf.write("action.notable.param.recommended_actions = runphantomplaybook, \
+                            escu_contextualize, escu_investigate\n")
 
-                elif 'phantom_playbooks' not in search :
+                elif 'phantom_playbooks' not in search:
 
-                        next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n1. [[action|escu_contextualize]]: Based on ESCU context gathering recommendations:\\n%s\\n2. [[action|escu_investigate]]: Based on ESCU investigate recommendations:\\n%s\"}" % (cs_string, invs_string)
-                        ssconf.write("action.notable.param.next_steps = %s\n" % next_steps)
-                        ssconf.write("action.notable.param.recommended_actions = escu_contextualize, escu_investigate\n")
-
-
+                    next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n1. \
+                            [[action|escu_contextualize]]: Based on ESCU context gathering recommendations:\\n%s\\n2. \
+                            [[action|escu_investigate]]: Based on ESCU investigate \
+                            recommendations:\\n%s\"}" % (cs_string, invs_string)
+                    ssconf.write("action.notable.param.next_steps = %s\n" % next_steps)
+                    ssconf.write("action.notable.param.recommended_actions = escu_contextualize, escu_investigate\n")
 
             if 'risk' in search['correlation_rule']:
                 ssconf.write("action.risk = 1\n")
                 ssconf.write("action.risk.param._risk_object = %s\n" % search['correlation_rule']['risk']['risk_object'])
                 try:
-                    ssconf.write("action.risk.param._risk_object_type = %s\n" % search['correlation_rule']['risk']['risk_object_type'][0])
-                except:
+                    ssconf.write("action.risk.param._risk_object_type = %s\n" %
+                                 search['correlation_rule']['risk']['risk_object_type'][0])
+                except Exception as e:
                     print "Error is risk object type %s" % search['correlation_rule']['risk']['risk_object_type']
+                    print
                     continue
 
                 if len(search['correlation_rule']['risk']['risk_object_type']) > 1:
@@ -326,11 +315,7 @@ def main():
         ssconf.write("search = %s\n" % search)
         ssconf.write("\n")
 
-
-
-    #
     # Finish the story
-    #
     for story_name, story in sorted(full_stories.iteritems()):
         asconf.write("[%s]\n" % story_name)
         asconf.write("category = %s\n" % story['category'])
@@ -359,8 +344,6 @@ def main():
         asconf.write("providing_technologies = %s\n" % json.dumps(tex))
         if story['detection_searches']:
             asconf.write("detection_searches = %s\n" % json.dumps(story['detection_searches']))
-            #print str(json.dumps(story['detection_searches']))
-
         if story['investigative_searches']:
             asconf.write("investigative_searches = %s\n" % json.dumps(story['investigative_searches']))
         if story['contextual_searches']:
@@ -377,13 +360,12 @@ def main():
     usconf.close()
     ssconf.write('####################################################################\n\n')
     ssconf.write(usage_searches)
-
     asconf.close()
-    #csconf.close()
     ssconf.close()
 
     print "-----> ESCU ------- analytic_stories.conf file written for ESCU with Markdown"
     print "-----> ESCU------- savedsearches.conf file written for ESCU with Markdown"
+
 
 if __name__ == "__main__":
     main()
