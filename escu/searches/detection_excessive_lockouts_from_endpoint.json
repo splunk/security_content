@@ -81,7 +81,7 @@
     "earliest_time": "-4h@h",
     "latest_time": "-5m@m"
   },
-  "search": "sourcetype=WinEventLog:Security EventCode=4740 | stats count min(_time) as firstTime max(_time) as lastTime by dest, signature | `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
+  "search": "eventtype = wineventlog_security  signature_id=4740 | stats count min(_time) as firstTime max(_time) as lastTime by dest, signature | `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
   "search_description": "This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.",
   "search_id": "d4f5a28c-d889-4692-a8de-073c09d2c469",
   "search_name": "Detect Excessive Account Lockouts From Endpoint",

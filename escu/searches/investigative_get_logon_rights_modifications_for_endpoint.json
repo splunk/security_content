@@ -6,7 +6,7 @@
       "Windows Event Logs"
     ],
     "data_sourcetypes": [
-      "WinEventLog:Security"
+      "eventtype=wineventlog_security"
     ],
     "providing_technologies": [
       "Microsoft Windows"
@@ -31,7 +31,7 @@
       "name": "David Dorsey"
     }
   ],
-  "search": "| search sourcetype=WinEventLog:Security (EventCode=4718 OR EventCode=4717) dest={dest} | rename user as \"Account Modified\" | table _time, dest, \"Account Modified\", Access_Right, signature",
+  "search": "| search eventtype=wineventlog_security (signature_id=4718 OR signature_id=4717) dest={dest} | rename user as \"Account Modified\" | table _time, dest, \"Account Modified\", Access_Right, signature",
   "search_description": "This search allows you to retrieve any modifications to logon rights associated with a specific host.",
   "search_id": "03bffe94-ec7a-4cbe-b677-6af40d1c4505",
   "search_name": "Get Logon Rights Modifications For Endpoint",

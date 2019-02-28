@@ -26,7 +26,7 @@
       "Windows Event Logs"
     ],
     "data_sourcetypes": [
-      "wineventlog:security"
+      "wineventlog_security"
     ],
     "providing_technologies": [
       "Microsoft Windows"
@@ -73,7 +73,7 @@
     "earliest_time": "-1440m@m",
     "latest_time": "-10m@m"
   },
-  "search": "sourcetype=wineventlog:security EventCode=4720 OR (EventCode=4732 Group_Name= Administrators) | transaction Security_ID maxspan=180m | search EventCode=4720 EventCode=4732 | table _time user dest EventCode Security_ID Group_Name src_user Message",
+  "search": "eventtype = wineventlog_security signature_id=4720 OR (signature_id=4732 Group_Name= Administrators) | transaction Security_ID maxspan=180m | search signature_id=4720 signature_id=4732 | table _time user dest signature_id Security_ID Group_Name src_user Message",
   "search_description": "This search looks for newly created accounts that have been elevated to local administrators.",
   "search_id": "b25f6f62-0712-43c1-b203-083231ffd97d",
   "search_name": "Detect New Local Admin account",

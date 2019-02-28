@@ -46,7 +46,6 @@
     "detection_searches": [
       "Identify New User Accounts",
       "Short Lived Windows Accounts",
-      "Detect Excessive User Account Lockouts",
       "Detect Excessive Account Lockouts From Endpoint"
     ],
     "investigative_searches": [
