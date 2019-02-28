@@ -6,7 +6,7 @@
       "Windows Event Logs"
     ],
     "data_sourcetypes": [
-      "WinEventLog:System"
+      "wineventlog_system"
     ],
     "providing_technologies": [
       "Microsoft Windows"

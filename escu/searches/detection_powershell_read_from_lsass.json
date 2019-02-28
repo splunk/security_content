@@ -26,7 +26,7 @@
       "Windows Event Logs"
     ],
     "data_sourcetypes": [
-      "wineventlog:security"
+      "wineventlog_security"
     ],
     "providing_technologies": [
       "Microsoft Windows"
@@ -61,7 +61,7 @@
       "DE.CM"
     ]
   },
-  "modification_date": "2018-08-28",
+  "modification_date": "2019-02-28",
   "original_authors": [
     {
       "company": "Splunk",
@@ -74,7 +74,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "sourcetype=wineventlog:security EventCode=4663 Process_Name=*powershell.exe Object_Name=*lsass.exe Access_Mask=0x10 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Process_Name, Process_ID, Message | rename Process_Name as process | `ctime(firstTime)`| `ctime(lastTime)`",
+  "search": "eventtype = wineventlog_security signature_id=4663 Process_Name=*powershell.exe Object_Name=*lsass.exe Access_Mask=0x10 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Process_Name, Process_ID, Message | rename Process_Name as process | `ctime(firstTime)`| `ctime(lastTime)`",
   "search_description": "This search looks for PowerShell reading lsass memory consistent with credential dumping.",
   "search_id": "2c365e57-4414-4540-8dc0-73ab10729996",
   "search_name": "Detect Mimikatz Via PowerShell And EventCode 4663",
