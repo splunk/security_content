@@ -23,7 +23,7 @@
   "creation_date": "2017-08-17",
   "data_metadata": {
     "data_models": [
-      "Endpoint"
+      "Change"
     ],
     "data_source": [
       "Windows Event Logs"
