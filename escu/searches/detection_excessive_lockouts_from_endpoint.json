@@ -22,18 +22,18 @@
   },
   "creation_date": "2017-08-17",
   "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
     "data_source": [
       "Windows Event Logs"
-    ],
-    "data_sourcetypes": [
-      "WinEventLog:Security"
     ],
     "providing_technologies": [
       "Microsoft Windows"
     ]
   },
-  "eli5": "This search looks for the Windows event code 4740 within your Windows Security Logs, which indicates that an account has been locked out. It then counts the number of times an endpoint has caused an account lockout within a four hour window and displays those hosts with a count greater than or equal to five.",
-  "how_to_implement": "While this search does not require you to adhere to Splunk CIM, you must ingest your Windows security event logs in order for this search to execute successfully.<br></br> <b>Splunk>Phantom Playbook Integration</b><br></br>If Splunk>Phantom is also configured in your environment, a Playbook called \"Excessive Account Lockouts Enrichment and Response\" can be configured to run when any results are found by this detection search. The Playbook executes the Contextual and Investigative searches in this Story, conducts additional information gathering on Windows endpoints, and takes a response action to shut down the affected endpoint. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. <br/>(Playbook Link:<code>https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/</code>).<br></br>",
+  "eli5": "This search queries the `Change.All_Changes` datamodel under the nodename is `Account_Management` , where the result is \"lockout\", which indicates that an account has been locked out. It then counts the number of times an endpoint has caused an account lockout within a four hour window and displays those hosts with a count greater than or equal to five.",
+  "how_to_implement": "You must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.  <br></br> <b>Splunk>Phantom Playbook Integration</b><br></br>If Splunk>Phantom is also configured in your environment, a Playbook called \"Excessive Account Lockouts Enrichment and Response\" can be configured to run when any results are found by this detection search. The Playbook executes the Contextual and Investigative searches in this Story, conducts additional information gathering on Windows endpoints, and takes a response action to shut down the affected endpoint. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. <br/>(Playbook Link:<code>https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/</code>).<br></br>",
   "known_false_positives": "It's possible that a widely used system, such as a kiosk, could cause a large number of account lockouts.",
   "maintainers": [
     {
@@ -58,7 +58,7 @@
       "PR.IP"
     ]
   },
-  "modification_date": "2017-09-23",
+  "modification_date": "2019-02-28",
   "original_authors": [
     {
       "company": "Splunk",
@@ -81,7 +81,7 @@
     "earliest_time": "-4h@h",
     "latest_time": "-5m@m"
   },
-  "search": "eventtype = wineventlog_security  signature_id=4740 | stats count min(_time) as firstTime max(_time) as lastTime by dest, signature | `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
+  "search": "e| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management All_Changes.result=\"lockout\" by  All_Changes.user All_Changes.dest All_Changes.result |`drop_dm_object_name(\"All_Changes\")` |`drop_dm_object_name(\"Account_Management\")`| `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
   "search_description": "This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.",
   "search_id": "d4f5a28c-d889-4692-a8de-073c09d2c469",
   "search_name": "Detect Excessive Account Lockouts From Endpoint",
