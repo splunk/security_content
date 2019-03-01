@@ -2,11 +2,11 @@
   "channel": "ESCU",
   "creation_date": "2017-08-16",
   "data_metadata": {
+    "data_eventtypes": [
+      "wineventlog_security"
+    ],
     "data_source": [
       "Windows Event Logs"
-    ],
-    "data_sourcetypes": [
-      "wineventlog_security"
     ],
     "providing_technologies": [
       "Microsoft Windows"

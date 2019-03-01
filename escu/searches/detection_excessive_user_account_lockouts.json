@@ -1,0 +1,79 @@
+{
+  "asset_type": "Windows",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "user",
+      "rule_description": "The account $user$ has been locked out an excessive number of times",
+      "rule_title": "$user$ locked account an excessive number of times"
+    },
+    "risk": {
+      "risk_object": "user",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
+    "suppress": {
+      "suppress_fields": "user",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2017-08-17",
+  "data_metadata": {
+    "data_models": [
+      "Change"
+    ],
+    "data_source": [
+      "Windows Event Logs"
+    ],
+    "providing_technologies": [
+      "Microsoft Windows"
+    ]
+  },
+  "eli5": "This search queries the `Change.All_Changes` datamodel under the nodename is `Account_Management` , where the result is \"lockout\", which indicates that an account has been locked out. It then counts the number of times a user  has caused an account lockout within a four hour window and displays those users with a count greater than or equal to five.",
+  "how_to_implement": "ou must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.",
+  "known_false_positives": "It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 16"
+    ],
+    "mitre_attack": [
+      "Valid Accounts"
+    ],
+    "nist": [
+      "PR.IP"
+    ]
+  },
+  "modification_date": "2019-03-01",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-4h@h",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management All_Changes.result=\"lockout\" by All_Changes.user All_Changes.result |`drop_dm_object_name(\"All_Changes\")` |`drop_dm_object_name(\"Account_Management\")`| `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
+  "search_description": "This search detects user accounts that have been locked out a relatively high number of times in a short period.",
+  "search_id": "95a7f9a5-6096-437e-a19e-86f42ac609bd",
+  "search_name": "Detect Excessive User Account Lockouts",
+  "search_type": "detection",
+  "security_domain": "access",
+  "spec_version": 1,
+  "status": "production",
+  "team_notes": "",
+  "version": "1.0"
+}

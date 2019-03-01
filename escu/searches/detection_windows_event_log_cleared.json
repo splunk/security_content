@@ -22,12 +22,12 @@
   },
   "creation_date": "2017-02-17",
   "data_metadata": {
-    "data_source": [
-      "Microsoft Windows"
-    ],
-    "data_sourcetypes": [
+    "data_eventtypes": [
       "wineventlog_security",
       "wineventlog_system"
+    ],
+    "data_source": [
+      "Microsoft Windows"
     ],
     "providing_technologies": [
       "Microsoft Windows"

@@ -22,11 +22,11 @@
   },
   "creation_date": "2018-03-26",
   "data_metadata": {
+    "data_eventtypes": [
+      "wineventlog_security"
+    ],
     "data_source": [
       "Windows Event Logs"
-    ],
-    "data_sourcetypes": [
-      "wineventlog_security"
     ],
     "providing_technologies": [
       "Microsoft Windows"

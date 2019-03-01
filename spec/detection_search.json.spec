@@ -160,6 +160,15 @@
           "minItems": 0,
           "uniqueItems": true
         },
+        "data_eventtypes": {
+          "description": "A list of eventtypes, if any, used by this search",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
         "data_source": {
           "description": "A high-level description of the type of data needed for this search to complete",
           "type": "array",
