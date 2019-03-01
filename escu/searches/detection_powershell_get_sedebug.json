@@ -6,7 +6,7 @@
     "notable": {
       "nes_fields": "user, dest",
       "rule_description": "Possible attempt at credential dumping via PowerShell was detected on $dest$ by $user$.",
-      "rule_title": "Event ID 4703 Specifying PowerShell Acquiring A Token with SeDebugPrivilege Identified on $dest$."
+      "rule_title": "Event Code 4703 Specifying PowerShell Acquiring A Token with SeDebugPrivilege Identified on $dest$."
     },
     "risk": {
       "risk_object": "dest",
@@ -32,7 +32,7 @@
       "Microsoft Windows"
     ]
   },
-  "eli5": "This search looks for Windows Event Code 4703 (token right adjusted), where the process requesting the token change is PowerShell.exe and the requested privilege is \"SeDebugPrivilege\". This is consistent with the use of PowerShell to execute Mimikatz using sekurlsa::logonpasswords. It will return the host where the activity occurred, the process and associated id, the enabled privilege, and the message in the event.",
+  "eli5": "This search looks for Windows Event Code(signature_id) 4703 (token right adjusted), where the process requesting the token change is PowerShell.exe and the requested privilege is \"SeDebugPrivilege\". This is consistent with the use of PowerShell to execute Mimikatz using sekurlsa::logonpasswords. It will return the host where the activity occurred, the process and associated id, the enabled privilege, and the message in the event.",
   "how_to_implement": "You must be ingesting Windows Security logs. You must also enable the account change auditing here: http://docs.splunk.com/Documentation/Splunk/7.0.2/Data/MonitorWindowseventlogdata. Additionally, this search requires you to enable your Group Management Audit Logs in your Local Windows Security Policy and to be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/. Finally, please make sure that the local administrator group name is \"Administrators\" to be able to look for the right group membership changes.",
   "known_false_positives": "The activity may be legitimate. PowerShell is often used by administrators to perform various tasks, and it's possible this event could be generated in those cases. In these cases, false positives should be fairly obvious and you may need to tweak the search to eliminate noise.",
   "maintainers": [
