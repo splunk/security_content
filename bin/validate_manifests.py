@@ -11,7 +11,7 @@ import sys
 # HIGH Level Fields
 
 MANIFEST_DIRECTORY = str(environ["CIRCLE_WORKING_DIRECTORY"] +
-        "/security-content")
+                         "/security-content")
 
 print MANIFEST_DIRECTORY
 
@@ -30,6 +30,8 @@ VALID_DATA_MODELS = [
     "Authentication",
     "Certificates",
     "Change_Analysis",
+    "Change",
+    "Malware",
     "Email",
     "Identity_Management",
     "Network_Resolution",
