@@ -22,18 +22,18 @@
   },
   "creation_date": "2018-03-28",
   "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
     "data_source": [
       "Endpoint Intel"
-    ],
-    "data_sourcetypes": [
-      "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
     ],
     "providing_technologies": [
       "Sysmon"
     ]
   },
   "eli5": "In this search, we are looking for the PsExec process with <code>accepteula</code> on the command line.",
-  "how_to_implement": "To successfully implement this search, you need to be ingesting logs with the process name, command-line arguments, and parent process from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon Technology Add-on (TA).",
+  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
   "known_false_positives": "Administrators can leverage PsExec for accessing remote systems and might pass <code>accepteula</code> as an argument if they are running this tool for the first time. However, it is not likely that you'd see multiple occurrences of this event on a machine",
   "maintainers": [
     {

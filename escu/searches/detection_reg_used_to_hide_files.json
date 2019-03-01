@@ -19,6 +19,7 @@
       "suppress_period": "86400s"
     }
   },
+  "creation_date": "2017-10-27",
   "data_metadata": {
     "data_models": [
       "Endpoint"

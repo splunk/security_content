@@ -3,7 +3,7 @@
   "creation_date": "2019-02-14",
   "data_metadata": {
     "data_models": [
-      "Network_Traffic"
+      "Network_Resolution"
     ],
     "data_source": [
       "Network Communication"
@@ -14,7 +14,7 @@
     ]
   },
   "eli5": "Discover the DNS records and their answers for domains owned by the company using network traffic events. The discovered events are exported as a lookup named `discovered_dns_records.csv`",
-  "how_to_implement": "To successfully implement this search, you must be ingesting network traffic, and populating the Network_Traffic data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation",
+  "how_to_implement": "To successfully implement this search, you must be ingesting DNS logs, and populating the Network_Resolution data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation",
   "maintainers": [
     {
       "company": "Splunk",
