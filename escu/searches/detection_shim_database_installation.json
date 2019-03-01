@@ -22,11 +22,11 @@
   },
   "creation_date": "2017-10-03",
   "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
     "data_source": [
       "Endpoint Intel"
-    ],
-    "data_sourcetypes": [
-      "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
     ],
     "providing_technologies": [
       "Carbon Black Response",
@@ -37,7 +37,7 @@
     ]
   },
   "eli5": "This search looks for the execution of sdbinst.exe with command-line arguments of -q and -p.  The -q option performs a silent installation with no visible window, status, or warning information.  The -p option allows the shim database to contain patches.  It will return the count, the first time, and the last time these command-line arguments were seen on each endpoint and by each user.",
-  "how_to_implement": "To successfully implement this search, you need to ingest logs with both the process name and command-line from your endpoints. If you are using Sysmon, you will need to have a Splunk Universal Forwarder on each endpoint that you want to collect the data on.  You will also need to have to deploy the Sysmon TA on these endpoints and on your search head.  You must have at least version 6.0.4 of the Sysmon TA.",
+  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
   "known_false_positives": "None identified",
   "maintainers": [
     {
@@ -61,7 +61,7 @@
       "DE.CM"
     ]
   },
-  "modification_date": "2017-10-10",
+  "modification_date": "2019-03-01",
   "original_authors": [
     {
       "company": "Splunk",
