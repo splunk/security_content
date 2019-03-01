@@ -77,7 +77,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name = \"WmiPrvSE.exe\" by Processes.user Processes.dest Processes.process_name  | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`| `ctime(lastTime)`",
+  "search": "| tstats `summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name = \"scrcons.exe\" by Processes.user Processes.dest Processes.process_name  | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`| `ctime(lastTime)`",
   "search_description": "This search looks for processes launched via WMI.",
   "search_id": "24869767-8579-485d-9a4f-d9ddfd8f0cac",
   "search_name": "Process Execution via WMI",
