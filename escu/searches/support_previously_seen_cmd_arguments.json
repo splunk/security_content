@@ -2,11 +2,11 @@
   "channel": "ESCU",
   "creation_date": "2018-04-09",
   "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
     "data_source": [
       "Endpoint Intel"
-    ],
-    "data_sourcetypes": [
-      "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
     ],
     "providing_technologies": [
       "Carbon Black Response",
@@ -17,7 +17,7 @@
     ]
   },
   "eli5": "In this support search, we look for command-line arguments using the parameter <code>/c</code> to execute processes and create an initial baseline cache for the previous 30 days. This will include the earliest and latest times a particular command-line argument is seen in our dataset, grouped by the command-line value.",
-  "how_to_implement": "You need to be ingesting logs with both the process name and command line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon Technology Add-on (TA).",
+  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must be ingesting logs with both the process name and command line from your endpoints. The complete process name with command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
   "maintainers": [
     {
       "company": "Splunk",
@@ -25,7 +25,7 @@
       "name": "Bhavin Patel"
     }
   ],
-  "modification_date": "2018-08-01",
+  "modification_date": "2019-03-01",
   "original_authors": [
     {
       "company": "Splunk",
@@ -37,7 +37,7 @@
     "earliest_time": "-30d@d",
     "latest_time": "-10m@m"
   },
-  "search": "sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational process=cmd.exe cmdline=\"* /c *\" | stats earliest(_time) as firstTime latest(_time) as lastTime by cmdline | outputlookup previously_seen_cmd_line_arguments | stats count",
+  "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = cmd.exe Processes.process = \"* /c *\" by Processes.process | `drop_dm_object_name(Processes)`",
   "search_description": "This search looks for command-line arguments where <code>cmd.exe /c</code> is used to execute a program, then creates a baseline of the earliest and latest times we have encountered this command-line argument in our dataset within the last 30 days.",
   "search_id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
   "search_name": "Previously seen command line arguments",
