@@ -4,7 +4,7 @@
   "confidence": "medium",
   "correlation_rule": {
     "notable": {
-      "nes_fields": "dest, user, process",
+      "nes_fields": "dest, user, process_name",
       "rule_description": "The system $dest$ had reg.exe process run not initiated by a user.",
       "rule_title": "Suspicious reg.exe process detected on $dest$"
     },
@@ -22,11 +22,11 @@
   },
   "creation_date": "2017-10-11",
   "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
     "data_source": [
       "Endpoint Intel"
-    ],
-    "data_sourcetypes": [
-      "XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
     ],
     "providing_technologies": [
       "Carbon Black Response",
@@ -37,7 +37,7 @@
     ]
   },
   "eli5": "This search looks for the execution of reg.exe with a parent process of cmd.exe. It then executes a subsearch looking for those cmd.exe processes with a parent that is not explorer.exe. It then joins those two searches to make sure that the reg.exe process is a grandchild of the non explorer.exe process. The search will return the number of such instances and the first and last time this activity has been seen on each endpoint and user.",
-  "how_to_implement": "To successfully implement this search, you need to ingest logs with the process name and command-line, as well as the parent process name from your endpoints. If you are using Sysmon, you will need to have a Splunk Universal Forwarder on each endpoint that you want to collect the data on. You will also need to deploy the Sysmon TA on these endpoints and on your search head. You must have at least version 6.0.4 of the Sysmon TA.",
+  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
   "known_false_positives": "It's possible for system administrators to write scripts that exhibit this behavior. If this is the case, the search will need to be modified to filter them out.",
   "maintainers": [
     {
@@ -62,7 +62,7 @@
       "DE.CM"
     ]
   },
-  "modification_date": "2017-10-23",
+  "modification_date": "2018-03-01",
   "original_authors": [
     {
       "company": "Splunk",
@@ -78,7 +78,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "process=reg.exe parent_process=*cmd.exe [search process=cmd.exe parent_process!=*explorer.exe | fields process_id | dedup process_id | rename process_id as parent_process_id] | stats count min(_time) as firstTime max(_time) as lastTime by dest, user, process, cmdline | `ctime(firstTime)` | `ctime(lastTime)`",
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest Processes.process_id Processes.parent_process_id | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | search [| tstats `summariesonly` count FROM datamodel=Endpoint.Processes where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe by Processes.parent_process_id Processes.dest Processes.process_name | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | rename parent_process_id as process_id |dedup process_id| table process_id dest]",
   "search_description": "This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.",
   "search_id": "a6b3ab4e-dd77-4213-95fa-fc94701995e0",
   "search_name": "Suspicious Reg.exe Process",
