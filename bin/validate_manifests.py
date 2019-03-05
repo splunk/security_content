@@ -25,6 +25,8 @@ VALID_DATA_MODELS = [
     "Authentication",
     "Certificates",
     "Change_Analysis",
+    "Change",
+    "Malware",
     "Email",
     "Identity_Management",
     "Network_Resolution",
