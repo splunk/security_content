@@ -2,11 +2,11 @@
   "channel": "ESCU",
   "creation_date": "2018-07-20",
   "data_metadata": {
+    "data_eventtypes": [
+      "wineventlog_system"
+    ],
     "data_source": [
       "Windows Event Logs"
-    ],
-    "data_sourcetypes": [
-      "WinEventLog:System"
     ],
     "providing_technologies": [
       "Microsoft Windows"
@@ -21,7 +21,7 @@
       "name": "David Dorsey"
     }
   ],
-  "modification_date": "2018-07-20",
+  "modification_date": "2019-02-27",
   "original_authors": [
     {
       "company": "Splunk",
@@ -33,7 +33,7 @@
     "earliest_time": "-30d@d",
     "latest_time": "-10m@m"
   },
-  "search": "sourcetype=WinEventLog:System EventCode=7036 | rex field=Message \"The (?<serviceName>[\\w\\s-]*) service entered the (?<action>\\w*) state\" | where action=\"running\" | stats earliest(_time) as firstTime, latest(_time) as lastTime by serviceName | outputlookup previously_seen_running_windows_services | stats count",
+  "search": "eventtype=wineventlog_system signature_id=7036 | rex field=Message \"The (?<serviceName>[\\w\\s-]*) service entered the (?<action>\\w*) state\" | where action=\"running\" | stats earliest(_time) as firstTime, latest(_time) as lastTime by serviceName | outputlookup previously_seen_running_windows_services | stats count",
   "search_description": "This collects the services that have been started across your entire enterprise.",
   "search_id": "64ce0ade-cb01-4678-bddd-d31c0b175394",
   "search_name": "Previously Seen Running Windows Services",

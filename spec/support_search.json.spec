@@ -43,6 +43,15 @@
                     "minItems": 0,
                     "uniqueItems": true
                 },
+                "data_eventtypes": {
+                    "description": "A list of eventtypes, if any, used by this search",
+                    "type": "array",
+                    "items": {
+                    "type": "string"
+                    },
+                    "minItems": 0,
+                    "uniqueItems": true
+                },
                 "providing_technologies": {
                     "description": "A list of technologies that provide this data",
                     "type": "array",
