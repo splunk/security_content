@@ -51,19 +51,19 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/validate_manifests.py
+            python bin/validate_manifests.py --path .
       - run:
           name: run manifest to escu
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/manifest_to_escu.py
+            python bin/manifest_to_escu.py --path . --output src/default/
       - run:
           name: run manifest to usecase library
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/manifest_to_usecaselibrary.py
+            python bin/manifest_to_usecaselibrary.py --path . --output src/default/
       - persist_to_workspace:
           root: security-content/src/default
           paths:
@@ -87,7 +87,7 @@ jobs:
             fi
       - attach_workspace:
         # Must be absolute path or relative path from working_directory
-          at: ~/repo/updated 
+          at: ~/repo/updated
       - run:
           name: store updated analyticstories.conf
           command: |
@@ -101,7 +101,7 @@ jobs:
             git commit --allow-empty -m "updating src files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            tar -czvf content-pack.tar.gz src/* 
+            tar -czvf content-pack.tar.gz src/*
       - persist_to_workspace:
           root: security-content/
           paths:
@@ -111,7 +111,7 @@ jobs:
       - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
-          at: ~/repo/updated 
+          at: ~/repo/updated
       - run:
           name: publish release on github
           command: |
@@ -143,4 +143,4 @@ workflows:
               ignore: /.*/
 
 
-            
+

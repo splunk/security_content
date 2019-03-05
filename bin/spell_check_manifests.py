@@ -4,19 +4,17 @@ Take the manifest files and build files for Enterprise Security
 import glob
 import os.path
 import json
-import sys
-import traceback
+import argparse
 # HIGH Level Fields
 
-MANIFEST_DIRECTORY = "../manifests"
-
-#Add these lines:
+# Add these lines:
 import nltk
-from nltk.corpus import wordnet as WN
 from nltk.corpus import stopwords
-stop_words_en = set(stopwords.words('english'))
 import enchant
 import grammar_check
+
+stop_words_en = set(stopwords.words('english'))
+
 
 def check_spelling(sentences):
     errors = []
@@ -46,6 +44,7 @@ def check_grammar(sentences):
         errors.append(grammar_error)
 
     return errors
+
 
 def spell_check_search_manifest(search):
     ''' Validate that the search has the required fields for savedsearches.conf '''
@@ -103,6 +102,7 @@ def spell_check_story_manifest(story):
     errors.extend(spelling_errors)
     errors.extend(grammar_errors)
 
+
 def main():
     ''' Open manifest file, validate required fields '''
 
@@ -149,5 +149,14 @@ def main():
     if not errors:
         print "No errors found"
 
+
 if __name__ == "__main__":
+    # grab arguments
+    parser = argparse.ArgumentParser(description="spell checks the security-contents manifests")
+    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
+
+    # parse them
+    args = parser.parse_args()
+    MANIFEST_DIRECTORY = args.path
+
     main()

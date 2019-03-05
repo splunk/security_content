@@ -3,18 +3,13 @@
 Take the manifest files and build files for Enterprise Security
 '''
 import glob
-from os import path, environ
 import json
 import jsonschema
 import sys
+import argparse
+from os import path
 
 # HIGH Level Fields
-
-MANIFEST_DIRECTORY = str(environ["CIRCLE_WORKING_DIRECTORY"] +
-        "/security-content")
-
-print MANIFEST_DIRECTORY
-
 STORY_CATEGORIES = [
     "Abuse", "Adversary Tactics", "Best Practices",
     "Cloud Security", "Malware", "Vulnerability"
@@ -577,4 +572,12 @@ def main():
 
 
 if __name__ == "__main__":
+    # grab arguments
+    parser = argparse.ArgumentParser(description="validates security content manifests", epilog="""
+        Validates security manifest for correctness, adhering to spec and other common items.""")
+    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
+
+    # parse them
+    args = parser.parse_args()
+    MANIFEST_DIRECTORY = args.path
     main()

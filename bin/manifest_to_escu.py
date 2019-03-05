@@ -1,14 +1,13 @@
 # Take the manifest files and build files for Enterprise Security Content Updates with markdown syntax
 
+
 import datetime
 import glob
 import json
 import os
+import argparse
 
 ALL_UUIDS = []
-
-MANIFEST_DIRECTORY = "."
-OUTPUT_DIRECTORY = 'src/default/'
 
 
 def markdown(x):
@@ -368,4 +367,17 @@ def main():
 
 
 if __name__ == "__main__":
+
+    # grab arguments
+    parser = argparse.ArgumentParser(description="converts security-content manifests to source files", epilog="""
+    This tool converts manifests to the source files to be used by products, specfically Splunk's.
+    It generates the savesearches.conf, analyticsstories.conf files for ES.""")
+    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
+    parser.add_argument("-o", "--output", required=True, help="path to the output directory")
+
+    # parse them
+    args = parser.parse_args()
+    MANIFEST_DIRECTORY = args.path
+    OUTPUT_DIRECTORY = args.output
+
     main()
