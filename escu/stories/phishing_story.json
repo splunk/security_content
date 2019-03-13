@@ -1,0 +1,67 @@
+{
+  "category": "Adversary Tactics",
+  "channel": "ESCU",
+  "creation_date": "2019-03-12",
+  "description": "XXXX - Placeholder for Phishing description",
+  "id": "9a64ab44-9214-4639-8163-7eaa2621bd61",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "research@splunk.com",
+      "name": "Splunk Research Team"
+    }
+  ],
+  "modification_date": "2019-03-12",
+  "name": "Phishing",
+  "narrative": "XXXX - Placeholder for Phishing narrative",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "research@splunk.com",
+      "name": "Splunk Research Team"
+    }
+  ],
+  "references": [
+    ""
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint",
+      "Get Risk Modifiers For User",
+      "Get Risk Modifiers For Endpoint"
+    ],
+    "detection_searches": [
+      "Suspicious Email Attachment Extensions",
+      "Email Attachments With Lots Of Spaces",
+      "Monitor DNS For Brand Abuse",
+      "Monitor Email For Brand Abuse",
+      "Monitor Web Traffic For Brand Abuse",
+      "Malicious PowerShell Process - Connect To Internet With Hidden Window",
+      "Malicious PowerShell Process - Encoded Command",
+      "Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments",
+      "Malicious PowerShell Process With Obfuscation Techniques",
+      "Detect mshta.exe running scripts in command-line arguments",
+      "Execution of File with Multiple Extensions",
+      "Execution of File With Spaces Before Extension",
+      "Detect Prohibited Applications Spawning cmd.exe",
+      "Detect Rare Executables",
+      "Single Letter Process On Endpoint"
+    ],
+    "investigative_searches": [
+      "Get Email Info",
+      "Get Emails From Specific Sender",
+      "Get Process Info",
+      "Get Parent Process Info",
+      "Investigate Web Activity From Host"
+    ],
+    "support_searches": [
+      "DNSTwist Domain Names",
+      "Previously seen command line arguments"
+    ]
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}
