@@ -110,7 +110,7 @@
           "type": {
             "type": "string",
             "description": "What product gives you a detection",
-             "enum": ["detection_splunk", "detection_uba", "detection_phantom"]
+             "enum": ["splunk", "uba", "phantom"]
           },
           "name": {
             "type": "string",
