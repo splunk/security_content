@@ -1,7 +1,7 @@
 {
+  "description": "A object that defines the parameters for detecting things using various Splunk capabilities",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Detection Manifest",
-  "description": "A object that defines the parameters for detecting things using various Splunk capabilities",
   "type": "object",
   "properties": {
     "name": {
@@ -506,10 +506,6 @@
         },
         "search": {
           "description": "The search (in SPL) executed within core Splunk",
-          "type": "string"
-        },
-        "search_description": {
-          "description": "A description of what the search is designed to detect",
           "type": "string"
         }
       }
