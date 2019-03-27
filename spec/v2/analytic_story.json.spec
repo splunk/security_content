@@ -11,13 +11,45 @@
     "category": {
       "description": "The category to which the Analytic Story belongs",
       "enum": [
-        "Abuse",
-        "Adversary Tactics",
-        "Best Practices",
-        "Cloud Security",
-        "Malware",
-        "Vulnerability"
+            "Abuse",
+            "Account Compromise",
+            "Account Sharing",
+            "Adversary Tactics",
+            "Best Practices",
+            "Cloud Security",
+            "Command and Control",
+            "Compliance",
+            "Data Exfiltration",
+            "Denial of Service",
+            "Endpoint Compromise",
+            "GDPR",
+            "IAM Analytics",
+            "Insider Threat",
+            "Lateral Movement",
+            "Malware",
+            "Network Attack",
+            "Operations",
+            "Other",
+            "Privilege Escalation",
+            "Ransomware",
+            "SaaS",
+            "Scanning",
+            "Shadow IT",
+            "Threat Intelligence",
+            "Unauthorized Software",
+            "Vulnerability",
+            "Web Attack"
       ]
+    },
+    "use_cases": {
+      "description": "The usecases to which the Analytic Story belongs to.(SSE will leverage this as a mapping field",
+      "enum": [
+              "Security Monitoring",
+              "Advanced Threat Detection",
+              "Insider Threat",
+              "Compliance",
+              "Fraud Detection"
+              ]
     },
     "channel": {
       "description": "A grouping function that designates where this search came from. For example, searches and stories in Enterprise Security Content Updates are in the ESCU channel",
