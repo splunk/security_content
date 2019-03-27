@@ -489,7 +489,7 @@
         "properties": {
           "product_type": {
             "product_type": "string",
-            "description": "Type of baseline to execute",
+            "description": " Product that will execute the response",
             "enum": [
               "phantom",
               "splunk",
@@ -498,7 +498,7 @@
           },
           "name": {
             "type": "string",
-            "description": "name of baseline"
+            "description": "Name of baseline object"
           },
           "id": {
             "type": "string",
@@ -694,7 +694,7 @@
           "additionalProperties": false
         },
         "search": {
-          "description": "The search (in SPL) executed within core Splunk",
+          "description": "The search (in SPL) executed within Splunk",
           "type": "string"
         }
       }
@@ -726,7 +726,13 @@
           "type": "string",
           "description": "Severity in phantom (High, Medium, Low)"
         }
-      }
+      },
+      "required": [
+          "phantom_server",
+          "playbook_name",
+          "playbook_url",
+          "playbook_display_name"
+        ]
     },
     "uba": {
       "type": "object",

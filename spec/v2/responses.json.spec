@@ -18,7 +18,7 @@
         "type": "string"
       },
       "entities": {
-        "description": "A list of entities that will used in the story flow or are relevant to the security investigation. ",
+        "description": "A list of entities that will used in the story flow or are relevant to the security investigation.",
         "type": "array",
         "items": {
           "enum": []

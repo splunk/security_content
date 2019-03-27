@@ -2,36 +2,28 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Baseline Manifest",
   "$id": "https://api.splunkresearch.com/schemas/baselines.json",
-  "description": "The fields that make up the manifest of a version 2 baseline search",
+  "description": "The fields that make up the manifest of a version 2 baseline object.",
   "type": "object",
   "properties": {
     "name": {
-      "description": "The name of the search that creates the baseline",
+      "description": "The name of the search/phantom playbook that creates the baseline.",
       "type": "string"
     },
     "id": {
-      "description": "The unique identifier for the search",
+      "description": "The unique identifier for this baselining object.",
       "type": "string"
     },
     "product_type": {
-      "description": "The type of baseline",
+      "description": "The type of product that will create the baseline.",
       "enum": [
         "splunk",
         "phantom",
         "uba"
       ]
     },
-    "entities": {
-      "description": "A list of entities that is outputed by the search...",
-      "type": "array",
-      "items": {
-        "enum": []
-      },
-      "minItems": 0,
-      "uniqueItems": true
-    },
+
     "description": {
-      "description": "A description of what the search is is doing to create a baseline",
+      "description": "A description of what the object is is doing to create a baseline.",
       "type": "string"
     },
     "data_metadata": {
@@ -75,7 +67,7 @@
           "uniqueItems": true
         },
         "data_source": {
-          "description": "A high-level description of the type of data needed for this search to complete",
+          "description": "A high-level description of the type of data needed by the object.",
           "type": "array",
           "items": {
             "type": "string"
@@ -136,14 +128,14 @@
       "type": "string"
     },
     "entities": {
-        "description": "A list of entities that will used in the story flow or are relevant to the security investigation.",
-        "type": "array",
-        "items": {
-          "enum": []
-        },
-        "minItems": 0,
-        "uniqueItems": true
+      "description": "A list of entities(important fields) that are in baseline output, which will be used by detections and are relevant to the story flow",
+      "type": "array",
+      "items": {
+        "enum": []
       },
+      "minItems": 0,
+      "uniqueItems": true
+    },
     "modification_date": {
       "description": "The date of the most recent modification to the search",
       "type": "string"
@@ -203,7 +195,7 @@
       }
     },
     "how_to_implement": {
-      "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per site modifications",
+      "description": "A discussion on how to implement this baseline object, from what needs to be ingested, config files modified, and suggested per site modifications",
       "type": "string"
     },
     "known_false_positives": {
@@ -211,7 +203,7 @@
       "type": "string"
     },
     "eli5": {
-      "description": "Explain it like I’m 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
+      "description": "Explain it like I’m 5 - A detail description of the baseline object, written in a style that can be understood by a future Splunk expert",
       "type": "string"
     },
     "spec_version": {
@@ -262,7 +254,13 @@
           "type": "string",
           "description": "Severity in phantom (High, Medium, Low)"
         }
-      }
+      },
+      "required": [
+          "phantom_server",
+          "playbook_name",
+          "playbook_url",
+          "playbook_display_name"
+        ]
     },
     "splunk": {
       "type": "object",
