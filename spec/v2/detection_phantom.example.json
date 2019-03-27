@@ -70,7 +70,7 @@
     }
   ],
   "security_domain": "network",
-  "spec_version": 1,
-  "type": "splunk",
+  "spec_version": 2,
+  "type": "phantom",
   "version": "1.0"
 }
