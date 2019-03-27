@@ -520,19 +520,19 @@
           "type": "string",
           "description": "The category of a threat in Splunk UBA."
         },
-        "uba_search": {
+        "search": {
           "type": "string",
           "description": "The search you will run against the UEBA index to idenfiy the threat."
         },
-        "uba_event_type": {
+        "event_type": {
           "type": "string",
           "description": "An anomaly or threat."
         },
-        "uba_model": {
+        "model": {
           "type": "string",
           "description": "The name of the Splunk UBA model that detected the anomaly."
         },
-        "uba_model_version": {
+        "model_version": {
           "type": "string",
           "description": "Url of the playbook on Phantom website."
         }
@@ -556,4 +556,4 @@
     "version",
     "detect"
   ]
-}}
+}
