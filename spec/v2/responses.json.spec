@@ -17,6 +17,15 @@
         "description": "A description of what this reponse object will do ",
         "type": "string"
       },
+      "entities": {
+        "description": "A list of entities that will used in the story flow or are relevant to the security investigation. ",
+        "type": "array",
+        "items": {
+          "enum": []
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      },
       "data_metadata": {
         "type": "object",
         "description": "Information about the date being used to run the response",
