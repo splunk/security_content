@@ -12,7 +12,7 @@
   },
   "description": "While investigating any detections it is important to understand which and how many DNS servers a host has connected to in the past. This search uses data that is tagged as DNS and gives you a count and list of DNS servers that a particular host has connected to the previous 24 hours.",
   "how_to_implement": "To successfully implement this search, you must be ingesting your DNS traffic",
-  "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+  "id": "bc11a8cf-35e7-4bb2-8140-e756cc06fd72",
   "investigate": {
     "splunk": {
       "fields_required": [

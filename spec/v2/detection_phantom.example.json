@@ -1,12 +1,6 @@
 {
   "asset_type": "Endpoint",
-  "baselines": [
-    {
-      "id": "c096f721-8842-42ce-bfc7-74bd8c72b7c3",
-      "name": "Discover DNS records,",
-      "type": "splunk"
-    }
-  ],
+  "baselines": [],
   "confidence": "medium",
   "creation_date": "2019-02-14",
   "data_metadata": {
