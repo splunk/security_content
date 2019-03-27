@@ -1,0 +1,44 @@
+{
+  "creation_date": "2017-04-10",
+  "data_metadata": {
+    "data_source": [
+      "DNS"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "description": "While investigating any detections it is important to understand which and how many DNS servers a host has connected to in the past. This search uses data that is tagged as DNS and gives you a count and list of DNS servers that a particular host has connected to the previous 24 hours.",
+  "how_to_implement": "To successfully implement this search, you must be ingesting your DNS traffic",
+  "id": "pc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+  "investigate": {
+    "phantom": {
+      "phantom_server": "automation (hostname)",
+      "playbook_display_name": "DNS record change investigation",
+      "playbook_name": "community/dns_hijack_investigation",
+      "playbook_url": "https://my.phantom.us/4.1/playbook/dns-hijack-investigation/",
+      "sensitivity": "green",
+      "severity": "medium"
+    }
+  },
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2017-11-09",
+  "name": "DNS record change investigation",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "spec_version": 2,
+  "type": "investigative",
+  "version": "1.0"
+}

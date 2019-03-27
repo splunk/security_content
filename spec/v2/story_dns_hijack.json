@@ -3,6 +3,23 @@
   "channel": "ESCU",
   "creation_date": "2017-11-21",
   "description": "Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.",
+  "detections": [
+    {
+      "detection_id": "8169w17b-ef78-4b59-aae8-5369073014e1",
+      "name": "DNS record changed",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "8129w27b-ef78-4w59-aae8-5369073014e1",
+      "name": "Lateral Movement detected",
+      "type": "uba"
+    },
+    {
+      "detection_id": "1229w27b-ef78-4w59-aae8-5369073014e1",
+      "name": "Playbook that detects DNS Hijacks",
+      "type": "phantom"
+    }
+  ],
   "id": "8169f17b-ef68-4b59-aae8-5869073014e1",
   "maintainers": [
     {
@@ -26,29 +43,6 @@
     "https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/",
     "http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/",
     "https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html"
-  ],
-  "detections":[
-    {
-      "detection_id": "8169w17b-ef78-4b59-aae8-5369073014e1",
-      "type": "detection_splunk",
-      "name": "Detect hosts connecting to dynamic domain providers"
-    },
-    {
-      "detection_id": "8129w27b-ef78-4b59-aae8-5369073014e1",
-      "type": "detection_splunk",
-      "name": "Detect web traffic to dynamic domain providers"
-    },
-    {
-      "detection_id": "8129w27b-ef78-4w59-aae8-5369073014e1",
-      "type": "detection_uba",
-      "name": "Lateral Movement detected"
-    },
-    {
-      "detection_id": "8129w27b-ef78-4w59-aae8-5369073014e1",
-      "type": "detection_phantom",
-      "name": "playbook that detects dynamic DNS connections"
-    }
-
   ],
   "spec_version": 2,
   "version": "1.0"
