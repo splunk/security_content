@@ -33,7 +33,25 @@
           "description": "A list of data models, if any, used by this search",
           "type": "array",
           "items": {
-            "type": "string"
+            "enum": [
+                "Alerts",
+                "Application_State",
+                "Authentication",
+                "Certificates",
+                "Change_Analysis",
+                "Change",
+                "Malware",
+                "Email",
+                "Identity_Management",
+                "Network_Resolution",
+                "Network_Traffic",
+                "Vulnerabilities",
+                "Web",
+                "Network_Sessions",
+                "Updates",
+                "Risk",
+                "Endpoint"
+              ]
           },
           "minItems": 0,
           "uniqueItems": true
@@ -117,8 +135,10 @@
           "description": "A list of critical security controls this search helps you implement",
           "type": "array",
           "items": {
-            "type": "string"
-          },
+            "enum": [
+                    "CIS 1", "CIS 2", "CIS 3", "CIS 4", "CIS 5", "CIS 6", "CIS 7", "CIS 8","CIS 9", "CIS 10", "CIS 11", "CIS 12", "CIS 13", "CIS 14", "CIS 15","CIS 16", "CIS 17", "CIS 18", "CIS 19", "CIS 20"
+                    ]
+            },
           "minItems": 0,
           "uniqueItems": true
         },
@@ -126,7 +146,10 @@
           "description": "A list of kill-chain phases to which the search applies",
           "type": "array",
           "items": {
-            "type": "string"
+                  "enum":[
+                          "Reconnaissance", "Weaponization", "Delivery", "Exploitation",
+                          "Installation", "Command and Control", "Actions on Objectives"
+                         ]
           },
           "minItems": 0,
           "uniqueItems": true
@@ -135,7 +158,127 @@
           "description": "A list of the techniques and tactics identified by the search",
           "type": "array",
           "items": {
-            "type": "string"
+              "enum": [
+                      "Initial Access",
+                      "Execution",
+                      "Persistence",
+                      "Privilege Escalation",
+                      "Defense Evasion",
+                      "Credential Access",
+                      "Discovery",
+                      "Lateral Movement",
+                      "Collection",
+                      "Exfiltration",
+                      "Command and Control",
+                      "Command and Control Protocol",
+                      "Commonly Used Port",
+                      "Custom Cryptographic Protocol",
+                      "DLL Injection",
+                      "DLL Search Order Hijacking",
+                      "DLL Side-Loading",
+                      "Data Compressed",
+                      "Data Encrypted",
+                      "Data Obfuscation",
+                      "Data Staged",
+                      "Data Transfer Size Limits",
+                      "Data from Local System",
+                      "Data from Network Shared Drive",
+                      "Data from Removable Media",
+                      "Disabling Security Tools",
+                      "Email Collection",
+                      "Execution through API",
+                      "Exfiltration Over Alternative Protocol",
+                      "Exfiltration Over Command and Control Channel",
+                      "Exfiltration Over Other Network Medium",
+                      "Exfiltration Over Physical Medium",
+                      "Exploitation of Vulnerability",
+                      "Fallback Channels",
+                      "File Deletion",
+                      "File System Logical Offsets",
+                      "File System Permissions Weakness",
+                      "File and Directory Discovery",
+                      "Graphical User Interface",
+                      "Hypervisor",
+                      "Indicator Blocking",
+                      "Indicator Removal from Tools",
+                      "Indicator Removal on Host",
+                      "Input Capture",
+                      "InstallUtil",
+                      "Legitimate Credentials",
+                      "Local Network Configuration Discovery",
+                      "Local Network Connections Discovery",
+                      "Local Port Monitor",
+                      "Logon Scripts",
+                      "MSBuild",
+                      "Masquerading",
+                      "Modify Existing Service",
+                      "Modify Registry",
+                      "Multi-Stage Channels",
+                      "Multiband Communication",
+                      "Multilayer Encryption",
+                      "NTFS Extended Attributes",
+                      "Network Service Scanning",
+                      "Network Share Connection Removal",
+                      "Network Sniffing",
+                      "New Service",
+                      "Obfuscated Files or Information",
+                      "Pass the Hash",
+                      "Pass the Ticket",
+                      "Path Interception",
+                      "Peripheral Device Discovery",
+                      "Permission Groups Discovery",
+                      "PowerShell",
+                      "Process Discovery",
+                      "Process Hollowing",
+                      "Query Registry",
+                      "Redundant Access",
+                      "Registry Run Keys / Start Folder",
+                      "Regsvcs/Regasm",
+                      "Regsvr32",
+                      "Remote Desktop Protocol",
+                      "Create Account",
+                      "Remote File Copy",
+                      "Remote Services",
+                      "Remote System Discovery",
+                      "Replication Through Removable Media",
+                      "Rootkit",
+                      "Rundll32",
+                      "Scheduled Task",
+                      "Scheduled Transfer",
+                      "Screen Capture",
+                      "Scripting",
+                      "Security Software Discovery",
+                      "Security Support Provider",
+                      "Service Execution",
+                      "Service Registry Permissions Weakness",
+                      "Shared Webroot",
+                      "Shortcut Modification",
+                      "Software Packing",
+                      "Standard Application Layer Protocol",
+                      "Standard Cryptographic Protocol",
+                      "Standard Non-Application Layer Protocol",
+                      "System Information Discovery",
+                      "System Owner/User Discovery",
+                      "System Service Discovery",
+                      "System Time Discovery",
+                      "Taint Shared Content",
+                      "Third-party Software",
+                      "Timestomp",
+                      "Two-Factor Authentication Interception",
+                      "Uncommonly Used Port",
+                      "Video Capture",
+                      "Valid Accounts",
+                      "Web Service",
+                      "Web Shell",
+                      "Windows Admin Shares",
+                      "Windows Management Instrumentation Event Subscription",
+                      "Windows Management Instrumentation",
+                      "Windows Remote Management",
+                      "Winlogon Helper DLL",
+                      "Initial Access",
+                      "Exploitation for Privilege Escalation"
+                      ]
+
           },
           "minItems": 0,
           "uniqueItems": true
@@ -144,7 +287,11 @@
           "description": "A list of the NIST controls the search helps you implement",
           "type": "array",
           "items": {
-            "type": "string"
+            "enum": [
+                "ID.AM", "ID.RA", "PR.DS", "PR.IP", "PR.AC", "PR.PT", "PR.AT", "PR.MA",
+                "DE.CM", "DE.DP", "DE.AE", "RS.MI", "RS.AN", "RS.RP", "RS.IM", "RS.CO",
+                "RC.IM", "RC.CO"
+                ]
           },
           "minItems": 0,
           "uniqueItems": true
@@ -210,7 +357,7 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
+            "product_type": "string",
             "description": "Type of baseline to execute",
             "enum": [
               "phantom",
@@ -220,7 +367,7 @@
           },
           "name": {
             "type": "string",
-            "description": "name of baseline"
+            "description": "name of baseline object"
           },
           "id": {
             "type": "string",
@@ -229,7 +376,7 @@
         },
         "additionalProperties": false,
         "required": [
-          "type",
+          "product_type",
           "name",
           "id"
         ]
@@ -241,7 +388,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "type": {
+          "product_type": {
             "type": "string",
             "description": "Type of baseline to execute",
             "enum": [
@@ -252,7 +399,7 @@
           },
           "name": {
             "type": "string",
-            "description": "name of baseline"
+            "description": "Name of baseline"
           },
           "id": {
             "type": "string",
@@ -261,7 +408,7 @@
         },
         "additionalProperties": false,
         "required": [
-          "type",
+          "product_type",
           "name",
           "id"
         ]
@@ -273,8 +420,8 @@
       "items": {
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
+          "product_type": {
+            "product_type": "string",
             "description": "Type of baseline to execute",
             "enum": [
               "phantom",
@@ -293,7 +440,7 @@
         },
         "additionalProperties": false,
         "required": [
-          "type",
+          "product_type",
           "name",
           "id"
         ]
