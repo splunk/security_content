@@ -215,8 +215,7 @@
         "phantom",
         "splunk",
         "uba"
-      ],
-      "product_type": "string"
+      ]
     },
     "additionalProperties": false,
     "definitions": {

@@ -21,6 +21,7 @@
         "phantom"
       ]
     },
+
     "description": {
       "description": "A description of what the detection is designed to find",
       "type": "string"
