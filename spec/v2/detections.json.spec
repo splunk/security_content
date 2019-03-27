@@ -12,7 +12,7 @@
       "description": "The unique identifier for the detection",
       "type": "string"
     },
-    "type": {
+    "product_type": {
       "description": "The type of detection",
       "enum": [
         "uba",
@@ -551,7 +551,7 @@
     "original_authors",
     "description",
     "id",
-    "type",
+    "product_type",
     "security_domain",
     "version",
     "detect"

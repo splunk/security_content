@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Analytic Story Manifest",
-  "description": "The fields that make up the manifest of a version 1 Analytic Story",
+  "description": "The fields that make up the manifest of a version 2 Analytic Story",
   "type": "object",
   "properties": {
     "id": {

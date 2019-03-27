@@ -103,6 +103,6 @@
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
-  "type": "splunk",
+  "product_type": "phantom",
   "version": "1.0"
 }
