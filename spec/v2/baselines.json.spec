@@ -13,11 +13,12 @@
       "description": "The unique identifier for the search",
       "type": "string"
     },
-    "type": {
+    "product_type": {
       "description": "The type of baseline",
       "enum": [
         "splunk",
-        "phantom"
+        "phantom",
+        "uba"
       ]
     },
     "description": {
@@ -264,7 +265,7 @@
     "original_authors",
     "name",
     "description",
-    "type",
+    "product_type",
     "spec_version",
     "version",
     "baseline"

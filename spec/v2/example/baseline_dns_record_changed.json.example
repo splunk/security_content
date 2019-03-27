@@ -43,6 +43,6 @@
     }
   ],
   "spec_version": 2,
-  "type": "baseline",
+  "product_type": "baseline",
   "version": "1.0"
 }
