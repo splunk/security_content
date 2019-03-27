@@ -1,11 +1,6 @@
 {
   "$id": "https://api.splunkresearch.com/schemas/story.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "allOf": [
-    {
-      "$ref": "#/definitions/id"
-    }
-  ],
   "description": "The fields that make up the manifest of a version 2 Analytic Story",
   "meta:license": [
     "This file is licensed to you under the Apache License, Version 2.0 (the 'License');",
@@ -70,6 +65,7 @@
     },
     "id": {
       "description": "A unique identifier for the Analytic Story",
+      "example": "8169f17b-ef68-4b59-aae8-5869073014e1",
       "format": "uuid",
       "type": "string"
     },
@@ -157,6 +153,14 @@
       "type": "string"
     }
   },
+  "required": [
+    "id",
+    "category",
+    "name",
+    "description",
+    "detections",
+    "version"
+  ],
   "title": "Analytic Story Manifest",
   "type": "object"
 }

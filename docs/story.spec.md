@@ -15,20 +15,20 @@ The fields that make up the manifest of a version 2 Analytic Story
 
 | Property | Type | Required | Nullable | Defined by |
 |----------|------|----------|----------|------------|
-| [category](#category) | `enum` | Optional  | No | Analytic Story Manifest (this schema) |
+| [category](#category) | `enum` | **Required**  | No | Analytic Story Manifest (this schema) |
 | [channel](#channel) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
 | [creation_date](#creation_date) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
-| [description](#description) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
-| [detections](#detections) | `object[]` | Optional  | No | Analytic Story Manifest (this schema) |
-| [id](#id) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
+| [description](#description) | `string` | **Required**  | No | Analytic Story Manifest (this schema) |
+| [detections](#detections) | `object[]` | **Required**  | No | Analytic Story Manifest (this schema) |
+| [id](#id) | `string` | **Required**  | No | Analytic Story Manifest (this schema) |
 | [maintainers](#maintainers) | `object[]` | Optional  | No | Analytic Story Manifest (this schema) |
 | [modification_date](#modification_date) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
-| [name](#name) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
+| [name](#name) | `string` | **Required**  | No | Analytic Story Manifest (this schema) |
 | [narrative](#narrative) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
 | [original_authors](#original_authors) | `object[]` | Optional  | No | Analytic Story Manifest (this schema) |
 | [references](#references) | `string[]` | Optional  | No | Analytic Story Manifest (this schema) |
 | [spec_version](#spec_version) | `integer` | Optional  | No | Analytic Story Manifest (this schema) |
-| [version](#version) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
+| [version](#version) | `string` | **Required**  | No | Analytic Story Manifest (this schema) |
 | `*` | any | Additional | Yes | this schema *allows* additional properties |
 
 ## category
@@ -37,7 +37,7 @@ The category to which the Analytic Story belongs
 
 `category`
 
-* is optional
+* is **required**
 * type: `enum`
 * defined in this schema
 
@@ -104,7 +104,7 @@ A high-level description or goal of the Analytic Story
 
 `description`
 
-* is optional
+* is **required**
 * type: `string`
 * defined in this schema
 
@@ -125,7 +125,7 @@ An array of detection mechanisms from Splunk, UBA and phantom.
 
 `detections`
 
-* is optional
+* is **required**
 * type: `object[]`
 * defined in this schema
 
@@ -225,7 +225,7 @@ A unique identifier for the Analytic Story
 
 `id`
 
-* is optional
+* is **required**
 * type: `string`
 * defined in this schema
 
@@ -366,7 +366,7 @@ The name of the Analytic Story
 
 `name`
 
-* is optional
+* is **required**
 * type: `string`
 * defined in this schema
 
@@ -556,7 +556,7 @@ The version of the Analytic Story
 
 `version`
 
-* is optional
+* is **required**
 * type: `string`
 * defined in this schema
 
@@ -569,14 +569,4 @@ The version of the Analytic Story
 
 
 
-
-
-
-**All** of the following *requirements* need to be fulfilled.
-
-
-#### Requirement 1
-
-
-* []() – `#/definitions/id`
 
