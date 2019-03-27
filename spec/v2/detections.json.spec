@@ -1,7 +1,8 @@
 {
   "description": "A object that defines the parameters for detecting things using various Splunk capabilities",
   "type": "object",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "https://api.splunkresearch.com/schemas/detections.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Detection Manifest",
   "properties": {
     "name": {

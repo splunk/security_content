@@ -1,6 +1,7 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Investigative Search Manifest",
+  "$id": "https://api.splunkresearch.com/schemas/investigations.json",
   "description": "The fields that make up the manifest of a version 1 investigative earch",
   "type": "object",
   "properties": {

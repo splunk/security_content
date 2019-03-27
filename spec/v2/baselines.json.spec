@@ -1,6 +1,7 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Baseline Manifest",
+  "$id": "https://api.splunkresearch.com/schemas/baselines.json",
   "description": "The fields that make up the manifest of a version 2 baseline search",
   "type": "object",
   "properties": {

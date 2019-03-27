@@ -1,6 +1,7 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Analytic Story Manifest",
+  "$id": "https://api.splunkresearch.com/schemas/story.json",
   "description": "The fields that make up the manifest of a version 2 Analytic Story",
   "type": "object",
   "properties": {
