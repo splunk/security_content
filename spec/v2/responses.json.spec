@@ -1,50 +1,40 @@
-ent
-  "description": "The fields that make up the manifest of a version 1 investigative earch",
-  "type": "object",
-  "$id": "https://api.splunkresearch.com/schemas/investigations.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Investigative Search Manifest",
-  "properties": {
-    "name": {
-      "description": "The name of the search",
-      "type": "string"
-    },
-    "id": {
-      "description": "The unique identifier for the search",
-      "type": "string"
-    },
-    "description": {
-      "description": "A description of what the search is designed to detect",
-      "type": "string"
-    },
-    "data_metadata": {
-      "type": "object",
-      "description": "Information about the date being ingested",
-      "properties": {
-        "data_models": {
-          "description": "A list of data models, if any, used by this search",
-          "type": "array",
-          "items": {
+  {
+    "description": "The fields that make up the manifest of a version 1 reponse spec",
+    "type": "object",
+    "$id": "https://api.splunkresearch.com/schemas/investigations.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Response Manifest",
+    "properties": {
+      "name": {
+        "description": "The name of the search",
+        "type": "string"
+      },
+      "id": {
+        "description": "The unique identifier for the search",
+        "type": "string"
+      },
+      "description": {
+        "description": "A description of what this reponse object will do ",
+        "type": "string"
+      },
+      "entities": {
+        "description": "A list of entities that will used in the story flow or are relevant to the security investigation. ",
+        "type": "array",
+        "items": {
+          "enum": []
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      },
+      "data_metadata": {
+        "type": "object",
+        "description": "Information about the date being used to run the response",
+        "properties": {
+          "data_models": {
+            "description": "A list of data models, if any, used by this search",
+            "type": "array",
             "items": {
-              "enum": [
-                "Alerts",
-                "Application_State",
-                "Authentication",
-                "Certificates",
-                "Change_Analysis",
-                "Change",
-                "Malware",
-                "Email",
-                "Identity_Management",
-                "Network_Resolution",
-                "Network_Traffic",
-                "Vulnerabilities",
-                "Web",
-                "Network_Sessions",
-                "Updates",
-                "Risk",
-                "Endpoint"
-              ]
+              "type": "string"
             },
             "minItems": 0,
             "uniqueItems": true
@@ -124,11 +114,11 @@ ent
         "type": "string"
       },
       "how_to_implement": {
-        "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per site modifications",
+        "description": "A discussion on how to implement this reponse object, the config files, etc",
         "type": "string"
       },
       "maintainers": {
-        "description": "An array of the current maintainers of the Analytic Story.",
+        "description": "An array of the current maintainers of the reponse spec",
         "type": "array",
         "items": {
           "type": "object",
@@ -155,7 +145,7 @@ ent
         }
       },
       "original_authors": {
-        "description": "A list of the original authors of the search",
+        "description": "A list of the original authors of the reponse object",
         "type": "array",
         "items": {
           "type": "object",
@@ -190,7 +180,7 @@ ent
         "type": "string"
       },
       "entities": {
-        "description": "A list of entities that will used in the story flow or are relevant to the security investigation. ",
+        "description": "A list of entities that is either an input or an output for the security workflow.",
         "type": "array",
         "items": {
           "enum": []
@@ -198,7 +188,23 @@ ent
         "minItems": 0,
         "uniqueItems": true
       },
-      "investigate": {
+      "product_type": {
+        "description": "The type of detection",
+        "enum": [
+          "splunk",
+          "phantom"
+        ]
+      },
+      "fields_required": {
+        "description": "A list of fields that need to be in the result of the detection search for the search to be successful",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      },
+      "response": {
         "oneOf": [
           {
             "$ref": "#/definitions/splunk"
@@ -209,21 +215,13 @@ ent
         ]
       }
     },
-    "product_type": {
-      "description": "Type of product that will support this investigate object.",
-      "enum": [
-        "phantom",
-        "splunk",
-        "uba"
-      ]
-    },
     "additionalProperties": false,
     "definitions": {
       "splunk": {
         "type": "object",
         "properties": {
           "search": {
-            "description": "The search (in SPL) executed within core Splunk for investgation.",
+            "description": "A reponse action exectued in splunk",
             "type": "string"
           },
           "investigate_window": {
@@ -245,11 +243,7 @@ ent
               "earliest_time_offset"
             ]
           }
-        },
-        "required": [
-          "search",
-          "investigate_window"
-        ]
+        }
       },
       "phantom": {
         "type": "object",
@@ -277,14 +271,17 @@ ent
           "severity": {
             "type": "string",
             "description": "Severity in phantom (High, Medium, Low)"
+          },
+          "product_type": {
+            "product_type": "string",
+            "description": "Type of baseline to execute",
+            "enum": [
+              "phantom",
+              "splunk",
+              "uba"
+            ]
           }
-        },
-        "required": [
-          "phantom_server",
-          "playbook_name",
-          "playbook_url",
-          "playbook_display_name"
-        ]
+        }
       }
     },
     "required": [
@@ -295,12 +292,13 @@ ent
       "maintainers",
       "modification_date",
       "original_authors",
+      "search",
       "description",
       "id",
       "product_type",
+      "investigate_window",
       "spec_version",
       "version",
       "investigate"
     ]
   }
-}

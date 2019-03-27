@@ -21,6 +21,15 @@
         "uba"
       ]
     },
+    "entities": {
+      "description": "A list of entities that is outputed by the search...",
+      "type": "array",
+      "items": {
+        "enum": []
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
     "description": {
       "description": "A description of what the search is is doing to create a baseline",
       "type": "string"
@@ -33,7 +42,25 @@
           "description": "A list of data models, if any, used by this search",
           "type": "array",
           "items": {
-            "type": "string"
+            "enum": [
+              "Alerts",
+              "Application_State",
+              "Authentication",
+              "Certificates",
+              "Change_Analysis",
+              "Change",
+              "Malware",
+              "Email",
+              "Identity_Management",
+              "Network_Resolution",
+              "Network_Traffic",
+              "Vulnerabilities",
+              "Web",
+              "Network_Sessions",
+              "Updates",
+              "Risk",
+              "Endpoint"
+            ]
           },
           "minItems": 0,
           "uniqueItems": true
@@ -108,6 +135,15 @@
       "description": "The date the baseline manifest was created",
       "type": "string"
     },
+    "entities": {
+        "description": "A list of entities that will used in the story flow or are relevant to the security investigation.",
+        "type": "array",
+        "items": {
+          "enum": []
+        },
+        "minItems": 0,
+        "uniqueItems": true
+      },
     "modification_date": {
       "description": "The date of the most recent modification to the search",
       "type": "string"
