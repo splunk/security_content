@@ -162,7 +162,32 @@
     "entities": {
       "description": "A list of entities that is either an input or an output for the security workflow.",
       "items": {
-        "enum": []
+        "enum": [
+          "accessKeyId",
+          "arn",
+          "awsRegion",
+          "bucketName",
+          "City",
+          "Country",
+          "dest_port",
+          "dest",
+          "event_id",
+          "instanceId",
+          "message_id",
+          "networkAclId",
+          "process_name",
+          "process",
+          "recipient",
+          "Region",
+          "resourceId",
+          "session_id",
+          "src_ip",
+          "src_ip",
+          "src_mac",
+          "src_user",
+          "src",
+          "user"
+        ]
       },
       "minItems": 0,
       "type": "array",
