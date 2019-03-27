@@ -1,16 +1,21 @@
+security-content ![security-content](static/logo.png)
+=====
+
+Contains a collection of security stories with their corresponding detection, investigative, contexual and support splunk searches
 
 | branch | build status |
 | ---    | ---          |
 | develop| [![develop status](https://circleci.com/gh/splunk/security-content/tree/develop.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/develop)|
 | master | [![master status](https://circleci.com/gh/splunk/security-content/tree/master.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/master)|
 
-# security-content
-Contains a collection of security stories with their corresponding detection, investigative, contexual and support splunk searches
-
-# Consumption
+# Usage
 Can be consumed using:
-* API (https://api.splunksecuritycontent.com)
-* CLI
+
+#### [API](https://github.com/splunk/security-content-api)
+`curl https://g7jbilqdth.execute-api.us-west-2.amazonaws.com/api/`
+
+#### [CLI](https://github.com/splunk/security-content-api/blob/master/content-update.py)
+`python content-update.py -o $SPLUNK_HOME/etc/apps/DA-ESS-ContentUpdate --splunk_user admin --splunk_password xxxx`
 
 # Structure
 * [stories/](stories/) - contains all analytics stories/use cases for ESCU
