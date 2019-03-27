@@ -21,6 +21,15 @@
         "uba"
       ]
     },
+    "entities": {
+      "description": "A list of entities that is outputed by the search...",
+      "type": "array",
+      "items": {
+        "enum": []
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
     "description": {
       "description": "A description of what the search is is doing to create a baseline",
       "type": "string"

@@ -1,4 +1,4 @@
-{
+ent
   "description": "The fields that make up the manifest of a version 1 investigative earch",
   "type": "object",
   "$id": "https://api.splunkresearch.com/schemas/investigations.json",
