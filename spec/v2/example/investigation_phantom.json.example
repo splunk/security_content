@@ -39,6 +39,6 @@
     }
   ],
   "spec_version": 2,
-  "type": "investigative",
+  "product_type": "splunk",
   "version": "1.0"
 }

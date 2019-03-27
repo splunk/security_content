@@ -1,12 +1,20 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Investigative Search Manifest",
-  "$id": "https://api.splunkresearch.com/schemas/investigations.json",
   "description": "The fields that make up the manifest of a version 1 investigative earch",
   "type": "object",
+  "$id": "https://api.splunkresearch.com/schemas/investigations.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Investigative Search Manifest",
   "properties": {
+    "name": {
+      "description": "The name of the search",
+      "type": "string"
+    },
     "id": {
       "description": "The unique identifier for the search",
+      "type": "string"
+    },
+    "description": {
+      "description": "A description of what the search is designed to detect",
       "type": "string"
     },
     "data_metadata": {
@@ -15,6 +23,15 @@
       "properties": {
         "data_models": {
           "description": "A list of data models, if any, used by this search",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "data_eventtypes": {
+          "description": "A list of eventtypes, if any, used by this search",
           "type": "array",
           "items": {
             "type": "string"
@@ -33,15 +50,6 @@
         },
         "data_sourcetypes": {
           "description": "The list of sourcetypes, if any, used by this search",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 0,
-          "uniqueItems": true
-        },
-        "data_eventtypes": {
-          "description": "A list of eventtypes, if any, used by this search",
           "type": "array",
           "items": {
             "type": "string"
@@ -88,21 +96,12 @@
         "providing_technologies"
       ]
     },
-    "fields_required": {
-      "description": "A list of fields that need to be in the result of the detection search for the search to be successful",
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "minItems": 0,
-      "uniqueItems": true
+    "creation_date": {
+      "description": "The date the story manifest was created",
+      "type": "string"
     },
     "how_to_implement": {
       "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per site modifications",
-      "type": "string"
-    },
-    "creation_date": {
-      "description": "The date the story manifest was created",
       "type": "string"
     },
     "maintainers": {
@@ -163,27 +162,6 @@
         ]
       }
     },
-    "search": {
-      "description": "The search (in SPL) executed within core Splunk",
-      "type": "string"
-    },
-    "description": {
-      "description": "A description of what the search is designed to detect",
-      "type": "string"
-    },
-    "name": {
-      "description": "The name of the search",
-      "type": "string"
-    },
-    "type": {
-      "description": "The type of the search",
-      "enum": [
-        "detection",
-        "investigative",
-        "contextual",
-        "baseline"
-      ]
-    },
     "spec_version": {
       "description": "The version of the investigative search specification this manifest follows",
       "type": "integer"
@@ -191,6 +169,24 @@
     "version": {
       "description": "The version of the search",
       "type": "string"
+    },
+    "entities": {
+      "description": "A list of entities that is outputed by the search...",
+      "type": "array",
+      "items": {
+        "enum": []
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "fields_required": {
+      "description": "A list of fields that need to be in the result of the detection search for the search to be successful",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0,
+      "uniqueItems": true
     },
     "investigate": {
       "oneOf": [
@@ -205,6 +201,34 @@
   },
   "additionalProperties": false,
   "definitions": {
+    "splunk": {
+      "type": "object",
+      "properties": {
+        "search": {
+          "description": "The search (in SPL) executed within core Splunk",
+          "type": "string"
+        },
+        "investigate_window": {
+          "type": "object",
+          "description": "The fields associated on when this search should run relative to the detection event",
+          "properties": {
+            "earliest_time_offset": {
+              "description": "The number of seconds into the past from the event time the search should cover",
+              "type": "integer"
+            },
+            "latest_time_offset": {
+              "description": "The number of seconds into the future from the event time the search should cover",
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "latest_time_offset",
+            "earliest_time_offset"
+          ]
+        }
+      }
+    },
     "phantom": {
       "type": "object",
       "properties": {
@@ -231,34 +255,15 @@
         "severity": {
           "type": "string",
           "description": "Severity in phantom (High, Medium, Low)"
-        }
-      }
-    },
-    "splunk": {
-      "type": "object",
-      "properties": {
-        "investigate_window": {
-          "type": "object",
-          "description": "The fields associated on when this search should run relative to the detection event",
-          "properties": {
-            "earliest_time_offset": {
-              "description": "The number of seconds into the past from the event time the search should cover",
-              "type": "integer"
-            },
-            "latest_time_offset": {
-              "description": "The number of seconds into the future from the event time the search should cover",
-              "type": "integer"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "latest_time_offset",
-            "earliest_time_offset"
-          ]
         },
-        "search": {
-          "description": "The search (in SPL) executed within core Splunk",
-          "type": "string"
+        "product_type": {
+          "product_type": "string",
+          "description": "Type of baseline to execute",
+          "enum": [
+            "phantom",
+            "splunk",
+            "uba"
+          ]
         }
       }
     }
@@ -274,7 +279,7 @@
     "search",
     "description",
     "id",
-    "type",
+    "product_type",
     "investigate_window",
     "spec_version",
     "version",
