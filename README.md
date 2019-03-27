@@ -37,3 +37,6 @@ For getting pre-commit checks, install the hooks see below for steps:
 To test a local change to CI or build make sure you are running docker and then
 `circleci local execute -e GITHUB_TOKEN=$GITHUB_TOKEN --branch <your branch>`
 
+To generate docs from schema automatically
+1. install https://github.com/adobe/jsonschema2md
+2. jsonschema2md -d spec/v2/detections.json.spec -o docs
