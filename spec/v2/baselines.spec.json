@@ -175,7 +175,7 @@
       "type": "string"
     },
     "eli5": {
-      "description": "Explain it like I\u2019m 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
+      "description": "Explain it like I am 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
       "type": "string"
     },
     "entities": {
@@ -200,7 +200,6 @@
           "Region",
           "resourceId",
           "session_id",
-          "src_ip",
           "src_ip",
           "src_mac",
           "src_user",
