@@ -1,0 +1,162 @@
+{
+  "$id": "https://api.splunkresearch.com/schemas/story.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "#/definitions/id"
+    }
+  ],
+  "description": "The fields that make up the manifest of a version 2 Analytic Story",
+  "meta:license": [
+    "This file is licensed to you under the Apache License, Version 2.0 (the 'License');",
+    "you may not use this file except in compliance with the License. You may obtain a copy",
+    "of the License at http://www.apache.org/licenses/LICENSE-2.0"
+  ],
+  "properties": {
+    "category": {
+      "description": "The category to which the Analytic Story belongs",
+      "enum": [
+        "Abuse",
+        "Adversary Tactics",
+        "Best Practices",
+        "Cloud Security",
+        "Malware",
+        "Vulnerability"
+      ]
+    },
+    "channel": {
+      "description": "A grouping function that designates where this search came from. For example, searches and stories in Enterprise Security Content Updates are in the ESCU channel",
+      "type": "string"
+    },
+    "creation_date": {
+      "description": "The date this story was created",
+      "type": "string"
+    },
+    "description": {
+      "description": "A high-level description or goal of the Analytic Story",
+      "type": "string"
+    },
+    "detections": {
+      "description": "An array of detection mechanisms from Splunk, UBA and phantom. ",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "detection_id": {
+            "description": "unique identifier of the detection, in the form of UUID",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the Detection. It can be a name of a Splunk correlation search name, a UBA threat or a Phantom detection playbook.",
+            "type": "string"
+          },
+          "type": {
+            "description": "What product gives you a detection",
+            "enum": [
+              "splunk",
+              "uba",
+              "phantom"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "detection_id",
+          "type",
+          "name"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "id": {
+      "description": "A unique identifier for the Analytic Story",
+      "format": "uuid",
+      "type": "string"
+    },
+    "maintainers": {
+      "description": "An array of the current maintainers of the Analytic Story.",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "company": {
+            "description": "Company associated with the person maintaining this Analytic Story",
+            "type": "string"
+          },
+          "email": {
+            "description": "Email address of the person maintaining this Analytic Story",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the person maintaining this Analytic Story",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "company"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "modification_date": {
+      "description": "The date of the most recent modification to this Analytic Story",
+      "type": "string"
+    },
+    "name": {
+      "description": "The name of the Analytic Story",
+      "type": "string"
+    },
+    "narrative": {
+      "description": "Long-form text that describes the Analytic Story and the rationale behind it, as well as an overview of the included searches, and how they enable the story",
+      "type": "string"
+    },
+    "original_authors": {
+      "description": "An array of the original authors of the Analytic Story",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "company": {
+            "description": "Company associated with the person who originally authored the Analytic Story",
+            "type": "string"
+          },
+          "email": {
+            "description": "Email address of the person who originally authored the Analytic Story",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the person who originally authored the Analytic Story",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "company"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "references": {
+      "description": "An array of URLs that give information about the problem the story is addressing",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "spec_version": {
+      "description": "The version of the Analytic Story specification this manifest follows",
+      "type": "integer"
+    },
+    "version": {
+      "description": "The version of the Analytic Story",
+      "type": "string"
+    }
+  },
+  "title": "Analytic Story Manifest",
+  "type": "object"
+}
