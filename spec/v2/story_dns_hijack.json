@@ -5,7 +5,7 @@
   "description": "Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.",
   "detections": [
     {
-      "detection_id": "8169w17b-ef78-4b59-aae8-5369073014e1",
+      "detection_id": "1169w17b-ef78-4b59-aae8-5369073014e1",
       "name": "DNS record changed",
       "type": "splunk"
     },
