@@ -1,8 +1,8 @@
 {
   "description": "A object that defines the parameters for detecting things using various Splunk capabilities",
+  "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Detection Manifest",
-  "type": "object",
   "properties": {
     "name": {
       "description": "The name of the detection",
@@ -362,41 +362,15 @@
         },
         {
           "$ref": "#/definitions/phantom"
+        },
+        {
+          "$ref": "#/definitions/uba"
         }
       ]
     }
   },
   "additionalProperties": false,
   "definitions": {
-    "phantom": {
-      "type": "object",
-      "properties": {
-        "phantom_server": {
-          "type": "string",
-          "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)"
-        },
-        "playbook_name": {
-          "type": "string",
-          "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment"
-        },
-        "playbook_display_name": {
-          "type": "string",
-          "description": "Display Name of the playbook. Capitalize each letter and remove underscores from playbook_name field. Eg: Simple Network Enrichment"
-        },
-        "playbook_url": {
-          "type": "string",
-          "description": "Url of the playbook on Phantom website."
-        },
-        "sensitivity": {
-          "type": "string",
-          "description": "TLP colors (White, Green, Amber or Red)"
-        },
-        "severity": {
-          "type": "string",
-          "description": "Severity in phantom (High, Medium, Low)"
-        }
-      }
-    },
     "splunk": {
       "type": "object",
       "properties": {
@@ -509,6 +483,60 @@
           "type": "string"
         }
       }
+    },
+    "phantom": {
+      "type": "object",
+      "properties": {
+        "phantom_server": {
+          "type": "string",
+          "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)"
+        },
+        "playbook_name": {
+          "type": "string",
+          "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment"
+        },
+        "playbook_display_name": {
+          "type": "string",
+          "description": "Display Name of the playbook. Capitalize each letter and remove underscores from playbook_name field. Eg: Simple Network Enrichment"
+        },
+        "playbook_url": {
+          "type": "string",
+          "description": "Url of the playbook on Phantom website."
+        },
+        "sensitivity": {
+          "type": "string",
+          "description": "TLP colors (White, Green, Amber or Red)"
+        },
+        "severity": {
+          "type": "string",
+          "description": "Severity in phantom (High, Medium, Low)"
+        }
+      }
+    },
+    "uba": {
+      "type": "object",
+      "properties": {
+        "threat_category": {
+          "type": "string",
+          "description": "The category of a threat in Splunk UBA."
+        },
+        "uba_search": {
+          "type": "string",
+          "description": "The search you will run against the UEBA index to idenfiy the threat."
+        },
+        "uba_event_type": {
+          "type": "string",
+          "description": "An anomaly or threat."
+        },
+        "uba_model": {
+          "type": "string",
+          "description": "The name of the Splunk UBA model that detected the anomaly."
+        },
+        "uba_model_version": {
+          "type": "string",
+          "description": "Url of the playbook on Phantom website."
+        }
+      }
     }
   },
   "required": [
@@ -528,4 +556,4 @@
     "version",
     "detect"
   ]
-}
+}}
