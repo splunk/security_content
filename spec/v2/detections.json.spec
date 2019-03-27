@@ -381,7 +381,33 @@
       "description": "A list of entities that is outputed by the search...",
       "type": "array",
       "items": {
-        "enum": []
+
+        "enum": [
+                 "accessKeyId",
+                  "arn",
+                  "awsRegion",
+                  "bucketName",
+                  "City",
+                  "Country",
+                  "dest_port",
+                  "dest",
+                  "event_id",
+                  "instanceId",
+                  "message_id",
+                  "networkAclId",
+                  "process_name",
+                  "process",
+                  "recipient",
+                  "Region",
+                  "resourceId",
+                  "session_id",
+                  "src_ip",
+                  "src_ip",
+                  "src_mac",
+                  "src_user",
+                  "src",
+                  "user"
+                  ]
       },
       "minItems": 0,
       "uniqueItems": true
