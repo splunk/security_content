@@ -4,12 +4,115 @@
   "definitions": {
     "phantom": {
       "properties": {
+        "correlation_rule": {
+          "description": "Various fields to enhance usability in Enterprise Security",
+          "properties": {
+            "notable": {
+              "description": "Various fields associated with creating a notable event",
+              "properties": {
+                "nes_fields": {
+                  "description": "A list of suggested fields to be used for notable-event suppression",
+                  "type": "string"
+                },
+                "rule_description": {
+                  "description": "Description of the notable event that will display in Incident Review",
+                  "type": "string"
+                },
+                "rule_title": {
+                  "description": "Title of the notable event that will display in Incident Review",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "rule_description",
+                "rule_title",
+                "nes_fields"
+              ],
+              "type": "object"
+            },
+            "risk": {
+              "description": "Fields associated with assigning risk to objects",
+              "properties": {
+                "risk_object": {
+                  "description": "TThe field to which you are assigning risk",
+                  "type": "string"
+                },
+                "risk_object_type": {
+                  "description": "The type of object to which you are assigning risk",
+                  "items": {
+                    "enum": [
+                      "system",
+                      "user",
+                      "other"
+                    ],
+                    "type": "string"
+                  },
+                  "maxItems": 1,
+                  "minItems": 0,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "risk_score": {
+                  "description": "Score assigned to risk_object",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "risk_score",
+                "risk_object",
+                "risk_object_type"
+              ],
+              "type": "object"
+            },
+            "scheduling": {
+              "description": "Various fields to assist in scheduling the search",
+              "properties": {
+                "cron_schedule": {
+                  "description": "Schedule of the search in cron format",
+                  "type": "string"
+                },
+                "earliest_time": {
+                  "description": "The earliest time the search should run in Splunk format",
+                  "type": "string"
+                },
+                "latest_time": {
+                  "description": "The latest time tes search should run against in Splunk format",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "search": {
+              "description": "The search that will trigger phantom playbook",
+              "type": "string"
+            },
+            "suppress": {
+              "description": "Fields associated with suppressing the creation of multiple alerts",
+              "properties": {
+                "suppress_fields": {
+                  "description": "The fields to base the suppression on",
+                  "type": "string"
+                },
+                "suppress_period": {
+                  "description": "The length of time the suppression should be in effect",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "suppress_fields",
+                "suppress_period"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "search",
+            "scheduling"
+          ],
+          "type": "object"
+        },
         "phantom_server": {
           "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)",
-          "type": "string"
-        },
-        "playbook_display_name": {
-          "description": "Display Name of the playbook. Capitalize each letter and remove underscores from playbook_name field. Eg: Simple Network Enrichment",
           "type": "string"
         },
         "playbook_name": {
@@ -29,9 +132,125 @@
           "type": "string"
         }
       },
+      "required": [
+        "correlation_rule",
+        "playbook_name",
+        "phantom_server",
+        "playbook_url"
+      ],
       "type": "object"
     },
     "splunk": {
+      "correlation_rule": {
+        "description": "Various fields to enhance usability in Enterprise Security",
+        "properties": {
+          "notable": {
+            "description": "Various fields associated with creating a notable event",
+            "properties": {
+              "nes_fields": {
+                "description": "A list of suggested fields to be used for notable-event suppression",
+                "type": "string"
+              },
+              "rule_description": {
+                "description": "Description of the notable event that will display in Incident Review",
+                "type": "string"
+              },
+              "rule_title": {
+                "description": "Title of the notable event that will display in Incident Review",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rule_description",
+              "rule_title",
+              "nes_fields"
+            ],
+            "type": "object"
+          },
+          "risk": {
+            "description": "Fields associated with assigning risk to objects",
+            "properties": {
+              "risk_object": {
+                "description": "TThe field to which you are assigning risk",
+                "type": "string"
+              },
+              "risk_object_type": {
+                "description": "The type of object to which you are assigning risk",
+                "items": {
+                  "enum": [
+                    "system",
+                    "user",
+                    "other"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 0,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "risk_score": {
+                "description": "Score assigned to risk_object",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "risk_score",
+              "risk_object",
+              "risk_object_type"
+            ],
+            "type": "object"
+          },
+          "scheduling": {
+            "description": "Various fields to assist in scheduling the search",
+            "properties": {
+              "cron_schedule": {
+                "description": "Schedule of the search in cron format",
+                "type": "string"
+              },
+              "earliest_time": {
+                "description": "The earliest time the search should run in Splunk format",
+                "type": "string"
+              },
+              "latest_time": {
+                "description": "The latest time tes search should run against in Splunk format",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "search": {
+            "description": "The search that will trigger phantom playbook",
+            "type": "string"
+          },
+          "suppress": {
+            "description": "Fields associated with suppressing the creation of multiple alerts",
+            "properties": {
+              "suppress_fields": {
+                "description": "The fields to base the suppression on",
+                "type": "string"
+              },
+              "suppress_period": {
+                "description": "The length of time the suppression should be in effect",
+                "type": "string"
+              }
+            },
+            "required": [
+              "suppress_fields",
+              "suppress_period"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "search",
+          "scheduling"
+        ],
+        "type": "object"
+      },
+      "type": "object"
+    },
+    "uba": {
       "properties": {
         "correlation_rule": {
           "description": "Various fields to enhance usability in Enterprise Security",
@@ -93,6 +312,28 @@
               ],
               "type": "object"
             },
+            "scheduling": {
+              "description": "Various fields to assist in scheduling the search",
+              "properties": {
+                "cron_schedule": {
+                  "description": "Schedule of the search in cron format",
+                  "type": "string"
+                },
+                "earliest_time": {
+                  "description": "The earliest time the search should run in Splunk format",
+                  "type": "string"
+                },
+                "latest_time": {
+                  "description": "The latest time tes search should run against in Splunk format",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "search": {
+              "description": "The search (in SPL) executed within core Splunk",
+              "type": "string"
+            },
             "suppress": {
               "description": "Fields associated with suppressing the creation of multiple alerts",
               "properties": {
@@ -112,35 +353,12 @@
               "type": "object"
             }
           },
+          "required": [
+            "search",
+            "scheduling"
+          ],
           "type": "object"
         },
-        "scheduling": {
-          "description": "Various fields to assist in scheduling the search",
-          "properties": {
-            "cron_schedule": {
-              "description": "Schedule of the search in cron format",
-              "type": "string"
-            },
-            "earliest_time": {
-              "description": "The earliest time the search should run in Splunk format",
-              "type": "string"
-            },
-            "latest_time": {
-              "description": "The latest time tes search should run against in Splunk format",
-              "type": "string"
-            }
-          },
-          "type": "object"
-        },
-        "search": {
-          "description": "The search (in SPL) executed within core Splunk",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "uba": {
-      "properties": {
         "event_type": {
           "description": "An anomaly or threat.",
           "type": "string"
@@ -153,15 +371,18 @@
           "description": "Url of the playbook on Phantom website.",
           "type": "string"
         },
-        "search": {
-          "description": "The search you will run against the UEBA index to idenfiy the threat.",
-          "type": "string"
-        },
         "threat_category": {
           "description": "The category of a threat in Splunk UBA.",
           "type": "string"
         }
       },
+      "required": [
+        "correlation_rule",
+        "event_type",
+        "model",
+        "model_version",
+        "threat_category"
+      ],
       "type": "object"
     }
   },
