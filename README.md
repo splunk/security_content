@@ -39,4 +39,4 @@ To test a local change to CI or build make sure you are running docker and then
 
 To generate docs from schema automatically
 1. install https://github.com/adobe/jsonschema2md
-2. jsonschema2md -d spec/v2/detections.json.spec -o docs
+2. `jsonschema2md -d spec/v2/detections.json.spec -o docs`
