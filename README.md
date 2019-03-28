@@ -26,9 +26,9 @@ Can be consumed using:
 * [src/](src/) - splunk content app source files, includes lookups, binaries, and defaul config files
 * [bin/](bin/) - where all binaries to produce, and test content lives
 * [spec/](spec/) - location of all spec files that describe ESCU content
+* [docs/](docs/) - documentation for all of the spec files
 
 # Developing
-
 For getting pre-commit checks, install the hooks see below for steps:
 1. Install circleci [CLI Tool](https://circleci.com/docs/2.0/local-cli/#installation)
 2. create virtualenv and install requirements: `virtualenv venv && source venv/bin/activate && pip install -r requirements.txt`
