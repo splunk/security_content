@@ -1,7 +1,6 @@
 {
   "$id": "https://api.splunkresearch.com/schemas/detections.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
   "definitions": {
     "phantom": {
       "properties": {
@@ -35,11 +34,9 @@
     "splunk": {
       "properties": {
         "correlation_rule": {
-          "additionalProperties": false,
           "description": "Various fields to enhance usability in Enterprise Security",
           "properties": {
             "notable": {
-              "additionalProperties": false,
               "description": "Various fields associated with creating a notable event",
               "properties": {
                 "nes_fields": {
@@ -63,7 +60,6 @@
               "type": "object"
             },
             "risk": {
-              "additionalProperties": false,
               "description": "Fields associated with assigning risk to objects",
               "properties": {
                 "risk_object": {
@@ -71,7 +67,7 @@
                   "type": "string"
                 },
                 "risk_object_type": {
-                  "description": "The type of object to which you\u2019re assigning risk",
+                  "description": "The type of object to which you are assigning risk",
                   "items": {
                     "enum": [
                       "system",
@@ -98,7 +94,6 @@
               "type": "object"
             },
             "suppress": {
-              "additionalProperties": false,
               "description": "Fields associated with suppressing the creation of multiple alerts",
               "properties": {
                 "suppress_fields": {
@@ -120,7 +115,6 @@
           "type": "object"
         },
         "scheduling": {
-          "additionalProperties": false,
           "description": "Various fields to assist in scheduling the search",
           "properties": {
             "cron_schedule": {
@@ -180,7 +174,6 @@
     "baselines": {
       "description": "An array of the baseline objects to exectute before the detection ",
       "items": {
-        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "UUID of the baseline object",
@@ -222,7 +215,6 @@
       "type": "string"
     },
     "data_metadata": {
-      "additionalProperties": false,
       "description": "Information about the date being ingested",
       "properties": {
         "data_eventtypes": {
@@ -337,7 +329,7 @@
       ]
     },
     "eli5": {
-      "description": "Explain it like I\u2019m 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
+      "description": "Explain it like I am 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
       "type": "string"
     },
     "entities": {
@@ -363,7 +355,6 @@
           "resourceId",
           "session_id",
           "src_ip",
-          "src_ip",
           "src_mac",
           "src_user",
           "src",
@@ -385,7 +376,6 @@
     "investigations": {
       "description": "An array of the investigation objects to exectute on the detection results ",
       "items": {
-        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "UUID of the baseline object",
@@ -421,7 +411,6 @@
     "maintainers": {
       "description": "An array of the current maintainers of the Analytic Story.",
       "items": {
-        "additionalProperties": false,
         "properties": {
           "company": {
             "description": "Company associated with the person maintaining this search",
@@ -446,7 +435,6 @@
       "type": "array"
     },
     "mappings": {
-      "additionalProperties": false,
       "description": "Mappings to various industry standards and frameworks",
       "properties": {
         "cis20": {
@@ -635,7 +623,6 @@
               "Windows Management Instrumentation",
               "Windows Remote Management",
               "Winlogon Helper DLL",
-              "Initial Access",
               "Exploitation for Privilege Escalation"
             ]
           },
@@ -685,7 +672,6 @@
     "original_authors": {
       "description": "A list of the original authors of the search",
       "items": {
-        "additionalProperties": false,
         "properties": {
           "company": {
             "description": "Company associated with the person who originally authored the search",
@@ -729,7 +715,6 @@
     "responses": {
       "description": "An array of the response objects to exectute on the detection results ",
       "items": {
-        "additionalProperties": false,
         "properties": {
           "id": {
             "description": "UUID of the baseline object",
