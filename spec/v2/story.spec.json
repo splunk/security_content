@@ -10,14 +10,42 @@
   "properties": {
     "category": {
       "description": "The category to which the Analytic Story belongs",
-      "enum": [
-        "Abuse",
-        "Adversary Tactics",
-        "Best Practices",
-        "Cloud Security",
-        "Malware",
-        "Vulnerability"
-      ]
+      "items": {
+        "enum": [
+          "Abuse",
+          "Account Compromise",
+          "Account Sharing",
+          "Adversary Tactics",
+          "Best Practices",
+          "Cloud Security",
+          "Command and Control",
+          "Compliance",
+          "Data Exfiltration",
+          "Denial of Service",
+          "Endpoint Compromise",
+          "GDPR",
+          "IAM Analytics",
+          "Insider Threat",
+          "Lateral Movement",
+          "Malware",
+          "Network Attack",
+          "Operations",
+          "Other",
+          "Privilege Escalation",
+          "Phishing",
+          "Ransomware",
+          "SaaS",
+          "Scanning",
+          "Shadow IT",
+          "Threat Intelligence",
+          "Unauthorized Software",
+          "Vulnerability",
+          "Web Attack"
+        ]
+      },
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
     },
     "channel": {
       "description": "A grouping function that designates where this search came from. For example, searches and stories in Enterprise Security Content Updates are in the ESCU channel",
@@ -150,6 +178,16 @@
       "description": "The version of the Analytic Story specification this manifest follows",
       "type": "integer"
     },
+    "usecase": {
+      "description": "The usecase to which the Analytic Story belongs to.",
+      "enum": [
+        "Security Monitoring",
+        "Advanced Threat Detection",
+        "Insider Threat",
+        "Compliance",
+        "Fraud Detection"
+      ]
+    },
     "version": {
       "description": "The version of the Analytic Story",
       "type": "string"
@@ -158,6 +196,7 @@
   "required": [
     "id",
     "category",
+    "usecase",
     "name",
     "description",
     "detections",
