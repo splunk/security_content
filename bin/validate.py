@@ -11,6 +11,33 @@ import sys
 import argparse
 from os import path
 
+ALL_UUIDS = []
+
+
+def validate_story_content(story):
+    ''' Validate that the content of a story manifest is correct'''
+    errors = []
+
+    if story['id'] == '':
+        errors.append('ERROR: Blank ID')
+
+    if story['id'] in ALL_UUIDS:
+        errors.append('ERROR: Duplicate UUID found: %s' % story['id'])
+    else:
+        ALL_UUIDS.append(story['id'])
+
+    try:
+        story['description'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("description not ascii")
+
+    try:
+        story['narrative'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("narrative not ascii")
+
+    return errors
+
 
 def validate_story(REPO_PATH, verbose):
     ''' Validates Stories'''
@@ -44,7 +71,7 @@ def validate_story(REPO_PATH, verbose):
             error = True
             continue
 
-        # validate v1 stories
+        # validate v1 and v2 stories against spec
         if story['spec_version'] == 1:
             try:
                 jsonschema.validate(instance=story, schema=v1_schema)
@@ -67,6 +94,14 @@ def validate_story(REPO_PATH, verbose):
             print "Story: {0} does not contain a spec_version which is required".format(story_manifest_file)
             error = True
             continue
+
+        # now lets validate the content
+        story_errors = validate_story_content(story)
+        if story_errors:
+            error = True
+            for err in story_errors:
+                print path.basename(story_manifest_file)
+                print "\t%s" % err
 
     return error
 
