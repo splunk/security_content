@@ -182,7 +182,6 @@
           "resourceId",
           "session_id",
           "src_ip",
-          "src_ip",
           "src_mac",
           "src_user",
           "src",
@@ -301,7 +300,7 @@
   "required": [
     "creation_date",
     "data_metadata",
-    "fields_required",
+    "entity",
     "how_to_implement",
     "maintainers",
     "modification_date",
@@ -310,10 +309,9 @@
     "description",
     "id",
     "product_type",
-    "investigate_window",
     "spec_version",
     "version",
-    "investigate"
+    "response"
   ],
   "title": "Response Manifest",
   "type": "object"
