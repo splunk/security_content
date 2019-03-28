@@ -29,12 +29,12 @@ def validate_story_content(story):
     try:
         story['description'].encode('ascii')
     except UnicodeEncodeError:
-        errors.append("description not ascii")
+        errors.append("ERROR: description not ascii")
 
     try:
         story['narrative'].encode('ascii')
     except UnicodeEncodeError:
-        errors.append("narrative not ascii")
+        errors.append("ERROR: narrative not ascii")
 
     return errors
 
@@ -47,13 +47,13 @@ def validate_story(REPO_PATH, verbose):
     try:
         v1_schema = json.loads(open(v1_schema_file, 'rb').read())
     except IOError:
-        print "Error reading version 1 story schema file {0}".format(v1_schema_file)
+        print "ERROR: reading version 1 story schema file {0}".format(v1_schema_file)
 
     v2_schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/story.spec.json')
     try:
         v2_schema = json.loads(open(v2_schema_file, 'rb').read())
     except IOError:
-        print "Error reading version 2 story schema file {0}".format(v2_schema_file)
+        print "ERROR: reading version 2 story schema file {0}".format(v2_schema_file)
 
     error = False
     story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
@@ -76,22 +76,20 @@ def validate_story(REPO_PATH, verbose):
             try:
                 jsonschema.validate(instance=story, schema=v1_schema)
             except jsonschema.exceptions.ValidationError as json_ve:
-                print story_manifest_file
-                print json_ve.message
+                print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), story_manifest_file)
+                print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
                 error = True
-                continue
 
         elif story['spec_version'] == 2:
             try:
                 jsonschema.validate(instance=story, schema=v2_schema)
             except jsonschema.exceptions.ValidationError as json_ve:
-                print story_manifest_file
-                print json_ve.message
+                print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), story_manifest_file)
+                print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
                 error = True
-                continue
 
         else:
-            print "Story: {0} does not contain a spec_version which is required".format(story_manifest_file)
+            print "ERROR: Story {0} does not contain a spec_version which is required".format(story_manifest_file)
             error = True
             continue
 
@@ -100,8 +98,7 @@ def validate_story(REPO_PATH, verbose):
         if story_errors:
             error = True
             for err in story_errors:
-                print path.basename(story_manifest_file)
-                print "\t%s" % err
+                print "{0} at:\n\t {1}".format(err, story_manifest_file)
 
     return error
 
