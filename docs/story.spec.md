@@ -239,6 +239,12 @@ A unique identifier for the Analytic Story
 
 
 
+### id Example
+
+```json
+"8169f17b-ef68-4b59-aae8-5869073014e1"
+```
+
 
 ## maintainers
 

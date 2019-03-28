@@ -65,7 +65,9 @@
     },
     "id": {
       "description": "A unique identifier for the Analytic Story",
-      "example": "8169f17b-ef68-4b59-aae8-5869073014e1",
+      "examples": [
+        "8169f17b-ef68-4b59-aae8-5869073014e1"
+      ],
       "format": "uuid",
       "type": "string"
     },
