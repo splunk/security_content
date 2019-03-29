@@ -15,11 +15,14 @@
   "investigate": {
     "phantom": {
       "phantom_server": "automation (hostname)",
-      "playbook_display_name": "DNS record change investigation",
       "playbook_name": "community/dns_hijack_investigation",
       "playbook_url": "https://my.phantom.us/4.1/playbook/dns-hijack-investigation/",
       "sensitivity": "green",
-      "severity": "medium"
+      "severity": "medium",
+      "window": {
+        "earliest_time_offset": 0,
+        "latest_time_offset": 86400
+      }
     }
   },
   "maintainers": [
@@ -39,6 +42,6 @@
     }
   ],
   "spec_version": 2,
-  "product_type": "splunk",
+  "product_type": "phantom",
   "version": "1.0"
 }

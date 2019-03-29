@@ -19,7 +19,7 @@
         "src_ip"
       ],
       "search": "| search tag=dns src_ip={src_ip} dest_port=53 | streamstats time_window=1d count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort -count",
-      "search_window": {
+      "window": {
         "earliest_time_offset": 0,
         "latest_time_offset": 86400
       }
