@@ -8,10 +8,6 @@
           "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)",
           "type": "string"
         },
-        "playbook_display_name": {
-          "description": "Display Name of the playbook. Capitalize each letter and remove underscores from playbook_name field. Eg: Simple Network Enrichment",
-          "type": "string"
-        },
         "playbook_name": {
           "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment",
           "type": "string"
@@ -27,14 +23,27 @@
         "severity": {
           "description": "Severity in phantom (High, Medium, Low)",
           "type": "string"
+        },
+        "window": {
+          "description": "The time associated on when this investigste object should run relative to the detection event",
+          "properties": {
+            "earliest_time_offset": {
+              "description": "The number of seconds into the past from the event time the search should cover",
+              "type": "integer"
+            },
+            "latest_time_offset": {
+              "description": "The number of seconds into the future from the event time the search should cover",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "playbook_name",
+            "phantom_server",
+            "playbook_url"
+          ],
+          "type": "object"
         }
       },
-      "required": [
-        "phantom_server",
-        "playbook_name",
-        "playbook_url",
-        "playbook_display_name"
-      ],
       "type": "object"
     },
     "splunk": {
@@ -45,7 +54,11 @@
           "type": "array",
           "uniqueItems": true
         },
-        "investigate_window": {
+        "search": {
+          "description": "The search (in SPL) executed within core Splunk for investgation.",
+          "type": "string"
+        },
+        "window": {
           "additionalProperties": false,
           "description": "The fields associated on when this search should run relative to the detection event",
           "properties": {
@@ -63,15 +76,12 @@
             "earliest_time_offset"
           ],
           "type": "object"
-        },
-        "search": {
-          "description": "The search (in SPL) executed within core Splunk for investgation.",
-          "type": "string"
         }
       },
       "required": [
         "search",
-        "investigate_window"
+        "fields_required",
+        "window"
       ],
       "type": "object"
     }
