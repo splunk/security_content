@@ -322,7 +322,7 @@
           "description": "A list of kill-chain phases to which the search applies",
           "type": "array",
           "items": {
-           "enum": [
+            "enum": [
               "Reconnaissance",
               "Weaponization",
               "Delivery",
@@ -341,6 +341,14 @@
           "items": {
             "enum": [
               "Initial Access",
+              "AppInit DLLs",
+              "Authentication Package",
+              "Change Default File Association",
+              "Credential Dumping",
+              "Application Shimming",
+              "Account Discovery",
+              "Accessibility Features",
+              "Command-Line Interface",
               "Execution",
               "Persistence",
               "Privilege Escalation",
