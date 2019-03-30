@@ -382,6 +382,7 @@ def validate_investigation(REPO_PATH, verbose):
             continue
 
         # validate v1 and v2 stories against spec for both investigations and old contexual searches
+
         if investigation['spec_version'] == 1 and investigation['search_type'] == "contextual":
             try:
                 jsonschema.validate(instance=investigation, schema=v1_schema_contexual)
@@ -389,15 +390,13 @@ def validate_investigation(REPO_PATH, verbose):
                 print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file)
                 print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
                 error = True
-
-        if investigation['spec_version'] == 1 and investigation['search_type'] == "investigative":
+        elif investigation['spec_version'] == 1 and investigation['search_type'] == "investigative":
             try:
                 jsonschema.validate(instance=investigation, schema=v1_schema_investigative)
             except jsonschema.exceptions.ValidationError as json_ve:
                 print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file)
                 print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
                 error = True
-
         elif investigation['spec_version'] == 2:
             try:
                 jsonschema.validate(instance=investigation, schema=v2_schema)
@@ -405,7 +404,6 @@ def validate_investigation(REPO_PATH, verbose):
                 print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file)
                 print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
                 error = True
-
         else:
             print "ERROR: Story {0} does not contain a spec_version which is required".format(manifest_file)
             error = True
