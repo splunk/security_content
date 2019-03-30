@@ -193,6 +193,10 @@
       "description": "A description of what the search is designed to detect",
       "type": "string"
     },
+    "eli5": {
+      "description": "Explain it like I\u2019m 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
+      "type": "string"
+    },
     "entities": {
       "description": "A list of entities that will used in the story flow or are relevant to the security investigation. ",
       "items": {
@@ -243,6 +247,10 @@
           "$ref": "#/definitions/phantom"
         }
       ]
+    },
+    "known_false_positives": {
+      "description": "Scenarios in which detected behavior is benig, coupled with suggestions on how to verify the behavior",
+      "type": "string"
     },
     "maintainers": {
       "description": "An array of the current maintainers of the Analytic Story.",

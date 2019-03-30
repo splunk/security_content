@@ -25,7 +25,7 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
     if detection['name'].endswith(" "):
         errors.append(
             "ERROR: Detection name has trailing spaces: '%s'" %
-            detection['search_name'])
+            detection['name'])
 
     try:
         detection['description'].encode('ascii')
@@ -56,8 +56,6 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
         if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
                 (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
 
-            print "found datamodel keyword"
-
             if 'data_models' not in detection['data_metadata']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' field is not set")
 
@@ -71,6 +69,69 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
                             field is not set")
 
             if not detection['data_metadata']['data_sourcetypes']:
+                errors.append("ERROR: The Splunk search specifies a sourcetype but \
+                        'data_sourcetypes' is empty")
+
+    return errors
+
+
+def validate_investigation_contentv2(investigation, investigation_uuids, errors):
+
+    if investigation['id'] == '':
+        errors.append('ERROR: Blank ID')
+
+    if investigation['id'] in investigation_uuids:
+        errors.append('ERROR: Duplicate UUID found: %s' % investigation['id'])
+    else:
+        investigation_uuids.append(investigation['id'])
+
+    if investigation['name'].endswith(" "):
+        errors.append(
+            "ERROR: Investigation name has trailing spaces: '%s'" %
+            investigation['name'])
+
+    try:
+        investigation['description'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("ERROR: description not ascii")
+
+    if 'how_to_implement' in investigation:
+        try:
+            investigation['how_to_implement'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: how_to_implement not ascii")
+
+    if 'eli5' in investigation:
+        try:
+            investigation['eli5'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: eli5 not ascii")
+
+    if 'known_false_positives' in investigation:
+        try:
+            investigation['known_false_positives'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: known_false_positives not ascii")
+
+    if investigation['detect']['splunk']:
+
+        # do a regex match here instead of key values
+        if (investigation['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
+                (investigation['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
+
+            if 'data_models' not in investigation['data_metadata']:
+                errors.append("ERROR: The Splunk search uses a data model but 'data_models' field is not set")
+
+            if not investigation['data_metadata']['data_models']:
+                errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
+
+        # do a regex match here instead of key values
+        if (investigation['detect']['splunk']['correlation_rule']['search'].find('sourcetype') != -1):
+            if 'data_sourcetypes' not in investigation['data_metadata']:
+                errors.append("ERROR: The Splunk search specifies a sourcetype but 'data_sourcetypes' \
+                            field is not set")
+
+            if not investigation['data_metadata']['data_sourcetypes']:
                 errors.append("ERROR: The Splunk search specifies a sourcetype but \
                         'data_sourcetypes' is empty")
 
@@ -159,8 +220,91 @@ def validate_detection_contentv1(detection, DETECTION_UUIDS, errors):
     return errors
 
 
+def validate_investigation_contentv1(investigation, investigation_uuids, errors):
+
+    try:
+        investigation['search_description'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("ERROR: description not ascii")
+
+    if investigation['search_name'].endswith(" "):
+        errors.append(
+            "ERROR: Investigation name has trailing spaces: '%s'" %
+            investigation['search_name'])
+
+    if investigation['search_id'] == '':
+        errors.append('ERROR: Blank ID')
+
+    if investigation['search_id'] in investigation_uuids:
+        errors.append('ERROR: Duplicate UUID found: %s' % investigation['search_id'])
+    else:
+        investigation_uuids.append(investigation['search_id'])
+
+    if '| tstats' in investigation['search'] or 'datamodel' in investigation['search']:
+        if 'data_models' not in investigation['data_metadata']:
+            errors.append(
+                "ERROR: The search uses a data model but 'data_models' \
+                        field is not set")
+
+        if 'data_models' in investigation and not \
+                investigation['data_metadata']['data_models']:
+            errors.append(
+                "ERROR: The search uses a data model but 'data_models' is empty")
+
+    if 'sourcetype' in investigation['search']:
+        if 'data_sourcetypes' not in investigation['data_metadata']:
+            errors.append(
+                "ERROR: The search specifies a sourcetype but 'data_sourcetypes' \
+                        field is not set")
+
+        if 'data_sourcetypes' in investigation and not \
+                investigation['data_metadata']['data_sourcetypes']:
+            errors.append(
+                "ERROR: The search specifies a sourcetype but \
+                        'data_sourcetypes' is empty")
+
+    try:
+        investigation['search_description'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("ERROR: search_description not ascii")
+
+    if 'how_to_implement' in investigation:
+        try:
+            investigation['how_to_implement'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: how_to_implement not ascii")
+
+    if 'eli5' in investigation:
+        try:
+            investigation['eli5'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("eli5 not ascii")
+
+    if 'known_false_positives' in investigation:
+        try:
+            investigation['known_false_positives'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: known_false_positives not ascii")
+
+    return errors
+
+
+def validate_investigation_content(investigation, investigation_uuids):
+    '''Validate that the content of a investigation manifest is correct'''
+    errors = []
+
+    # run v1 content validation
+    if investigation["spec_version"] == 1:
+        errors = validate_investigation_contentv1(investigation, investigation_uuids, errors)
+
+    if investigation["spec_version"] == 2:
+        errors = validate_investigation_contentv2(investigation, investigation_uuids, errors)
+
+    return errors
+
+
 def validate_detection_content(detection, DETECTION_UUIDS):
-    ''' Validate that the content of a detection manifest is correct'''
+    '''Validate that the content of a detection manifest is correct'''
     errors = []
 
     # run v1 content validation
@@ -196,6 +340,85 @@ def validate_story_content(story, STORY_UUIDS):
         errors.append("ERROR: narrative not ascii")
 
     return errors
+
+
+def validate_investigation(REPO_PATH, verbose):
+    ''' Validates Investigation'''
+
+    INVESTIGATION_UUIDS = []
+    # retrive
+    v1_schema_file_investigative = path.join(path.expanduser(REPO_PATH), 'spec/v1/investigative_search.json.spec')
+    try:
+        v1_schema_investigative = json.loads(open(v1_schema_file_investigative, 'rb').read())
+    except IOError:
+        print "ERROR: reading version 1 investigations schema file {0}".format(v1_schema_file_investigative)
+
+    v1_schema_file_contexual = path.join(path.expanduser(REPO_PATH), 'spec/v1/contextual_search.json.spec')
+    try:
+        v1_schema_contexual = json.loads(open(v1_schema_file_contexual, 'rb').read())
+    except IOError:
+        print "ERROR: reading version 1 investigations schema file {0}".format(v1_schema_file_contexual)
+
+    v2_schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/investigations.spec.json')
+    try:
+        v2_schema = json.loads(open(v2_schema_file, 'rb').read())
+    except IOError:
+        print "ERROR: reading version 2 investigations schema file {0}".format(v2_schema_file)
+
+    error = False
+    manifest_files = path.join(path.expanduser(REPO_PATH), "investigations/*.json")
+
+    for manifest_file in glob.glob(manifest_files):
+        if verbose:
+            print "processing investigation {0}".format(manifest_file)
+
+        # read in each story
+        try:
+            investigation = json.loads(
+                open(manifest_file, 'r').read())
+        except IOError:
+            print "Error reading {0}".format(manifest_file)
+            error = True
+            continue
+
+        # validate v1 and v2 stories against spec for both investigations and old contexual searches
+        if investigation['spec_version'] == 1 and investigation['search_type'] == "contextual":
+            try:
+                jsonschema.validate(instance=investigation, schema=v1_schema_contexual)
+            except jsonschema.exceptions.ValidationError as json_ve:
+                print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file)
+                print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+                error = True
+
+        if investigation['spec_version'] == 1 and investigation['search_type'] == "investigative":
+            try:
+                jsonschema.validate(instance=investigation, schema=v1_schema_investigative)
+            except jsonschema.exceptions.ValidationError as json_ve:
+                print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file)
+                print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+                error = True
+
+        elif investigation['spec_version'] == 2:
+            try:
+                jsonschema.validate(instance=investigation, schema=v2_schema)
+            except jsonschema.exceptions.ValidationError as json_ve:
+                print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file)
+                print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+                error = True
+
+        else:
+            print "ERROR: Story {0} does not contain a spec_version which is required".format(manifest_file)
+            error = True
+            continue
+
+        # now lets validate the content
+        investigation_errors = validate_investigation_content(investigation, INVESTIGATION_UUIDS)
+        if investigation_errors:
+            error = True
+            for err in investigation_errors:
+                print "{0} at:\n\t {1}".format(err, manifest_file)
+
+    return error
 
 
 def validate_detection(REPO_PATH, verbose):
@@ -344,9 +567,13 @@ if __name__ == "__main__":
 
     detection_error = validate_detection(REPO_PATH, verbose)
 
+    investigation_error = validate_investigation(REPO_PATH, verbose)
+
     if story_error:
         sys.exit("Errors found")
     elif detection_error:
+        sys.exit("Errors found")
+    elif investigation_error:
         sys.exit("Errors found")
     else:
         print "No Errors found"
