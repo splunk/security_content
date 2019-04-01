@@ -113,11 +113,11 @@ def validate_investigation_contentv2(investigation, investigation_uuids, errors)
         except UnicodeEncodeError:
             errors.append("ERROR: known_false_positives not ascii")
 
-    if investigation['detect']['splunk']:
+    if investigation['investigate']['splunk']:
 
         # do a regex match here instead of key values
-        if (investigation['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
-                (investigation['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
+        if (investigation['investigate']['splunk']['search'].find('tstats') != -1) or \
+                (investigation['investigate']['splunk']['search'].find('datamodel') != -1):
 
             if 'data_models' not in investigation['data_metadata']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' field is not set")
@@ -126,12 +126,75 @@ def validate_investigation_contentv2(investigation, investigation_uuids, errors)
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
 
         # do a regex match here instead of key values
-        if (investigation['detect']['splunk']['correlation_rule']['search'].find('sourcetype') != -1):
+        if (investigation['investigate']['splunk']['search'].find('sourcetype') != -1):
             if 'data_sourcetypes' not in investigation['data_metadata']:
                 errors.append("ERROR: The Splunk search specifies a sourcetype but 'data_sourcetypes' \
                             field is not set")
 
             if not investigation['data_metadata']['data_sourcetypes']:
+                errors.append("ERROR: The Splunk search specifies a sourcetype but \
+                        'data_sourcetypes' is empty")
+
+    return errors
+
+
+def validate_baselines_contentv2(baseline, baselines_uuids, errors):
+
+    if baseline['id'] == '':
+        errors.append('ERROR: Blank ID')
+
+    if baseline['id'] in baselines_uuids:
+        errors.append('ERROR: Duplicate UUID found: %s' % baseline['id'])
+    else:
+        baselines_uuids.append(baseline['id'])
+
+    if baseline['name'].endswith(" "):
+        errors.append(
+            "ERROR: Investigation name has trailing spaces: '%s'" %
+            baseline['name'])
+
+    try:
+        baseline['description'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("ERROR: description not ascii")
+
+    if 'how_to_implement' in baseline:
+        try:
+            baseline['how_to_implement'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: how_to_implement not ascii")
+
+    if 'eli5' in baseline:
+        try:
+            baseline['eli5'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: eli5 not ascii")
+
+    if 'known_false_positives' in baseline:
+        try:
+            baseline['known_false_positives'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: known_false_positives not ascii")
+
+    if baseline['baseline']['splunk']:
+
+        # do a regex match here instead of key values
+        if (baseline['baseline']['splunk']['search'].find('tstats') != -1) or \
+                (baseline['baseline']['splunk']['search'].find('datamodel') != -1):
+
+            if 'data_models' not in baseline['data_metadata']:
+                errors.append("ERROR: The Splunk search uses a data model but 'data_models' field is not set")
+
+            if not baseline['data_metadata']['data_models']:
+                errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
+
+        # do a regex match here instead of key values
+        if (baseline['baseline']['splunk']['search'].find('sourcetype') != -1):
+            if 'data_sourcetypes' not in baseline['data_metadata']:
+                errors.append("ERROR: The Splunk search specifies a sourcetype but 'data_sourcetypes' \
+                            field is not set")
+
+            if not baseline['data_metadata']['data_sourcetypes']:
                 errors.append("ERROR: The Splunk search specifies a sourcetype but \
                         'data_sourcetypes' is empty")
 
@@ -289,6 +352,75 @@ def validate_investigation_contentv1(investigation, investigation_uuids, errors)
     return errors
 
 
+def validate_baselines_contentv1(baseline, baselines_uuids, errors):
+
+    try:
+        baseline['search_description'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("ERROR: description not ascii")
+
+    if baseline['search_name'].endswith(" "):
+        errors.append(
+            "ERROR: Baseline name has trailing spaces: '%s'" %
+            baseline['search_name'])
+
+    if baseline['search_id'] == '':
+        errors.append('ERROR: Blank ID')
+
+    if baseline['search_id'] in baselines_uuids:
+        errors.append('ERROR: Duplicate UUID found: %s' % baseline['search_id'])
+    else:
+        baselines_uuids.append(baseline['search_id'])
+
+    if '| tstats' in baseline['search'] or 'datamodel' in baseline['search']:
+        if 'data_models' not in baseline['data_metadata']:
+            errors.append(
+                "ERROR: The search uses a data model but 'data_models' \
+                        field is not set")
+
+        if 'data_models' in baseline and not \
+                baseline['data_metadata']['data_models']:
+            errors.append(
+                "ERROR: The search uses a data model but 'data_models' is empty")
+
+    if 'sourcetype' in baseline['search']:
+        if 'data_sourcetypes' not in baseline['data_metadata']:
+            errors.append(
+                "ERROR: The search specifies a sourcetype but 'data_sourcetypes' \
+                        field is not set")
+
+        if 'data_sourcetypes' in baseline and not \
+                baseline['data_metadata']['data_sourcetypes']:
+            errors.append(
+                "ERROR: The search specifies a sourcetype but \
+                        'data_sourcetypes' is empty")
+
+    try:
+        baseline['search_description'].encode('ascii')
+    except UnicodeEncodeError:
+        errors.append("ERROR: search_description not ascii")
+
+    if 'how_to_implement' in baseline:
+        try:
+            baseline['how_to_implement'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: how_to_implement not ascii")
+
+    if 'eli5' in baseline:
+        try:
+            baseline['eli5'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("eli5 not ascii")
+
+    if 'known_false_positives' in baseline:
+        try:
+            baseline['known_false_positives'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: known_false_positives not ascii")
+
+    return errors
+
+
 def validate_investigation_content(investigation, investigation_uuids):
     '''Validate that the content of a investigation manifest is correct'''
     errors = []
@@ -338,6 +470,20 @@ def validate_story_content(story, STORY_UUIDS):
         story['narrative'].encode('ascii')
     except UnicodeEncodeError:
         errors.append("ERROR: narrative not ascii")
+
+    return errors
+
+
+def validate_baselines_content(baseline, baselines_uuids):
+    '''Validate that the content of a baseline manifest is correct'''
+    errors = []
+
+    # run v1 content validation
+    if baseline["spec_version"] == 1:
+        errors = validate_baselines_contentv1(baseline, baselines_uuids, errors)
+
+    if baseline["spec_version"] == 2:
+        errors = validate_baselines_contentv2(baseline, baselines_uuids, errors)
 
     return errors
 
@@ -550,6 +696,72 @@ def validate_story(REPO_PATH, verbose):
     return error
 
 
+def validate_baselines(REPO_PATH, verbose):
+    ''' Validates Baselines'''
+
+    BASELINE_UUIDS = []
+
+    # retrive
+    v1_schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v1/support_search.json.spec')
+    try:
+        v1_schema = json.loads(open(v1_schema_file, 'rb').read())
+    except IOError:
+        print "ERROR: reading version 1 baseline schema file {0}".format(v1_schema_file)
+
+    v2_schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/baselines.spec.json')
+    try:
+        v2_schema = json.loads(open(v2_schema_file, 'rb').read())
+    except IOError:
+        print "ERROR: reading version 2 baseline schema file {0}".format(v2_schema_file)
+
+    error = False
+    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.json")
+
+    for baselines_manifest_file in glob.glob(baselines_manifest_files):
+        if verbose:
+            print "processing story {0}".format(baselines_manifest_file)
+
+        # read in each baseline
+        try:
+            baseline = json.loads(
+                open(baselines_manifest_file, 'r').read())
+        except IOError:
+            print "Error reading {0}".format(baselines_manifest_file)
+            error = True
+            continue
+
+        # validate v1 and v2 stories against spec
+        if baseline['spec_version'] == 1:
+            try:
+                jsonschema.validate(instance=baseline, schema=v1_schema)
+            except jsonschema.exceptions.ValidationError as json_ve:
+                print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), baselines_manifest_file)
+                print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+                error = True
+
+        elif baseline['spec_version'] == 2:
+            try:
+                jsonschema.validate(instance=baseline, schema=v2_schema)
+            except jsonschema.exceptions.ValidationError as json_ve:
+                print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), baselines_manifest_file)
+                print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+                error = True
+
+        else:
+            print "ERROR: Baseline {0} does not contain a spec_version which is required".format(baselines_manifest_file)
+            error = True
+            continue
+
+        # now lets validate the content
+        baselines_errors = validate_baselines_content(baseline, BASELINE_UUIDS)
+        if baselines_errors:
+            error = True
+            for err in baselines_errors:
+                print "{0} at:\n\t {1}".format(err, baselines_manifest_file)
+
+    return error
+
+
 if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
@@ -567,11 +779,15 @@ if __name__ == "__main__":
 
     investigation_error = validate_investigation(REPO_PATH, verbose)
 
+    baseline_error = validate_baselines(REPO_PATH, verbose)
+
     if story_error:
         sys.exit("Errors found")
     elif detection_error:
         sys.exit("Errors found")
     elif investigation_error:
+        sys.exit("Errors found")
+    elif baseline_error:
         sys.exit("Errors found")
     else:
         print "No Errors found"
