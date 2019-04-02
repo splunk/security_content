@@ -28,11 +28,6 @@
               "type": "integer"
             }
           },
-          "required": [
-            "playbook_name",
-            "phantom_server",
-            "playbook_url"
-          ],
           "type": "object"
         },
         "sensitivity": {
@@ -44,6 +39,11 @@
           "type": "string"
         }
       },
+      "required": [
+        "playbook_name",
+        "phantom_server",
+        "playbook_url"
+      ],
       "type": "object"
     },
     "splunk": {
@@ -239,14 +239,27 @@
       "type": "string"
     },
     "investigate": {
-      "oneOf": [
+      "anyOf": [
         {
-          "$ref": "#/definitions/splunk"
+          "required": [
+            "splunk"
+          ]
         },
         {
-          "$ref": "#/definitions/phantom"
+          "required": [
+            "phantom"
+          ]
         }
-      ]
+      ],
+      "properties": {
+        "phantom": {
+          "$ref": "#/definitions/phantom"
+        },
+        "splunk": {
+          "$ref": "#/definitions/splunk"
+        }
+      },
+      "type": "object"
     },
     "known_false_positives": {
       "description": "Scenarios in which detected behavior is benig, coupled with suggestions on how to verify the behavior",
