@@ -765,7 +765,8 @@ def validate_baselines(REPO_PATH, verbose):
 if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.""")
+        Validates security manifest for correctness, adhering to spec and other common items.
+        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
     parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
     parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
     # parse them
