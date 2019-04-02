@@ -54,34 +54,34 @@
           "type": "array",
           "uniqueItems": true
         },
-        "search": {
-          "description": "The search (in SPL) executed within core Splunk for investgation.",
-          "type": "string"
-        },
-        "window": {
+        "schedule": {
           "additionalProperties": false,
           "description": "The fields associated on when this search should run relative to the detection event",
           "properties": {
-            "earliest_time_offset": {
+            "earliest_time": {
               "description": "The number of seconds into the past from the event time the search should cover",
               "type": "integer"
             },
-            "latest_time_offset": {
+            "latest_time": {
               "description": "The number of seconds into the future from the event time the search should cover",
               "type": "integer"
             }
           },
           "required": [
-            "latest_time_offset",
-            "earliest_time_offset"
+            "latest_time",
+            "earliest_time"
           ],
           "type": "object"
+        },
+        "search": {
+          "description": "The search (in SPL) executed within core Splunk for investgation.",
+          "type": "string"
         }
       },
       "required": [
         "search",
         "fields_required",
-        "window"
+        "schedule"
       ],
       "type": "object"
     }

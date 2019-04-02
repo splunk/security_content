@@ -1,7 +1,6 @@
 {
   "$id": "https://api.splunkresearch.com/schemas/baselines.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
   "definitions": {
     "phantom": {
       "properties": {
@@ -30,26 +29,34 @@
     },
     "splunk": {
       "properties": {
-        "scheduling": {
+        "schedule": {
           "additionalProperties": false,
-          "description": "Various fields to assist in scheduling the search",
+          "description": "The fields associated on when this search should run relative to the detection event",
           "properties": {
             "earliest_time": {
-              "description": "The earliest time the search should run in Splunk format",
-              "type": "string"
+              "description": "The number of seconds into the past from the event time the search should cover",
+              "type": "integer"
             },
             "latest_time": {
-              "description": "The latest time tes search should run against in Splunk format",
-              "type": "string"
+              "description": "The number of seconds into the future from the event time the search should cover",
+              "type": "integer"
             }
           },
+          "required": [
+            "latest_time",
+            "earliest_time"
+          ],
           "type": "object"
         },
         "search": {
-          "description": "The search (in SPL) executed within core Splunk for creating a baseline",
+          "description": "The search (in SPL) executed within core Splunk for investgation.",
           "type": "string"
         }
       },
+      "required": [
+        "search",
+        "schedule"
+      ],
       "type": "object"
     }
   },
@@ -70,7 +77,6 @@
       "type": "string"
     },
     "data_metadata": {
-      "additionalProperties": false,
       "description": "Information about the date being ingested",
       "properties": {
         "data_eventtypes": {
@@ -222,7 +228,6 @@
     "maintainers": {
       "description": "An array of the current maintainers of the Analytic Story.",
       "items": {
-        "additionalProperties": false,
         "properties": {
           "company": {
             "description": "Company associated with the person maintaining this search",
@@ -257,7 +262,6 @@
     "original_authors": {
       "description": "A list of the original authors of the search",
       "items": {
-        "additionalProperties": false,
         "properties": {
           "company": {
             "description": "Company associated with the person who originally authored the search",

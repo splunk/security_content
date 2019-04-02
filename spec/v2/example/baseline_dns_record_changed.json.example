@@ -1,7 +1,7 @@
 {
   "baseline": {
     "splunk": {
-      "scheduling": {
+      "schedule": {
         "earliest_time": "-30d@d",
         "latest_time": "-10m@m"
       },
