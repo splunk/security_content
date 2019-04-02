@@ -17,15 +17,19 @@
           "type": "string"
         },
         "schedule": {
-          "description": "The time associated on when this investigste object should run relative to the detection event",
+          "description": "Various fields to assist in scheduling the search",
           "properties": {
+            "cron_schedule": {
+              "description": "Schedule of the search in cron format",
+              "type": "string"
+            },
             "earliest_time": {
-              "description": "The number of seconds into the past from the event time the search should cover",
-              "type": "integer"
+              "description": "The earliest time the search should run in Splunk format",
+              "type": "string"
             },
             "latest_time": {
-              "description": "The number of seconds into the future from the event time the search should cover",
-              "type": "integer"
+              "description": "The latest time tes search should run against in Splunk format",
+              "type": "string"
             }
           },
           "type": "object"
@@ -55,22 +59,21 @@
           "uniqueItems": true
         },
         "schedule": {
-          "additionalProperties": false,
-          "description": "The fields associated on when this search should run relative to the detection event",
+          "description": "Various fields to assist in scheduling the search",
           "properties": {
+            "cron_schedule": {
+              "description": "Schedule of the search in cron format",
+              "type": "string"
+            },
             "earliest_time": {
-              "description": "The number of seconds into the past from the event time the search should cover",
-              "type": "integer"
+              "description": "The earliest time the search should run in Splunk format",
+              "type": "string"
             },
             "latest_time": {
-              "description": "The number of seconds into the future from the event time the search should cover",
-              "type": "integer"
+              "description": "The latest time tes search should run against in Splunk format",
+              "type": "string"
             }
           },
-          "required": [
-            "latest_time",
-            "earliest_time"
-          ],
           "type": "object"
         },
         "search": {

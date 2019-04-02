@@ -64,7 +64,7 @@
               ],
               "type": "object"
             },
-            "scheduling": {
+            "schedule": {
               "description": "Various fields to assist in scheduling the search",
               "properties": {
                 "cron_schedule": {
@@ -107,7 +107,7 @@
           },
           "required": [
             "search",
-            "scheduling"
+            "schedule"
           ],
           "type": "object"
         },
@@ -201,7 +201,7 @@
             ],
             "type": "object"
           },
-          "scheduling": {
+          "schedule": {
             "description": "Various fields to assist in scheduling the search",
             "properties": {
               "cron_schedule": {
@@ -244,7 +244,7 @@
         },
         "required": [
           "search",
-          "scheduling"
+          "schedule"
         ],
         "type": "object"
       },
@@ -312,7 +312,7 @@
               ],
               "type": "object"
             },
-            "scheduling": {
+            "schedule": {
               "description": "Various fields to assist in scheduling the search",
               "properties": {
                 "cron_schedule": {
@@ -355,7 +355,7 @@
           },
           "required": [
             "search",
-            "scheduling"
+            "schedule"
           ],
           "type": "object"
         },
@@ -537,17 +537,35 @@
       "type": "string"
     },
     "detect": {
-      "oneOf": [
+      "anyOf": [
         {
-          "$ref": "#/definitions/splunk"
+          "required": [
+            "splunk"
+          ]
         },
         {
+          "required": [
+            "phantom"
+          ]
+        },
+        {
+          "required": [
+            "uba"
+          ]
+        }
+      ],
+      "properties": {
+        "phantom": {
           "$ref": "#/definitions/phantom"
         },
-        {
+        "splunk": {
+          "$ref": "#/definitions/splunk"
+        },
+        "uba": {
           "$ref": "#/definitions/uba"
         }
-      ]
+      },
+      "type": "object"
     },
     "eli5": {
       "description": "Explain it like I am 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",

@@ -1,7 +1,6 @@
 {
-  "$id": "https://api.splunkresearch.com/schemas/investigations.json",
+  "$id": "https://api.splunkresearch.com/schemas/responses.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
   "definitions": {
     "phantom": {
       "properties": {
@@ -43,23 +42,22 @@
     },
     "splunk": {
       "properties": {
-        "investigate_window": {
-          "additionalProperties": false,
-          "description": "The fields associated on when this search should run relative to the detection event",
+        "schedule": {
+          "description": "Various fields to assist in scheduling the search",
           "properties": {
-            "earliest_time_offset": {
-              "description": "The number of seconds into the past from the event time the search should cover",
-              "type": "integer"
+            "cron_schedule": {
+              "description": "Schedule of the search in cron format",
+              "type": "string"
             },
-            "latest_time_offset": {
-              "description": "The number of seconds into the future from the event time the search should cover",
-              "type": "integer"
+            "earliest_time": {
+              "description": "The earliest time the search should run in Splunk format",
+              "type": "string"
+            },
+            "latest_time": {
+              "description": "The latest time tes search should run against in Splunk format",
+              "type": "string"
             }
           },
-          "required": [
-            "latest_time_offset",
-            "earliest_time_offset"
-          ],
           "type": "object"
         },
         "search": {
@@ -67,10 +65,14 @@
           "type": "string"
         }
       },
+      "required": [
+        "search",
+        "schedule"
+      ],
       "type": "object"
     }
   },
-  "description": "The fields that make up the manifest of a version 1 reponse spec",
+  "description": "The fields that make up the manifest of a version 1 response spec",
   "properties": {
     "creation_date": {
       "description": "The date the story manifest was created",
@@ -279,14 +281,27 @@
       ]
     },
     "response": {
-      "oneOf": [
+      "anyOf": [
         {
-          "$ref": "#/definitions/splunk"
+          "required": [
+            "splunk"
+          ]
         },
         {
-          "$ref": "#/definitions/phantom"
+          "required": [
+            "phantom"
+          ]
         }
-      ]
+      ],
+      "properties": {
+        "phantom": {
+          "$ref": "#/definitions/phantom"
+        },
+        "splunk": {
+          "$ref": "#/definitions/splunk"
+        }
+      },
+      "type": "object"
     },
     "spec_version": {
       "description": "The version of the investigative search specification this manifest follows",
