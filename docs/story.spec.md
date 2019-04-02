@@ -15,7 +15,7 @@ The fields that make up the manifest of a version 2 Analytic Story
 
 | Property | Type | Required | Nullable | Defined by |
 |----------|------|----------|----------|------------|
-| [category](#category) | `enum` | **Required**  | No | Analytic Story Manifest (this schema) |
+| [category](#category) | `enum[]` | **Required**  | No | Analytic Story Manifest (this schema) |
 | [channel](#channel) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
 | [creation_date](#creation_date) | `string` | Optional  | No | Analytic Story Manifest (this schema) |
 | [description](#description) | `string` | **Required**  | No | Analytic Story Manifest (this schema) |
@@ -28,6 +28,7 @@ The fields that make up the manifest of a version 2 Analytic Story
 | [original_authors](#original_authors) | `object[]` | Optional  | No | Analytic Story Manifest (this schema) |
 | [references](#references) | `string[]` | Optional  | No | Analytic Story Manifest (this schema) |
 | [spec_version](#spec_version) | `integer` | Optional  | No | Analytic Story Manifest (this schema) |
+| [usecase](#usecase) | `enum` | **Required**  | No | Analytic Story Manifest (this schema) |
 | [version](#version) | `string` | **Required**  | No | Analytic Story Manifest (this schema) |
 | `*` | any | Additional | Yes | this schema *allows* additional properties |
 
@@ -38,20 +39,23 @@ The category to which the Analytic Story belongs
 `category`
 
 * is **required**
-* type: `enum`
+* type: `enum[]`
+* at least `0` items in the array
 * defined in this schema
 
-The value of this property **must** be equal to one of the [known values below](#category-known-values).
+### category Type
 
-### category Known Values
-| Value | Description |
-|-------|-------------|
-| `Abuse` |  |
-| `Adversary Tactics` |  |
-| `Best Practices` |  |
-| `Cloud Security` |  |
-| `Malware` |  |
-| `Vulnerability` |  |
+
+Array type: `enum[]`
+
+All items must be of the type:
+`string`
+
+
+
+
+
+
 
 
 
@@ -76,6 +80,12 @@ A grouping function that designates where this search came from. For example, se
 
 
 
+### channel Example
+
+```json
+"ESCU"
+```
+
 
 ## creation_date
 
@@ -97,6 +107,12 @@ The date this story was created
 
 
 
+### creation_date Example
+
+```json
+"2017-11-21"
+```
+
 
 ## description
 
@@ -117,6 +133,12 @@ A high-level description or goal of the Analytic Story
 
 
 
+
+### description Example
+
+```json
+"Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records."
+```
 
 
 ## detections
@@ -165,6 +187,12 @@ unique identifier of the detection, in the form of UUID
 
 
 
+##### detection_id Example
+
+```json
+1169w17b-ef78-4b59-aae8-5369073014e1
+```
+
 
 
 
@@ -186,6 +214,12 @@ Name of the Detection. It can be a name of a Splunk correlation search name, a U
 
 
 
+
+##### name Example
+
+```json
+DNS record changed
+```
 
 
 
@@ -209,6 +243,20 @@ The value of this property **must** be equal to one of the [known values below](
 | `phantom` |  |
 
 
+
+##### type Examples
+
+```json
+splunk
+```
+
+```json
+uba
+```
+
+```json
+phantom
+```
 
 
 
@@ -292,6 +340,12 @@ Company associated with the person maintaining this Analytic Story
 
 
 
+##### company Example
+
+```json
+Splunk
+```
+
 
 
 
@@ -313,6 +367,12 @@ Email address of the person maintaining this Analytic Story
 
 
 
+
+##### email Example
+
+```json
+daftpunk@splunk.com
+```
 
 
 
@@ -336,6 +396,11 @@ Name of the person maintaining this Analytic Story
 
 
 
+##### name Example
+
+```json
+Daft Punk
+```
 
 
 
@@ -365,6 +430,12 @@ The date of the most recent modification to this Analytic Story
 
 
 
+### modification_date Example
+
+```json
+"2018-09-06"
+```
+
 
 ## name
 
@@ -386,6 +457,12 @@ The name of the Analytic Story
 
 
 
+### name Example
+
+```json
+"DNS Hijacking"
+```
+
 
 ## narrative
 
@@ -406,6 +483,12 @@ Long-form text that describes the Analytic Story and the rationale behind it, as
 
 
 
+
+### narrative Example
+
+```json
+"Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/threat-intelligence/dns-is-still-the-achilles-heel-of-the-internet-25613), DNS plays a critical role in routing web traffic but is notoriously vulnerable to attack. One reason is its distributed nature. It relies on unstructured connections between millions of clients and servers over inherently insecure protocols.<br></br>The gravity and extent of the importance of securing DNS from attacks is undeniable. The fallout of compromised DNS can be disastrous."
+```
 
 
 ## original_authors
@@ -454,6 +537,12 @@ Company associated with the person who originally authored the Analytic Story
 
 
 
+##### company Example
+
+```json
+Splunk
+```
+
 
 
 
@@ -475,6 +564,12 @@ Email address of the person who originally authored the Analytic Story
 
 
 
+
+##### email Example
+
+```json
+daftpunk@splunk.com
+```
 
 
 
@@ -498,6 +593,11 @@ Name of the person who originally authored the Analytic Story
 
 
 
+##### name Example
+
+```json
+Daft Punk
+```
 
 
 
@@ -533,6 +633,11 @@ All items must be of the type:
 
 
 
+### references Example
+
+```json
+"https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html"
+```
 
 
 ## spec_version
@@ -555,10 +660,46 @@ The version of the Analytic Story specification this manifest follows
 
 
 
+### spec_version Example
+
+```json
+2
+```
+
+
+## usecase
+
+The usecase to which the Analytic Story belongs to.
+
+`usecase`
+
+* is **required**
+* type: `enum`
+* defined in this schema
+
+The value of this property **must** be equal to one of the [known values below](#usecase-known-values).
+
+### usecase Known Values
+| Value | Description |
+|-------|-------------|
+| `Security Monitoring` |  |
+| `Advanced Threat Detection` |  |
+| `Insider Threat` |  |
+| `Compliance` |  |
+| `Fraud Detection` |  |
+
+
+
+### usecase Example
+
+```json
+"Advanced Threat Detection"
+```
+
 
 ## version
 
-The version of the Analytic Story
+The version of the Analytic Story, bump the version number when the story gets an update
 
 `version`
 
@@ -575,4 +716,10 @@ The version of the Analytic Story
 
 
 
+
+### version Example
+
+```json
+"1.0"
+```
 
