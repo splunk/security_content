@@ -113,7 +113,7 @@ def validate_investigation_contentv2(investigation, investigation_uuids, errors)
         except UnicodeEncodeError:
             errors.append("ERROR: known_false_positives not ascii")
 
-    if investigation['investigate']['splunk']:
+    if 'splunk' in investigation['investigate']:
 
         # do a regex match here instead of key values
         if (investigation['investigate']['splunk']['search'].find('tstats') != -1) or \
