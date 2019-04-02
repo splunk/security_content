@@ -16,22 +16,14 @@
           "description": "Url of the playbook on Phantom website.",
           "type": "string"
         },
-        "sensitivity": {
-          "description": "TLP colors (White, Green, Amber or Red)",
-          "type": "string"
-        },
-        "severity": {
-          "description": "Severity in phantom (High, Medium, Low)",
-          "type": "string"
-        },
-        "window": {
+        "schedule": {
           "description": "The time associated on when this investigste object should run relative to the detection event",
           "properties": {
-            "earliest_time_offset": {
+            "earliest_time": {
               "description": "The number of seconds into the past from the event time the search should cover",
               "type": "integer"
             },
-            "latest_time_offset": {
+            "latest_time": {
               "description": "The number of seconds into the future from the event time the search should cover",
               "type": "integer"
             }
@@ -42,6 +34,14 @@
             "playbook_url"
           ],
           "type": "object"
+        },
+        "sensitivity": {
+          "description": "TLP colors (White, Green, Amber or Red)",
+          "type": "string"
+        },
+        "severity": {
+          "description": "Severity in phantom (High, Medium, Low)",
+          "type": "string"
         }
       },
       "type": "object"
