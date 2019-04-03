@@ -9,13 +9,13 @@ The fields that make up the manifest of a version 2 baseline search
 
 | Abstract | Extensible | Status | Identifiable | Custom Properties | Additional Properties | Defined In |
 |----------|------------|--------|--------------|-------------------|-----------------------|------------|
-| Can be instantiated | Yes | Experimental | No | Forbidden | Forbidden |  |
+| Can be instantiated | Yes | Experimental | No | Forbidden | Permitted |  |
 
 # Baseline Manifest Properties
 
 | Property | Type | Required | Nullable | Defined by |
 |----------|------|----------|----------|------------|
-| [baseline](#baseline) | complex | **Required**  | No | Baseline Manifest (this schema) |
+| [baseline](#baseline) | `object` | **Required**  | No | Baseline Manifest (this schema) |
 | [creation_date](#creation_date) | `string` | **Required**  | No | Baseline Manifest (this schema) |
 | [data_metadata](#data_metadata) | `object` | **Required**  | No | Baseline Manifest (this schema) |
 | [description](#description) | `string` | **Required**  | No | Baseline Manifest (this schema) |
@@ -31,6 +31,7 @@ The fields that make up the manifest of a version 2 baseline search
 | [product_type](#product_type) | `enum` | **Required**  | No | Baseline Manifest (this schema) |
 | [spec_version](#spec_version) | `integer` | **Required**  | No | Baseline Manifest (this schema) |
 | [version](#version) | `string` | **Required**  | No | Baseline Manifest (this schema) |
+| `*` | any | Additional | Yes | this schema *allows* additional properties |
 
 ## baseline
 
@@ -38,25 +39,57 @@ The fields that make up the manifest of a version 2 baseline search
 `baseline`
 
 * is **required**
-* type: complex
+* type: `object`
 * defined in this schema
 
 ### baseline Type
 
 
-**One** of the following *conditions* need to be fulfilled.
+`object` with following properties:
 
 
-#### Condition 1
+| Property | Type | Required |
+|----------|------|----------|
+| `phantom`|  | Optional |
+| `splunk`|  | Optional |
+
+
+
+#### phantom
+
+
+`phantom`
+
+* is optional
+* type: reference
+
+##### phantom Type
+
+
+* []() – `#/definitions/phantom`
+
+
+
+
+
+
+
+#### splunk
+
+
+`splunk`
+
+* is optional
+* type: reference
+
+##### splunk Type
 
 
 * []() – `#/definitions/splunk`
 
 
-#### Condition 2
 
 
-* []() – `#/definitions/phantom`
 
 
 
@@ -82,6 +115,12 @@ The date the baseline manifest was created
 
 
 
+
+### creation_date Example
+
+```json
+"2019-02-14"
+```
 
 
 ## data_metadata
@@ -135,6 +174,11 @@ All items must be of the type:
 
 
 
+##### data_eventtypes Example
+
+```json
+wineventlog
+```
 
 
 
@@ -160,6 +204,10 @@ Unknown type ``.
 ```json
 {
   "description": "A list of data models, if any, used by this search",
+  "examples": [
+    "Network_Resolution"
+  ],
+  "type": "array",
   "items": {
     "enum": [
       "Alerts",
@@ -202,7 +250,6 @@ Unknown type ``.
     }
   },
   "minItems": 0,
-  "type": "array",
   "uniqueItems": true,
   "simpletype": "`enum[]`"
 }
@@ -213,6 +260,11 @@ Unknown type ``.
 
 
 
+##### data_models Example
+
+```json
+Network_Resolution
+```
 
 
 
@@ -242,6 +294,11 @@ All items must be of the type:
 
 
 
+##### data_source Example
+
+```json
+DNS
+```
 
 
 
@@ -271,6 +328,11 @@ All items must be of the type:
 
 
 
+##### data_sourcetypes Example
+
+```json
+stream:dns
+```
 
 
 
@@ -296,6 +358,9 @@ Unknown type ``.
 ```json
 {
   "description": "A list of technologies that provide this data",
+  "examples": [
+    "Bro"
+  ],
   "items": {
     "enum": [
       "Apache",
@@ -359,6 +424,11 @@ Unknown type ``.
 
 
 
+##### providing_technologies Example
+
+```json
+Bro
+```
 
 
 
@@ -386,10 +456,16 @@ A description of what the search is is doing to create a baseline
 
 
 
+### description Example
+
+```json
+"The search takes corporate and common cloud provider domains configured under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv` finds their responses across the last 30 days from data in the `Network_Traffic` datamodel, then stores the output under the `discovered_dns_records.csv` lookup"
+```
+
 
 ## eli5
 
-Explain it like I’m 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert
+Explain it like I am 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert
 
 `eli5`
 
@@ -406,6 +482,12 @@ Explain it like I’m 5 - A detail description of the SPL of the search, written
 
 
 
+
+### eli5 Example
+
+```json
+"Discover the DNS records and their answers for domains owned by the company using network traffic events. The discovered events are exported as a lookup named `discovered_dns_records.csv`"
+```
 
 
 ## entities
@@ -430,6 +512,10 @@ Unknown type ``.
 ```json
 {
   "description": "A list of entities that will used in the story flow or are relevant to the security investigation.",
+  "examples": [
+    "dest",
+    "user"
+  ],
   "items": {
     "enum": [
       "accessKeyId",
@@ -495,6 +581,16 @@ Unknown type ``.
 
 
 
+### entities Examples
+
+```json
+"dest"
+```
+
+```json
+"user"
+```
+
 
 
 ## how_to_implement
@@ -517,6 +613,12 @@ A discussion on how to implement this search, from what needs to be ingested, co
 
 
 
+### how_to_implement Example
+
+```json
+"To successfully implement this search, you must be ingesting DNS logs, and populating the Network_Resolution data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation"
+```
+
 
 ## id
 
@@ -538,6 +640,12 @@ The unique identifier for the search
 
 
 
+### id Example
+
+```json
+"c096f721-8842-42ce-bfc7-74bd8c72b7c3"
+```
+
 
 ## known_false_positives
 
@@ -558,6 +666,12 @@ Describe the known false postives while the analyst builds the baseline.
 
 
 
+
+### known_false_positives Example
+
+```json
+"Please vet the lookup created by this baseline search."
+```
 
 
 ## maintainers
@@ -606,6 +720,12 @@ Company associated with the person maintaining this search
 
 
 
+##### company Example
+
+```json
+Splunk
+```
+
 
 
 
@@ -627,6 +747,12 @@ Email address of the person maintaining this search
 
 
 
+
+##### email Example
+
+```json
+daftpunk@splunk.com
+```
 
 
 
@@ -650,6 +776,11 @@ Name of the person maintaining this search
 
 
 
+##### name Example
+
+```json
+Daft Punk
+```
 
 
 
@@ -679,6 +810,12 @@ The date of the most recent modification to the search
 
 
 
+### modification_date Example
+
+```json
+"2019-02-14"
+```
+
 
 ## name
 
@@ -699,6 +836,12 @@ The name of the search that creates the baseline
 
 
 
+
+### name Example
+
+```json
+"Discover DNS records"
+```
 
 
 ## original_authors
@@ -747,6 +890,12 @@ Company associated with the person who originally authored the search
 
 
 
+##### company Example
+
+```json
+Splunk
+```
+
 
 
 
@@ -768,6 +917,12 @@ Email address of the person who originally authored the search
 
 
 
+
+##### email Example
+
+```json
+daftpunk@splunk.com
+```
 
 
 
@@ -791,6 +946,11 @@ Name of the person who originally authored the search
 
 
 
+##### name Example
+
+```json
+Daft Punk
+```
 
 
 
@@ -821,6 +981,12 @@ The value of this property **must** be equal to one of the [known values below](
 
 
 
+### product_type Example
+
+```json
+"splunk"
+```
+
 
 ## spec_version
 
@@ -841,6 +1007,12 @@ The version of the detection search specification this manifest follows
 
 
 
+
+### spec_version Example
+
+```json
+"2.0"
+```
 
 
 ## version
@@ -863,16 +1035,26 @@ The version of the search
 
 
 
+### version Examples
+
+```json
+"1"
+```
+
+```json
+"2"
+```
+
+
 
 # Baseline Manifest Definitions
 
 | Property | Type | Group |
 |----------|------|-------|
 | [phantom_server](#phantom_server) | `string` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/phantom` |
-| [playbook_display_name](#playbook_display_name) | `string` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/phantom` |
 | [playbook_name](#playbook_name) | `string` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/phantom` |
 | [playbook_url](#playbook_url) | `string` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/phantom` |
-| [scheduling](#scheduling) | `object` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/splunk` |
+| [schedule](#schedule) | `object` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/splunk` |
 | [search](#search) | `string` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/splunk` |
 | [sensitivity](#sensitivity) | `string` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/phantom` |
 | [severity](#severity) | `string` | `https://api.splunkresearch.com/schemas/baselines.json#/definitions/phantom` |
@@ -897,26 +1079,11 @@ IP address and username of the phantom server. Currently, we will ship this valu
 
 
 
+### phantom_server Example
 
-## playbook_display_name
-
-Display Name of the playbook. Capitalize each letter and remove underscores from playbook_name field. Eg: Simple Network Enrichment
-
-`playbook_display_name`
-
-* is optional
-* type: `string`
-* defined in this schema
-
-### playbook_display_name Type
-
-
-`string`
-
-
-
-
-
+```json
+"automation (hostname)"
+```
 
 
 ## playbook_name
@@ -939,6 +1106,12 @@ Name of the playbook. This name should be the same as the name on phantom commun
 
 
 
+### playbook_name Example
+
+```json
+"community/dns_hijack_investigation"
+```
+
 
 ## playbook_url
 
@@ -960,18 +1133,24 @@ Url of the playbook on Phantom website.
 
 
 
+### playbook_url Example
 
-## scheduling
+```json
+"https://my.phantom.us/4.1/playbook/dns-hijack-investigation/"
+```
+
+
+## schedule
 
 Various fields to assist in scheduling the search
 
-`scheduling`
+`schedule`
 
 * is optional
 * type: `object`
 * defined in this schema
 
-### scheduling Type
+### schedule Type
 
 
 `object` with following properties:
@@ -979,8 +1158,37 @@ Various fields to assist in scheduling the search
 
 | Property | Type | Required |
 |----------|------|----------|
+| `cron_schedule`| string | Optional |
 | `earliest_time`| string | Optional |
 | `latest_time`| string | Optional |
+
+
+
+#### cron_schedule
+
+Schedule of the search in cron format
+
+`cron_schedule`
+
+* is optional
+* type: `string`
+
+##### cron_schedule Type
+
+
+`string`
+
+
+
+
+
+
+##### cron_schedule Example
+
+```json
+0 * * * *
+```
+
 
 
 
@@ -1002,6 +1210,12 @@ The earliest time the search should run in Splunk format
 
 
 
+
+##### earliest_time Example
+
+```json
+-70m@m
+```
 
 
 
@@ -1025,6 +1239,12 @@ The latest time tes search should run against in Splunk format
 
 
 
+##### latest_time Example
+
+```json
+-10m@m
+```
+
 
 
 
@@ -1033,7 +1253,7 @@ The latest time tes search should run against in Splunk format
 
 ## search
 
-The search (in SPL) executed within core Splunk for creating a baseline
+The search (in SPL) executed within core Splunk for investgation.
 
 `search`
 
@@ -1050,6 +1270,12 @@ The search (in SPL) executed within core Splunk for creating a baseline
 
 
 
+
+### search Example
+
+```json
+"| inputlookup discovered_dns_records.csv | rename answer as discovered_answer | join domain[|tstats summariesonly=true count values(DNS.record_type) as type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution where DNS.message_type=RESPONSE DNS.answer!=\"unknown\" DNS.answer!=\"\" by DNS.query | rename DNS.query as query | where query!=\"unknown\" | rex field=query \"(?<domain>\\w+\\.\\w+?)(?:$|/)\"] | makemv delim=\" \" answer |  makemv delim=\" \" type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer | makemv current_answer  | mvexpand current_answer | makemv discovered_answer | eval n=mvfind(discovered_answer, current_answer) | where isnull(n)"
+```
 
 
 ## sensitivity
@@ -1072,6 +1298,12 @@ TLP colors (White, Green, Amber or Red)
 
 
 
+### sensitivity Example
+
+```json
+"green"
+```
+
 
 ## severity
 
@@ -1092,4 +1324,10 @@ Severity in phantom (High, Medium, Low)
 
 
 
+
+### severity Example
+
+```json
+"medium"
+```
 
