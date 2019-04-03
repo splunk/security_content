@@ -67,14 +67,19 @@
   "spec_version": 2,
   "version": "1.0",
   "baselines": [],
+   "entities":["dest"],
   "detect": {
     "phantom": {
       "phantom_server": "automation (hostname)",
-      "playbook_display_name": "DNS record change investigation",
       "playbook_name": "community/dns_hijack_investigation",
       "playbook_url": "https://my.phantom.us/4.1/playbook/dns-hijack-investigation/",
       "sensitivity": "green",
       "severity": "medium",
+      "schedule": {
+          "cron_schedule": "0 * * * *",
+          "earliest_time": "-70m@m",
+          "latest_time": "-10m@m"
+        },
       "correlation_rule": {
         "notable": {
           "nes_fields": "src",
@@ -88,7 +93,7 @@
           ],
           "risk_score": 40
         },
-        "scheduling": {
+        "schedule": {
           "cron_schedule": "0 * * * *",
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
@@ -96,8 +101,7 @@
         "suppress": {
           "suppress_fields": "src",
           "suppress_period": "28800s"
-        },
-        "search": "|makeresults | sendalert sendtophantom"
+        }
       }
     }
   },

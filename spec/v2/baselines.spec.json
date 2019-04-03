@@ -6,14 +6,23 @@
       "properties": {
         "phantom_server": {
           "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)",
+          "examples": [
+            "automation (hostname)"
+          ],
           "type": "string"
         },
         "playbook_name": {
           "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment",
+          "examples": [
+            "community/dns_hijack_investigation"
+          ],
           "type": "string"
         },
         "playbook_url": {
           "description": "Url of the playbook on Phantom website.",
+          "examples": [
+            "https://my.phantom.us/4.1/playbook/dns-hijack-investigation/"
+          ],
           "type": "string"
         },
         "schedule": {
@@ -21,14 +30,23 @@
           "properties": {
             "cron_schedule": {
               "description": "Schedule of the search in cron format",
+              "examples": [
+                "0 * * * *"
+              ],
               "type": "string"
             },
             "earliest_time": {
               "description": "The earliest time the search should run in Splunk format",
+              "examples": [
+                "-70m@m"
+              ],
               "type": "string"
             },
             "latest_time": {
               "description": "The latest time tes search should run against in Splunk format",
+              "examples": [
+                "-10m@m"
+              ],
               "type": "string"
             }
           },
@@ -36,10 +54,16 @@
         },
         "sensitivity": {
           "description": "TLP colors (White, Green, Amber or Red)",
+          "examples": [
+            "green"
+          ],
           "type": "string"
         },
         "severity": {
           "description": "Severity in phantom (High, Medium, Low)",
+          "examples": [
+            "medium"
+          ],
           "type": "string"
         }
       },
@@ -57,14 +81,23 @@
           "properties": {
             "cron_schedule": {
               "description": "Schedule of the search in cron format",
+              "examples": [
+                "0 * * * *"
+              ],
               "type": "string"
             },
             "earliest_time": {
               "description": "The earliest time the search should run in Splunk format",
+              "examples": [
+                "-70m@m"
+              ],
               "type": "string"
             },
             "latest_time": {
               "description": "The latest time tes search should run against in Splunk format",
+              "examples": [
+                "-10m@m"
+              ],
               "type": "string"
             }
           },
@@ -72,6 +105,9 @@
         },
         "search": {
           "description": "The search (in SPL) executed within core Splunk for investgation.",
+          "examples": [
+            "| inputlookup discovered_dns_records.csv | rename answer as discovered_answer | join domain[|tstats summariesonly=true count values(DNS.record_type) as type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution where DNS.message_type=RESPONSE DNS.answer!=\"unknown\" DNS.answer!=\"\" by DNS.query | rename DNS.query as query | where query!=\"unknown\" | rex field=query \"(?<domain>\\w+\\.\\w+?)(?:$|/)\"] | makemv delim=\" \" answer |  makemv delim=\" \" type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer | makemv current_answer  | mvexpand current_answer | makemv discovered_answer | eval n=mvfind(discovered_answer, current_answer) | where isnull(n)"
+          ],
           "type": "string"
         }
       },
@@ -109,6 +145,9 @@
     },
     "creation_date": {
       "description": "The date the baseline manifest was created",
+      "examples": [
+        "2019-02-14"
+      ],
       "type": "string"
     },
     "data_metadata": {
@@ -116,6 +155,9 @@
       "properties": {
         "data_eventtypes": {
           "description": "A list of eventtypes, if any, used by this search",
+          "examples": [
+            "wineventlog"
+          ],
           "items": {
             "type": "string"
           },
@@ -125,6 +167,9 @@
         },
         "data_models": {
           "description": "A list of data models, if any, used by this search",
+          "examples": [
+            "Network_Resolution"
+          ],
           "items": {
             "enum": [
               "Alerts",
@@ -152,6 +197,9 @@
         },
         "data_source": {
           "description": "A high-level description of the type of data needed for this search to complete",
+          "examples": [
+            "DNS"
+          ],
           "items": {
             "type": "string"
           },
@@ -161,6 +209,9 @@
         },
         "data_sourcetypes": {
           "description": "The list of sourcetypes, if any, used by this search",
+          "examples": [
+            "stream:dns"
+          ],
           "items": {
             "type": "string"
           },
@@ -170,6 +221,9 @@
         },
         "providing_technologies": {
           "description": "A list of technologies that provide this data",
+          "examples": [
+            "Bro"
+          ],
           "items": {
             "enum": [
               "Apache",
@@ -209,14 +263,24 @@
     },
     "description": {
       "description": "A description of what the search is is doing to create a baseline",
+      "examples": [
+        "The search takes corporate and common cloud provider domains configured under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv` finds their responses across the last 30 days from data in the `Network_Traffic` datamodel, then stores the output under the `discovered_dns_records.csv` lookup"
+      ],
       "type": "string"
     },
     "eli5": {
       "description": "Explain it like I am 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
+      "examples": [
+        "Discover the DNS records and their answers for domains owned by the company using network traffic events. The discovered events are exported as a lookup named `discovered_dns_records.csv`"
+      ],
       "type": "string"
     },
     "entities": {
       "description": "A list of entities that will used in the story flow or are relevant to the security investigation.",
+      "examples": [
+        "dest",
+        "user"
+      ],
       "items": {
         "enum": [
           "accessKeyId",
@@ -250,14 +314,23 @@
     },
     "how_to_implement": {
       "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per site modifications",
+      "examples": [
+        "To successfully implement this search, you must be ingesting DNS logs, and populating the Network_Resolution data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation"
+      ],
       "type": "string"
     },
     "id": {
       "description": "The unique identifier for the search",
+      "examples": [
+        "c096f721-8842-42ce-bfc7-74bd8c72b7c3"
+      ],
       "type": "string"
     },
     "known_false_positives": {
       "description": "Describe the known false postives while the analyst builds the baseline.",
+      "examples": [
+        "Please vet the lookup created by this baseline search."
+      ],
       "type": "string"
     },
     "maintainers": {
@@ -266,14 +339,23 @@
         "properties": {
           "company": {
             "description": "Company associated with the person maintaining this search",
+            "examples": [
+              "Splunk"
+            ],
             "type": "string"
           },
           "email": {
             "description": "Email address of the person maintaining this search",
+            "examples": [
+              "daftpunk@splunk.com"
+            ],
             "type": "string"
           },
           "name": {
             "description": "Name of the person maintaining this search",
+            "examples": [
+              "Daft Punk"
+            ],
             "type": "string"
           }
         },
@@ -288,10 +370,16 @@
     },
     "modification_date": {
       "description": "The date of the most recent modification to the search",
+      "examples": [
+        "2019-02-14"
+      ],
       "type": "string"
     },
     "name": {
       "description": "The name of the search that creates the baseline",
+      "examples": [
+        "Discover DNS records"
+      ],
       "type": "string"
     },
     "original_authors": {
@@ -300,14 +388,23 @@
         "properties": {
           "company": {
             "description": "Company associated with the person who originally authored the search",
+            "examples": [
+              "Splunk"
+            ],
             "type": "string"
           },
           "email": {
             "description": "Email address of the person who originally authored the search",
+            "examples": [
+              "daftpunk@splunk.com"
+            ],
             "type": "string"
           },
           "name": {
             "description": "Name of the person who originally authored the search",
+            "examples": [
+              "Daft Punk"
+            ],
             "type": "string"
           }
         },
@@ -326,14 +423,24 @@
         "splunk",
         "phantom",
         "uba"
+      ],
+      "examples": [
+        "splunk"
       ]
     },
     "spec_version": {
       "description": "The version of the detection search specification this manifest follows",
+      "examples": [
+        "2.0"
+      ],
       "type": "integer"
     },
     "version": {
       "description": "The version of the search",
+      "examples": [
+        "1",
+        "2"
+      ],
       "type": "string"
     }
   },
