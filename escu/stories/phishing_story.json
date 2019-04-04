@@ -48,7 +48,8 @@
       "Execution of File With Spaces Before Extension",
       "Detect Prohibited Applications Spawning cmd.exe",
       "Detect Rare Executables",
-      "Single Letter Process On Endpoint"
+      "Single Letter Process On Endpoint",
+      "Detect DNS requests to Phishing Sites leveraging EvilGinx"
     ],
     "investigative_searches": [
       "Get Email Info",

@@ -1,0 +1,74 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "high",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src, query",
+      "rule_description": "The host $src$ issued a DNS request for a domain that could be a phishing site leverating EvilGinx toolkit. ",
+      "rule_title": "DNS request for EvilGinx subdomain detected on $src$"
+    },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
+    "suppress": {
+      "suppress_fields": "src, query",
+      "suppress_period": "14400s"
+    }
+  },
+  "creation_date": "2019-04-04",
+  "data_metadata": {
+    "data_models": [
+      "Network_Resolution"
+    ],
+    "data_source": [
+      "DNS"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "eli5": "This search gathers all the answers to each system's DNS query, then filters for queries that have sub domains extracted from the EvilGinx toolkit. It will then run a regex to extract `domain` from the query and remove that from the detection if it is listed in the `domains.csv`",
+  "how_to_implement": "You need to ingest data from your DNS logs. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You will have to add legitimate domain names to the `domains.csv` file shipped with the app",
+  "known_false_positives": "If a known good domain is not listed in the known_domains.csv file, then the search could give you false postives. Please update that lookup file to filter out legitimate DNS requests",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "kill_chain_phases": [
+      "Delivery",
+      "Actions on Objectives",
+      "Command and Control"
+    ]
+  },
+  "modification_date": "2019-04-04",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "|tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| search `evilginx_phishlets_subdomains` | rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | `ctime(firstTime)`| `ctime(lastTime)`| search NOT [ inputlookup domains.csv | fields domain]",
+  "search_description": "This search looks for DNS requests for phishing domains that are leveraging EvilGinx tools to mimic websites.",
+  "search_id": "24dd17b1-e2fb-4c31-878c-d4f226595bfa",
+  "search_name": "Detect DNS requests to Phishing Sites leveraging EvilGinx",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}
