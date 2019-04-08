@@ -1,0 +1,46 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2019-04-08",
+  "data_metadata": {
+    "data_models": [
+      "Certificates"
+    ],
+    "data_source": [
+      "DNS"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "fields_required": [
+    "domain"
+  ],
+  "how_to_implement": "You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2019-04-08",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*{domain}  by All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash | `drop_dm_object_name(All_Certificates)` | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `ctime(firstTime)` | `ctime(lastTime)`",
+  "search_description": "This search queries the Certificates datamodel and give you all the information for a specific domain",
+  "search_id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
+  "search_name": "Get Certificate logs for a domain",
+  "search_type": "investigative",
+  "search_window": {
+    "earliest_time_offset": 0,
+    "latest_time_offset": 86400
+  },
+  "spec_version": 1,
+  "version": "1.0"
+}

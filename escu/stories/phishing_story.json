@@ -56,7 +56,8 @@
       "Get Emails From Specific Sender",
       "Get Process Info",
       "Get Parent Process Info",
-      "Investigate Web Activity From Host"
+      "Investigate Web Activity From Host",
+      "Get Certificate logs for a domain"
     ],
     "support_searches": [
       "DNSTwist Domain Names",
