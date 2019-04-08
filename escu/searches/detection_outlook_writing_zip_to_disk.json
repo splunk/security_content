@@ -1,0 +1,87 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "high",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, process_name, file_name",
+      "rule_description": "Oulook.exe is writing a zip file $file_name$ on $dest$",
+      "rule_title": "Oulook.exe is writing a zip file $file_name$ on $dest$"
+    },
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 20
+    },
+    "suppress": {
+      "suppress_fields": "dest,file_name",
+      "suppress_period": "86400s"
+    }
+  },
+  "creation_date": "2019-04-08",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
+    "data_source": [
+      "Endpoint Intel"
+    ],
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "eli5": "In this search, we are essentially trying to detect if outlook.exe is writing a `.zip` file to the disk. The way this search would run is, it will execute the the subsearch first which looks for all .zip files being written to the disk and outputs a crucial field \"process_id\", that we use the main search to check if that process_id belongs to a process_name of outlook.exe. The search uses a join command to essentially give you an end result of the first and last time that zip file was written by outlook.exe, the dest and user logged on the system, the hash value and the complete path to the zip file on disk",
+  "how_to_implement": "You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or endpoint data sources, such as Sysmon.",
+  "known_false_positives": "It is not uncommon for outlook to write legitimate zip files to the disk.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 7",
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Installation",
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Spearphishing Attachment"
+    ],
+    "nist": [
+      "ID.AM",
+      "PR.DS"
+    ]
+  },
+  "modification_date": "2019-04-08",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe by Processes.process_id Processes.dest Processes.process_name Processes.parent_process_name Processes.user| `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)` | join [| tstats `summariesonly` values(Filesystem.file_path) as file_path count FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*.zip by Filesystem.process_id  Filesystem.file_hash Filesystem.dest Filesystem.file_name| `drop_dm_object_name(Filesystem)` | `ctime(firstTime)` | `ctime(lastTime)` | fields process_id dest file_path file_name file_hash]",
+  "search_description": "This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.",
+  "search_id": "a51bfe1a-94f0-4822-b1e4-16ae10145893",
+  "search_name": "Detect Oulook.exe writing a .zip file",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "1.0"
+}

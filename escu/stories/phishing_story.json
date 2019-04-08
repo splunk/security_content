@@ -49,7 +49,8 @@
       "Detect Prohibited Applications Spawning cmd.exe",
       "Detect Rare Executables",
       "Single Letter Process On Endpoint",
-      "Detect DNS requests to Phishing Sites leveraging EvilGinx"
+      "Detect DNS requests to Phishing Sites leveraging EvilGinx",
+      "Detect Oulook.exe writing a .zip file"
     ],
     "investigative_searches": [
       "Get Email Info",

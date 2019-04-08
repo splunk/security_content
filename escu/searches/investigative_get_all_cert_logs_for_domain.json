@@ -16,7 +16,7 @@
   "fields_required": [
     "domain"
   ],
-  "how_to_implement": "You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel",
+  "how_to_implement": "You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel. Please note the wildcard(*) before domain in the search syntax, we use to match for all domain and subdomain combinations",
   "maintainers": [
     {
       "company": "Splunk",
