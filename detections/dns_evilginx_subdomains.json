@@ -49,7 +49,18 @@
   ],
   "how_to_implement": "You need to ingest data from your DNS logs. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You will have to add legitimate domain names to the `domains.csv` file shipped with the app",
   "id": "24dd17b1-e2fb-4c31-878c-d4f226595bfa",
-  "investigations": [],
+  "investigations": [
+    {
+      "id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
+      "name": "Get Certificate logs for a domain",
+      "product_type": "splunk"
+    },
+    {
+      "id": "c096f721-8842-42ce-bfc7-74bd8c72b711",
+      "name": "DNS record change investigation",
+      "product_type": "phantom"
+    }
+  ],
   "known_false_positives": "If a known good domain is not listed in the known_domains.csv file, then the search could give you false postives. Please update that lookup file to filter out legitimate DNS requests",
   "maintainers": [
     {
