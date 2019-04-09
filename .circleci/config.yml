@@ -13,7 +13,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y enchant -qq
+    sudo apt install -y enchant python-dev -qq
 
 version: 2.1
 
