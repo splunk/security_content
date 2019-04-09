@@ -20,7 +20,7 @@ version: 2.1
 executors:
   content-executor:
     docker:
-      - image: circleci/python:2.7.13
+      - image: circleci/python:latest
     working_directory: ~/repo
 
 jobs:
