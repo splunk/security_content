@@ -45,6 +45,7 @@ jobs:
             rm -rf venv
             virtualenv --clear venv
             source venv/bin/activate
+            pip install -U setuptools
             pip install -q -r requirements.txt
       - run:
           name: run validate manifest
