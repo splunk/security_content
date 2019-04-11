@@ -1060,7 +1060,8 @@
       "examples": [
         "DNS record changed"
       ],
-      "type": "string"
+      "type": "string",
+      "maxLength": 56
     },
     "original_authors": {
       "description": "A list of the original authors of the search",

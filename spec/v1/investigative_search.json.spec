@@ -160,7 +160,8 @@
         },
         "search_name": {
             "description": "The name of the search",
-            "type": "string"
+            "type": "string",
+            "maxLength": 56
         },
         "search_type": {
             "description": "The type of the search",

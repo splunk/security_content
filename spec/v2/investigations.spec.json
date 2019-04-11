@@ -301,7 +301,8 @@
     },
     "name": {
       "description": "The name of the search",
-      "type": "string"
+      "type": "string",
+      "maxLength": 56
     },
     "original_authors": {
       "description": "A list of the original authors of the search",
