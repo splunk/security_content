@@ -52,7 +52,7 @@
     "dest"
   ],
   "how_to_implement": "You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or endpoint data sources, such as Sysmon.",
-  "id": "a51bfe1a-94f0-4822-b1e4-16ae10145893",
+  "id": "5d814af1-1041-47b5-a9ac-d754e82e9a26",
   "investigations": [],
   "known_false_positives": "This detection should yield little or no false positive results. It is uncommon for LNK files to execute process from temporary or user directories.",
   "maintainers": [

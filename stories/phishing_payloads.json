@@ -11,6 +11,11 @@
       "detection_id": "a51bfe1a-94f0-4822-b1e4-16ae10145893",
       "name": "Detect Oulook.exe writing a .zip file",
       "type": "splunk"
+    },
+    {
+      "detection_id": "5d814af1-1041-47b5-a9ac-d754e82e9a26",
+      "name": "Suspicious LNK file launching a process",
+      "type": "splunk"
     }
   ],
   "id": "57226b40-94f3-4ce5-b101-a75f67759c27",
