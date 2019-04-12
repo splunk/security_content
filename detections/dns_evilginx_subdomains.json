@@ -96,7 +96,7 @@
     ]
   },
   "modification_date": "2019-04-04",
-  "name": "Detect DNS requests to Phishing Sites leveraging EvilGinx",
+  "name": "Detect DNS requests to Phishing Sites leveraging EvilGinx2",
   "original_authors": [
     {
       "company": "Splunk",
