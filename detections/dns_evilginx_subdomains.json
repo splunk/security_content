@@ -35,7 +35,7 @@
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
         },
-        "search": "|tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| search `evilginx_phishlets_amazon` AND `evilginx_phishlets_facebook` AND `evilginx_phishlets_github` AND `evilginx_phishlets_0365`AND `evilginx_phishlets_outlook` AND `evilginx_phishlets_aws` AND `evilginx_phishlets_google` | rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | `ctime(firstTime)`| `ctime(lastTime)`| search NOT [ inputlookup evilginx_domains.csv | fields domain]",
+        "search": "|tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| search `evilginx_phishlets_amazon` OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365` OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google` | rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | `ctime(firstTime)`| `ctime(lastTime)`| search NOT [ inputlookup evilginx_domains.csv | fields domain]",
         "suppress": {
           "suppress_fields": "src, query",
           "suppress_period": "14400s"
@@ -43,7 +43,7 @@
       }
     }
   },
-  "eli5": "This search gathers all the answers to each system's DNS query, then filters for queries that have sub domains extracted from the EvilGinx toolkit. It will then run a regex to extract `domain` from the query and remove that from the detection if it is listed in the `domains.csv`",
+  "eli5": "This search gathers all the answers to each system's DNS query, then filters for queries that have sub domains extracted from the EvilGinx toolkit. It will then run a regex to extract `evilginx_domains` from the query and remove that from the detection if it is listed in the `evilginx_domains.csv`",
   "entities": [
     "src"
   ],
