@@ -3,7 +3,7 @@
   "channel": "ESCU",
   "creation_date": "2017-11-21",
   "description": "Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.",
-  "id": "8169f17b-ef68-4b59-aae8-5869073014e1",
+  "id": "8169f17b-ef68-4b59-aae8-586907301221",
   "maintainers": [
     {
       "company": "Splunk",

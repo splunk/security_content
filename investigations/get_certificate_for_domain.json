@@ -21,11 +21,11 @@
       "fields_required": [
         "domain"
       ],
-      "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*{domain}  by All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash | `drop_dm_object_name(All_Certificates)` | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `ctime(firstTime)` | `ctime(lastTime)`",
-      "window": {
-        "earliest_time_offset": 0,
-        "latest_time_offset": 86400
-      }
+      "schedule": {
+        "earliest_time": 0,
+        "latest_time": 86400
+      },
+      "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*{domain}  by All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash | `drop_dm_object_name(All_Certificates)` | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `ctime(firstTime)` | `ctime(lastTime)`"
     }
   },
   "maintainers": [
