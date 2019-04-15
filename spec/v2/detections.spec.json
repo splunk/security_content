@@ -893,6 +893,7 @@
               "Initial Access",
               "Execution",
               "Persistence",
+              "Spearphishing Attachment",
               "Privilege Escalation",
               "Defense Evasion",
               "Credential Access",
