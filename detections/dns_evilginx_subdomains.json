@@ -35,7 +35,7 @@
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
         },
-        "search": "|tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| search `evilginx_phishlets_amazon` OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365` OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google` | rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | `ctime(firstTime)`| `ctime(lastTime)`| search NOT [ inputlookup evilginx_domains.csv | fields domain]",
+        "search": "|tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| search `evilginx_phishlets_amazon` OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365` OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google` | rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | `ctime(firstTime)`| `ctime(lastTime)`| search NOT [ inputlookup evilginx_domains.csv | fields domain]| eval url= \"*\"+ domain + \"*\" | table firstTime  lastTime host src dest query answer | join [| tstats count `summariesonly` from datamodel=Web.Web by Web.site Web.url | `drop_dm_object_name(Web)` |rename site as query| table query url]",
         "suppress": {
           "suppress_fields": "src, query",
           "suppress_period": "14400s"
@@ -77,7 +77,6 @@
       "CIS 12"
     ],
     "kill_chain_phases": [
-      "Delivery",
       "Actions on Objectives",
       "Command and Control"
     ],
