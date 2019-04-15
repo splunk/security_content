@@ -13,14 +13,14 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y enchant -qq
+    sudo apt install -y enchant python-dev -qq
 
 version: 2.1
 
 executors:
   content-executor:
     docker:
-      - image: circleci/python:2.7.13
+      - image: circleci/python:latest
     working_directory: ~/repo
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
           command: |
             cd security-content
             rm -rf venv
-            virtualenv --clear venv
+            virtualenv --python=/usr/bin/python2.7 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
       - run:
