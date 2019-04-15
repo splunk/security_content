@@ -31,6 +31,94 @@ def markdown(x):
     return markdown
 
 
+def process_data_metadata(obj, complete_obj, name):
+
+    # collect tagging
+    metadata = obj['data_metadata']
+    if 'data_models' in metadata:
+        complete_obj[name]['data_models'] = metadata['data_models']
+    if 'providing_technologies' in metadata:
+        complete_obj[name]['providing_technologies'] = metadata['providing_technologies']
+    if 'data_source' in metadata:
+        complete_obj[name]['data_source'] = metadata['data_source']
+
+    if 'mappings' in obj:
+        complete_obj[name]['mappings'] = obj['mappings']
+    if 'fields_required' in obj:
+        complete_obj[name]['entities'] = obj['fields_required']
+    if 'entities' in obj:
+        complete_obj[name]['entities'] = obj['entities']
+
+    return complete_obj
+
+
+def generate_baselines(REPO_PATH, detections):
+    # first we process detections
+
+    baselines = []
+    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.json")
+    for baselines_manifest_file in glob.glob(baselines_manifest_files):
+        # read in each story
+        try:
+            baseline = json.loads(
+                open(baselines_manifest_file, 'r').read())
+        except IOError:
+            print "ERROR: reading {0}".format(baselines_manifest_file)
+            continue
+        baselines.append(baseline)
+
+    complete_baselines = dict()
+    for baseline in baselines:
+
+        # lets process v1 baseline
+        if baseline['spec_version'] == 1:
+            if verbose:
+                print "processing v1 baseline: {0}".format(baseline['search_name'])
+            name = baseline['search_name']
+            id = baseline['search_id']
+
+            # grab search information
+            search = baseline['search']
+            schedule = baseline['scheduling']
+            earliest_time = schedule['earliest_time']
+            latest_time = schedule['latest_time']
+            if 'cron_schedule' in schedule:
+                cron = schedule['cron_schedule']
+            else:
+                cron = ''
+
+            if baseline['spec_version'] == 2:
+                if verbose:
+                    print "processing v2 baseline: {0}".format(baseline['name'])
+                name = baseline['name']
+                id = baseline['id']
+
+                # splunk
+                if baseline['baseline'] == 'splunk':
+                    splunk = baseline['baseline']
+                    search = splunk['search']
+                    earliest_time = splunk['earliest_time']
+                    latest_time = splunk['latest_time']
+                    cron = splunk['cron']
+
+        complete_baselines[name] = {}
+        complete_baselines[name]['baseline_name'] = name
+        complete_baselines[name]['id'] = id
+        complete_baselines[name]['search'] = search
+        complete_baselines[name]['latest_time'] = latest_time
+        complete_baselines[name]['earliest_time'] = earliest_time
+        complete_baselines[name]['cron'] = cron
+
+        # process its metadata
+        complete_baselines = process_data_metadata(baseline, complete_baselines, name)
+
+        # baselines associated with the detections
+        complete_baselines[name]['detections'] = []
+        for detection_name, detection in sorted(detections.iteritems()):
+            complete_baselines[name]['detections'].append(detection['detection_name'])
+    return complete_baselines
+
+
 def generate_investigations(REPO_PATH, detections):
     # first we process detections
 
@@ -46,9 +134,53 @@ def generate_investigations(REPO_PATH, detections):
             continue
         investigations.append(investigation)
 
-#    complete_investigations = dict()
+    complete_investigations = dict()
     for investigation in investigations:
-        print json.dumps(investigation, indent=4)
+
+        # lets process v1 investigation
+        if investigation['spec_version'] == 1:
+            if verbose:
+                print "processing v1 investigation: {0}".format(investigation['search_name'])
+            name = investigation['search_name']
+            id = investigation['search_id']
+
+            # grab search information
+            search = investigation['search']
+            schedule = investigation['search_window']
+            earliest_time = schedule['earliest_time_offset']
+            latest_time = schedule['latest_time_offset']
+            cron = ''
+
+            if investigation['spec_version'] == 2:
+                if verbose:
+                    print "processing v2 investigation: {0}".format(investigation['name'])
+                name = investigation['name']
+                id = investigation['id']
+
+                # splunk
+                if investigation['investigate'] == 'splunk':
+                    splunk = investigation['investigate']
+                    search = splunk['search']
+                    earliest_time = splunk['earliest_time']
+                    latest_time = splunk['latest_time']
+                    cron = splunk['cron']
+
+        complete_investigations[name] = {}
+        complete_investigations[name]['investigation_name'] = name
+        complete_investigations[name]['id'] = id
+        complete_investigations[name]['search'] = search
+        complete_investigations[name]['latest_time'] = latest_time
+        complete_investigations[name]['earliest_time'] = earliest_time
+        complete_investigations[name]['cron'] = cron
+
+        # process its metadata
+        complete_investigations = process_data_metadata(investigation, complete_investigations, name)
+
+        # investigations associated with the detections
+        complete_investigations[name]['detections'] = []
+        for detection_name, detection in sorted(detections.iteritems()):
+            complete_investigations[name]['detections'].append(detection['detection_name'])
+    return complete_investigations
 
 
 def generate_detections(REPO_PATH, stories):
@@ -90,12 +222,29 @@ def generate_detections(REPO_PATH, stories):
             name = detection['name']
             id = detection['id']
 
+            # splunk
             if detection['detect'] == 'splunk':
                 splunk = detection['detect']
                 search = splunk['search']
                 earliest_time = splunk['earliest_time']
                 latest_time = splunk['latest_time']
                 cron = splunk['cron']
+
+            # uba
+            if detection['detect'] == 'uba':
+                uba = detection['detect']
+                search = uba['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
+                earliest_time = uba['earliest_time']
+                latest_time = uba['latest_time']
+                cron = uba['cron']
+
+            # phantom
+            if detection['detect'] == 'phantom':
+                phantom = detection['detect']
+                search = phantom['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
+                earliest_time = phantom['earliest_time']
+                latest_time = phantom['latest_time']
+                cron = phantom['cron']
 
         complete_detections[name] = {}
         complete_detections[name]['detection_name'] = name
@@ -105,17 +254,8 @@ def generate_detections(REPO_PATH, stories):
         complete_detections[name]['earliest_time'] = earliest_time
         complete_detections[name]['cron'] = cron
 
-        # collect tagging
-        metadata = detection['data_metadata']
-        if 'data_models' in metadata:
-            complete_detections[name]['data_models'] = metadata['data_models']
-        if 'providing_technologies' in metadata:
-            complete_detections[name]['providing_technologies'] = metadata['providing_technologies']
-        if 'data_source' in metadata:
-            complete_detections[name]['data_source'] = metadata['data_source']
-        complete_detections[name]['mappings'] = detection['mappings']
-        if 'fields_required' in detection:
-            complete_detections[name]['entity'] = detection['fields_required']
+        # process its metadata
+        complete_detections = process_data_metadata(detection, complete_detections, name)
 
         # stories associated with the detection
         complete_detections[name]['stories'] = []
@@ -214,14 +354,14 @@ def generate_analytics_story(REPO_PATH, verbose):
     return complete_stories
 
 
-def write_story_output(complete_stories, OUTPUT_DIR):
+def write_analytics_story_conf(stories, detections, investigations, baselines, OUTPUT_DIR):
 
     # Create conf files from analytics stories files
     story_output_path = OUTPUT_DIR + "/default/analytics_stories.conf"
     output_file = open(story_output_path, 'w')
 
     # Finish the story
-    for story_name, story in sorted(complete_stories.iteritems()):
+    for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
         output_file.write("category = %s\n" % story['category'])
         output_file.write("creation_date = %s\n" % story['creation_date'])
@@ -271,7 +411,13 @@ if __name__ == "__main__":
 
     complete_stories = generate_analytics_story(REPO_PATH, verbose)
     complete_detections = generate_detections(REPO_PATH, complete_stories)
-    generate_investigations(REPO_PATH, complete_detections)
-
-    story_count, story_path = write_story_output(complete_stories, OUTPUT_DIR)
+    complete_investigations = generate_investigations(REPO_PATH, complete_detections)
+    complete_baselines = generate_baselines(REPO_PATH, complete_detections)
+    # complete_responses = generate_responses(REPO_PATH, complete_responses)
+    story_count, story_path = write_analytics_story_conf(complete_stories, complete_detections,
+                                                         complete_investigations, complete_baselines, OUTPUT_DIR)
     print "{0} stories have been successfully to {1}".format(story_count, story_path)
+
+    # detection_count, detection_path = write_savedsearches_conf(complete_stories, complete_detections, complete_investigations,
+    #                                                     OUTPUT_DIR)
+    # print "{0} stories have been successfully to {1}".format(detection_count, detection_path)
