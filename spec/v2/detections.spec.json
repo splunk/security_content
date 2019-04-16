@@ -594,6 +594,7 @@
             "enum": [
               "Apache",
               "AWS",
+              "Censys",
               "Bro",
               "Microsoft Windows",
               "Linux",
