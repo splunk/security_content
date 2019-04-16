@@ -56,8 +56,8 @@
       "product_type": "splunk"
     },
     {
-      "id": "c096f721-8842-42ce-bfc7-74bd8c72b711",
-      "name": "XX- Russels playbook",
+      "id": "c096f721-8842-42ce-2fc7-742d8272b712",
+      "name": "Domain Certificate Investigation",
       "product_type": "phantom"
     }
   ],
@@ -71,20 +71,16 @@
   ],
   "mappings": {
     "cis20": [
-      "CIS 1",
-      "CIS 3",
       "CIS 8",
-      "CIS 12"
+      "CIS 7"
     ],
     "kill_chain_phases": [
-      "Actions on Objectives",
+      "Delivery",
       "Command and Control"
     ],
     "mitre_attack": [
-      "Exfiltration",
-      "Command and Control",
-      "Defense Evasion",
-      "Commonly Used Port"
+      "Spearphishing Link",
+      "Command and Control"
     ],
     "nist": [
       "ID.AM",

@@ -1,0 +1,46 @@
+{
+  "creation_date": "2019-04-16",
+  "data_metadata": {
+    "data_source": [
+      "Censys"
+    ],
+    "providing_technologies": [
+      "Censys"
+    ]
+  },
+  "description": "",
+  "how_to_implement": "To successfully implement this phantom playbook, you must integrate Enterprise Security with Phantom. Configure this playbook in the correlation search as an alert action",
+  "id": "c096f721-8842-42ce-2fc7-742d8272b712",
+  "investigate": {
+    "phantom": {
+      "phantom_server": "automation (hostname)",
+      "playbook_name": "community/domain_cert_investigation",
+      "playbook_url": "",
+      "schedule": {
+        "earliest_time": 0,
+        "latest_time": 86400
+      },
+      "sensitivity": "green",
+      "severity": "medium"
+    }
+  },
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2019-16-04",
+  "name": "Domain Certificate Investigation",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "product_type": "phantom",
+  "spec_version": 2,
+  "version": "1.0"
+}

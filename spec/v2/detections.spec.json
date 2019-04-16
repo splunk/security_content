@@ -894,6 +894,7 @@
               "Execution",
               "Persistence",
               "Spearphishing Attachment",
+              "Spearphishing Link",
               "Privilege Escalation",
               "Defense Evasion",
               "Credential Access",
