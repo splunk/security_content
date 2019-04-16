@@ -215,6 +215,17 @@ def generate_detections(REPO_PATH, stories):
             latest_time = schedule['latest_time']
             cron = schedule['cron_schedule']
 
+            investigations = []
+            baselines = []
+            responses = []
+            for story_name, story in sorted(stories.iteritems()):
+                for d in story['detections']:
+                    if d['name'] == name:
+                        if 'investigations' in story:
+                            investigations = story['investigations']
+                        if 'baselines' in story:
+                            baselines = story['baselines']
+
         # lets process v2 detections
         if detection['spec_version'] == 2:
             if verbose:
@@ -246,6 +257,21 @@ def generate_detections(REPO_PATH, stories):
                 latest_time = phantom['latest_time']
                 cron = phantom['cron']
 
+            if 'baselines' in detection:
+                baselines = []
+                for b in detection['baselines']:
+                    baselines.append({"type": b['product_type'], "name": b['name']})
+
+            if 'investigations' in detection:
+                investigations = []
+                for i in detection['investigations']:
+                    investigations.append({"type": i['product_type'], "name": i['name']})
+
+            if 'responses' in detection:
+                responses = []
+                for r in detection['responses']:
+                    responses.append({"type": r['product_type'], "name": r['name']})
+
         complete_detections[name] = {}
         complete_detections[name]['detection_name'] = name
         complete_detections[name]['id'] = id
@@ -253,6 +279,10 @@ def generate_detections(REPO_PATH, stories):
         complete_detections[name]['latest_time'] = latest_time
         complete_detections[name]['earliest_time'] = earliest_time
         complete_detections[name]['cron'] = cron
+        complete_detections[name]['investigations'] = investigations
+        print baselines
+        complete_detections[name]['baselines'] = baselines
+        complete_detections[name]['responses'] = responses
 
         # process its metadata
         complete_detections = process_data_metadata(detection, complete_detections, name)
@@ -320,7 +350,7 @@ def generate_analytics_story(REPO_PATH, verbose):
             if 'support_searches' in story['searches']:
                 baselines = []
                 for b in story['searches']['support_searches']:
-                    detections.append({"type": "splunk", "name": b})
+                    baselines.append({"type": "splunk", "name": b})
                 complete_stories[story['name']]['baselines'] = baselines
 
             investigations = []
@@ -338,19 +368,6 @@ def generate_analytics_story(REPO_PATH, verbose):
                 for d in story['detections']:
                     detections.append({"type": d['type'], "name": d['name']})
                 complete_stories[story['name']]['detections'] = detections
-
-            if 'baselines' in story:
-                baselines = []
-                for b in story['baselines']:
-                    detections.append({"type": d['type'], "name": b['name']})
-                complete_stories[story['name']]['baselines'] = baselines
-
-            if 'investigations' in story:
-                investigations = []
-                for i in story['investigations']:
-                    investigations.append({"type": i['type'], "name": i['name']})
-            complete_stories[story['name']]['investigations'] = investigations
-
     return complete_stories
 
 
@@ -372,10 +389,22 @@ def write_analytics_story_conf(stories, detections, investigations, baselines, O
 
         if 'detections' in story:
             output_file.write("detections = %s\n" % json.dumps(story['detections']))
-        if 'investigations' in story:
-            output_file.write("investigations = %s\n" % json.dumps(story['investigations']))
-        if 'baselines' in story:
-            output_file.write("baselines = %s\n" % json.dumps(story['baselines']))
+
+        # write all investigations
+        total_investigations = []
+        for d in story['detections']:
+            if 'investigations' in detections[d['name']]:
+                total_investigations.append(detections[d['name']]['investigations'])
+        print total_investigations[0]
+        output_file.write("investigations = %s\n" % json.dumps(total_investigations[0]))
+
+        # write all baselines
+        total_baselines = []
+        for d in story['detections']:
+            if 'baselines' in detections[d['name']]:
+                total_baselines.append(detections[d['name']]['baselines'])
+        print total_baselines[0]
+        output_file.write("baselines = %s\n" % json.dumps(total_baselines[0]))
 
         # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
         description = markdown(story['description'])
