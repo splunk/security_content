@@ -206,6 +206,7 @@ def generate_detections(REPO_PATH, stories):
             if verbose:
                 print "processing v1 detection: {0}".format(detection['search_name'])
             name = detection['search_name']
+            description = detection['search_description']
             id = detection['search_id']
 
             # grab search information
@@ -214,6 +215,11 @@ def generate_detections(REPO_PATH, stories):
             earliest_time = schedule['earliest_time']
             latest_time = schedule['latest_time']
             cron = schedule['cron_schedule']
+
+            # grabbing entities
+            entities = []
+            if 'fields_required' in detection:
+                entities = detection['fields_required']
 
             investigations = []
             baselines = []
@@ -232,6 +238,7 @@ def generate_detections(REPO_PATH, stories):
                 print "processing v2 detection: {0}".format(detection['name'])
             name = detection['name']
             id = detection['id']
+            entities = detection['entities']
 
             # splunk
             if detection['detect'] == 'splunk':
@@ -280,9 +287,41 @@ def generate_detections(REPO_PATH, stories):
         complete_detections[name]['earliest_time'] = earliest_time
         complete_detections[name]['cron'] = cron
         complete_detections[name]['investigations'] = investigations
-        print baselines
         complete_detections[name]['baselines'] = baselines
         complete_detections[name]['responses'] = responses
+        complete_detections[name]['entities'] = entities
+        complete_detections[name]['description'] = description
+        complete_detections[name]['maintainers'] = detection['maintainers']
+        if 'references' not in detection:
+            detection['references'] = []
+        complete_detections[name]['references'] = detection['references']
+        if 'channel' not in detection:
+            detection['channel'] = ""
+        complete_detections[name]['channel'] = detection['channel']
+        if 'confidence' not in detection:
+            detection['confidence'] = ""
+        complete_detections[name]['confidence'] = detection['confidence']
+        if 'eli5' not in detection:
+            detection['eli5'] = ""
+        complete_detections[name]['eli5'] = detection['eli5']
+        if 'how_to_implement' not in detection:
+            detection['how_to_implement'] = ""
+        complete_detections[name]['how_to_implement'] = detection['how_to_implement']
+        if 'asset_type' not in detection:
+            detection['asset_type'] = ""
+        complete_detections[name]['asset_type'] = detection['asset_type']
+        if 'known_false_positives' not in detection:
+            detection['known_false_positives'] = ""
+        complete_detections[name]['known_false_positives'] = detection['known_false_positives']
+        complete_detections[name]['security_domain'] = detection['security_domain']
+        complete_detections[name]['version'] = detection['version']
+        complete_detections[name]['spec_version'] = detection['spec_version']
+        complete_detections[name]['creation_date'] = detection['creation_date']
+        # set modification date to creation of there is not one
+        if 'modification_date' in detection:
+            complete_detections[name]['modification_date'] = detection['modification_date']
+        else:
+            complete_detections[name]['modification_date'] = detection['creation_date']
 
         # process its metadata
         complete_detections = process_data_metadata(detection, complete_detections, name)
@@ -323,13 +362,12 @@ def generate_analytics_story(REPO_PATH, verbose):
         complete_stories[story['name']]['id'] = story['id']
 
         # grab modification date if it has one, otherwise write as creation date
+        complete_stories[story['name']]['creation_date'] = story['creation_date']
         if 'modification_date' in story:
             complete_stories[story['name']]['modification_date'] = story['modification_date']
-            complete_stories[story['name']]['creation_date'] = story['creation_date']
+
         else:
             complete_stories[story['name']]['modification_date'] = story['creation_date']
-            complete_stories[story['name']]['creation_date'] = story['creation_date']
-
         complete_stories[story['name']]['description'] = story['description']
         if 'references' not in story:
             story['references'] = []
@@ -338,6 +376,7 @@ def generate_analytics_story(REPO_PATH, verbose):
         complete_stories[story['name']]['version'] = story['version']
         complete_stories[story['name']]['narrative'] = story['narrative']
         complete_stories[story['name']]['spec_version'] = story['spec_version']
+        complete_stories[story['name']]['maintainers'] = story['maintainers']
 
         # grab searches
         if story['spec_version'] == 1:
@@ -371,10 +410,10 @@ def generate_analytics_story(REPO_PATH, verbose):
     return complete_stories
 
 
-def write_analytics_story_conf(stories, detections, investigations, baselines, OUTPUT_DIR):
+def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
 
     # Create conf files from analytics stories files
-    story_output_path = OUTPUT_DIR + "/default/analytics_stories.conf"
+    story_output_path = OUTPUT_DIR + "/default/analytics_stories_v2.conf"
     output_file = open(story_output_path, 'w')
 
     # Finish the story
@@ -395,7 +434,6 @@ def write_analytics_story_conf(stories, detections, investigations, baselines, O
         for d in story['detections']:
             if 'investigations' in detections[d['name']]:
                 total_investigations.append(detections[d['name']]['investigations'])
-        print total_investigations[0]
         output_file.write("investigations = %s\n" % json.dumps(total_investigations[0]))
 
         # write all baselines
@@ -403,7 +441,6 @@ def write_analytics_story_conf(stories, detections, investigations, baselines, O
         for d in story['detections']:
             if 'baselines' in detections[d['name']]:
                 total_baselines.append(detections[d['name']]['baselines'])
-        print total_baselines[0]
         output_file.write("baselines = %s\n" % json.dumps(total_baselines[0]))
 
         # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
@@ -422,6 +459,164 @@ def write_analytics_story_conf(stories, detections, investigations, baselines, O
     return story_count, story_output_path
 
 
+def write_analytics_story_confv1(stories, detections, OUTPUT_DIR):
+
+    # Create conf files from analytics stories files
+    story_output_path = OUTPUT_DIR + "/default/analytics_stories.conf"
+    output_file = open(story_output_path, 'w')
+
+    # Finish the story
+    for story_name, story in sorted(stories.iteritems()):
+        output_file.write("[%s]\n" % story_name)
+        output_file.write("category = %s\n" % story['category'])
+        output_file.write("creation_date = %s\n" % story['creation_date'])
+        output_file.write("modification_date = %s\n" % story['modification_date'])
+        output_file.write("id = %s\n" % story['id'])
+        output_file.write("version = %s\n" % story['version'])
+        output_file.write("reference = %s\n" % json.dumps(story['references']))
+
+        if 'detections' in story:
+            detection_searches = []
+            for d in story['detections']:
+                if d['type'] == 'splunk':
+                    detection_searches.append(d['name'])
+            output_file.write("detection_searches = %s\n" % json.dumps(detection_searches))
+
+        # write all investigations
+        total_investigations = []
+        for d in story['detections']:
+            if 'investigations' in detections[d['name']]:
+                for i in detections[d['name']]['investigations']:
+                    if i['type'] == 'splunk':
+                        total_investigations.append(i['name'])
+        output_file.write("investigative_searches = %s\n" % json.dumps(total_investigations))
+
+        # write all baselines
+        total_baselines = []
+        for d in story['detections']:
+            if 'baselines' in detections[d['name']]:
+                for b in detections[d['name']]['baselines']:
+                    if b['type'] == 'splunk':
+                        total_baselines.append(b['name'])
+        output_file.write("support_searches = %s\n" % json.dumps(total_baselines))
+
+        # generate datamodels
+        data_models = []
+        for d in story['detections']:
+            if 'data_models' in detections[d['name']]:
+                data_models.append(detections[d['name']]['data_models'])
+        output_file.write("data_models = %s\n" % data_models)
+
+        # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
+        description = markdown(story['description'])
+        output_file.write("description = %s\n" % description)
+
+        # REMOVE THIS FUNCTION MAKE SURE ALL NARRATIVE ARE NATIVELY IN MARKDOWN
+        if story['narrative']:
+            narrative = markdown(story['narrative'])
+            output_file.write("narrative = %s\n" % narrative)
+        output_file.write("\n")
+
+    # close file, count stories we found and return
+    output_file.close()
+    story_count = len(complete_stories.keys())
+    return story_count, story_output_path
+
+
+def write_use_case_lib_conf(stories, detections, OUTPUT_DIR):
+
+    # Create conf files from analytics stories files
+    use_case_lib_path = OUTPUT_DIR + "/default/use_case_library.conf"
+    output_file = open(use_case_lib_path, 'w')
+
+    # Finish the story
+    for story_name, story in sorted(stories.iteritems()):
+        output_file.write("[analytic_story://%s]\n" % story_name)
+        output_file.write("category = %s\n" % story['category'])
+        output_file.write("last_updated = %s\n" % story['modification_date'])
+        output_file.write("version = %s\n" % story['version'])
+        output_file.write("reference = %s\n" % json.dumps(story['references']))
+        output_file.write("maintainers = %s\n" % json.dumps(story['maintainers']))
+        output_file.write("spec_version = %s\n" % json.dumps(story['spec_version']))
+
+        searches = []
+        if 'detections' in story:
+            for d in story['detections']:
+                if d['type'] == 'splunk':
+                    searches.append(d['name'])
+
+        for d in story['detections']:
+            if 'investigations' in detections[d['name']]:
+                for i in detections[d['name']]['investigations']:
+                    if i['type'] == 'splunk':
+                        searches.append(i['name'])
+            if 'baselines' in detections[d['name']]:
+                for b in detections[d['name']]['baselines']:
+                    if b['type'] == 'splunk':
+                        searches.append(b['name'])
+
+        output_file.write("searches = %s\n" % json.dumps(searches))
+
+        # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
+        description = markdown(story['description'])
+        output_file.write("description = %s\n" % description)
+
+        # REMOVE THIS FUNCTION MAKE SURE ALL NARRATIVE ARE NATIVELY IN MARKDOWN
+        if story['narrative']:
+            narrative = markdown(story['narrative'])
+            output_file.write("narrative = %s\n" % narrative)
+        output_file.write("\n")
+
+    # close file, count stories we found and return
+    output_file.close()
+    story_count = len(complete_stories.keys())
+    return story_count, use_case_lib_path
+
+
+# NOT DONE
+def write_savedsearches_conf(stories, detections, investigations, baselines, OUTPUT_DIR):
+
+    # Create savedsearches.conf for all our detections
+    detections_output_path = OUTPUT_DIR + "/default/savedsearches.conf"
+    output_file = open(detections_output_path, 'w')
+
+    output_file.write("### ESCU DETECTIONS ###\n")
+    # iterate through the detections and write them out
+    for detection_name, detection in sorted(detections.iteritems()):
+        # Write down the detection to file
+        output_file.write("\n")
+        output_file.write("[ESCU - %s - Rule]\n" % detection_name)
+        output_file.write("action.escu = 0\n")
+        output_file.write("action.escu.enabled = 1\n")
+        output_file.write("action.escu.description = %s\n" % detection['description'])
+        output_file.write("action.escu.mappings = %s\n" % detection['mappings'])
+        if 'data_models' in detection:
+            output_file.write("action.escu.data_models = %s\n" % detection['data_models'])
+
+        # NEED TO REMOVE MARKDOWN FUNCTION
+        if 'eli5' in detection:
+            eli5 = markdown(detection['eli5'])
+            output_file.write("action.escu.eli5 = %s\n" % eli5)
+        else:
+            output_file.write("action.escu.eli5 = none\n")
+        if 'how_to_implement' in detection:
+            how_to_implement = markdown(detection['how_to_implement'])
+            output_file.write("action.escu.how_to_implement = %s\n" % how_to_implement)
+        else:
+            output_file.write("action.escu.how_to_implement = none\n")
+
+        output_file.write("action.escu.creation_date = %s\n" % detection['creation_date'])
+        output_file.write("action.escu.modification_date = %s\n" % detection['modification_date'])
+
+    output_file.write("\n### END ESCU DETECTIONS ###\n")
+    detections_count = len(detections)
+    investigations_count = len(investigations)
+    baselines_count = len(baselines)
+    detection_path = detections_output_path
+
+    return detections_count, investigations_count, baselines_count, detection_path
+
+
 if __name__ == "__main__":
 
     # grab arguments
@@ -430,23 +625,40 @@ if __name__ == "__main__":
     It generates the savesearches.conf, analytics_stories.conf files for ES.""")
     parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
-    parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
+    parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
+    parser.add_argument("-sv1", "--storiesv1", required=False, default=True, action='store_true',
+                        help="generates analytics_stories.conf in v1 format")
+    parser.add_argument("-u", "--use_case_lib", required=False, default=True, action='store_true',
+                        help="generates use_case_library.conf for ES")
 
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     verbose = args.verbose
+    storiesv1 = args.storiesv1
+    use_case_lib = args.use_case_lib
 
     complete_stories = generate_analytics_story(REPO_PATH, verbose)
     complete_detections = generate_detections(REPO_PATH, complete_stories)
     complete_investigations = generate_investigations(REPO_PATH, complete_detections)
     complete_baselines = generate_baselines(REPO_PATH, complete_detections)
     # complete_responses = generate_responses(REPO_PATH, complete_responses)
-    story_count, story_path = write_analytics_story_conf(complete_stories, complete_detections,
-                                                         complete_investigations, complete_baselines, OUTPUT_DIR)
-    print "{0} stories have been successfully to {1}".format(story_count, story_path)
 
-    # detection_count, detection_path = write_savedsearches_conf(complete_stories, complete_detections, complete_investigations,
-    #                                                     OUTPUT_DIR)
-    # print "{0} stories have been successfully to {1}".format(detection_count, detection_path)
+    if storiesv1:
+        story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections, OUTPUT_DIR)
+        print "{0} stories have been successfully to {1}".format(story_count, story_path)
+
+    if use_case_lib:
+        story_count, use_case_lib_path = write_use_case_lib_conf(complete_stories, complete_detections, OUTPUT_DIR)
+        print "{0} stories have been successfully to {1}".format(story_count, use_case_lib_path)
+
+    detections_count, investigations_count, baselines_count, detection_path = \
+        write_savedsearches_conf(complete_stories, complete_detections, complete_investigations,
+                                 complete_baselines, OUTPUT_DIR)
+    print "{0} detections have been successfully to {1}\n" \
+          "{2} investigations have been successfully to {1}\n" \
+          "{3} baselines have been successfully to {1}".format(detections_count, detection_path, investigations_count,
+                                                               baselines_count)
+
+    print "security content generation completed.."
