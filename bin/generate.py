@@ -87,19 +87,19 @@ def generate_baselines(REPO_PATH, detections):
             else:
                 cron = ''
 
-            if baseline['spec_version'] == 2:
-                if verbose:
-                    print "processing v2 baseline: {0}".format(baseline['name'])
-                name = baseline['name']
-                id = baseline['id']
+        if baseline['spec_version'] == 2:
+            if verbose:
+                print "processing v2 baseline: {0}".format(baseline['name'])
+            name = baseline['name']
+            id = baseline['id']
 
-                # splunk
-                if baseline['baseline'] == 'splunk':
-                    splunk = baseline['baseline']
-                    search = splunk['search']
-                    earliest_time = splunk['earliest_time']
-                    latest_time = splunk['latest_time']
-                    cron = splunk['cron']
+            # splunk
+            if baseline['baseline'] == 'splunk':
+                splunk = baseline['baseline']
+                search = splunk['search']
+                earliest_time = splunk['earliest_time']
+                latest_time = splunk['latest_time']
+                cron = splunk['cron']
 
         complete_baselines[name] = {}
         complete_baselines[name]['baseline_name'] = name
@@ -139,6 +139,7 @@ def generate_investigations(REPO_PATH, detections):
 
         # lets process v1 investigation
         if investigation['spec_version'] == 1:
+            type = 'splunk'
             if verbose:
                 print "processing v1 investigation: {0}".format(investigation['search_name'])
             name = investigation['search_name']
@@ -151,30 +152,50 @@ def generate_investigations(REPO_PATH, detections):
             latest_time = schedule['latest_time_offset']
             cron = ''
 
-            if investigation['spec_version'] == 2:
-                if verbose:
-                    print "processing v2 investigation: {0}".format(investigation['name'])
-                name = investigation['name']
-                id = investigation['id']
+        if investigation['spec_version'] == 2:
+            if verbose:
+                print "processing v2 investigation: {0}".format(investigation['name'])
+            name = investigation['name']
+            id = investigation['id']
 
-                # splunk
-                if investigation['investigate'] == 'splunk':
+            # splunk
+            if 'splunk' in investigation['investigate']:
+                try:
+                    type = 'splunk'
                     splunk = investigation['investigate']
                     search = splunk['search']
                     earliest_time = splunk['earliest_time']
                     latest_time = splunk['latest_time']
                     cron = splunk['cron']
+                except KeyError as e:
+                    print "ERROR: missing key on {0} with error:\n{1}".format(name, e)
+
+            # phantom
+            if 'phantom' in investigation['investigate']:
+                try:
+                    type = 'phantom'
+#                    phantom = investigation['investigate']
+#                    server = phantom['phantom_server']
+#                    playbook = phantom['playbook_name']
+#                    playbook_url = phantom['playbook_url']
+                except KeyError as e:
+                    print "ERROR: \"{1}\" missing key {0} with error:\n{1}".format(e, name, e)
 
         complete_investigations[name] = {}
         complete_investigations[name]['investigation_name'] = name
         complete_investigations[name]['id'] = id
+        complete_investigations[name]['type'] = type
         complete_investigations[name]['search'] = search
         complete_investigations[name]['latest_time'] = latest_time
         complete_investigations[name]['earliest_time'] = earliest_time
         complete_investigations[name]['cron'] = cron
-
         # process its metadata
         complete_investigations = process_data_metadata(investigation, complete_investigations, name)
+
+        # if type == 'phantom':
+        #    complete_investigations[name]['phantom_server'] = server
+        #    complete_investigations[name]['playbook'] = playbook
+        #    complete_investigations[name]['playbook_url'] = playbook_url
 
         # investigations associated with the detections
         complete_investigations[name]['detections'] = []
@@ -220,8 +241,6 @@ def generate_detections(REPO_PATH, stories):
 
             # grabbing entities
             entities = []
-            if 'fields_required' in detection:
-                entities = detection['fields_required']
 
             investigations = []
             baselines = []
@@ -344,7 +363,7 @@ def generate_detections(REPO_PATH, stories):
     return complete_detections
 
 
-def generate_analytics_story(REPO_PATH, verbose):
+def generate_stories(REPO_PATH, verbose):
     story_files = []
     story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
 
@@ -668,21 +687,23 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
                                        [[action|escu_investigate]]: Based on ESCU investigate \
                                        recommendations:\\n%s\"}" % investigations_output
                 if i['type'] == 'phantom':
+                    has_phantom = True
                     # lets pull the playbook URL out from investigation object
-                    # for inv_name, inv in investigations.sorted(detections.iteritems()):
-                    #    if i['name'] == inv['investigation_name']:
-                    #        playbook_url = inv['']
-                    #    print inv
+                    playbook_url = ''
+                    # for inv_name, inv in investigations.iteritems():
+                    #    if i['name'] == inv_name:
+                    #        print json.dumps(inv,indent=4)
+                    #        playbook_url = inv['playbook_url']
+                    #    print playbook_url
                     playbook_next_steps_string = "Splunk>Phantom Response Playbook - Monitor enrichment of the \
                         Splunk>Phantom Playbook called " + str(i['name']) + " and answer any \
                         analyst prompt in Mission Control with a response decision. \
-                        Link to the playbook " + str(i['name'])
+                        Link to the playbook " + str(playbook_url)
                     next_steps = "{\"version\": 1, \"data\": \"Recommended following \
                         steps:\\n\\n1. [[action|runphantomplaybook]]: Phantom playbook \
                         recommendations:\\n%s\\n2. [[action|escu_investigate]]: \
-                        Based on ESCU investigate recommendations:\\n%s\"}" % (playbook_next_steps_string, investigations_output)
-                    has_phantom = True
-
+                        Based on ESCU investigate recommendations:\\n%s\"}" % (playbook_next_steps_string,
+                                                                               investigations_output)
             # update recommendation action if t here is a phantom one
             if has_phantom:
                 output_file.write("action.notable.param.recommended_actions = runphantomplaybook, escu_investigate\n")
@@ -754,7 +775,7 @@ if __name__ == "__main__":
     storiesv1 = args.storiesv1
     use_case_lib = args.use_case_lib
 
-    complete_stories = generate_analytics_story(REPO_PATH, verbose)
+    complete_stories = generate_stories(REPO_PATH, verbose)
     complete_detections = generate_detections(REPO_PATH, complete_stories)
     complete_investigations = generate_investigations(REPO_PATH, complete_detections)
     complete_baselines = generate_baselines(REPO_PATH, complete_detections)
@@ -762,6 +783,9 @@ if __name__ == "__main__":
 
     if storiesv1:
         story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections, OUTPUT_DIR)
+        print "{0} stories have been successfully to {1}".format(story_count, story_path)
+    else:
+        story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections, OUTPUT_DIR)
         print "{0} stories have been successfully to {1}".format(story_count, story_path)
 
     if use_case_lib:
