@@ -58,7 +58,7 @@
   "id": "44d3a43e-dcd5-49f7-8356-5209bb369065",
   "investigations": [
     {
-      "id": "bc11a8cf-35e7-4bb2-8140-e756cc06fd72",
+      "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
       "name": "Get DNS Server History for a host",
       "product_type": "splunk"
     },
