@@ -51,7 +51,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/validate.py --path .
+            python bin/validate.py --path . --verbose
       - run:
           name: run generate
           command: |
