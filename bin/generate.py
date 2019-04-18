@@ -8,6 +8,7 @@ import glob
 import json
 import argparse
 from os import path
+import sys
 
 ALL_UUIDS = []
 
@@ -63,8 +64,7 @@ def generate_baselines(REPO_PATH, detections):
             baseline = json.loads(
                 open(baselines_manifest_file, 'r').read())
         except IOError:
-            print "ERROR: reading {0}".format(baselines_manifest_file)
-            continue
+            sys.exit("ERROR: reading {0}".format(baselines_manifest_file))
         baselines.append(baseline)
 
     complete_baselines = dict()
@@ -94,12 +94,12 @@ def generate_baselines(REPO_PATH, detections):
             id = baseline['id']
 
             # splunk
-            if baseline['baseline'] == 'splunk':
-                splunk = baseline['baseline']
+            if 'splunk' in baseline['baseline']:
+                splunk = baseline['baseline']['splunk']
                 search = splunk['search']
-                earliest_time = splunk['earliest_time']
-                latest_time = splunk['latest_time']
-                cron = splunk['cron']
+                earliest_time = splunk['schedule']['earliest_time']
+                latest_time = splunk['schedule']['latest_time']
+                cron = splunk['schedule']['cron_schedule']
 
         complete_baselines[name] = {}
         complete_baselines[name]['baseline_name'] = name
@@ -130,8 +130,7 @@ def generate_investigations(REPO_PATH, detections):
             investigation = json.loads(
                 open(investigations_manifest_file, 'r').read())
         except IOError:
-            print "ERROR: reading {0}".format(investigations_manifest_file)
-            continue
+            sys.exit("ERROR: reading {0}".format(investigations_manifest_file))
         investigations.append(investigation)
 
     complete_investigations = dict()
@@ -162,24 +161,24 @@ def generate_investigations(REPO_PATH, detections):
             if 'splunk' in investigation['investigate']:
                 try:
                     type = 'splunk'
-                    splunk = investigation['investigate']
+                    splunk = investigation['investigate']['splunk']
                     search = splunk['search']
-                    earliest_time = splunk['earliest_time']
-                    latest_time = splunk['latest_time']
-                    cron = splunk['cron']
+                    earliest_time = splunk['schedule']['earliest_time']
+                    latest_time = splunk['schedule']['latest_time']
+                    cron = splunk['schedule']['cron_schedule']
                 except KeyError as e:
-                    print "ERROR: missing key on {0} with error:\n{1}".format(name, e)
+                    sys.exit("ERROR: missing key {0} on {1} current object:\n{2}".format(e, name, splunk))
 
             # phantom
             if 'phantom' in investigation['investigate']:
                 try:
                     type = 'phantom'
-#                    phantom = investigation['investigate']
-#                    server = phantom['phantom_server']
-#                    playbook = phantom['playbook_name']
-#                    playbook_url = phantom['playbook_url']
+                    phantom = investigation['investigate']['phantom']
+                    server = phantom['phantom_server']
+                    playbook = phantom['playbook_name']
+                    playbook_url = phantom['playbook_url']
                 except KeyError as e:
-                    print "ERROR: \"{1}\" missing key {0} with error:\n{1}".format(e, name, e)
+                    sys.exit("ERROR: \"{1}\" missing key {0} with error:\n{1}".format(e, name, e))
 
         complete_investigations[name] = {}
         complete_investigations[name]['investigation_name'] = name
@@ -192,10 +191,10 @@ def generate_investigations(REPO_PATH, detections):
         # process its metadata
         complete_investigations = process_data_metadata(investigation, complete_investigations, name)
 
-        # if type == 'phantom':
-        #    complete_investigations[name]['phantom_server'] = server
-        #    complete_investigations[name]['playbook'] = playbook
-        #    complete_investigations[name]['playbook_url'] = playbook_url
+        if type == 'phantom':
+            complete_investigations[name]['phantom_server'] = server
+            complete_investigations[name]['playbook'] = playbook
+            complete_investigations[name]['playbook_url'] = playbook_url
 
         # investigations associated with the detections
         complete_investigations[name]['detections'] = []
@@ -215,8 +214,7 @@ def generate_detections(REPO_PATH, stories):
             detection = json.loads(
                 open(detections_manifest_file, 'r').read())
         except IOError:
-            print "ERROR: reading {0}".format(detections_manifest_file)
-            continue
+            sys.exit("ERROR: reading {0}".format(detections_manifest_file))
         detections.append(detection)
 
     complete_detections = dict()
@@ -373,8 +371,7 @@ def generate_stories(REPO_PATH, verbose):
             story = json.loads(
                 open(story_manifest_file, 'r').read())
         except IOError:
-            print "ERROR: reading {0}".format(story_manifest_file)
-            continue
+            sys.exit("ERROR: reading {0}".format(story_manifest_file))
         story_files.append(story)
 
     # store an object with all stories and their data
@@ -688,13 +685,13 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
                                        recommendations:\\n%s\"}" % investigations_output
                 if i['type'] == 'phantom':
                     has_phantom = True
+
                     # lets pull the playbook URL out from investigation object
                     playbook_url = ''
-                    # for inv_name, inv in investigations.iteritems():
-                    #    if i['name'] == inv_name:
-                    #        print json.dumps(inv,indent=4)
-                    #        playbook_url = inv['playbook_url']
-                    #    print playbook_url
+                    for inv_name, inv in investigations.iteritems():
+                        if i['name'] == inv_name:
+                            playbook_url = inv['playbook_url']
+                    # construct next steps with the playbook info
                     playbook_next_steps_string = "Splunk>Phantom Response Playbook - Monitor enrichment of the \
                         Splunk>Phantom Playbook called " + str(i['name']) + " and answer any \
                         analyst prompt in Mission Control with a response decision. \

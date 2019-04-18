@@ -50,13 +50,8 @@
   "id": "c026e3dd-7e18-4abb-8f41-929e836efe74",
   "investigations": [
     {
-      "id": "bc11a8cf-35e7-4bb2-8140-e756cc06fd72",
-      "name": "Get DNS Server History for a host",
-      "product_type": "splunk"
-    },
-    {
-      "id": "c096f721-8842-42ce-bfc7-74bd9a72c712",
-      "name": "DNS Hijack enrichment",
+      "id": "ab62b5c1-95d4-4e71-8fd7-53a55db33da4",
+      "name": "Excessive Account Lockouts Enrichment And Response",
       "product_type": "phantom"
     }
   ],
