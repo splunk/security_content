@@ -37,7 +37,7 @@
           ],
           "risk_score": 40
         },
-        "scheduling": {
+        "schedule": {
           "cron_schedule": "0 * * * *",
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"

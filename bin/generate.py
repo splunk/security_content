@@ -260,32 +260,31 @@ def generate_detections(REPO_PATH, stories):
             entities = detection['entities']
 
             # splunk
-            if detection['detect'] == 'splunk':
-                splunk = detection['detect']
+            if 'splunk' in detection['detect']:
                 type = 'splunk'
-                correlation_rule = splunk['correlation_rule']
-                search = splunk['search']
-                earliest_time = splunk['earliest_time']
-                latest_time = splunk['latest_time']
-                cron = splunk['cron']
+                correlation_rule = detection['detect']['splunk']['correlation_rule']
+                search = correlation_rule['search']
+                earliest_time = correlation_rule['schedule']['earliest_time']
+                latest_time = correlation_rule['schedule']['latest_time']
+                cron = correlation_rule['schedule']['cron_schedule']
 
             # uba
-            if detection['detect'] == 'uba':
-                uba = detection['detect']
+            if 'uba' in detection['detect']:
+                uba = detection['detect']['uba']
                 type = 'uba'
                 search = uba['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
-                earliest_time = uba['earliest_time']
-                latest_time = uba['latest_time']
-                cron = uba['cron']
+                # earliest_time = uba['earliest_time']
+                # latest_time = uba['latest_time']
+                # cron = uba['cron_schedule']
 
             # phantom
-            if detection['detect'] == 'phantom':
-                phantom = detection['detect']
+            if 'phantom' in detection['detect']:
+                phantom = detection['detect']['phantom']
                 type = 'phantom'
                 search = phantom['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
-                earliest_time = phantom['earliest_time']
-                latest_time = phantom['latest_time']
-                cron = phantom['cron']
+                # earliest_time = phantom['earliest_time']
+                # latest_time = phantom['latest_time']
+                # cron = phantom['cron_schedule']
 
             if 'baselines' in detection:
                 baselines = []
