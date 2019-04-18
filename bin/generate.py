@@ -206,10 +206,12 @@ def generate_detections(REPO_PATH, stories):
             if verbose:
                 print "processing v1 detection: {0}".format(detection['search_name'])
             name = detection['search_name']
+            type = 'splunk'
             description = detection['search_description']
             id = detection['search_id']
 
             # grab search information
+            correlation_rule = detection['correlation_rule']
             search = detection['search']
             schedule = detection['scheduling']
             earliest_time = schedule['earliest_time']
@@ -243,6 +245,8 @@ def generate_detections(REPO_PATH, stories):
             # splunk
             if detection['detect'] == 'splunk':
                 splunk = detection['detect']
+                type = 'splunk'
+                correlation_rule = splunk['correlation_rule']
                 search = splunk['search']
                 earliest_time = splunk['earliest_time']
                 latest_time = splunk['latest_time']
@@ -251,6 +255,7 @@ def generate_detections(REPO_PATH, stories):
             # uba
             if detection['detect'] == 'uba':
                 uba = detection['detect']
+                type = 'uba'
                 search = uba['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
                 earliest_time = uba['earliest_time']
                 latest_time = uba['latest_time']
@@ -259,6 +264,7 @@ def generate_detections(REPO_PATH, stories):
             # phantom
             if detection['detect'] == 'phantom':
                 phantom = detection['detect']
+                type = 'phantom'
                 search = phantom['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
                 earliest_time = phantom['earliest_time']
                 latest_time = phantom['latest_time']
@@ -291,6 +297,8 @@ def generate_detections(REPO_PATH, stories):
         complete_detections[name]['responses'] = responses
         complete_detections[name]['entities'] = entities
         complete_detections[name]['description'] = description
+        complete_detections[name]['correlation_rule'] = correlation_rule
+        complete_detections[name]['type'] = type
         complete_detections[name]['maintainers'] = detection['maintainers']
         if 'references' not in detection:
             detection['references'] = []
@@ -573,7 +581,6 @@ def write_use_case_lib_conf(stories, detections, OUTPUT_DIR):
     return story_count, use_case_lib_path
 
 
-# NOT DONE
 def write_savedsearches_conf(stories, detections, investigations, baselines, OUTPUT_DIR):
 
     # Create savedsearches.conf for all our detections
@@ -585,28 +592,115 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
     for detection_name, detection in sorted(detections.iteritems()):
         # Write down the detection to file
         output_file.write("\n")
-        output_file.write("[ESCU - %s - Rule]\n" % detection_name)
+        output_file.write("[ESCU - {0} - Rule]\n".format(detection_name))
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
-        output_file.write("action.escu.description = %s\n" % detection['description'])
-        output_file.write("action.escu.mappings = %s\n" % detection['mappings'])
+        output_file.write("action.escu.description = {0}\n".format(detection['description']))
+        output_file.write("action.escu.mappings = {0}\n".format(detection['mappings']))
         if 'data_models' in detection:
-            output_file.write("action.escu.data_models = %s\n" % detection['data_models'])
+            output_file.write("action.escu.data_models = {0}\n".format(detection['data_models']))
 
         # NEED TO REMOVE MARKDOWN FUNCTION
         if 'eli5' in detection:
             eli5 = markdown(detection['eli5'])
-            output_file.write("action.escu.eli5 = %s\n" % eli5)
+            output_file.write("action.escu.eli5 = {0}\n".format(eli5))
         else:
             output_file.write("action.escu.eli5 = none\n")
         if 'how_to_implement' in detection:
             how_to_implement = markdown(detection['how_to_implement'])
-            output_file.write("action.escu.how_to_implement = %s\n" % how_to_implement)
+            output_file.write("action.escu.how_to_implement = {0}\n".format(how_to_implement))
         else:
             output_file.write("action.escu.how_to_implement = none\n")
+        if 'known_false_positives' in detection:
+            known_false_positives = markdown(detection['known_false_positives'])
+            output_file.write("action.escu.known_false_positives = %s\n" % known_false_positives)
+        else:
+            output_file.write("action.escu.known_false_positives = None at this time\n")
 
-        output_file.write("action.escu.creation_date = %s\n" % detection['creation_date'])
-        output_file.write("action.escu.modification_date = %s\n" % detection['modification_date'])
+        output_file.write("action.escu.creation_date = {0}\n".format(detection['creation_date']))
+        output_file.write("action.escu.modification_date = {0}\n".format(detection['modification_date']))
+        output_file.write("action.escu.confidence = {0}\n".format(detection['confidence']))
+        output_file.write("action.escu.full_search_name = {0}\n".format(detection_name))
+        output_file.write("action.escu.search_type = detection\n")
+
+        if 'entities' in detection:
+            output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(detection['entities'])))
+        if 'providing_technologies' in detection:
+            output_file.write("action.escu.providing_technologies = {0}\n".format(detection['providing_technologies']))
+        output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(detection['stories'])))
+
+        if 'cron' in detection:
+            output_file.write("cron_schedule = {0}\n".format(detection['cron']))
+        if 'earliest_time' in detection:
+            output_file.write("dispatch.earliest_time = {0}\n".format(detection['earliest_time']))
+        if 'latest_time' in detection:
+            output_file.write("dispatch.latest_time = {0}\n".format(detection['latest_time']))
+
+        # write correlation rule
+        if 'correlation_rule' in detection:
+            output_file.write("action.correlationsearch.enabled = 1\n")
+            output_file.write("action.correlationsearch.label = {0}\n".format(detection_name))
+
+            # write the notable event if it has one
+            if 'notable' in detection['correlation_rule']:
+                output_file.write("action.notable = 1\n")
+
+            if 'nes_fields' in detection['correlation_rule']['notable']:
+                output_file.write("action.notable.param.nes_fields = {0}\n"
+                                  .format(detection['correlation_rule']['notable']['nes_fields']))
+                output_file.write("action.notable.param.rule_description = {0}\n"
+                                  .format(detection['correlation_rule']['notable']['rule_description']))
+                output_file.write("action.notable.param.rule_title = {0}\n"
+                                  .format(detection['correlation_rule']['notable']['rule_title']))
+                output_file.write("action.notable.param.security_domain = {0}\n"
+                                  .format(detection['security_domain']))
+                output_file.write("action.notable.param.severity = {0}\n"
+                                  .format(detection['confidence']))
+
+            # include investigative search as a notable action
+            invs_string = ""
+            for invs in detection['investigations']:
+                if invs['type'] == 'splunk':
+                    invs_string += "     - {0}\\n".format(invs['name'])
+                    next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n1. \
+                                       [[action|escu_investigate]]: Based on ESCU investigate \
+                                       recommendations:\\n%s\"}" % (invs_string)
+
+            output_file.write("action.notable.param.next_steps = {0}\n".format(next_steps))
+            output_file.write("action.notable.param.recommended_actions = escu_investigate\n")
+
+            if 'risk' in detection['correlation_rule']:
+                output_file.write("action.risk = 1\n")
+                output_file.write("action.risk.param._risk_object = {0}\n"
+                                  .format(detection['correlation_rule']['risk']['risk_object']))
+                output_file.write("action.risk.param._risk_object_type = {0}\n"
+                                  .format(detection['correlation_rule']['risk']['risk_object_type'][0]))
+
+                output_file.write("action.risk.param._risk_score = {0}\n"
+                                  .format(detection['correlation_rule']['risk']['risk_score']))
+                output_file.write("action.risk.param.verbose = 0\n")
+
+            if 'suppress' in detection['correlation_rule']:
+                output_file.write("alert.digest_mode = 1\n")
+                output_file.write("alert.suppress = 1\n")
+                output_file.write("alert.suppress.fields = {0}\n"
+                                  .format(detection['correlation_rule']['suppress']['suppress_fields']))
+                output_file.write("alert.suppress.period = {0}\n"
+                                  .format(detection['correlation_rule']['suppress']['suppress_period']))
+
+        output_file.write("is_visible = false\n")
+        output_file.write("action.escu.earliest_time_offset = 3600\n")
+        output_file.write("action.escu.latest_time_offset = 86400\n")
+        output_file.write("disabled=true\n")
+        output_file.write("enableSched = 1\n")
+        output_file.write("counttype = number of events\n")
+        output_file.write("relation = greater than\n")
+        output_file.write("quantity = 0\n")
+        output_file.write("realtime_schedule = 0\n")
+        output_file.write("schedule_window = auto\n")
+        output_file.write("is_visible = false\n")
+        output_file.write("search = {0}\n".format(detection['search']))
+        # now we generate the info for the correlation search
 
     output_file.write("\n### END ESCU DETECTIONS ###\n")
     detections_count = len(detections)
@@ -623,7 +717,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
     It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
+    parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     parser.add_argument("-sv1", "--storiesv1", required=False, default=True, action='store_true',
