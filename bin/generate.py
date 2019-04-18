@@ -658,16 +658,37 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
                                   .format(detection['confidence']))
 
             # include investigative search as a notable action
-            invs_string = ""
-            for invs in detection['investigations']:
-                if invs['type'] == 'splunk':
-                    invs_string += "     - {0}\\n".format(invs['name'])
+            # this is code that needs to be cleaned up on its implementation in ES
+            investigations_output = ""
+            has_phantom = False
+            for i in detection['investigations']:
+                if i['type'] == 'splunk':
+                    investigations_output += "     - {0}\\n".format(i['name'])
                     next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n1. \
                                        [[action|escu_investigate]]: Based on ESCU investigate \
-                                       recommendations:\\n%s\"}" % (invs_string)
+                                       recommendations:\\n%s\"}" % investigations_output
+                if i['type'] == 'phantom':
+                    # lets pull the playbook URL out from investigation object
+                    # for inv_name, inv in investigations.sorted(detections.iteritems()):
+                    #    if i['name'] == inv['investigation_name']:
+                    #        playbook_url = inv['']
+                    #    print inv
+                    playbook_next_steps_string = "Splunk>Phantom Response Playbook - Monitor enrichment of the \
+                        Splunk>Phantom Playbook called " + str(i['name']) + " and answer any \
+                        analyst prompt in Mission Control with a response decision. \
+                        Link to the playbook " + str(i['name'])
+                    next_steps = "{\"version\": 1, \"data\": \"Recommended following \
+                        steps:\\n\\n1. [[action|runphantomplaybook]]: Phantom playbook \
+                        recommendations:\\n%s\\n2. [[action|escu_investigate]]: \
+                        Based on ESCU investigate recommendations:\\n%s\"}" % (playbook_next_steps_string, investigations_output)
+                    has_phantom = True
 
+            # update recommendation action if t here is a phantom one
+            if has_phantom:
+                output_file.write("action.notable.param.recommended_actions = runphantomplaybook, escu_investigate\n")
+            else:
+                output_file.write("action.notable.param.recommended_actions = escu_investigate\n")
             output_file.write("action.notable.param.next_steps = {0}\n".format(next_steps))
-            output_file.write("action.notable.param.recommended_actions = escu_investigate\n")
 
             if 'risk' in detection['correlation_rule']:
                 output_file.write("action.risk = 1\n")

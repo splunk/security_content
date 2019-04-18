@@ -1006,7 +1006,8 @@
               "Windows Management Instrumentation",
               "Windows Remote Management",
               "Winlogon Helper DLL",
-              "Exploitation for Privilege Escalation"
+              "Exploitation for Privilege Escalation",
+              "Spearphishing Attachment"
             ]
           },
           "minItems": 0,

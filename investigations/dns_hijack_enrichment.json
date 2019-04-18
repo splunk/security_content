@@ -1,0 +1,48 @@
+{
+  "creation_date": "2017-04-10",
+  "data_metadata": {
+    "data_source": [
+      "DNS"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "description": "This Playbook is part of the Splunk Analytic Story called DNS Hijacking. It is made to be run when the Detection Search within that story called \"DNS Record Changed\" is used to identify DNS record changes for cloud and corporate domains used in your environment. The detection search is dependent on a support searched called \"Discover DNS Records\" which finds the common DNS responses for the last 30 days of monitored corporate domains and cloud providers (located in lookups: cim_corporate_email_domains.csv, cim_corporate_web_domains.csv, and cloud_domains.csv from Splunk CIM App). These responses are stored under the lookup called discovered_dns_records.csv. The playbook starts with the changed DNS records and uses MaxMind, whois, Censys, Malware Domain List, and PassiveTotal to gather attributes of the DNS records for comparison against expected values. The resulting enrichment is displayed in Mission Control and posted back to the Notable Event in Splunk ES.",
+  "how_to_implement": "Import playbook into phantom",
+  "id": "c096f721-8842-42ce-bfc7-74bd9a72c712",
+  "investigate": {
+    "phantom": {
+      "phantom_server": "automation (hostname)",
+      "playbook_name": "community/dns_hijack_enrichment",
+      "playbook_url": "https://my.phantom.us/4.2/playbook/dns-hijack-enrichment/",
+      "schedule": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+      },
+      "sensitivity": "green",
+      "severity": "medium"
+    }
+  },
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "jhernandez@splunk.com",
+      "name": "Jose Hernandez"
+    }
+  ],
+  "modification_date": "2019-02-14",
+  "name": "DNS Hijack enrichment",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "product_type": "phantom",
+  "spec_version": 2,
+  "version": "1.0"
+}
