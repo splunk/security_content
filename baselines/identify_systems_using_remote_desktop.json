@@ -3,7 +3,7 @@
   "creation_date": "2017-04-18",
   "data_metadata": {
     "data_models": [
-      "Application_State"
+      "Endpoint"
     ],
     "data_source": [
       "Endpoint Intel"
@@ -16,7 +16,7 @@
       "Ziften"
     ]
   },
-  "eli5": "This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system. It does this by looking for the process in the Application_State data model.",
+  "eli5": "This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system. It does this by looking for the process name in the Endpoint data model.",
   "how_to_implement": "To successfully implement this search you must be ingesting endpoint data that records process activity.",
   "maintainers": [
     {
@@ -25,7 +25,7 @@
       "name": "David Dorsey"
     }
   ],
-  "modification_date": "2017-09-15",
+  "modification_date": "2019-04-01",
   "original_authors": [
     {
       "company": "Splunk",
@@ -37,7 +37,7 @@
     "earliest_time": "-30d@d",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count from datamodel=Application_State where All_Application_State.process=\"*mstsc.exe*\" by All_Application_State.dest All_Application_State.process | `drop_dm_object_name(\"All_Application_State\")` | sort - count",
+  "search": "| tstats `summariesonly` count from datamodel=Endpoint.Processes where Processes.process_name=\"*mstsc.exe*\" by Processes.dest Processes.process_name | `drop_dm_object_name(Processes)` | sort - count",
   "search_description": "This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system.",
   "search_id": "063dfe9f-b1d7-4254-a16d-1e2e7eadd6a8",
   "search_name": "Identify Systems Using Remote Desktop",
