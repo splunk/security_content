@@ -18,27 +18,29 @@
   "description": "Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, blacklists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains. ",
   "detect": {
     "splunk": {
-      "notable": {
-        "nes_fields": "answer, src, query",
-        "rule_description": "The search has detected a host making outbound queries to Dynamic DNS providers",
-        "rule_title": "Host $src$ detected to make a query to a Dynamic DNS provider"
-      },
-      "risk": {
-        "risk_object": "src",
-        "risk_object_type": [
-          "system"
-        ],
-        "risk_score": 20
-      },
-      "schedule": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-      },
-      "search": "| tstats `summariesonly` count values(DNS.answer) as \"Dynamic DNS Resolutions\" min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(\"DNS\")` | `ctime(firstTime)` | `dynamic_dns_providers`",
-      "suppress": {
-        "suppress_fields": "src, query",
-        "suppress_period": "86400s"
+      "correlation_rule": {
+        "notable": {
+          "nes_fields": "answer, src, query",
+          "rule_description": "The search has detected a host making outbound queries to Dynamic DNS providers",
+          "rule_title": "Host $src$ detected to make a query to a Dynamic DNS provider"
+        },
+        "risk": {
+          "risk_object": "src",
+          "risk_object_type": [
+            "system"
+          ],
+          "risk_score": 20
+        },
+        "schedule": {
+          "cron_schedule": "0 * * * *",
+          "earliest_time": "-70m@m",
+          "latest_time": "-10m@m"
+        },
+        "search": "| tstats `summariesonly` count values(DNS.answer) as \"Dynamic DNS Resolutions\" min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(\"DNS\")` | `ctime(firstTime)` | `dynamic_dns_providers`",
+        "suppress": {
+          "suppress_fields": "src, query",
+          "suppress_period": "86400s"
+        }
       }
     }
   },
