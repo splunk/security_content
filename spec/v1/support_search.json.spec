@@ -20,7 +20,25 @@
                     "description": "A list of data models, if any, used by this search",
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "enum": [
+                              "Alerts",
+                              "Application_State",
+                              "Authentication",
+                              "Certificates",
+                              "Change_Analysis",
+                              "Change",
+                              "Malware",
+                              "Email",
+                              "Identity_Management",
+                              "Network_Resolution",
+                              "Network_Traffic",
+                              "Vulnerabilities",
+                              "Web",
+                              "Network_Sessions",
+                              "Updates",
+                              "Risk",
+                              "Endpoint"
+                            ]
                     },
                     "minItems": 0,
                     "uniqueItems": true

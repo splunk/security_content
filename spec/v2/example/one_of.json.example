@@ -1,0 +1,29 @@
+{
+  "detect": {
+    "splunk": {
+          "correlation_rule": {
+            "notable": {
+              "nes_fields": "src",
+              "rule_description": "The table represents a list of DNS records and their responses for corporate domains that have recently changed",
+              "rule_title": "DNS record changed"
+            }
+            },
+            "risk": {
+              "risk_object": "src",
+              "risk_object_type": [
+                "system"
+              ],
+              "risk_score": 40
+            },
+            "scheduling": {
+              "cron_schedule": "0 * * * *",
+              "earliest_time": "-70m@m",
+              "latest_time": "-10m@m"
+            },
+            "suppress": {
+              "suppress_fields": "src",
+              "suppress_period": "28800s"
+            }
+          }
+}
+}

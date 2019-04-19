@@ -1,0 +1,43 @@
+{
+  "category": [
+    "Adversary Tactics",
+    "Other"
+  ],
+  "channel": "ESCU",
+  "creation_date": "2019-04-10",
+  "description": "XXXX - Placeholder for Phishing description",
+  "detections": [
+    {
+      "detection_id": "a51bfe1a-94f0-4822-b1e4-16ae10145893",
+      "name": "Detect Oulook.exe writing a .zip file",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "5d814af1-1041-47b5-a9ac-d754e82e9a26",
+      "name": "Suspicious LNK file launching a process",
+      "type": "splunk"
+    }
+  ],
+  "id": "57226b40-94f3-4ce5-b101-a75f67759c27",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "research@splunk.com",
+      "name": "Splunk Research Team"
+    }
+  ],
+  "modification_date": "2019-04-10",
+  "name": "Phishing Payloads",
+  "narrative": "XXXX - Placeholder for Phishing narrative",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "references": [],
+  "spec_version": 2,
+  "usecase": "Advanced Threat Detection",
+  "version": "1.0"
+}

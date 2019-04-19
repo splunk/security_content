@@ -1,9 +1,34 @@
 {
-  "category": "Adversary Tactics",
+  "category": [
+    "Adversary Tactics",
+    "Other"
+  ],
   "channel": "ESCU",
-  "creation_date": "2019-02-09",
+  "creation_date": "2017-11-21",
   "description": "Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.",
-  "id": "ad7eb6e0-f06c-4781-b145-a422d59c26e9",
+  "detections": [
+    {
+      "detection_id": "44d3a43e-dcd5-49f7-8356-5209bb369065",
+      "name": "DNS record changed",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "74ec6f18-604b-4202-a567-86b2066be3ce",
+      "name": "Clients Connecting to Multiple DNS Servers",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "c77162d3-f93c-45cc-80c8-22f6v5464g9f",
+      "name": "Detect hosts connecting to dynamic domain providers",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f6",
+      "name": "DNS Query Requests Resolved by Unauthorized DNS Servers",
+      "type": "splunk"
+    }
+  ],
+  "id": "8169f17b-ef68-4b59-aa28-586907301221",
   "maintainers": [
     {
       "company": "Splunk",
@@ -11,7 +36,7 @@
       "name": "Bhavin Patel"
     }
   ],
-  "modification_date": "2019-02-14",
+  "modification_date": "2018-09-06",
   "name": "DNS Hijacking",
   "narrative": "Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/threat-intelligence/dns-is-still-the-achilles-heel-of-the-internet-25613), DNS plays a critical role in routing web traffic but is notoriously vulnerable to attack. One reason is its distributed nature. It relies on unstructured connections between millions of clients and servers over inherently insecure protocols.<br></br>The gravity and extent of the importance of securing DNS from attacks is undeniable. The fallout of compromised DNS can be disastrous. Not only can hackers bring down an entire business, they can intercept confidential information, emails, and login credentials, as well. <br></br>On January 22, 2019, the US Department of Homeland Security 2019's Cybersecurity and Infrastructure Security Agency (CISA) raised awareness of some high-profile DNS hijacking attacks against infrastructure, both in the United States and abroad. It issued Emergency Directive 19-01 (see https://cyber.dhs.gov/ed/19-01/), which summarized the activity and required government agencies to take the following four actions, all within 10 days: <ol><li>For all .gov or other agency-managed domains, audit public DNS records on all authoritative and secondary DNS servers, verify that they resolve to the intended location or report them to CISA.</li><li>Update the passwords for all accounts on systems that can make changes to each agency 2019's DNS records.</li><li>Implement multi-factor authentication (MFA) for all accounts on systems that can make changes to each agency's 2019 DNS records or, if impossible, provide CISA with the names of systems, the reasons why MFA cannot be enabled within the required timeline, and an ETA for when it can be enabled.</li><li>CISA will begin regular delivery of newly added certificates to Certificate Transparency (CT) logs for agency domains via the Cyber Hygiene service. Upon receipt, agencies must immediately begin monitoring CT log data for certificates issued that they did not request. If an agency confirms that a certificate was unauthorized, it must report the certificate to the issuing certificate authority and to CISA.</li></ol>Of course, it makes sense to put equivalent actions in place within your environment, as well. <br></br>In DNS hijacking, the attacker assumes control over an account or makes use of a DNS service exploit to make changes to DNS records. Once they gain access, attackers can substitute their own MX records, name-server records, and addresses, redirecting emails and traffic through their infrastructure, where they can read, copy, or modify information seen. They can also generate valid encryption certificates to help them avoid browser-certificate checks. In one notable attack on the Internet service provider, GoDaddy, the hackers altered Sender Policy Framework (SPF) records a relatively minor change that did not inflict excessive damage but allowed for more effective spam campaigns.<br></br>The searches in this Analytic Story help you detect and investigate activities that may indicate that DNS hijacking has taken place within your environment.",
   "original_authors": [
@@ -22,38 +47,12 @@
     }
   ],
   "references": [
-    "https://blog.malwarebytes.com/cybercrime/2015/09/dns-hijacks-what-to-look-for/",
-    "https://www.darkreading.com/attacks-breaches/dns-hijacking-the-silent-threat-thats-putting-your-network-at-risk/a/d-id/1330922",
-    "https://blog.talosintelligence.com/2018/11/dnspionage-campaign-targets-middle-east.html",
-    "https://www.fireeye.com/blog/threat-research/2019/01/global-dns-hijacking-campaign-dns-record-manipulation-at-scale.html",
-    "https://www.splunk.com/blog/2019/01/25/cisa-emergency-directive-19-01-doing-things-the-easy-way-in-splunk.html"
+    "https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html",
+    "https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/",
+    "http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/",
+    "https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html"
   ],
-  "searches": {
-    "contextual_searches": [
-      "Get Vulnerability Logs For Endpoint",
-      "Get Authentication Logs For Endpoint",
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
-    ],
-    "detection_searches": [
-      "Clients Connecting to Multiple DNS Servers",
-      "Detect hosts connecting to dynamic domain providers",
-      "DNS Query Requests Resolved by Unauthorized DNS Servers",
-      "DNS record changed"
-    ],
-    "investigative_searches": [
-      "Get DNS Server History for a host",
-      "Get DNS traffic ratio",
-      "Get Process responsible for the DNS traffic",
-      "Investigate Web Activity From src_ip",
-      "Get History Of Email Sources"
-    ],
-    "support_searches": [
-      "Discover DNS records"
-    ]
-  },
-  "spec_version": 1,
+  "spec_version": 2,
+  "usecase": "Advanced Threat Detection",
   "version": "1.0"
 }
