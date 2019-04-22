@@ -30,7 +30,7 @@
           ],
           "risk_score": 40
         },
-        "scheduling": {
+        "schedule": {
           "cron_schedule": "0 * * * *",
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
@@ -96,7 +96,7 @@
     ]
   },
   "modification_date": "2019-04-04",
-  "name": "Detect DNS requests to Phishing Sites leveraging EvilGinx",
+  "name": "Detect DNS requests to Phishing Sites leveraging EvilGinx2",
   "original_authors": [
     {
       "company": "Splunk",

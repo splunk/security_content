@@ -3,7 +3,7 @@
   "asset_type": "Endpoint",
   "baselines": [
     {
-      "id": "c096f721-8842-42ce-bfc7-74bd8c72b7c3",
+      "id": "2296f721-8842-42ce-bfc7-74bd8c72b7c3",
       "name": "Discover DNS records",
       "product_type": "splunk"
     }
@@ -56,7 +56,7 @@
   "id": "44d3a43e-dcd5-49f7-8356-5209bb369065",
   "investigations": [
     {
-      "id": "bc11a8cf-35e7-4bb2-8140-e756cc06fd72",
+      "id": "e211a8cf-35e7-4bb2-8140-e756cc06fd72",
       "name": "Get DNS Server History for a host",
       "product_type": "splunk"
     },

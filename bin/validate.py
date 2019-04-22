@@ -517,13 +517,16 @@ def validate_investigation(REPO_PATH, verbose):
     for manifest_file in glob.glob(manifest_files):
         if verbose:
             print "processing investigation {0}".format(manifest_file)
-
-        # read in each story
+        # read in each investigation
         try:
             investigation = json.loads(
                 open(manifest_file, 'r').read())
         except IOError:
-            print "Error reading {0}".format(manifest_file)
+            print "ERROR: reading {0}".format(manifest_file)
+            error = True
+            continue
+        except ValueError:
+            print "ERROR: File is not proper JSON {0}".format(manifest_file)
             error = True
             continue
 
@@ -575,12 +578,16 @@ def validate_detection(REPO_PATH, verbose):
         v1_schema = json.loads(open(v1_schema_file, 'rb').read())
     except IOError:
         print "ERROR: reading version 1 detection schema file {0}".format(v1_schema_file)
+    except ValueError:
+        print "ERROR: File is not proper JSON {0}".format(v1_schema_file)
 
     v2_schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/detections.spec.json')
     try:
         v2_schema = json.loads(open(v2_schema_file, 'rb').read())
     except IOError:
         print "ERROR: reading version 2 detection schema file {0}".format(v2_schema_file)
+    except ValueError:
+        print "ERROR: File is not proper JSON {0}".format(v2_schema_file)
 
     error = False
     manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.json")
@@ -641,12 +648,16 @@ def validate_story(REPO_PATH, verbose):
         v1_schema = json.loads(open(v1_schema_file, 'rb').read())
     except IOError:
         print "ERROR: reading version 1 story schema file {0}".format(v1_schema_file)
+    except ValueError:
+        print "ERROR: File is not proper JSON {0}".format(v1_schema_file)
 
     v2_schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/story.spec.json')
     try:
         v2_schema = json.loads(open(v2_schema_file, 'rb').read())
     except IOError:
         print "ERROR: reading version 2 story schema file {0}".format(v2_schema_file)
+    except ValueError:
+        print "ERROR: File is not proper JSON {0}".format(v2_schema_file)
 
     error = False
     story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
@@ -707,12 +718,16 @@ def validate_baselines(REPO_PATH, verbose):
         v1_schema = json.loads(open(v1_schema_file, 'rb').read())
     except IOError:
         print "ERROR: reading version 1 baseline schema file {0}".format(v1_schema_file)
+    except ValueError:
+        print "ERROR: File is not proper JSON {0}".format(v1_schema_file)
 
     v2_schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/baselines.spec.json')
     try:
         v2_schema = json.loads(open(v2_schema_file, 'rb').read())
     except IOError:
         print "ERROR: reading version 2 baseline schema file {0}".format(v2_schema_file)
+    except ValueError:
+        print "ERROR: File is not proper JSON {0}".format(v2_schema_file)
 
     error = False
     baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.json")

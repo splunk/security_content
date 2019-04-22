@@ -8,22 +8,27 @@
   "description": "Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.",
   "detections": [
     {
-      "detection_id": "1169w17b-ef78-4b59-aae8-5369073014e1",
+      "detection_id": "44d3a43e-dcd5-49f7-8356-5209bb369065",
       "name": "DNS record changed",
       "type": "splunk"
     },
     {
-      "detection_id": "8129w27b-ef78-4w59-aae8-5369073014e1",
-      "name": "Lateral Movement detected",
-      "type": "uba"
+      "detection_id": "74ec6f18-604b-4202-a567-86b2066be3ce",
+      "name": "Clients Connecting to Multiple DNS Servers",
+      "type": "splunk"
     },
     {
-      "detection_id": "1229w27b-ef78-4w59-aae8-5369073014e1",
-      "name": "Playbook that detects DNS Hijacks",
-      "type": "phantom"
+      "detection_id": "c77162d3-f93c-45cc-80c8-22f6v5464g9f",
+      "name": "Detect hosts connecting to dynamic domain providers",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f6",
+      "name": "DNS Query Requests Resolved by Unauthorized DNS Servers",
+      "type": "splunk"
     }
   ],
-  "id": "8169f17b-ef68-4b59-aae8-5869073014e1",
+  "id": "8169f17b-ef68-4b59-aa28-586907301221",
   "maintainers": [
     {
       "company": "Splunk",

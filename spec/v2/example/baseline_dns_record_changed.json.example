@@ -26,7 +26,7 @@
   "description": "The search takes corporate and common cloud provider domains configured under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv` finds their responses across the last 30 days from data in the `Network_Traffic` datamodel, then stores the output under the `discovered_dns_records.csv` lookup",
   "eli5": "Discover the DNS records and their answers for domains owned by the company using network traffic events. The discovered events are exported as a lookup named `discovered_dns_records.csv`",
   "how_to_implement": "To successfully implement this search, you must be ingesting DNS logs, and populating the Network_Resolution data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation",
-  "id": "c096f721-8842-42ce-bfc7-74bd8c72b7c3",
+  "id": "ee96f721-8842-42ce-bfc7-74bd8c72b7c3",
   "known_false_positives": "Please vet the lookup created by this baseline search ",
   "maintainers": [
     {
