@@ -607,16 +607,15 @@ def write_analytics_story_confv1(stories, detections, OUTPUT_DIR):
             detection_searches = []
             for d in story['detections']:
                 if d['type'] == 'splunk':
-                    detection_searches.append(d['name'])
+                    detection_searches.append("ESCU - " + d['name'] + " - Rule")
             output_file.write("detection_searches = %s\n" % json.dumps(detection_searches))
-
         # write all investigations
         total_investigations = []
         for d in story['detections']:
             if 'investigations' in detections[d['name']]:
                 for i in detections[d['name']]['investigations']:
                     if i['type'] == 'splunk':
-                        total_investigations.append(i['name'])
+                        total_investigations.append("ESCU - " + i['name'])
         output_file.write("investigative_searches = %s\n" % json.dumps(total_investigations))
 
         # write all baselines
@@ -625,7 +624,7 @@ def write_analytics_story_confv1(stories, detections, OUTPUT_DIR):
             if 'baselines' in detections[d['name']]:
                 for b in detections[d['name']]['baselines']:
                     if b['type'] == 'splunk':
-                        total_baselines.append(b['name'])
+                        total_baselines.append("ESCU - " + b['name'])
         output_file.write("support_searches = %s\n" % json.dumps(total_baselines))
 
         # generate datamodels
@@ -765,7 +764,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.description = {0}\n".format(detection['description']))
-        output_file.write("action.escu.mappings = {0}\n".format(detection['mappings']))
+        output_file.write("action.escu.mappings = {0}\n".format(json.dumps(detection['mappings'])))
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(detection['data_models']))
 
@@ -789,7 +788,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         output_file.write("action.escu.creation_date = {0}\n".format(detection['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(detection['modification_date']))
         output_file.write("action.escu.confidence = {0}\n".format(detection['confidence']))
-        output_file.write("action.escu.full_search_name = {0}\n".format(detection_name))
+        output_file.write("action.escu.full_search_name = ESCU - {0} - Rule\n".format(detection_name))
         output_file.write("action.escu.search_type = detection\n")
 
         if 'entities' in detection:
@@ -833,7 +832,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
             next_steps = ""
             for i in detection['investigations']:
                 if i['type'] == 'splunk':
-                    investigations_output += "     - {0}\\n".format(i['name'])
+                    investigations_output += "ESCU - {0}\\n".format(i['name'])
                     next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n1. \
                                        [[action|escu_investigate]]: Based on ESCU investigate \
                                        recommendations:\\n%s\"}" % investigations_output
@@ -905,7 +904,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = investigative\n")
-        output_file.write("action.escu.full_search_name = {0}\n".format(investigation_name))
+        output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(investigation_name))
         output_file.write("action.escu.description = {0}\n".format(investigation['description']))
         output_file.write("action.escu.creation_date = {0}\n".format(investigation['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(investigation['modification_date']))
@@ -949,7 +948,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = support\n")
-        output_file.write("action.escu.full_search_name = {0}\n".format(baseline_name))
+        output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(baseline_name))
         output_file.write("action.escu.description = {0}\n".format(baseline['description']))
         output_file.write("action.escu.creation_date = {0}\n".format(baseline['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(baseline['modification_date']))
