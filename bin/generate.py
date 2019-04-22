@@ -711,7 +711,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("how_to_implement = {0}\n".format(detection['how_to_implement']))
         output_file.write("annotations = {0}\n".format(detection['mappings']))
         output_file.write("known_false_positives = {0}\n".format(detection['known_false_positives']))
-        output_file.write("providing_technologies = {0}\n".format(detection['providing_technologies']))
+        output_file.write("providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("\n")
     output_file.write("### END DETECTIONS ###\n\n")
 
@@ -734,7 +734,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("explanation = {0}\n".format(baseline['eli5']))
         output_file.write("how_to_implement = {0}\n".format(baseline['how_to_implement']))
         output_file.write("known_false_positives = {0}\n".format(baseline['known_false_positives']))
-        output_file.write("providing_technologies = {0}\n".format(baseline['providing_technologies']))
+        output_file.write("providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
         output_file.write("\n")
     output_file.write("### END BASELINES ###\n\n")
 
@@ -794,7 +794,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         if 'entities' in detection:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(detection['entities'])))
         if 'providing_technologies' in detection:
-            output_file.write("action.escu.providing_technologies = {0}\n".format(detection['providing_technologies']))
+            output_file.write("action.escu.providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(detection['stories'])))
 
         if 'cron' in detection:
