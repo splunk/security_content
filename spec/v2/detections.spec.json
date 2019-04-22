@@ -615,7 +615,10 @@
               "Sysmon",
               "Tanium",
               "Ziften",
-              "OSquery"
+              "OSquery",
+              "Censys",
+              "Passive Total",
+              "WHOIS"
             ]
           },
           "minItems": 0,
@@ -704,7 +707,9 @@
           "src_mac",
           "src_user",
           "src",
-          "user"
+          "user",
+          "query",
+          "answer"
         ]
       },
       "minItems": 0,
@@ -1009,7 +1014,8 @@
               "Windows Management Instrumentation",
               "Windows Remote Management",
               "Winlogon Helper DLL",
-              "Exploitation for Privilege Escalation"
+              "Exploitation for Privilege Escalation",
+              "Spearphishing Attachment"
             ]
           },
           "minItems": 0,

@@ -1,0 +1,96 @@
+{
+  "asset_type": "Endpoint",
+  "baselines": [],
+  "confidence": "high",
+  "creation_date": "2019-04-11",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
+    "data_source": [
+      "Endpoint Intel"
+    ],
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "description": "This search looks for a *.lnk file under C:\\User* or *\\Local\\Temp\\* executing a process. This is common behavior used by various spear phishing tools.",
+  "detect": {
+    "splunk": {
+      "correlation_rule": {
+        "notable": {
+          "nes_fields": "dest, process_name, file_name",
+          "rule_description": "suspicious LNK file from $file_name$ is executing a process $process_name$ on $dest$",
+          "rule_title": "LNK file $file_name$ is executing process $process_name$ on $dest$"
+        },
+        "risk": {
+          "risk_object": "dest",
+          "risk_object_type": [
+            "system"
+          ],
+          "risk_score": 40
+        },
+        "schedule": {
+          "cron_schedule": "0 * * * *",
+          "earliest_time": "-70m@m",
+          "latest_time": "-10m@m"
+        },
+        "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name=\"*.lnk\" AND (Filesystem.file_path=\"C:\\Users*\" OR Filesystem.file_path=\"*Local\\Temp*\")  by _time span=1h Filesystem.process_id Filesystem.file_name Filesystem.file_path Filesystem.file_hash Filesystem.user | `drop_dm_object_name(Filesystem)` | rename process_id as lnk_pid | join lnk_pid, _time [| tstats `summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=*  by _time span=1h Processes.parent_process_id Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process | `drop_dm_object_name(Processes)` | rename parent_process_id as lnk_pid | fields _time lnk_pid process_id dest process_name process_path process] | `ctime(firstTime)` | `ctime(lastTime)` | table firstTime, lastTime, lnk_pid, process_id, user, dest, file_name, file_path, process_name, process, process_path, file_hash",
+        "suppress": {
+          "suppress_fields": "dest,file_name",
+          "suppress_period": "86400s"
+        }
+      }
+    }
+  },
+  "eli5": "In this search, we are essentially trying to detect if a LNK file created under the C:\\User* or *\\Local\\Temp\\* directory structures is launching a process with in 1 hour of its creation. LNK files or also known as Windows shortcut files are commonly associated with phishing and are a preferred method used for exploitation see: https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html.",
+  "entities": [
+    "dest"
+  ],
+  "how_to_implement": "You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or endpoint data sources, such as Sysmon.",
+  "id": "5d814af1-1041-47b5-a9ac-d754e82e9a26",
+  "investigations": [],
+  "known_false_positives": "This detection should yield little or no false positive results. It is uncommon for LNK files to execute process from temporary or user directories.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "jhernandez@splunk.com",
+      "name": "Jose Hernandez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 7",
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Installation",
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Spearphishing Attachment"
+    ],
+    "nist": [
+      "ID.AM",
+      "PR.DS"
+    ]
+  },
+  "modification_date": "2019-04-08",
+  "name": "Suspicious LNK file launching a process",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "jhernandez@splunk.com",
+      "name": "Jose Hernandez"
+    }
+  ],
+  "product_type": "splunk",
+  "responses": [],
+  "security_domain": "network",
+  "spec_version": 2,
+  "version": "1.0"
+}

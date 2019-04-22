@@ -47,27 +47,22 @@ jobs:
             source venv/bin/activate
             pip install -q -r requirements.txt
       - run:
-          name: run validate manifest
+          name: run validate
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/validate.py --path .
+
+            python bin/validate.py --path . --verbose
       - run:
-          name: run manifest to escu
+          name: run generate
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/manifest_to_escu.py --path . --output src/default/
-      - run:
-          name: run manifest to usecase library
-          command: |
-            cd security-content
-            source venv/bin/activate
-            python bin/manifest_to_usecaselibrary.py --path . --output src/default/
+            python bin/generate.py --path . --output src --storiesv1 --use_case_lib -v
       - persist_to_workspace:
           root: security-content/src/default
           paths:
-              - analyticstories.conf
+              - use_case_library.conf
               - analytic_stories.conf
               - savedsearches.conf
       - save_cache:

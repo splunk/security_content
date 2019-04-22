@@ -144,7 +144,10 @@
               "Qualys",
               "Sysmon",
               "Tanium",
-              "Ziften"
+              "Ziften",
+              "Censys",
+              "Passive Total",
+              "WHOIS"
             ]
           },
           "minItems": 0,
@@ -188,7 +191,9 @@
           "src_mac",
           "src_user",
           "src",
-          "user"
+          "user",
+          "query",
+          "answer"
         ]
       },
       "minItems": 0,
