@@ -202,8 +202,6 @@ def generate_investigations(REPO_PATH, detections, stories):
                         if i['name'] == name:
                             investigation_stories.append(story_name)
 
-            print "v1 investigation {0} == story {1}".format(name, investigation_stories)
-
         if investigation['spec_version'] == 2:
             if verbose:
                 print "processing v2 investigation: {0}".format(investigation['name'])
