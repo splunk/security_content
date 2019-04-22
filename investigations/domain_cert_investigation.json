@@ -17,8 +17,8 @@
       "playbook_name": "community/domain_cert_investigation",
       "playbook_url": "",
       "schedule": {
-        "earliest_time": 0,
-        "latest_time": 86400
+        "earliest_time": "0",
+        "latest_time": "86400"
       },
       "sensitivity": "green",
       "severity": "medium"

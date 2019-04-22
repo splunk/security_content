@@ -594,7 +594,6 @@
             "enum": [
               "Apache",
               "AWS",
-              "Censys",
               "Bro",
               "Microsoft Windows",
               "Linux",
@@ -615,10 +614,7 @@
               "Sysmon",
               "Tanium",
               "Ziften",
-              "OSquery",
-              "Censys",
-              "Passive Total",
-              "WHOIS"
+              "OSquery"
             ]
           },
           "minItems": 0,
@@ -708,8 +704,7 @@
           "src_user",
           "src",
           "user",
-          "query",
-          "answer"
+          "query"
         ]
       },
       "minItems": 0,
@@ -1014,8 +1009,7 @@
               "Windows Management Instrumentation",
               "Windows Remote Management",
               "Winlogon Helper DLL",
-              "Exploitation for Privilege Escalation",
-              "Spearphishing Attachment"
+              "Exploitation for Privilege Escalation"
             ]
           },
           "minItems": 0,
