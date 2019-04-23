@@ -772,7 +772,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     return story_count, use_case_lib_path
 
 
-def write_savedsearches_conf(stories, detections, investigations, baselines, OUTPUT_DIR):
+def write_savedsearches_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
 
     # Create savedsearches.conf for all our detections
     detections_output_path = OUTPUT_DIR + "/default/savedsearches.conf"
@@ -926,6 +926,11 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
     output_file.write("### ESCU INVESTIGATIONS ###\n")
     # iterate through the investigations and write them out
     for investigation_name, investigation in sorted(investigations.iteritems()):
+
+        # skip phantom for now as we cannot use it on v1 app
+        if investigation['type'] == 'phantom':
+            continue
+
         # Write down the investigations to file
         output_file.write("\n")
         output_file.write("[ESCU - {0}]\n".format(investigation_name))
@@ -1063,8 +1068,8 @@ if __name__ == "__main__":
         print "{0} stories have been successfully to {1}".format(story_count, use_case_lib_path)
 
     detections_count, investigations_count, baselines_count, detection_path = \
-        write_savedsearches_conf(complete_stories, complete_detections, complete_investigations,
-                                 complete_baselines, OUTPUT_DIR)
+        write_savedsearches_confv1(complete_stories, complete_detections, complete_investigations,
+                                   complete_baselines, OUTPUT_DIR)
     print "{0} detections have been successfully to {1}\n" \
           "{2} investigations have been successfully to {1}\n" \
           "{3} baselines have been successfully to {1}".format(detections_count, detection_path, investigations_count,
