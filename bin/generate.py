@@ -488,7 +488,6 @@ def generate_stories(REPO_PATH, verbose):
         if 'references' not in story:
             story['references'] = []
         complete_stories[name]['references'] = story['references']
-        complete_stories[name]['category'] = story['category']
         complete_stories[name]['version'] = story['version']
         complete_stories[name]['narrative'] = story['narrative']
         complete_stories[name]['spec_version'] = story['spec_version']
@@ -499,6 +498,9 @@ def generate_stories(REPO_PATH, verbose):
             detections = []
             baselines = []
             investigations = []
+            category = []
+
+            category.append(story['category'])
 
             if 'detection_searches' in story['searches']:
                 for d in story['searches']['detection_searches']:
@@ -525,6 +527,8 @@ def generate_stories(REPO_PATH, verbose):
                 for d in story['detections']:
                     detections.append({"type": d['type'], "name": d['name']})
             complete_stories[name]['detections'] = detections
+            category = story['category']
+        complete_stories[name]['category'] = category
     return complete_stories
 
 
@@ -543,7 +547,7 @@ def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
-        output_file.write("category = %s\n" % story['category'])
+        output_file.write("category = {0}\n".format(json.dumps(story['category'])))
         output_file.write("creation_date = %s\n" % story['creation_date'])
         output_file.write("modification_date = %s\n" % story['modification_date'])
         output_file.write("id = %s\n" % story['id'])
@@ -598,7 +602,7 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
-        output_file.write("category = %s\n" % story['category'])
+        output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
         output_file.write("creation_date = %s\n" % story['creation_date'])
         output_file.write("modification_date = %s\n" % story['modification_date'])
         output_file.write("id = %s\n" % story['id'])
@@ -678,7 +682,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     # process the stories
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[analytic_story://%s]\n" % story_name)
-        output_file.write("category = %s\n" % story['category'])
+        output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
         output_file.write("last_updated = %s\n" % story['modification_date'])
         output_file.write("version = %s\n" % story['version'])
         output_file.write("reference = %s\n" % json.dumps(story['references']))
