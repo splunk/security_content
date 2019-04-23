@@ -5,7 +5,7 @@
   ],
   "channel": "ESCU",
   "creation_date": "2019-04-10",
-  "description": "XXXX - Placeholder for Phishing description",
+  "description": "This story contains analytics around detecting payloads from a phishing attack",
   "detections": [
     {
       "detection_id": "a51bfe1a-94f0-4822-b1e4-16ae10145893",
