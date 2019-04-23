@@ -54,6 +54,54 @@ def process_data_metadata(obj, complete_obj, name):
     return complete_obj
 
 
+def process_investigation_stories(name, stories, detections):
+    # grab stories
+    # I hate myself for writing as much as you for reading it, a triple nested for loop :-(
+    # but it works, if you would like to refactor be my guest :-)
+
+    # version 2 stories
+    investigation_stories = []
+    for story_name, story in sorted(stories.iteritems()):
+        for d in story['detections']:
+            detection_investigations = detections[d['name']]['investigations']
+            for i in detection_investigations:
+                if i['name'] == name:
+                    investigation_stories.append(story_name)
+
+    # include version 1 stories
+    for story_name, story in sorted(stories.iteritems()):
+        if 'investigations' in story:
+            for i in story['investigations']:
+                if i['name'] == name:
+                    investigation_stories.append(story_name)
+
+    return sorted(set(investigation_stories))
+
+
+def process_baseline_stories(name, stories, detections):
+    # grab stories
+    # I hate myself for writing as much as you for reading it, a triple nested for loop :-(
+    # but it works, if you would like to refactor be my guest :-)
+
+    # version 2 stories
+    baseline_stories = []
+    for story_name, story in sorted(stories.iteritems()):
+        for d in story['detections']:
+            detection_baselines = detections[d['name']]['baselines']
+            for b in detection_baselines:
+                if b['name'] == name:
+                    baseline_stories.append(story_name)
+
+    # include version 1 stories
+    for story_name, story in sorted(stories.iteritems()):
+        if 'baselines' in story:
+            for b in story['baselines']:
+                if b['name'] == name:
+                    baseline_stories.append(story_name)
+
+    return sorted(set(baseline_stories))
+
+
 def generate_baselines(REPO_PATH, detections, stories):
     # first we process detections
 
@@ -90,31 +138,12 @@ def generate_baselines(REPO_PATH, detections, stories):
             else:
                 cron = ''
 
-            # grab stories
-            baseline_stories = []
-            for story_name, story in sorted(stories.iteritems()):
-                if 'baselines' in story:
-                    for b in story['baselines']:
-                        if b['name'] == name:
-                            baseline_stories.append(story_name)
-
         if baseline['spec_version'] == 2:
             if verbose:
                 print "processing v2 baseline: {0}".format(baseline['name'])
             name = baseline['name']
             id = baseline['id']
             description = baseline['description']
-
-            # grab stories
-            # I hate myself for writing as much as you for reading it, a triple nested for loop :-(
-            # but it works, if you would like to refactor be my guest :-)
-            baseline_stories = []
-            for story_name, story in sorted(stories.iteritems()):
-                for d in story['detections']:
-                    detection_baselines = detections[d['name']]['baselines']
-                    for b in detection_baselines:
-                        if b['name'] == name:
-                            baseline_stories.append(story_name)
 
             # splunk
             if 'splunk' in baseline['baseline']:
@@ -134,7 +163,7 @@ def generate_baselines(REPO_PATH, detections, stories):
         complete_baselines[name]['latest_time'] = latest_time
         complete_baselines[name]['earliest_time'] = earliest_time
         complete_baselines[name]['cron'] = cron
-        complete_baselines[name]['stories'] = baseline_stories
+        complete_baselines[name]['stories'] = process_baseline_stories(name, stories, detections)
         complete_baselines[name]['creation_date'] = baseline['creation_date']
         # set modification date to creation of there is not one
         if 'modification_date' in baseline:
@@ -197,31 +226,12 @@ def generate_investigations(REPO_PATH, detections, stories):
             latest_time = schedule['latest_time_offset']
             cron = ''
 
-            # grab stories
-            investigation_stories = []
-            for story_name, story in sorted(stories.iteritems()):
-                if 'investigations' in story:
-                    for i in story['investigations']:
-                        if i['name'] == name:
-                            investigation_stories.append(story_name)
-
         if investigation['spec_version'] == 2:
             if verbose:
                 print "processing v2 investigation: {0}".format(investigation['name'])
             name = investigation['name']
             id = investigation['id']
             description = investigation['description']
-
-            # grab stories
-            # I hate myself for writing as much as you for reading it, a triple nested for loop :-(
-            # but it works, if you would like to refactor be my guest :-)
-            investigation_stories = []
-            for story_name, story in sorted(stories.iteritems()):
-                for d in story['detections']:
-                    detection_investigations = detections[d['name']]['investigations']
-                    for i in detection_investigations:
-                        if i['name'] == name:
-                            investigation_stories.append(story_name)
 
             # splunk
             if 'splunk' in investigation['investigate']:
@@ -256,7 +266,7 @@ def generate_investigations(REPO_PATH, detections, stories):
         complete_investigations[name]['earliest_time'] = earliest_time
         complete_investigations[name]['cron'] = cron
         complete_investigations[name]['creation_date'] = investigation['creation_date']
-        complete_investigations[name]['stories'] = investigation_stories
+        complete_investigations[name]['stories'] = process_investigation_stories(name, stories, detections)
         # set modification date to creation of there is not one
         if 'modification_date' in investigation:
             complete_investigations[name]['modification_date'] = investigation['modification_date']
@@ -923,7 +933,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = investigative\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(investigation_name))
-        output_file.write("action.escu.description = {0}\n".format(investigation['description']))
+        output_file.write("description = {0}\n".format(investigation['description']))
         output_file.write("action.escu.creation_date = {0}\n".format(investigation['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(investigation['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(investigation['stories'])))
