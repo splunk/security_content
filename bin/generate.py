@@ -595,7 +595,6 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
     output_file.write("# Author: Splunk Security Research\n")
     output_file.write("# Contact: research@splunk.com\n")
     output_file.write("#############\n\n")
-
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
@@ -628,7 +627,7 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         for investigation_name, investigation in sorted(investigations.iteritems()):
             for s in investigation['stories']:
                 if s == story_name and investigation['type'] == 'splunk':
-                    total_investigations.append(investigation_name)
+                    total_investigations.append("ESCU - " + investigation_name)
         output_file.write("investigative_searches = %s\n" % json.dumps(total_investigations))
 
         # write all baselines
@@ -636,11 +635,12 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         for baseline_name, baseline in sorted(baselines.iteritems()):
             for s in baseline['stories']:
                 if s == story_name and baseline['type'] == 'splunk':
-                    total_baselines.append(baseline_name)
+                    total_baselines.append("ESCU - " + baseline_name)
         output_file.write("support_searches = %s\n" % json.dumps(total_baselines))
 
         # generate datamodels
         data_models = []
+
         for d in story['detections']:
             if 'data_models' in detections[d['name']]:
                 for dm in detections[d['name']]['data_models']:
