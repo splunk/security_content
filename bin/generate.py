@@ -778,7 +778,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         output_file.write("[ESCU - {0} - Rule]\n".format(detection_name))
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
-        output_file.write("action.escu.description = {0}\n".format(detection['description']))
+        output_file.write("description = {0}\n".format(detection['description']))
         output_file.write("action.escu.mappings = {0}\n".format(json.dumps(detection['mappings'])))
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(detection['data_models']))
@@ -849,8 +849,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
                 if i['type'] == 'splunk':
                     investigations_output += "ESCU - {0}\\n".format(i['name'])
                     next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n1. \
-                                       [[action|escu_investigate]]: Based on ESCU investigate \
-                                       recommendations:\\n%s\"}" % investigations_output
+                        [[action|escu_investigate]]: Based on ESCU investigate recommendations:\\n%s\"}" % investigations_output
                 if i['type'] == 'phantom':
                     has_phantom = True
 
