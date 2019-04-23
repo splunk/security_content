@@ -76,6 +76,7 @@ def generate_baselines(REPO_PATH, detections, stories):
             if verbose:
                 print "processing v1 baseline: {0}".format(baseline['search_name'])
             name = baseline['search_name']
+            type = 'splunk'
             id = baseline['search_id']
             description = baseline['search_description']
 
@@ -117,6 +118,7 @@ def generate_baselines(REPO_PATH, detections, stories):
 
             # splunk
             if 'splunk' in baseline['baseline']:
+                type = 'splunk'
                 splunk = baseline['baseline']['splunk']
                 search = splunk['search']
                 earliest_time = splunk['schedule']['earliest_time']
@@ -126,6 +128,7 @@ def generate_baselines(REPO_PATH, detections, stories):
         complete_baselines[name] = {}
         complete_baselines[name]['baseline_name'] = name
         complete_baselines[name]['id'] = id
+        complete_baselines[name]['type'] = type
         complete_baselines[name]['description'] = description
         complete_baselines[name]['search'] = search
         complete_baselines[name]['latest_time'] = latest_time
@@ -580,7 +583,7 @@ def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
     return story_count, story_output_path
 
 
-def write_analytics_story_confv1(stories, detections, OUTPUT_DIR):
+def write_analytics_story_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
 
     # Create conf files from analytics stories files
     story_output_path = OUTPUT_DIR + "/default/analytic_stories.conf"
@@ -609,30 +612,30 @@ def write_analytics_story_confv1(stories, detections, OUTPUT_DIR):
                 if d['type'] == 'splunk':
                     detection_searches.append("ESCU - " + d['name'] + " - Rule")
             output_file.write("detection_searches = %s\n" % json.dumps(detection_searches))
+
         # write all investigations
         total_investigations = []
-        for d in story['detections']:
-            if 'investigations' in detections[d['name']]:
-                for i in detections[d['name']]['investigations']:
-                    if i['type'] == 'splunk':
-                        total_investigations.append("ESCU - " + i['name'])
+        for investigation_name, investigation in sorted(investigations.iteritems()):
+            for s in investigation['stories']:
+                if s == story_name and investigation['type'] == 'splunk':
+                    total_investigations.append(investigation_name)
         output_file.write("investigative_searches = %s\n" % json.dumps(total_investigations))
 
         # write all baselines
         total_baselines = []
-        for d in story['detections']:
-            if 'baselines' in detections[d['name']]:
-                for b in detections[d['name']]['baselines']:
-                    if b['type'] == 'splunk':
-                        total_baselines.append("ESCU - " + b['name'])
+        for baseline_name, baseline in sorted(baselines.iteritems()):
+            for s in baseline['stories']:
+                if s == story_name and baseline['type'] == 'splunk':
+                    total_baselines.append(baseline_name)
         output_file.write("support_searches = %s\n" % json.dumps(total_baselines))
 
         # generate datamodels
         data_models = []
         for d in story['detections']:
             if 'data_models' in detections[d['name']]:
-                data_models.append(detections[d['name']]['data_models'])
-        output_file.write("data_models = %s\n" % data_models)
+                for dm in detections[d['name']]['data_models']:
+                    data_models.append(dm)
+        output_file.write("data_models = %s\n" % (json.dumps(sorted(set(data_models)))))
 
         # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
         description = markdown(story['description'])
@@ -678,15 +681,17 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
                 if d['type'] == 'splunk':
                     searches.append("ESCU - " + d['name'] + " - Rule")
 
-        for d in story['detections']:
-            if 'investigations' in detections[d['name']]:
-                for i in detections[d['name']]['investigations']:
-                    if i['type'] == 'splunk':
-                        searches.append("ESCU - " + i['name'])
-            if 'baselines' in detections[d['name']]:
-                for b in detections[d['name']]['baselines']:
-                    if b['type'] == 'splunk':
-                        searches.append("ESCU - " + b['name'])
+        # write all investigations
+        for investigation_name, investigation in sorted(investigations.iteritems()):
+            for s in investigation['stories']:
+                if s == story_name and investigation['type'] == 'splunk':
+                    searches.append("ESCU - " + investigation_name)
+
+        # write all baselines
+        for baseline_name, baseline in sorted(baselines.iteritems()):
+            for s in baseline['stories']:
+                if s == story_name and baseline['type'] == 'splunk':
+                    searches.append("ESCU - " + baseline_name)
 
         output_file.write("searches = %s\n" % json.dumps(searches))
 
@@ -1020,10 +1025,12 @@ if __name__ == "__main__":
     # complete_responses = generate_responses(REPO_PATH, complete_responses)
 
     if storiesv1:
-        story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections, OUTPUT_DIR)
+        story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections,
+                                                               complete_investigations, complete_baselines, OUTPUT_DIR)
         print "{0} stories have been successfully to {1}".format(story_count, story_path)
     else:
-        story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections, OUTPUT_DIR)
+        story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections,
+                                                               complete_investigations, complete_baselines, OUTPUT_DIR)
         print "{0} stories have been successfully to {1}".format(story_count, story_path)
 
     if use_case_lib:
