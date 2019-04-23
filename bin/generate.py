@@ -609,6 +609,8 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
     output_file.write("# Author: Splunk Security Research\n")
     output_file.write("# Contact: research@splunk.com\n")
     output_file.write("#############\n\n")
+
+    output_file.write("### STORIES ###\n\n")
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
@@ -671,6 +673,7 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
             output_file.write("narrative = %s\n" % narrative)
         output_file.write("\n")
 
+    output_file.write("#### END STORIES ####")
     # close file, count stories we found and return
     output_file.close()
     story_count = len(complete_stories.keys())
@@ -765,7 +768,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("known_false_positives = {0}\n".format(baseline['known_false_positives']))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
         output_file.write("\n")
-    output_file.write("### END BASELINES ###\n\n")
+    output_file.write("### END BASELINES ###")
 
     output_file.close()
     story_count = len(complete_stories.keys())
@@ -820,6 +823,8 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.full_search_name = ESCU - {0} - Rule\n".format(detection_name))
         output_file.write("action.escu.search_type = detection\n")
 
+        if 'asset_type' in detection:
+            output_file.write("action.escu.asset_at_risk = {0}\n".format(detection['asset_type']))
         if 'entities' in detection:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(detection['entities'])))
         if 'providing_technologies' in detection:
@@ -1014,7 +1019,7 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
         output_file.write("search = {0}\n".format(baseline['search']))
-    output_file.write("\n### END ESCU BASELINES ###\n\n")
+    output_file.write("\n### END ESCU BASELINES ###")
 
     detections_count = len(detections)
     investigations_count = len(investigations)
