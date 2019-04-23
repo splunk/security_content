@@ -781,7 +781,7 @@ def write_savedsearches_conf(stories, detections, investigations, baselines, OUT
         output_file.write("description = {0}\n".format(detection['description']))
         output_file.write("action.escu.mappings = {0}\n".format(json.dumps(detection['mappings'])))
         if 'data_models' in detection:
-            output_file.write("action.escu.data_models = {0}\n".format(detection['data_models']))
+            output_file.write("action.escu.data_models = {0}\n".format(json.dumps(detection['data_models'])))
 
         # NEED TO REMOVE MARKDOWN FUNCTION
         if 'eli5' in detection:
