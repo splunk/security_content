@@ -606,12 +606,22 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         output_file.write("version = %s\n" % story['version'])
         output_file.write("reference = %s\n" % json.dumps(story['references']))
 
+        # write all detections
         if 'detections' in story:
             detection_searches = []
             for d in story['detections']:
                 if d['type'] == 'splunk':
                     detection_searches.append("ESCU - " + d['name'] + " - Rule")
             output_file.write("detection_searches = %s\n" % json.dumps(detection_searches))
+
+        # grab mappings
+        mappings = dict()
+        for detection_name, detection in sorted(detections.iteritems()):
+            for s in detection['stories']:
+                if s == story_name and detection['type'] == 'splunk':
+                    for key in detection['mappings'].keys():
+                        mappings[key] = list(detection['mappings'][key])
+        output_file.write("mappings = {0}\n".format(json.dumps(mappings)))
 
         # write all investigations
         total_investigations = []
