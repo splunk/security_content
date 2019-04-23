@@ -714,7 +714,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("confidence = {0}\n".format(detection['confidence']))
         output_file.write("explanation = {0}\n".format(detection['eli5']))
         output_file.write("how_to_implement = {0}\n".format(detection['how_to_implement']))
-        output_file.write("annotations = {0}\n".format(detection['mappings']))
+        output_file.write("annotations = {0}\n".format(json.dumps(detection['mappings'])))
         output_file.write("known_false_positives = {0}\n".format(detection['known_false_positives']))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("\n")
