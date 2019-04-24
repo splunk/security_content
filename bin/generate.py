@@ -318,7 +318,6 @@ def generate_detections(REPO_PATH, stories):
 
     complete_detections = dict()
     for detection in detections:
-
         # lets process v1 detections
         if detection['spec_version'] == 1:
             if verbose:
@@ -662,6 +661,14 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
                 for dm in detections[d['name']]['data_models']:
                     data_models.append(dm)
         output_file.write("data_models = %s\n" % (json.dumps(sorted(set(data_models)))))
+
+        # generate providing tech
+        providing_technologies = []
+        for d in story['detections']:
+            if 'providing_technologies' in detections[d['name']]:
+                for pt in detections[d['name']]['providing_technologies']:
+                    providing_technologies.append(pt)
+        output_file.write("providing_technologies = %s\n" % (json.dumps(sorted(set(providing_technologies)))))
 
         # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
         description = markdown(story['description'])
