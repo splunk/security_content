@@ -5,7 +5,7 @@
   ],
   "channel": "ESCU",
   "creation_date": "2019-03-12",
-  "description": "XXXX - Placeholder for Phishing description",
+  "description": "This Analytic Story will help you detect DNS and Web requests to phishing websites that used EvilGinx2 toolkit to mimic the fake website.",
   "detections": [
     {
       "detection_id": "24dd17b1-e2fb-4c31-878c-d4f226595bfa",
@@ -23,7 +23,7 @@
   ],
   "modification_date": "2019-04-04",
   "name": "Common Phishing Frameworks",
-  "narrative": "XXXX - Placeholder for Phishing narrative",
+  "narrative": "Despite its simplicity, phishing remains the most pervasive and dangerous cyberthreat. In fact, research shows that as many as 91% of all successful attacks are initiated via a phishing email.\n\nAs most people know, these emails use fraudulent domains, email scraping, familiar contact names inserted as senders, and other tactics to lure targets into clicking a malicious link, opening an attachment with a nefarious payload, or entering sensitive personal information that perpetrators may intercept. This attack technique requires a relatively low level of skill and allows adversaries to easily cast a wide net. Worse, because its success relies on the gullibility of humans, it's impossible to completely \"automate\" it out of your environment.\n\nHowever, you can use ES and ESCU to detect man-in-the-middle (MiTM) attacks. This Analytic Story focuses on detecting signs of MiTM attacks enabled by EvilGinx2\u2014one of the most advanced phishing tools available in 2019. EvilGinx2 sets up a transparent proxy between the targeted site and the user. In this way, the attacker is able to intercept credentials and two-factor identification tokens. It employs a proxy template to allow a registered domain to impersonate targeted sites, such as Linkedin, Amazon, Okta, Github, Twitter, Instagram, Reddit, Office 365, and others. It can even register SSL certificates and camouflage them via a URL shortener, making them difficult to detect.\n\n Once the detection searches in this Analytic Story identify signs of MiTM attacks enabled by EvilGinx2, you can use the corresponding Splunk Phantom playbook to help you investigate malicious domain names and URLs.",
   "original_authors": [
     {
       "company": "Splunk",
