@@ -1,7 +1,6 @@
 {
   "category": [
-    "Adversary Tactics",
-    "Other"
+    "Adversary Tactics"
   ],
   "channel": "ESCU",
   "creation_date": "2019-04-10",
@@ -32,11 +31,13 @@
   "original_authors": [
     {
       "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
+      "email": "research@splunk.com",
+      "name": "Splunk Research Team"
     }
   ],
-  "references": [],
+  "references": [
+    "https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html"
+  ],
   "spec_version": 2,
   "usecase": "Advanced Threat Detection",
   "version": "1.0"
