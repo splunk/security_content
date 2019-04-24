@@ -31,7 +31,11 @@
       "name": "Bhavin Patel"
     }
   ],
-  "references": [],
+  "references": [
+    "https://github.com/kgretzky/evilginx",
+    "https://attack.mitre.org/techniques/T1192/",
+    "https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/"
+  ],
   "spec_version": 2,
   "usecase": "Advanced Threat Detection",
   "version": "1.0"
