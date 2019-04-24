@@ -178,10 +178,8 @@
               "Sysmon",
               "Tanium",
               "Ziften",
-              "OSquery",
               "Censys",
-              "Passive Total",
-              "WHOIS"
+              "OSquery"
             ]
           },
           "minItems": 0,
@@ -229,9 +227,7 @@
           "src_mac",
           "src_user",
           "src",
-          "user",
-          "query",
-          "answer"
+          "user"
         ]
       },
       "minItems": 0,

@@ -35,7 +35,7 @@
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
         },
-        "search": "|tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| search `evilginx_phishlets_subdomains` | rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | `ctime(firstTime)`| `ctime(lastTime)`| search NOT [ inputlookup domains.csv | fields domain]",
+        "search": "| tstats summariesonly=true allow_old_summaries=true count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | stats count values(query) as query by domain dest src answer| search `evilginx_phishlets_amazon` OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365` OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google` | search NOT [ inputlookup legit_domains.csv | fields domain]| join domain type=outer [| tstats count summariesonly=true allow_old_summaries=true values(Web.url) as url from datamodel=Web.Web by Web.dest Web.site | rename \"Web.*\" as * | rex field=site \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | table dest domain url] | table count src dest query answer domain url",
         "suppress": {
           "suppress_fields": "src, query",
           "suppress_period": "14400s"
@@ -43,11 +43,11 @@
       }
     }
   },
-  "eli5": "This search gathers all the answers to each system's DNS query, then filters for queries that have sub domains extracted from the EvilGinx toolkit. It will then run a regex to extract `domain` from the query and remove that from the detection if it is listed in the `domains.csv`",
+  "eli5": "This search gathers all the answers to each system's DNS query, then filters for queries that have sub domains extracted from the EvilGinx toolkit. It will then run a regex to extract `legit_domains` from the query and remove that from the detection if it is listed in the `legit_domains.csv`",
   "entities": [
     "src"
   ],
-  "how_to_implement": "You need to ingest data from your DNS logs. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You will have to add legitimate domain names to the `domains.csv` file shipped with the app",
+  "how_to_implement": "You need to ingest data from your DNS logs in the Network_Resolution datamodel. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You will have to add legitimate domain names to the `legit_domains.csv` file shipped with the app. <br></br> <b>Splunk>Phantom Playbook Integration</b><br></br>If Splunk>Phantom is also configured in your environment, a Playbook called `Lets Encrypt Domain Investigate` can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. <br/>(Playbook Link:<code>https://my.phantom.us/4.1/playbook/lets-encrypt-domain-investigate</code>).<br></br>",
   "id": "24dd17b1-e2fb-4c31-878c-d4f226595bfa",
   "investigations": [
     {
@@ -56,12 +56,12 @@
       "product_type": "splunk"
     },
     {
-      "id": "c096f721-8842-42ce-bfc7-74bd8c72b711",
-      "name": "DNS record change investigation",
+      "id": "c096f721-8842-42ce-2fc7-742d8272b712",
+      "name": "Domain Certificate Investigation",
       "product_type": "phantom"
     }
   ],
-  "known_false_positives": "If a known good domain is not listed in the known_domains.csv file, then the search could give you false postives. Please update that lookup file to filter out legitimate DNS requests",
+  "known_false_positives": "If a known good domain is not listed in the legit_domains.csv file, then the search could give you false postives. Please update that lookup file to filter out DNS requests to legitimate domains.",
   "maintainers": [
     {
       "company": "Splunk",
@@ -71,21 +71,16 @@
   ],
   "mappings": {
     "cis20": [
-      "CIS 1",
-      "CIS 3",
       "CIS 8",
-      "CIS 12"
+      "CIS 7"
     ],
     "kill_chain_phases": [
       "Delivery",
-      "Actions on Objectives",
       "Command and Control"
     ],
     "mitre_attack": [
-      "Exfiltration",
-      "Command and Control",
-      "Defense Evasion",
-      "Commonly Used Port"
+      "Spearphishing Link",
+      "Command and Control"
     ],
     "nist": [
       "ID.AM",
