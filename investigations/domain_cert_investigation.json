@@ -15,7 +15,7 @@
     "phantom": {
       "phantom_server": "automation (hostname)",
       "playbook_name": "community/lets_encrypt_domain_investigate",
-      "playbook_url": "https://my.phantom.us/4.1/playbook/lets-encrypt-domain-investigate/",
+      "playbook_url": "https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/",
       "schedule": {
         "cron_schedule": "0 * * * *",
         "earliest_time": "0",
