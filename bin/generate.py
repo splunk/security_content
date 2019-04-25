@@ -676,7 +676,6 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
                 if 'providing_technologies' in investigations[d['name']]:
                     for pt in investigations[d['name']]['providing_technologies']:
                         providing_technologies.append(pt)
-        output_file.write("providing_technologies = %s\n" % (json.dumps(sorted(set(providing_technologies)))))
 
         # generate providing_technologies  from investgationv1 -daftpunk
         if story['spec_version'] == 1:
