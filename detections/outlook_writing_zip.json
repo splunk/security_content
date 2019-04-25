@@ -53,7 +53,13 @@
   ],
   "how_to_implement": "You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or endpoint data sources, such as Sysmon.",
   "id": "a51bfe1a-94f0-4822-b1e4-16ae10145893",
-  "investigations": [],
+  "investigations": [
+    {
+      "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+      "name": "Get Parent Process Info",
+      "product_type": "splunk"
+    }
+  ],
   "known_false_positives": "It is not uncommon for outlook to write legitimate zip files to the disk.",
   "maintainers": [
     {

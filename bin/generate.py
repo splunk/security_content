@@ -612,6 +612,7 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
     output_file.write("### STORIES ###\n\n")
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
+        print story_name
         output_file.write("[%s]\n" % story_name)
         output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
         output_file.write("creation_date = %s\n" % story['creation_date'])
@@ -662,12 +663,27 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
                     data_models.append(dm)
         output_file.write("data_models = %s\n" % (json.dumps(sorted(set(data_models)))))
 
-        # generate providing tech
+        # generate providing_technologies  from detections -daftpunk
         providing_technologies = []
         for d in story['detections']:
             if 'providing_technologies' in detections[d['name']]:
                 for pt in detections[d['name']]['providing_technologies']:
                     providing_technologies.append(pt)
+
+        # generate providing_technologies  from investgationv1 -daftpunk
+        if story['spec_version'] == 1:
+            for d in story['investigations']:
+                if 'providing_technologies' in investigations[d['name']]:
+                    for pt in investigations[d['name']]['providing_technologies']:
+                        providing_technologies.append(pt)
+        output_file.write("providing_technologies = %s\n" % (json.dumps(sorted(set(providing_technologies)))))
+
+        # generate providing_technologies  from investgationv1 -daftpunk
+        if story['spec_version'] == 1:
+            for d in story['baselines']:
+                if 'providing_technologies' in baselines[d['name']]:
+                    for pt in baselines[d['name']]['providing_technologies']:
+                        providing_technologies.append(pt)
         output_file.write("providing_technologies = %s\n" % (json.dumps(sorted(set(providing_technologies)))))
 
         # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
