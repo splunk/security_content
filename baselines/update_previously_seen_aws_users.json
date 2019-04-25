@@ -1,0 +1,43 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2019-04-25",
+  "data_metadata": {
+    "data_source": [
+      "AWS CloudTrail logs"
+    ],
+    "data_sourcetypes": [
+      "aws:cloudtrail"
+    ],
+    "providing_technologies": [
+      "AWS"
+    ]
+  },
+  "eli5": "In this support search, we look for console login events by a particular user to update the baseline cache of users/arns making the accesses, including the earliest and latest times, City, Region, and Country a particular user ARN is seen in our dataset, grouped by the ARN value. In cases where City and Region cannot be determined, the source IP address is substituted for these values.",
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the user name entries in <code>previously_seen_users_console_logins.csv</code>, which is a lookup file created as a result of running this support search.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "jbrewer@splunk.com",
+      "name": "Jason Brewer"
+    }
+  ],
+  "modification_date": "2018-04-25",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "jbrewer@splunk.com",
+      "name": "Jason Brewer"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-60m@m",
+    "latest_time": "m@m"
+  },
+  "search": "| tstats summariesonly=true earliest(_time) AS earliest latest(_time) AS latest from datamodel=Authentication where NOT [| inputlookup DMO_Splunk-IPs.csv | rename Translated_IP AS Authentication.src | fields Authentication.src] (Authentication.signature=\"AwsConsoleSignIn\" Authentication.action=\"success*\" ) by Authentication.user Authentication.src | `drop_dm_object_name(\"Authentication\")` | iplocation src | eval City=if(City LIKE \"\",src,City),Region=if(Region LIKE \"\",src,Region) | inputlookup append=t previously_seen_users_console_logins.csv | stats min(earliest) as earliest max(latest) as latest by user src City Region Country | outputlookup previously_seen_users_console_logins.csv",
+  "search_description": "This search looks for CloudTrail events where a user logs into the console, then updates the baseline of the latest and earliest times, City, Region, and Country we have encountered this user in our dataset, grouped by ARN, within the last hour.",
+  "search_id": "06c036e6-d6d7-4daa-bd76-411c3d356031",
+  "search_name": "Update previously seen users in CloudTrail",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
+}
