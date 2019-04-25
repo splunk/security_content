@@ -318,7 +318,6 @@ def generate_detections(REPO_PATH, stories):
 
     complete_detections = dict()
     for detection in detections:
-
         # lets process v1 detections
         if detection['spec_version'] == 1:
             if verbose:
@@ -454,7 +453,6 @@ def generate_detections(REPO_PATH, stories):
             for d in story['detections']:
                 if d['name'] == name:
                     complete_detections[name]['stories'].append(story['story_name'])
-#                   print "DETECTIONS: {0} == BASELINES {1} == STORY{2}".format(name, baselines, story['story_name'])
 
         # sort uniq the results
         complete_detections[name]['stories'] = sorted(set(complete_detections[name]['stories']))
@@ -625,14 +623,37 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         if 'detections' in story:
             detection_searches = []
             for d in story['detections']:
+                # we do not have any phantom or UBA detections for now we restrict this to Splunk
                 if d['type'] == 'splunk':
                     detection_searches.append("ESCU - " + d['name'] + " - Rule")
             output_file.write("detection_searches = %s\n" % json.dumps(detection_searches))
 
         # grab mappings
         mappings = dict()
+
+        # grab provising technologies
+        providing_technologies = []
+
+        # grab datamodels
+        data_models = []
+
+        # process the above for detections
         for detection_name, detection in sorted(detections.iteritems()):
             for s in detection['stories']:
+
+                # check if the detection is part of this story
+                if s == story_name:
+                    # grab providing technologies
+                    if 'providing_technologies' in detection:
+                        for pt in detection['providing_technologies']:
+                            providing_technologies.append(pt)
+
+                    # grab data models
+                    if 'data_models' in detection:
+                        for dm in detection['data_models']:
+                            data_models.append(dm)
+
+                # we do not have any phantom or UBA detections for now we restrict this to Splunk
                 if s == story_name and detection['type'] == 'splunk':
                     for key in detection['mappings'].keys():
                         mappings[key] = list(detection['mappings'][key])
@@ -642,6 +663,21 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         total_investigations = []
         for investigation_name, investigation in sorted(investigations.iteritems()):
             for s in investigation['stories']:
+
+                # check if the investigation is part of this story
+                if s == story_name:
+                    # grab providing technologies
+                    if 'providing_technologies' in investigation:
+                        for pt in investigation['providing_technologies']:
+                            providing_technologies.append(pt)
+
+                    # grab data models
+                    if 'data_models' in investigation:
+                        for dm in investigation['data_models']:
+                            data_models.append(dm)
+
+                # we do not write out searches for phantom in v1 spec, see write_analytics_story_confv2 for more details
+                # for now we restrict it to splunk
                 if s == story_name and investigation['type'] == 'splunk':
                     total_investigations.append("ESCU - " + investigation_name)
         output_file.write("investigative_searches = %s\n" % json.dumps(total_investigations))
@@ -650,18 +686,30 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         total_baselines = []
         for baseline_name, baseline in sorted(baselines.iteritems()):
             for s in baseline['stories']:
+
+                # check if the baseline is part of this story
+                if s == story_name:
+                    # grab providing technologies
+                    if 'providing_technologies' in baseline:
+                        for pt in baseline['providing_technologies']:
+                            providing_technologies.append(pt)
+
+                    # grab data models
+                    if 'data_models' in baseline:
+                        for dm in baseline['data_models']:
+                            data_models.append(dm)
+
+                # we do not write out baselines for phantom and uba in v1 spec, see write_analytics_story_confv2
+                # for now we restrict it to splunk
                 if s == story_name and baseline['type'] == 'splunk':
                     total_baselines.append("ESCU - " + baseline_name)
         output_file.write("support_searches = %s\n" % json.dumps(total_baselines))
 
-        # generate datamodels
-        data_models = []
-
-        for d in story['detections']:
-            if 'data_models' in detections[d['name']]:
-                for dm in detections[d['name']]['data_models']:
-                    data_models.append(dm)
+        # write out data models
         output_file.write("data_models = %s\n" % (json.dumps(sorted(set(data_models)))))
+
+        # write out providing technologies models
+        output_file.write("providing_technologies = %s\n" % (json.dumps(sorted(set(providing_technologies)))))
 
         # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
         description = markdown(story['description'])
