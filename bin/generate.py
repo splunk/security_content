@@ -1006,6 +1006,8 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(investigation['stories'])))
         output_file.write("action.escu.earliest_time_offset = 3600\n")
         output_file.write("action.escu.latest_time_offset = 86400\n")
+        if 'data_models' in investigation:
+            output_file.write("action.escu.data_models = {0}\n".format(json.dumps(investigation['data_models'])))
         if 'providing_technologies' in detection:
             output_file.write("action.escu.providing_technologies = {0}\n".format(
                 json.dumps(investigation['providing_technologies'])))
@@ -1048,6 +1050,8 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.creation_date = {0}\n".format(baseline['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(baseline['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(baseline['stories'])))
+        if 'data_models' in baseline:
+            output_file.write("action.escu.data_models = {0}\n".format(json.dumps(baseline['data_models'])))
         if 'earliest_time' in baseline:
             output_file.write("dispatch.earliest_time = {0}\n".format(baseline['earliest_time']))
         if 'latest_time' in baseline:

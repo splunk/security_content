@@ -4,7 +4,8 @@
   "creation_date": "2019-04-04",
   "data_metadata": {
     "data_models": [
-      "Network_Resolution"
+      "Network_Resolution",
+      "Web"
     ],
     "data_source": [
       "DNS"
