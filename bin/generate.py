@@ -744,6 +744,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[analytic_story://%s]\n" % story_name)
         output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
+        output_file.write("created = %s\n" % story['creation_date'])
         output_file.write("last_updated = %s\n" % story['modification_date'])
         output_file.write("version = %s\n" % story['version'])
         output_file.write("reference = %s\n" % json.dumps(story['references']))
