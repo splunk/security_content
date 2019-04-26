@@ -2,7 +2,7 @@
   "asset_type": "Endpoint",
   "baselines": [],
   "confidence": "high",
-  "creation_date": "2019-04-11",
+  "creation_date": "2019-04-29",
   "data_metadata": {
     "data_models": [
       "Endpoint"
@@ -79,7 +79,7 @@
       "PR.DS"
     ]
   },
-  "modification_date": "2019-04-08",
+  "modification_date": "2019-04-29",
   "name": "Suspicious LNK file launching a process",
   "original_authors": [
     {
