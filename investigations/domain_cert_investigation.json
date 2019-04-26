@@ -1,5 +1,5 @@
 {
-  "creation_date": "2019-04-16",
+  "creation_date": "2019-04-29",
   "data_metadata": {
     "data_source": [
       "Censys"
@@ -37,7 +37,7 @@
       "name": "Philip Royer"
     }
   ],
-  "modification_date": "2019-16-04",
+  "modification_date": "2019-04-29",
   "name": "Domain Certificate Investigation",
   "original_authors": [
     {
