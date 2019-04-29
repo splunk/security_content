@@ -62,7 +62,7 @@
       "DE.CM"
     ]
   },
-  "modification_date": "2018-11-14",
+  "modification_date": "2019-04-25",
   "original_authors": [
     {
       "company": "Splunk",
@@ -75,12 +75,12 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count values(Filesystem.action) as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(Filesystem)`",
+  "search": "| tstats `summariesonly` count values(Filesystem.action) as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(Filesystem)` | `suspicious_writes`",
   "search_description": "The search looks for files created with names that have been linked to malicious activity.",
   "search_id": "57f76b8a-32f0-42ed-b358-d9fa3ca7bac8",
   "search_name": "Suspicious File Write",
   "search_type": "detection",
   "security_domain": "endpoint",
   "spec_version": 1,
-  "version": "2.0"
+  "version": "3.0"
 }
