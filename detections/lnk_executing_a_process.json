@@ -18,7 +18,7 @@
       "Ziften"
     ]
   },
-  "description": "This search looks for a *.lnk file under C:\\User* or *\\Local\\Temp\\* executing a process. This is common behavior used by various spear phishing tools.",
+  "description": "This search looks for a ``*.lnk` file under `C:\\User*` or `*\\Local\\Temp\\*` executing a process. This is common behavior used by various spear phishing tools.",
   "detect": {
     "splunk": {
       "correlation_rule": {
@@ -47,7 +47,7 @@
       }
     }
   },
-  "eli5": "In this search, we are essentially trying to detect if a LNK file created under the C:\\User* or *\\Local\\Temp\\* directory structures is launching a process with in 1 hour of its creation. LNK files or also known as Windows shortcut files are commonly associated with phishing and are a preferred method used for exploitation see: https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html.",
+  "eli5": "In this search, we are essentially trying to detect if a LNK file created under the C:\\User* or *\\Local\\Temp\\* directory structures is launching a process with in 1 hour of its creation. LNK files or also known as Windows shortcut files are commonly associated with phishing and are a [preferred method used for exploitation](https://www.fireeye.com/blog/threat-research/2017/04/fin7-phishing-lnk.html).",
   "entities": [
     "dest"
   ],
