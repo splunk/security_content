@@ -1,5 +1,4 @@
 {
-  "channel": "ESCU",
   "creation_date": "2018-01-22",
   "data_metadata": {
     "data_source": [
@@ -12,18 +11,37 @@
       "AWS"
     ]
   },
-  "fields_required": [
-    "arn"
-  ],
+  "description": "This search lists all the logged CloudTrail activities by a specific user ARN and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and all the user's identity information.",
   "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+  "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
+  "investigate": {
+    "splunk": {
+      "fields_required": [
+        "arn"
+      ],
+      "schedule_comment_rm_me": "The only other example has a schedule. I'm unsure this should actually be scheduled/automated without user intervention though. - jbrewer",
+      "schedule": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+      },
+      "search": "| search sourcetype=aws:cloudtrail userIdentity.arn={arn} | table _time userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType "
+    }
+  },
   "maintainers": [
     {
       "company": "Splunk",
       "email": "bpatel@splunk.com",
       "name": "Bhavin Patel"
+    },
+    {
+      "company": "Splunk",
+      "email": "jbrewer@splunk.com",
+      "name": "Jason Brewer"
     }
   ],
-  "modification_date": "2018-02-25",
+  "modification_date": "2019-04-30",
+  "name": "AWS Investigate User Activities By ARN",
   "original_authors": [
     {
       "company": "Splunk",
@@ -31,15 +49,9 @@
       "name": "Bhavin Patel"
     }
   ],
-  "search": "| search sourcetype=aws:cloudtrail userIdentity.arn={arn} | table _time userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType ",
-  "search_description": "This search lists all the logged CloudTrail activities by a specific user ARN and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and all the user's identity information.",
-  "search_id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
-  "search_name": "AWS Investigate User Activities By ARN",
+  "product_type": "splunk",
   "search_type": "investigative",
-  "search_window": {
-    "earliest_time_offset": 14400,
-    "latest_time_offset": 0
-  },
-  "spec_version": 1,
-  "version": "1.0"
+  "search_type_rm_me": "Is search_type uh, not used anymore? - jbrewer",
+  "spec_version": 2,
+  "version": "2.0"
 }
