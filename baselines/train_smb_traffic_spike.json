@@ -2,6 +2,7 @@
   "baseline": {
     "splunk": {
       "schedule": {
+        "cron_schedule": "",
         "earliest_time": "-301@d",
         "latest_time": "-1d@d"
       },
