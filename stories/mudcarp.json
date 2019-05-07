@@ -39,14 +39,16 @@
       "First time seen command line argument",
       "Registry Keys Used For Persistence",
       "Malicious PowerShell Process - Connect To Internet With Hidden Window",
-      "Unusually Long Command Line"
+      "Unusually Long Command Line",
+      "Unusually Long Command Line - MLTK"
     ],
     "investigative_searches": [
       "Get Process Info",
       "Get Parent Process Info"
     ],
     "support_searches": [
-      "Previously seen command line arguments"
+      "Previously seen command line arguments",
+      "Model Builder For \"Unusually Long Command Line - MLTK\""
     ]
   },
   "spec_version": 1,

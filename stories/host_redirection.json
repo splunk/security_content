@@ -39,7 +39,7 @@
     "investigative_searches": [
       "Investigate Web Activity From Host",
       "Get DNS Server History for a host",
-      "Get Process responsible for the DNS traffic"
+      "Get Process Responsible For The DNS Traffic"
     ],
     "support_searches": []
   },

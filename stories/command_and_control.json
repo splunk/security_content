@@ -47,18 +47,20 @@
       "Excessive DNS Failures",
       "Detect Long DNS TXT Record Response",
       "DNS Query Requests Resolved by Unauthorized DNS Servers",
-      "Detect Spike in blocked Outbound Traffic from your AWS"
+      "Detect Spike in blocked Outbound Traffic from your AWS",
+      "DNS Query Length Outliers - MLTK"
     ],
     "investigative_searches": [
       "Get Process Info",
-      "Get Process responsible for the DNS traffic",
+      "Get Process Responsible For The DNS Traffic",
       "Get DNS Server History for a host",
       "Get DNS traffic ratio",
       "Get All AWS Activity From IP Address",
       "Get Process Information For Port Activity"
     ],
     "support_searches": [
-      "Baseline of blocked outbound traffic from AWS"
+      "Baseline of blocked outbound traffic from AWS",
+      "Model Builder For \"DNS Query Length Outliers - MLTK\""
     ]
   },
   "spec_version": 1,

@@ -41,16 +41,20 @@
       "Detect Use of cmd.exe to Launch Script Interpreters",
       "Prohibited Software On Endpoint",
       "SMB Traffic Spike",
+      "SMB Traffic Spike - MLTK",
       "Suspicious Email Attachment Extensions",
       "Email Attachments With Lots Of Spaces",
       "Detection of tools built by NirSoft"
     ],
     "investigative_searches": [
       "Get Process Info",
+      "Get Process Information For Port Activity",
       "Get Parent Process Info",
       "Investigate Web Activity From Host"
     ],
-    "support_searches": []
+    "support_searches": [
+      "Model Builder For \"SMB Traffic Spike - MLTK\""
+    ]
   },
   "spec_version": 1,
   "version": "1.0"
