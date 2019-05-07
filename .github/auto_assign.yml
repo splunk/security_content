@@ -6,7 +6,7 @@ addAssignees: true
 
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers:
-  - d1vious
+  - briannablacet
 
 # A number of reviewers added to the pull request
 # Set 0 to add all the reviewers (default: 0)
@@ -17,6 +17,9 @@ assignees:
   - rvaldez617
   - patel-bhavin
   - russnolen
+  - rsfl
+  - jcbrewer5D6400
+  - philroyer-phantom
 
 # A number of assignees to add to the pull request
 # Set to 0 to add all of the assignees.
