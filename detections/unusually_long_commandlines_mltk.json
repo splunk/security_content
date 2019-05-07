@@ -55,7 +55,9 @@
   },
   "eli5": "This search leverages the machine learning toolkit (MLTK) to identify outliers in the length of the command lines observed to be used by a specific user. The companion search \"Model Builder For \"Unusually Long Command Line - MLTK\" creates an ML model built over historical data which is used by this search.",
   "entities": [
-    "dest"
+    "dest",
+    "user",
+    "process"
   ],
   "how_to_implement": "You must be ingesting endpoint data that monitors command lines and populates the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model. In addition, the machine learning toolkit (MLTK) version >= 4.2 must be installed on your search heads along with any required dependencies. Finally, the support search \"Model Builder For \"Unusually Long Command Line - MLTK\"\" must be executed before this detection search, as it builds an ML model over historical data which is used by this search.",
   "id": "57edaefa-a73b-45e5-bbae-f39c1473f941",
