@@ -21,7 +21,7 @@
       "Bro"
     ]
   },
-  "description": "This search uses the machine learning toolkit (MLTK) to identify spikes in the number of Server Message Block (SMB) connections.",
+  "description": "This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the number of Server Message Block (SMB) connections.",
   "detect": {
     "splunk": {
       "correlation_rule": {
@@ -50,12 +50,12 @@
       }
     }
   },
-  "eli5": "Server Message Block (SMB) traffic, a protocol used for Windows file sharing-activity, is often leveraged by attackers. One example of SMB abuse was the WannaCry ransomware, which leveraged a vulnerability in the SMB protocol to propagate to other systems. Attackers have also used SMB for lateral movement with a target environment and to test credentials against target systems. While SMB is highly prevalent in Windows environments, a spike in SMB traffic may still be indicative of this type of malicious activity. This search leverages the machine learning toolkit (MLTK) to identify spikes in SMB traffic that are unusual for a given hour of day/day of week combination. If such a spike is detected, you may want to investigate the source and analyze the cause of the abnormal traffic.",
+  "eli5": "Server Message Block (SMB) traffic, a protocol used for Windows file-sharing activity, is often leveraged by attackers. One example of SMB abuse was the WannaCry ransomware, which leveraged a vulnerability in the SMB protocol to propagate to other systems. Attackers have also used SMB for lateral movement with a target environment and to test credentials against target systems. While SMB is highly prevalent in Windows environments, a spike in SMB traffic may still be indicative of this type of malicious activity. This search leverages Splunk's Machine Learning Toolkit (MLTK) to identify spikes in SMB traffic that are unusual for a given hour of day/day of week combination. If such a spike is detected, you may want to investigate the source and analyze the cause of the abnormal traffic.",
   "entities": [
     "src",
     "dest_port"
   ],
-  "how_to_implement": "This search requires you to be ingesting your network traffic logs and populating the <code>Network_Traffic</code> data model. In addition, the machine learning toolkit (MLTK) version 4.2 or greater must be installed on your search heads along with any required dependencies. Finally, the support search \"Model Builder For \"SMB Traffic Spike - MLTK\"\" must be executed before this detection search, as it builds an ML model over historical data which is used by this search.",
+  "how_to_implement": "This search requires you to be ingesting your network traffic logs and populating the Network_Traffic data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search \"Model Builder For \"SMB Traffic Spike - MLTK\"\" must be executed before this detection search, as it builds a machine-learning (ML) model over historical data, which is used by this search.",
   "id": "d25773ba-9ad8-48d1-858e-07ad0bbeb828",
   "investigations": [
     {
@@ -64,7 +64,7 @@
       "product_type": "splunk"
     }
   ],
-  "known_false_positives": "If you are seeing more results than desired, you may consider changing the value of threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data.",
+  "known_false_positives": "If you are seeing more results than desired, you may consider changing the value of the threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data.",
   "maintainers": [
     {
       "company": "Splunk",

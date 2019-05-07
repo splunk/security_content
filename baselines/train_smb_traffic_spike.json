@@ -22,12 +22,12 @@
       "Bro"
     ]
   },
-  "description": "This search is used to build an MLTK model to characterize the number of SMB connections observered in each hour for every day of week in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which uses it to identify outliers in the number of SMB connections for that hour and day of the week.",
-  "eli5": "Create a machie learning model to characterize the number of SMB connections observed in your environment to help identify spikes in SMB traffic that can be indicative of attackers scanning or attempting to propagate to other systems in your environment.",
+  "description": "This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the number of SMB connections observed each hour for every day of week. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which uses it to identify outliers in the number of SMB connections for that hour and day of the week.",
+  "eli5": "Create a machine-learning (ML) model to characterize the number of SMB connections observed in your environment. This may help identify spikes in SMB traffic that can be indicative of attackers scanning or attempting to propagate to other systems in your environment.",
   "entities": [
     "src"
   ],
-  "how_to_implement": "To successfully implement this search, you must be ingesting network traffic and populating the Network_Traffic data model. In addition, you must have the machine learning toolkit version >= 4.2 installed along with any required dependencies. You may also want to periodically re-run this search to rebuild the model with the latest data.",
+  "how_to_implement": "To successfully implement this search, you must be ingesting network traffic and populating the Network_Traffic data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. You may also want to periodically re-run this search to rebuild the model with the latest data.",
   "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
   "known_false_positives": "Use \"| summary smb_pdfmodel\" to inspect attributes of the model.",
   "maintainers": [

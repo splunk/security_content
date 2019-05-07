@@ -25,14 +25,14 @@
       "Ziften"
     ]
   },
-  "description": "This search is used to build an MLTK model to characterize the length of the command lines observed for each user in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which uses it to identify outliers in the length of the command line.",
-  "eli5": "Create a machie learning model to characterize the length of the command lines used in your environment to help identify unusually long ones that can be indicative of attackers executing commands on systems in your environment.",
+  "description": "This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the length of the command lines observed for each user in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which identifies outliers in the length of the command line.",
+  "eli5": "Create a machine-learning (ML) model to characterize the length of the command lines used in your environment. This can help you identify unusually long ones that may indicate that  attackers are executing commands on systems in your environment.",
   "entities": [
     "dest",
     "user",
     "process"
   ],
-  "how_to_implement": "To successfully implement this search, you must be ingesting endpoint data and populating the Endpoint data model. In addition, you must have the machine learning toolkit version >= 4.2 installed along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, and ensure the search completes in a reasonable timeframe. You may also want to periodically re-run this search to rebuild the model with the latest data.",
+  "how_to_implement": "To successfully implement this search, you must be ingesting endpoint data and populating the Endpoint data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. You may also want to periodically re-run this search to rebuild the model with the latest data.",
   "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
   "known_false_positives": "Use \"| summary cmdline_pdfmodel\" to inspect attributes of the model ",
   "maintainers": [
