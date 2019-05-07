@@ -1099,7 +1099,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-    parser.add_argument("-sv1", "--storiesv1", required=False, default=True, action='store_true',
+    parser.add_argument("-sv1", "--storiesv1", required=False, default=False, action='store_true',
                         help="generates analytics_stories.conf in v1 format")
     parser.add_argument("-u", "--use_case_lib", required=False, default=True, action='store_true',
                         help="generates use_case_library.conf for ES")
