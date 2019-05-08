@@ -1,15 +1,6 @@
 {
-  "baseline": {
-    "splunk": {
-      "schedule": {
-        "cron_schedule": "",
-        "earliest_time": "-301@d",
-        "latest_time": "-1d@d"
-      },
-      "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | fit DensityFunction query_length by record_type into dns_query_pdfmodel"
-    }
-  },
-  "creation_date": "2019-04-29",
+  "channel": "ESCU",
+  "creation_date": "2019-05-08",
   "data_metadata": {
     "data_models": [
       "Network_Resolution"
@@ -22,15 +13,8 @@
       "Bro"
     ]
   },
-  "description": "This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the length of the DNS queries for each DNS record type observed in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which uses it to identify outliers in the length of the DNS query.",
   "eli5": "Create a machine-learning (ML) model to characterize the length of DNS requests seen in your environment to help identify unusually long ones that may be indicative of attacker infrastrucutre or the use of DNS as a command-and-control channel in your environment.",
-  "entities": [
-    "dest",
-    "query"
-  ],
   "how_to_implement": "To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. You may also want to periodically re-run this search to rebuild the model with the latest data.",
-  "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
-  "known_false_positives": "Use \"| summary dns_query_pdfmodel\" to inspect attributes of the model ",
   "maintainers": [
     {
       "company": "Splunk",
@@ -38,8 +22,7 @@
       "name": "Rico Valdez"
     }
   ],
-  "modification_date": "2019-04-29",
-  "name": "Model Builder For \"DNS Query Length Outliers - MLTK\"",
+  "modification_date": "2019-05-08",
   "original_authors": [
     {
       "company": "Splunk",
@@ -47,7 +30,15 @@
       "name": "Rico Valdez"
     }
   ],
-  "product_type": "splunk",
-  "spec_version": 2,
+  "scheduling": {
+    "earliest_time": "-31d@d",
+    "latest_time": "-1d@d"
+  },
+  "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | fit DensityFunction query_length by record_type into dns_query_pdfmodel",
+  "search_description": "This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the length of the DNS queries for each DNS record type observed in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which uses it to identify outliers in the length of the DNS query.",
+  "search_id": "c914844c-0ff5-4efc-8d44-c063443129ba",
+  "search_name": "Model Builder For \"DNS Query Length Outliers - MLTK\"",
+  "search_type": "support",
+  "spec_version": 1,
   "version": "1.0"
 }
