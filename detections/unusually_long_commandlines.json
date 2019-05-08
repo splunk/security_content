@@ -36,7 +36,7 @@
     ]
   },
   "eli5": "This search calculates the average and standard deviation for the length of the command lines on each of your endpoints and alerts when a command line is found with a length over 10 times the standard deviation larger than the average command line.",
-  "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model. You should consider changing the value of threshold in the search for reducing false positives.",
+  "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
   "known_false_positives": "Some legitimate applications start with long command lines.",
   "maintainers": [
     {
