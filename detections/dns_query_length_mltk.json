@@ -35,7 +35,6 @@
   },
   "eli5": "Attackers often use random, long domain names for their attack infrastructure. This search leverages the probability distribution function algorithm provided by the Machine Learning Toolkit (MLTK) to identify outliers in the length of the DNS query for each record type observed. The companion search \"Model Builder For \"DNS Query Length Outliers - MLTK\"\" creates a machine-learning (ML) model built over historical data which is used by this search.",
   "how_to_implement": "To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search \"Model Builder For \"DNS Query Length Outliers - MLTK\"\" must be executed before this detection search, as it builds a machine-learning (ML) model over the historical data used by this search.",
-  "id": "85fbcfe8-9718-4911-adf6-7000d077a3a9",
   "known_false_positives": "If you are seeing more results than desired, you may consider changing the value for threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data.",
   "maintainers": [
     {
@@ -79,6 +78,7 @@
   },
   "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | search \"IsOutlier(query_length)\" > 0 | sort -query_length",
   "search_description": "This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.",
+  "search_id": "85fbcfe8-9718-4911-adf6-7000d077a3a9",
   "search_type": "detection",
   "security_domain": "network",
   "spec_version": 1,
