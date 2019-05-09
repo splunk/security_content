@@ -75,7 +75,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | search \"IsOutlier(query_length)\" > 0 | sort -query_length",
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(DNS)` | `ctime(firstTime)` | `ctime(lastTime)` | eval query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename \"IsOutlier(query_length)\" as isOutlier | search isOutlier > 0 | sort -query_length | table firstTime lastTime query record_type count src dest isOutlier",
   "search_description": "This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.",
   "search_id": "85fbcfe8-9718-4911-adf6-7000d077a3a9",
   "search_name": "DNS Query Length Outliers - MLTK",
