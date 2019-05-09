@@ -17,7 +17,7 @@
     ]
   },
   "eli5": "Create a machine-learning (ML) model to characterize the length of the command lines used in your environment. This can help you identify unusually long ones that may indicate that  attackers are executing commands on systems in your environment.",
-  "how_to_implement": "To successfully implement this search, you must be ingesting endpoint data and populating the Endpoint data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. You may also want to periodically re-run this search to rebuild the model with the latest data.",
+  "how_to_implement": "To successfully implement this search, you must be ingesting endpoint data and populating the Endpoint data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.",
   "maintainers": [
     {
       "company": "Splunk",

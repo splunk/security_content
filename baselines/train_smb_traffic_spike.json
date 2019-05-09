@@ -14,7 +14,7 @@
     ]
   },
   "eli5": "Create a machine-learning (ML) model to characterize the number of SMB connections observed in your environment. This may help identify spikes in SMB traffic that can be indicative of attackers scanning or attempting to propagate to other systems in your environment.",
-  "how_to_implement": "To successfully implement this search, you must be ingesting network traffic and populating the Network_Traffic data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. You may also want to periodically re-run this search to rebuild the model with the latest data.",
+  "how_to_implement": "To successfully implement this search, you must be ingesting network traffic and populating the Network_Traffic data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.",
   "maintainers": [
     {
       "company": "Splunk",
