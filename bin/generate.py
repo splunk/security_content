@@ -555,7 +555,7 @@ def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
-        output_file.write("category = {0}\n".format(json.dumps(story['category'])))
+        output_file.write("category = {0}\n".format(json.dumps(story['category']).strip('"')))
         output_file.write("creation_date = %s\n" % story['creation_date'])
         output_file.write("modification_date = %s\n" % story['modification_date'])
         output_file.write("id = %s\n" % story['id'])
@@ -612,7 +612,7 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
-        output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
+        output_file.write("category = {0}\n".format(json.dumps(story['category'][0]).strip('"')))
         output_file.write("creation_date = %s\n" % story['creation_date'])
         output_file.write("modification_date = %s\n" % story['modification_date'])
         output_file.write("id = %s\n" % story['id'])
@@ -743,7 +743,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     # process the stories
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[analytic_story://%s]\n" % story_name)
-        output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
+        output_file.write("category = {0}\n".format(json.dumps(story['category'][0]).strip('"')))
         # output_file.write("created = %s\n" % story['creation_date'])
         output_file.write("last_updated = %s\n" % story['modification_date'])
         output_file.write("version = %s\n" % story['version'])
@@ -852,7 +852,8 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("[ESCU - {0} - Rule]\n".format(detection_name))
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
-        output_file.write("description = {0}\n".format(detection['description']))
+        description = markdown(detection['description'])
+        output_file.write("description = {0}\n".format(description))
         output_file.write("action.escu.mappings = {0}\n".format(json.dumps(detection['mappings'])))
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(json.dumps(detection['data_models'])))
@@ -1000,7 +1001,8 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = investigative\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(investigation_name))
-        output_file.write("description = {0}\n".format(investigation['description']))
+        description = markdown(investigation['description'])
+        output_file.write("description = {0}\n".format(description))
         output_file.write("action.escu.creation_date = {0}\n".format(investigation['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(investigation['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(investigation['stories'])))
@@ -1046,7 +1048,8 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = support\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(baseline_name))
-        output_file.write("description = {0}\n".format(baseline['description']))
+        description = markdown(baseline['description'])
+        output_file.write("description = {0}\n".format(description))
         output_file.write("action.escu.creation_date = {0}\n".format(baseline['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(baseline['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(baseline['stories'])))
