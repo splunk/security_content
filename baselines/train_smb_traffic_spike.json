@@ -37,7 +37,7 @@
   "search": "| tstats `summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=10m, All_Traffic.src | eval HourOfDay=strftime(_time, \"%H\") | eval DayOfWeek=strftime(_time, \"%A\") | `drop_dm_object_name(\"All_Traffic\")` | fit DensityFunction count by \"HourOfDay,DayOfWeek\" into smb_pdfmodel",
   "search_description": "This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the number of SMB connections observed each hour for every day of week. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search to identify outliers in the number of SMB connections for that hour and day of the week.",
   "search_id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
-  "search_name": "Model Builder For SMB Traffic Spike - MLTK",
+  "search_name": "Model Builder For SMB Traffic Spike MLTK",
   "search_type": "support",
   "spec_version": 1,
   "version": "1.0"
