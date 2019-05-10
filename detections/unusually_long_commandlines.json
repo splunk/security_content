@@ -35,8 +35,8 @@
       "Ziften"
     ]
   },
-  "eli5": "This search calculates the average and standard deviation for the length of the command lines on each of your endpoints and alerts when a command line is found with a length over 10 times the standard deviation larger than the average command line.",
-  "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+  "eli5": "This search calculates the average and standard deviation for the length of the command lines on each of your endpoints and alerts when it detects a command line with a length over 10 times the standard deviation larger than the average command line.",
+  "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships, from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
   "known_false_positives": "Some legitimate applications start with long command lines.",
   "maintainers": [
     {
@@ -74,7 +74,7 @@
     "latest_time": "-10m@m"
   },
   "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`| `ctime(lastTime)`|  eval processlen=len(process) | eventstats stdev(processlen) as stdev, avg(processlen) as avg by dest | stats max(processlen) as maxlen, values(stdev) as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process| eval threshold = 10 | where maxlen > ((threshold*stdevperhost) + avgperhost)",
-  "search_description": "Command lines that are extremely long can be indicative of malicious activity on your hosts.",
+  "search_description": "Command lines that are extremely long may be indicative of malicious activity on your hosts.",
   "search_id": "c77162d3-f93c-45cc-80c8-22f6a4264e7f",
   "search_name": "Unusually Long Command Line",
   "search_type": "detection",

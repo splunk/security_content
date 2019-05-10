@@ -33,9 +33,9 @@
       "Bro"
     ]
   },
-  "eli5": "Attackers often use random, long domain names for their attack infrastructure. This search leverages the probability distribution function algorithm provided by the Machine Learning Toolkit (MLTK) to identify outliers in the length of the DNS query for each record type observed. The companion search \"Model Builder For \"DNS Query Length Outliers - MLTK\"\" creates a machine-learning (ML) model built over historical data which is used by this search.",
+  "eli5": "Attackers often use random, long domain names for components of their attack infrastructure. This search leverages the probability distribution function algorithm provided by the Machine Learning Toolkit (MLTK) to identify outliers in the length of the DNS query for each record type observed. The companion search \"Model Builder For \"DNS Query Length Outliers - MLTK\"\" creates a machine-learning (ML) model built over the historical data used by this search.",
   "how_to_implement": "To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search \"Model Builder For \"DNS Query Length Outliers - MLTK\"\" must be executed before this detection search, as it builds a machine-learning (ML) model over the historical data used by this search.",
-  "known_false_positives": "If you are seeing more results than desired, you may consider changing the value for threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data.",
+  "known_false_positives": "If you are seeing more results than desired, you may consider reducing the value for threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data.",
   "maintainers": [
     {
       "company": "Splunk",

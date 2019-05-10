@@ -35,8 +35,8 @@
       "Ziften"
     ]
   },
-  "eli5": "This search leverages the machine learning toolkit (MLTK) to identify outliers in the length of the command lines observed to be used by a specific user. The companion search \"Model Builder For \"Unusually Long Command Line - MLTK\" creates an ML model built over historical data which is used by this search.",
-  "how_to_implement": "You must be ingesting endpoint data that monitors command lines and populates the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model. In addition, the machine learning toolkit (MLTK) version >= 4.2 must be installed on your search heads along with any required dependencies. Finally, the support search \"Model Builder For \"Unusually Long Command Line - MLTK\"\" must be executed before this detection search, as it builds an ML model over historical data which is used by this search.",
+  "eli5": "This search leverages the Machine Learning Toolkit (MLTK) to identify outliers in the length of the command lines observed to be used by a specific user. The companion search, \"Model Builder For \"Unusually Long Command Line - MLTK,\" creates a machine-learning (ML) model built over the historical data used by this search.",
+  "how_to_implement": "You must be ingesting endpoint data that monitors command lines and populates the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model. In addition, MLTK version >= 4.2 must be installed on your search heads, along with any required dependencies. Finally, the support search \"Model Builder For \"Unusually Long Command Line - MLTK\"\" must be executed before this detection search, as it builds an ML model over the historical data used by this search.",
   "known_false_positives": "Some legitimate applications use long command lines for installs or updates. You should review identified command lines for legitimacy. You may modify the first part of the search to omit legitimate command lines from consideration. If you are seeing more results than desired, you may consider changing the value of threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data. You may get unexpected results if the user identified in the results is not present in the data used to build the associated model.",
   "maintainers": [
     {
@@ -74,7 +74,7 @@
     "latest_time": "-10m@m"
   },
   "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | search user!=unknown | apply cmdline_pdfmodel threshold=0.01 | rename \"IsOutlier(processlen)\" as isOutlier | search isOutlier > 0 | table firstTime lastTime user dest process_name process processlen count isOutlier",
-  "search_description": "Command lines that are extremely long can be indicative of malicious activity on your hosts. This search leverages the machine learning toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.",
+  "search_description": "Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.",
   "search_id": "57edaefa-a73b-45e5-bbae-f39c1473f941",
   "search_name": "Unusually Long Command Line - MLTK",
   "search_type": "detection",
