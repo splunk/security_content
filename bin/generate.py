@@ -1046,7 +1046,7 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = support\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(baseline_name))
-        output_file.write("action.escu.description = {0}\n".format(baseline['description']))
+        output_file.write("description = {0}\n".format(baseline['description']))
         output_file.write("action.escu.creation_date = {0}\n".format(baseline['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(baseline['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(baseline['stories'])))
