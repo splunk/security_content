@@ -60,7 +60,7 @@
     ],
     "support_searches": [
       "Baseline of blocked outbound traffic from AWS",
-      "Model Builder For \"DNS Query Length Outliers - MLTK\""
+      "Model Builder For DNS Query Length Outliers - MLTK"
     ]
   },
   "spec_version": 1,
