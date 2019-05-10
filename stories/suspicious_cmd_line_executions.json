@@ -36,6 +36,7 @@
     "detection_searches": [
       "First time seen command line argument",
       "Unusually Long Command Line",
+      "Unusually Long Command Line - MLTK",
       "Detect Prohibited Applications Spawning cmd.exe",
       "Detect Use of cmd.exe to Launch Script Interpreters",
       "System Processes Run From Unexpected Locations"
@@ -46,7 +47,8 @@
       "Investigate Web Activity From Host"
     ],
     "support_searches": [
-      "Previously seen command line arguments"
+      "Previously seen command line arguments",
+      "Model Builder For \"Unusually Long Command Line - MLTK\""
     ]
   },
   "spec_version": 1,

@@ -35,6 +35,7 @@
     ],
     "detection_searches": [
       "SMB Traffic Spike",
+      "SMB Traffic Spike - MLTK",
       "Processes launching netsh",
       "Suspicious Reg.exe Process",
       "Sc.exe Manipulating Windows Services",
@@ -50,10 +51,12 @@
     ],
     "investigative_searches": [
       "Get Process Info",
+      "Get Process Information For Port Activity",
       "Get Parent Process Info"
     ],
     "support_searches": [
-      "Previously seen command line arguments"
+      "Previously seen command line arguments",
+      "Model Builder For \"SMB Traffic Spike - MLTK\""
     ]
   },
   "spec_version": 1,
