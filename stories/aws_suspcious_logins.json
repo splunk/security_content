@@ -53,26 +53,7 @@
   "references": [
     "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
   ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable Info",
-      "Get Notable History",
-      "Get User Information from Identity Table"
-    ],
-    "detection_searches": [
-      "Detect new user AWS Console Login",
-      "Detect AWS Console Login by User from New City",
-      "Detect AWS Console Login by User from New Region",
-      "Detect AWS Console Login by User from New Country"
-    ],
-    "investigative_searches": [
-      "AWS Investigate User Activities By ARN"
-    ],
-    "support_searches": [
-      "Previously seen users in CloudTrail",
-      "Update previously seen users in CloudTrail"
-    ]
-  },
   "spec_version": 2,
+  "usecase": "Advanced Threat Detection",
   "version": "1.0"
 }
