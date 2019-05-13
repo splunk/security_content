@@ -1,0 +1,47 @@
+{
+  "creation_date": "2019-04-29",
+  "data_metadata": {
+    "data_source": [
+      "Email"
+    ],
+    "providing_technologies": [
+      "Microsoft Exchange"
+    ]
+  },
+  "description": "",
+  "how_to_implement": "",
+  "id": "3096f721-8842-42ce-2fc7-742d8372b712",
+  "investigate": {
+    "phantom": {
+      "phantom_server": "automation (hostname)",
+      "playbook_name": "community/suspicious_email_attachment_investigate_and_delete",
+      "playbook_url": "",
+      "schedule": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "0",
+        "latest_time": "86400"
+      },
+      "sensitivity": "green",
+      "severity": "medium"
+    }
+  },
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "proyer@splunk.com",
+      "name": "Philip Royer"
+    }
+  ],
+  "modification_date": "2019-04-29",
+  "name": "Suspicious Email Attachment Investigate And Delete",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "proyer@splunk.com",
+      "name": "Philip Royer"
+    }
+  ],
+  "product_type": "phantom",
+  "spec_version": 2,
+  "version": "1.0"
+}
