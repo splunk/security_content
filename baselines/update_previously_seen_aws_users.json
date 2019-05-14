@@ -6,7 +6,7 @@
         "earliest_time": "-60m@m",
         "latest_time": "m@m"
       },
-      "search": "| tstats summariesonly=true earliest(_time) AS earliest latest(_time) AS latest from datamodel=Authentication where NOT (Authentication.signature=\"AwsConsoleSignIn\" Authentication.action=\"success*\" ) by Authentication.user Authentication.src | `drop_dm_object_name(\"Authentication\")` | iplocation src | eval City=if(City LIKE \"\",src,City),Region=if(Region LIKE \"\",src,Region) | inputlookup append=t previously_seen_users_console_logins.csv | stats min(earliest) as earliest max(latest) as latest by user src City Region Country | outputlookup previously_seen_users_console_logins.csv"
+      "search": "sourcetype=aws:cloudtrail eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation src | eval City=if(City LIKE \"\",src,City),Region=if(Region LIKE \"\",src,Region) | stats earliest(_time) AS earliest latest(_time) AS latest by user src City Region Country | inputlookup append=t previously_seen_users_console_logins.csv | stats min(earliest) as earliest max(latest) as latest by user src City Region Country | outputlookup previously_seen_users_console_logins.csv"
     }
   },
   "creation_date": "2019-04-25",
