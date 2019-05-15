@@ -16,7 +16,6 @@
       "fields_required": [
         "dest"
       ],
-      "schedule_comment_rm_me": "The only other example has a schedule. I'm unsure this should actually be scheduled/automated without user intervention though. - jbrewer",
       "schedule": {
         "cron_schedule": "0 * * * *",
         "earliest_time": "-70m@m",
@@ -47,8 +46,6 @@
     }
   ],
   "product_type": "splunk",
-  "search_type": "contextual",
-  "search_type_rm_me": "Is search_type uh, not used anymore? - jbrewer",
   "spec_version": 2,
   "version": "3.0"
 }

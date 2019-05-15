@@ -46,7 +46,6 @@
     }
   ],
   "product_type": "splunk",
-  "search_type": "contextual",
   "spec_version": 2,
   "version": "2.0"
 }

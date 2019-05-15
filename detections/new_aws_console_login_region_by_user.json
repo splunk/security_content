@@ -58,7 +58,6 @@
   "entities": [
     "user"
   ],
-  "entities_question_rm_me": "Is this where we make the outputs CIM compliant?",
   "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Run the \"Previously seen users in CloudTrail\" support search only once to create a baseline of previously seen IAM users within the last 30 days",
   "id": "9f31aa8e-e37c-46bc-bce1-8b3be646d026",
   "investigations": [
@@ -113,7 +112,6 @@
   "product_type": "splunk",
   "responses": [],
   "security_domain": "network", 
-  "security_domain_question_rm_me": "What are the options here?",
   "spec_version": 2,
   "version": "1.0"
 }
