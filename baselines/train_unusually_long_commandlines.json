@@ -40,7 +40,7 @@
   "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | search user!=unknown | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | fit DensityFunction processlen by user into cmdline_pdfmodel",
   "search_description": "This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the length of the command lines observed for each user in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which identifies outliers in the length of the command line.",
   "search_id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
-  "search_name": "Model Builder For Unusually Long Command Line - MLTK",
+  "search_name": "Baseline of Command Line Length- MLTK",
   "search_type": "support",
   "spec_version": 1,
   "version": "1.0"
