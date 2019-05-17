@@ -4,12 +4,12 @@
   "confidence": "medium",
   "correlation_rule": {
     "notable": {
-      "nes_fields": "dest",
+      "nes_fields": "src",
       "rule_description": "Filter DNS requests and compute the standard deviation then filter on 2 times the standard deviation",
       "rule_title": "DNS query length with high standard deviation"
     },
     "risk": {
-      "risk_object": "dest",
+      "risk_object": "src",
       "risk_object_type": [
         "system"
       ],

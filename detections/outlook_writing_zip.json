@@ -2,7 +2,7 @@
   "asset_type": "Endpoint",
   "baselines": [],
   "confidence": "high",
-  "creation_date": "2019-04-08",
+  "creation_date": "2019-04-29",
   "data_metadata": {
     "data_models": [
       "Endpoint"
@@ -47,13 +47,19 @@
       }
     }
   },
-  "eli5": "In this search, we are essentially trying to detect if outlook.exe is writing a `.zip` file to the disk. The way this search would run is, it will execute the the subsearch first which looks for all .zip files being written to the disk and outputs a crucial field \"process_id\", that we use the main search to check if that process_id belongs to a process_name of outlook.exe. The search uses a join command to essentially give you an end result of the first and last time that zip file was written by outlook.exe, the dest and user logged on the system, the hash value and the complete path to the zip file on disk",
+  "eli5": "In this search, we are essentially trying to detect if outlook.exe is writing a `.zip` file to the disk. The way this search would run is, it will execute the the subsearch first which looks for all .zip files being written to the disk and outputs a crucial field \"process\\_id\", that we use the main search to check if that process\\_id belongs to a process\\_name of outlook.exe. The search uses a join command to essentially give you an end result of the first and last time that zip file was written by outlook.exe, the dest and user logged on the system, the hash value and the complete path to the zip file on disk",
   "entities": [
     "dest"
   ],
   "how_to_implement": "You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or endpoint data sources, such as Sysmon.",
   "id": "a51bfe1a-94f0-4822-b1e4-16ae10145893",
-  "investigations": [],
+  "investigations": [
+    {
+      "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+      "name": "Get Parent Process Info",
+      "product_type": "splunk"
+    }
+  ],
   "known_false_positives": "It is not uncommon for outlook to write legitimate zip files to the disk.",
   "maintainers": [
     {
@@ -79,7 +85,7 @@
       "PR.DS"
     ]
   },
-  "modification_date": "2019-04-08",
+  "modification_date": "2019-04-29",
   "name": "Detect Oulook.exe writing a .zip file",
   "original_authors": [
     {

@@ -45,6 +45,7 @@
       "Spike in File Writes",
       "Prohibited Network Traffic Allowed",
       "SMB Traffic Spike",
+      "SMB Traffic Spike - MLTK",
       "Common Ransomware Extensions",
       "Common Ransomware Notes",
       "System Processes Run From Unexpected Locations",
@@ -52,6 +53,7 @@
       "TOR Traffic",
       "Registry Keys Used For Persistence",
       "Unusually Long Command Line",
+      "Unusually Long Command Line - MLTK",
       "Scheduled tasks used in BadRabbit ransomware",
       "Schtasks used for forcing a reboot"
     ],
@@ -65,7 +67,9 @@
       "Monitor Successful Backups",
       "Monitor Unsuccessful Backups",
       "Windows Updates Install Failures",
-      "Windows Updates Install Successes"
+      "Windows Updates Install Successes",
+      "Baseline of Command Line Length - MLTK",
+      "Baseline of SMB Traffic - MLTK"
     ]
   },
   "spec_version": 1,

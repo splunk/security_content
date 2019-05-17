@@ -318,7 +318,6 @@ def generate_detections(REPO_PATH, stories):
 
     complete_detections = dict()
     for detection in detections:
-
         # lets process v1 detections
         if detection['spec_version'] == 1:
             if verbose:
@@ -454,7 +453,6 @@ def generate_detections(REPO_PATH, stories):
             for d in story['detections']:
                 if d['name'] == name:
                     complete_detections[name]['stories'].append(story['story_name'])
-#                   print "DETECTIONS: {0} == BASELINES {1} == STORY{2}".format(name, baselines, story['story_name'])
 
         # sort uniq the results
         complete_detections[name]['stories'] = sorted(set(complete_detections[name]['stories']))
@@ -557,7 +555,7 @@ def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
-        output_file.write("category = {0}\n".format(json.dumps(story['category'])))
+        output_file.write("category = {0}\n".format(json.dumps(story['category']).strip('"')))
         output_file.write("creation_date = %s\n" % story['creation_date'])
         output_file.write("modification_date = %s\n" % story['modification_date'])
         output_file.write("id = %s\n" % story['id'])
@@ -614,7 +612,7 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
     # Finish the story
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[%s]\n" % story_name)
-        output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
+        output_file.write("category = {0}\n".format(json.dumps(story['category'][0]).strip('"')))
         output_file.write("creation_date = %s\n" % story['creation_date'])
         output_file.write("modification_date = %s\n" % story['modification_date'])
         output_file.write("id = %s\n" % story['id'])
@@ -625,14 +623,37 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         if 'detections' in story:
             detection_searches = []
             for d in story['detections']:
+                # we do not have any phantom or UBA detections for now we restrict this to Splunk
                 if d['type'] == 'splunk':
                     detection_searches.append("ESCU - " + d['name'] + " - Rule")
             output_file.write("detection_searches = %s\n" % json.dumps(detection_searches))
 
         # grab mappings
         mappings = dict()
+
+        # grab provising technologies
+        providing_technologies = []
+
+        # grab datamodels
+        data_models = []
+
+        # process the above for detections
         for detection_name, detection in sorted(detections.iteritems()):
             for s in detection['stories']:
+
+                # check if the detection is part of this story
+                if s == story_name:
+                    # grab providing technologies
+                    if 'providing_technologies' in detection:
+                        for pt in detection['providing_technologies']:
+                            providing_technologies.append(pt)
+
+                    # grab data models
+                    if 'data_models' in detection:
+                        for dm in detection['data_models']:
+                            data_models.append(dm)
+
+                # we do not have any phantom or UBA detections for now we restrict this to Splunk
                 if s == story_name and detection['type'] == 'splunk':
                     for key in detection['mappings'].keys():
                         mappings[key] = list(detection['mappings'][key])
@@ -642,6 +663,21 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         total_investigations = []
         for investigation_name, investigation in sorted(investigations.iteritems()):
             for s in investigation['stories']:
+
+                # check if the investigation is part of this story
+                if s == story_name:
+                    # grab providing technologies
+                    if 'providing_technologies' in investigation:
+                        for pt in investigation['providing_technologies']:
+                            providing_technologies.append(pt)
+
+                    # grab data models
+                    if 'data_models' in investigation:
+                        for dm in investigation['data_models']:
+                            data_models.append(dm)
+
+                # we do not write out searches for phantom in v1 spec, see write_analytics_story_confv2 for more details
+                # for now we restrict it to splunk
                 if s == story_name and investigation['type'] == 'splunk':
                     total_investigations.append("ESCU - " + investigation_name)
         output_file.write("investigative_searches = %s\n" % json.dumps(total_investigations))
@@ -650,18 +686,30 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         total_baselines = []
         for baseline_name, baseline in sorted(baselines.iteritems()):
             for s in baseline['stories']:
+
+                # check if the baseline is part of this story
+                if s == story_name:
+                    # grab providing technologies
+                    if 'providing_technologies' in baseline:
+                        for pt in baseline['providing_technologies']:
+                            providing_technologies.append(pt)
+
+                    # grab data models
+                    if 'data_models' in baseline:
+                        for dm in baseline['data_models']:
+                            data_models.append(dm)
+
+                # we do not write out baselines for phantom and uba in v1 spec, see write_analytics_story_confv2
+                # for now we restrict it to splunk
                 if s == story_name and baseline['type'] == 'splunk':
                     total_baselines.append("ESCU - " + baseline_name)
         output_file.write("support_searches = %s\n" % json.dumps(total_baselines))
 
-        # generate datamodels
-        data_models = []
-
-        for d in story['detections']:
-            if 'data_models' in detections[d['name']]:
-                for dm in detections[d['name']]['data_models']:
-                    data_models.append(dm)
+        # write out data models
         output_file.write("data_models = %s\n" % (json.dumps(sorted(set(data_models)))))
+
+        # write out providing technologies models
+        output_file.write("providing_technologies = %s\n" % (json.dumps(sorted(set(providing_technologies)))))
 
         # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
         description = markdown(story['description'])
@@ -695,10 +743,11 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     # process the stories
     for story_name, story in sorted(stories.iteritems()):
         output_file.write("[analytic_story://%s]\n" % story_name)
-        output_file.write("category = {0}\n".format(json.dumps(story['category'][0])))
+        output_file.write("category = {0}\n".format(json.dumps(story['category'][0]).strip('"')))
+        # output_file.write("created = %s\n" % story['creation_date'])
         output_file.write("last_updated = %s\n" % story['modification_date'])
         output_file.write("version = %s\n" % story['version'])
-        output_file.write("reference = %s\n" % json.dumps(story['references']))
+        output_file.write("references = %s\n" % json.dumps(story['references']))
         output_file.write("maintainers = %s\n" % json.dumps(story['maintainers']))
         output_file.write("spec_version = %s\n" % json.dumps(story['spec_version']))
 
@@ -739,10 +788,13 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("type = detection\n")
         output_file.write("asset_type = {0}\n".format(detection['asset_type']))
         output_file.write("confidence = {0}\n".format(detection['confidence']))
-        output_file.write("explanation = {0}\n".format(detection['eli5']))
-        output_file.write("how_to_implement = {0}\n".format(detection['how_to_implement']))
+        eli5 = markdown(detection['eli5'])
+        output_file.write("explanation = {0}\n".format(eli5))
+        how_to_implement = markdown(detection['how_to_implement'])
+        output_file.write("how_to_implement = {0}\n".format(how_to_implement))
         output_file.write("annotations = {0}\n".format(json.dumps(detection['mappings'])))
-        output_file.write("known_false_positives = {0}\n".format(detection['known_false_positives']))
+        known_false_positives = markdown(detection['known_false_positives'])
+        output_file.write("known_false_positives = {0}\n".format(known_false_positives))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("\n")
     output_file.write("### END DETECTIONS ###\n\n")
@@ -751,9 +803,11 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     for investigation_name, investigation in sorted(investigations.iteritems()):
         output_file.write("[savedsearch://ESCU - {0}]\n".format(investigation_name))
         output_file.write("type = investigation\n")
-        output_file.write("explanation = none")
-        output_file.write("how_to_implement = {0}\n".format(investigation['how_to_implement']))
-        output_file.write("known_false_positives = {0}\n".format(investigation['known_false_positives']))
+        output_file.write("explanation = none\n")
+        how_to_implement = markdown(investigation['how_to_implement'])
+        output_file.write("how_to_implement = {0}\n".format(how_to_implement))
+        known_false_positives = markdown(investigation['known_false_positives'])
+        output_file.write("known_false_positives = {0}\n".format(known_false_positives))
         output_file.write("earliest_time_offset = {0}\n".format(investigation['earliest_time']))
         output_file.write("latest_time_offset = {0}\n".format(investigation['latest_time']))
         output_file.write("\n")
@@ -763,9 +817,12 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     for baseline_name, baseline in sorted(baselines.iteritems()):
         output_file.write("[savedsearch://ESCU - {0}]\n".format(baseline_name))
         output_file.write("type = support\n")
-        output_file.write("explanation = {0}\n".format(baseline['eli5']))
-        output_file.write("how_to_implement = {0}\n".format(baseline['how_to_implement']))
-        output_file.write("known_false_positives = {0}\n".format(baseline['known_false_positives']))
+        eli5 = markdown(baseline['eli5'])
+        output_file.write("explanation = {0}\n".format(eli5))
+        how_to_implement = markdown(baseline['how_to_implement'])
+        output_file.write("how_to_implement = {0}\n".format(how_to_implement))
+        known_false_positives = markdown(baseline['known_false_positives'])
+        output_file.write("known_false_positives = {0}\n".format(known_false_positives))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
         output_file.write("\n")
     output_file.write("### END BASELINES ###")
@@ -795,7 +852,8 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("[ESCU - {0} - Rule]\n".format(detection_name))
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
-        output_file.write("description = {0}\n".format(detection['description']))
+        description = markdown(detection['description'])
+        output_file.write("description = {0}\n".format(description))
         output_file.write("action.escu.mappings = {0}\n".format(json.dumps(detection['mappings'])))
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(json.dumps(detection['data_models'])))
@@ -913,7 +971,6 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
                 output_file.write("alert.suppress.period = {0}\n"
                                   .format(detection['correlation_rule']['suppress']['suppress_period']))
 
-        output_file.write("is_visible = false\n")
         output_file.write("action.escu.earliest_time_offset = 3600\n")
         output_file.write("action.escu.latest_time_offset = 86400\n")
         output_file.write("disabled=true\n")
@@ -943,12 +1000,15 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = investigative\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(investigation_name))
-        output_file.write("description = {0}\n".format(investigation['description']))
+        description = markdown(investigation['description'])
+        output_file.write("description = {0}\n".format(description))
         output_file.write("action.escu.creation_date = {0}\n".format(investigation['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(investigation['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(investigation['stories'])))
         output_file.write("action.escu.earliest_time_offset = 3600\n")
         output_file.write("action.escu.latest_time_offset = 86400\n")
+        if 'data_models' in investigation:
+            output_file.write("action.escu.data_models = {0}\n".format(json.dumps(investigation['data_models'])))
         if 'providing_technologies' in detection:
             output_file.write("action.escu.providing_technologies = {0}\n".format(
                 json.dumps(investigation['providing_technologies'])))
@@ -987,10 +1047,13 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = support\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(baseline_name))
-        output_file.write("action.escu.description = {0}\n".format(baseline['description']))
+        description = markdown(baseline['description'])
+        output_file.write("description = {0}\n".format(description))
         output_file.write("action.escu.creation_date = {0}\n".format(baseline['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(baseline['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(baseline['stories'])))
+        if 'data_models' in baseline:
+            output_file.write("action.escu.data_models = {0}\n".format(json.dumps(baseline['data_models'])))
         if 'earliest_time' in baseline:
             output_file.write("dispatch.earliest_time = {0}\n".format(baseline['earliest_time']))
         if 'latest_time' in baseline:

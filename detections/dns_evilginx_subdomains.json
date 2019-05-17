@@ -1,10 +1,11 @@
 {
   "asset_type": "Endpoint",
   "confidence": "high",
-  "creation_date": "2019-04-04",
+  "creation_date": "2019-04-29",
   "data_metadata": {
     "data_models": [
-      "Network_Resolution"
+      "Network_Resolution",
+      "Web"
     ],
     "data_source": [
       "DNS"
@@ -90,7 +91,7 @@
       "DE.CM"
     ]
   },
-  "modification_date": "2019-04-04",
+  "modification_date": "2019-04-29",
   "name": "Detect DNS requests to Phishing Sites leveraging EvilGinx2",
   "original_authors": [
     {

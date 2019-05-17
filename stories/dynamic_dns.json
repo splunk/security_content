@@ -43,7 +43,7 @@
     "investigative_searches": [
       "Get DNS Server History for a host",
       "Get DNS traffic ratio",
-      "Get Process responsible for the DNS traffic",
+      "Get Process Responsible For The DNS Traffic",
       "Investigate Web Activity From src_ip"
     ],
     "support_searches": []

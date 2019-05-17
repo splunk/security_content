@@ -1,0 +1,47 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2019-05-08",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
+    "data_source": [
+      "Endpoint Intel"
+    ],
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "eli5": "Create a machine-learning (ML) model to characterize the length of the command lines used in your environment. This can help you identify unusually long ones that may indicate that attackers are executing commands on yout systems.",
+  "how_to_implement": "You must be ingesting endpoint data and populating the Endpoint data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data. More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "modification_date": "2019-05-08",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "earliest_time": "-31d@d",
+    "latest_time": "-1d@d"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | search user!=unknown | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | fit DensityFunction processlen by user into cmdline_pdfmodel",
+  "search_description": "This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the length of the command lines observed for each user in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which identifies outliers in the length of the command line.",
+  "search_id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
+  "search_name": "Baseline of Command Line Length - MLTK",
+  "search_type": "support",
+  "spec_version": 1,
+  "version": "1.0"
+}

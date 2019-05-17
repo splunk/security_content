@@ -37,6 +37,7 @@
     "detection_searches": [
       "Uncommon Processes On Endpoint",
       "Unusually Long Command Line",
+      "Unusually Long Command Line - MLTK",
       "Detect Rare Executables",
       "System Processes Run From Unexpected Locations",
       "RunDLL Loading DLL By Ordinal",
@@ -46,7 +47,9 @@
       "Get Process Info",
       "Investigate Web Activity From Host"
     ],
-    "support_searches": []
+    "support_searches": [
+      "Baseline of Command Line Length - MLTK"
+    ]
   },
   "spec_version": 1,
   "version": "2.0"

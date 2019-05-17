@@ -23,7 +23,7 @@
   "creation_date": "2018-01-05",
   "data_metadata": {
     "data_models": [
-      "Change_Analysis"
+      "Change"
     ],
     "data_source": [
       "Windows Event Logs"
@@ -66,7 +66,7 @@
     "earliest_time": "-245m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change_Analysis where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by All_Changes.result_id All_Changes.user All_Changes.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")` | transaction user maxspan=240m  | search result_id=4720 result_id=4726",
+  "search": "| tstats `summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h All_Changes.user All_Changes.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")` | search result_id = 4720 result_id=4726 | transaction user maxspan=240m | table firstTime lastTime count user dest result_id",
   "search_description": "This search detects accounts that were created and deleted in a short time period.",
   "search_id": "b25f6f62-0782-43c1-b403-083231ffd97d",
   "search_name": "Short Lived Windows Accounts",

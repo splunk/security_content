@@ -1,0 +1,81 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src",
+      "rule_description": "There was a spike in SMB traffic from $src$",
+      "rule_title": "SMB Traffic Spike from $src$"
+    },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 50
+    },
+    "suppress": {
+      "suppress_fields": "src",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2019-05-08",
+  "data_metadata": {
+    "data_models": [
+      "Network_Traffic"
+    ],
+    "data_source": [
+      "Network Communications"
+    ],
+    "providing_technologies": [
+      "Bro",
+      "Splunk Stream"
+    ]
+  },
+  "eli5": "Attackers often leverage Server Message Block (SMB) traffic, a protocol used for Windows file-sharing activity. A high-profile example of SMB abuse was the WannaCry ransomware, which leveraged a vulnerability in the SMB protocol to propagate to other systems. Attackers have also used SMB for lateral movement with a target environment and to test credentials against target systems. While SMB is highly prevalent in Windows environments, a spike in SMB traffic may still be indicative of this type of malicious activity. This search leverages Splunk's Machine Learning Toolkit (MLTK) to identify spikes in SMB traffic that are unusual for a given hour of day/day of week combination. If such a spike is detected, you may want to investigate the source and analyze the cause of the abnormal traffic. The determination of what is considered an outlier may be adjusted via the threshold parameter in the search. More information on the algorithm used can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.",
+  "how_to_implement": "This search requires you to be ingesting your network traffic logs and populating the Network_Traffic data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search \"Baseline of SMB Traffic - MLTK\" must be executed before this detection search, as it builds a machine-learning (ML) model over the historical data used by this search. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.",
+  "known_false_positives": "If you are seeing more results than desired, you may consider reducing the value of the threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Actions on Objectives"
+    ],
+    "mitre_attack": [
+      "Commonly Used Port"
+    ],
+    "nist": [
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2019-05-08",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count values(All_Traffic.dest_ip) as dest values(All_Traffic.dest_port) as port from datamodel=Network_Traffic where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=1h, All_Traffic.src | eval HourOfDay=strftime(_time, \"%H\") | eval DayOfWeek=strftime(_time, \"%A\") | `drop_dm_object_name(All_Traffic)` | apply smb_pdfmodel threshold=0.001 | rename \"IsOutlier(count)\" as isOutlier | search isOutlier > 0 | sort -count | table _time src dest port count isOutlier",
+  "search_description": "This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the number of Server Message Block (SMB) connections.",
+  "search_id": "d25773ba-9ad8-48d1-858e-07ad0bbeb828",
+  "search_name": "SMB Traffic Spike - MLTK",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}

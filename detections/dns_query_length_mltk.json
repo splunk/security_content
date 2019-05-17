@@ -1,0 +1,86 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "medium",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "src",
+      "rule_description": "Identify DNS traffic with unusual query lengths",
+      "rule_title": "DNS query length outliers"
+    },
+    "risk": {
+      "risk_object": "src",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 40
+    },
+    "suppress": {
+      "suppress_fields": "query",
+      "suppress_period": "43200s"
+    }
+  },
+  "creation_date": "2019-05-08",
+  "data_metadata": {
+    "data_models": [
+      "Network_Resolution"
+    ],
+    "data_source": [
+      "DNS"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "eli5": "Attackers often use random, long domain names for components of their attack infrastructure. This search leverages the probability distribution function algorithm provided by the Machine Learning Toolkit (MLTK) to identify outliers in the length of the DNS query for each record type observed. The companion search \"Baseline of DNS Query Length - MLTK\" creates a machine-learning (ML) model built over the historical data used by this search. The determination of what is considered an outlier may be adjusted via the threshold parameter in the search. More information on the algorithm used can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.",
+  "how_to_implement": "To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search \"Baseline of DNS Query Length - MLTK\" must be executed before this detection search, as it builds a machine-learning (ML) model over the historical data used by this search. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.",
+  "known_false_positives": "If you are seeing more results than desired, you may consider reducing the value for threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 8",
+      "CIS 12"
+    ],
+    "kill_chain_phases": [
+      "Command and Control"
+    ],
+    "mitre_attack": [
+      "Command and Control",
+      "Exfiltration",
+      "Commonly Used Port"
+    ],
+    "nist": [
+      "PR.PT",
+      "DE.AE",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2019-05-08",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as start_time max(_time) as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(DNS)` | `ctime(firstTime)` | `ctime(lastTime)` | eval query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename \"IsOutlier(query_length)\" as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time query record_type count src dest query_length isOutlier",
+  "search_description": "This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.",
+  "search_id": "85fbcfe8-9718-4911-adf6-7000d077a3a9",
+  "search_name": "DNS Query Length Outliers - MLTK",
+  "search_type": "detection",
+  "security_domain": "network",
+  "spec_version": 1,
+  "version": "1.0"
+}
