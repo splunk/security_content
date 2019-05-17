@@ -1,4 +1,5 @@
 {
+  "channel": "ESCU",
   "creation_date": "2017-03-15",
   "data_metadata": {
     "data_source": [
@@ -8,36 +9,18 @@
       "Splunk Enterprise Security"
     ]
   },
-  "description": "This search queries the notable index and returns all the Notable Events for the particular destination host, giving the analyst an overview of the incidents that may have occurred with the host under investigation.",
+  "fields_required": [
+    "dest"
+  ],
   "how_to_implement": "If you are using Enterprise Security you are likely already creating notable events with your correlation rules. No additional configuration is necessary.",
-  "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-  "investigate": {
-    "splunk": {
-      "fields_required": [
-        "dest"
-      ],
-      "schedule": {
-        "cron_schedule": "0 * * * *",
-        "earliest_time": "-70m@m",
-        "latest_time": "-10m@m"
-      },
-      "search": "| search `notable` | search dest={dest} | table _time, rule_name, owner, priority, severity, status_description"
-    }
-  },
   "maintainers": [
     {
       "company": "Splunk",
       "email": "bpatel@splunk.com",
       "name": "Bhavin Patel"
-    },
-    {
-      "company": "Splunk",
-      "email": "jbrewer@splunk.com",
-      "name": "Jason Brewer"
     }
   ],
-  "modification_date": "2019-04-30",
-  "name": "Get Notable History",
+  "modification_date": "2017-09-20",
   "original_authors": [
     {
       "company": "Splunk",
@@ -45,7 +28,15 @@
       "name": "Bhavin Patel"
     }
   ],
-  "product_type": "splunk",
-  "spec_version": 2,
-  "version": "3.0"
+  "search": "| search `notable` | search dest={dest} | table _time, rule_name, owner, priority, severity, status_description",
+  "search_description": "This search queries the notable index and returns all the Notable Events for the particular destination host, giving the analyst an overview of the incidents that may have occurred with the host under investigation.",
+  "search_id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+  "search_name": "Get Notable History",
+  "search_type": "contextual",
+  "search_window": {
+    "earliest_time_offset": 864000,
+    "latest_time_offset": 86400
+  },
+  "spec_version": 1,
+  "version": "2.0"
 }
