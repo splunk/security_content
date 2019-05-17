@@ -14,7 +14,7 @@
     ]
   },
   "eli5": "Create a machine-learning (ML) model to characterize the length of DNS requests seen in your environment to help identify unusually long ones that may be indicative of attacker infrastrucutre or the use of DNS as a command-and-control channel in your environment.",
-  "how_to_implement": "To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.",
+  "how_to_implement": "To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data. More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.",
   "maintainers": [
     {
       "company": "Splunk",
