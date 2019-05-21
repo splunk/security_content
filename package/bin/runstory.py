@@ -10,6 +10,7 @@ import splunklib.results
 
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option
 
+
 @Configuration(streaming=True, local=True)
 class RunStoryCommand(GeneratingCommand):
     '''
@@ -74,5 +75,6 @@ class RunStoryCommand(GeneratingCommand):
 
             runstory_results['num_search_results'] = item_count
             yield runstory_results
+
 
 dispatch(RunStoryCommand, sys.argv, sys.stdin, sys.stdout, __name__)

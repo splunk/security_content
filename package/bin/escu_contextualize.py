@@ -2,12 +2,10 @@
 # encoding = utf-8
 # Always put this line at the beginning of this file
 import da_ess_contentupdate_declare
-
-import os
 import sys
-
 from alert_actions_base import ModularAlertBase
 import modalert_escu_contextualize_helper
+
 
 class AlertActionWorkerescu_contextualize(ModularAlertBase):
 
@@ -37,6 +35,7 @@ class AlertActionWorkerescu_contextualize(ModularAlertBase):
                 self.log_error(msg.format(traceback.format_exc()))
             return 5
         return status
+
 
 if __name__ == "__main__":
     exitcode = AlertActionWorkerescu_contextualize("DA-ESS-ContentUpdate", "escu_contextualize").run(sys.argv)
