@@ -1,0 +1,1 @@
+/Users/bpatel/splunk/splunk/etc/apps/DA-ESS-ContentUpdate/bin/runstory.py
