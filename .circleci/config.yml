@@ -124,9 +124,7 @@ workflows:
             - validate-content
           filters:
             tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+              only: /.*/
       - publish-github-release:
           requires:
             - validate-content
