@@ -4,6 +4,7 @@ repos:
   hooks:
     - id: trailing-whitespace
     - id: check-executables-have-shebangs
+      exclude: 'package/bin/da_ess_contentupdate/|package/bin/splunklib/|venv/'
     - id: check-json
     - id: check-symlinks
     - id: check-yaml
@@ -11,4 +12,5 @@ repos:
       args: [--autofix]
     - id: flake8
       args: [--max-line-length=131]
+      exclude: 'package/bin/da_ess_contentupdate/|package/bin/splunklib/|venv/|package/bin/escu_contextualize.py|package/bin/escu_investigate.py|package/bin/runstory.py'
     - id: requirements-txt-fixer

@@ -58,9 +58,9 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate.py --path . --output src --storiesv1 --use_case_lib -v
+            python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
       - persist_to_workspace:
-          root: security-content/src/default
+          root: security-content/package/default
           paths:
               - use_case_library.conf
               - analytic_stories.conf
@@ -87,16 +87,16 @@ jobs:
           name: store updated analyticstories.conf
           command: |
             cd security-content
-            cp -v ~/repo/updated/* src/default/
+            cp -v ~/repo/updated/* package/default/
             git config credential.helper 'cache --timeout=120'
             git config user.email "research@splunk.com"
             git config user.name "research bot"
             git config --global push.default simple
-            git add src/default/*
-            git commit --allow-empty -m "updating src files [ci skip]"
+            git add package/default/*
+            git commit --allow-empty -m "updating package files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            tar -czvf content-pack.tar.gz src/*
+            tar -czvf content-pack.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
           paths:
