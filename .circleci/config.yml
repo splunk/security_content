@@ -51,14 +51,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-
             python bin/validate.py --path . --verbose
-      - run:
-          name: run generate
-          command: |
-            cd security-content
-            source venv/bin/activate
-            python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
       - persist_to_workspace:
           root: security-content/package/default
           paths:
@@ -80,26 +73,45 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
-      - attach_workspace:
-        # Must be absolute path or relative path from working_directory
-          at: ~/repo/updated
       - run:
-          name: store updated analyticstories.conf
+          name: run generate
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
+      - run:
+          name: update build number
           command: |
             # update generated files
             cd security-content
             cp -v ~/repo/updated/* package/default/
-
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
-
+      - persist_to_workspace:
+          root: security-content/package/default
+          paths:
+              - use_case_library.conf
+              - analytic_stories.conf
+              - savedsearches.conf
+              - app.conf
+  update-sources-github:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
             # configure git to prep for commit
             git config credential.helper 'cache --timeout=120'
             git config user.email "research@splunk.com"
             git config user.name "research bot"
-            git config --global push.default simple
+            it config --global push.default simple
             git add package/default/*
-            git commit --allow-empty -m "updating package files"
+            git commit --allow-empty -m "updating package files [skip ci]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
             tar -czvf content-pack.tar.gz package/*
@@ -131,10 +143,18 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - update-sources-github:
+          requires:
+            - validate-content
+            - build-sources
+          filters:
+            tags:
+              only: /.*/
       - publish-github-release:
           requires:
             - validate-content
             - build-sources
+            - update-sources-github
           filters:
             tags:
               only: /^v.*/
