@@ -56,7 +56,7 @@ class RunStoryCommand(GeneratingCommand):
                 search_data['search_name'] = content['action.escu.full_search_name']
                 search_data['search_description'] = content['description']
                 search_data['search'] = content['search']
-                search_data['risk_object'] = "dest"
+                search_data['risk_object'] = content['action.risk.param._risk_object']
                 search_data['mappings'] = json.loads(content['action.escu.mappings'])
                 searches_to_run.append(search_data)
 
@@ -74,17 +74,19 @@ class RunStoryCommand(GeneratingCommand):
         for search in support_searches_to_run:
             kwargs = { "dispatch.earliest_time": "-1m@m" , "dispatch.latest_time": "now"}
             spl = search['search']
-            f.write("Support search->>>>> " + spl + "\n" )
+            #f.write("Support search->>>>> " + spl + "\n" )
             if spl[0] != "|":
                 spl = "| search %s" % spl
             job = service.jobs.create(spl, **kwargs)
-            runstory_results = {}
-            runstory_results['support_search'] = search['search_name']
+            f.write(str(job))
+            f.write("\n\n")
             #time.sleep(2)
             while True:
                 job.refresh()
                 if job['isDone'] == "1":
                     break
+            runstory_results['support_search'] = search['search_name']
+            f.write(str(runstory_results['support_search'] + "\n"))
 
         # Run all Detection searches
 
@@ -93,12 +95,12 @@ class RunStoryCommand(GeneratingCommand):
 
             #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
             kwargs = { "dispatch.earliest_time": earliest_time, "dispatch.latest_time": latest_time}
-
             spl = search['search']
-            f.write("detection search->>>>> " + spl + "\n" )
+            #f.write("detection search->>>>> " + spl + "\n" )
             if spl[0] != "|":
                 spl = "| search %s" % spl
             job = service.jobs.create(spl, **kwargs)
+
             #time.sleep(2)
             while True:
                 job.refresh()
