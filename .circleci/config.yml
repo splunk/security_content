@@ -111,7 +111,7 @@ jobs:
             git config user.name "research bot"
             it config --global push.default simple
             git add package/default/*
-            git commit --allow-empty -m "updating package files [skip ci]"
+            git commit --allow-empty -m "updating package files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
             tar -czvf content-pack.tar.gz package/*
