@@ -71,7 +71,6 @@ class RunStoryCommand(GeneratingCommand):
                 investigative_searches_to_run.append(investigative_data)
 
         # Run all Support searches
-        yield_results=[]
         support_search_name = []
         for search in support_searches_to_run:
             kwargs = { "exec_mode": "normal", "dispatch.earliest_time": "-1m" , "dispatch.latest_time": "now"}
@@ -87,7 +86,7 @@ class RunStoryCommand(GeneratingCommand):
                 if job['isDone'] == "1":
                     break
             support_search_name.append(search['search_name'])
-        runstory_results['support_search'] = support_search_name
+        runstory_results['support_search_name'] = support_search_name
 
         # Run all Detection searches
 
@@ -126,18 +125,25 @@ class RunStoryCommand(GeneratingCommand):
 
             runstory_results['common_field'] = common_field
             runstory_results['detection_results'] = detection_results
-            runstory_results['detection_name'] = search['search_name']
-            runstory_results['num_search_results'] = item_count
+            runstory_results['detection_search_name'] = search['search_name']
+            runstory_results['detection_result_count'] = job['resultCount']
+            # runstory_results['searchEarliestTime'] = job['searchEarliestTime']
+            # runstory_results['searchLatestTime'] = job['searchLatestTime']
 
 
             yield {
                         '_time': time.time(),
-                        'support_name' : runstory_results['support_search'],
+                        '_raw': runstory_results,
+                        'sourcetype': "_json",
+                        'support_search_name' : runstory_results['support_search_name'],
                         'common_field' : runstory_results['common_field'],
-                        'detection_name': runstory_results['detection_name'],
-                        'num_search_results': runstory_results['num_search_results'],
-                        'detection_results': runstory_results['detection_results']
-                }
+                        'detection_search_name': runstory_results['detection_search_name'],
+                        'detection_result_count': runstory_results['detection_result_count'],
+                        'detection_results': runstory_results['detection_results'],
+                        # 'searchEarliestTime': runstory_results['searchEarliestTime'],
+                        # 'searchLatestTime': runstory_results['searchLatestTime']
+
+                    }
 
 
 dispatch(RunStoryCommand, sys.argv, sys.stdin, sys.stdout, __name__)
