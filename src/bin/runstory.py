@@ -5,6 +5,7 @@ import splunklib.client
 import splunklib.results
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option
 import splunk.mining.dcutils
+import time
 
 @Configuration(streaming=True, local=True)
 class RunStoryCommand(GeneratingCommand):
@@ -39,7 +40,9 @@ class RunStoryCommand(GeneratingCommand):
         context_searches_to_run = []
         investigative_searches_to_run = []
         support_searches_to_run = []
+        runstory_results = {}
         savedsearches = service.saved_searches
+
 
         for savedsearch in savedsearches:
             content = savedsearch.content
@@ -56,7 +59,7 @@ class RunStoryCommand(GeneratingCommand):
                 search_data['search_name'] = content['action.escu.full_search_name']
                 search_data['search_description'] = content['description']
                 search_data['search'] = content['search']
-                search_data['risk_object'] = content['action.risk.param._risk_object']
+                search_data['risk_object'] = "dest"
                 search_data['mappings'] = json.loads(content['action.escu.mappings'])
                 searches_to_run.append(search_data)
 
@@ -67,34 +70,33 @@ class RunStoryCommand(GeneratingCommand):
                 investigative_data['search'] = content['search']
                 investigative_searches_to_run.append(investigative_data)
 
-        runstory_results = {}
-
         # Run all Support searches
-
+        yield_results=[]
+        support_search_name = []
         for search in support_searches_to_run:
-            kwargs = { "dispatch.earliest_time": "-1m@m" , "dispatch.latest_time": "now"}
+            kwargs = { "exec_mode": "normal", "dispatch.earliest_time": "-1m" , "dispatch.latest_time": "now"}
             spl = search['search']
             #f.write("Support search->>>>> " + spl + "\n" )
             if spl[0] != "|":
                 spl = "| search %s" % spl
             job = service.jobs.create(spl, **kwargs)
-            f.write(str(job))
-            f.write("\n\n")
+
             #time.sleep(2)
             while True:
                 job.refresh()
                 if job['isDone'] == "1":
                     break
-            runstory_results['support_search'] = search['search_name']
-            f.write(str(runstory_results['support_search'] + "\n"))
+            support_search_name.append(search['search_name'])
+        runstory_results['support_search'] = support_search_name
 
         # Run all Detection searches
 
         for search in searches_to_run:
+            runstory_results['detection_results'] = []
             item_count = 0
 
             #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-            kwargs = { "dispatch.earliest_time": earliest_time, "dispatch.latest_time": latest_time}
+            kwargs = { "exec_mode": "normal","dispatch.earliest_time": "-1m", "dispatch.latest_time": "now"}
             spl = search['search']
             #f.write("detection search->>>>> " + spl + "\n" )
             if spl[0] != "|":
@@ -108,31 +110,34 @@ class RunStoryCommand(GeneratingCommand):
                     break
 
             job_results = splunklib.results.ResultsReader(job.results())
-            count=0
-            #f.write(str(search['risk_object']))
             detection_results=[]
             common_field = []
 
             # Yield Results back into splunk
-
+            runstory_results['common_field'] = []
             for result in job_results:
-                count = count + 1
-                #f.write(str(dict(result)))
+                item_count += 1
                 detection_results.append(dict(result))
-                runstory_results['detection_results'] = detection_results
 
                 for key, value in result.items():
                     if key in search['risk_object']:
-                        common_field.append(value)
-                        runstory_results['common_field'] = common_field
+                        if value not in common_field:
+                            common_field.append(value)
 
-            f.write("Checking comon results" +  str(common_field) +"\n\n")
-
-            item_count += 1
+            runstory_results['common_field'] = common_field
+            runstory_results['detection_results'] = detection_results
             runstory_results['detection_name'] = search['search_name']
             runstory_results['num_search_results'] = item_count
-            yield runstory_results
 
+
+            yield {
+                        '_time': time.time(),
+                        'support_name' : runstory_results['support_search'],
+                        'common_field' : runstory_results['common_field'],
+                        'detection_name': runstory_results['detection_name'],
+                        'num_search_results': runstory_results['num_search_results'],
+                        'detection_results': runstory_results['detection_results']
+                }
 
 
 dispatch(RunStoryCommand, sys.argv, sys.stdin, sys.stdout, __name__)
