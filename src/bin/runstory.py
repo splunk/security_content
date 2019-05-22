@@ -51,7 +51,6 @@ class RunStoryCommand(GeneratingCommand):
                 support_data['search'] = content['search']
                 support_searches_to_run.append(support_data)
 
-
             if content.has_key('action.escu.analytic_story') and story in content['action.escu.analytic_story'] and content['action.escu.search_type'] == 'detection':
                 search_data = {}
                 search_data['search_name'] = content['action.escu.full_search_name']
@@ -60,16 +59,6 @@ class RunStoryCommand(GeneratingCommand):
                 search_data['risk_object'] = "dest"
                 search_data['mappings'] = json.loads(content['action.escu.mappings'])
                 searches_to_run.append(search_data)
-            '''Context and investigate data in splunk
-
-            if content.has_key('action.escu.analytic_story') and story in content['action.escu.analytic_story'] and content['action.escu.search_type'] == 'contextual':
-                context_data = {}
-                context_data['search_name'] = content['action.escu.full_search_name']
-                context_data['action.escu.fields_required'] = content['action.escu.fields_required']
-                context_data['search'] = content['search']
-                context_searches_to_run.append(context_data)
-
-            '''
 
             if content.has_key('action.escu.analytic_story') and story in content['action.escu.analytic_story'] and content['action.escu.search_type'] == 'investigative':
                 investigative_data = {}
@@ -78,33 +67,32 @@ class RunStoryCommand(GeneratingCommand):
                 investigative_data['search'] = content['search']
                 investigative_searches_to_run.append(investigative_data)
 
-        total_results_dict = {}
-        test_results = {}
         runstory_results = {}
 
+        # Run all Support searches
+
         for search in support_searches_to_run:
-            kwargs = { "dispatch.earliest_time": "-30d@d" , "dispatch.latest_time": "-1d@d"}
+            kwargs = { "dispatch.earliest_time": "-1m@m" , "dispatch.latest_time": "now"}
             spl = search['search']
             f.write("Support search->>>>> " + spl + "\n" )
             if spl[0] != "|":
                 spl = "| search %s" % spl
             job = service.jobs.create(spl, **kwargs)
+            runstory_results = {}
             runstory_results['support_search'] = search['search_name']
-
-
             #time.sleep(2)
             while True:
                 job.refresh()
                 if job['isDone'] == "1":
                     break
 
+        # Run all Detection searches
+
         for search in searches_to_run:
             item_count = 0
 
-            if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-                kwargs = { "dispatch.earliest_time": earliest_time, "dispatch.latest_time": latest_time}
-            else:
-                kwargs = {}
+            #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
+            kwargs = { "dispatch.earliest_time": earliest_time, "dispatch.latest_time": latest_time}
 
             spl = search['search']
             f.write("detection search->>>>> " + spl + "\n" )
@@ -123,6 +111,8 @@ class RunStoryCommand(GeneratingCommand):
             detection_results=[]
             common_field = []
 
+            # Yield Results back into splunk
+
             for result in job_results:
                 count = count + 1
                 #f.write(str(dict(result)))
@@ -138,13 +128,7 @@ class RunStoryCommand(GeneratingCommand):
 
             item_count += 1
             runstory_results['detection_name'] = search['search_name']
-
-
-
             runstory_results['num_search_results'] = item_count
-
-
-
             yield runstory_results
 
 
