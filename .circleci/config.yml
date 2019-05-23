@@ -16,6 +16,8 @@ apt-run: &apt-install
     sudo apt install -y enchant python-dev -qq
 
 version: 2.1
+orbs:
+  pr-comment: benjlevesque/pr-comment@0.1.4
 
 executors:
   content-executor:
@@ -52,16 +54,10 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/validate.py --path . --verbose
-      - persist_to_workspace:
-          root: security-content/package/default
-          paths:
-              - use_case_library.conf
-              - analytic_stories.conf
-              - savedsearches.conf
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
           paths:
-            - "venv"
+            - "~/security-content/venv"
   build-sources:
     executor: content-executor
     steps:
@@ -73,6 +69,8 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
       - run:
           name: run generate
           command: |
@@ -147,14 +145,18 @@ workflows:
           requires:
             - validate-content
             - build-sources
+        # only update sources in develop
           filters:
             tags:
               only: /.*/
+            branches:
+              only: develop
       - publish-github-release:
           requires:
             - validate-content
             - build-sources
             - update-sources-github
+        # only release when there is a tag
           filters:
             tags:
               only: /^v.*/
