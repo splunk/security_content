@@ -73,6 +73,7 @@ jobs:
           name: run generate
           command: |
             pwd
+            ls -lah
             source venv/bin/activate
             cd security-content
             python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
