@@ -4,8 +4,6 @@
 #
 
 version: 2.1
-orbs:
-  pr-comment: benjlevesque/pr-comment@0.1.4
 
 dependencies:
   cache_directories:
@@ -85,8 +83,6 @@ jobs:
             cp -v ~/repo/updated/* package/default/
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
-      - pr-comment:
-          comment: Hello this is a test comment
       - persist_to_workspace:
           root: security-content/package/default
           paths:
