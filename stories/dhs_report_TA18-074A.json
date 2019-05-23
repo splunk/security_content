@@ -1,0 +1,64 @@
+{
+  "category": "Malware",
+  "channel": "ESCU",
+  "creation_date": "2018-03-19",
+  "description": "Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.",
+  "id": "0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "modification_date": "2018-03-19",
+  "name": "DHS Report TA18-074A",
+  "narrative": "The frequency of nation-state cyber attacks has increased significantly over the last decade. Employing numerous tactics and techniques, these attacks continue to escalate in complexity. <br></br>There is a wide range of motivations for these state-sponsored hacks, including stealing valuable corporate, military, or diplomatic data&#1151;all of which could confer advantages in various arenas. They may also target critical infrastructure. <br></br>One joint Technical Alert (TA) issued by the Department of Homeland and the FBI in mid-March of 2018 attributed some cyber activity targeting utility infrastructure to operatives sponsored by the Russian government. The hackers executed spearfishing attacks, installed malware, employed watering-hole domains, and more. While they caused no physical damage, the attacks provoked fears that a nation-state could turn off water, redirect power, or compromise a nuclear power plant.<br></br>Suspicious activities--spikes in SMB traffic, processes that launch netsh (to modify the network configuration), suspicious registry modifications, and many more--may all be events you may wish to investigate further. While the use of these technique may be an indication that a nation-state actor is attempting to compromise your environment, it is important to note that these techniques are often employed by other groups, as well.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "references": [
+    "https://www.us-cert.gov/ncas/alerts/TA18-074A"
+  ],
+  "searches": {
+    "contextual_searches": [
+      "Get Notable Info",
+      "Get Notable History",
+      "Get User Information from Identity Table",
+      "Get Authentication Logs For Endpoint",
+      "Get Risk Modifiers For User",
+      "Get Risk Modifiers For Endpoint"
+    ],
+    "detection_searches": [
+      "SMB Traffic Spike",
+      "SMB Traffic Spike - MLTK",
+      "Processes launching netsh",
+      "Suspicious Reg.exe Process",
+      "Sc.exe Manipulating Windows Services",
+      "Registry Keys Used For Persistence",
+      "Create local admin accounts using net.exe",
+      "Single Letter Process On Endpoint",
+      "Scheduled Task Name Used by Dragonfly Threat Actors",
+      "Malicious PowerShell Process - Execution Policy Bypass",
+      "Detect Outbound SMB Traffic",
+      "Detect New Local Admin account",
+      "Detect PsExec With accepteula Flag",
+      "First time seen command line argument"
+    ],
+    "investigative_searches": [
+      "Get Process Info",
+      "Get Process Information For Port Activity",
+      "Get Parent Process Info"
+    ],
+    "support_searches": [
+      "Previously seen command line arguments",
+      "Baseline of SMB Traffic - MLTK"
+    ]
+  },
+  "spec_version": 1,
+  "version": "2.0"
+}

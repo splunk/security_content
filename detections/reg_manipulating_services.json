@@ -1,0 +1,95 @@
+{
+  "asset_type": "Endpoint",
+  "channel": "ESCU",
+  "confidence": "high",
+  "correlation_rule": {
+    "notable": {
+      "nes_fields": "dest, process",
+      "rule_description": "A registry key associated with Windows services was modified via reg.exe on $dest$ by $src_user$.",
+      "rule_title": "Modification of Windows Services Via Reg.exe on $dest$"
+    },
+    "risk": {
+      "risk_object": "dest",
+      "risk_object_type": [
+        "system"
+      ],
+      "risk_score": 80
+    },
+    "suppress": {
+      "suppress_fields": "dest, process",
+      "suppress_period": "28800s"
+    }
+  },
+  "creation_date": "2018-6-29",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
+    ],
+    "data_source": [
+      "Endpoint Intel"
+    ],
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "eli5": "This search looks for modifications to registry paths that specify the definition and configuration of Windows services by reg.exe. Reg.exe is a Windows utility that allows for manipulation of the registry via the command line. Malware often uses the Windows services architecture to persist, hide in plain sight, and gain the ability to interact with the Windows kernel. While it is common to modify the configuration of Windows services (and new services may be created with software installs), the use of reg.exe to create or modify a service configuration is unusual and a technique commonly used by attackers. The search returns the count, the first time the activity was seen, the last time activity was seen, the registry path that was modified, the host where the modification took place, and the user that performed the modification.",
+  "how_to_implement": "To successfully implement this search you need to be ingesting information on registry changes that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry` nodes.",
+  "known_false_positives": "It is unusual for a service to be created or modified by directly manipulating the registry. However, there may be legitimate instances of this behavior. It is important to validate and investigate, as appropriate.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 3",
+      "CIS 5",
+      "CIS 8"
+    ],
+    "kill_chain_phases": [
+      "Installation"
+    ],
+    "mitre_attack": [
+      "Persistence",
+      "Privilege Escalation",
+      "New Service",
+      "Modify Existing Service",
+      "Defense Evasion",
+      "Disabling Security Tools"
+    ],
+    "nist": [
+      "PR.IP",
+      "PR.PT",
+      "PR.AC",
+      "PR.AT",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2019-03-01",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "rvaldez@splunk.com",
+      "name": "Rico Valdez"
+    }
+  ],
+  "scheduling": {
+    "cron_schedule": "0 * * * *",
+    "earliest_time": "-70m@m",
+    "latest_time": "-10m@m"
+  },
+  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name = reg.exe by Processes.process_id Processes.dest | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | join [| tstats `summariesonly` values(Registry.registry_path) as registry_path count  FROM datamodel=Endpoint.Registry where Registry.registry_path=\"*\\\\services\\\\*\" by Registry.process_id Registry.dest | `drop_dm_object_name(\"Registry\")` | table process_id dest registry_path]",
+  "search_description": "The search looks for reg.exe modifying registry keys that define Windows services and their configurations.",
+  "search_id": "8470d755-0c13-45b3-bd63-387a373c10cf",
+  "search_name": "Reg.exe Manipulating Windows Services Registry Keys",
+  "search_type": "detection",
+  "security_domain": "endpoint",
+  "spec_version": 1,
+  "version": "2.0"
+}

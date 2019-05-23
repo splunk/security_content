@@ -1,0 +1,51 @@
+{
+  "channel": "ESCU",
+  "creation_date": "2019-04-29",
+  "data_metadata": {
+    "data_models": [
+      "Certificates"
+    ],
+    "data_source": [
+      "Certificate Logs"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "description": "This search queries the Certificates datamodel and give you all the information for a specific domain. Please note that if the certificate information ",
+  "how_to_implement": "You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel. Please note the wildcard(*) before domain in the search syntax, we use to match for all domain and subdomain combinations",
+  "id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
+  "investigate": {
+    "splunk": {
+      "fields_required": [
+        "domain"
+      ],
+      "schedule": {
+        "cron_schedule": "0 * * * *",
+        "earliest_time": "-70m@m",
+        "latest_time": "-10m@m"
+      },
+      "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*{domain}  by All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash | `drop_dm_object_name(All_Certificates)` | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `ctime(firstTime)` | `ctime(lastTime)`"
+    }
+  },
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2019-04-29",
+  "name": "Get Certificate logs for a domain",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "product_type": "splunk",
+  "spec_version": 2,
+  "version": "1.0"
+}
