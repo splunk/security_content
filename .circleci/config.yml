@@ -3,6 +3,10 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 
+version: 2.1
+orbs:
+  pr-comment: benjlevesque/pr-comment@0.1.4
+
 dependencies:
   cache_directories:
     - "~/.apt-cache"
@@ -14,10 +18,6 @@ apt-run: &apt-install
   command: |
     sudo apt update -qq
     sudo apt install -y enchant python-dev -qq
-
-version: 2.1
-orbs:
-  pr-comment: benjlevesque/pr-comment@0.1.4
 
 executors:
   content-executor:
@@ -85,6 +85,8 @@ jobs:
             cp -v ~/repo/updated/* package/default/
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
+      - pr-comment:
+          comment: Hello this is a test comment
       - persist_to_workspace:
           root: security-content/package/default
           paths:
