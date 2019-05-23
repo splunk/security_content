@@ -73,7 +73,7 @@ class RunStoryCommand(GeneratingCommand):
         # Run all Support searches
         support_search_name = []
         for search in support_searches_to_run:
-            kwargs = { "exec_mode": "normal", "dispatch.earliest_time": "-1m" , "dispatch.latest_time": "now"}
+            kwargs = { "exec_mode": "blocking", "dispatch.earliest_time": "-1m" , "dispatch.latest_time": "now"}
             spl = search['search']
             #f.write("Support search->>>>> " + spl + "\n" )
             if spl[0] != "|":
@@ -95,7 +95,7 @@ class RunStoryCommand(GeneratingCommand):
             item_count = 0
 
             #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-            kwargs = { "exec_mode": "normal","dispatch.earliest_time": "-1m", "dispatch.latest_time": "now"}
+            kwargs = { "exec_mode": "blocking","dispatch.earliest_time": earliest_time, "dispatch.latest_time": "now"}
             spl = search['search']
             #f.write("detection search->>>>> " + spl + "\n" )
             if spl[0] != "|":
@@ -127,9 +127,6 @@ class RunStoryCommand(GeneratingCommand):
             runstory_results['detection_results'] = detection_results
             runstory_results['detection_search_name'] = search['search_name']
             runstory_results['detection_result_count'] = job['resultCount']
-            # runstory_results['searchEarliestTime'] = job['searchEarliestTime']
-            # runstory_results['searchLatestTime'] = job['searchLatestTime']
-
 
             yield {
                         '_time': time.time(),
@@ -139,9 +136,7 @@ class RunStoryCommand(GeneratingCommand):
                         'common_field' : runstory_results['common_field'],
                         'detection_search_name': runstory_results['detection_search_name'],
                         'detection_result_count': runstory_results['detection_result_count'],
-                        'detection_results': runstory_results['detection_results'],
-                        # 'searchEarliestTime': runstory_results['searchEarliestTime'],
-                        # 'searchLatestTime': runstory_results['searchLatestTime']
+                        'detection_results': runstory_results['detection_results']
 
                     }
 
