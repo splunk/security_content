@@ -55,7 +55,7 @@ jobs:
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
           paths:
-            - "~/security-content/venv"
+            - "venv"
   build-sources:
     executor: content-executor
     steps:
