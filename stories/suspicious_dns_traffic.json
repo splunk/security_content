@@ -51,7 +51,7 @@
       "Get Process Responsible For The DNS Traffic"
     ],
     "support_searches": [
-      "Model Builder For DNS Query Length Outliers - MLTK"
+      "Baseline of DNS Query Length - MLTK"
     ]
   },
   "spec_version": 1,
