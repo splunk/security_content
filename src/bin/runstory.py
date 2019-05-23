@@ -73,7 +73,7 @@ class RunStoryCommand(GeneratingCommand):
         # Run all Support searches
         support_search_name = []
         for search in support_searches_to_run:
-            kwargs = { "exec_mode": "blocking", "dispatch.earliest_time": "-1m" , "dispatch.latest_time": "now"}
+            kwargs = { "exec_mode": "normal", "earliest_time": "-31d" , "latest_time": "-1d"}
             spl = search['search']
             #f.write("Support search->>>>> " + spl + "\n" )
             if spl[0] != "|":
@@ -95,7 +95,7 @@ class RunStoryCommand(GeneratingCommand):
             item_count = 0
 
             #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-            kwargs = { "exec_mode": "blocking","dispatch.earliest_time": earliest_time, "dispatch.latest_time": "now"}
+            kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
             spl = search['search']
             #f.write("detection search->>>>> " + spl + "\n" )
             if spl[0] != "|":
@@ -132,6 +132,7 @@ class RunStoryCommand(GeneratingCommand):
                         '_time': time.time(),
                         '_raw': runstory_results,
                         'sourcetype': "_json",
+                        'story':story,
                         'support_search_name' : runstory_results['support_search_name'],
                         'common_field' : runstory_results['common_field'],
                         'detection_search_name': runstory_results['detection_search_name'],
