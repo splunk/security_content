@@ -8,13 +8,16 @@ import splunk.mining.dcutils
 import time
 
 @Configuration(streaming=True, local=True)
-class RunStoryCommand(GeneratingCommand):
+class DetectCommand(GeneratingCommand):
     '''
     Class for the runstory SPL command
     '''
     logger = splunk.mining.dcutils.getLogger()
 
     story = Option(require = True)
+
+    notable = Option(require = True)
+
 
     earliest_time = Option(doc='''
         **Syntax:** **domainlist=***<path>*
@@ -28,21 +31,28 @@ class RunStoryCommand(GeneratingCommand):
 
     def generate(self):
         story = self.story
-        search_results = self.search_results_info
+
+        notable = self.notable
         earliest_time = self.earliest_time
         latest_time = self.latest_time
+
+        detection_searches_to_run = []
+        investigative_searches_to_run = []
+        support_searches_to_run = []
+        runstory_results = {}
+
 
         port = splunk.getDefault('port')
         service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port)
         f = open("/opt/splunk/etc/apps/DA-ESS-ContentUpdate/bin/errors2.txt", "w")
         f.write("Starting run story")
+
         searches_to_run = []
         context_searches_to_run = []
         investigative_searches_to_run = []
         support_searches_to_run = []
         runstory_results = {}
         savedsearches = service.saved_searches
-
 
         for savedsearch in savedsearches:
             content = savedsearch.content
@@ -59,9 +69,11 @@ class RunStoryCommand(GeneratingCommand):
                 search_data['search_name'] = content['action.escu.full_search_name']
                 search_data['search_description'] = content['description']
                 search_data['search'] = content['search']
-                search_data['risk_object'] = "dest"
+
+                search_data['risk_object'] = content['action.risk.param._risk_object']
                 search_data['mappings'] = json.loads(content['action.escu.mappings'])
-                searches_to_run.append(search_data)
+                detection_searches_to_run.append(search_data)
+
 
             if content.has_key('action.escu.analytic_story') and story in content['action.escu.analytic_story'] and content['action.escu.search_type'] == 'investigative':
                 investigative_data = {}
@@ -71,64 +83,69 @@ class RunStoryCommand(GeneratingCommand):
                 investigative_searches_to_run.append(investigative_data)
 
         # Run all Support searches
-        support_search_name = []
-        for search in support_searches_to_run:
-            kwargs = { "exec_mode": "normal", "earliest_time": "-31d" , "latest_time": "-1d"}
-            spl = search['search']
-            #f.write("Support search->>>>> " + spl + "\n" )
-            if spl[0] != "|":
-                spl = "| search %s" % spl
-            job = service.jobs.create(spl, **kwargs)
 
-            #time.sleep(2)
-            while True:
-                job.refresh()
-                if job['isDone'] == "1":
-                    break
-            support_search_name.append(search['search_name'])
-        runstory_results['support_search_name'] = support_search_name
+        if notable == "True":
+            support_search_name = []
+            for search in support_searches_to_run:
+                kwargs = { "exec_mode": "normal", "earliest_time": "-31d" , "latest_time": "-1d"}
+                spl = search['search']
+                #f.write("Support search->>>>> " + spl + "\n" )
+                if spl[0] != "|":
+                    spl = "| search %s" % spl
+                job = service.jobs.create(spl, **kwargs)
 
-        # Run all Detection searches
+                #time.sleep(2)
+                while True:
+                    job.refresh()
+                    if job['isDone'] == "1":
+                        break
+                support_search_name.append(search['search_name'])
+            runstory_results['support_search_name'] = support_search_name
 
-        for search in searches_to_run:
-            runstory_results['detection_results'] = []
-            item_count = 0
+            # Run all Detection searches
 
-            #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-            kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
-            spl = search['search']
-            #f.write("detection search->>>>> " + spl + "\n" )
-            if spl[0] != "|":
-                spl = "| search %s" % spl
-            job = service.jobs.create(spl, **kwargs)
+            for search in detection_searches_to_run:
+                runstory_results['detection_results'] = []
+                item_count = 0
 
-            #time.sleep(2)
-            while True:
-                job.refresh()
-                if job['isDone'] == "1":
-                    break
+                #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
+                kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
+                spl = search['search']
+                #f.write("detection search->>>>> " + spl + "\n" )
+                if spl[0] != "|":
+                    spl = "| search %s" % spl
 
-            job_results = splunklib.results.ResultsReader(job.results())
-            detection_results=[]
-            common_field = []
+                #spl = spl + "| eval risk_object=\"" + "other" +"\"" + "|eval risk_score = \"2\"" + "| sendalert risk"
+                f.write(spl + "\n\n")
+                job = service.jobs.create(spl, **kwargs)
 
-            # Yield Results back into splunk
-            runstory_results['common_field'] = []
-            for result in job_results:
-                item_count += 1
-                detection_results.append(dict(result))
+                time.sleep(2)
+                while True:
+                    job.refresh()
+                    if job['isDone'] == "1":
+                        break
 
-                for key, value in result.items():
-                    if key in search['risk_object']:
-                        if value not in common_field:
-                            common_field.append(value)
+                job_results = splunklib.results.ResultsReader(job.results())
+                detection_results=[]
+                common_field = []
 
-            runstory_results['common_field'] = common_field
-            runstory_results['detection_results'] = detection_results
-            runstory_results['detection_search_name'] = search['search_name']
-            runstory_results['detection_result_count'] = job['resultCount']
+                # Yield Results back into splunk
+                runstory_results['common_field'] = []
+                for result in job_results:
+                    item_count += 1
+                    detection_results.append(dict(result))
 
-            yield {
+                    for key, value in result.items():
+                        if key in search['risk_object']:
+                            if value not in common_field:
+                                common_field.append(value)
+
+                runstory_results['common_field'] = common_field
+                runstory_results['detection_results'] = detection_results
+                runstory_results['detection_search_name'] = search['search_name']
+                runstory_results['detection_result_count'] = job['resultCount']
+
+                yield {
                         '_time': time.time(),
                         '_raw': runstory_results,
                         'sourcetype': "_json",
@@ -137,9 +154,11 @@ class RunStoryCommand(GeneratingCommand):
                         'common_field' : runstory_results['common_field'],
                         'detection_search_name': runstory_results['detection_search_name'],
                         'detection_result_count': runstory_results['detection_result_count'],
-                        'detection_results': runstory_results['detection_results']
 
-                    }
+                     }
+
+    def __init__(self):
+        super(DetectCommand, self).__init__()
 
 
-dispatch(RunStoryCommand, sys.argv, sys.stdin, sys.stdout, __name__)
+dispatch(DetectCommand, sys.argv, sys.stdin, sys.stdout, __name__)
