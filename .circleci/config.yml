@@ -99,7 +99,7 @@ jobs:
     executor: content-executor
     steps:
       - attach_workspace:
-          at: ~/dist
+          at: dist
       - run:
           name: grab splunk packaging toolkit
           command: |
@@ -120,6 +120,8 @@ jobs:
           command: |
               cd slim-latest
               source venv/bin/activate
+              ls -lah ~
+              ls -lah ../dist
               slim package ../dist/content-pack-build.tar.gz
               ls -lah
                 #  run-appinspect:
