@@ -120,8 +120,7 @@ jobs:
           command: |
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
-              ls -lah
-              tar -zxvf content-pack-build.tar.gz .
+              tar -zxvf content-pack-build.tar.gz
               ls -lah
               #              slim package content-pack-build.tar.gz
                 #  run-appinspect:
