@@ -53,9 +53,9 @@ jobs:
             source venv/bin/activate
             python bin/validate.py --path . --verbose
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
+          key: virtualenv
           paths:
-            - "venv"
+            - "~/security-content/venv"
   build-sources:
     executor: content-executor
     steps:
@@ -68,7 +68,7 @@ jobs:
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
+          key: virtualenv
       - run:
           name: run generate
           command: |
