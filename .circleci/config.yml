@@ -68,6 +68,7 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
+      - run: *apt-install
       - run:
           name: install python dependencies
           command: |
