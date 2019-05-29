@@ -102,6 +102,7 @@ jobs:
             curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
             mkdir slim-latest
             tar -zxvf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
+      - run:
           name: install splunk packaging toolkit (slim)
           command: |
               cd slim-latest
@@ -110,6 +111,7 @@ jobs:
               virtualenv --python=/usr/bin/python2.7 --clear venv
               source venv/bin/activate
               pip install .
+      - run:
           name: create a .spl for this build using slim
           command: |
               cd slim-latest
