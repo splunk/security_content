@@ -121,7 +121,8 @@ jobs:
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
               tar -zxvf content-pack-build.tar.gz
-              slim package package/
+              mv package DA-ESS-ContentUpdate
+              slim package DA-ESS-ContentUpdate
               ls -lah
                 #  run-appinspect:
                 #    executor: content-executor
