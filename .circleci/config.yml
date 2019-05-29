@@ -99,17 +99,17 @@ jobs:
     executor: content-executor
     steps:
       - attach_workspace:
-          at: dist
+          at: ~/dist
       - run:
           name: grab splunk packaging toolkit
           command: |
-            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
-            mkdir slim-latest
-            tar -zxvf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
+            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
+            mkdir ~/slim-latest
+            tar -zxvf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
       - run:
           name: install splunk packaging toolkit (slim)
           command: |
-              cd slim-latest
+              cd ~/slim-latest
               sudo pip install --upgrade pip setuptools
               sudo pip install virtualenv
               virtualenv --python=/usr/bin/python2.7 --clear venv
@@ -119,11 +119,12 @@ jobs:
           name: create a .spl for this build using slim
           command: |
               pwd
-              cd dist
+              ls
+              cd ~/dist
               pwd
               ls
-              source slim-latest/venv/bin/activate
-              slim package dist/content-pack-build.tar.gz
+              source ~/slim-latest/venv/bin/activate
+              slim package content-pack-build.tar.gz
               ls -lah
                 #  run-appinspect:
                 #    executor: content-executor
