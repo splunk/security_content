@@ -16,7 +16,7 @@ class DetectCommand(GeneratingCommand):
 
     story = Option(require = True)
 
-    notable = Option(require = True)
+    risk = Option(require = True)
 
 
     earliest_time = Option(doc='''
@@ -32,7 +32,7 @@ class DetectCommand(GeneratingCommand):
     def generate(self):
         story = self.story
 
-        notable = self.notable
+        risk = self.risk
         earliest_time = self.earliest_time
         latest_time = self.latest_time
 
@@ -85,67 +85,95 @@ class DetectCommand(GeneratingCommand):
 
         # Run all Support searches
 
-        if notable == "True":
-            support_search_name = []
-            for search in support_searches_to_run:
-                kwargs = { "exec_mode": "normal", "earliest_time": "-31d" , "latest_time": "-1d"}
-                spl = search['search']
-                #f.write("Support search->>>>> " + spl + "\n" )
-                if spl[0] != "|":
-                    spl = "| search %s" % spl
-                job = service.jobs.create(spl, **kwargs)
 
-                #time.sleep(2)
-                while True:
-                    job.refresh()
-                    if job['isDone'] == "1":
-                        break
-                support_search_name.append(search['search_name'])
-            runstory_results['support_search_name'] = support_search_name
+        support_search_name = []
+        for search in support_searches_to_run:
+            kwargs = { "exec_mode": "normal", "earliest_time": "-31d" , "latest_time": "-1d"}
+            spl = search['search']
+            #f.write("Support search->>>>> " + spl + "\n" )
+            if spl[0] != "|":
+                spl = "| search %s" % spl
+            job = service.jobs.create(spl, **kwargs)
 
-            # Run all Detection searches
+            #time.sleep(2)
+            while True:
+                job.refresh()
+                if job['isDone'] == "1":
+                    break
+            support_search_name.append(search['search_name'])
+        runstory_results['support_search_name'] = support_search_name
 
-            for search in detection_searches_to_run:
-                runstory_results['detection_results'] = []
-                item_count = 0
+        # Run all Detection searches
 
-                #if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-                kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
-                spl = search['search']
-                #f.write("detection search->>>>> " + spl + "\n" )
-                if spl[0] != "|":
-                    spl = "| search %s" % spl
+        for search in detection_searches_to_run:
+            runstory_results['detection_results'] = []
+            item_count = 0
+            kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
+            spl = search['search']
+            #f.write("detection search->>>>> " + spl + "\n" )
+            if spl[0] != "|":
+                spl = "| search %s" % spl
+            job = service.jobs.create(spl, **kwargs)
 
-                spl = spl + "| eval risk_object=\"" + search_data['risk_object'] +"\"" + "|eval risk_score = \""+ search_data['risk_score'] + "\"" "| eval risk_object_type=\"" + search_data['risk_object_type'] +"\"" +"| sendalert risk"
-                f.write(spl + "\n\n")
-                job = service.jobs.create(spl, **kwargs)
+            time.sleep(2)
+            while True:
+                job.refresh()
+                if job['isDone'] == "1":
+                    break
 
-                time.sleep(2)
-                while True:
-                    job.refresh()
-                    if job['isDone'] == "1":
-                        break
+            job_results = splunklib.results.ResultsReader(job.results())
+            #f.write(str(type(job_results)))
+            runstory_results['detection_result_count'] = job['resultCount']
 
-                job_results = splunklib.results.ResultsReader(job.results())
+            if job['resultCount'] > "0" and risk == "True":
                 detection_results=[]
                 common_field = []
-
-                # Yield Results back into splunk
                 runstory_results['common_field'] = []
+
+                f.write("yess" + search['search_name'] + "\n\n")
                 for result in job_results:
                     item_count += 1
                     detection_results.append(dict(result))
 
                     for key, value in result.items():
                         if key in search['risk_object']:
+
                             if value not in common_field:
                                 common_field.append(value)
+                for i in common_field:
+                    create_risk_score="|makeresults" +"| eval search_name=\"" + search['search_name'] +"\"" + "| eval risk_object=\"" + i +"\"" + "|eval risk_score = \""+ search['risk_score'] + "\"" "| eval risk_object_type=\"" + search_data['risk_object_type'] +"\"" +"| sendalert risk"
+                    job = service.jobs.create(create_risk_score, **kwargs)
 
                 runstory_results['common_field'] = common_field
                 runstory_results['detection_results'] = detection_results
                 runstory_results['detection_search_name'] = search['search_name']
-                runstory_results['detection_result_count'] = job['resultCount']
+                yield {
+                        '_time': time.time(),
+                        '_raw': runstory_results,
+                        'sourcetype': "_json",
+                        'story':story,
+                        'support_search_name' : runstory_results['support_search_name'],
+                        'common_field' : runstory_results['common_field'],
+                        'detection_search_name': runstory_results['detection_search_name'],
+                        'detection_result_count': runstory_results['detection_result_count'],
 
+                     }
+            if job['resultCount'] > "0" and risk == "False":
+                detection_results=[]
+                common_field = []
+                runstory_results['common_field'] = []
+
+                f.write("yess" + search['search_name'] + "\n\n")
+                for result in job_results:
+                    detection_results.append(dict(result))
+
+                    for key, value in result.items():
+                        if key in search['risk_object'] and value not in common_field:
+                            common_field.append(value)
+
+                runstory_results['common_field'] = common_field
+                runstory_results['detection_results'] = detection_results
+                runstory_results['detection_search_name'] = search['search_name']
                 yield {
                         '_time': time.time(),
                         '_raw': runstory_results,
