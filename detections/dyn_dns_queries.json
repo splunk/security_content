@@ -15,7 +15,7 @@
       "Bro"
     ]
   },
-  "description": "Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, blacklists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains. ",
+  "description": "Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, blacklists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.<br></br>This search produces fields (`query`,`answer`,`isDynDNS`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> DNS Query, <b>Field:</b> query</li><li><b>Label:</b> DNS Answer, <b>Field:</b> answer</li><li><b>Label:</b> IsDynamicDNS, <b>Field:</b> isDynDNS</li></ul><br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
   "detect": {
     "splunk": {
       "correlation_rule": {
@@ -36,7 +36,7 @@
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
         },
-        "search": "| tstats `summariesonly` count values(DNS.answer) as \"Dynamic DNS Resolutions\" min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(\"DNS\")` | `ctime(firstTime)` | `dynamic_dns_providers`",
+        "search": "| tstats `summariesonly` count values(DNS.answer) as answer min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(\"DNS\")` | `ctime(firstTime)` | `dynamic_dns_providers`",
         "suppress": {
           "suppress_fields": "src, query",
           "suppress_period": "86400s"
@@ -49,7 +49,7 @@
     "dest",
     "query"
   ],
-  "how_to_implement": "First, you'll need to ingest data from your DNS operations. This can be done by ingesting logs from your server or data collected passively by Splunk Stream or similar solutions. Specifically, data that contains the domain that is being queried and the IP of the host originating the request must be populating the Network_Resolution data model. This search also leverages a lookup file, <code>dynamic_dns_providers_default.csv</code>, which contains a non-exhaustive list of Dynamic DNS providers. Please consider updating the local lookup periodically by adding new domains to the list of <code>dynamic_dns_providers_local.csv</code>.",
+  "how_to_implement": "First, you'll need to ingest data from your DNS operations. This can be done by ingesting logs from your server or data collected passively by Splunk Stream or similar solutions. Specifically, data that contains the domain that is being queried and the IP of the host originating the request must be populating the Network_Resolution data model. This search also leverages a lookup file, <code>dynamic_dns_providers_default.csv</code>, which contains a non-exhaustive list of Dynamic DNS providers. Please consider updating the local lookup periodically by adding new domains to the list of <code>dynamic_dns_providers_local.csv</code>.<br></br>This search produces fields (`query`,`query_length`,`count`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> Name, <b>Field:</b> Name</li><li><b>Label:</b> File Extension, <b>Field:</b> file_extension<br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
   "id": "c77162d3-f93c-45cc-80c8-22f6v5464g9f",
   "investigations": [
     {
