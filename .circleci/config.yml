@@ -35,7 +35,6 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
-      - run: *apt-install
       - restore_cache:
           key: virtualenv
       - run: *apt-install
@@ -74,7 +73,7 @@ jobs:
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - attach_workspace:
-          at: ~/security-content/venv
+          at: ~/security-content/
       - run:
           name: run generate
           command: |
