@@ -69,7 +69,8 @@ class DetectCommand(GeneratingCommand):
                 search_data['search_name'] = content['action.escu.full_search_name']
                 search_data['search_description'] = content['description']
                 search_data['search'] = content['search']
-
+                search_data['risk_object_type'] = content['action.risk.param._risk_object_type']
+                search_data['risk_score'] = content['action.risk.param._risk_score']
                 search_data['risk_object'] = content['action.risk.param._risk_object']
                 search_data['mappings'] = json.loads(content['action.escu.mappings'])
                 detection_searches_to_run.append(search_data)
@@ -115,7 +116,7 @@ class DetectCommand(GeneratingCommand):
                 if spl[0] != "|":
                     spl = "| search %s" % spl
 
-                #spl = spl + "| eval risk_object=\"" + "other" +"\"" + "|eval risk_score = \"2\"" + "| sendalert risk"
+                spl = spl + "| eval risk_object=\"" + search_data['risk_object'] +"\"" + "|eval risk_score = \""+ search_data['risk_score'] + "\"" "| eval risk_object_type=\"" + search_data['risk_object_type'] +"\"" +"| sendalert risk"
                 f.write(spl + "\n\n")
                 job = service.jobs.create(spl, **kwargs)
 
