@@ -89,12 +89,12 @@ jobs:
             cd security-content
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
-            tar -czvf content-pack-build-${CIRCLE_BUILD_NUM}.tar.gz package/*
+            tar -czvf content-pack-build.tar.gz package/*
             ls
       - persist_to_workspace:
           root: security-content/
           paths:
-              - content-pack-build-${CIRCLE_BUILD_NUM}.tar.gz
+              - content-pack-build.tar.gz
   build-package:
     executor: content-executor
     steps:
@@ -120,7 +120,7 @@ jobs:
           command: |
               cd slim-latest
               source venv/bin/activate
-              slim package ../dist/content-pack-build-${CIRCLE_BUILD_NUM}.tar.gz
+              slim package ../dist/content-pack-build.tar.gz
               ls -lah
                 #  run-appinspect:
                 #    executor: content-executor
