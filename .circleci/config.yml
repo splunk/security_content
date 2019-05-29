@@ -121,8 +121,8 @@ jobs:
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
               tar -zxvf content-pack-build.tar.gz
+              slim package package/
               ls -lah
-              #              slim package content-pack-build.tar.gz
                 #  run-appinspect:
                 #    executor: content-executor
                 #    steps:
