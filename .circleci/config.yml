@@ -72,10 +72,8 @@ jobs:
       - run:
           name: run generate
           command: |
-            pwd
-            ls -lah
-            source venv/bin/activate
             cd security-content
+            source venv/bin/activate
             python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
       - run:
           name: update build number
@@ -192,10 +190,18 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - build-package:
+          requires:
+            - validate-content
+            - build-sources
+          filters:
+            tags:
+              only: /.*/
       - update-sources-github:
           requires:
             - validate-content
             - build-sources
+            - build-package
         # only update sources in develop
           filters:
             tags:
@@ -206,6 +212,7 @@ workflows:
           requires:
             - validate-content
             - build-sources
+            - build-package
             - update-sources-github
         # only release when there is a tag
           filters:
