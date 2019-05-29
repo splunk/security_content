@@ -36,7 +36,10 @@ jobs:
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
+          key: virtualenv
+      - run: *apt-install
+      - restore_cache:
+          key: virtualenv
       - run: *apt-install
       - run:
           name: install python dependencies
@@ -46,19 +49,21 @@ jobs:
             virtualenv --python=/usr/bin/python2.7 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
+      - save_cache:
+          key: virtualenv
+          paths:
+            - "/security-content/venv"
       - run:
           name: run validate
           command: |
             cd security-content
             source venv/bin/activate
             python bin/validate.py --path . --verbose
-      - save_cache:
-          key: virtualenv
-          paths:
-            - "~/security-content/venv"
   build-sources:
     executor: content-executor
     steps:
+      - restore_cache:
+          key: virtualenv
       - run:
           name: checkout repo
           command: |
@@ -67,8 +72,6 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
-      - restore_cache:
-          key: virtualenv
       - run:
           name: run generate
           command: |
