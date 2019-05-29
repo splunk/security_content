@@ -72,7 +72,9 @@ jobs:
       - run:
           name: run generate
           command: |
+            ls -lah
             cd security-content
+            ls -lah
             source venv/bin/activate
             python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
       - run:
