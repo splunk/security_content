@@ -118,14 +118,11 @@ jobs:
       - run:
           name: create a .spl for this build using slim
           command: |
-              pwd
-              ls
               cd ~/dist
-              pwd
-              ls
               source ~/slim-latest/venv/bin/activate
-              slim package content-pack-build.tar.gz
+              tar -zxvf content-pack-build.tar.gz .
               ls -lah
+              #              slim package content-pack-build.tar.gz
                 #  run-appinspect:
                 #    executor: content-executor
                 #    steps:
