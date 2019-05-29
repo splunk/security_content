@@ -59,7 +59,7 @@ jobs:
       - persist_to_workspace:
           root: security-content/
           paths:
-              - venv
+              - venv/*
 
   build-sources:
     executor: content-executor
