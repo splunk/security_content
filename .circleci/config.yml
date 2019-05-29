@@ -92,6 +92,55 @@ jobs:
               - analytic_stories.conf
               - savedsearches.conf
               - app.conf
+
+  build-package:
+    executor: content-executor
+    steps:
+      - run:
+          name: grab splunk packaging toolkit
+          command: |
+            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
+            mkdir slim-latest
+            tar -zxvf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
+          name: install splunk packaging toolkit (slim)
+          command: |
+              cd slim-latest
+              sudo pip install --upgrade pip setuptools
+              sudo pip install virtualenv
+              virtualenv --python=/usr/bin/python2.7 --clear venv
+              source venv/bin/activate
+              pip install .
+          name: create a .spl for this build using slim
+          command: |
+              cd slim-latest
+              source venv/bin/activate
+              slim package ../security-content
+              ls -lah
+                #  run-appinspect:
+                #    executor: content-executor
+                #    steps:
+                #      - run:
+                #          name: grab appinspect
+                #          command: |
+                #            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
+                #            mkdir appinspect-latest
+                #            tar -zxvf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
+                #      - run:
+                #          name: insatll app inspect
+                #          command: |
+                #            cd appinspect-latest
+                #            rm -rf venv
+                #            sudo pip install --upgrade pip setuptools
+                #            sudo pip install virtualenv
+                #            virtualenv --python=/usr/bin/python2.7 --clear venv
+                #            source venv/bin/activate
+                #            pip install .
+                #      - run:
+                #          name: run app inspect
+                #          command: |
+                #            cd appinspect-latest
+                #            source venv/bin/activate
+                #            splunk-appinspect inspect ../TA-osquery.tar.gz --included-tags=cloud
   update-sources-github:
     executor: content-executor
     steps:
@@ -112,11 +161,11 @@ jobs:
             git commit --allow-empty -m "updating package files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            tar -czvf content-pack.tar.gz package/*
+            tar -czvf content-pack-${CIRCLE_TAG}.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
           paths:
-              - content-pack.tar.gz
+              - content-pack-${CIRCLE_TAG}.tar.gz
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
@@ -126,7 +175,7 @@ jobs:
       - run:
           name: publish release on github
           command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated/content-pack.tar.gz
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated/content-pack-${CIRCLE_TAG}.tar.gz
 workflows:
   version: 2.1
   validate-and-build:
