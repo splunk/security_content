@@ -80,17 +80,13 @@ jobs:
       - run:
           name: run generate
           command: |
-            ls -lah
             cd security-content
-            ls -lah
             source venv/bin/activate
             python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
       - run:
           name: update build number
           command: |
-            # update generated files
             cd security-content
-            cp -v ~/repo/updated/* package/default/
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
             tar -czvf content-pack-${CIRCLE_TAG}.tar.gz package/*
