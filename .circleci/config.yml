@@ -84,8 +84,9 @@ jobs:
             source venv/bin/activate
             python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
       - run:
-          name: update build number
+          name: update version and build number
           command: |
+            echo "Tags: $CIRCLE_TAG"
             cd security-content
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
@@ -123,7 +124,6 @@ jobs:
               tar -zxvf content-pack-build.tar.gz
               mv package DA-ESS-ContentUpdate
               slim package DA-ESS-ContentUpdate
-              ls -lah
                 #  run-appinspect:
                 #    executor: content-executor
                 #    steps:
