@@ -86,7 +86,10 @@ jobs:
       - run:
           name: update version and build number
           command: |
-            echo "Tags: $CIRCLE_TAG"
+            if [ -z "${CIRCLE_TAG}" ]; then
+                echo "CIRCLE_TAGVAR is unset or set to the empty string"
+            else
+            echo "CIRCLE_TAG is set to: $CIRCLE_TAG"
             cd security-content
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
