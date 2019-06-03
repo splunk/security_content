@@ -134,8 +134,7 @@ jobs:
               tar -zxf content-pack-build.tar.gz
               mv package DA-ESS-ContentUpdate
               slim package DA-ESS-ContentUpdate
-              cat ~/dist/.env-vars >> $BASH_ENV
-              echo $CONTENT_VERSION
+              cat .env-vars
       - store_artifacts:
           path: ~/dist/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
           destination: DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
