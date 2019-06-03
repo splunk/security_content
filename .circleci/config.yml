@@ -139,7 +139,7 @@ jobs:
       - persist_to_workspace:
           root: ~/dist
           paths:
-             - DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
+             - DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
   run-appinspect:
     executor: content-executor
     steps:
