@@ -253,6 +253,7 @@ def generate_investigations(REPO_PATH, detections, stories):
                     server = phantom['phantom_server']
                     playbook = phantom['playbook_name']
                     playbook_url = phantom['playbook_url']
+                    search = 'CONSTRUCT DETECTION SEARCH HERE'
                 except KeyError as e:
                     sys.exit("ERROR: \"{1}\" missing key {0} with error:\n{1}".format(e, name, e))
 
