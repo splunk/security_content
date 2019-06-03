@@ -137,7 +137,7 @@ jobs:
           path: /dist/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
           destination: DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
       - persist_to_workspace:
-          root: dist/
+          root: ~/dist
           paths:
              - DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
   run-appinspect:
