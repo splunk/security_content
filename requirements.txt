@@ -1,6 +1,6 @@
 aspy.yaml==1.1.1
 autopep8==1.4.3
-boto3==1.9.91
+boto3==1.9.159
 botocore==1.12.159
 cached-property==1.5.1
 cfgv==1.1.0
