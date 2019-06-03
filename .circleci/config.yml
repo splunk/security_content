@@ -138,7 +138,7 @@ jobs:
               tar -zxf content-pack-build.tar.gz
               mv package DA-ESS-ContentUpdate
               slim package DA-ESS-ContentUpdate
-              ls
+              echo $CONTENT_VERSION
       - store_artifacts:
           path: ~/dist/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
           destination: DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
