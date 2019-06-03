@@ -91,11 +91,11 @@ jobs:
             if [ -z "${CIRCLE_TAG}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
-                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> .env-vars
+                echo "CONTENT_VERSION = $CONTENT_VERSION" >> .vars
             else
                 CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
-                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> .env-vars
+                echo "CONTENT_VERSION = $CONTENT_VERSION" >> .vars
             fi
             # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
@@ -105,7 +105,7 @@ jobs:
           root: security-content/
           paths:
               - content-pack-build.tar.gz
-              - .env-vars
+              - .vars
   build-package:
     executor: content-executor
     steps:
@@ -134,7 +134,7 @@ jobs:
               tar -zxf content-pack-build.tar.gz
               mv package DA-ESS-ContentUpdate
               slim package DA-ESS-ContentUpdate
-              cat .env-vars
+              cat .vars
       - store_artifacts:
           path: ~/dist/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
           destination: DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
