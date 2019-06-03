@@ -136,12 +136,19 @@ class DetectCommand(GeneratingCommand):
                     detection_results.append(dict(result))
 
                     for key, value in result.items():
-                        if key in search['risk_object'] and value not in common_field:
+                        if type(value) == list:
+                            for i in value:
+                                if i not in common_field:
+                                    common_field.append(i)
+
+
+                        if type(value) == str and key in search['risk_object'] and value not in common_field:
                             common_field.append(value)
 
                 for i in common_field:
                     f.write("-------->>>>>>>"+ str(i)+ "\n\n")
-                    create_risk_score="|makeresults" +"| eval search_name=\"" + search['search_name'] +"\"" + "| eval risk_object=\"" + i +"\"" + "|eval risk_score = \""+ search['risk_score'] + "\"" "| eval risk_object_type=\"" + search['risk_object_type'] +"\"" +"| sendalert risk"
+
+                    create_risk_score="|makeresults" +"| eval search_name=\"" + search['search_name'] +"\"" + "| eval risk_object=\"" + str(i) +"\"" + "|eval risk_score = \""+ search['risk_score'] + "\"" "| eval risk_object_type=\"" + search['risk_object_type'] +"\"" +"| sendalert risk"
 
                     kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
 
