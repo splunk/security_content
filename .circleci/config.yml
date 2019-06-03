@@ -91,11 +91,11 @@ jobs:
             if [ -z "${CIRCLE_TAG}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
-                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> $BASH_ENV
+                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> .env-vars
             else
                 CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
-                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> $BASH_ENV
+                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> .env-vars
             fi
             # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
@@ -105,11 +105,16 @@ jobs:
           root: security-content/
           paths:
               - content-pack-build.tar.gz
+              - .env-vars
   build-package:
     executor: content-executor
     steps:
       - attach_workspace:
           at: ~/dist
+      - run:
+          name: set enviroment variables passed
+          command: |
+            cat ~/dist/.env-vars >> $BASH_ENV
       - run:
           name: grab splunk packaging toolkit
           command: |
@@ -141,11 +146,16 @@ jobs:
           root: ~/dist
           paths:
              - DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
+             - .env-vars
   run-appinspect:
     executor: content-executor
     steps:
       - attach_workspace:
           at: ~/dist
+      - run:
+          name: set enviroment variables passed
+          command: |
+            cat ~/dist/.env-vars >> $BASH_ENV
       - run:
           name: grab appinspect
           command: |
