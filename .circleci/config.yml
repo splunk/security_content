@@ -87,15 +87,19 @@ jobs:
           name: update version and build number
           command: |
             if [ -z "${CIRCLE_TAG}" ]; then
-                echo "CIRCLE_TAG VAR is unset or set to the empty string"
+                CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
+                echo "detected content version: $CONTENT_VERSION"
+                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> $BASH_ENV
             else
-                echo "CIRCLE_TAG is set to: $CIRCLE_TAG"
+                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+                echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
+                echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> $BASH_ENV
             fi
             cd security-content
             # update build number
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
-            tar -czvf content-pack-build.tar.gz package/*
-            ls
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
+            tar -czf content-pack-build.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
           paths:
@@ -110,7 +114,7 @@ jobs:
           command: |
             curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
             mkdir ~/slim-latest
-            tar -zxvf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
+            tar -zxf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
       - run:
           name: install splunk packaging toolkit (slim)
           command: |
@@ -125,34 +129,43 @@ jobs:
           command: |
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
-              tar -zxvf content-pack-build.tar.gz
+              tar -zxf content-pack-build.tar.gz
               mv package DA-ESS-ContentUpdate
               slim package DA-ESS-ContentUpdate
-                #  run-appinspect:
-                #    executor: content-executor
-                #    steps:
-                #      - run:
-                #          name: grab appinspect
-                #          command: |
-                #            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
-                #            mkdir appinspect-latest
-                #            tar -zxvf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
-                #      - run:
-                #          name: insatll app inspect
-                #          command: |
-                #            cd appinspect-latest
-                #            rm -rf venv
-                #            sudo pip install --upgrade pip setuptools
-                #            sudo pip install virtualenv
-                #            virtualenv --python=/usr/bin/python2.7 --clear venv
-                #            source venv/bin/activate
-                #            pip install .
-                #      - run:
-                #          name: run app inspect
-                #          command: |
-                #            cd appinspect-latest
-                #            source venv/bin/activate
-                #            splunk-appinspect inspect ../TA-osquery.tar.gz --included-tags=cloud
+      - store_artifacts:
+          path: /dist/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
+          destination: DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
+      - persist_to_workspace:
+          root: dist/
+          paths:
+             - DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
+  run-appinspect:
+    executor: content-executor
+    steps:
+      - attach_workspace:
+          at: ~/dist
+      - run:
+          name: grab appinspect
+          command: |
+            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
+            mkdir appinspect-latest
+            tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
+      - run:
+          name: install app inspect
+          command: |
+            cd appinspect-latest
+            rm -rf venv
+            sudo pip install --upgrade pip setuptools
+            sudo pip install virtualenv
+            virtualenv --python=/usr/bin/python2.7 --clear venv
+            source venv/bin/activate
+            pip install .
+      - run:
+          name: run app inspect
+          command: |
+            cd appinspect-latest
+            source venv/bin/activate
+            splunk-appinspect inspect DA-ESS-ContentUpdate-$CONTENT_VERSION.BUILD_NUM.tar.gz --included-tags=cloud
   update-sources-github:
     executor: content-executor
     steps:
@@ -173,7 +186,7 @@ jobs:
             git commit --allow-empty -m "updating package files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            tar -czvf content-pack-${CIRCLE_TAG}.tar.gz package/*
+            tar -czf content-pack-${CIRCLE_TAG}.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
           paths:
@@ -193,12 +206,14 @@ workflows:
   validate-and-build:
     jobs:
       - validate-content:
+        # build always
           filters:
             tags:
               only: /.*/
       - build-sources:
           requires:
             - validate-content
+        # build always
           filters:
             tags:
               only: /.*/
@@ -206,6 +221,16 @@ workflows:
           requires:
             - validate-content
             - build-sources
+        # build always
+          filters:
+            tags:
+              only: /.*/
+      - run-appinspect:
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+        # build always
           filters:
             tags:
               only: /.*/
@@ -214,6 +239,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
+            - run-appinspect
         # only update sources in develop
           filters:
             tags:
@@ -225,6 +251,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
+            - run-appinspect
             - update-sources-github
         # only release when there is a tag
           filters:
