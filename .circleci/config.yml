@@ -132,9 +132,9 @@ jobs:
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
               tar -zxf content-pack-build.tar.gz
+              CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
               mv package DA-ESS-ContentUpdate
               slim package DA-ESS-ContentUpdate
-              cat .vars
       - store_artifacts:
           path: ~/dist/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
           destination: DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
@@ -142,16 +142,11 @@ jobs:
           root: ~/dist
           paths:
              - DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
-             - .env-vars
   run-appinspect:
     executor: content-executor
     steps:
       - attach_workspace:
           at: ~/dist
-      - run:
-          name: set enviroment variables passed
-          command: |
-            cat ~/dist/.env-vars >> $BASH_ENV
       - run:
           name: grab appinspect
           command: |
