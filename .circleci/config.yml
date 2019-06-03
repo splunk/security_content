@@ -86,6 +86,8 @@ jobs:
       - run:
           name: update version and build number
           command: |
+            cd security-content
+            # check if tag is set, get build number from the tag if set
             if [ -z "${CIRCLE_TAG}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
@@ -95,8 +97,7 @@ jobs:
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
                 echo 'export CONTENT_VERSION="$CONTENT_VERSION"' >> $BASH_ENV
             fi
-            cd security-content
-            # update build number
+            # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
             tar -czf content-pack-build.tar.gz package/*
