@@ -98,6 +98,7 @@ jobs:
             # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/content-version.conf
             tar -czf content-pack-build.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
@@ -136,6 +137,7 @@ jobs:
               cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
       - store_artifacts:
           path: ~/dist/upload
+          destination: package/
       - persist_to_workspace:
           root: ~/dist
           paths:
@@ -168,9 +170,16 @@ jobs:
             cd appinspect-latest
             source venv/bin/activate
             splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud --max-messages=all
+      - persist_to_workspace:
+          root: ~/
+          paths:
+             - DA-ESS-ContentUpdate-latest.tar.gz
   update-sources-github:
     executor: content-executor
     steps:
+      - attach_workspace:
+          at: ~/
+      - run: *apt-install
       - run:
           name: checkout repo
           command: |
@@ -188,11 +197,12 @@ jobs:
             git commit --allow-empty -m "updating package files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            tar -czf content-pack-${CIRCLE_TAG}.tar.gz package/*
+            CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+            tar -czf DA-ESS-ContentUpdate-${CONTENT_VERSION}.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
           paths:
-              - content-pack-${CIRCLE_TAG}.tar.gz
+              - DA-ESS-ContentUpdate-${CONTENT_VERSION}.tar.gz
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
@@ -202,7 +212,8 @@ jobs:
       - run:
           name: publish release on github
           command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated/content-pack-${CIRCLE_TAG}.tar.gz
+            CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated/DA-ESS-ContentUpdate-${CONTENT_VERSION}.tar.gz
 workflows:
   version: 2.1
   validate-and-build:
@@ -245,9 +256,9 @@ workflows:
         # only update sources in develop
           filters:
             tags:
-              only: /.*/
+              only: /^v.*/
             branches:
-              only: develop
+              ignore: /.*/
       - publish-github-release:
           requires:
             - validate-content
