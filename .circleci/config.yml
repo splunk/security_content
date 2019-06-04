@@ -203,7 +203,9 @@ jobs:
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
             CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
-            tar -czf DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz package/*
+            tar -cvzf DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz package/*
+            pwd
+            ls -lah
       - persist_to_workspace:
           root: security-content/
           paths:
