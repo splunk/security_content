@@ -68,8 +68,8 @@
       "Monitor Unsuccessful Backups",
       "Windows Updates Install Failures",
       "Windows Updates Install Successes",
-      "Model Builder For Unusually Long Command Line - MLTK",
-      "Model Builder For SMB Traffic Spike - MLTK"
+      "Baseline of Command Line Length - MLTK",
+      "Baseline of SMB Traffic - MLTK"
     ]
   },
   "spec_version": 1,

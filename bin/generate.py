@@ -971,7 +971,6 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
                 output_file.write("alert.suppress.period = {0}\n"
                                   .format(detection['correlation_rule']['suppress']['suppress_period']))
 
-        output_file.write("is_visible = false\n")
         output_file.write("action.escu.earliest_time_offset = 3600\n")
         output_file.write("action.escu.latest_time_offset = 86400\n")
         output_file.write("disabled=true\n")
