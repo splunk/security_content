@@ -168,7 +168,7 @@ jobs:
             cd appinspect-latest
             source venv/bin/activate
             ls -lah ~/
-            tar -zxvf DA-ESS-ContentUpdate-latest
+            tar -zxvf DA-ESS-ContentUpdate-latest.tar.gz
             #            splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud
   update-sources-github:
     executor: content-executor
