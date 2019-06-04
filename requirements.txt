@@ -21,7 +21,7 @@ pre-commit==1.16.1
 pycodestyle==2.5.0
 pyenchant==2.0.0
 python-dateutil==2.8.0
-PyYAML==3.13
+PyYAML==5.1
 s3transfer==0.2.0
 scandir==1.10.0
 singledispatch==3.4.0.3
