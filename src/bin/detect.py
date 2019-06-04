@@ -75,14 +75,14 @@ class DetectCommand(GeneratingCommand):
                 search_data['mappings'] = json.loads(content['action.escu.mappings'])
                 detection_searches_to_run.append(search_data)
 
-
+            '''
             if content.has_key('action.escu.analytic_story') and story in content['action.escu.analytic_story'] and content['action.escu.search_type'] == 'investigative':
                 investigative_data = {}
                 investigative_data['search_name'] = content['action.escu.full_search_name']
                 investigative_data['action.escu.fields_required'] = content['action.escu.fields_required']
                 investigative_data['search'] = content['search']
                 investigative_searches_to_run.append(investigative_data)
-
+            '''
         # Run all Support searches
 
 
@@ -125,7 +125,7 @@ class DetectCommand(GeneratingCommand):
             #f.write(str(type(job_results)))
             runstory_results['detection_result_count'] = job['resultCount']
 
-            if job['resultCount'] > "0" and risk == "True":
+            if job['resultCount'] > "0" and risk == "true":
                 detection_results=[]
                 common_field = []
                 runstory_results['common_field'] = []
@@ -136,18 +136,16 @@ class DetectCommand(GeneratingCommand):
                     detection_results.append(dict(result))
 
                     for key, value in result.items():
-                        if type(value) == list:
+                        if type(value) == list and key in search['risk_object']:
                             for i in value:
                                 if i not in common_field:
                                     common_field.append(i)
-
 
                         if type(value) == str and key in search['risk_object'] and value not in common_field:
                             common_field.append(value)
 
                 for i in common_field:
                     f.write("-------->>>>>>>"+ str(i)+ "\n\n")
-
                     create_risk_score="|makeresults" +"| eval search_name=\"" + search['search_name'] +"\"" + "| eval risk_object=\"" + str(i) +"\"" + "|eval risk_score = \""+ search['risk_score'] + "\"" "| eval risk_object_type=\"" + search['risk_object_type'] +"\"" +"| sendalert risk"
 
                     kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
@@ -157,11 +155,13 @@ class DetectCommand(GeneratingCommand):
                             job.refresh()
                             if job['isDone'] == "1":
                                 break
-
                 runstory_results['common_field'] = common_field
                 runstory_results['detection_results'] = detection_results
                 runstory_results['detection_search_name'] = search['search_name']
                 runstory_results['mappings'] = search['mappings']
+                runstory_results['risk_object_type'] = search_data['risk_object_type']
+                runstory_results['risk_score'] = search_data['risk_score']
+                runstory_results['risk_object'] = search_data['risk_object']
                 yield {
                         '_time': time.time(),
                         '_raw': runstory_results,
@@ -172,9 +172,14 @@ class DetectCommand(GeneratingCommand):
                         'mappings': runstory_results['mappings'],
                         'detection_search_name': runstory_results['detection_search_name'],
                         'detection_result_count': runstory_results['detection_result_count'],
-
+                        'risk_score': runstory_results['risk_score'],
+                        'risk_object_type': runstory_results['risk_object_type'],
+                        'risk_object': runstory_results['risk_object']
                      }
-            if job['resultCount'] > "0" and risk == "False":
+
+
+
+            if job['resultCount'] > "0" and risk == "false":
                 detection_results=[]
                 common_field = []
                 runstory_results['common_field'] = []
@@ -191,6 +196,9 @@ class DetectCommand(GeneratingCommand):
                 runstory_results['detection_results'] = detection_results
                 runstory_results['detection_search_name'] = search['search_name']
                 runstory_results['mappings'] = search['mappings']
+                runstory_results['risk_object_type'] = search_data['risk_object_type']
+                runstory_results['risk_score'] = search_data['risk_score']
+                runstory_results['risk_object'] = search_data['risk_object']
                 yield {
                         '_time': time.time(),
                         '_raw': runstory_results,
@@ -201,7 +209,9 @@ class DetectCommand(GeneratingCommand):
                         'mappings': runstory_results['mappings'],
                         'detection_search_name': runstory_results['detection_search_name'],
                         'detection_result_count': runstory_results['detection_result_count'],
-
+                        'risk_score': runstory_results['risk_score'],
+                        'risk_object_type': runstory_results['risk_object_type'],
+                        'risk_object': runstory_results['risk_object']
                      }
 
     def __init__(self):
