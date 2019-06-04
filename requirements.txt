@@ -29,4 +29,4 @@ six==1.12.0
 toml==0.10.0
 typing==3.6.6
 urllib3==1.25.3
-virtualenv==16.1.0
+virtualenv==16.6.0
