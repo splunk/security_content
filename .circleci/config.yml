@@ -146,6 +146,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/dist
+      - run: *apt-install
       - run:
           name: grab appinspect
           command: |
