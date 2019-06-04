@@ -2,7 +2,7 @@
   "creation_date": "2019-06-03",
   "data_metadata": {
     "data_source": [
-      "Exchange",
+      "Microsoft Exchange",
       "SMTP",
       "Cuckoo",
       "Splunk",
@@ -10,7 +10,7 @@
       "DeepSight"
     ],
     "providing_technologies": [
-      "Exchange",
+      "Microsoft Exchange",
       "SMTP",
       "Cuckoo",
       "Splunk",
