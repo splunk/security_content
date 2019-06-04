@@ -203,13 +203,11 @@ jobs:
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
             CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
-            tar -cvzf DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz package/*
-            pwd
-            ls -lah
+            tar -czf DA-ESS-ContentUpdate-latest.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
           paths:
-              - DA-ESS-ContentUpdate-$CIRCLE_TAG.tar.gz
+              - DA-ESS-ContentUpdate-latest.tar.gz
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
@@ -220,7 +218,8 @@ jobs:
           name: publish release on github
           command: |
             CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated/DA-ESS-ContentUpdate-${CONTENT_VERSION}.tar.gz
+            mv ~/repo/updated/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
 workflows:
   version: 2.1
   validate-and-build:
