@@ -207,7 +207,7 @@ jobs:
       - persist_to_workspace:
           root: security-content/
           paths:
-              - DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+              - DA-ESS-ContentUpdate-$CIRCLE_TAG.tar.gz
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
