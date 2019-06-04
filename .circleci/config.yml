@@ -133,7 +133,7 @@ jobs:
               mv package DA-ESS-ContentUpdate
               mkdir upload
               slim package -o upload DA-ESS-ContentUpdate
-              ln -s upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+              cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
       - store_artifacts:
           path: ~/dist/upload
       - persist_to_workspace:
@@ -168,7 +168,7 @@ jobs:
             cd appinspect-latest
             source venv/bin/activate
             ls -lah ~/
-            #            splunk-appinspect inspect DA-ESS-ContentUpdate-$CONTENT_VERSION.BUILD_NUM.tar.gz --included-tags=cloud
+            splunk-appinspect inspect DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud
   update-sources-github:
     executor: content-executor
     steps:
