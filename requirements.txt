@@ -28,5 +28,5 @@ singledispatch==3.4.0.3
 six==1.12.0
 toml==0.10.0
 typing==3.6.6
-urllib3==1.24.1
+urllib3==1.25.3
 virtualenv==16.1.0
