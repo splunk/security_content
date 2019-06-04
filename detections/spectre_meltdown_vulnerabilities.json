@@ -67,7 +67,7 @@
     "earliest_time": "-25h@h",
     "latest_time": "-1h@h"
   },
-  "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest",
+  "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest| `ctime(firstTime)` | `ctime(lastTime)`",
   "search_description": "The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.",
   "search_id": "354be8e0-32cd-4da0-8c47-796de13b60ea",
   "search_name": "Spectre and Meltdown Vulnerable Systems",

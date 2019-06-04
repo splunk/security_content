@@ -75,7 +75,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "eventtype=wineventlog_security (signature_id=4624 OR signature_id=4625) Logon_Process=NtLmSsp Logon_Type=3 Account_Name !=\"ANONYMOUS LOGON\" Key_Length=0 | table _time src_ip user dest dest_nt_domain signature_id signature",
+  "search": "eventtype=wineventlog_security (signature_id = 4624 OR signature_id = 4625) Logon_Process = NtLmSsp Logon_Type=3 Account_Name ! = \"ANONYMOUS LOGON\" Key_Length = 0 | table _time src_ip user dest dest_nt_domain signature_id signature",
   "search_description": "This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts at using the Pass-the-Hash technique.",
   "search_id": "f5939373-8054-40ad-8c64-cec478a22a4b",
   "search_name": "Detect Activity Related to Pass the Hash Attacks",

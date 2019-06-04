@@ -42,14 +42,17 @@
       "DNS Query Requests Resolved by Unauthorized DNS Servers",
       "Detect Long DNS TXT Record Response",
       "Detection of DNS Tunnels",
-      "Detect hosts connecting to dynamic domain providers"
+      "Detect hosts connecting to dynamic domain providers",
+      "DNS Query Length Outliers - MLTK"
     ],
     "investigative_searches": [
       "Get DNS Server History for a host",
       "Get DNS traffic ratio",
-      "Get Process responsible for the DNS traffic"
+      "Get Process Responsible For The DNS Traffic"
     ],
-    "support_searches": []
+    "support_searches": [
+      "Baseline of DNS Query Length - MLTK"
+    ]
   },
   "spec_version": 1,
   "version": "1.0"
