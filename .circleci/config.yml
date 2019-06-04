@@ -183,6 +183,7 @@ jobs:
       - run:
           name: checkout repo
           command: |
+            mkdir latest
             tar -zxf ~/DA-ESS-ContentUpdate-latest.tar.gz -C ~/latest --strip-components=1
             if [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
