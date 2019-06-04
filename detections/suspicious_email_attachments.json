@@ -48,8 +48,15 @@
     "src_user",
     "message_id"
   ],
-  "how_to_implement": "You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model.",
+  "how_to_implement": "You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model. <br></br> <b>Splunk Phantom Playbook Integration</b><br></br>If Splunk Phantom is also configured in your environment, a Playbook called \"Suspicious Email Attachment Investigate and Delete\" can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, and add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user's inbox.",
   "id": "473bd65f-06ca-4dfe-a2b8-ba04ab4a0084",
+  "investigations": [
+    {
+      "id": "3096f721-8842-42ce-2fc7-742d8372b712",
+      "name": "Suspicious Email Attachment Investigate and Delete",
+      "product_type": "phantom"
+    }
+  ],
   "known_false_positives": "None identified",
   "maintainers": [
     {
