@@ -151,6 +151,7 @@ class DetectCommand(GeneratingCommand):
                     kwargs = { "exec_mode": "normal","earliest_time": earliest_time, "latest_time": latest_time}
 
                     job = service.jobs.create(create_risk_score, **kwargs)
+
                     while True:
                             job.refresh()
                             if job['isDone'] == "1":
