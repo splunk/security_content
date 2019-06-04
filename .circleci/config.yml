@@ -91,11 +91,9 @@ jobs:
             if [ -z "${CIRCLE_TAG}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
-                echo "CONTENT_VERSION = $CONTENT_VERSION" >> .vars
             else
                 CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
-                echo "CONTENT_VERSION = $CONTENT_VERSION" >> .vars
             fi
             # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
@@ -105,7 +103,6 @@ jobs:
           root: security-content/
           paths:
               - content-pack-build.tar.gz
-              - .vars
   build-package:
     executor: content-executor
     steps:
@@ -134,14 +131,16 @@ jobs:
               tar -zxf content-pack-build.tar.gz
               CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
               mv package DA-ESS-ContentUpdate
-              slim package DA-ESS-ContentUpdate
+              mkdir upload
+              slim package -o upload DA-ESS-ContentUpdate
+              ln -s upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
       - store_artifacts:
-          path: ~/dist/DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
-          destination: DA-ESS-ContentUpdate-$CONTENT_VERSION.$CIRCLE_BUILD_NUM.tar.gz
+          path: ~/dist/u
+          destination: DA-ESS-ContentUpdate-latest.tar.gz
       - persist_to_workspace:
           root: ~/dist
           paths:
-             - DA-ESS-ContentUpdate-$CONTENT_VERSION.tar.gz
+             - DA-ESS-ContentUpdate-latest.tar.gz
   run-appinspect:
     executor: content-executor
     steps:
