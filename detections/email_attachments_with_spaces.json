@@ -14,7 +14,7 @@
       "Microsoft Exchange"
     ]
   },
-  "description": "Attackers often use spaces as a means to obfuscate an attachment's file extension. This search looks for messages with email attachments that have many spaces within the filename.",
+  "description": "Attackers often use spaces as a means to obfuscate an attachment's file extension. This search looks for messages with email attachments that have many spaces within the file names.",
   "detect": {
     "splunk": {
       "correlation_rule": {
@@ -43,12 +43,12 @@
       }
     }
   },
-  "eli5": "This search looks at any emails with file attachment names that contain many spaces relative to the length of the file name. Specifically, it checks if spaces make up more than 10% of the number of characters in the file name. This percentage can be tuned for each environment. The search will then output the message ID of the email, the count, the recipient address and the recipient user, first and last time this event was seen and the space ratio of the file attachment name.",
+  "eli5": "This search looks at any emails with file-attachment names that contain many spaces, relative to the length of the file name. Specifically, it checks to see whether spaces make up more than 10% of the number of characters in the file name. This percentage can be tuned for each environment. The search will output the message ID of the email, the count, the recipient use name and address, the first and last time this event was seen, and the space ratio of the file-attachment name.",
   "entities": [
     "src",
     "message_id"
   ],
-  "how_to_implement": "You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model. The threshold ratio is set to 10%, but this value can be configured to suit each environment. <br></br> <b>Splunk Phantom Playbook Integration</b><br></br>If Splunk Phantom is also configured in your environment, a Playbook called \"Suspicious Email Attachment Investigate and Delete\" can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, and add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user's inbox.",
+  "how_to_implement": "You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model. The threshold ratio is set to 10%, but this value can be configured to suit each environment. <br></br> <b>Splunk Phantom Playbook Integration</b><br></br>If Splunk Phantom is also configured in your environment, a playbook called \"Suspicious Email Attachment Investigate and Delete\" can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code> and add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user's inbox.",
   "id": "56e877a6-1455-4479-ada6-0550dc1e22f8",
   "investigations": [
     {
