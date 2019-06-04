@@ -183,17 +183,20 @@ jobs:
       - run:
           name: checkout repo
           command: |
+            tar -zxf ~/DA-ESS-ContentUpdate-latest.tar.gz -C ~/latest --strip-components=1
             if [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
+            cd security-content
+            mv ~/latest package
             # configure git to prep for commit
             git config credential.helper 'cache --timeout=120'
             git config user.email "research@splunk.com"
             git config user.name "research bot"
-            it config --global push.default simple
-            git add package/default/*
+            git config --global push.default simple
+            git add package/*
             git commit --allow-empty -m "updating package files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
