@@ -97,7 +97,7 @@ jobs:
             fi
             # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
-            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
             sed -i "s/\"version\": .*$/ \"version\": \"$CONTENT_VERSION\"/g" package/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/content-version.conf
             tar -czf content-pack-build.tar.gz package/*
@@ -203,7 +203,8 @@ jobs:
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
             CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
-            tar -czf DA-ESS-ContentUpdate-latest.tar.gz package/*
+            mv package DA-ESS-ContentUpdate
+            tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-Content-Update/*
       - persist_to_workspace:
           root: security-content/
           paths:
