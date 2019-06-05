@@ -204,7 +204,7 @@ jobs:
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
             CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
             mv package DA-ESS-ContentUpdate
-            tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-Content-Update/*
+            tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate/*
       - persist_to_workspace:
           root: security-content/
           paths:
