@@ -1,8 +1,22 @@
 {
-  "category": "Adversary Tactics",
+  "category": [
+    "Adversary Tactics"
+  ],
   "channel": "ESCU",
   "creation_date": "2017-03-24",
   "description": "Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.",
+  "detections": [
+    {
+      "detection_id": "473bd65f-06ca-4dfe-a2b8-ba04ab4a0084",
+      "name": "Suspicious Email Attachment Extensions",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "56e877a6-1455-4479-ada6-0550dc1e22f8",
+      "name": "Email Attachments With Lots Of Spaces",
+      "type": "splunk"
+    }
+  ],
   "id": "2b1800dd-92f9-47ec-a981-fdf1351e5d55",
   "maintainers": [
     {
@@ -24,25 +38,7 @@
   "references": [
     "https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/"
   ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Authentication Logs For Endpoint",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
-    ],
-    "detection_searches": [
-      "Suspicious Email Attachment Extensions",
-      "Email Attachments With Lots Of Spaces"
-    ],
-    "investigative_searches": [
-      "Get Email Info",
-      "Get Emails From Specific Sender",
-      "Investigate Web Activity From Host"
-    ],
-    "support_searches": []
-  },
-  "spec_version": 1,
+  "spec_version": 2,
+  "usecase": "Advanced Threat Detection",
   "version": "1.0"
 }

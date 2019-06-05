@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ESCU - Next Steps</title>
+    <link rel="shortcut icon" href="/en-US/static/@F7687998B290A3242288A21DB9CEF3B7F845B3BA043E133DE8F1F15FF61F8A33.3/img/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/build/css/bootstrap-enterprise.css" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/build/pages/dashboard-simple-bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/DA-ESS-ContentUpdate/analytic_story_details.css" />
+</head>
+
+<body class="simplexml preload locale-en" data-splunk-version="6.5.1" data-splunk-product="enterprise">
+<!--
+BEGIN LAYOUT
+This section contains the layout for the dashboard. Splunk uses proprietary
+styles in <div> tags, similar to Bootstrap's grid system.
+-->
+<header>
+    <a class="navSkip" href="#navSkip" tabindex="1">Screen reader users, click here to skip the navigation bar</a>
+    <div class="header splunk-header">
+            <div id="placeholder-splunk-bar">
+                <a href="{{SPLUNKWEB_URL_PREFIX}}/app/launcher/home" class="brand" title="splunk &gt; listen to your data">splunk<strong>&gt;</strong></a>
+            </div>
+                <div id="placeholder-app-bar"></div>
+    </div>
+    <a id="navSkip"></a>
+</header>
+<div class="dashboard-body container-fluid main-section-body" data-role="main">
+    <br/>
+    <h4><div id="divTitle"/></h4>
+    <div id="divContext"></div>
+</div>
+
+<!--
+END LAYOUT
+-->
+
+<script src="{{SPLUNKWEB_URL_PREFIX}}/config?autoload=1"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/js/i18n.js"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/i18ncatalog?autoload=1"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/build/simplexml/index.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+// <![CDATA[
+//
+// LIBRARY REQUIREMENTS
+//
+// In the require function, we include the necessary libraries and modules for
+// the HTML dashboard. Then, we pass variable names for these libraries and
+// modules as function parameters, in order.
+//
+// When you add libraries or modules, remember to retain this mapping order
+// between the library or module and its function parameter. You can do this by
+// adding to the end of these lists, as shown in the commented examples below.
+
+require([
+    "splunkjs/mvc",
+    "splunkjs/mvc/utils",
+    "splunkjs/mvc/tokenutils",
+    "underscore",
+    "jquery",
+    "splunkjs/mvc/simplexml",
+    "splunkjs/mvc/layoutview",
+    "splunkjs/mvc/simplexml/dashboardview",
+    "splunkjs/mvc/simplexml/dashboard/panelref",
+    "splunkjs/mvc/simplexml/element/chart",
+    "splunkjs/mvc/simplexml/element/event",
+    "splunkjs/mvc/simplexml/element/html",
+    "splunkjs/mvc/simplexml/element/list",
+    "splunkjs/mvc/simplexml/element/map",
+    "splunkjs/mvc/simplexml/element/single",
+    "splunkjs/mvc/simplexml/element/table",
+    "splunkjs/mvc/simplexml/element/visualization",
+    "splunkjs/mvc/simpleform/formutils",
+    "splunkjs/mvc/simplexml/eventhandler",
+    "splunkjs/mvc/simplexml/searcheventhandler",
+    "splunkjs/mvc/simpleform/input/dropdown",
+    "splunkjs/mvc/simpleform/input/radiogroup",
+    "splunkjs/mvc/simpleform/input/linklist",
+    "splunkjs/mvc/simpleform/input/multiselect",
+    "splunkjs/mvc/simpleform/input/checkboxgroup",
+    "splunkjs/mvc/simpleform/input/text",
+    "splunkjs/mvc/simpleform/input/timerange",
+    "splunkjs/mvc/simpleform/input/submit",
+    "splunkjs/mvc/searchmanager",
+    "splunkjs/mvc/savedsearchmanager",
+    "splunkjs/mvc/postprocessmanager",
+    "splunkjs/mvc/simplexml/urltokenmodel",
+    "splunkjs/ready!",
+    // Add comma-separated libraries and modules manually here, for example:
+    // ..."splunkjs/mvc/simplexml/urltokenmodel",
+    // "splunkjs/mvc/tokenforwarder"
+    ],
+    function(
+        mvc,
+        utils,
+        TokenUtils,
+        _,
+        $,
+        DashboardController,
+        LayoutView,
+        Dashboard,
+        PanelRef,
+        ChartElement,
+        EventElement,
+        HtmlElement,
+        ListElement,
+        MapElement,
+        SingleElement,
+        TableElement,
+        VisualizationElement,
+        FormUtils,
+        EventHandler,
+        SearchEventHandler,
+        DropdownInput,
+        RadioGroupInput,
+        LinkListInput,
+        MultiSelectInput,
+        CheckboxGroupInput,
+        TextInput,
+        TimeRangeInput,
+        SubmitButton,
+        SearchManager,
+        SavedSearchManager,
+        PostProcessManager,
+        UrlTokenModel
+
+        // Add comma-separated parameter names here, for example:
+        // ...UrlTokenModel,
+        // TokenForwarder
+        ) {
+
+        var pageLoading = true;
+
+
+        //
+        // TOKENS
+        //
+
+        // Create token namespaces
+        var urlTokenModel = new UrlTokenModel();
+        mvc.Components.registerInstance('url', urlTokenModel);
+        var defaultTokenModel = mvc.Components.getInstance('default', {create: true});
+        var submittedTokenModel = mvc.Components.getInstance('submitted', {create: true});
+
+        urlTokenModel.on('url:navigate', function() {
+            defaultTokenModel.set(urlTokenModel.toJSON());
+            if (!_.isEmpty(urlTokenModel.toJSON()) && !_.all(urlTokenModel.toJSON(), _.isUndefined)) {
+                submitTokens();
+            } else {
+                submittedTokenModel.clear();
+            }
+        });
+
+        // Initialize tokens
+        defaultTokenModel.set(urlTokenModel.toJSON());
+
+        function submitTokens() {
+            // Copy the contents of the defaultTokenModel to the submittedTokenModel and urlTokenModel
+            FormUtils.submitForm({ replaceState: pageLoading });
+        }
+
+        function setToken(name, value) {
+            defaultTokenModel.set(name, value);
+            submittedTokenModel.set(name, value);
+        }
+
+        function unsetToken(name) {
+            defaultTokenModel.unset(name);
+            submittedTokenModel.unset(name);
+        }
+
+        //
+
+        $('header').remove();
+        new LayoutView({"hideFooter": false, "hideSplunkBar": false, "hideChrome": false, "hideAppBar": false})
+            .render()
+            .getContainerElement()
+            .appendChild($('.dashboard-body')[0]);
+
+        //
+        // DASHBOARD EDITOR
+        //
+
+        new Dashboard({
+            id: 'dashboard',
+            el: $('.dashboard-body'),
+            showTitle: true,
+            editable: true
+        }, {tokens: true}).render();
+
+
+        //
+        // VIEWS: VISUALIZATION ELEMENTS
+        //
+
+
+        //
+        // VIEWS: FORM INPUTS
+        //
+
+        // Create a service object using the Splunk SDK for JavaScript
+        // to send REST requests
+        var service = mvc.createService({ owner: "nobody" });
+
+        var tokens = mvc.Components.get("default");
+        var sid = tokens.get("sidtxt");
+        var rid = tokens.get("rid");
+        var sourcetype = tokens.get("type");
+
+        if(sourcetype == "contextualize")
+        {
+            sourcetype = "escu-contextualize";
+            document.getElementById("divTitle").innerHTML = "ESCU Context";
+        }
+        else
+        {
+            sourcetype = "escu-investigate";
+            document.getElementById("divTitle").innerHTML = "ESCU Investigate";
+        }
+
+        // FIXME sanitize tokens in the search http://dev.splunk.com/view/SP-CAAAEWY
+        // using epoch as a DIRTY FIX for "Uncaught Error: Already have instance with id: searchGetUseCaseData"
+        var epoch = (new Date).getTime();
+
+        document.getElementById("divContext").innerHTML = "";
+
+        var getData = new SearchManager({
+            id: epoch+"searchNames",
+            cache: false,
+            search: "index=main sourcetype=" + sourcetype + " orig_sid=" + sid + " orig_rid=" + rid + " | table search_name | uniq"
+        });
+
+        var searchGetSearchNames  = splunkjs.mvc.Components.getInstance(epoch+"searchNames");
+        var resultsGetSearchNames = searchGetSearchNames.data("results", {count:0});
+
+        resultsGetSearchNames.on("data", function()
+        {
+            var rows = resultsGetSearchNames.data().rows;
+            var fields = resultsGetSearchNames.data().fields;
+
+            var is_div_contents = "";
+            for(var i=0; i<rows.length; i++)
+            {
+                //for(var j=0; j<rows[i].length; j++)
+                //{
+                //    k = fields[j];
+                //    v = rows[i][j];
+                //    console.log(k + ": " + v)
+                //}
+
+                search_name = rows[i][0];
+                if(search_name == "")
+                    continue;
+
+                is_div_contents += "<h3 id=\"name_"+i+"\"></h3>";
+                is_div_contents += "<div id=\"div_sb_"+i+"\"></div>";
+                is_div_contents += "<div id=\"div_tv_"+i+"\"></div>";
+            }
+            document.getElementById("divContext").innerHTML = is_div_contents;
+
+            for(var i=0; i<rows.length; i++)
+            {
+                search_name = rows[i][0];
+                if(search_name == "")
+                    continue;
+                console.log("Search name is " + search_name);
+
+                document.querySelector('#name_' + i).innerHTML = search_name;
+                var SearchBarView = require("splunkjs/mvc/searchbarview");
+                new SearchBarView({
+                    id: "sbv"+i,
+                    managerid: "search"+i,
+                    el: $("#div_sb_"+i)
+                }).render();
+
+                var TableView = require("splunkjs/mvc/tableview");
+                new TableView({
+                    id: "tv"+i,
+                    managerid: "search"+i,
+                    el: $("#div_tv_"+i)
+                }).render();
+
+                new SearchManager({
+                    id: "search"+i,
+                    search: "index=main sourcetype=" + sourcetype + " orig_sid=" + sid + " orig_rid=" + rid + " search_name=\"" + search_name + "\" | table _raw | spath input=_raw | fields - _raw raw"
+                });
+
+                var manager = splunkjs.mvc.Components.getInstance("search"+ i);
+                var searchbar = splunkjs.mvc.Components.getInstance("sbv" + i);
+                var timerange = searchbar.timerange;
+
+                searchbar.on("change", function() {
+                    manager.set("search", searchbar.val());
+                });
+
+                timerange.on("change", function() {
+                    manager.search.set(timerange.val());
+                });
+            }
+        });
+
+        // Initialize time tokens to default
+        if (!defaultTokenModel.has('earliest') && !defaultTokenModel.has('latest')) {
+            defaultTokenModel.set({ earliest: '0', latest: '' });
+        }
+
+        if (!_.isEmpty(urlTokenModel.toJSON())){
+            submitTokens();
+        }
+
+        //
+        // DASHBOARD READY
+        //
+
+        DashboardController.ready();
+        pageLoading = false;
+    }
+);
+// ]]>
+</script>
+</body>
+</html>
