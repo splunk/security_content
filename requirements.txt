@@ -22,7 +22,7 @@ pycodestyle==2.5.0
 pyenchant==2.0.0
 python-dateutil==2.8.0
 PyYAML==5.1
-s3transfer==0.2.0
+s3transfer==0.2.1
 scandir==1.10.0
 singledispatch==3.4.0.3
 six==1.12.0
