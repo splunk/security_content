@@ -179,7 +179,11 @@
               "Tanium",
               "Ziften",
               "Censys",
-              "OSquery"
+              "OSquery",
+              "SMTP",
+              "Cuckoo",
+              "VirusTotal",
+              "DeepSight"
             ]
           },
           "minItems": 0,
