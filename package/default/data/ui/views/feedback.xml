@@ -1,0 +1,88 @@
+<form  isVisible="true" hideEdit="true" script="feedback.js">
+  <label>Feedback Center</label>
+  <description>Welcome to Splunk Enterprise Security Content Updates Feedback Center. This is where you can pass direct feedback to the Splunk Security Research team and let us know what is working well and what can be improved.
+If you have any issue or questions with Analytic Stories or individual searches, please fill out the following fields (Name, Email and Phone Number). Specify your request type and if applicable, in the drop down, select the Analytic Story your feedback is related to.</description>
+  <search id="basesearch">
+    <query>| rest /services/configs/conf-alert_actions splunk_server=local count=0 | search eai:acl.app=system | eval Status=if(mailserver!="","Configured","Not_Configured") | search mailserver!=NULL</query>
+    <done>
+      <condition match=" 'job.resultCount' != 0">
+        <set token="tok_wimg">$result.Status$</set>
+        <set token="mailserver">$result.mailserver$</set>
+      </condition>
+    </done>
+  </search>
+  <fieldset submitButton="true" autoRun="true">
+    <html>
+      <h3>Request Type:</h3>
+
+      <p4>
+        <strong>General Support Requests:</strong> Please use this request type for general support issues, help with implementation and or execution of the Analytic Story and or the associated searches.</p4>
+  <br/>
+      <p4>
+        <strong>Intelligence/Threat Requests for Information: </strong>Please use this request for Requests for Information, such as requests for new Analytic Stories, new searches or any other general Threat Intelligence or analytic requests. </p4>
+  <br/>
+      <p4>
+        <strong>Errata/Bug Fixes:</strong> For any errors or bugs that you might find, we want to know. Please pass this feedback along and we will make the appropriate updates.  </p4>
+<br/>
+<br/>
+<br/>
+<br/>
+    </html>
+    <input type="text" token="name">
+      <label>Name</label>
+    </input>
+    <input type="text" token="email">
+      <label>Email</label>
+    </input>
+    <input type="text" token="phone">
+      <label>Phone</label>
+    </input>
+    <input type="radio" token="req_type">
+      <label>Request Type</label>
+      <choice value="General Support Request">General Support Request</choice>
+      <choice value="Intelligence/Threat Request for Information">Intelligence/Threat Request for Information</choice>
+      <choice value="Errata/Bug Fixes">Errata/Bug Fixes</choice>
+      <default>General Support Request</default>
+    </input>
+    <input type="dropdown" token="story">
+      <label>Help with this Analytic Story</label>
+      <fieldForLabel>title</fieldForLabel>
+      <fieldForValue>title</fieldForValue>
+      <search>
+        <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | fields title | sort title</query>
+      </search>
+      <choice value="Not Related to an Analytic Story">Not Related to an Analytic Story</choice>
+      <default>Not Related to an Analytic Story</default>
+    </input>
+    <html>
+      <label>If possible please provide a detailed description of the problem, or better yet what you like to see in the future: </label>
+      <textarea id="textarea_question" data-token="question" placeholder="Drag the box to increase the size" class="textarea-feedback"/>
+    </html>
+  </fieldset>
+  <row>
+    <panel depends="$tok_wimg$">
+      <title>Email Configuration Status: "$tok_wimg$"</title>
+      <html>
+       <p3>Configure email notification settings to use Feedback Center.<a href="http://docs.splunk.com/Documentation/Splunk/6.4.0/Alert/Emailnotification#Configure_email_notification_settings"> Learn More. </a>You can also contact the Splunk Security Research Team by emailing <a href="mailto:escu-feedback@splunk.com?Subject=Feedback%20Request" target="_top">escu-feedback@splunk.com</a>.</p3>
+     </html>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$question$" rejects="$rejectAll$" >
+      <table>
+        <search>
+          <query>| makeresults
+| sendemail to=escu-feedback@splunk.com subject="ES_SOC: Feedback Request" message="Name: $name$ \n Email: $email$ \n Phone: $phone$\n\n  Request Type: $req_type$\n\n Help with Story: $story$ \n\n\n\nBrief Description of the problem:$question$ \n\n" | eval Status="Attempting to send email using mailserver:" |eval "MailServer: Port" = "$mailserver$"  | table  Status "MailServer: Port"</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+      <html>
+        <p5>If the status is "Configured" and it says "No results Found". Check your logs for sendemail errors using: index=_internal sourcetype=splunk_python "sendemail"</p5>
+        <br/>
+        <p4>You will receive a notification from the Security Content team shortly that your request is being processed. Hang tight!</p4>
+      </html>
+    </panel>
+  </row>
+</form>

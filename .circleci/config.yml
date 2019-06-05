@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 
+version: 2.1
+
 dependencies:
   cache_directories:
     - "~/.apt-cache"
@@ -14,8 +16,6 @@ apt-run: &apt-install
   command: |
     sudo apt update -qq
     sudo apt install -y enchant python-dev -qq
-
-version: 2.1
 
 executors:
   content-executor:
@@ -36,7 +36,7 @@ jobs:
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
+          key: virtualenv
       - run: *apt-install
       - run:
           name: install python dependencies
@@ -46,29 +46,17 @@ jobs:
             virtualenv --python=/usr/bin/python2.7 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
+      - save_cache:
+          key: virtualenv
+          paths:
+            - "/security-content/venv"
       - run:
           name: run validate
           command: |
             cd security-content
             source venv/bin/activate
-
             python bin/validate.py --path . --verbose
-      - run:
-          name: run generate
-          command: |
-            cd security-content
-            source venv/bin/activate
-            python bin/generate.py --path . --output src --storiesv1 --use_case_lib -v
-      - persist_to_workspace:
-          root: security-content/src/default
-          paths:
-              - use_case_library.conf
-              - analytic_stories.conf
-              - savedsearches.conf
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "security-content/requirements.txt" }}
-          paths:
-            - "venv"
+
   build-sources:
     executor: content-executor
     steps:
@@ -80,27 +68,146 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
-      - attach_workspace:
-        # Must be absolute path or relative path from working_directory
-          at: ~/repo/updated
+      - run: *apt-install
       - run:
-          name: store updated analyticstories.conf
+          name: install python dependencies
           command: |
             cd security-content
-            cp -v ~/repo/updated/* src/default/
+            rm -rf venv
+            virtualenv --python=/usr/bin/python2.7 --clear venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+      - run:
+          name: run generate
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
+      - run:
+          name: update version and build number
+          command: |
+            cd security-content
+            # check if tag is set, get build number from the tag if set
+            if [ -z "${CIRCLE_TAG}" ]; then
+                CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
+                echo "detected content version: $CONTENT_VERSION"
+            else
+                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+                echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
+            fi
+            # update build number and version
+            sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/content-version.conf
+            tar -czf content-pack-build.tar.gz package/*
+      - persist_to_workspace:
+          root: security-content/
+          paths:
+              - content-pack-build.tar.gz
+  build-package:
+    executor: content-executor
+    steps:
+      - attach_workspace:
+          at: ~/dist
+      - run:
+          name: grab splunk packaging toolkit
+          command: |
+            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
+            mkdir ~/slim-latest
+            tar -zxf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
+      - run:
+          name: install splunk packaging toolkit (slim)
+          command: |
+              cd ~/slim-latest
+              sudo pip install --upgrade pip setuptools
+              sudo pip install virtualenv
+              virtualenv --python=/usr/bin/python2.7 --clear venv
+              source venv/bin/activate
+              pip install .
+      - run:
+          name: create a .spl for this build using slim
+          command: |
+              source ~/slim-latest/venv/bin/activate
+              cd ~/dist
+              tar -zxf content-pack-build.tar.gz
+              CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
+              mv package DA-ESS-ContentUpdate
+              mkdir upload
+              slim package -o upload DA-ESS-ContentUpdate
+              cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+      - store_artifacts:
+          path: ~/dist/upload
+          destination: package/
+      - persist_to_workspace:
+          root: ~/dist
+          paths:
+             - DA-ESS-ContentUpdate-latest.tar.gz
+  run-appinspect:
+    executor: content-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: *apt-install
+      - run:
+          name: grab appinspect
+          command: |
+            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
+            mkdir appinspect-latest
+            tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
+      - run:
+          name: install app inspect
+          command: |
+            cd appinspect-latest
+            rm -rf venv
+            sudo pip install --upgrade pip setuptools
+            sudo pip install virtualenv
+            virtualenv --python=/usr/bin/python2.7 --clear venv
+            source venv/bin/activate
+            pip install .
+      - run:
+          name: run app inspect
+          command: |
+            cd appinspect-latest
+            source venv/bin/activate
+            splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud --max-messages=all
+      - persist_to_workspace:
+          root: ~/
+          paths:
+             - DA-ESS-ContentUpdate-latest.tar.gz
+  update-sources-github:
+    executor: content-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: *apt-install
+      - run:
+          name: checkout repo
+          command: |
+            mkdir ~/latest
+            tar -zxf ~/DA-ESS-ContentUpdate-latest.tar.gz -C ~/latest --strip-components=1
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+            cd security-content
+            rm -rf package
+            mv ~/latest package
+            # configure git to prep for commit
             git config credential.helper 'cache --timeout=120'
             git config user.email "research@splunk.com"
             git config user.name "research bot"
             git config --global push.default simple
-            git add src/default/*
-            git commit --allow-empty -m "updating src files [ci skip]"
+            git add package/*
+            git commit --allow-empty -m "updating package files [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            tar -czvf content-pack.tar.gz src/*
+            CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+            tar -czf DA-ESS-ContentUpdate-latest.tar.gz package/*
       - persist_to_workspace:
           root: security-content/
           paths:
-              - content-pack.tar.gz
+              - DA-ESS-ContentUpdate-latest.tar.gz
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
@@ -110,18 +217,48 @@ jobs:
       - run:
           name: publish release on github
           command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/repo/updated/content-pack.tar.gz
+            mv ~/repo/updated/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
 workflows:
   version: 2.1
   validate-and-build:
     jobs:
       - validate-content:
+        # build always
           filters:
             tags:
               only: /.*/
       - build-sources:
           requires:
             - validate-content
+        # build always
+          filters:
+            tags:
+              only: /.*/
+      - build-package:
+          requires:
+            - validate-content
+            - build-sources
+        # build always
+          filters:
+            tags:
+              only: /.*/
+      - run-appinspect:
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+        # build always
+          filters:
+            tags:
+              only: /.*/
+      - update-sources-github:
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+        # only update sources in develop
           filters:
             tags:
               only: /^v.*/
@@ -131,6 +268,10 @@ workflows:
           requires:
             - validate-content
             - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+        # only release when there is a tag
           filters:
             tags:
               only: /^v.*/
