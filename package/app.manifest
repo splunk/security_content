@@ -1,51 +1,51 @@
 {
-  "schemaVersion": "2.0.0", 
+  "schemaVersion": "2.0.0",
   "info": {
-    "title": "ES Content Updates", 
+    "title": "ES Content Updates",
     "id": {
-      "group": null, 
-      "name": "DA-ESS-ContentUpdate", 
-      "version": "1.1.0"
-    }, 
+      "group": null,
+      "name": "DA-ESS-ContentUpdate",
+       "version": "1.0.39"
+    },
     "author": [
       {
-        "name": "Splunk", 
-        "email": null, 
+        "name": "Splunk",
+        "email": null,
         "company": null
       }
-    ], 
-    "releaseDate": null, 
-    "description": "Explore the Analytic Stories included with ES Content Updates.", 
+    ],
+    "releaseDate": null,
+    "description": "Explore the Analytic Stories included with ES Content Updates.",
     "classification": {
-      "intendedAudience": null, 
-      "categories": [], 
+      "intendedAudience": null,
+      "categories": [],
       "developmentStatus": null
-    }, 
-    "commonInformationModels": null, 
+    },
+    "commonInformationModels": null,
     "license": {
-      "name": null, 
-      "text": null, 
+      "name": null,
+      "text": null,
       "uri": null
-    }, 
+    },
     "privacyPolicy": {
-      "name": null, 
-      "text": null, 
+      "name": null,
+      "text": null,
       "uri": null
-    }, 
+    },
     "releaseNotes": {
-      "name": null, 
-      "text": "./README.md", 
+      "name": null,
+      "text": "./README.md",
       "uri": null
     }
-  }, 
-  "dependencies": null, 
-  "tasks": null, 
-  "inputGroups": null, 
-  "incompatibleApps": null, 
-  "platformRequirements": null, 
+  },
+  "dependencies": null,
+  "tasks": null,
+  "inputGroups": null,
+  "incompatibleApps": null,
+  "platformRequirements": null,
   "supportedDeployments": [
-    "_standalone", 
+    "_standalone",
     "_distributed"
-  ], 
+  ],
   "targetWorkloads": null
 }
