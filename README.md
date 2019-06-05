@@ -23,7 +23,7 @@ Can be consumed using:
 * [investigations/](investigations/) - splunk, and phantom investigation content that are used in stories
 * [responses/](responses/) - automated splunk and phantom responses that are used in stories
 * [baselines/](baselines/) - phantom and Splunk baseline needed to support detections in stories
-* [src/](src/) - splunk content app source files, includes lookups, binaries, and defaul config files
+* [package/](package/) - splunk content app source files, includes lookups, binaries, and defaul config files
 * [bin/](bin/) - where all binaries to produce, and test content lives
 * [spec/](spec/) - location of all spec files that describe ESCU content
 * [docs/](docs/) - documentation for all of the spec files

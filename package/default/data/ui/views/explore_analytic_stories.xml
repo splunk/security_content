@@ -1,0 +1,81 @@
+<form script="escu_summary.js">
+  <label>Keyword Search</label>
+  <search id="baseAS">
+    <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0 |
+search (title=*$field1$* OR description=*$field1$* OR narrative=*$field1$* OR detection_searches=*$field1$*)</query>
+  </search>
+  <search id="baseSS">
+    <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *" |
+search (title=*$field1$* OR description=*$field1$* OR search=*$field1$*  OR action.escu.mappings=*$field1$* OR action.escu.search_type=*$field1$* OR action.escu.eli5 =*$field1$* )
+  </query>
+  </search>
+  <fieldset submitButton="true">
+    <input type="text" token="field1" searchWhenChanged="true">
+      <label>Enter a keyword in the box below.</label>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row id="tabs">
+    <panel>
+      <html>
+
+
+                <ul id="tabs_list" class="nav nav-tabs">
+                  <li class="active">
+                      <a href="#"  data-toggle="tab" data-elements="analytic">
+                        Analytic Story Results
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#"  data-toggle="tab" data-elements="search">
+                        Search Results
+                      </a>
+                  </li>
+                </ul>
+            </html>
+    </panel>
+  </row>
+  <row id="analytic">
+    <panel>
+      <title>Analytic Story Results</title>
+      <table>
+        <title>For Analytic Stories, the search looks for matches in the story description, title, or narrative fields, as well as the names of the detection searches. In the "Search Results" tab, you'll see matches that appear in the title, description, type, or "Explain it like I'm 5" field, or in the searches themselves.  An asterisk (*) entered in the search box will list all of the Analytic Stories and searches contained within them.</title>
+        <search base="baseAS">
+          <query>| makemv delim="," allowempty=t detection_searches
+            | rex field=detection_searches "\W+(?&lt;"Detection_Searches"&gt;.*)\W+"
+            | eval Detection_Searches=trim(Detection_Searches, "/\"")
+            | table title  description  Detection_Searches
+            | rename title AS "Analytic Story"</query>
+        </search>
+        <option name="count">10</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
+        <drilldown>
+          <link target="_blank">
+            <![CDATA[
+                    /app/DA-ESS-ContentUpdate/analytic_story_details?hideFilters=true&form.analytic_story_name=$row.Analytic Story$
+                    ]]>
+          </link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row id="search">
+    <panel>
+      <title>Search Results</title>
+      <table>
+        <title>Below are keyword matches that appear in the title, description, type, or "Explain it like I'm 5" field or in the search itself. An asterisk (*) entered in the search box will list all of the searches from all of the Analytic Stories.</title>
+        <search base="baseSS">
+          <query>|rename title as "Search Name" action.escu.search_type as "Search type" action.escu.mappings as "Mappings" action.escu.eli5 as "ELI5"| table "Search type","Search Name", description, search</query>
+        </search>
+        <option name="count">10</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>
