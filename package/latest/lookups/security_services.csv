@@ -1,0 +1,5 @@
+service,description,category
+*mpssvc*,Windows Firewall Service,security
+*wscsvc*,Windows Security Center Service,securty
+*windefend*,Windows Defender Service,security
+*sysmon*,Sysmon Driver,security
