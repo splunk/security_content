@@ -1,31 +1,7 @@
-# Fidelity
+# Splunk ES Content Update
 
-The fidelity of a narrative describes the ratio of signal (valid/positive) to noise (invalid/false positive) anticipated based on field experience.
+This subscription service delivers pre-packaged Security Content for use with Splunk Enterprise Security. Subscribers get regular updates to help security practitioners more quickly address ongoing and time-sensitive customer problems and threats.
 
-* High - This indicates a relatively high signal to noise ratio, and therefore a lower likelihood of false positives, and it should not require additional searches to validate it.
+Requires Splunk Enterprise Security version 4.5 or greater.
 
-Example:
-
-```
-
-sourcetype=WinEventLog:* EventCode=4728
-```
-
-
-
-* Low - This indicates a relatively low signal to noise ratio, and therefore a higher likelihood of false positives.  Confidence in the output can be increased through other means (i.e. cross-correlation and/or subsequent searches).
-
-Example:
-
-```
-
-url=* | eval url_length = len(url) | where url_length > 256
-```
-* Moderate - This indicates an unpredictable signal to noise ratio with a bias towards signal, and therefore a higher likelihood of false positives than high. Confidence in the output can be increased through other means (i.e. cross-correlation and/or subsequent searches).
-
-Example:
-
-```
-http_user_agent = "*nullptr*"
-```
-
+For more information please visit the [Splunk ES Content Update user documentation](https://docs.splunk.com/Documentation/ESSOC).
