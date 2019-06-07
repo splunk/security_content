@@ -99,3 +99,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+package/bin/sftp-config.json
