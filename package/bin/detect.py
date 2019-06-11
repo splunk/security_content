@@ -93,7 +93,9 @@ class DetectCommand(GeneratingCommand):
             runstory_results['detection_results'] = []
             kwargs = {"exec_mode": "normal", "earliest_time": earliest_time, "latest_time": latest_time}
             spl = search['search']
-            # f.write("detection search->>>>> " + spl + "\n" )
+            f.write("Earliest" + earliest_time + "\n\n")
+            f.write("Latest" + latest_time + "\n\n")
+            f.write("detection search->>>>> " + spl + "\n")
             if spl[0] != "|":
                 spl = "| search %s" % spl
             job = service.jobs.create(spl, **kwargs)

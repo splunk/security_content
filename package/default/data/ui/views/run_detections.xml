@@ -1,10 +1,10 @@
 <form>
   <label>Run Story</label>
   <search id="detection_results">
-    <query>|detect story="$title$" risk="$risk$" earliest_time=$earliest$ latest_time=$latest$</query>
+    <query>|  detect story="$title$" risk="$risk$" earliest_time=$earliest$ latest_time=$latest$</query>
   </search>
   <fieldset submitButton="true">
-    <input type="dropdown" token="title">
+    <input type="dropdown" token="title" searchWhenChanged="true">
       <label>Select a Story</label>
       <fieldForLabel>title</fieldForLabel>
       <fieldForValue>title</fieldForValue>
@@ -21,6 +21,10 @@
       <default>false</default>
     </input>
     <input type="time" searchWhenChanged="true">
+      <change>
+        <eval token="earliest">if(isnum('earliest'),'earliest',relative_time(now(),'earliest')</eval>
+        <eval token="latest">if(isnum('latest'),'latest',relative_time(now(),'latest')</eval>
+      </change>
       <label></label>
       <default>
         <earliest>-24h@h</earliest>
@@ -33,11 +37,11 @@
       <title>Support Searches</title>
       <table>
         <search base="detection_results">
-          <query>dedup support_search_name | table support_search_name</query>
+          <query>| dedup support_search_name | table support_search_name</query>
         </search>
         <option name="count">10</option>
         <option name="drilldown">none</option>
-        <option name="refresh.display">preview</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
@@ -50,7 +54,7 @@
           <query>| stats count values(story) as story values(detection_search_name) as detection_search_name values(mappings) as mappings  by common_field risk_score risk_object risk_object_type</query>
         </search>
         <option name="drilldown">cell</option>
-        <option name="refresh.display">preview</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">true</option>
         <format type="color" field="detection_results">
           <colorPalette type="list">[#53A051,#006D9C,#F8BE34,#F1813F,#DC4E41]</colorPalette>
@@ -66,11 +70,11 @@
   </row>
   <row>
     <panel>
-      <title>Risk Alerts</title>
+      <title>Number of results per entity</title>
       <table>
         <title>Top Entities</title>
-        <search id="firstPostProcess">
-          <query>index=risk | stats count sum(risk_score) values(orig_search_name) by risk_object</query>
+        <search id="firstPostProcess" base="detection_results">
+          <query>| mvexpand entities | stats count values(detection_name) as detection_name by entities | table detection_name count entities| sort - count</query>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
