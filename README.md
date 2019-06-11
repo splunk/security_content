@@ -20,7 +20,7 @@ Grab the latest release of DA-ESS-ContentUpdate and install it on a Splunk Enter
 `python content-update.py -o $SPLUNK_HOME/etc/apps/DA-ESS-ContentUpdate --splunk_user admin --splunk_password xxxx`
 
 # Writing Content
-First, make sure to follow steps one through three under [developing](https://github.com/splunk/security-content#developing) before you begin. 
+First, make sure to follow the steps to install **dependecies and pre-commit hook's** under [developing](https://github.com/splunk/security-content#developing) before you begin. 
 
 1. Select the content [piece](https://github.com/splunk/security-content#content-parts) you want to write. 
 2. Copy an example and edit it to suit your needs. At a minimum, you must write a [story](stories/), [a detection search](detections/), and an [investigative search](investigations/).
@@ -45,16 +45,22 @@ First, make sure to follow steps one through three under [developing](https://gi
 * [spec/](spec/): All spec files that describe ESCU content
 
 # Developing
-For getting pre-commit checks, install the hooks (see below for steps):
+##### dependecies and pre-commit hook's
+Install project dependecies and tests that run before content is commited
 
 1. Create virtualenv and install requirements: `virtualenv venv && source venv/bin/activate && pip install -r requirements.txt`.
 2. Install `pre-commit install`.
-3. Install CircleCi [CLI Tool](https://circleci.com/docs/2.0/local-cli/#installation).
 
-To test a local change to CircleCi or build, make sure you are running Docker and then enter
+##### CI tools
+tools that help with testing CI jobs
+
+1. Install CircleCi [CLI Tool](https://circleci.com/docs/2.0/local-cli/#installation).
+2. To test a local change to CircleCi or build, make sure you are running Docker and then enter
 `circleci local execute -e GITHUB_TOKEN=$GITHUB_TOKEN --branch <your branch>`
 
+#### Generate docs from schema 
 To generate docs from schema automatically
+
 1. install https://github.com/adobe/jsonschema2md
 2. Enter `jsonschema2md -d spec/v2/detections.json.spec -o docs`
 
