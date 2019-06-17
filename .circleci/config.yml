@@ -83,6 +83,8 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
+            # make a copy of use_case_lib in order to have ES work :-(
+            cp package/default/use_case_library.conf package/default/analyticstories.conf
       - run:
           name: update version and build number
           command: |
@@ -98,7 +100,6 @@ jobs:
             # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
             sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
-            #            sed -i "s/\"version\": .*$/ \"version\": \"$CONTENT_VERSION\"/g" package/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/content-version.conf
             tar -czf content-pack-build.tar.gz package/*
       - persist_to_workspace:
