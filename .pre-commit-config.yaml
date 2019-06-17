@@ -11,5 +11,5 @@ repos:
       args: [--autofix]
     - id: flake8
       args: [--max-line-length=131]
-      exclude: 'package/bin/da_ess_contentupdate/|package/bin/splunklib/|venv/|package/bin/escu_contextualize.py|package/bin/escu_investigate.py|package/bin/runstory.py'
+      exclude: 'package/bin/da_ess_contentupdate/|package/bin/splunklib/|venv/|package/bin/escu_contextualize.py|package/bin/escu_investigate.py|package/bin/runstory.py|package/bin/detect.py|package/bin/detect_new.py'
     - id: requirements-txt-fixer

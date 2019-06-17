@@ -11,7 +11,7 @@ import time
 @Configuration(streaming=True, local=True)
 class DetectCommand(GeneratingCommand):
 
-   
+    logger = splunk.mining.dcutils.getLogger()
     story = Option(require=True)
     risk = Option(require=True)
     earliest_time = Option(doc='''
@@ -23,42 +23,32 @@ class DetectCommand(GeneratingCommand):
         **Description:** CSV file from which repeated random samples will be drawn
         ''', name='latest_time', require=True)
 
-
-    def support_searches(self, content):
-        support_data = {}
-        
-        support_data['search_name'] = content['action.escu.full_search_name']
-        support_data['search_description'] = content['description']
-        support_data['search'] = content['search']
-        support_searches_to_run.append(support_data)
-        logger.info("prepping to run support search: {0}".format(support_data['search_name']))
-        return support_searches_to_run
-
     def generate(self):
         story = self.story
         risk = self.risk
         earliest_time = self.earliest_time
         latest_time = self.latest_time
-        
+        detection_searches_to_run = []
+        # investigative_searches_to_run = []
+        support_searches_to_run = []
+        runstory_results = {}
         port = splunk.getDefault('port')
         service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port)
         f = open("/opt/splunk/etc/apps/DA-ESS-ContentUpdate/bin/errors2.txt", "w")
         f.write("Starting run story")
-
-        detection_searches_to_run = []
-        logger = splunk.mining.dcutils.getLogger()
-        
-        runstory_results = {}
-        support_searches_to_run = []
 
         savedsearches = service.saved_searches
 
         for savedsearch in savedsearches:
             content = savedsearch.content
 
-            if 'action.escu.analytic_story' in content and story in content['action.escu.analytic_story']:
-                if content['action.escu.search_type'] == 'support':
-                    support_searches_to_run = self.support_searches(content)
+            if 'action.escu.analytic_story' in content and story in content['action.escu.analytic_story'] and \
+                    content['action.escu.search_type'] == 'support':
+                support_data = {}
+                support_data['search_name'] = content['action.escu.full_search_name']
+                support_data['search_description'] = content['description']
+                support_data['search'] = content['search']
+                support_searches_to_run.append(support_data)
 
             if 'action.escu.analytic_story' in content and story in content['action.escu.analytic_story'] and \
                     content['action.escu.search_type'] == 'detection':
