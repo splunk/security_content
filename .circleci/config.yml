@@ -125,6 +125,7 @@ jobs:
               sudo pip install virtualenv
               virtualenv --python=/usr/bin/python2.7 --clear venv
               source venv/bin/activate
+              pip install semantic_version
               pip install .
       - run:
           name: create a .spl for this build using slim
