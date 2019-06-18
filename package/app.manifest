@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0.0", 
+  "schemaVersion": "1.0.0", 
   "info": {
     "title": "ES Content Updates", 
     "id": {
@@ -9,9 +9,9 @@
     }, 
     "author": [
       {
-        "name": "Splunk", 
-        "email": null, 
-        "company": null
+        "name": "Splunk Security Research Team", 
+        "email": "research@splunk.com", 
+        "company": "Splunk"
       }
     ], 
     "releaseDate": null, 
@@ -42,10 +42,5 @@
   "tasks": null, 
   "inputGroups": null, 
   "incompatibleApps": null, 
-  "platformRequirements": null, 
-  "supportedDeployments": [
-    "_standalone", 
-    "_distributed"
-  ], 
-  "targetWorkloads": null
+  "platformRequirements": null
 }
