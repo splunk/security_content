@@ -100,6 +100,10 @@ class DetectCommand(GeneratingCommand):
                 detection_search_name.append(search['search_name'])
                 for result in job_results:
                     detection_results.append(dict(result))
+            # if job['resultCount'] == "0": 
+            #     detection_search_name.append(search['search_name'])
+            #     for result in job_results:
+            #         detection_results.append(dict(result))
 
         #self.logger.info("detect.py - FINAL object: {0}".format(detection_search_name))
         #self.logger.info("detect.py - FINAL object: {0}".format(detection_results))
@@ -134,6 +138,8 @@ class DetectCommand(GeneratingCommand):
         self.runstory_results['detection_search_name'],self.runstory_results['detection_results'] = self._run_detection(detection_searches_to_run,service,earliest_time,latest_time)
 
         self.logger.info("detect.py - FINAL object: {0}".format(self.runstory_results['support_search_name']))
+
+
         yield {
                         '_time': time.time(),
                         '_raw': self.runstory_results,
