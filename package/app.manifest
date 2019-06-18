@@ -9,9 +9,9 @@
     }, 
     "author": [
       {
-        "name": "Splunk", 
-        "email": null, 
-        "company": null
+        "name": "Splunk Security Research Team", 
+        "email": "research@splunk.com", 
+        "company": "Splunk"
       }
     ], 
     "releaseDate": null, 
