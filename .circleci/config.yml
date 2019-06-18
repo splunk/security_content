@@ -114,7 +114,7 @@ jobs:
       - run:
           name: grab splunk packaging toolkit
           command: |
-            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
+            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
             mkdir ~/slim-latest
             tar -zxf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
       - run:
