@@ -122,7 +122,6 @@ jobs:
           command: |
               cd ~/slim-latest
               sudo pip install --upgrade pip setuptools
-              sudo pip install semantic_version
               sudo pip install virtualenv
               virtualenv --python=/usr/bin/python2.7 --clear venv
               source venv/bin/activate
