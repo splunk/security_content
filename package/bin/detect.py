@@ -125,33 +125,16 @@ class DetectCommand(GeneratingCommand):
         self.logger.info("detect.pytime - starting run story")
 
         if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-            # self.logger.info("detect.pytime - {0}".format(search_results.search_et)
-            #     )
-            # self.logger.info("detect.pytime - {0}".format(search_results.search_lt))
-
-
             earliest_time = search_results.search_et
             latest_time = search_results.search_lt
-
             earliest_utc = datetime.utcfromtimestamp(earliest_time).strftime('%Y-%m-%d %H:%M:%S.%f')
-            datetime_object = datetime.strptime(earliest_utc, '%Y-%m-%d %H:%M:%S.%f')  
-
-            support_earliest_time = datetime_object - timedelta(days=30)
-
+            support_earliest_time = datetime.strptime(earliest_utc, '%Y-%m-%d %H:%M:%S.%f') - timedelta(days=30)
             support_earliest_time = support_earliest_time.strftime('%s')
-
-            #earliest_time = datetime.datetime.strptime(, '%Y-%m-%d %H:%M:%S')
-
-            #support_time = search_results.search_et - datetime.timedelta(days=30)
 
             self.logger.info("detect.pytime detection_earliest - {0}".format(earliest_time))
             self.logger.info("detect.pytime detection_latest - {0}".format(latest_time))
-
             self.logger.info("detect.pytime support_earliest - {0}".format(support_earliest_time))
             self.logger.info("detect.pytime support_latest - {0}".format(earliest_time))
-            
-            #self.logger.info("detect.pytime 30 days early - {0}".format(support_time))
-
 
 
         savedsearches = service.saved_searches
@@ -173,16 +156,15 @@ class DetectCommand(GeneratingCommand):
 
 
         yield {
-                        '_time': time.time(),
-                        '_raw': self.runstory_results,
-                        'sourcetype': "_json",
-                        'story': self.story,
-                        'support_search_name': self.runstory_results['support_search_name'],
-                        'detection_search_name': self.runstory_results['detection_search_name'],
-                        'detection_results': self.runstory_results['detection_results']
-
-
-                        }
+                '_time': time.time(),
+                '_raw': self.runstory_results,
+                'sourcetype': "_json",
+                'story': self.story,
+                'support_search_name': self.runstory_results['support_search_name'],
+                'detection_search_name': self.runstory_results['detection_search_name'],
+                'detection_results': self.runstory_results['detection_results']
+                
+                }
 
 
         #self.logger.info("detect.py - JOB Results: {0}".format(self.runstory_results['job_results']))
