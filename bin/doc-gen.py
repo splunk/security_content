@@ -355,21 +355,12 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                 output_file.write("\n==={0}===\n".format(story_name))
                 # header information
                 output_file.write("""\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
-                output_file.write("* id = '''{0}'''\n".format(story['id']))
                 output_file.write("* creation_date = {0}\n".format(story['creation_date']))
                 output_file.write("* modification_date = {0}\n".format(story['modification_date']))
                 output_file.write("* version = {0}\n".format(story['version']))
-                output_file.write("* spec_version = {0}\n".format(story['spec_version']))
 
                 output_file.write("\n====Description====\n{0}\n".format(story['description']))
                 output_file.write("\n====Narrative====\n{0}\n".format(story['narrative']))
-
-                # process detections
-                output_file.write("\n====Detections====\n")
-                # write all detections
-                if 'detections' in story:
-                    for d in story['detections']:
-                        output_file.write("* {0}\n".format(d['name']))
 
                 mappings, providing_technologies, data_models = process_metadata(detections, story_name)
 
@@ -407,13 +398,6 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                     output_file.write("\n=====NIST=====\n")
                     for m in mappings['nist']:
                         output_file.write("* {0}\n".format(m))
-
-                # maintainers
-                output_file.write("\n====Maintainers====\n")
-                for m in story['maintainers']:
-                    output_file.write("* name = {0}\n".format(m['name']))
-                    output_file.write("* email = {0}\n".format(m['company']))
-                    output_file.write("* company = {0}\n".format(m['email']))
 
                 # references
                 output_file.write("\n====References====\n")
