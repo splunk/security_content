@@ -6,6 +6,7 @@ import splunklib.results
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option
 import splunk.mining.dcutils
 import time
+from datetime import datetime, timedelta
 
 
 @Configuration(streaming=True,local=True)
@@ -14,14 +15,14 @@ class DetectCommand(GeneratingCommand):
     logger = splunk.mining.dcutils.getLogger()
     story = Option(require=True)
     risk = Option(require=True)
-    earliest_time = Option(doc='''
-        **Syntax:** **domainlist=***<path>*
-        **Description:** CSV file from which repeated random samples will be drawn
-        ''', name='earliest_time', require=True)
-    latest_time = Option(doc='''
-        **Syntax:** **domainlist=***<path>*
-        **Description:** CSV file from which repeated random samples will be drawn
-        ''', name='latest_time', require=True)
+    # earliest_time = Option(doc='''
+    #     **Syntax:** **domainlist=***<path>*
+    #     **Description:** CSV file from which repeated random samples will be drawn
+    #     ''', name='earliest_time', require=True)
+    # latest_time = Option(doc='''
+    #     **Syntax:** **domainlist=***<path>*
+    #     **Description:** CSV file from which repeated random samples will be drawn
+    #     ''', name='latest_time', require=True)
 
     # global variables
     detection_searches_to_run = []
@@ -51,12 +52,13 @@ class DetectCommand(GeneratingCommand):
         self.logger.info("detect.py - prepping to run detection search: {0}".format(detection_data['search_name']))
         return self.detection_searches_to_run
 
-    def _run_support(self, support_searches_to_run, service):
+    def _run_support(self, support_searches_to_run, service, earliest_time, latest_time):
         # Run all Support searches
         support_search_name = []
         for search in support_searches_to_run:
             # setup service job
-            kwargs = {"exec_mode": "normal", "earliest_time": "-1d", "latest_time": "-1m"}
+            latest_support_time = earliest_time
+            kwargs = {"exec_mode": "normal", "earliest_time": "-100d", "latest_time": latest_support_time}
             spl = search['search']
             if spl[0] != "|":
                 spl = "| search %s" % spl
@@ -77,6 +79,8 @@ class DetectCommand(GeneratingCommand):
         detection_search_name = []
         
         for search in detection_searches_to_run:
+            # self.logger.info("detect.pytime- earliest_time: {0}".format(earliest_time))
+            # self.logger.info("detect.pytime - latest: {0}".format(latest_time))
             # setup service job
             kwargs = {"exec_mode": "normal", "earliest_time": earliest_time, "latest_time": latest_time}
             spl = search['search']
@@ -114,12 +118,41 @@ class DetectCommand(GeneratingCommand):
 
     def generate(self):
         story = self.story
-        risk = self.risk
-        earliest_time = self.earliest_time
-        latest_time = self.latest_time
+        risk = self.risk      
+        search_results = self.search_results_info
         port = splunk.getDefault('port')
         service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port)
-        self.logger.info("detect.py - starting run story")
+        self.logger.info("detect.pytime - starting run story")
+
+        if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
+            # self.logger.info("detect.pytime - {0}".format(search_results.search_et)
+            #     )
+            # self.logger.info("detect.pytime - {0}".format(search_results.search_lt))
+
+
+            earliest_time = search_results.search_et
+            latest_time = search_results.search_lt
+
+            earliest_utc = datetime.utcfromtimestamp(earliest_time).strftime('%Y-%m-%d %H:%M:%S.%f')
+            datetime_object = datetime.strptime(earliest_utc, '%Y-%m-%d %H:%M:%S.%f')  
+
+            support_earliest_time = datetime_object - timedelta(days=30)
+
+            support_earliest_time = support_earliest_time.strftime('%s')
+
+            #earliest_time = datetime.datetime.strptime(, '%Y-%m-%d %H:%M:%S')
+
+            #support_time = search_results.search_et - datetime.timedelta(days=30)
+
+            self.logger.info("detect.pytime detection_earliest - {0}".format(earliest_time))
+            self.logger.info("detect.pytime detection_latest - {0}".format(latest_time))
+
+            self.logger.info("detect.pytime support_earliest - {0}".format(support_earliest_time))
+            self.logger.info("detect.pytime support_latest - {0}".format(earliest_time))
+            
+            #self.logger.info("detect.pytime 30 days early - {0}".format(support_time))
+
+
 
         savedsearches = service.saved_searches
 
@@ -133,8 +166,7 @@ class DetectCommand(GeneratingCommand):
                     detection_searches_to_run = self._detection_searches(content)
 
     # run all support searches and store its name to display later
-        self.runstory_results['support_search_name'] = self._run_support(support_searches_to_run, service)
-
+        self.runstory_results['support_search_name'] = self._run_support(support_searches_to_run, service,earliest_time,latest_time)
         self.runstory_results['detection_search_name'],self.runstory_results['detection_results'] = self._run_detection(detection_searches_to_run,service,earliest_time,latest_time)
 
         self.logger.info("detect.py - FINAL object: {0}".format(self.runstory_results['support_search_name']))
