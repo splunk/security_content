@@ -836,7 +836,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     return story_count, use_case_lib_path
 
 
-def write_savedsearches_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
+def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR):
 
     # Create savedsearches.conf for all our detections
     detections_output_path = OUTPUT_DIR + "/default/savedsearches.conf"
@@ -1127,11 +1127,11 @@ if __name__ == "__main__":
     if storiesv1:
         story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections,
                                                                complete_investigations, complete_baselines, OUTPUT_DIR)
-        print "{0} stories have been successfully to {1}".format(story_count, story_path)
+        print "{0} stories have been successfully written to {1}".format(story_count, story_path)
     else:
         story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections,
                                                                complete_investigations, complete_baselines, OUTPUT_DIR)
-        print "{0} stories have been successfully to {1}".format(story_count, story_path)
+        print "{0} stories have been successfully written to {1}".format(story_count, story_path)
 
     if use_case_lib:
         story_count, use_case_lib_path = write_use_case_lib_conf(complete_stories,
@@ -1140,11 +1140,11 @@ if __name__ == "__main__":
         print "{0} stories have been successfully to {1}".format(story_count, use_case_lib_path)
 
     detections_count, investigations_count, baselines_count, detection_path = \
-        write_savedsearches_confv1(complete_stories, complete_detections, complete_investigations,
+        write_savedsearches_confv1(complete_detections, complete_investigations,
                                    complete_baselines, OUTPUT_DIR)
-    print "{0} detections have been successfully to {1}\n" \
-          "{2} investigations have been successfully to {1}\n" \
-          "{3} baselines have been successfully to {1}".format(detections_count, detection_path, investigations_count,
-                                                               baselines_count)
+    print "{0} detections have been successfully written to {1}\n" \
+          "{2} investigations have been successfully written to {1}\n" \
+          "{3} baselines have been successfully written to {1}".format(detections_count, detection_path,
+                                                                       investigations_count, baselines_count)
 
     print "security content generation completed.."

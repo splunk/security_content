@@ -47,6 +47,7 @@
         ],
         "type": "string"
       },
+      "maxItems": 1,
       "minItems": 0,
       "type": "array",
       "uniqueItems": true
