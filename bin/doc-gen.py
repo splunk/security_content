@@ -327,7 +327,7 @@ def generate_stories(REPO_PATH, verbose):
     return complete_stories
 
 
-def write_splunk_docs(stories, OUTPUT_DIR):
+def write_splunk_docs(stories, detections, OUTPUT_DIR):
 
     paths = []
     # Create conf files from analytics stories files
@@ -353,34 +353,75 @@ def write_splunk_docs(stories, OUTPUT_DIR):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n==={0}===\n".format(story_name))
-
                 # header information
-                output_file.write("""
-                                 <div class="toccolours mw-collapsible">
-                                 <div class="mw-collapsible-content">
-                                 """)
+                output_file.write("""\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
+                output_file.write("* id = '''{0}'''\n".format(story['id']))
+                output_file.write("* creation_date = {0}\n".format(story['creation_date']))
+                output_file.write("* modification_date = {0}\n".format(story['modification_date']))
+                output_file.write("* version = {0}\n".format(story['version']))
+                output_file.write("* spec_version = {0}\n".format(story['spec_version']))
 
-                output_file.write("'''Description''' <br/>\n{0}\n\n".format(story['description']))
-                output_file.write("'''Narrative''' <br/>\n{0}\n\n".format(story['narrative']))
+                output_file.write("\n====Description====\n{0}\n".format(story['description']))
+                output_file.write("\n====Narrative====\n{0}\n".format(story['narrative']))
 
-                # print mappings
-                output_file.write("""
-                ''' Framework Mappings ''' <br/>
-                '''ATT&CK''':  <br/>
-                '''Kill Chain Phases''': Actions on Objectives<br/>
-                '''CIS 20''': CIS 11, CIS 12<br/>
-                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                # process detections
+                output_file.write("\n====Detections====\n")
+                # write all detections
+                if 'detections' in story:
+                    for d in story['detections']:
+                        output_file.write("* {0}\n".format(d['name']))
 
-                '''Data Dependencies'''
-                '''Data Models''': <br/>
-                '''Providing Technologies''': <br/>
-                \n
-                """)
+                mappings, providing_technologies, data_models = process_metadata(detections, story_name)
 
+                # providing tech
+                output_file.write("\n====Providing Technologies====\n")
+                providing_technologies = unique(providing_technologies)
+                for pt in providing_technologies:
+                    output_file.write("* {0}\n".format(pt))
+
+                # providing tech
+                output_file.write("\n====Data Models====\n")
+                data_models = unique(data_models)
+                for dm in data_models:
+                    output_file.write("* {0}\n".format(dm))
+
+                # mappings
+                output_file.write("\n====Mappings====\n")
+
+                output_file.write("\n=====ATT&CK=====\n")
+                if mappings['mitre_attack']:
+                    for m in mappings['mitre_attack']:
+                        output_file.write("* {0}\n".format(m))
+
+                output_file.write("\n=====Kill Chain Phases=====\n")
+                if mappings['kill_chain_phases']:
+                    for m in mappings['kill_chain_phases']:
+                        output_file.write("* {0}\n".format(m))
+
+                if mappings['cis20']:
+                    output_file.write("\n=====CIS=====\n")
+                    for m in mappings['cis20']:
+                        output_file.write("* {0}\n".format(m))
+
+                if mappings['nist']:
+                    output_file.write("\n=====NIST=====\n")
+                    for m in mappings['nist']:
+                        output_file.write("* {0}\n".format(m))
+
+                # maintainers
+                output_file.write("\n====Maintainers====\n")
+                for m in story['maintainers']:
+                    output_file.write("* name = {0}\n".format(m['name']))
+                    output_file.write("* email = {0}\n".format(m['company']))
+                    output_file.write("* company = {0}\n".format(m['email']))
+
+                # references
+                output_file.write("\n====References====\n")
+                for r in story['references']:
+                    output_file.write("* {0}\n".format(markdown(r)))
                 # footer information
-                output_file.write("""
-                </div></div>
-                """)
+                output_file.write("""\n</div>\n</div>\n""")
+    output_file.write("""\n[[Category:V:Lab:drafts]]""")
 
     output_file.close()
     story_count = len(stories.keys())
@@ -520,7 +561,7 @@ if __name__ == "__main__":
     complete_detections = generate_detections(REPO_PATH, complete_stories)
 
     if gsd:
-        story_count, paths = write_splunk_docs(complete_stories, OUTPUT_DIR)
+        story_count, paths = write_splunk_docs(complete_stories, complete_detections, OUTPUT_DIR)
         for p in paths:
             print "{0} story documents have been successfully written to {1}".format(story_count, p)
     else:
