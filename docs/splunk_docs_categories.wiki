@@ -1,14 +1,14 @@
 = Use Case Categories=
 The collapse...
 
-                    <div class="toccolours mw-collapsible">
-                    <div class="mw-collapsible-content">
-                    
 
 ==Cloud Security==
 
 ===AWS Cross Account Activity===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Track when a user assumes an IAM role in another AWS account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
 
 '''Narrative''' <br/>
@@ -16,19 +16,24 @@ Amazon Web Services (AWS) admins manage access to AWS resources and services acr
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===AWS Cryptomining===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or EC2 instances started by previously unseen users are just a few examples of potentially malicious behavior.
 
 '''Narrative''' <br/>
@@ -36,19 +41,24 @@ Cryptomining is an intentionally difficult, resource-intensive business. Its com
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===AWS Network ACL Activity===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
 
 '''Narrative''' <br/>
@@ -56,19 +66,24 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===AWS Suspicious Provisioning Activities===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.
 
 '''Narrative''' <br/>
@@ -76,19 +91,24 @@ Because most enterprise AWS activities originate from familiar geographic locati
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===AWS User Monitoring===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
 
 '''Narrative''' <br/>
@@ -96,19 +116,24 @@ It seems obvious that it is critical to monitor and control the users who have a
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious AWS EC2 Activities===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.
 
 '''Narrative''' <br/>
@@ -116,19 +141,24 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious AWS Login Activities===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
 
 '''Narrative''' <br/>
@@ -136,19 +166,24 @@ It is important to monitor and control who has access to your AWS infrastructure
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious AWS S3 Activities===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
 
 '''Narrative''' <br/>
@@ -156,19 +191,24 @@ As cloud computing has exploded, so has the number of creative attacks on virtua
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious AWS Traffic===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
 
 '''Narrative''' <br/>
@@ -176,19 +216,24 @@ A virtual private cloud (VPC) is an on-demand managed cloud-computing service th
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Unusual AWS EC2 Modifications===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Identify unusual changes to your AWS EC2 instances that may indicate malicious activity. Modifications to your EC2 instances by previously unseen users is an example of an activity that may warrant further investigation.
 
 '''Narrative''' <br/>
@@ -196,22 +241,27 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
+                
+                </div></div>
                 
 
 ==Best Practices==
 
 ===Account Monitoring and Controls===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 A common attack technique is to leverage user accounts to gain unauthorized access to the target's network. This Analytic Story minimizes opportunities for attack by helping you actively manage creation/use/dormancy/deletion--the lifecycle of system and application accounts.
 
 '''Narrative''' <br/>
@@ -219,19 +269,24 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Asset Tracking===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Keep a careful inventory of every asset on your network to make it easier to detect rogue devices. Unauthorized/unmanaged devices could be an indication of malicious behavior that should be investigated further.
 
 '''Narrative''' <br/>
@@ -239,19 +294,24 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Monitor Backup Solution===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Address common concerns when monitoring your backup processes. These searches can help you reduce risks from ransomware, device theft, or denial of physical access to a host by backing up data on endpoints.
 
 '''Narrative''' <br/>
@@ -259,19 +319,24 @@ Having backups is a standard best practice that helps ensure continuity of busin
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Monitor for Unauthorized Software===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Identify and investigate prohibited/unauthorized software or processes that may be concealing malicious behavior within your environment. 
 
 '''Narrative''' <br/>
@@ -279,19 +344,24 @@ It is critical to identify unauthorized software and processes running on enterp
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Monitor for Updates===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.
 
 '''Narrative''' <br/>
@@ -299,19 +369,24 @@ It is a common best practice to ensure that endpoints are being patched and upda
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Prohibited Traffic Allowed or Protocol Mismatch===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
 
 '''Narrative''' <br/>
@@ -319,19 +394,24 @@ A traditional security best practice is to control the ports, protocols, and ser
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Router & Infrastructure Security===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Validate the security configuration of network infrastructure and verify that only authorized users and systems are accessing critical assets. Core routing and switching infrastructure are common strategic targets for attackers.
 
 '''Narrative''' <br/>
@@ -339,19 +419,24 @@ Networking devices, such as routers and switches, are often overlooked as resour
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Use of Cleartext Protocols===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
 
 '''Narrative''' <br/>
@@ -359,22 +444,27 @@ Various legacy protocols operate by default in the clear, without the protection
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
+                
+                </div></div>
                 
 
 ==Vulnerability==
 
 ===Apache Struts Vulnerability===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect and investigate activities--such as unusually long <code>Content-Type</code> length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
 
 '''Narrative''' <br/>
@@ -382,19 +472,24 @@ In March of 2017, a remote code-execution vulnerability in the Jakarta Multipart
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===JBoss Vulnerability===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 In March of 2016, adversaries were seen using JexBoss--an open-source utility used for testing and exploiting JBoss application servers. These searches help detect evidence of these attacks, such as network connections to external resources or web services spawning atypical child processes, among others.
 
 '''Narrative''' <br/>
@@ -402,19 +497,24 @@ This Analytic Story looks for probing and exploitation attempts targeting JBoss 
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Spectre And Meltdown Vulnerabilities===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.
 
 '''Narrative''' <br/>
@@ -422,19 +522,24 @@ Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow 
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Splunk Enterprise Vulnerability===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Keeping your Splunk deployment up to date is critical and may help you reduce the risk of CVE-2016-4859, an open-redirection vulnerability within some older versions of Splunk Enterprise. The detection search will help ensure that users are being properly authenticated and not being redirected to malicious domains.
 
 '''Narrative''' <br/>
@@ -442,19 +547,24 @@ This Analytic Story is associated with CVE-2016-4859, an open-redirect vulnerabi
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Splunk Enterprise Vulnerability CVE-2018-11409===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Reduce the risk of CVE-2018-11409, an information disclosure vulnerability within some older versions of Splunk Enterprise, with searches designed to help ensure that your Splunk system does not leak information to authenticated users.
 
 '''Narrative''' <br/>
@@ -462,22 +572,27 @@ Although there have been no reports of it being exploited, Splunk Enterprise ver
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
+                
+                </div></div>
                 
 
 ==Abuse==
 
 ===Brand Monitoring===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
 '''Narrative''' <br/>
@@ -485,19 +600,24 @@ While you can educate your users and customers about the risks and threats posed
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===DNS Amplification Attacks===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to <code>ANY</code> queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
 
 '''Narrative''' <br/>
@@ -505,19 +625,24 @@ The Domain Name System (DNS) is the protocol used to map domain names to IP addr
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Data Protection===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
 '''Narrative''' <br/>
@@ -525,19 +650,24 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Host Redirection===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect evidence of tactics used to redirect traffic from a host to a destination other than the one intended--potentially one that is part of an adversary's attack infrastructure. An example is redirecting communications regarding patches and updates or misleading users into visiting a malicious website.
 
 '''Narrative''' <br/>
@@ -545,19 +675,24 @@ Attackers will often attempt to manipulate client communications for nefarious p
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Netsh Abuse===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect activities and various techniques associated with the abuse of <code>netsh.exe</code>, which can disable local firewall settings or set up a remote connection to a host from an infected system.
 
 '''Narrative''' <br/>
@@ -565,19 +700,24 @@ It is a common practice for attackers of all types to leverage native Windows to
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Web Fraud Detection===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor your environment for activity consistent with common attack techniques bad actors use when attempting to compromise web servers or other web-related assets.
 
 '''Narrative''' <br/>
@@ -585,22 +725,27 @@ The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of 
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
+                
+                </div></div>
                 
 
 ==Malware==
 
 ===ColdRoot MacOS RAT===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
 
 '''Narrative''' <br/>
@@ -608,19 +753,24 @@ Conventional wisdom holds that Apple's MacOS operating system is significantly l
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===DHS Report TA18-074A===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.
 
 '''Narrative''' <br/>
@@ -628,19 +778,24 @@ The frequency of nation-state cyber attacks has increased significantly over the
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Dynamic DNS===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.
 
 '''Narrative''' <br/>
@@ -648,19 +803,24 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Emotet Malware (DHS Report TA18-201A)===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect rarely used executables, specific registry paths that may confer malware survivability and persistence, instances where cmd.exe is used to launch script interpreters, and other indicators that the Emotet financial malware has compromised your environment.
 
 '''Narrative''' <br/>
@@ -668,19 +828,24 @@ The trojan downloader known as Emotet first surfaced in 2014, when it was discov
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Hidden Cobra Malware===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
 
 '''Narrative''' <br/>
@@ -688,19 +853,24 @@ North Korea's government-sponsored "cyber army" has been slowly building momentu
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Orangeworm Attack Group===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
 '''Narrative''' <br/>
@@ -708,19 +878,24 @@ In May of 2018, the attack group Orangeworm was implicated for installing a cust
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Ransomware===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
 
 '''Narrative''' <br/>
@@ -728,19 +903,24 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===SamSam Ransomware===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
 
 '''Narrative''' <br/>
@@ -748,19 +928,24 @@ The first version of the SamSam ransomware (a.k.a. Samas or SamsamCrypt) was lau
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Unusual Processes===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Quickly identify systems running new or unusual processes in your environment that could be indicators of suspicious activity. Processes run from unusual locations, those with conspicuously long command lines, and rare executables are all examples of activities that may warrant deeper investigation.
 
 '''Narrative''' <br/>
@@ -768,19 +953,24 @@ Being able to profile a host's processes within your environment can help you mo
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Windows File Extension and Association Abuse===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect and investigate suspected abuse of file extensions and Windows file associations. Some of the malicious behaviors involved may include inserting spaces before file extensions or prepending the file extension with a different one, among other techniques.
 
 '''Narrative''' <br/>
@@ -788,19 +978,24 @@ Attackers use a variety of techniques to entice users to run malicious code or t
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Windows Service Abuse===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.
 
 '''Narrative''' <br/>
@@ -808,22 +1003,27 @@ The Windows operating system uses a services architecture to allow for running c
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
+                
+                </div></div>
                 
 
 ==Adversary Tactics==
 
 ===Collection and Staging===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor for and investigate activities--such as suspicious writes to the Windows Recycling Bin or email servers sending high amounts of traffic to specific hosts, for example--that may indicate that an adversary is harvesting and exfiltrating sensitive data. 
 
 '''Narrative''' <br/>
@@ -831,19 +1031,24 @@ A common adversary goal is to identify and exfiltrate data of value from a targe
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Command and Control===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.
 
 '''Narrative''' <br/>
@@ -851,19 +1056,24 @@ Threat actors typically architect and implement an infrastructure to use in vari
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Common Phishing Frameworks===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect DNS and web requests to fake websites generated by the EvilGinx2 toolkit. These websites are designed to fool unwitting users who have clicked on a malicious link in a phishing email. 
 
 '''Narrative''' <br/>
@@ -871,19 +1081,24 @@ As most people know, these emails use fraudulent domains, [email scraping](https
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Credential Dumping===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attmpts to dump credentials.
 
 '''Narrative''' <br/>
@@ -891,19 +1106,24 @@ Credential dumping&#151;gathering credentials from a target system, often hashed
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===DNS Hijacking===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.
 
 '''Narrative''' <br/>
@@ -911,19 +1131,24 @@ Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/t
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Disabling Security Tools===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious <code>reg.exe</code> processes, processes launching netsh, and many others.
 
 '''Narrative''' <br/>
@@ -931,19 +1156,24 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Lateral Movement===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
 
 '''Narrative''' <br/>
@@ -951,19 +1181,24 @@ Once attackers gain a foothold within an enterprise, they will seek to expand th
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Malicious PowerShell===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
 
 '''Narrative''' <br/>
@@ -971,19 +1206,24 @@ The searches in this Analytic Story monitor for parameters often used for malici
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Phishing Payloads===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
 
 '''Narrative''' <br/>
@@ -991,19 +1231,24 @@ Despite its simplicity, phishing remains the most pervasive and dangerous cybert
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
 '''Narrative''' <br/>
@@ -1011,19 +1256,24 @@ This story was created as a joint effort between iDefense and Splunk.<br></br>iD
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===SQL Injection===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.
 
 '''Narrative''' <br/>
@@ -1031,19 +1281,24 @@ It is very common for attackers to inject SQL parameters into vulnerable web app
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious Command-Line Executions===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
 
 '''Narrative''' <br/>
@@ -1051,19 +1306,24 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious DNS Traffic===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
 
 '''Narrative''' <br/>
@@ -1071,19 +1331,24 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious Emails===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
 
 '''Narrative''' <br/>
@@ -1091,19 +1356,24 @@ It is a common practice for attackers of all types to leverage targeted spearphi
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious MSHTA Activity===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 '''Narrative''' <br/>
@@ -1111,19 +1381,24 @@ One common adversary tactic is to bypass application white-listing solutions via
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious WMI Use===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.
 
 '''Narrative''' <br/>
@@ -1131,19 +1406,24 @@ WMI is a Microsoft infrastructure for management data and operations on Windows 
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Suspicious Windows Registry Activities===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.
 
 '''Narrative''' <br/>
@@ -1151,19 +1431,24 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Windows Defense Evasion Tactics===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious <code>reg.exe</code> processes, files hidden with <code>attrib.exe</code> and disabling user-account control, among many others 
 
 '''Narrative''' <br/>
@@ -1171,19 +1456,24 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Windows Log Manipulation===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.
 
 '''Narrative''' <br/>
@@ -1191,19 +1481,24 @@ Because attackers often modify system logs to cover their tracks and/or to thwar
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Windows Persistence Techniques===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.
 
 '''Narrative''' <br/>
@@ -1211,19 +1506,24 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
+                </div></div>
+                
 ===Windows Privilege Escalation===
-'''Description''' <br/>
+
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 '''Description''' <br/>
 Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.
 
 '''Narrative''' <br/>
@@ -1231,17 +1531,16 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 
 
                 
-    </div></div>
-    [[Category:V:Lab:drafts]]
-    
+                </div></div>
+                

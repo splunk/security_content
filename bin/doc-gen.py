@@ -17,6 +17,25 @@ def unique(list1):
     return unique_list
 
 
+def markdown(x):
+    markdown = str(x)
+    markdown = markdown.replace("<code>", "`")
+    markdown = markdown.replace("</code>", "`")
+    markdown = markdown.replace("<b>", "**")
+    markdown = markdown.replace("</b>", "**")
+    # list tag replacements
+    markdown = markdown.replace("<ol><li>", "\\\n\\\n1. ")
+    markdown = markdown.replace("</li><li>", "\\\n\\\n1. ")
+    markdown = markdown.replace("</li></ol>", "")
+    markdown = markdown.replace("</li></ul>", "")
+    markdown = markdown.replace("<ul><li>", "\\\n\\\n1. ")
+    # break tags replacements
+    markdown = markdown.replace("<br></br>", "\\\n\\\n")
+    markdown = markdown.replace("<br/><br/>", "\\\n\\\n")
+    markdown = markdown.replace("<br/>", "\\\n\\\n")
+    return markdown
+
+
 def generate_stories(REPO_PATH, verbose):
     story_files = []
     story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
@@ -107,12 +126,6 @@ def write_splunk_docs(stories, OUTPUT_DIR):
     output_file.write("= Use Case Categories=\n")
     output_file.write("The collapse...\n")
 
-    # header information
-    output_file.write("""
-                    <div class="toccolours mw-collapsible">
-                    <div class="mw-collapsible-content">
-                    """)
-
     # calculate categories
     categories = []
     for story_name, story in sorted(stories.iteritems()):
@@ -130,28 +143,96 @@ def write_splunk_docs(stories, OUTPUT_DIR):
             if story['category'] == c:
                 output_file.write("\n==={0}===\n".format(story_name))
 
+                # header information
+                output_file.write("""
+                                 <div class="toccolours mw-collapsible">
+                                 <div class="mw-collapsible-content">
+                                 """)
+
                 output_file.write("'''Description''' <br/>\n{0}\n\n".format(story['description']))
                 output_file.write("'''Narrative''' <br/>\n{0}\n\n".format(story['narrative']))
 
                 # print mappings
                 output_file.write("""
                 ''' Framework Mappings ''' <br/>
-                :'''ATT&CK''':  <br/>
-                :'''Kill Chain Phases''': Actions on Objectives<br/>
-                :'''CIS 20''': CIS 11, CIS 12<br/>
-                :'''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                '''ATT&CK''':  <br/>
+                '''Kill Chain Phases''': Actions on Objectives<br/>
+                '''CIS 20''': CIS 11, CIS 12<br/>
+                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
 
                 '''Data Dependencies'''
-                :'''Data Models''': <br/>
-                :'''Providing Technologies''': <br/>
+                '''Data Models''': <br/>
+                '''Providing Technologies''': <br/>
                 \n
                 """)
 
-    # footer information
-    output_file.write("""
-    </div></div>
-    [[Category:V:Lab:drafts]]
-    """)
+                # footer information
+                output_file.write("""
+                </div></div>
+                """)
+
+    output_file.close()
+    story_count = len(stories.keys())
+    return story_count, paths
+
+
+def write_markdown_docs(stories, OUTPUT_DIR):
+    paths = []
+    # Create conf files from analytics stories files
+    splunk_docs_output_path = OUTPUT_DIR + "/stories_categories.md"
+    paths.append(splunk_docs_output_path)
+    output_file = open(splunk_docs_output_path, 'w')
+    output_file.write("# Categories\n")
+    output_file.write("Analytics stories organized by categories\n")
+
+    # calculate categories
+    categories = []
+    for story_name, story in sorted(stories.iteritems()):
+        c = story['category']
+        categories.append(c)
+
+    # get a unique set of them
+    categories = unique(categories)
+
+    # build category table
+    for c in categories:
+        output_file.write("\n* [{0}](#{1})\n".format(c[0], c[0].replace(' ', '-').lower()))
+
+    for c in categories:
+        output_file.write("\n\n## {0}\n".format(c[0]))
+
+        # iterate through every story and print it out
+        for story_name, story in sorted(stories.iteritems()):
+            # if the category matches
+            if story['category'] == c:
+                output_file.write("\n### {0}\n".format(story_name))
+                # basic story info
+                output_file.write("* creation_date = {0}\n".format(story['creation_date']))
+                output_file.write("* modification_date = {0}\n".format(story['modification_date']))
+                output_file.write("* id = {0}\n".format(story['id']))
+                output_file.write("* version = {0}\n".format(story['version']))
+                output_file.write("* spec_version = {0}\n".format(story['spec_version']))
+
+                # description and narrative
+                output_file.write("\n##### Description\n{0}\n".format(markdown(story['description'])))
+                output_file.write("\n##### Narrative\n{0}\n".format(markdown(story['narrative'])))
+
+                # mappings
+                output_file.write("\n##### Mappings\n")
+                output_file.write("ATT&CK: \n")
+
+                # maintainers
+                output_file.write("\n##### Maintainers\n")
+                for m in story['maintainers']:
+                    output_file.write("* name = {0}\n".format(m['name']))
+                    output_file.write("* email = {0}\n".format(m['company']))
+                    output_file.write("* company = {0}\n".format(m['email']))
+
+                # references
+                output_file.write("\n##### References\n")
+                for r in story['references']:
+                    output_file.write("* {0}\n".format(markdown(r)))
+
     output_file.close()
     story_count = len(stories.keys())
     return story_count, paths
@@ -186,3 +267,12 @@ if __name__ == "__main__":
             print "{0} story documents have been successfully written to {1}".format(story_count, p)
     else:
         print "--gen_splunk_docs  was set to false, not generating splunk documentation"
+
+    if gmd:
+        story_count, paths = write_markdown_docs(complete_stories, OUTPUT_DIR)
+        for p in paths:
+            print "{0} story documents have been successfully written to {1}".format(story_count, p)
+    else:
+        print "--gen_splunk_docs  was set to false, not generating splunk documentation"
+
+    print "documentation generation for security content completed.."
