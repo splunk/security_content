@@ -405,12 +405,18 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
     # get a unique set of them
     categories = unique(categories)
 
-    # build category table
+    # build category TOC
     for c in categories:
         output_file.write("\n* [{0}](#{1})\n".format(c[0], c[0].replace(' ', '-').lower()))
 
     for c in categories:
         output_file.write("\n\n## {0}\n".format(c[0]))
+
+        # build story TOC
+        for story_name, story in sorted(stories.iteritems()):
+            # if the category matches
+            if story['category'] == c:
+                output_file.write("\n* [{0}](#{1})\n".format(story_name, story_name.replace(' ', '-').lower()))
 
         # iterate through every story and print it out
         for story_name, story in sorted(stories.iteritems()):

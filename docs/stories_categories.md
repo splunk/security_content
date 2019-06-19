@@ -16,6 +16,26 @@ Analytics stories organized by categories
 
 ## Cloud Security
 
+* [AWS Cross Account Activity](#aws-cross-account-activity)
+
+* [AWS Cryptomining](#aws-cryptomining)
+
+* [AWS Network ACL Activity](#aws-network-acl-activity)
+
+* [AWS Suspicious Provisioning Activities](#aws-suspicious-provisioning-activities)
+
+* [AWS User Monitoring](#aws-user-monitoring)
+
+* [Suspicious AWS EC2 Activities](#suspicious-aws-ec2-activities)
+
+* [Suspicious AWS Login Activities](#suspicious-aws-login-activities)
+
+* [Suspicious AWS S3 Activities](#suspicious-aws-s3-activities)
+
+* [Suspicious AWS Traffic](#suspicious-aws-traffic)
+
+* [Unusual AWS EC2 Modifications](#unusual-aws-ec2-modifications)
+
 ### AWS Cross Account Activity
 * id = `2f2f610a-d64d-48c2-b57c-967a2b49ab5a`
 * creation_date = 2018-06-04
@@ -577,6 +597,22 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
 ## Best Practices
 
+* [Account Monitoring and Controls](#account-monitoring-and-controls)
+
+* [Asset Tracking](#asset-tracking)
+
+* [Monitor Backup Solution](#monitor-backup-solution)
+
+* [Monitor for Unauthorized Software](#monitor-for-unauthorized-software)
+
+* [Monitor for Updates](#monitor-for-updates)
+
+* [Prohibited Traffic Allowed or Protocol Mismatch](#prohibited-traffic-allowed-or-protocol-mismatch)
+
+* [Router & Infrastructure Security](#router-&-infrastructure-security)
+
+* [Use of Cleartext Protocols](#use-of-cleartext-protocols)
+
 ### Account Monitoring and Controls
 * id = `8892a655-6205-55f7-abba-06460e38c8ae`
 * creation_date = 2017-08-05
@@ -1018,6 +1054,16 @@ Network_Traffic
 
 ## Vulnerability
 
+* [Apache Struts Vulnerability](#apache-struts-vulnerability)
+
+* [JBoss Vulnerability](#jboss-vulnerability)
+
+* [Spectre And Meltdown Vulnerabilities](#spectre-and-meltdown-vulnerabilities)
+
+* [Splunk Enterprise Vulnerability](#splunk-enterprise-vulnerability)
+
+* [Splunk Enterprise Vulnerability CVE-2018-11409](#splunk-enterprise-vulnerability-cve-2018-11409)
+
 ### Apache Struts Vulnerability
 * id = `2dcfd6a2-e7d2-4873-b6ba-adaf819d2a1e`
 * creation_date = 2017-03-14
@@ -1370,6 +1416,18 @@ A detection search within this Analytic Story looks for vulnerabilities describe
 
 
 ## Abuse
+
+* [Brand Monitoring](#brand-monitoring)
+
+* [DNS Amplification Attacks](#dns-amplification-attacks)
+
+* [Data Protection](#data-protection)
+
+* [Host Redirection](#host-redirection)
+
+* [Netsh Abuse](#netsh-abuse)
+
+* [Web Fraud Detection](#web-fraud-detection)
 
 ### Brand Monitoring
 * id = `91c676cf-0b23-438d-abee-f6335e1fce78`
@@ -1730,6 +1788,28 @@ Another search detects incidents wherein a single password is used across multip
 
 
 ## Malware
+
+* [ColdRoot MacOS RAT](#coldroot-macos-rat)
+
+* [DHS Report TA18-074A](#dhs-report-ta18-074a)
+
+* [Dynamic DNS](#dynamic-dns)
+
+* [Emotet Malware (DHS Report TA18-201A)](#emotet-malware-(dhs-report-ta18-201a))
+
+* [Hidden Cobra Malware](#hidden-cobra-malware)
+
+* [Orangeworm Attack Group](#orangeworm-attack-group)
+
+* [Ransomware](#ransomware)
+
+* [SamSam Ransomware](#samsam-ransomware)
+
+* [Unusual Processes](#unusual-processes)
+
+* [Windows File Extension and Association Abuse](#windows-file-extension-and-association-abuse)
+
+* [Windows Service Abuse](#windows-service-abuse)
 
 ### ColdRoot MacOS RAT
 * id = `bd91a2bc-d20b-4f44-a982-1bea98e86390`
@@ -2500,6 +2580,48 @@ Endpoint
 
 
 ## Adversary Tactics
+
+* [Collection and Staging](#collection-and-staging)
+
+* [Command and Control](#command-and-control)
+
+* [Common Phishing Frameworks](#common-phishing-frameworks)
+
+* [Credential Dumping](#credential-dumping)
+
+* [DNS Hijacking](#dns-hijacking)
+
+* [Disabling Security Tools](#disabling-security-tools)
+
+* [Lateral Movement](#lateral-movement)
+
+* [Malicious PowerShell](#malicious-powershell)
+
+* [Phishing Payloads](#phishing-payloads)
+
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](#possible-backdoor-activity-associated-with-mudcarp-espionage-campaigns)
+
+* [SQL Injection](#sql-injection)
+
+* [Suspicious Command-Line Executions](#suspicious-command-line-executions)
+
+* [Suspicious DNS Traffic](#suspicious-dns-traffic)
+
+* [Suspicious Emails](#suspicious-emails)
+
+* [Suspicious MSHTA Activity](#suspicious-mshta-activity)
+
+* [Suspicious WMI Use](#suspicious-wmi-use)
+
+* [Suspicious Windows Registry Activities](#suspicious-windows-registry-activities)
+
+* [Windows Defense Evasion Tactics](#windows-defense-evasion-tactics)
+
+* [Windows Log Manipulation](#windows-log-manipulation)
+
+* [Windows Persistence Techniques](#windows-persistence-techniques)
+
+* [Windows Privilege Escalation](#windows-privilege-escalation)
 
 ### Collection and Staging
 * id = `8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a`
