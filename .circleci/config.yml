@@ -15,7 +15,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y enchant python-dev -qq
+    sudo apt install -y python-dev -qq
 
 executors:
   content-executor:
@@ -114,7 +114,7 @@ jobs:
       - run:
           name: grab splunk packaging toolkit
           command: |
-            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
+            curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
             mkdir ~/slim-latest
             tar -zxf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
       - run:
@@ -125,6 +125,7 @@ jobs:
               sudo pip install virtualenv
               virtualenv --python=/usr/bin/python2.7 --clear venv
               source venv/bin/activate
+              pip install semantic_version
               pip install .
       - run:
           name: create a .spl for this build using slim
