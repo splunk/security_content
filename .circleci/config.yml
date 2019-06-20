@@ -100,6 +100,7 @@ jobs:
             # update build number and version
             sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
             sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
+            sed -i "s/^manifest.info.id.version = .*$/manifest.info.id.version = $CONTENT_VERSION/g" package/default/app.conf
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/content-version.conf
             tar -czf content-pack-build.tar.gz package/*
       - persist_to_workspace:
