@@ -280,7 +280,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
-        # only update sources in develop
+        # update package and docs in github if is a tag
           filters:
             tags:
               only: /^v.*/
