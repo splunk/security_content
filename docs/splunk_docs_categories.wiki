@@ -43,9 +43,12 @@ Amazon Web Services (AWS) admins manage access to AWS resources and services acr
 
 ====References====
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
-* creation_date = 2018-06-04
-* modification_date = 2018-06-04
-* version = 1.0
+
+creation_date = 2018-06-04
+
+modification_date = 2018-06-04
+
+version = 1.0
 
 </div>
 </div>
@@ -89,9 +92,12 @@ Cryptomining is an intentionally difficult, resource-intensive business. Its com
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-* creation_date = 2018-03-08
-* modification_date = 2018-03-08
-* version = 1.0
+
+creation_date = 2018-03-08
+
+modification_date = 2018-03-08
+
+version = 1.0
 
 </div>
 </div>
@@ -136,9 +142,12 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 ====References====
 * https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
 * https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
-* creation_date = 2018-01-10
-* modification_date = 2018-05-21
-* version = 2.0
+
+creation_date = 2018-01-10
+
+modification_date = 2018-05-21
+
+version = 2.0
 
 </div>
 </div>
@@ -182,9 +191,12 @@ Because most enterprise AWS activities originate from familiar geographic locati
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-* creation_date = 2018-03-16
-* modification_date = 2018-03-16
-* version = 1.0
+
+creation_date = 2018-03-16
+
+modification_date = 2018-03-16
+
+version = 1.0
 
 </div>
 </div>
@@ -229,9 +241,12 @@ It seems obvious that it is critical to monitor and control the users who have a
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 * https://blog.redlock.io/cryptojacking-tesla
-* creation_date = 2018-03-12
-* modification_date = 2018-03-12
-* version = 1.0
+
+creation_date = 2018-03-12
+
+modification_date = 2018-03-12
+
+version = 1.0
 
 </div>
 </div>
@@ -275,9 +290,12 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-* creation_date = 2018-02-09
-* modification_date = 2018-02-09
-* version = 1.0
+
+creation_date = 2018-02-09
+
+modification_date = 2018-02-09
+
+version = 1.0
 
 </div>
 </div>
@@ -321,9 +339,12 @@ It is important to monitor and control who has access to your AWS infrastructure
 
 ====References====
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
-* creation_date = 2018-02-24
-* modification_date = 2019-05-01
-* version = 1.0
+
+creation_date = 2018-02-24
+
+modification_date = 2019-05-01
+
+version = 1.0
 
 </div>
 </div>
@@ -368,9 +389,12 @@ As cloud computing has exploded, so has the number of creative attacks on virtua
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 * https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
-* creation_date = 2018-06-25
-* modification_date = 2018-07-24
-* version = 2.0
+
+creation_date = 2018-06-25
+
+modification_date = 2018-07-24
+
+version = 2.0
 
 </div>
 </div>
@@ -414,9 +438,12 @@ A virtual private cloud (VPC) is an on-demand managed cloud-computing service th
 
 ====References====
 * https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
-* creation_date = 2018-05-07
-* modification_date = 2018-05-07
-* version = 1.0
+
+creation_date = 2018-05-07
+
+modification_date = 2018-05-07
+
+version = 1.0
 
 </div>
 </div>
@@ -460,9 +487,12 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-* creation_date = 2018-04-09
-* modification_date = 2018-04-09
-* version = 1.0
+
+creation_date = 2018-04-09
+
+modification_date = 2018-04-09
+
+version = 1.0
 
 </div>
 </div>
@@ -512,9 +542,12 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 
 ====References====
 * https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
-* creation_date = 2017-08-05
-* modification_date = 2017-09-06
-* version = 1.0
+
+creation_date = 2017-08-05
+
+modification_date = 2017-09-06
+
+version = 1.0
 
 </div>
 </div>
@@ -560,9 +593,12 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
 ====References====
 * https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
-* creation_date = 2017-06-01
-* modification_date = 2017-09-13
-* version = 1.0
+
+creation_date = 2017-06-01
+
+modification_date = 2017-09-13
+
+version = 1.0
 
 </div>
 </div>
@@ -606,9 +642,12 @@ Having backups is a standard best practice that helps ensure continuity of busin
 
 ====References====
 * https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
-* creation_date = 2017-06-15
-* modification_date = 2017-09-12
-* version = 1.0
+
+creation_date = 2017-06-15
+
+modification_date = 2017-09-12
+
+version = 1.0
 
 </div>
 </div>
@@ -657,9 +696,12 @@ It is critical to identify unauthorized software and processes running on enterp
 
 ====References====
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
-* creation_date = 2017-06-26
-* modification_date = 2017-09-15
-* version = 1.0
+
+creation_date = 2017-06-26
+
+modification_date = 2017-09-15
+
+version = 1.0
 
 </div>
 </div>
@@ -704,9 +746,12 @@ It is a common best practice to ensure that endpoints are being patched and upda
 
 ====References====
 * https://learn.cisecurity.org/20-controls-download
-* creation_date = 2017-08-15
-* modification_date = 2017-09-15
-* version = 1.0
+
+creation_date = 2017-08-15
+
+modification_date = 2017-09-15
+
+version = 1.0
 
 </div>
 </div>
@@ -754,9 +799,12 @@ A traditional security best practice is to control the ports, protocols, and ser
 
 ====References====
 * http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
-* creation_date = 2017-04-18
-* modification_date = 2017-09-11
-* version = 1.0
+
+creation_date = 2017-04-18
+
+modification_date = 2017-09-11
+
+version = 1.0
 
 </div>
 </div>
@@ -803,9 +851,12 @@ Networking devices, such as routers and switches, are often overlooked as resour
 ====References====
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
 * https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
-* creation_date = 2017-06-01
-* modification_date = 2017-09-12
-* version = 1.0
+
+creation_date = 2017-06-01
+
+modification_date = 2017-09-12
+
+version = 1.0
 
 </div>
 </div>
@@ -851,9 +902,12 @@ Various legacy protocols operate by default in the clear, without the protection
 
 ====References====
 * https://www.monkey.org/~dugsong/dsniff/
-* creation_date = 2016-09-13
-* modification_date = 2017-09-15
-* version = 1.0
+
+creation_date = 2016-09-13
+
+modification_date = 2017-09-15
+
+version = 1.0
 
 </div>
 </div>
@@ -910,9 +964,12 @@ In March of 2017, a remote code-execution vulnerability in the Jakarta Multipart
 ====References====
 * http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html
 * https://github.com/SpiderLabs/owasp-modsecurity-crs/blob/v3.2/dev/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
-* creation_date = 2017-03-14
-* modification_date = 2018-12-06
-* version = 1.0
+
+creation_date = 2017-03-14
+
+modification_date = 2018-12-06
+
+version = 1.0
 
 </div>
 </div>
@@ -960,9 +1017,12 @@ This Analytic Story looks for probing and exploitation attempts targeting JBoss 
 
 ====References====
 * http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
-* creation_date = 2016-10-04
-* modification_date = 2017-09-14
-* version = 1.0
+
+creation_date = 2016-10-04
+
+modification_date = 2017-09-14
+
+version = 1.0
 
 </div>
 </div>
@@ -1008,9 +1068,12 @@ Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow 
 
 ====References====
 * https://meltdownattack.com/
-* creation_date = 2018-01-08
-* modification_date = 2018-01-08
-* version = 1.0
+
+creation_date = 2018-01-08
+
+modification_date = 2018-01-08
+
+version = 1.0
 
 </div>
 </div>
@@ -1055,9 +1118,12 @@ This Analytic Story is associated with CVE-2016-4859, an open-redirect vulnerabi
 ====References====
 * http://www.splunk.com/view/SP-CAAAPQ6#announce
 * https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-4859
-* creation_date = 2016-09-13
-* modification_date = 2017-09-19
-* version = 1.0
+
+creation_date = 2016-09-13
+
+modification_date = 2017-09-19
+
+version = 1.0
 
 </div>
 </div>
@@ -1103,9 +1169,12 @@ Although there have been no reports of it being exploited, Splunk Enterprise ver
 * https://nvd.nist.gov/vuln/detail/CVE-2018-11409
 * https://www.splunk.com/view/SP-CAAAP5E#VulnerabilityDescriptionsandRatings
 * https://www.exploit-db.com/exploits/44865/
-* creation_date = 2018-06-14
-* modification_date = 2018-06-14
-* version = 1.0
+
+creation_date = 2018-06-14
+
+modification_date = 2018-06-14
+
+version = 1.0
 
 </div>
 </div>
@@ -1161,9 +1230,12 @@ While you can educate your users and customers about the risks and threats posed
 * https://blog.domaintools.com/tag/brand-monitor/
 * https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
 * https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
-* creation_date = 2017-06-01
-* modification_date = 2017-12-19
-* version = 1.0
+
+creation_date = 2017-06-01
+
+modification_date = 2017-12-19
+
+version = 1.0
 
 </div>
 </div>
@@ -1210,9 +1282,12 @@ The Domain Name System (DNS) is the protocol used to map domain names to IP addr
 ====References====
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
 * https://deepthought.isc.org/article/AA-00897/0/What-is-a-DNS-Amplification-Attack.html
-* creation_date = 2016-08-24
-* modification_date = 2016-09-13
-* version = 1.0
+
+creation_date = 2016-08-24
+
+modification_date = 2016-09-13
+
+version = 1.0
 
 </div>
 </div>
@@ -1262,9 +1337,12 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 * https://www.cisecurity.org/controls/data-protection/
 * https://www.sans.org/reading-room/whitepapers/dns/splunk-detect-dns-tunneling-37022
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
-* creation_date = 2017-06-01
-* modification_date = 2017-09-14
-* version = 1.0
+
+creation_date = 2017-06-01
+
+modification_date = 2017-09-14
+
+version = 1.0
 
 </div>
 </div>
@@ -1311,9 +1389,12 @@ Attackers will often attempt to manipulate client communications for nefarious p
 
 ====References====
 * https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
-* creation_date = 2017-06-18
-* modification_date = 2017-09-14
-* version = 1.0
+
+creation_date = 2017-06-18
+
+modification_date = 2017-09-14
+
+version = 1.0
 
 </div>
 </div>
@@ -1364,9 +1445,12 @@ It is a common practice for attackers of all types to leverage native Windows to
 * https://technet.microsoft.com/library/bb490939.aspx
 * https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html
 * http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html
-* creation_date = 2017-01-04
-* modification_date = 2017-01-05
-* version = 1.0
+
+creation_date = 2017-01-04
+
+modification_date = 2017-01-05
+
+version = 1.0
 
 </div>
 </div>
@@ -1414,9 +1498,12 @@ The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of 
 * https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
 * https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
 * https://www.otalliance.org/news-events/press-releases/online-trust-alliance-reports-doubling-cyber-incidents-2017-0
-* creation_date = 2018-07-12
-* modification_date = 2018-10-08
-* version = 1.0
+
+creation_date = 2018-07-12
+
+modification_date = 2018-10-08
+
+version = 1.0
 
 </div>
 </div>
@@ -1466,9 +1553,12 @@ Conventional wisdom holds that Apple's MacOS operating system is significantly l
 * https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/
 * https://objective-see.com/blog/blog_0x2A.html
 * https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/
-* creation_date = 2019-01-29
-* modification_date = 2019-01-09
-* version = 1.0
+
+creation_date = 2019-01-29
+
+modification_date = 2019-01-09
+
+version = 1.0
 
 </div>
 </div>
@@ -1521,9 +1611,12 @@ The frequency of nation-state cyber attacks has increased significantly over the
 
 ====References====
 * https://www.us-cert.gov/ncas/alerts/TA18-074A
-* creation_date = 2018-03-19
-* modification_date = 2018-03-19
-* version = 2.0
+
+creation_date = 2018-03-19
+
+modification_date = 2018-03-19
+
+version = 2.0
 
 </div>
 </div>
@@ -1575,9 +1668,12 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 * http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
-* creation_date = 2017-11-21
-* modification_date = 2018-09-06
-* version = 2.0
+
+creation_date = 2017-11-21
+
+modification_date = 2018-09-06
+
+version = 2.0
 
 </div>
 </div>
@@ -1633,9 +1729,12 @@ The trojan downloader known as Emotet first surfaced in 2014, when it was discov
 * https://www.us-cert.gov/ncas/alerts/TA18-201A
 * https://www.first.org/resources/papers/conf2017/Advanced-Incident-Detection-and-Threat-Hunting-using-Sysmon-and-Splunk.pdf
 * https://www.vkremez.com/2017/05/emotet-banking-trojan-malware-analysis.html
-* creation_date = 2018-09-11
-* modification_date = 2018-09-11
-* version = 1.0
+
+creation_date = 2018-09-11
+
+modification_date = 2018-09-11
+
+version = 1.0
 
 </div>
 </div>
@@ -1689,9 +1788,12 @@ North Korea's government-sponsored "cyber army" has been slowly building momentu
 ====References====
 * https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity
 * https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Destructive-Malware-Report.pdf
-* creation_date = 2018-06-14
-* modification_date = 2018-06-14
-* version = 2.0
+
+creation_date = 2018-06-14
+
+modification_date = 2018-06-14
+
+version = 2.0
 
 </div>
 </div>
@@ -1742,9 +1844,12 @@ In May of 2018, the attack group Orangeworm was implicated for installing a cust
 ====References====
 * https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia
 * https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/
-* creation_date = 2018-06-14
-* modification_date = 2018-06-18
-* version = 2.0
+
+creation_date = 2018-06-14
+
+modification_date = 2018-06-18
+
+version = 2.0
 
 </div>
 </div>
@@ -1800,9 +1905,12 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * https://www.symantec.com/connect/blogs/what-you-need-know-about-wannacry-ransomware
 * https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
-* creation_date = 2017-07-24
-* modification_date = 2017-09-10
-* version = 1.0
+
+creation_date = 2017-07-24
+
+modification_date = 2017-09-10
+
+version = 1.0
 
 </div>
 </div>
@@ -1859,9 +1967,12 @@ The first version of the SamSam ransomware (a.k.a. Samas or SamsamCrypt) was lau
 * https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/
 * https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-ransomware-chooses-Its-targets-carefully-wpna.pdf
 * https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-The-Almost-Six-Million-Dollar-Ransomware.pdf?cmp=26061
-* creation_date = 2018-12-13
-* modification_date = 2018-12-13
-* version = 1.0
+
+creation_date = 2018-12-13
+
+modification_date = 2018-12-13
+
+version = 1.0
 
 </div>
 </div>
@@ -1912,9 +2023,12 @@ Being able to profile a host's processes within your environment can help you mo
 * https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html
 * https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
 * https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
-* creation_date = 2016-08-09
-* modification_date = 2018-11-20
-* version = 2.0
+
+creation_date = 2016-08-09
+
+modification_date = 2018-11-20
+
+version = 2.0
 
 </div>
 </div>
@@ -1964,9 +2078,12 @@ Attackers use a variety of techniques to entice users to run malicious code or t
 ====References====
 * https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/
 * https://attack.mitre.org/wiki/Technique/T1042
-* creation_date = 2018-01-26
-* modification_date = 2018-01-26
-* version = 1.0
+
+creation_date = 2018-01-26
+
+modification_date = 2018-01-26
+
+version = 1.0
 
 </div>
 </div>
@@ -2017,9 +2134,12 @@ The Windows operating system uses a services architecture to allow for running c
 ====References====
 * https://attack.mitre.org/wiki/Technique/T1050
 * https://attack.mitre.org/wiki/Technique/T1031
-* creation_date = 2017-11-02
-* modification_date = 2017-11-02
-* version = 3.0
+
+creation_date = 2017-11-02
+
+modification_date = 2017-11-02
+
+version = 3.0
 
 </div>
 </div>
@@ -2075,9 +2195,12 @@ A common adversary goal is to identify and exfiltrate data of value from a targe
 ====References====
 * https://attack.mitre.org/wiki/Collection
 * https://attack.mitre.org/wiki/Technique/T1074
-* creation_date = 2018-01-08
-* modification_date = 2018-01-08
-* version = 1.0
+
+creation_date = 2018-01-08
+
+modification_date = 2018-01-08
+
+version = 1.0
 
 </div>
 </div>
@@ -2127,9 +2250,12 @@ Threat actors typically architect and implement an infrastructure to use in vari
 ====References====
 * https://attack.mitre.org/wiki/Command_and_Control
 * https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
-* creation_date = 2018-06-01
-* modification_date = 2018-06-01
-* version = 1.0
+
+creation_date = 2018-06-01
+
+modification_date = 2018-06-01
+
+version = 1.0
 
 </div>
 </div>
@@ -2178,9 +2304,12 @@ As most people know, these emails use fraudulent domains, [email scraping](https
 * https://github.com/kgretzky/evilginx2
 * https://attack.mitre.org/techniques/T1192/
 * https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/
-* creation_date = 2019-04-29
-* modification_date = 2019-04-29
-* version = 1.0
+
+creation_date = 2019-04-29
+
+modification_date = 2019-04-29
+
+version = 1.0
 
 </div>
 </div>
@@ -2232,9 +2361,12 @@ Credential dumping&#151;gathering credentials from a target system, often hashed
 * https://attack.mitre.org/wiki/Technique/T1003
 * https://www.powershellempire.com/?page_id=112
 * https://4iq.com/4iq-discovers-1-4-billion-clear-text-credentials-single-database/
-* creation_date = 2018-08-08
-* modification_date = 2018-08-08
-* version = 1.0
+
+creation_date = 2018-08-08
+
+modification_date = 2018-08-08
+
+version = 1.0
 
 </div>
 </div>
@@ -2283,9 +2415,12 @@ Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/t
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 * http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
-* creation_date = 2017-11-21
-* modification_date = 2018-09-06
-* version = 1.0
+
+creation_date = 2017-11-21
+
+modification_date = 2018-09-06
+
+version = 1.0
 
 </div>
 </div>
@@ -2336,9 +2471,12 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 * https://attack.mitre.org/wiki/Technique/T1089
 * https://blog.malwarebytes.com/cybercrime/2015/11/vonteera-adware-uses-certificates-to-disable-anti-malware/
 * https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf
-* creation_date = 2018-04-09
-* modification_date = 2018-04-09
-* version = 1.0
+
+creation_date = 2018-04-09
+
+modification_date = 2018-04-09
+
+version = 1.0
 
 </div>
 </div>
@@ -2392,9 +2530,12 @@ Once attackers gain a foothold within an enterprise, they will seek to expand th
 ====References====
 * https://www.binarydefense.com/bds/reliably-detecting-pass-the-hash-through-event-log-analysis/
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
-* creation_date = 2016-09-13
-* modification_date = 2018-05-31
-* version = 1.0
+
+creation_date = 2016-09-13
+
+modification_date = 2018-05-31
+
+version = 1.0
 
 </div>
 </div>
@@ -2444,9 +2585,12 @@ The searches in this Analytic Story monitor for parameters often used for malici
 ====References====
 * https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
-* creation_date = 2016-09-18
-* modification_date = 2017-08-23
-* version = 4.0
+
+creation_date = 2016-09-18
+
+modification_date = 2017-08-23
+
+version = 4.0
 
 </div>
 </div>
@@ -2495,9 +2639,12 @@ Despite its simplicity, phishing remains the most pervasive and dangerous cybert
 
 ====References====
 * https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
-* creation_date = 2019-04-29
-* modification_date = 2019-04-29
-* version = 1.0
+
+creation_date = 2019-04-29
+
+modification_date = 2019-04-29
+
+version = 1.0
 
 </div>
 </div>
@@ -2548,9 +2695,12 @@ This story was created as a joint effort between iDefense and Splunk.<br></br>iD
 * https://intelgraph.idefense.com/#/node/threat_group/view/29fbec10-8cc8-4662-8362-2c24c1eeb74c
 * https://intelgraph.idefense.com/#/node/intelligence_alert/view/62bb3669-9386-4264-b51a-59876cf50ffe
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
-* creation_date = 2018-07-24
-* modification_date = 2018-07-24
-* version = 1.0
+
+creation_date = 2018-07-24
+
+modification_date = 2018-07-24
+
+version = 1.0
 
 </div>
 </div>
@@ -2598,9 +2748,12 @@ It is very common for attackers to inject SQL parameters into vulnerable web app
 * https://www.owasp.org/index.php/SQL_Injection
 * https://www.owasp.org/index.php/Blind_SQL_Injection
 * https://www.incapsula.com/web-application-security/sql-injection.html
-* creation_date = 2016-09-13
-* modification_date = 2017-09-19
-* version = 1.0
+
+creation_date = 2016-09-13
+
+modification_date = 2017-09-19
+
+version = 1.0
 
 </div>
 </div>
@@ -2651,9 +2804,12 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 * https://attack.mitre.org/wiki/Technique/T1059
 * https://www.microsoft.com/en-us/wdsi/threats/macro-malware
 * https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
-* creation_date = 2017-10-09
-* modification_date = 2017-10-23
-* version = 2.0
+
+creation_date = 2017-10-09
+
+modification_date = 2017-10-23
+
+version = 2.0
 
 </div>
 </div>
@@ -2701,9 +2857,12 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 * http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/
 * http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680
 * https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454
-* creation_date = 2016-09-13
-* modification_date = 2017-09-18
-* version = 1.0
+
+creation_date = 2016-09-13
+
+modification_date = 2017-09-18
+
+version = 1.0
 
 </div>
 </div>
@@ -2748,9 +2907,12 @@ It is a common practice for attackers of all types to leverage targeted spearphi
 
 ====References====
 * https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
-* creation_date = 2017-03-24
-* modification_date = 2017-09-19
-* version = 1.0
+
+creation_date = 2017-03-24
+
+modification_date = 2017-09-19
+
+version = 1.0
 
 </div>
 </div>
@@ -2801,9 +2963,12 @@ One common adversary tactic is to bypass application white-listing solutions via
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 * https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
 * https://attack.mitre.org/wiki/Technique/T1170
-* creation_date = 2018-08-07
-* modification_date = 2018-08-07
-* version = 1.0
+
+creation_date = 2018-08-07
+
+modification_date = 2018-08-07
+
+version = 1.0
 
 </div>
 </div>
@@ -2854,9 +3019,12 @@ WMI is a Microsoft infrastructure for management data and operations on Windows 
 ====References====
 * https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
 * https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
-* creation_date = 2017-01-13
-* modification_date = 2018-10-23
-* version = 2.0
+
+creation_date = 2017-01-13
+
+modification_date = 2018-10-23
+
+version = 2.0
 
 </div>
 </div>
@@ -2907,9 +3075,12 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 ====References====
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 * https://attack.mitre.org/wiki/Technique/T1112
-* creation_date = 2018-05-31
-* modification_date = 2018-05-31
-* version = 1.0
+
+creation_date = 2018-05-31
+
+modification_date = 2018-05-31
+
+version = 1.0
 
 </div>
 </div>
@@ -2958,9 +3129,12 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 ====References====
 * https://attack.mitre.org/wiki/Defense_Evasion
-* creation_date = 2017-10-11
-* modification_date = 2018-05-31
-* version = 1.0
+
+creation_date = 2017-10-11
+
+modification_date = 2018-05-31
+
+version = 1.0
 
 </div>
 </div>
@@ -3012,9 +3186,12 @@ Because attackers often modify system logs to cover their tracks and/or to thwar
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 * https://zeltser.com/security-incident-log-review-checklist/
 * http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html
-* creation_date = 2017-02-17
-* modification_date = 2017-09-12
-* version = 2.0
+
+creation_date = 2017-02-17
+
+modification_date = 2017-09-12
+
+version = 2.0
 
 </div>
 </div>
@@ -3068,9 +3245,12 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/
 * https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
 * https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf
-* creation_date = 2017-04-19
-* modification_date = 2018-05-31
-* version = 2.0
+
+creation_date = 2017-04-19
+
+modification_date = 2018-05-31
+
+version = 2.0
 
 </div>
 </div>
@@ -3119,9 +3299,12 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 ====References====
 * https://attack.mitre.org/wiki/Privilege_Escalation
-* creation_date = 2017-12-07
-* modification_date = 2017-12-07
-* version = 2.0
+
+creation_date = 2017-12-07
+
+modification_date = 2017-12-07
+
+version = 2.0
 
 </div>
 </div>

@@ -401,9 +401,9 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                     output_file.write("* {0}\n".format(markdown(r)))
 
                 # story details
-                output_file.write("* creation_date = {0}\n".format(story['creation_date']))
-                output_file.write("* modification_date = {0}\n".format(story['modification_date']))
-                output_file.write("* version = {0}\n".format(story['version']))
+                output_file.write("\ncreation_date = {0}\n\n".format(story['creation_date']))
+                output_file.write("modification_date = {0}\n\n".format(story['modification_date']))
+                output_file.write("version = {0}\n".format(story['version']))
 
                 # footer information
                 output_file.write("""\n</div>\n</div>\n""")
