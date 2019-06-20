@@ -8,9 +8,6 @@ The collapse...
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-06-04
-* modification_date = 2018-06-04
-* version = 1.0
 
 ====Description====
 Track when a user assumes an IAM role in another AWS account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
@@ -46,6 +43,9 @@ Amazon Web Services (AWS) admins manage access to AWS resources and services acr
 
 ====References====
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
+* creation_date = 2018-06-04
+* modification_date = 2018-06-04
+* version = 1.0
 
 </div>
 </div>
@@ -54,9 +54,6 @@ Amazon Web Services (AWS) admins manage access to AWS resources and services acr
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-03-08
-* modification_date = 2018-03-08
-* version = 1.0
 
 ====Description====
 Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or EC2 instances started by previously unseen users are just a few examples of potentially malicious behavior.
@@ -92,6 +89,9 @@ Cryptomining is an intentionally difficult, resource-intensive business. Its com
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* creation_date = 2018-03-08
+* modification_date = 2018-03-08
+* version = 1.0
 
 </div>
 </div>
@@ -100,9 +100,6 @@ Cryptomining is an intentionally difficult, resource-intensive business. Its com
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-01-10
-* modification_date = 2018-05-21
-* version = 2.0
 
 ====Description====
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
@@ -139,6 +136,9 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 ====References====
 * https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
 * https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
+* creation_date = 2018-01-10
+* modification_date = 2018-05-21
+* version = 2.0
 
 </div>
 </div>
@@ -147,9 +147,6 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-03-16
-* modification_date = 2018-03-16
-* version = 1.0
 
 ====Description====
 Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.
@@ -185,6 +182,9 @@ Because most enterprise AWS activities originate from familiar geographic locati
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* creation_date = 2018-03-16
+* modification_date = 2018-03-16
+* version = 1.0
 
 </div>
 </div>
@@ -193,9 +193,6 @@ Because most enterprise AWS activities originate from familiar geographic locati
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-03-12
-* modification_date = 2018-03-12
-* version = 1.0
 
 ====Description====
 Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
@@ -232,6 +229,9 @@ It seems obvious that it is critical to monitor and control the users who have a
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 * https://blog.redlock.io/cryptojacking-tesla
+* creation_date = 2018-03-12
+* modification_date = 2018-03-12
+* version = 1.0
 
 </div>
 </div>
@@ -240,9 +240,6 @@ It seems obvious that it is critical to monitor and control the users who have a
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-02-09
-* modification_date = 2018-02-09
-* version = 1.0
 
 ====Description====
 Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.
@@ -278,6 +275,9 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* creation_date = 2018-02-09
+* modification_date = 2018-02-09
+* version = 1.0
 
 </div>
 </div>
@@ -286,9 +286,6 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-02-24
-* modification_date = 2019-05-01
-* version = 1.0
 
 ====Description====
 Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
@@ -324,6 +321,9 @@ It is important to monitor and control who has access to your AWS infrastructure
 
 ====References====
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+* creation_date = 2018-02-24
+* modification_date = 2019-05-01
+* version = 1.0
 
 </div>
 </div>
@@ -332,9 +332,6 @@ It is important to monitor and control who has access to your AWS infrastructure
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-06-25
-* modification_date = 2018-07-24
-* version = 2.0
 
 ====Description====
 Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
@@ -371,6 +368,9 @@ As cloud computing has exploded, so has the number of creative attacks on virtua
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 * https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
+* creation_date = 2018-06-25
+* modification_date = 2018-07-24
+* version = 2.0
 
 </div>
 </div>
@@ -379,9 +379,6 @@ As cloud computing has exploded, so has the number of creative attacks on virtua
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-05-07
-* modification_date = 2018-05-07
-* version = 1.0
 
 ====Description====
 Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
@@ -417,6 +414,9 @@ A virtual private cloud (VPC) is an on-demand managed cloud-computing service th
 
 ====References====
 * https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
+* creation_date = 2018-05-07
+* modification_date = 2018-05-07
+* version = 1.0
 
 </div>
 </div>
@@ -425,9 +425,6 @@ A virtual private cloud (VPC) is an on-demand managed cloud-computing service th
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-04-09
-* modification_date = 2018-04-09
-* version = 1.0
 
 ====Description====
 Identify unusual changes to your AWS EC2 instances that may indicate malicious activity. Modifications to your EC2 instances by previously unseen users is an example of an activity that may warrant further investigation.
@@ -463,6 +460,9 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
 ====References====
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* creation_date = 2018-04-09
+* modification_date = 2018-04-09
+* version = 1.0
 
 </div>
 </div>
@@ -474,9 +474,6 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-08-05
-* modification_date = 2017-09-06
-* version = 1.0
 
 ====Description====
 A common attack technique is to leverage user accounts to gain unauthorized access to the target's network. This Analytic Story minimizes opportunities for attack by helping you actively manage creation/use/dormancy/deletion--the lifecycle of system and application accounts.
@@ -515,6 +512,9 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 
 ====References====
 * https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
+* creation_date = 2017-08-05
+* modification_date = 2017-09-06
+* version = 1.0
 
 </div>
 </div>
@@ -523,9 +523,6 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-06-01
-* modification_date = 2017-09-13
-* version = 1.0
 
 ====Description====
 Keep a careful inventory of every asset on your network to make it easier to detect rogue devices. Unauthorized/unmanaged devices could be an indication of malicious behavior that should be investigated further.
@@ -563,6 +560,9 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
 ====References====
 * https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
+* creation_date = 2017-06-01
+* modification_date = 2017-09-13
+* version = 1.0
 
 </div>
 </div>
@@ -571,9 +571,6 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-06-15
-* modification_date = 2017-09-12
-* version = 1.0
 
 ====Description====
 Address common concerns when monitoring your backup processes. These searches can help you reduce risks from ransomware, device theft, or denial of physical access to a host by backing up data on endpoints.
@@ -609,6 +606,9 @@ Having backups is a standard best practice that helps ensure continuity of busin
 
 ====References====
 * https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
+* creation_date = 2017-06-15
+* modification_date = 2017-09-12
+* version = 1.0
 
 </div>
 </div>
@@ -617,9 +617,6 @@ Having backups is a standard best practice that helps ensure continuity of busin
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-06-26
-* modification_date = 2017-09-15
-* version = 1.0
 
 ====Description====
 Identify and investigate prohibited/unauthorized software or processes that may be concealing malicious behavior within your environment. 
@@ -660,6 +657,9 @@ It is critical to identify unauthorized software and processes running on enterp
 
 ====References====
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+* creation_date = 2017-06-26
+* modification_date = 2017-09-15
+* version = 1.0
 
 </div>
 </div>
@@ -668,9 +668,6 @@ It is critical to identify unauthorized software and processes running on enterp
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-08-15
-* modification_date = 2017-09-15
-* version = 1.0
 
 ====Description====
 Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.
@@ -707,6 +704,9 @@ It is a common best practice to ensure that endpoints are being patched and upda
 
 ====References====
 * https://learn.cisecurity.org/20-controls-download
+* creation_date = 2017-08-15
+* modification_date = 2017-09-15
+* version = 1.0
 
 </div>
 </div>
@@ -715,9 +715,6 @@ It is a common best practice to ensure that endpoints are being patched and upda
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-04-18
-* modification_date = 2017-09-11
-* version = 1.0
 
 ====Description====
 Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
@@ -757,6 +754,9 @@ A traditional security best practice is to control the ports, protocols, and ser
 
 ====References====
 * http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
+* creation_date = 2017-04-18
+* modification_date = 2017-09-11
+* version = 1.0
 
 </div>
 </div>
@@ -765,9 +765,6 @@ A traditional security best practice is to control the ports, protocols, and ser
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-06-01
-* modification_date = 2017-09-12
-* version = 1.0
 
 ====Description====
 Validate the security configuration of network infrastructure and verify that only authorized users and systems are accessing critical assets. Core routing and switching infrastructure are common strategic targets for attackers.
@@ -806,6 +803,9 @@ Networking devices, such as routers and switches, are often overlooked as resour
 ====References====
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
 * https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
+* creation_date = 2017-06-01
+* modification_date = 2017-09-12
+* version = 1.0
 
 </div>
 </div>
@@ -814,9 +814,6 @@ Networking devices, such as routers and switches, are often overlooked as resour
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-09-13
-* modification_date = 2017-09-15
-* version = 1.0
 
 ====Description====
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
@@ -854,6 +851,9 @@ Various legacy protocols operate by default in the clear, without the protection
 
 ====References====
 * https://www.monkey.org/~dugsong/dsniff/
+* creation_date = 2016-09-13
+* modification_date = 2017-09-15
+* version = 1.0
 
 </div>
 </div>
@@ -865,9 +865,6 @@ Various legacy protocols operate by default in the clear, without the protection
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-03-14
-* modification_date = 2018-12-06
-* version = 1.0
 
 ====Description====
 Detect and investigate activities--such as unusually long <code>Content-Type</code> length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
@@ -913,6 +910,9 @@ In March of 2017, a remote code-execution vulnerability in the Jakarta Multipart
 ====References====
 * http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html
 * https://github.com/SpiderLabs/owasp-modsecurity-crs/blob/v3.2/dev/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
+* creation_date = 2017-03-14
+* modification_date = 2018-12-06
+* version = 1.0
 
 </div>
 </div>
@@ -921,9 +921,6 @@ In March of 2017, a remote code-execution vulnerability in the Jakarta Multipart
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-10-04
-* modification_date = 2017-09-14
-* version = 1.0
 
 ====Description====
 In March of 2016, adversaries were seen using JexBoss--an open-source utility used for testing and exploiting JBoss application servers. These searches help detect evidence of these attacks, such as network connections to external resources or web services spawning atypical child processes, among others.
@@ -963,6 +960,9 @@ This Analytic Story looks for probing and exploitation attempts targeting JBoss 
 
 ====References====
 * http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
+* creation_date = 2016-10-04
+* modification_date = 2017-09-14
+* version = 1.0
 
 </div>
 </div>
@@ -971,9 +971,6 @@ This Analytic Story looks for probing and exploitation attempts targeting JBoss 
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-01-08
-* modification_date = 2018-01-08
-* version = 1.0
 
 ====Description====
 Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.
@@ -1011,6 +1008,9 @@ Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow 
 
 ====References====
 * https://meltdownattack.com/
+* creation_date = 2018-01-08
+* modification_date = 2018-01-08
+* version = 1.0
 
 </div>
 </div>
@@ -1019,9 +1019,6 @@ Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow 
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-09-13
-* modification_date = 2017-09-19
-* version = 1.0
 
 ====Description====
 Keeping your Splunk deployment up to date is critical and may help you reduce the risk of CVE-2016-4859, an open-redirection vulnerability within some older versions of Splunk Enterprise. The detection search will help ensure that users are being properly authenticated and not being redirected to malicious domains.
@@ -1058,6 +1055,9 @@ This Analytic Story is associated with CVE-2016-4859, an open-redirect vulnerabi
 ====References====
 * http://www.splunk.com/view/SP-CAAAPQ6#announce
 * https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-4859
+* creation_date = 2016-09-13
+* modification_date = 2017-09-19
+* version = 1.0
 
 </div>
 </div>
@@ -1066,9 +1066,6 @@ This Analytic Story is associated with CVE-2016-4859, an open-redirect vulnerabi
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-06-14
-* modification_date = 2018-06-14
-* version = 1.0
 
 ====Description====
 Reduce the risk of CVE-2018-11409, an information disclosure vulnerability within some older versions of Splunk Enterprise, with searches designed to help ensure that your Splunk system does not leak information to authenticated users.
@@ -1106,6 +1103,9 @@ Although there have been no reports of it being exploited, Splunk Enterprise ver
 * https://nvd.nist.gov/vuln/detail/CVE-2018-11409
 * https://www.splunk.com/view/SP-CAAAP5E#VulnerabilityDescriptionsandRatings
 * https://www.exploit-db.com/exploits/44865/
+* creation_date = 2018-06-14
+* modification_date = 2018-06-14
+* version = 1.0
 
 </div>
 </div>
@@ -1117,9 +1117,6 @@ Although there have been no reports of it being exploited, Splunk Enterprise ver
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-06-01
-* modification_date = 2017-12-19
-* version = 1.0
 
 ====Description====
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
@@ -1164,6 +1161,9 @@ While you can educate your users and customers about the risks and threats posed
 * https://blog.domaintools.com/tag/brand-monitor/
 * https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
 * https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
+* creation_date = 2017-06-01
+* modification_date = 2017-12-19
+* version = 1.0
 
 </div>
 </div>
@@ -1172,9 +1172,6 @@ While you can educate your users and customers about the risks and threats posed
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-08-24
-* modification_date = 2016-09-13
-* version = 1.0
 
 ====Description====
 DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to <code>ANY</code> queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
@@ -1213,6 +1210,9 @@ The Domain Name System (DNS) is the protocol used to map domain names to IP addr
 ====References====
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
 * https://deepthought.isc.org/article/AA-00897/0/What-is-a-DNS-Amplification-Attack.html
+* creation_date = 2016-08-24
+* modification_date = 2016-09-13
+* version = 1.0
 
 </div>
 </div>
@@ -1221,9 +1221,6 @@ The Domain Name System (DNS) is the protocol used to map domain names to IP addr
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-06-01
-* modification_date = 2017-09-14
-* version = 1.0
 
 ====Description====
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
@@ -1265,6 +1262,9 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 * https://www.cisecurity.org/controls/data-protection/
 * https://www.sans.org/reading-room/whitepapers/dns/splunk-detect-dns-tunneling-37022
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
+* creation_date = 2017-06-01
+* modification_date = 2017-09-14
+* version = 1.0
 
 </div>
 </div>
@@ -1273,9 +1273,6 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-06-18
-* modification_date = 2017-09-14
-* version = 1.0
 
 ====Description====
 Detect evidence of tactics used to redirect traffic from a host to a destination other than the one intended--potentially one that is part of an adversary's attack infrastructure. An example is redirecting communications regarding patches and updates or misleading users into visiting a malicious website.
@@ -1314,6 +1311,9 @@ Attackers will often attempt to manipulate client communications for nefarious p
 
 ====References====
 * https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
+* creation_date = 2017-06-18
+* modification_date = 2017-09-14
+* version = 1.0
 
 </div>
 </div>
@@ -1322,9 +1322,6 @@ Attackers will often attempt to manipulate client communications for nefarious p
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-01-04
-* modification_date = 2017-01-05
-* version = 1.0
 
 ====Description====
 Detect activities and various techniques associated with the abuse of <code>netsh.exe</code>, which can disable local firewall settings or set up a remote connection to a host from an infected system.
@@ -1367,6 +1364,9 @@ It is a common practice for attackers of all types to leverage native Windows to
 * https://technet.microsoft.com/library/bb490939.aspx
 * https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html
 * http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html
+* creation_date = 2017-01-04
+* modification_date = 2017-01-05
+* version = 1.0
 
 </div>
 </div>
@@ -1375,9 +1375,6 @@ It is a common practice for attackers of all types to leverage native Windows to
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-07-12
-* modification_date = 2018-10-08
-* version = 1.0
 
 ====Description====
 Monitor your environment for activity consistent with common attack techniques bad actors use when attempting to compromise web servers or other web-related assets.
@@ -1417,6 +1414,9 @@ The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of 
 * https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
 * https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
 * https://www.otalliance.org/news-events/press-releases/online-trust-alliance-reports-doubling-cyber-incidents-2017-0
+* creation_date = 2018-07-12
+* modification_date = 2018-10-08
+* version = 1.0
 
 </div>
 </div>
@@ -1428,9 +1428,6 @@ The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of 
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2019-01-29
-* modification_date = 2019-01-09
-* version = 1.0
 
 ====Description====
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
@@ -1469,6 +1466,9 @@ Conventional wisdom holds that Apple's MacOS operating system is significantly l
 * https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/
 * https://objective-see.com/blog/blog_0x2A.html
 * https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/
+* creation_date = 2019-01-29
+* modification_date = 2019-01-09
+* version = 1.0
 
 </div>
 </div>
@@ -1477,9 +1477,6 @@ Conventional wisdom holds that Apple's MacOS operating system is significantly l
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-03-19
-* modification_date = 2018-03-19
-* version = 2.0
 
 ====Description====
 Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.
@@ -1524,6 +1521,9 @@ The frequency of nation-state cyber attacks has increased significantly over the
 
 ====References====
 * https://www.us-cert.gov/ncas/alerts/TA18-074A
+* creation_date = 2018-03-19
+* modification_date = 2018-03-19
+* version = 2.0
 
 </div>
 </div>
@@ -1532,9 +1532,6 @@ The frequency of nation-state cyber attacks has increased significantly over the
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-11-21
-* modification_date = 2018-09-06
-* version = 2.0
 
 ====Description====
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.
@@ -1578,6 +1575,9 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 * http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
+* creation_date = 2017-11-21
+* modification_date = 2018-09-06
+* version = 2.0
 
 </div>
 </div>
@@ -1586,9 +1586,6 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-09-11
-* modification_date = 2018-09-11
-* version = 1.0
 
 ====Description====
 Detect rarely used executables, specific registry paths that may confer malware survivability and persistence, instances where cmd.exe is used to launch script interpreters, and other indicators that the Emotet financial malware has compromised your environment.
@@ -1636,6 +1633,9 @@ The trojan downloader known as Emotet first surfaced in 2014, when it was discov
 * https://www.us-cert.gov/ncas/alerts/TA18-201A
 * https://www.first.org/resources/papers/conf2017/Advanced-Incident-Detection-and-Threat-Hunting-using-Sysmon-and-Splunk.pdf
 * https://www.vkremez.com/2017/05/emotet-banking-trojan-malware-analysis.html
+* creation_date = 2018-09-11
+* modification_date = 2018-09-11
+* version = 1.0
 
 </div>
 </div>
@@ -1644,9 +1644,6 @@ The trojan downloader known as Emotet first surfaced in 2014, when it was discov
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-06-14
-* modification_date = 2018-06-14
-* version = 2.0
 
 ====Description====
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
@@ -1692,6 +1689,9 @@ North Korea's government-sponsored "cyber army" has been slowly building momentu
 ====References====
 * https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity
 * https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Destructive-Malware-Report.pdf
+* creation_date = 2018-06-14
+* modification_date = 2018-06-14
+* version = 2.0
 
 </div>
 </div>
@@ -1700,9 +1700,6 @@ North Korea's government-sponsored "cyber army" has been slowly building momentu
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-06-14
-* modification_date = 2018-06-18
-* version = 2.0
 
 ====Description====
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
@@ -1745,6 +1742,9 @@ In May of 2018, the attack group Orangeworm was implicated for installing a cust
 ====References====
 * https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia
 * https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/
+* creation_date = 2018-06-14
+* modification_date = 2018-06-18
+* version = 2.0
 
 </div>
 </div>
@@ -1753,9 +1753,6 @@ In May of 2018, the attack group Orangeworm was implicated for installing a cust
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-07-24
-* modification_date = 2017-09-10
-* version = 1.0
 
 ====Description====
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
@@ -1803,6 +1800,9 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * https://www.symantec.com/connect/blogs/what-you-need-know-about-wannacry-ransomware
 * https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
+* creation_date = 2017-07-24
+* modification_date = 2017-09-10
+* version = 1.0
 
 </div>
 </div>
@@ -1811,9 +1811,6 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-12-13
-* modification_date = 2018-12-13
-* version = 1.0
 
 ====Description====
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
@@ -1862,6 +1859,9 @@ The first version of the SamSam ransomware (a.k.a. Samas or SamsamCrypt) was lau
 * https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/
 * https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-ransomware-chooses-Its-targets-carefully-wpna.pdf
 * https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-The-Almost-Six-Million-Dollar-Ransomware.pdf?cmp=26061
+* creation_date = 2018-12-13
+* modification_date = 2018-12-13
+* version = 1.0
 
 </div>
 </div>
@@ -1870,9 +1870,6 @@ The first version of the SamSam ransomware (a.k.a. Samas or SamsamCrypt) was lau
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-08-09
-* modification_date = 2018-11-20
-* version = 2.0
 
 ====Description====
 Quickly identify systems running new or unusual processes in your environment that could be indicators of suspicious activity. Processes run from unusual locations, those with conspicuously long command lines, and rare executables are all examples of activities that may warrant deeper investigation.
@@ -1915,6 +1912,9 @@ Being able to profile a host's processes within your environment can help you mo
 * https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html
 * https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
 * https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
+* creation_date = 2016-08-09
+* modification_date = 2018-11-20
+* version = 2.0
 
 </div>
 </div>
@@ -1923,9 +1923,6 @@ Being able to profile a host's processes within your environment can help you mo
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-01-26
-* modification_date = 2018-01-26
-* version = 1.0
 
 ====Description====
 Detect and investigate suspected abuse of file extensions and Windows file associations. Some of the malicious behaviors involved may include inserting spaces before file extensions or prepending the file extension with a different one, among other techniques.
@@ -1967,6 +1964,9 @@ Attackers use a variety of techniques to entice users to run malicious code or t
 ====References====
 * https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/
 * https://attack.mitre.org/wiki/Technique/T1042
+* creation_date = 2018-01-26
+* modification_date = 2018-01-26
+* version = 1.0
 
 </div>
 </div>
@@ -1975,9 +1975,6 @@ Attackers use a variety of techniques to entice users to run malicious code or t
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-11-02
-* modification_date = 2017-11-02
-* version = 3.0
 
 ====Description====
 Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.
@@ -2020,6 +2017,9 @@ The Windows operating system uses a services architecture to allow for running c
 ====References====
 * https://attack.mitre.org/wiki/Technique/T1050
 * https://attack.mitre.org/wiki/Technique/T1031
+* creation_date = 2017-11-02
+* modification_date = 2017-11-02
+* version = 3.0
 
 </div>
 </div>
@@ -2031,9 +2031,6 @@ The Windows operating system uses a services architecture to allow for running c
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-01-08
-* modification_date = 2018-01-08
-* version = 1.0
 
 ====Description====
 Monitor for and investigate activities--such as suspicious writes to the Windows Recycling Bin or email servers sending high amounts of traffic to specific hosts, for example--that may indicate that an adversary is harvesting and exfiltrating sensitive data. 
@@ -2078,6 +2075,9 @@ A common adversary goal is to identify and exfiltrate data of value from a targe
 ====References====
 * https://attack.mitre.org/wiki/Collection
 * https://attack.mitre.org/wiki/Technique/T1074
+* creation_date = 2018-01-08
+* modification_date = 2018-01-08
+* version = 1.0
 
 </div>
 </div>
@@ -2086,9 +2086,6 @@ A common adversary goal is to identify and exfiltrate data of value from a targe
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-06-01
-* modification_date = 2018-06-01
-* version = 1.0
 
 ====Description====
 Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.
@@ -2130,6 +2127,9 @@ Threat actors typically architect and implement an infrastructure to use in vari
 ====References====
 * https://attack.mitre.org/wiki/Command_and_Control
 * https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
+* creation_date = 2018-06-01
+* modification_date = 2018-06-01
+* version = 1.0
 
 </div>
 </div>
@@ -2138,9 +2138,6 @@ Threat actors typically architect and implement an infrastructure to use in vari
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2019-04-29
-* modification_date = 2019-04-29
-* version = 1.0
 
 ====Description====
 Detect DNS and web requests to fake websites generated by the EvilGinx2 toolkit. These websites are designed to fool unwitting users who have clicked on a malicious link in a phishing email. 
@@ -2181,6 +2178,9 @@ As most people know, these emails use fraudulent domains, [email scraping](https
 * https://github.com/kgretzky/evilginx2
 * https://attack.mitre.org/techniques/T1192/
 * https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/
+* creation_date = 2019-04-29
+* modification_date = 2019-04-29
+* version = 1.0
 
 </div>
 </div>
@@ -2189,9 +2189,6 @@ As most people know, these emails use fraudulent domains, [email scraping](https
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-08-08
-* modification_date = 2018-08-08
-* version = 1.0
 
 ====Description====
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attmpts to dump credentials.
@@ -2235,6 +2232,9 @@ Credential dumping&#151;gathering credentials from a target system, often hashed
 * https://attack.mitre.org/wiki/Technique/T1003
 * https://www.powershellempire.com/?page_id=112
 * https://4iq.com/4iq-discovers-1-4-billion-clear-text-credentials-single-database/
+* creation_date = 2018-08-08
+* modification_date = 2018-08-08
+* version = 1.0
 
 </div>
 </div>
@@ -2243,9 +2243,6 @@ Credential dumping&#151;gathering credentials from a target system, often hashed
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-11-21
-* modification_date = 2018-09-06
-* version = 1.0
 
 ====Description====
 Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.
@@ -2286,6 +2283,9 @@ Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/t
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 * http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
+* creation_date = 2017-11-21
+* modification_date = 2018-09-06
+* version = 1.0
 
 </div>
 </div>
@@ -2294,9 +2294,6 @@ Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/t
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-04-09
-* modification_date = 2018-04-09
-* version = 1.0
 
 ====Description====
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious <code>reg.exe</code> processes, processes launching netsh, and many others.
@@ -2339,6 +2336,9 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 * https://attack.mitre.org/wiki/Technique/T1089
 * https://blog.malwarebytes.com/cybercrime/2015/11/vonteera-adware-uses-certificates-to-disable-anti-malware/
 * https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf
+* creation_date = 2018-04-09
+* modification_date = 2018-04-09
+* version = 1.0
 
 </div>
 </div>
@@ -2347,9 +2347,6 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-09-13
-* modification_date = 2018-05-31
-* version = 1.0
 
 ====Description====
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
@@ -2395,6 +2392,9 @@ Once attackers gain a foothold within an enterprise, they will seek to expand th
 ====References====
 * https://www.binarydefense.com/bds/reliably-detecting-pass-the-hash-through-event-log-analysis/
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
+* creation_date = 2016-09-13
+* modification_date = 2018-05-31
+* version = 1.0
 
 </div>
 </div>
@@ -2403,9 +2403,6 @@ Once attackers gain a foothold within an enterprise, they will seek to expand th
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-09-18
-* modification_date = 2017-08-23
-* version = 4.0
 
 ====Description====
 Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
@@ -2447,6 +2444,9 @@ The searches in this Analytic Story monitor for parameters often used for malici
 ====References====
 * https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+* creation_date = 2016-09-18
+* modification_date = 2017-08-23
+* version = 4.0
 
 </div>
 </div>
@@ -2455,9 +2455,6 @@ The searches in this Analytic Story monitor for parameters often used for malici
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2019-04-29
-* modification_date = 2019-04-29
-* version = 1.0
 
 ====Description====
 Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
@@ -2498,6 +2495,9 @@ Despite its simplicity, phishing remains the most pervasive and dangerous cybert
 
 ====References====
 * https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
+* creation_date = 2019-04-29
+* modification_date = 2019-04-29
+* version = 1.0
 
 </div>
 </div>
@@ -2506,9 +2506,6 @@ Despite its simplicity, phishing remains the most pervasive and dangerous cybert
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-07-24
-* modification_date = 2018-07-24
-* version = 1.0
 
 ====Description====
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
@@ -2551,6 +2548,9 @@ This story was created as a joint effort between iDefense and Splunk.<br></br>iD
 * https://intelgraph.idefense.com/#/node/threat_group/view/29fbec10-8cc8-4662-8362-2c24c1eeb74c
 * https://intelgraph.idefense.com/#/node/intelligence_alert/view/62bb3669-9386-4264-b51a-59876cf50ffe
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
+* creation_date = 2018-07-24
+* modification_date = 2018-07-24
+* version = 1.0
 
 </div>
 </div>
@@ -2559,9 +2559,6 @@ This story was created as a joint effort between iDefense and Splunk.<br></br>iD
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-09-13
-* modification_date = 2017-09-19
-* version = 1.0
 
 ====Description====
 Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.
@@ -2601,6 +2598,9 @@ It is very common for attackers to inject SQL parameters into vulnerable web app
 * https://www.owasp.org/index.php/SQL_Injection
 * https://www.owasp.org/index.php/Blind_SQL_Injection
 * https://www.incapsula.com/web-application-security/sql-injection.html
+* creation_date = 2016-09-13
+* modification_date = 2017-09-19
+* version = 1.0
 
 </div>
 </div>
@@ -2609,9 +2609,6 @@ It is very common for attackers to inject SQL parameters into vulnerable web app
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-10-09
-* modification_date = 2017-10-23
-* version = 2.0
 
 ====Description====
 Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
@@ -2654,6 +2651,9 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 * https://attack.mitre.org/wiki/Technique/T1059
 * https://www.microsoft.com/en-us/wdsi/threats/macro-malware
 * https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
+* creation_date = 2017-10-09
+* modification_date = 2017-10-23
+* version = 2.0
 
 </div>
 </div>
@@ -2662,9 +2662,6 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2016-09-13
-* modification_date = 2017-09-18
-* version = 1.0
 
 ====Description====
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
@@ -2704,6 +2701,9 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 * http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/
 * http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680
 * https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454
+* creation_date = 2016-09-13
+* modification_date = 2017-09-18
+* version = 1.0
 
 </div>
 </div>
@@ -2712,9 +2712,6 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-03-24
-* modification_date = 2017-09-19
-* version = 1.0
 
 ====Description====
 Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
@@ -2751,6 +2748,9 @@ It is a common practice for attackers of all types to leverage targeted spearphi
 
 ====References====
 * https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
+* creation_date = 2017-03-24
+* modification_date = 2017-09-19
+* version = 1.0
 
 </div>
 </div>
@@ -2759,9 +2759,6 @@ It is a common practice for attackers of all types to leverage targeted spearphi
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-08-07
-* modification_date = 2018-08-07
-* version = 1.0
 
 ====Description====
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
@@ -2804,6 +2801,9 @@ One common adversary tactic is to bypass application white-listing solutions via
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 * https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
 * https://attack.mitre.org/wiki/Technique/T1170
+* creation_date = 2018-08-07
+* modification_date = 2018-08-07
+* version = 1.0
 
 </div>
 </div>
@@ -2812,9 +2812,6 @@ One common adversary tactic is to bypass application white-listing solutions via
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-01-13
-* modification_date = 2018-10-23
-* version = 2.0
 
 ====Description====
 Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.
@@ -2857,6 +2854,9 @@ WMI is a Microsoft infrastructure for management data and operations on Windows 
 ====References====
 * https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
 * https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
+* creation_date = 2017-01-13
+* modification_date = 2018-10-23
+* version = 2.0
 
 </div>
 </div>
@@ -2865,9 +2865,6 @@ WMI is a Microsoft infrastructure for management data and operations on Windows 
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2018-05-31
-* modification_date = 2018-05-31
-* version = 1.0
 
 ====Description====
 Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.
@@ -2910,6 +2907,9 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 ====References====
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 * https://attack.mitre.org/wiki/Technique/T1112
+* creation_date = 2018-05-31
+* modification_date = 2018-05-31
+* version = 1.0
 
 </div>
 </div>
@@ -2918,9 +2918,6 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-10-11
-* modification_date = 2018-05-31
-* version = 1.0
 
 ====Description====
 Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious <code>reg.exe</code> processes, files hidden with <code>attrib.exe</code> and disabling user-account control, among many others 
@@ -2961,6 +2958,9 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 ====References====
 * https://attack.mitre.org/wiki/Defense_Evasion
+* creation_date = 2017-10-11
+* modification_date = 2018-05-31
+* version = 1.0
 
 </div>
 </div>
@@ -2969,9 +2969,6 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-02-17
-* modification_date = 2017-09-12
-* version = 2.0
 
 ====Description====
 Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.
@@ -3015,6 +3012,9 @@ Because attackers often modify system logs to cover their tracks and/or to thwar
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 * https://zeltser.com/security-incident-log-review-checklist/
 * http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html
+* creation_date = 2017-02-17
+* modification_date = 2017-09-12
+* version = 2.0
 
 </div>
 </div>
@@ -3023,9 +3023,6 @@ Because attackers often modify system logs to cover their tracks and/or to thwar
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-04-19
-* modification_date = 2018-05-31
-* version = 2.0
 
 ====Description====
 Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.
@@ -3071,6 +3068,9 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/
 * https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
 * https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf
+* creation_date = 2017-04-19
+* modification_date = 2018-05-31
+* version = 2.0
 
 </div>
 </div>
@@ -3079,9 +3079,6 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
-* creation_date = 2017-12-07
-* modification_date = 2017-12-07
-* version = 2.0
 
 ====Description====
 Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.
@@ -3122,6 +3119,9 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 ====References====
 * https://attack.mitre.org/wiki/Privilege_Escalation
+* creation_date = 2017-12-07
+* modification_date = 2017-12-07
+* version = 2.0
 
 </div>
 </div>

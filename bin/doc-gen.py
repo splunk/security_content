@@ -355,10 +355,6 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                 output_file.write("\n==={0}===\n".format(story_name))
                 # header information
                 output_file.write("""\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
-                output_file.write("* creation_date = {0}\n".format(story['creation_date']))
-                output_file.write("* modification_date = {0}\n".format(story['modification_date']))
-                output_file.write("* version = {0}\n".format(story['version']))
-
                 output_file.write("\n====Description====\n{0}\n".format(story['description']))
                 output_file.write("\n====Narrative====\n{0}\n".format(story['narrative']))
 
@@ -403,6 +399,12 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                 output_file.write("\n====References====\n")
                 for r in story['references']:
                     output_file.write("* {0}\n".format(markdown(r)))
+
+                # story details
+                output_file.write("* creation_date = {0}\n".format(story['creation_date']))
+                output_file.write("* modification_date = {0}\n".format(story['modification_date']))
+                output_file.write("* version = {0}\n".format(story['version']))
+
                 # footer information
                 output_file.write("""\n</div>\n</div>\n""")
     output_file.write("""\n[[Category:V:Lab:drafts]]""")
