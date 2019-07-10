@@ -92,8 +92,8 @@ class DetectCommand(GeneratingCommand):
                 if content['action.escu.search_type'] == 'support':
                     support_searches_to_run = self._support_searches(content)
                     self.runstory_results['support_search_name'] = self._run_support(support_searches_to_run, service,earliest_time,latest_time)
-                else:
-                    self.runstory_results['support_search_name'] = "No Support searches in this story"
+                # else:
+                #     self.runstory_results['support_search_name'] = "No Support searches in this story"
                 if content['action.escu.search_type'] == 'detection':
                     detection_searches_to_run = self._detection_searches(content)
 
@@ -169,6 +169,7 @@ class DetectCommand(GeneratingCommand):
                 self.runstory_results['risk_object_type'] = search['risk_object_type']
                 self.runstory_results['risk_score'] = search['risk_score']
                 self.runstory_results['risk_object'] = search['risk_object']
+                #self.runstory_results['support_search_name'] = 
                 yield {
                         '_time': time.time(),
                         '_raw': self.runstory_results,
