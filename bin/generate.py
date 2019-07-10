@@ -831,7 +831,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("\n")
     output_file.write("\n### END ESCU BASELINES ###\n\n")
     output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
-    usconf = open('usage_searches.conf', 'r')
+    usconf = open('/security-content/bin/usage_searches.conf', 'r')
     usage_searches = usconf.read()
     usconf.close()
     output_file.write(usage_searches)
@@ -868,7 +868,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(json.dumps(detection['data_models'])))
 
-        # NEED TO REMOVE MARKDOWN FUNCTION
+        # NEED TO REMOVE MARKDOWN
         if 'eli5' in detection:
             eli5 = markdown(detection['eli5'])
             output_file.write("action.escu.eli5 = {0}\n".format(eli5))
@@ -1095,7 +1095,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
     output_file.write("\n### END ESCU BASELINES ###\n\n")
     output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
 
-    usconf = open('usage_searches.conf', 'r')
+    usconf = open('bin/usage_searches.conf', 'r')
     usage_searches = usconf.read()
     usconf.close()
     output_file.write(usage_searches)
