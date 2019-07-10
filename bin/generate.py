@@ -831,7 +831,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("\n")
     output_file.write("\n### END ESCU BASELINES ###\n\n")
     output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
-    usconf = open('/security-content/bin/usage_searches.conf', 'r')
+    usconf = open('bin/usage_searches.conf', 'r')
     usage_searches = usconf.read()
     usconf.close()
     output_file.write(usage_searches)
