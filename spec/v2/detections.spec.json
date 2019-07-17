@@ -490,7 +490,7 @@
           }
         },
         "required": [
-          "product_type",
+          "type",
           "name",
           "id"
         ],
