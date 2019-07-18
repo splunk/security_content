@@ -394,13 +394,13 @@ def generate_detections(REPO_PATH, stories):
             responses = []
             if 'baselines' in detection:
                 for b in detection['baselines']:
-                    baselines.append({"type": b['product_type'], "name": b['name']})
+                    baselines.append({"type": b['type'], "name": b['name']})
             if 'investigations' in detection:
                 for i in detection['investigations']:
-                    investigations.append({"type": i['product_type'], "name": i['name']})
+                    investigations.append({"type": i['type'], "name": i['name']})
             if 'responses' in detection:
                 for r in detection['responses']:
-                    responses.append({"type": r['product_type'], "name": r['name']})
+                    responses.append({"type": r['type'], "name": r['name']})
 
         complete_detections[name] = {}
         complete_detections[name]['detection_name'] = name

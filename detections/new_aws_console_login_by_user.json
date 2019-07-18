@@ -64,7 +64,7 @@
     {
       "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
       "name": "AWS Investigate User Activities By ARN",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "known_false_positives": "When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.",
@@ -104,8 +104,8 @@
       "name": "Bhavin Patel"
     }
   ],
-  "product_type": "splunk",
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }

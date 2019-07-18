@@ -55,7 +55,7 @@
     {
       "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
       "name": "Get DNS Server History for a host",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "known_false_positives": "Legitimate DNS activity can be detected in this search. Investigate, verify and update the list of authorized DNS servers as appropriate.",
@@ -99,9 +99,9 @@
       "name": "Bhavin Patel"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }

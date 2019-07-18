@@ -422,7 +422,14 @@
       },
       "type": "array"
     },
-    "product_type": {
+    "spec_version": {
+      "description": "The version of the detection search specification this manifest follows",
+      "examples": [
+        "2.0"
+      ],
+      "type": "integer"
+    },
+    "type": {
       "description": "The type of baseline",
       "enum": [
         "splunk",
@@ -432,13 +439,6 @@
       "examples": [
         "splunk"
       ]
-    },
-    "spec_version": {
-      "description": "The version of the detection search specification this manifest follows",
-      "examples": [
-        "2.0"
-      ],
-      "type": "integer"
     },
     "version": {
       "description": "The version of the search",
@@ -461,7 +461,7 @@
     "original_authors",
     "name",
     "description",
-    "product_type",
+    "type",
     "spec_version",
     "version",
     "baseline"

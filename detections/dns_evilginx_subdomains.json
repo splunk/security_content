@@ -54,12 +54,12 @@
     {
       "id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
       "name": "Get Certificate logs for a domain",
-      "product_type": "splunk"
+      "type": "splunk"
     },
     {
       "id": "c096f721-8842-42ce-2fc7-742d8272b712",
       "name": "Domain Certificate Investigation",
-      "product_type": "phantom"
+      "type": "phantom"
     }
   ],
   "known_false_positives": "If a known good domain is not listed in the legit_domains.csv file, then the search could give you false postives. Please update that lookup file to filter out DNS requests to legitimate domains.",
@@ -100,9 +100,9 @@
       "name": "Bhavin Patel"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }

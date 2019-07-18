@@ -20,21 +20,21 @@
           "description": "Url of the playbook on Phantom website.",
           "type": "string"
         },
-        "product_type": {
-          "description": "Type of baseline to execute",
-          "enum": [
-            "phantom",
-            "splunk",
-            "uba"
-          ],
-          "product_type": "string"
-        },
         "sensitivity": {
           "description": "TLP colors (White, Green, Amber or Red)",
           "type": "string"
         },
         "severity": {
           "description": "Severity in phantom (High, Medium, Low)",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of baseline to execute",
+          "enum": [
+            "phantom",
+            "splunk",
+            "uba"
+          ],
           "type": "string"
         }
       },
@@ -279,13 +279,6 @@
       },
       "type": "array"
     },
-    "product_type": {
-      "description": "The type of detection",
-      "enum": [
-        "splunk",
-        "phantom"
-      ]
-    },
     "response": {
       "anyOf": [
         {
@@ -313,6 +306,13 @@
       "description": "The version of the investigative search specification this manifest follows",
       "type": "integer"
     },
+    "type": {
+      "description": "The type of detection",
+      "enum": [
+        "splunk",
+        "phantom"
+      ]
+    },
     "version": {
       "description": "The version of the search",
       "type": "string"
@@ -329,7 +329,7 @@
     "search",
     "description",
     "id",
-    "product_type",
+    "type",
     "spec_version",
     "version",
     "response"
