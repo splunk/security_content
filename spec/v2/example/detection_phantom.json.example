@@ -60,7 +60,7 @@
 
   "name": "Playbook that detects DNS Hijacks",
   "description": "The search takes the DNS records and their answers results of the discovered_dns_records lookup and finds if any records have changed by searching DNS response from the Network_Resolution datamodel across the last day.",
-  "product_type": "phantom",
+  "type": "phantom",
   "asset_type": "Endpoint",
   "confidence": "medium",
   "security_domain": "network",
@@ -108,12 +108,12 @@
   "investigations": [
     {
       "name": "Discover DNS records,",
-      "product_type": "splunk",
+      "type": "splunk",
       "id": "c096f721-8842-42ce-bfc7-74bd8c72b7c3"
     },
     {
       "name": "DNS record change investigation",
-      "product_type": "phantom",
+      "type": "phantom",
       "id": "c096f721-8842-42ce-bfc7-74bd8c72b711"
     }
   ],

@@ -57,7 +57,7 @@
     {
       "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
       "name": "Get Parent Process Info",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "known_false_positives": "It is not uncommon for outlook to write legitimate zip files to the disk.",
@@ -94,9 +94,9 @@
       "name": "Bhavin Patel"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }

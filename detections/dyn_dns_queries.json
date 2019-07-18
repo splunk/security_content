@@ -55,7 +55,7 @@
     {
       "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
       "name": "Get DNS Server History for a host",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "known_false_positives": "Some users and applications may leverage Dynamic DNS to reach out to some domains on the Internet since dynamic DNS by itself is not malicious, however this activity must be verified.",
@@ -98,9 +98,9 @@
       "name": "Bhavin Patel"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }

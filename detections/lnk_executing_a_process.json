@@ -88,9 +88,9 @@
       "name": "Jose Hernandez"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }

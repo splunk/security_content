@@ -46,7 +46,7 @@
       "name": "Jason Brewer"
     }
   ],
-  "product_type": "splunk",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }
