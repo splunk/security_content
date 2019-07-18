@@ -4,12 +4,12 @@
     {
       "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd03",
       "name": "Previously seen users in CloudTrail",
-      "product_type": "splunk"
+      "type": "splunk"
     },
     {
       "id": "06c036e6-d6d7-4daa-bd76-411c3d356031",
       "name": "Update previously seen users in CloudTrail",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "confidence": "medium",
@@ -108,7 +108,7 @@
       "email": "jbrewer@splunk.com",
       "name": "Jason Brewer"
     }
-  ],  
+  ],
   "product_type": "splunk",
   "security_domain": "network",
   "spec_version": 2,

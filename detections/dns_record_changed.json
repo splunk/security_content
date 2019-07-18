@@ -4,7 +4,7 @@
     {
       "id": "c096f721-8842-42ce-bfc7-74bd8c72b7c3",
       "name": "Discover DNS records",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "confidence": "medium",

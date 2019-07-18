@@ -4,12 +4,12 @@
     {
       "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd03",
       "name": "Previously seen users in CloudTrail",
-      "product_type": "splunk"
+      "type": "splunk"
     },
     {
       "id": "06c036e6-d6d7-4daa-bd76-411c3d356031",
       "name": "Update previously seen users in CloudTrail",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "confidence": "medium",
@@ -54,20 +54,20 @@
       }
     }
   },
-    "eli5": "In this search, we query CloudTrail logs to look for events that indicate that a user has attempted to log in to the AWS console and group the events using ARN value. Using the <code>previously_seen_users_console_logins.csv</code> lookup file created using the support search, we compare the ARN to all the previously seen users logging into the AWS console. The <code>eval</code> and <code>if</code> functions determine whether the earliest time we see this user ARN was seen within the last hour. The alert will be fired only when a user is seen for first time in the last hour.",
-    "entities": [
-      "user"
-    ],
-    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Run the \"Previously seen users in CloudTrail\" support search only once to create a baseline of previously seen IAM users within the last 30 days. Run \"Update previously seen users in CloudTrail\" hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines.",
-    "id": "ada0f478-84a8-4641-a3f3-d82362dffd75",
-    "investigations": [
-      {
-        "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
-        "name": "AWS Investigate User Activities By ARN",
-        "product_type": "splunk"
-      }
-    ],
-    "known_false_positives": "When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.",
+  "eli5": "In this search, we query CloudTrail logs to look for events that indicate that a user has attempted to log in to the AWS console and group the events using ARN value. Using the <code>previously_seen_users_console_logins.csv</code> lookup file created using the support search, we compare the ARN to all the previously seen users logging into the AWS console. The <code>eval</code> and <code>if</code> functions determine whether the earliest time we see this user ARN was seen within the last hour. The alert will be fired only when a user is seen for first time in the last hour.",
+  "entities": [
+    "user"
+  ],
+  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Run the \"Previously seen users in CloudTrail\" support search only once to create a baseline of previously seen IAM users within the last 30 days. Run \"Update previously seen users in CloudTrail\" hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines.",
+  "id": "ada0f478-84a8-4641-a3f3-d82362dffd75",
+  "investigations": [
+    {
+      "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
+      "name": "AWS Investigate User Activities By ARN",
+      "product_type": "splunk"
+    }
+  ],
+  "known_false_positives": "When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.",
   "maintainers": [
     {
       "company": "Splunk",
@@ -103,7 +103,7 @@
       "email": "bpatel@splunk.com",
       "name": "Bhavin Patel"
     }
-  ],  
+  ],
   "product_type": "splunk",
   "security_domain": "network",
   "spec_version": 2,
