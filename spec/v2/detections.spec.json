@@ -554,7 +554,8 @@
               "Network_Sessions",
               "Updates",
               "Risk",
-              "Endpoint"
+              "Endpoint",
+              "UEBA"
             ]
           },
           "minItems": 0,
@@ -704,7 +705,8 @@
           "src_user",
           "src",
           "user",
-          "query"
+          "query",
+          "url"
         ]
       },
       "minItems": 0,
