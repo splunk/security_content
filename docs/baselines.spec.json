@@ -5,28 +5,28 @@
     "phantom": {
       "properties": {
         "phantom_server": {
-          "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)",
+          "description": "IP address and username of the Phantom server. Currently, we ship these values as automation (hostname) and encourage users to modify them according to their environments: for example, automation (hostname)",
           "examples": [
             "automation (hostname)"
           ],
           "type": "string"
         },
         "playbook_name": {
-          "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment",
+          "description": "Name of the playbook. This name should be the same as the name on the Phantom community repository on github, with underscores, and appended with \"community/<playbook_name>.\" The playbooks are hosted on https://github.com/phantomcyber/playbooks. For example: community/simple_network_enrichment.",
           "examples": [
             "community/dns_hijack_investigation"
           ],
           "type": "string"
         },
         "playbook_url": {
-          "description": "Url of the playbook on Phantom website.",
+          "description": "URL of the playbook on the Phantom website",
           "examples": [
             "https://my.phantom.us/4.1/playbook/dns-hijack-investigation/"
           ],
           "type": "string"
         },
         "schedule": {
-          "description": "Various fields to assist in scheduling the search",
+          "description": "Various fields used to assist in scheduling the search",
           "properties": {
             "cron_schedule": {
               "description": "Schedule of the search in cron format",
@@ -43,7 +43,7 @@
               "type": "string"
             },
             "latest_time": {
-              "description": "The latest time tes search should run against in Splunk format",
+              "description": "The latest time the search should run again in Splunk format",
               "examples": [
                 "-10m@m"
               ],
@@ -53,14 +53,14 @@
           "type": "object"
         },
         "sensitivity": {
-          "description": "TLP colors (White, Green, Amber or Red)",
+          "description": "TLP colors (White, Green, Amber, or Red)",
           "examples": [
             "green"
           ],
           "type": "string"
         },
         "severity": {
-          "description": "Severity in phantom (High, Medium, Low)",
+          "description": "Severity in Phantom (High, Medium, Low)",
           "examples": [
             "medium"
           ],
@@ -94,7 +94,7 @@
               "type": "string"
             },
             "latest_time": {
-              "description": "The latest time tes search should run against in Splunk format",
+              "description": "The latest time the search should run again in Splunk format",
               "examples": [
                 "-10m@m"
               ],
@@ -104,7 +104,7 @@
           "type": "object"
         },
         "search": {
-          "description": "The search (in SPL) executed within core Splunk for investgation.",
+          "description": "The search (in SPL) executed within Splunk Enterprise for investigation",
           "examples": [
             "| inputlookup discovered_dns_records.csv | rename answer as discovered_answer | join domain[|tstats summariesonly=true count values(DNS.record_type) as type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution where DNS.message_type=RESPONSE DNS.answer!=\"unknown\" DNS.answer!=\"\" by DNS.query | rename DNS.query as query | where query!=\"unknown\" | rex field=query \"(?<domain>\\w+\\.\\w+?)(?:$|/)\"] | makemv delim=\" \" answer |  makemv delim=\" \" type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer | makemv current_answer  | mvexpand current_answer | makemv discovered_answer | eval n=mvfind(discovered_answer, current_answer) | where isnull(n)"
           ],
@@ -267,19 +267,19 @@
     "description": {
       "description": "A description of what the search is is doing to create a baseline",
       "examples": [
-        "The search takes corporate and common cloud provider domains configured under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv` finds their responses across the last 30 days from data in the `Network_Traffic` datamodel, then stores the output under the `discovered_dns_records.csv` lookup"
+        "The search takes corporate and common cloud-provider domains configured under \"cim_corporate_email_domains.csv,\" \"cim_corporate_web_domains.csv,\" and \"cloud_domains.csv,\" finds their responses across the last 30 days from data in the \"Network_Traffic\" data model, then stores the output under the \"discovered_dns_records.csv\" lookup."
       ],
       "type": "string"
     },
     "eli5": {
-      "description": "Explain it like I am 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
+      "description": "Explain it Like I'm 5: A detailed description of the SPL in the search, written in a style that can be understood by a future Splunk expert.",
       "examples": [
-        "Discover the DNS records and their answers for domains owned by the company using network traffic events. The discovered events are exported as a lookup named `discovered_dns_records.csv`"
+        "Discover the DNS records and their answers for domains owned by the company using network traffic events. The discovered events are exported as a lookup named \"discovered_dns_records.csv.\""
       ],
       "type": "string"
     },
     "entities": {
-      "description": "A list of entities that will used in the story flow or are relevant to the security investigation.",
+      "description": "A list of entities that will be used in the story flow or that are relevant to the security investigation.",
       "examples": [
         "dest",
         "user"
@@ -318,9 +318,9 @@
       "uniqueItems": true
     },
     "how_to_implement": {
-      "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per site modifications",
+      "description": "A discussion of how to implement this search, from what needs to be ingested, config files modified, and suggested per-site modifications",
       "examples": [
-        "To successfully implement this search, you must be ingesting DNS logs, and populating the Network_Resolution data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation"
+        "To successfully implement this search, you must be ingesting DNS logs and populating the Network_Resolution data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation."
       ],
       "type": "string"
     },
