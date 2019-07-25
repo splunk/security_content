@@ -29,6 +29,7 @@
             },
             {
                 "schedule": {
+                    "cron_schedule": "",
                     "earliest_time_offset": 0,
                     "latest_time_offset": 86400
                 }
