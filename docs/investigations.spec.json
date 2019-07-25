@@ -239,7 +239,7 @@
       "uniqueItems": true
     },
     "how_to_implement": {
-      "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per-site modifications",
+      "description": "A discussion of how to implement this search, from what needs to be ingested, config files modified, and suggested per-site modifications",
       "type": "string"
     },
     "id": {
