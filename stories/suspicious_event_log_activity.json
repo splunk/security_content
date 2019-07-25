@@ -1,51 +1,58 @@
 {
-  "category": "Adversary Tactics",
-  "channel": "ESCU",
-  "creation_date": "2017-02-17",
-  "description": "Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.",
-  "id": "b6db2c60-a281-48b4-95f1-2cd99ed56835",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "modification_date": "2017-09-12",
-  "name": "Windows Log Manipulation",
-  "narrative": "Because attackers often modify system logs to cover their tracks and/or to thwart the investigative process, log monitoring is an industry-recognized best practice. While there are legitimate reasons to manipulate system logs, it is still worthwhile to keep track of who manipulated the logs, when they manipulated them, and in what way they manipulated them (determining which accesses, tools, or utilities were employed). Even if no malicious activity is detected, the knowledge of an attempt to manipulate system logs may be indicative of a broader security risk that should be thoroughly investigated.<br></br>The Analytic Story gives users two different ways to detect manipulation of Windows Event Logs and one way to detect deletion of the Update Sequence Number (USN) Change Journal. The story helps determine the history of the host and the users who have accessed it. Finally, the story aides in investigation by retrieving all the information on the process that caused these events (if the process has been identified).",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "references": [
-    "https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/",
-    "https://zeltser.com/security-incident-log-review-checklist/",
-    "http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html"
-  ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable Info",
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Authentication Logs For Endpoint",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
+    "category": [
+        "Adversary Tactics"
     ],
-    "detection_searches": [
-      "Deleting Shadow Copies",
-      "Windows Event Log Cleared",
-      "Suspicious wevtutil Usage",
-      "USN Journal Deletion"
+    "channel": [
+        "ESCU"
     ],
-    "investigative_searches": [
-      "Get Process Info"
+    "creation_date": "2017-02-17",
+    "description": "Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.",
+    "detections": [
+        {
+            "detection_id": "b89919ed-ee5f-492c-b139-95dbb162039e",
+            "name": "Deleting Shadow Copies",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "ad517544-aff9-4c96-bd99-d6eb43bfbb6a",
+            "name": "Windows Event Log Cleared",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "2827c0fd-e1be-4868-ae25-59d28e0f9d4f",
+            "name": "Suspicious wevtutil Usage",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "b6e0ff70-b122-4227-9368-4cf322ab43c3",
+            "name": "USN Journal Deletion",
+            "type": "splunk"
+        }
     ],
-    "support_searches": []
-  },
-  "spec_version": 1,
-  "version": "2.0"
+    "id": "b6db2c60-a281-48b4-95f1-2cd99ed56835",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "modification_date": "2017-09-12",
+    "name": "Windows Log Manipulation",
+    "narrative": "Because attackers often modify system logs to cover their tracks and/or to thwart the investigative process, log monitoring is an industry-recognized best practice. While there are legitimate reasons to manipulate system logs, it is still worthwhile to keep track of who manipulated the logs, when they manipulated them, and in what way they manipulated them (determining which accesses, tools, or utilities were employed). Even if no malicious activity is detected, the knowledge of an attempt to manipulate system logs may be indicative of a broader security risk that should be thoroughly investigated.<br></br>The Analytic Story gives users two different ways to detect manipulation of Windows Event Logs and one way to detect deletion of the Update Sequence Number (USN) Change Journal. The story helps determine the history of the host and the users who have accessed it. Finally, the story aides in investigation by retrieving all the information on the process that caused these events (if the process has been identified).",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "references": [
+        "https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/",
+        "https://zeltser.com/security-incident-log-review-checklist/",
+        "http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html"
+    ],
+    "spec_version": 2,
+    "usecase": "XXXXXXXX",
+    "version": "2.0"
 }

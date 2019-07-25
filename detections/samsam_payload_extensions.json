@@ -1,81 +1,188 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "high",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "dest, file_name",
-      "rule_description": "A file with an extension associated with SamSam ransomware was written on $dest$.",
-      "rule_title": "File with known SamSam extension detected on $dest$"
+    "asset_type": "Endpoint",
+    "baselines": [
+        {
+            "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
+            "name": "Monitor Successful Backups",
+            "type": "splunk"
+        },
+        {
+            "id": "b2178fed-592f-492b-b851-74161678aa56",
+            "name": "Monitor Unsuccessful Backups",
+            "type": "splunk"
+        },
+        {
+            "id": "6a4dbd1b-4502-4a11-943a-82b5ae7a42d7",
+            "name": "Windows Updates Install Failures",
+            "type": "splunk"
+        },
+        {
+            "id": "6a80535c-86a6-4b54-894c-4b446d0c701d",
+            "name": "Windows Updates Install Successes",
+            "type": "splunk"
+        },
+        {
+            "id": "251930a5-1451-4428-bb13-eed5775be0ce",
+            "name": "Add Prohibited Processes to Enterprise Security",
+            "type": "splunk"
+        }
+    ],
+    "confidence": "high",
+    "creation_date": "2018-12-14",
+    "data_metadata": {
+        "data_models": [
+            "Endpoint"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon"
+        ]
     },
-    "risk": {
-      "risk_object": "dest",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 80
+    "description": "The search looks for file writes with extensions consistent with a SamSam ransomware attack.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "dest, file_name",
+                        "rule_description": "A file with an extension associated with SamSam ransomware was written on $dest$.",
+                        "rule_title": "File with known SamSam extension detected on $dest$"
+                    },
+                    "risk": {
+                        "risk_object": "dest",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 80
+                    },
+                    "suppress": {
+                        "suppress_fields": "dest,file_name",
+                        "suppress_period": "14400s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`| rex field=file_name \"(?<file_extension>\\.[^\\.]+)$\" | search file_extension=.stubbin OR file_extension=.berkshire OR file_extension=.satoshi OR file_extension=.sophos OR file_extension=.keyxml"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "dest,file_name",
-      "suppress_period": "14400s"
-    }
-  },
-  "creation_date": "2018-12-14",
-  "data_metadata": {
-    "data_models": [
-      "Endpoint"
+    "eli5": "This search looks at file modifications across your hosts and creates notable events when it identifies files with extensions associated with the SamSam ransomware, including `.stubbin`, `.berkshire`, `.satoshi`, `.sophos`, or `.keyxml`. Files with these extensions have been observed in SamSam attacks consisting of payload data or keying material.",
+    "entities": [
+        "dest"
     ],
-    "data_source": [
-      "Endpoint Intel"
+    "how_to_implement": "You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.",
+    "id": "02c6cfc2-ae66-4735-bfc7-6291da834cbf",
+    "investigations": [
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
+            "name": "Get Backup Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "d98675ed-da43-4a7e-96a7-eeca3232ba8e",
+            "name": "Get Update Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "df7a7f50-30f2-4cde-8448-69d2d5f9b3c5",
+            "name": "Get Vulnerability Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "9925d08f-561e-4faa-8912-e3888a842341",
+            "name": "Get Process Information For Port Activity",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
+            "name": "Investigate Web Activity From Host",
+            "type": "splunk"
+        },
+        {
+            "id": "b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc",
+            "name": "Investigate Successful Remote Desktop Authentications",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Carbon Black Response",
-      "CrowdStrike Falcon",
-      "Sysmon"
-    ]
-  },
-  "eli5": "This search looks at file modifications across your hosts and creates notable events when it identifies files with extensions associated with the SamSam ransomware, including `.stubbin`, `.berkshire`, `.satoshi`, `.sophos`, or `.keyxml`. Files with these extensions have been observed in SamSam attacks consisting of payload data or keying material.",
-  "how_to_implement": "You must be ingesting data that records file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.",
-  "known_false_positives": "Because these extensions are not typically used in normal operations, you should investigate all results.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 8"
+    "known_false_positives": "Because these extensions are not typically used in normal operations, you should investigate all results.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
     ],
-    "kill_chain_phases": [
-      "Installation"
+    "mappings": {
+        "cis20": [
+            "CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Installation"
+        ],
+        "mitre_attack": [],
+        "nist": [
+            "PR.PT",
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2018-12-14",
+    "name": "File with Samsam Extension",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
     ],
-    "mitre_attack": [],
-    "nist": [
-      "PR.PT",
-      "DE.CM"
-    ]
-  },
-  "modification_date": "2018-12-14",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`| rex field=file_name \"(?<file_extension>\\.[^\\.]+)$\" | search file_extension=.stubbin OR file_extension=.berkshire OR file_extension=.satoshi OR file_extension=.sophos OR file_extension=.keyxml",
-  "search_description": "The search looks for file writes with extensions consistent with a SamSam ransomware attack.",
-  "search_id": "02c6cfc2-ae66-4735-bfc7-6291da834cbf",
-  "search_name": "File with Samsam Extension",
-  "search_type": "detection",
-  "security_domain": "endpoint",
-  "spec_version": 1,
-  "version": "1.0"
+    "references": [],
+    "security_domain": "endpoint",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

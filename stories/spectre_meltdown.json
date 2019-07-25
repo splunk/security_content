@@ -1,46 +1,41 @@
 {
-  "category": "Vulnerability",
-  "channel": "ESCU",
-  "creation_date": "2018-01-08",
-  "description": "Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.",
-  "id": "6d3306f6-bb2b-4219-8609-8efad64032f2",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "modification_date": "2018-01-08",
-  "name": "Spectre And Meltdown Vulnerabilities",
-  "narrative": "Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow unintended access to data in memory. This Analytic Story will help you identify the systems can be patched for these vulnerabilities, as well as those that still need to be patched.",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "references": [
-    "https://meltdownattack.com/"
-  ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable Info",
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Authentication Logs For Endpoint",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
+    "category": [
+        "Vulnerability"
     ],
-    "detection_searches": [
-      "Spectre and Meltdown Vulnerable Systems"
+    "channel": [
+        "ESCU"
     ],
-    "investigative_searches": [],
-    "support_searches": [
-      "Systems Ready for Spectre-Meltdown Windows Patch"
-    ]
-  },
-  "spec_version": 1,
-  "version": "1.0"
+    "creation_date": "2018-01-08",
+    "description": "Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.",
+    "detections": [
+        {
+            "detection_id": "354be8e0-32cd-4da0-8c47-796de13b60ea",
+            "name": "Spectre and Meltdown Vulnerable Systems",
+            "type": "splunk"
+        }
+    ],
+    "id": "6d3306f6-bb2b-4219-8609-8efad64032f2",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "modification_date": "2018-01-08",
+    "name": "Spectre And Meltdown Vulnerabilities",
+    "narrative": "Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow unintended access to data in memory. This Analytic Story will help you identify the systems can be patched for these vulnerabilities, as well as those that still need to be patched.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "references": [
+        "https://meltdownattack.com/"
+    ],
+    "spec_version": 2,
+    "usecase": "XXXXXXXX",
+    "version": "1.0"
 }

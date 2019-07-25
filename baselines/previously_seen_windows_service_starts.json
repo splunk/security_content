@@ -1,43 +1,48 @@
 {
-  "channel": "ESCU",
-  "creation_date": "2018-07-20",
-  "data_metadata": {
-    "data_eventtypes": [
-      "wineventlog_system"
+    "baseline": {
+        "splunk": {
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": "-30d@d",
+                "latest_time": "-10m@m"
+            },
+            "search": "eventtype=wineventlog_system signature_id=7036 | rex field=Message \"The (?<serviceName>[\\w\\s-]*) service entered the (?<action>\\w*) state\" | where action=\"running\" | stats earliest(_time) as firstTime, latest(_time) as lastTime by serviceName | outputlookup previously_seen_running_windows_services | stats count"
+        }
+    },
+    "creation_date": "2018-07-20",
+    "data_metadata": {
+        "data_eventtypes": [
+            "wineventlog_system"
+        ],
+        "data_source": [
+            "Windows Event Logs"
+        ],
+        "providing_technologies": [
+            "Microsoft Windows"
+        ]
+    },
+    "description": "This collects the services that have been started across your entire enterprise.",
+    "eli5": "In this support search, we look for Windows system-event code that indicates a status change of a Windows service. It extracts both the name of the service and the action taken by the service from the logs. It keeps only services that have entered the running state. Finally, it finds the first time the service has been seen running across the enterprise and writes that file to a lookup table.",
+    "how_to_implement": "While this search does not require you to adhere to Splunk CIM, you must be ingesting your Windows security-event logs for it to execute successfully.",
+    "id": "64ce0ade-cb01-4678-bddd-d31c0b175394",
+    "known_false_positives": "",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "data_source": [
-      "Windows Event Logs"
+    "modification_date": "2019-02-27",
+    "name": "Previously Seen Running Windows Services",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "providing_technologies": [
-      "Microsoft Windows"
-    ]
-  },
-  "eli5": "In this support search, we look for Windows system-event code that indicates a status change of a Windows service. It extracts both the name of the service and the action taken by the service from the logs. It keeps only services that have entered the running state. Finally, it finds the first time the service has been seen running across the enterprise and writes that file to a lookup table.",
-  "how_to_implement": "While this search does not require you to adhere to Splunk CIM, you must be ingesting your Windows security-event logs for it to execute successfully.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "modification_date": "2019-02-27",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "scheduling": {
-    "earliest_time": "-30d@d",
-    "latest_time": "-10m@m"
-  },
-  "search": "eventtype=wineventlog_system signature_id=7036 | rex field=Message \"The (?<serviceName>[\\w\\s-]*) service entered the (?<action>\\w*) state\" | where action=\"running\" | stats earliest(_time) as firstTime, latest(_time) as lastTime by serviceName | outputlookup previously_seen_running_windows_services | stats count",
-  "search_description": "This collects the services that have been started across your entire enterprise.",
-  "search_id": "64ce0ade-cb01-4678-bddd-d31c0b175394",
-  "search_name": "Previously Seen Running Windows Services",
-  "search_type": "support",
-  "spec_version": 1,
-  "version": "1.0"
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

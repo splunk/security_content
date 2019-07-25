@@ -1,84 +1,139 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "high",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "dest, file_name",
-      "rule_description": "A file, $file_name$, was created in the default shim database directory on $dest.",
-      "rule_title": "Modification to accessibility binary, $file_path$, was detected on $dest$"
+    "asset_type": "Endpoint",
+    "confidence": "high",
+    "creation_date": "2017-12-07",
+    "data_metadata": {
+        "data_models": [
+            "Endpoint"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon"
+        ]
     },
-    "risk": {
-      "risk_object": "dest",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 40
+    "description": "Microsoft Windows contains accessibility features that can be launched with a key combination before a user has logged in. An adversary can modify or replace these programs so they can get a command prompt or backdoor without logging in to the system. This search looks for modifications to these binaries.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "dest, file_name",
+                        "rule_description": "A file, $file_name$, was created in the default shim database directory on $dest.",
+                        "rule_title": "Modification to accessibility binary, $file_path$, was detected on $dest$"
+                    },
+                    "risk": {
+                        "risk_object": "dest",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 40
+                    },
+                    "suppress": {
+                        "suppress_fields": "dest",
+                        "suppress_period": "14400s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe* OR Filesystem.file_path=*\\Windows\\System32\\utilman.exe* OR Filesystem.file_path=*\\Windows\\System32\\osk.exe* OR Filesystem.file_path=*\\Windows\\System32\\Magnify.exe* OR Filesystem.file_path=*\\Windows\\System32\\Narrator.exe* OR Filesystem.file_path=*\\Windows\\System32\\DisplaySwitch.exe* OR Filesystem.file_path=*\\Windows\\System32\\AtBroker.exe*) by Filesystem.file_name Filesystem.dest | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "dest",
-      "suppress_period": "14400s"
-    }
-  },
-  "creation_date": "2017-12-07",
-  "data_metadata": {
-    "data_models": [
-      "Endpoint"
+    "eli5": "This search returns all the different accessibility binaries that have been modified for each Windows host.",
+    "entities": [
+        "dest"
     ],
-    "data_source": [
-      "Endpoint Intel"
+    "how_to_implement": "You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.",
+    "id": "13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae",
+    "investigations": [
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Carbon Black Response",
-      "CrowdStrike Falcon",
-      "Sysmon"
-    ]
-  },
-  "eli5": "This search returns all the different accessibility binaries that have been modified for each Windows host.",
-  "how_to_implement": "You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.",
-  "known_false_positives": "Microsoft may provide updates to these binaries. Verify that these changes do not correspond with your normal software update cycle.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 8"
+    "known_false_positives": "Microsoft may provide updates to these binaries. Verify that these changes do not correspond with your normal software update cycle.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "kill_chain_phases": [
-      "Actions on Objectives"
+    "mappings": {
+        "cis20": [
+            "CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Persistence",
+            "Accessibility Features"
+        ],
+        "nist": [
+            "PR.PT",
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2018-11-15",
+    "name": "Overwriting Accessibility Binaries",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "mitre_attack": [
-      "Persistence",
-      "Accessibility Features"
-    ],
-    "nist": [
-      "PR.PT",
-      "DE.CM"
-    ]
-  },
-  "modification_date": "2018-11-15",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe* OR Filesystem.file_path=*\\Windows\\System32\\utilman.exe* OR Filesystem.file_path=*\\Windows\\System32\\osk.exe* OR Filesystem.file_path=*\\Windows\\System32\\Magnify.exe* OR Filesystem.file_path=*\\Windows\\System32\\Narrator.exe* OR Filesystem.file_path=*\\Windows\\System32\\DisplaySwitch.exe* OR Filesystem.file_path=*\\Windows\\System32\\AtBroker.exe*) by Filesystem.file_name Filesystem.dest | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`",
-  "search_description": "Microsoft Windows contains accessibility features that can be launched with a key combination before a user has logged in. An adversary can modify or replace these programs so they can get a command prompt or backdoor without logging in to the system. This search looks for modifications to these binaries.",
-  "search_id": "13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae",
-  "search_name": "Overwriting Accessibility Binaries",
-  "search_type": "detection",
-  "security_domain": "endpoint",
-  "spec_version": 1,
-  "version": "2.0"
+    "references": [],
+    "security_domain": "endpoint",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "2.0"
 }

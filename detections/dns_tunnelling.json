@@ -1,86 +1,267 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "low",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "src",
-      "rule_description": "Potential DNS tunnel detected from $src$ which may be exfiltrating large data",
-      "rule_title": "DNS tunnel detected on $src$"
+    "asset_type": "Endpoint",
+    "baselines": [
+        {
+            "id": "fc0edd96-ff2b-48b0-9f1f-63da3782fd63",
+            "name": "Baseline of blocked outbound traffic from AWS",
+            "type": "splunk"
+        },
+        {
+            "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
+            "name": "Baseline of DNS Query Length - MLTK",
+            "type": "splunk"
+        },
+        {
+            "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
+            "name": "Baseline of DNS Query Length - MLTK",
+            "type": "splunk"
+        }
+    ],
+    "confidence": "low",
+    "creation_date": "2017-07-19",
+    "data_metadata": {
+        "data_models": [
+            "Network_Resolution"
+        ],
+        "data_source": [
+            "DNS"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Bro"
+        ]
     },
-    "risk": {
-      "risk_object": "src",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 20
+    "description": "This search is used to detect DNS tunneling, by calculating the sum of the length of DNS queries and DNS answers. The search also filters out potential false positives by filtering out queries made to internal systems and the queries originating from internal DNS, Web, and Email servers. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting an unusually large volume of DNS traffic.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "src",
+                        "rule_description": "Potential DNS tunnel detected from $src$ which may be exfiltrating large data",
+                        "rule_title": "DNS tunnel detected on $src$"
+                    },
+                    "risk": {
+                        "risk_object": "src",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 20
+                    },
+                    "suppress": {
+                        "suppress_fields": "src, query",
+                        "suppress_period": "43200s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| tstats `summariesonly` dc(\"DNS.query\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.query\" | rename \"DNS.src\" as src  \"DNS.query\" as message | eval length=len(message) | stats sum(length) as length by src | append [ tstats `summariesonly` dc(\"DNS.answer\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.answer\" | rename \"DNS.src\" as src  \"DNS.answer\" as message | eval message=if(message==\"unknown\",\"\", message) | eval length=len(message) | stats sum(length) as length by src ] | stats sum(length) as length by src | where length > 10000"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "src, query",
-      "suppress_period": "43200s"
-    }
-  },
-  "creation_date": "2017-07-19",
-  "data_metadata": {
-    "data_models": [
-      "Network_Resolution"
+    "eli5": "The search will calculate the distinct count and sum of the length of DNS queries made and DNS answers received by a particular host to alert the analyst if the combined length is greater than 10000, which is not typical behavior.",
+    "entities": [
+        "src"
     ],
-    "data_source": [
-      "DNS"
+    "how_to_implement": "To successfully implement this search, we must ensure that DNS data is being ingested and mapped to the appropriate fields in the Network_Resolution data model. Fields like src_category are automatically provided by the Assets and Identity Framework shipped with Splunk Enterprise Security. You will need to ensure you are using the Assets and Identity Framework and populating the src_category field. You will also need to enable the `cim_corporate_web_domain_search()` macro which will essentially filter out the DNS queries made to the corporate web domains to reduce alert fatigue.",
+    "id": "104658f4-afdc-499f-9719-17a43f9826f4",
+    "investigations": [
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1c-5f33-4b01-b541-c3ah9534c241",
+            "name": "AWS Network Interface details via resourceId",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
+            "name": "Get Process Responsible For The DNS Traffic",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+            "name": "Get DNS Server History for a host",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd73",
+            "name": "Get DNS traffic ratio",
+            "type": "splunk"
+        },
+        {
+            "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
+            "name": "Get All AWS Activity From IP Address",
+            "type": "splunk"
+        },
+        {
+            "id": "9925d08f-561e-4faa-8912-e3888a842341",
+            "name": "Get Process Information For Port Activity",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+            "name": "Get DNS Server History for a host",
+            "type": "splunk"
+        },
+        {
+            "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
+            "name": "Get Process Responsible For The DNS Traffic",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+            "name": "Get DNS Server History for a host",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd73",
+            "name": "Get DNS traffic ratio",
+            "type": "splunk"
+        },
+        {
+            "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
+            "name": "Get Process Responsible For The DNS Traffic",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Splunk Stream",
-      "Bro"
-    ]
-  },
-  "eli5": "The search will calculate the distinct count and sum of the length of DNS queries made and DNS answers received by a particular host to alert the analyst if the combined length is greater than 10000, which is not typical behavior.",
-  "how_to_implement": "To successfully implement this search, we must ensure that DNS data is being ingested and mapped to the appropriate fields in the Network_Resolution data model. Fields like src_category are automatically provided by the Assets and Identity Framework shipped with Splunk Enterprise Security. You will need to ensure you are using the Assets and Identity Framework and populating the src_category field. You will also need to enable the `cim_corporate_web_domain_search()` macro which will essentially filter out the DNS queries made to the corporate web domains to reduce alert fatigue.",
-  "known_false_positives": "It's possible that normal DNS traffic will exhibit this behavior. If an alert is generated, please investigate and validate as appropriate. The threshold can also be modified to better suit your environment.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 13"
+    "known_false_positives": "It's possible that normal DNS traffic will exhibit this behavior. If an alert is generated, please investigate and validate as appropriate. The threshold can also be modified to better suit your environment.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Command and Control",
-      "Actions on Objectives"
+    "mappings": {
+        "cis20": [
+            "CIS 13"
+        ],
+        "kill_chain_phases": [
+            "Command and Control",
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Command and Control",
+            "Exfiltration",
+            "Commonly Used Port"
+        ],
+        "nist": [
+            "PR.PT",
+            "PR.DS"
+        ]
+    },
+    "modification_date": "2017-09-18",
+    "name": "Detection of DNS Tunnels",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Command and Control",
-      "Exfiltration",
-      "Commonly Used Port"
-    ],
-    "nist": [
-      "PR.PT",
-      "PR.DS"
-    ]
-  },
-  "modification_date": "2017-09-18",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` dc(\"DNS.query\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.query\" | rename \"DNS.src\" as src  \"DNS.query\" as message | eval length=len(message) | stats sum(length) as length by src | append [ tstats `summariesonly` dc(\"DNS.answer\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.answer\" | rename \"DNS.src\" as src  \"DNS.answer\" as message | eval message=if(message==\"unknown\",\"\", message) | eval length=len(message) | stats sum(length) as length by src ] | stats sum(length) as length by src | where length > 10000",
-  "search_description": "This search is used to detect DNS tunneling, by calculating the sum of the length of DNS queries and DNS answers. The search also filters out potential false positives by filtering out queries made to internal systems and the queries originating from internal DNS, Web, and Email servers. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting an unusually large volume of DNS traffic.",
-  "search_id": "104658f4-afdc-499f-9719-17a43f9826f4",
-  "search_name": "Detection of DNS Tunnels",
-  "search_type": "detection",
-  "security_domain": "network",
-  "spec_version": 1,
-  "status": "production",
-  "version": "1.0"
+    "references": [],
+    "security_domain": "network",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

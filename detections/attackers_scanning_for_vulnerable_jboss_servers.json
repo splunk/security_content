@@ -1,79 +1,216 @@
 {
-  "asset_type": "Web Server",
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "",
-      "rule_description": "This search looks for specific GET/HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers.",
-      "rule_title": "Detect attackers scanning for vulnerable JBoss servers"
+    "asset_type": "Web Server",
+    "baselines": [
+        {
+            "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
+            "name": "Monitor Successful Backups",
+            "type": "splunk"
+        },
+        {
+            "id": "b2178fed-592f-492b-b851-74161678aa56",
+            "name": "Monitor Unsuccessful Backups",
+            "type": "splunk"
+        },
+        {
+            "id": "6a4dbd1b-4502-4a11-943a-82b5ae7a42d7",
+            "name": "Windows Updates Install Failures",
+            "type": "splunk"
+        },
+        {
+            "id": "6a80535c-86a6-4b54-894c-4b446d0c701d",
+            "name": "Windows Updates Install Successes",
+            "type": "splunk"
+        },
+        {
+            "id": "251930a5-1451-4428-bb13-eed5775be0ce",
+            "name": "Add Prohibited Processes to Enterprise Security",
+            "type": "splunk"
+        }
+    ],
+    "confidence": "medium",
+    "creation_date": "2016-10-04",
+    "data_metadata": {
+        "data_models": [
+            "Web"
+        ],
+        "data_source": [
+            "Network Communications",
+            "Web Server"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Palo Alto Firewall",
+            "Apache",
+            "Bro"
+        ]
     },
-    "risk": {
-      "risk_object": "dest",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 20
+    "description": "This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "",
+                        "rule_description": "This search looks for specific GET/HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers.",
+                        "rule_title": "Detect attackers scanning for vulnerable JBoss servers"
+                    },
+                    "risk": {
+                        "risk_object": "dest",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 20
+                    },
+                    "suppress": {
+                        "suppress_fields": "dest,url",
+                        "suppress_period": "86400s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method=\"GET\" OR Web.http_method=\"HEAD\") AND (Web.url=\"*/web-console/ServerInfo.jsp*\" OR Web.url=\"*web-console*\" OR Web.url=\"*jmx-console*\" OR Web.url = \"*invoker*\") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `ctime(lastTime)`"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "dest,url",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2016-10-04",
-  "data_metadata": {
-    "data_models": [
-      "Web"
+    "eli5": "This search returns the number of times a URL associated with this type of JexBoss probe is observed.",
+    "entities": [
+        "dest"
     ],
-    "data_source": [
-      "Network Communications",
-      "Web Server"
+    "how_to_implement": "You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.",
+    "id": "104658f4-afdc-499e-9719-17243f982681",
+    "investigations": [
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
+            "name": "Get Backup Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "d98675ed-da43-4a7e-96a7-eeca3232ba8e",
+            "name": "Get Update Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "df7a7f50-30f2-4cde-8448-69d2d5f9b3c5",
+            "name": "Get Vulnerability Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "9925d08f-561e-4faa-8912-e3888a842341",
+            "name": "Get Process Information For Port Activity",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
+            "name": "Investigate Web Activity From Host",
+            "type": "splunk"
+        },
+        {
+            "id": "b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc",
+            "name": "Investigate Successful Remote Desktop Authentications",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Splunk Stream",
-      "Palo Alto Firewall",
-      "Apache",
-      "Bro"
-    ]
-  },
-  "eli5": "This search returns the number of times a URL associated with this type of JexBoss probe is observed.",
-  "how_to_implement": "You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.",
-  "known_false_positives": "It's possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "kill_chain_phases": [
-      "Reconnaissance"
+    "known_false_positives": "It's possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Discovery",
-      "System Information Discovery"
-    ]
-  },
-  "modification_date": "2017-09-23",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method=\"GET\" OR Web.http_method=\"HEAD\") AND (Web.url=\"*/web-console/ServerInfo.jsp*\" OR Web.url=\"*web-console*\" OR Web.url=\"*jmx-console*\" OR Web.url = \"*invoker*\") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `ctime(lastTime)`",
-  "search_description": "This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.",
-  "search_id": "104658f4-afdc-499e-9719-17243f982681",
-  "search_name": "Detect attackers scanning for vulnerable JBoss servers",
-  "search_type": "detection",
-  "security_domain": "network",
-  "spec_version": 1,
-  "version": "1.0"
+    "mappings": {
+        "kill_chain_phases": [
+            "Reconnaissance"
+        ],
+        "mitre_attack": [
+            "Discovery",
+            "System Information Discovery"
+        ]
+    },
+    "modification_date": "2017-09-23",
+    "name": "Detect attackers scanning for vulnerable JBoss servers",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "references": [],
+    "security_domain": "network",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -1,87 +1,194 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "dest, user, process_name",
-      "rule_description": "This search looks for flags passed to schtasks.exe on the command-line that indicate that task names specific to Bad Rabbit ransomware has been created or deleted",
-      "rule_title": "Scheduled tasks used in BadRabbit ransomware detected on $dest$"
+    "asset_type": "Endpoint",
+    "baselines": [
+        {
+            "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
+            "name": "Monitor Successful Backups",
+            "type": "splunk"
+        },
+        {
+            "id": "b2178fed-592f-492b-b851-74161678aa56",
+            "name": "Monitor Unsuccessful Backups",
+            "type": "splunk"
+        },
+        {
+            "id": "6a4dbd1b-4502-4a11-943a-82b5ae7a42d7",
+            "name": "Windows Updates Install Failures",
+            "type": "splunk"
+        },
+        {
+            "id": "6a80535c-86a6-4b54-894c-4b446d0c701d",
+            "name": "Windows Updates Install Successes",
+            "type": "splunk"
+        },
+        {
+            "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
+            "name": "Baseline of Command Line Length - MLTK",
+            "type": "splunk"
+        },
+        {
+            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
+            "name": "Baseline of SMB Traffic - MLTK",
+            "type": "splunk"
+        }
+    ],
+    "confidence": "medium",
+    "creation_date": "2017-11-03",
+    "data_metadata": {
+        "data_models": [
+            "Endpoint"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
     },
-    "risk": {
-      "risk_object": "dest",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 80
+    "description": "This search looks for flags passed to schtasks.exe on the command-line that indicate that task names related to the execution of Bad Rabbit ransomware were created or deleted.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "dest, user, process_name",
+                        "rule_description": "This search looks for flags passed to schtasks.exe on the command-line that indicate that task names specific to Bad Rabbit ransomware has been created or deleted",
+                        "rule_title": "Scheduled tasks used in BadRabbit ransomware detected on $dest$"
+                    },
+                    "risk": {
+                        "risk_object": "dest",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 80
+                    },
+                    "suppress": {
+                        "suppress_fields": "dest, process_name",
+                        "suppress_period": "28800s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process  from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe (Processes.process= \"*create*\"  OR Processes.process= \"*delete*\") by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)` | search (process=*rhaegal* OR process=*drogon* OR *viserion_*)"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "dest, process_name",
-      "suppress_period": "28800s"
-    }
-  },
-  "creation_date": "2017-11-03",
-  "data_metadata": {
-    "data_models": [
-      "Endpoint"
+    "eli5": "The search looks for execution of schtasks.exe with parameters that indicate that specific task names related to the Bad Rabbit ransomware were created or deleted. The specific task name used are rhaegal, drogon and viserion_. Schtasks.exe is a native windows program that is used to schedule tasks on local or remote systems. Attackers often leverage this capability to schedule the execution of commands or establish persistence.",
+    "entities": [
+        "dest"
     ],
-    "data_source": [
-      "Endpoint Intel"
+    "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+    "id": "1297fb80-f42a-4b4a-9c8b-78c066437cf6",
+    "investigations": [
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
+            "name": "Get Backup Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "d98675ed-da43-4a7e-96a7-eeca3232ba8e",
+            "name": "Get Update Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "df7a7f50-30f2-4cde-8448-69d2d5f9b3c5",
+            "name": "Get Vulnerability Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "9925d08f-561e-4faa-8912-e3888a842341",
+            "name": "Get Process Information For Port Activity",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
+            "name": "Investigate Web Activity From Host",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Carbon Black Response",
-      "CrowdStrike Falcon",
-      "Sysmon",
-      "Tanium",
-      "Ziften"
-    ]
-  },
-  "eli5": "The search looks for execution of schtasks.exe with parameters that indicate that specific task names related to the Bad Rabbit ransomware were created or deleted. The specific task name used are rhaegal, drogon and viserion_. Schtasks.exe is a native windows program that is used to schedule tasks on local or remote systems. Attackers often leverage this capability to schedule the execution of commands or establish persistence.",
-  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
-  "known_false_positives": "No known false positives",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 3"
+    "known_false_positives": "No known false positives",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Actions on Objectives"
+    "mappings": {
+        "cis20": [
+            "CIS 3"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Persistence",
+            "Lateral Movement",
+            "Execution",
+            "Scheduled Task"
+        ],
+        "nist": [
+            "PR.IP"
+        ]
+    },
+    "modification_date": "2019-02-28",
+    "name": "Scheduled tasks used in BadRabbit ransomware",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Persistence",
-      "Lateral Movement",
-      "Execution",
-      "Scheduled Task"
-    ],
-    "nist": [
-      "PR.IP"
-    ]
-  },
-  "modification_date": "2019-02-28",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process  from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe (Processes.process= \"*create*\"  OR Processes.process= \"*delete*\") by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)` | search (process=*rhaegal* OR process=*drogon* OR *viserion_*)",
-  "search_description": "This search looks for flags passed to schtasks.exe on the command-line that indicate that task names related to the execution of Bad Rabbit ransomware were created or deleted.",
-  "search_id": "1297fb80-f42a-4b4a-9c8b-78c066437cf6",
-  "search_name": "Scheduled tasks used in BadRabbit ransomware",
-  "search_type": "detection",
-  "security_domain": "endpoint",
-  "spec_version": 1,
-  "version": "2.0"
+    "references": [],
+    "security_domain": "endpoint",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "2.0"
 }

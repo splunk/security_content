@@ -1,84 +1,146 @@
 {
-  "asset_type": "S3 Bucket",
-  "channel": "ESCU",
-  "confidence": "low",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "bucket_name, src_ip",
-      "rule_description": "A remote IP, $src_ip$, has made a successful connection with an S3 $bucket_name$.",
-      "rule_title": "S3 bucket $bucketName$ was accessed by a new $src_ip$"
+    "asset_type": "S3 Bucket",
+    "baselines": [
+        {
+            "id": "fc0edc15-fq2c-48b0-9f6f-63qa1281fd03",
+            "name": "Previously seen S3 bucket access by remote IP",
+            "type": "splunk"
+        },
+        {
+            "id": "fc0edd96-ff2b-48b0-9f1f-63eq3783fd63",
+            "name": "Baseline of S3 Bucket deletion activity by ARN",
+            "type": "splunk"
+        }
+    ],
+    "confidence": "low",
+    "creation_date": "2018-06-25",
+    "data_metadata": {
+        "data_source": [
+            "AWS S3 Access logs"
+        ],
+        "data_sourcetypes": [
+            "aws:s3:accesslogs"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
     },
-    "risk": {
-      "risk_object": "src_ip",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 20
+    "description": "This search looks at S3 bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed an S3 bucket.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "bucket_name, src_ip",
+                        "rule_description": "A remote IP, $src_ip$, has made a successful connection with an S3 $bucket_name$.",
+                        "rule_title": "S3 bucket $bucketName$ was accessed by a new $src_ip$"
+                    },
+                    "risk": {
+                        "risk_object": "src_ip",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 20
+                    },
+                    "suppress": {
+                        "suppress_fields": "bucket_name, src_ip",
+                        "suppress_period": "86400s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "5 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "sourcetype=aws:s3:accesslogs http_status=200  [search sourcetype=aws:s3:accesslogs http_status=200 | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip | inputlookup append=t previously_seen_S3_access_from_remote_ip.csv | stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip.csv | eval newIP=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newIP=1 | convert ctime(firstTime) ctime(lastTime) | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip | table _time bucket_name src_ip City Country operation request_uri"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "bucket_name, src_ip",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2018-06-25",
-  "data_metadata": {
-    "data_source": [
-      "AWS S3 Access logs"
+    "eli5": "Here the subsearch executes first and returns all successful S3 bucket-access attempts (HTTP code \"200\") within the last hour. It groups the results by the earliest and latest times it has seen a remote IP accessing a particular bucket. It appends this information to the historical data from the lookup file and then recalculates the <code>firstTime</code> and <code>lastTime</code> field for each remote IP accessing an S3 bucket. Next, it returns only those remote IP addresses that have first been seen accessing a specific bucket within the past hour. This is combined with the main search to return the time, bucket name, source IP, city, and country operations performed, as well as the requested URI of the resource ",
+    "entities": [
+        "src_ip"
     ],
-    "data_sourcetypes": [
-      "aws:s3:accesslogs"
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access logs' inputs. This search works best when you run the \"Previously Seen S3 Bucket Access by Remote IP\" support search once to create a history of previously seen remote IPs and bucket names.",
+    "id": "2a9b80d3-6340-4345-b5ad-291bq3d0daq4",
+    "investigations": [
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb2q1c-5f33-4b01-b541-c2ah9534c242",
+            "name": "AWS S3 Bucket details via bucketName",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
+            "name": "Investigate AWS activities via region name",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
+            "name": "AWS Investigate User Activities By ARN",
+            "type": "splunk"
+        },
+        {
+            "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
+            "name": "Get All AWS Activity From IP Address",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "AWS"
-    ]
-  },
-  "eli5": "Here the subsearch executes first and returns all successful S3 bucket-access attempts (HTTP code \"200\") within the last hour. It groups the results by the earliest and latest times it has seen a remote IP accessing a particular bucket. It appends this information to the historical data from the lookup file and then recalculates the <code>firstTime</code> and <code>lastTime</code> field for each remote IP accessing an S3 bucket. Next, it returns only those remote IP addresses that have first been seen accessing a specific bucket within the past hour. This is combined with the main search to return the time, bucket name, source IP, city, and country operations performed, as well as the requested URI of the resource ",
-  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access logs' inputs. This search works best when you run the \"Previously Seen S3 Bucket Access by Remote IP\" support search once to create a history of previously seen remote IPs and bucket names.",
-  "known_false_positives": "S3 buckets can be accessed from any IP, as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past hour",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 13",
-      "CIS 14"
+    "known_false_positives": "S3 buckets can be accessed from any IP, as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past hour",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Actions on Objectives"
+    "mappings": {
+        "cis20": [
+            "CIS 13",
+            "CIS 14"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Execution",
+            "Exfiltration"
+        ],
+        "nist": [
+            "PR.DS",
+            "PR.AC",
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2018-06-28",
+    "name": "Detect S3 access from a new IP",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Execution",
-      "Exfiltration"
-    ],
-    "nist": [
-      "PR.DS",
-      "PR.AC",
-      "DE.CM"
-    ]
-  },
-  "modification_date": "2018-06-28",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "5 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "sourcetype=aws:s3:accesslogs http_status=200  [search sourcetype=aws:s3:accesslogs http_status=200 | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip | inputlookup append=t previously_seen_S3_access_from_remote_ip.csv | stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip.csv | eval newIP=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newIP=1 | convert ctime(firstTime) ctime(lastTime) | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip | table _time bucket_name src_ip City Country operation request_uri",
-  "search_description": "This search looks at S3 bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed an S3 bucket.",
-  "search_id": "2a9b80d3-6340-4345-b5ad-291bq3d0daq4",
-  "search_name": "Detect S3 access from a new IP",
-  "search_type": "detection",
-  "security_domain": "network",
-  "spec_version": 1,
-  "version": "1.0"
+    "references": [],
+    "security_domain": "network",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

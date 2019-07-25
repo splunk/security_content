@@ -1,79 +1,132 @@
 {
-  "asset_type": "Domain Server",
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "user",
-      "rule_description": "Using the identities lookup and macro from Enterprise Security to identify (report) new users (6 month period) and temp users (3 months until account expiration)",
-      "rule_title": "Identify Temporary Users"
+    "asset_type": "Domain Server",
+    "confidence": "medium",
+    "creation_date": "2017-08-05",
+    "data_metadata": {
+        "data_models": [
+            "Identity_Management"
+        ],
+        "data_source": [
+            "Active Directory logs"
+        ],
+        "providing_technologies": [
+            "Active Directory"
+        ]
     },
-    "risk": {
-      "risk_object": "user",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 40
+    "description": "This detection search will help profile user accounts in your environment by identifying newly created accounts that have been added to your network in the past week.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "user",
+                        "rule_description": "Using the identities lookup and macro from Enterprise Security to identify (report) new users (6 month period) and temp users (3 months until account expiration)",
+                        "rule_title": "Identify Temporary Users"
+                    },
+                    "risk": {
+                        "risk_object": "user",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 40
+                    },
+                    "suppress": {
+                        "suppress_fields": "identity",
+                        "suppress_period": "86400s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 0 * * *",
+                        "earliest_time": "-24h@h",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800, \"Accounts created in last week\") | search empStatus=\"Accounts created in last week\"| `ctime(endDate)` | `ctime(startDate)`| table identity empStatus endDate startDate"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "identity",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2017-08-05",
-  "data_metadata": {
-    "data_models": [
-      "Identity_Management"
+    "eli5": "Adversaries will often seek to create new user accounts as a means of maintaining access to a target environment. Using this search, we identify accounts created in the last week by comparing the start date in the Identity_Management data model against the current time.",
+    "entities": [
+        "user"
     ],
-    "data_source": [
-      "Active Directory logs"
+    "how_to_implement": "To successfully implement this search, you need to be populating the Enterprise Security Identity_Management data model in the assets and identity framework.",
+    "id": "475b9e27-17e4-46e2-b7e2-648221be3b89",
+    "investigations": [
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "552bc86c-f72c-4d44-b3f2-06ede13af7bb",
+            "name": "Get Logon Rights Modifications For User",
+            "type": "splunk"
+        },
+        {
+            "id": "03bffe94-ec7a-4cbe-b677-6af40d1c4505",
+            "name": "Get Logon Rights Modifications For Endpoint",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Active Directory"
-    ]
-  },
-  "eli5": "Adversaries will often seek to create new user accounts as a means of maintaining access to a target environment. Using this search, we identify accounts created in the last week by comparing the start date in the Identity_Management data model against the current time.",
-  "how_to_implement": "To successfully implement this search, you need to be populating the Enterprise Security Identity_Management data model in the assets and identity framework.",
-  "known_false_positives": "If the Identity_Management data model is not updated regularly, this search could give you false positive alerts. Please consider this and investigate appropriately.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 16"
+    "known_false_positives": "If the Identity_Management data model is not updated regularly, this search could give you false positive alerts. Please consider this and investigate appropriately.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Valid Accounts"
+    "mappings": {
+        "cis20": [
+            "CIS 16"
+        ],
+        "mitre_attack": [
+            "Valid Accounts"
+        ],
+        "nist": [
+            "PR.IP"
+        ]
+    },
+    "modification_date": "2017-09-12",
+    "name": "Identify New User Accounts",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "nist": [
-      "PR.IP"
-    ]
-  },
-  "modification_date": "2017-09-12",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 0 * * *",
-    "earliest_time": "-24h@h",
-    "latest_time": "-10m@m"
-  },
-  "search": "| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800, \"Accounts created in last week\") | search empStatus=\"Accounts created in last week\"| `ctime(endDate)` | `ctime(startDate)`| table identity empStatus endDate startDate",
-  "search_description": "This detection search will help profile user accounts in your environment by identifying newly created accounts that have been added to your network in the past week.",
-  "search_id": "475b9e27-17e4-46e2-b7e2-648221be3b89",
-  "search_name": "Identify New User Accounts",
-  "search_type": "detection",
-  "security_domain": "access",
-  "spec_version": 1,
-  "status": "production",
-  "team_notes": "",
-  "version": "1.0"
+    "references": [],
+    "security_domain": "access",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

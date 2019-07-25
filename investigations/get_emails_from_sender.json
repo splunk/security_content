@@ -1,45 +1,56 @@
 {
-  "channel": "ESCU",
-  "creation_date": "2017-04-21",
-  "data_metadata": {
-    "data_models": [
-      "Email"
+    "creation_date": "2017-04-21",
+    "data_metadata": {
+        "data_models": [
+            "Email"
+        ],
+        "data_source": [
+            "Email"
+        ],
+        "providing_technologies": [
+            "Microsoft Exchange"
+        ]
+    },
+    "description": "This search returns all the emails from a specific sender over the last 24 and next hours.",
+    "entities": [
+        "src_user"
     ],
-    "data_source": [
-      "Email"
+    "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
+    "id": "5df39b3f-447d-4869-b673-8f45ad4616fe",
+    "investigate": {
+        "splunk": [
+            {
+                "fields_required": [
+                    "src_user"
+                ]
+            },
+            {
+                "schedule": {
+                    "earliest_time_offset": 86400,
+                    "latest_time_offset": 86400
+                }
+            },
+            {
+                "search": "| from datamodel Email.All_Email | search src_user={src_user}"
+            }
+        ]
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "providing_technologies": [
-      "Microsoft Exchange"
-    ]
-  },
-  "fields_required": [
-    "src_user"
-  ],
-  "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "modification_date": "2017-11-09",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "search": "| from datamodel Email.All_Email | search src_user={src_user}",
-  "search_description": "This search returns all the emails from a specific sender over the last 24 and next hours.",
-  "search_id": "5df39b3f-447d-4869-b673-8f45ad4616fe",
-  "search_name": "Get Emails From Specific Sender",
-  "search_type": "investigative",
-  "search_window": {
-    "earliest_time_offset": 86400,
-    "latest_time_offset": 86400
-  },
-  "spec_version": 1,
-  "version": "1.0"
+    "modification_date": "2017-11-09",
+    "name": "Get Emails From Specific Sender",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk"
 }

@@ -1,47 +1,52 @@
 {
-  "channel": "ESCU",
-  "creation_date": "2018-01-08",
-  "data_metadata": {
-    "data_models": [
-      "Change_Analysis"
+    "baseline": {
+        "splunk": {
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": "-1d@d",
+                "latest_time": "-10m@m"
+            },
+            "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry AND (All_Changes.object_path=\"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\QualityCompat*\") by All_Changes.dest, All_Changes.command, All_Changes.user, All_Changes.object, All_Changes.object_path | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")`"
+        }
+    },
+    "creation_date": "2018-01-08",
+    "data_metadata": {
+        "data_models": [
+            "Change_Analysis"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
+    },
+    "description": "Some AV applications can cause the Spectre/Meltdown patch for Windows not to install successfully. This registry key is supposed to be created by the AV engine when it has been patched to be able to handle the Windows patch. If this key has been written, the system can then be patched for Spectre and Meltdown.",
+    "eli5": "This search looks to see if a registry key was created at <code>HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\QualityCompat</code>. It will tell you when it was created and, if possible, what process created it.",
+    "how_to_implement": "You need to be ingesting logs with both the process name and command-line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.",
+    "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd61",
+    "known_false_positives": "",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "data_source": [
-      "Endpoint Intel"
+    "modification_date": "2018-01-08",
+    "name": "Systems Ready for Spectre-Meltdown Windows Patch",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "providing_technologies": [
-      "Carbon Black Response",
-      "CrowdStrike Falcon",
-      "Sysmon",
-      "Tanium",
-      "Ziften"
-    ]
-  },
-  "eli5": "This search looks to see if a registry key was created at <code>HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\QualityCompat</code>. It will tell you when it was created and, if possible, what process created it.",
-  "how_to_implement": "You need to be ingesting logs with both the process name and command-line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "modification_date": "2018-01-08",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "scheduling": {
-    "earliest_time": "-1d@d",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry AND (All_Changes.object_path=\"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\QualityCompat*\") by All_Changes.dest, All_Changes.command, All_Changes.user, All_Changes.object, All_Changes.object_path | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")`",
-  "search_description": "Some AV applications can cause the Spectre/Meltdown patch for Windows not to install successfully. This registry key is supposed to be created by the AV engine when it has been patched to be able to handle the Windows patch. If this key has been written, the system can then be patched for Spectre and Meltdown.",
-  "search_id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd61",
-  "search_name": "Systems Ready for Spectre-Meltdown Windows Patch",
-  "search_type": "support",
-  "spec_version": 1,
-  "version": "1.0"
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

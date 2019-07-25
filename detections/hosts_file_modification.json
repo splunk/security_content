@@ -1,89 +1,149 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "high",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "dest, file_name",
-      "rule_description": "A file modification was noted for the hosts file on $dest$.",
-      "rule_title": "Modification of hosts file detected on $dest$"
+    "asset_type": "Endpoint",
+    "confidence": "high",
+    "creation_date": "2017-06-07",
+    "data_metadata": {
+        "data_models": [
+            "Endpoint"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon"
+        ]
     },
-    "risk": {
-      "risk_object": "dest",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 80
+    "description": "The search looks for modifications to the hosts file on all Windows endpoints across your environment.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "dest, file_name",
+                        "rule_description": "A file modification was noted for the hosts file on $dest$.",
+                        "rule_title": "Modification of hosts file detected on $dest$"
+                    },
+                    "risk": {
+                        "risk_object": "dest",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 80
+                    },
+                    "suppress": {
+                        "suppress_fields": "dest,user",
+                        "suppress_period": "86400s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem  by Filesystem.file_name Filesystem.file_path Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` | search Filesystem.file_name=hosts AND Filesystem.file_path=*Windows\\\\System32\\\\* | `drop_dm_object_name(Filesystem)`"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "dest,user",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2017-06-07",
-  "data_metadata": {
-    "data_models": [
-      "Endpoint"
+    "eli5": "The hosts file is present on both Windows and Linux endpoints. The purpose of the hosts file is to provide a mapping between hostnames and IP addresses, the same way DNS is used to provide such a mapping. However, the information in the hosts file takes precedence over information received via DNS and a DNS query will not be issued if the hostname of interest is found in the hosts file. As such, attackers have been observed adding entries to the host file to override any DNS resolution. For this reason, it is useful to monitor for changes to this file, which typically do not occur very often in legitimate cases.",
+    "entities": [
+        "dest"
     ],
-    "data_source": [
-      "Endpoint Intel"
+    "how_to_implement": "To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or by other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.",
+    "id": "06a6fc63-a72d-41dc-8736-7e3dd9612116",
+    "investigations": [
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
+            "name": "Investigate Web Activity From Host",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+            "name": "Get DNS Server History for a host",
+            "type": "splunk"
+        },
+        {
+            "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
+            "name": "Get Process Responsible For The DNS Traffic",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Carbon Black Response",
-      "CrowdStrike Falcon",
-      "Sysmon"
-    ]
-  },
-  "eli5": "The hosts file is present on both Windows and Linux endpoints. The purpose of the hosts file is to provide a mapping between hostnames and IP addresses, the same way DNS is used to provide such a mapping. However, the information in the hosts file takes precedence over information received via DNS and a DNS query will not be issued if the hostname of interest is found in the hosts file. As such, attackers have been observed adding entries to the host file to override any DNS resolution. For this reason, it is useful to monitor for changes to this file, which typically do not occur very often in legitimate cases.",
-  "how_to_implement": "To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or by other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.",
-  "known_false_positives": "There may be legitimate reasons for system administrators to add entries to this file.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 3",
-      "CIS 8",
-      "CIS 12"
+    "known_false_positives": "There may be legitimate reasons for system administrators to add entries to this file.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Command and Control"
+    "mappings": {
+        "cis20": [
+            "CIS 3",
+            "CIS 8",
+            "CIS 12"
+        ],
+        "kill_chain_phases": [
+            "Command and Control"
+        ],
+        "mitre_attack": [
+            "Command and Control",
+            "Exfiltration"
+        ],
+        "nist": [
+            "PR.IP",
+            "PR.PT",
+            "PR.AC",
+            "DE.AE",
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2018-11-02",
+    "name": "Windows hosts file modification",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
     ],
-    "mitre_attack": [
-      "Command and Control",
-      "Exfiltration"
-    ],
-    "nist": [
-      "PR.IP",
-      "PR.PT",
-      "PR.AC",
-      "DE.AE",
-      "DE.CM"
-    ]
-  },
-  "modification_date": "2018-11-02",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem  by Filesystem.file_name Filesystem.file_path Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` | search Filesystem.file_name=hosts AND Filesystem.file_path=*Windows\\\\System32\\\\* | `drop_dm_object_name(Filesystem)`",
-  "search_description": "The search looks for modifications to the hosts file on all Windows endpoints across your environment.",
-  "search_id": "06a6fc63-a72d-41dc-8736-7e3dd9612116",
-  "search_name": "Windows hosts file modification",
-  "search_type": "detection",
-  "security_domain": "endpoint",
-  "spec_version": 1,
-  "version": "1.0"
+    "references": [],
+    "security_domain": "endpoint",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -1,84 +1,221 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "src_ip, dest_ip",
-      "rule_description": "Outbound SMB network traffic detected.",
-      "rule_title": "Outbound SMB traffic from $src_ip$ to $dest_ip$ detected"
+    "asset_type": "Endpoint",
+    "baselines": [
+        {
+            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
+            "name": "Previously seen command line arguments",
+            "type": "splunk"
+        },
+        {
+            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
+            "name": "Baseline of SMB Traffic - MLTK",
+            "type": "splunk"
+        },
+        {
+            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
+            "name": "Previously seen command line arguments",
+            "type": "splunk"
+        },
+        {
+            "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
+            "name": "Baseline of DNS Query Length - MLTK",
+            "type": "splunk"
+        },
+        {
+            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
+            "name": "Baseline of SMB Traffic - MLTK",
+            "type": "splunk"
+        }
+    ],
+    "confidence": "medium",
+    "creation_date": "2018-03-20",
+    "data_metadata": {
+        "data_models": [
+            "Network_Traffic"
+        ],
+        "data_source": [
+            "Network Communications"
+        ],
+        "providing_technologies": [
+            "Bro",
+            "Splunk Stream"
+        ]
     },
-    "risk": {
-      "risk_object": "src_ip",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 50
+    "description": "This search looks for outbound SMB connections made by hosts within your network to the Internet. SMB traffic is used for Windows file-sharing activity. One of the techniques often used by attackers involves retrieving the credential hash using an SMB request made to a compromised server controlled by the threat actor.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": [
+                {
+                    "notable": {
+                        "nes_fields": "src_ip, dest_ip",
+                        "rule_description": "Outbound SMB network traffic detected.",
+                        "rule_title": "Outbound SMB traffic from $src_ip$ to $dest_ip$ detected"
+                    },
+                    "risk": {
+                        "risk_object": "src_ip",
+                        "risk_object_type": [
+                            "system"
+                        ],
+                        "risk_score": 50
+                    },
+                    "suppress": {
+                        "suppress_fields": "src_ip",
+                        "suppress_period": "28800s"
+                    }
+                },
+                {
+                    "schedule": {
+                        "cron_schedule": "0 * * * *",
+                        "earliest_time": "-70m@m",
+                        "latest_time": "-10m@m"
+                    }
+                },
+                {
+                    "search": "| tstats `summariesonly` count earliest(_time) as earliest latest(_time) as latest values(All_Traffic.action) from datamodel=Network_Traffic where All_Traffic.action !=blocked All_Traffic.dest_category !=internal (All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb) by All_Traffic.src_ip All_Traffic.dest_ip | `drop_dm_object_name(\"All_Traffic\")` | search ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) | convert ctime(earliest) ctime(latest)"
+                }
+            ]
+        }
     },
-    "suppress": {
-      "suppress_fields": "src_ip",
-      "suppress_period": "28800s"
-    }
-  },
-  "creation_date": "2018-03-20",
-  "data_metadata": {
-    "data_models": [
-      "Network_Traffic"
+    "eli5": "In this search, we are looking for the network connections that were not blocked by the firewall and that are destined for destination port 139 or 445. We then filter out events that have Classless Inter-Domain Routing (CIDR) blocks categorized as internal in the <code>assets_by_cidr.csv</code> lookup file which is located in <code>$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/</code>. Since we are only looking for outbound traffic from the hosts made to the Internet, we filter out traffic whose destination IP address is private.",
+    "entities": [
+        "src_ip"
     ],
-    "data_source": [
-      "Network Communications"
+    "how_to_implement": "In order to run this search effectively, we highly recommend that you leverage the Assets and Identity framework. It is important that you have good understanding of how your network segments are designed, and be able to distinguish internal from external address space. Add a category named <code>internal</code> to the CIDRs that host the company's assets in <code>assets_by_cidr.csv</code> lookup file, which is located in <code>$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/</code>. More information on updating this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata. This search also requires you to be ingesting your network traffic and populating the Network_Traffic data model",
+    "id": "7f5fb3e1-4209-414-90db-0ec21b936378",
+    "investigations": [
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "9925d08f-561e-4faa-8912-e3888a842341",
+            "name": "Get Process Information For Port Activity",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "9925d08f-561e-4faa-8912-e3888a842341",
+            "name": "Get Process Information For Port Activity",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "5df39b3f-347d-4869-b673-8r45ad4616fe",
+            "name": "Get Outbound Emails to Hidden Cobra Threat Actors",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Bro",
-      "Splunk Stream"
-    ]
-  },
-  "eli5": "In this search, we are looking for the network connections that were not blocked by the firewall and that are destined for destination port 139 or 445. We then filter out events that have Classless Inter-Domain Routing (CIDR) blocks categorized as internal in the <code>assets_by_cidr.csv</code> lookup file which is located in <code>$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/</code>. Since we are only looking for outbound traffic from the hosts made to the Internet, we filter out traffic whose destination IP address is private.",
-  "how_to_implement": "In order to run this search effectively, we highly recommend that you leverage the Assets and Identity framework. It is important that you have good understanding of how your network segments are designed, and be able to distinguish internal from external address space. Add a category named <code>internal</code> to the CIDRs that host the company's assets in <code>assets_by_cidr.csv</code> lookup file, which is located in <code>$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/</code>. More information on updating this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata. This search also requires you to be ingesting your network traffic and populating the Network_Traffic data model",
-  "known_false_positives": "It is likely that the outbound Server Message Block (SMB) traffic is legitimate, if the company's internal networks are not well-defined in the Assets and Identity Framework. Categorize the internal CIDR blocks as <code>internal</code> in the lookup file to avoid creating notable events for traffic destined to those CIDR blocks. Any other network connection that is going out to the Internet should be investigated and blocked. Best practices suggest preventing external communications of all SMB versions and related protocols at the network boundary.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 12"
+    "known_false_positives": "It is likely that the outbound Server Message Block (SMB) traffic is legitimate, if the company's internal networks are not well-defined in the Assets and Identity Framework. Categorize the internal CIDR blocks as <code>internal</code> in the lookup file to avoid creating notable events for traffic destined to those CIDR blocks. Any other network connection that is going out to the Internet should be investigated and blocked. Best practices suggest preventing external communications of all SMB versions and related protocols at the network boundary.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Actions on Objectives",
-      "Command and Control"
+    "mappings": {
+        "cis20": [
+            "CIS 12"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives",
+            "Command and Control"
+        ],
+        "mitre_attack": [
+            "Commonly Used Port",
+            "Credential Access",
+            "Lateral Movement"
+        ],
+        "nist": [
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2018-03-20",
+    "name": "Detect Outbound SMB Traffic",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Commonly Used Port",
-      "Credential Access",
-      "Lateral Movement"
-    ],
-    "nist": [
-      "DE.CM"
-    ]
-  },
-  "modification_date": "2018-03-20",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count earliest(_time) as earliest latest(_time) as latest values(All_Traffic.action) from datamodel=Network_Traffic where All_Traffic.action !=blocked All_Traffic.dest_category !=internal (All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb) by All_Traffic.src_ip All_Traffic.dest_ip | `drop_dm_object_name(\"All_Traffic\")` | search ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) | convert ctime(earliest) ctime(latest)",
-  "search_description": "This search looks for outbound SMB connections made by hosts within your network to the Internet. SMB traffic is used for Windows file-sharing activity. One of the techniques often used by attackers involves retrieving the credential hash using an SMB request made to a compromised server controlled by the threat actor.",
-  "search_id": "7f5fb3e1-4209-414-90db-0ec21b936378",
-  "search_name": "Detect Outbound SMB Traffic",
-  "search_type": "detection",
-  "security_domain": "network",
-  "spec_version": 1,
-  "version": "1.0"
+    "references": [],
+    "security_domain": "network",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }
