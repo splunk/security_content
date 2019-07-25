@@ -5,19 +5,19 @@
     "phantom": {
       "properties": {
         "phantom_server": {
-          "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)",
+          "description": "IP address and username of the Phantom server. Currently, we ship these values as automation (hostname) and encourage users to modify them according to their environments: for example, automation (hostname)",
           "type": "string"
         },
         "playbook_name": {
-          "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment",
+          "description": "Name of the playbook. This name should be the same as the name on the Phantom community repository on github, with underscores, and appended with \"community/<playbook_name>.\" The playbooks are hosted on https://github.com/phantomcyber/playbooks. For example: community/simple_network_enrichment.",
           "type": "string"
         },
         "playbook_url": {
-          "description": "Url of the playbook on Phantom website.",
+          "description": "URL of the playbook on the Phantom website",
           "type": "string"
         },
         "schedule": {
-          "description": "Various fields to assist in scheduling the search",
+          "description": "Various fields used to assist in scheduling the search",
           "properties": {
             "cron_schedule": {
               "description": "Schedule of the search in cron format",
@@ -28,18 +28,18 @@
               "type": "string"
             },
             "latest_time": {
-              "description": "The latest time tes search should run against in Splunk format",
+              "description": "The latest time the search should run again in Splunk format",
               "type": "string"
             }
           },
           "type": "object"
         },
         "sensitivity": {
-          "description": "TLP colors (White, Green, Amber or Red)",
+          "description": "TLP colors (White, Green, Amber, or Red)",
           "type": "string"
         },
         "severity": {
-          "description": "Severity in phantom (High, Medium, Low)",
+          "description": "Severity in Phantom (High, Medium, Low)",
           "type": "string"
         }
       },
@@ -70,14 +70,14 @@
               "type": "string"
             },
             "latest_time": {
-              "description": "The latest time tes search should run against in Splunk format",
+              "description": "The latest time the search should run again in Splunk format",
               "type": "string"
             }
           },
           "type": "object"
         },
         "search": {
-          "description": "The search (in SPL) executed within core Splunk for investgation.",
+          "description": "The search (in SPL) executed within Splunk Enterprise for investigation",
           "type": "string"
         }
       },
@@ -239,7 +239,7 @@
       "uniqueItems": true
     },
     "how_to_implement": {
-      "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per site modifications",
+      "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per-site modifications",
       "type": "string"
     },
     "id": {
@@ -270,11 +270,11 @@
       "type": "object"
     },
     "known_false_positives": {
-      "description": "Scenarios in which detected behavior is benig, coupled with suggestions on how to verify the behavior",
+      "description": "Scenarios in which detected behavior is benign, coupled with suggestions on how to verify the behavior",
       "type": "string"
     },
     "maintainers": {
-      "description": "An array of the current maintainers of the Analytic Story.",
+      "description": "An array of the current maintainers of the Analytic Story",
       "items": {
         "additionalProperties": false,
         "properties": {
@@ -340,7 +340,7 @@
       "type": "integer"
     },
     "type": {
-      "description": "Type of product that will support this investigate object.",
+      "description": "Type of product that will support this investigate object",
       "enum": [
         "phantom",
         "splunk",
