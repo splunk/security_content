@@ -25,36 +25,30 @@
     "description": "This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src_user, message_id",
-                        "rule_description": "The sender $src_user$ has sent an email from a similar domain to that which you are monitoring for brand abuse.",
-                        "rule_title": "Possible Brand Abuse from $src_user$"
-                    },
-                    "risk": {
-                        "risk_object": "src_user",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "message_id, src_user",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src_user, message_id",
+                    "rule_description": "The sender $src_user$ has sent an email from a similar domain to that which you are monitoring for brand abuse.",
+                    "rule_title": "Possible Brand Abuse from $src_user$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src_user",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| tstats `summariesonly` values(All_Email.recipient) as recipients, min(_time) as firstTime, max(_time) as lastTime from datamodel=Email by All_Email.src_user, All_Email.message_id | `drop_dm_object_name(\"All_Email\")` | `ctime(firstTime)` | `ctime(lastTime)` | eval temp=split(src_user, \"@\") | eval email_domain=mvindex(temp, 1) | lookup update=true brandMonitoring_lookup domain as email_domain OUTPUT domain_abuse | search domain_abuse=true | table message_id, src_user, email_domain, recipients, firstTime, lastTime"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(All_Email.recipient) as recipients, min(_time) as firstTime, max(_time) as lastTime from datamodel=Email by All_Email.src_user, All_Email.message_id | `drop_dm_object_name(\"All_Email\")` | `ctime(firstTime)` | `ctime(lastTime)` | eval temp=split(src_user, \"@\") | eval email_domain=mvindex(temp, 1) | lookup update=true brandMonitoring_lookup domain as email_domain OUTPUT domain_abuse | search domain_abuse=true | table message_id, src_user, email_domain, recipients, firstTime, lastTime",
+                "suppress": {
+                    "suppress_fields": "message_id, src_user",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks at the sender address in email headers, and identifies those with a sender address using a domain name that matches the list of permutations generated for the domain you want to monitor.",

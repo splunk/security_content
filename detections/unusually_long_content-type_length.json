@@ -16,36 +16,30 @@
     "description": "This search looks for unusually long strings in the Content-Type http header that the client sends the server.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src_ip, dest_ip, url",
-                        "rule_description": "This search looks for unusually long strings in the Content-Type http header",
-                        "rule_title": "Unusually Long Content-Type Length"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 75
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest_ip",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src_ip, dest_ip, url",
+                    "rule_description": "This search looks for unusually long strings in the Content-Type http header",
+                    "rule_title": "Unusually Long Content-Type Length"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 75
                 },
-                {
-                    "search": "sourcetype=stream:http | eval cs_content_type_length = len(cs_content_type) | where cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length cs_content_type url"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=stream:http | eval cs_content_type_length = len(cs_content_type) | where cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length cs_content_type url",
+                "suppress": {
+                    "suppress_fields": "dest_ip",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This detection search uses HTTP traffic data captured with Splunk Stream.  The search is constructed to use \"stream:http\" sourcetype and counts of the number of times an HTTP request is received by a destination which the length of the Content-Type header value the client sends the server is greater than 100 characters long. We calculate this content_type_length field and output the results.",

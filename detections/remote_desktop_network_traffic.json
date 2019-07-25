@@ -74,36 +74,30 @@
     "description": "This search looks for network traffic on TCP/3389, the default port used by remote desktop. While remote desktop traffic is not uncommon on a network, it is usually associated with known hosts. This search allows for whitelisting both source and destination hosts to remove them from the output of the search so you can focus on the uncommon uses of remote desktop on your network.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, src",
-                        "rule_description": "Remote Desktop Traffic detected between $src$ and $dest$.  These two systems typically do not communicate with RDP",
-                        "rule_title": "Uncommon Remote Desktop Network Traffic between $src$ and $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,src",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, src",
+                    "rule_description": "Remote Desktop Traffic detected between $src$ and $dest$.  These two systems typically do not communicate with RDP",
+                    "rule_title": "Uncommon Remote Desktop Network Traffic between $src$ and $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(\"All_Traffic\")` | `ctime(firstTime)`| `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(\"All_Traffic\")` | `ctime(firstTime)`| `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest,src",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search finds systems that do not commonly communicate use remote desktop.  It does this by filtering out all systems that have the \"common_rdp_source\" or \"common_rdp_destination\" category applied to that system.  Categories are applied to systems using the Assets and Identity framework.",

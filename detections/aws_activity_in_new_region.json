@@ -48,36 +48,30 @@
     "description": "This search looks for CloudTrail events where an instance is started in a particular region in the last one hour and then compares it to a lookup file of previously seen regions where an instance was started",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "awsRegion",
-                        "rule_description": "An AWS instance is started in a new, previously unseen, region",
-                        "rule_title": "AWS instance is started in a new region"
-                    },
-                    "risk": {
-                        "risk_object": "awsRegion",
-                        "risk_object_type": [
-                            "other"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "awsRegion",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "awsRegion",
+                    "rule_description": "An AWS instance is started in a new, previously unseen, region",
+                    "rule_title": "AWS instance is started in a new region"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "awsRegion",
+                    "risk_object_type": [
+                        "other"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail earliest=-1h StartInstances  | stats earliest(_time) as earliest latest(_time) as latest by awsRegion| inputlookup append=t previously_seen_aws_regions.csv | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv | eval regionStatus=if(earliest >= relative_time(now(), \"-1d@d\"), \"Instance Started in a New Region\",\"Previously Seen Region\") | convert ctime(earliest) ctime(latest) | where regionStatus=\"Instance Started in a New Region\""
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail earliest=-1h StartInstances  | stats earliest(_time) as earliest latest(_time) as latest by awsRegion| inputlookup append=t previously_seen_aws_regions.csv | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv | eval regionStatus=if(earliest >= relative_time(now(), \"-1d@d\"), \"Instance Started in a New Region\",\"Previously Seen Region\") | convert ctime(earliest) ctime(latest) | where regionStatus=\"Instance Started in a New Region\"",
+                "suppress": {
+                    "suppress_fields": "awsRegion",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "In this search, we query CloudTrail logs to look for events that indicate that an instance was started in a particular region. Using the <code>previously_seen_aws_regions.csv</code> lookup file created using the support search, we compare the region where this instance was started to all previously observed regions. The <code>eval</code> and <code>if</code> functions determine that the earliest times seen for this region and instance were within the last day. If a new region is detected, it will alert you with \"Instance Started in a New Region\". However, this region will be added to the list of <code>previously_seen_aws_regions.csv</code>. Please maintain <code>previously_seen_aws_regions.csv</code>",

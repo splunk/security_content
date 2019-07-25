@@ -35,36 +35,30 @@
     "description": "The search looks for files created with names that have been linked to malicious activity.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, file_name",
-                        "rule_description": "A write to a filename associated with malicious activity detected on $dest$.",
-                        "rule_title": "Suspicious File Write Detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,file_name",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, file_name",
+                    "rule_description": "A write to a filename associated with malicious activity detected on $dest$.",
+                    "rule_title": "Suspicious File Write Detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Filesystem.action) as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(Filesystem)` | `suspicious_writes`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Filesystem.action) as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(Filesystem)` | `suspicious_writes`",
+                "suppress": {
+                    "suppress_fields": "dest,file_name",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks at files being created or modified in the Endpoint file-system data model. The names of those files are checked against an included lookup file, which contains the names of files associated with malware or attack activity. The search returns any files with matching names, along with a note (also specified in the lookup file) that gives or points to more information about the files.",

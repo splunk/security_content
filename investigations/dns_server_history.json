@@ -16,23 +16,17 @@
     "how_to_implement": "To successfully implement this search, you must be ingesting your DNS traffic",
     "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "src_ip"
-                ]
+        "splunk": {
+            "fields_required": [
+                "src_ip"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 0,
+                "latest_time_offset": 86400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 0,
-                    "latest_time_offset": 86400
-                }
-            },
-            {
-                "search": "| search tag=dns src_ip={src_ip} dest_port=53 | streamstats time_window=1d count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort -count"
-            }
-        ]
+            "search": "| search tag=dns src_ip={src_ip} dest_port=53 | streamstats time_window=1d count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort -count"
+        }
     },
     "maintainers": [
         {
@@ -51,5 +45,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

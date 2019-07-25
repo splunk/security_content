@@ -47,36 +47,30 @@
     "description": "This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process",
-                        "rule_description": "This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.",
-                        "rule_title": "Sc.exe Manipulating Windows Services on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 60
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, process",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process",
+                    "rule_description": "This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.",
+                    "rule_title": "Sc.exe Manipulating Windows Services on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 60
                 },
-                {
-                    "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sc.exe Processes.process=\"* create *\" Processes.process=\"* config *\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sc.exe Processes.process=\"* create *\" Processes.process=\"* config *\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, process",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for the execution of sc.exe with parameters that indicate the utility is being used to create a new Windows service, or modify an existing one. Attackers often create a new service to host their malicious code, or they may take a non-critical service or one that is disabled, and modify it to point to their malware and enable the service if necessary. It is unusual for a service to be created or modified using the sc.exe utility.",

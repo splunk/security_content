@@ -32,36 +32,30 @@
     "description": "This search looks for processes launching netsh.exe. Netsh is a command-line scripting utility that allows you to, either locally or remotely, display or modify the network configuration of a computer that is currently running. Netsh can be used as a persistence proxy technique to execute a helper DLL when netsh.exe is executed. In this search, we are looking for processes spawned by netsh.exe and executing commands via the command line.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process, parent_process, cmdline",
-                        "rule_description": "A process detected on $dest$ is launching netsh.exe. ",
-                        "rule_title": "Process launching netsh.exe detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, parent_process",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process, parent_process, cmdline",
+                    "rule_description": "A process detected on $dest$ is launching netsh.exe. ",
+                    "rule_title": "Process launching netsh.exe detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process=netsh.exe by Processes.parent_process Processes.process_name Processes.user Processes.dest | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process=netsh.exe by Processes.parent_process Processes.process_name Processes.user Processes.dest | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, parent_process",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for all the parent processes of netsh.exe and returns that process, the command-line used to execute it, the host name, and the user context under which it ran.",

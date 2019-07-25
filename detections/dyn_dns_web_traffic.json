@@ -19,36 +19,30 @@
     "description": "This search looks for web connections to dynamic DNS providers.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, url, dest",
-                        "rule_description": "The host $src$ has been detected making a web request to $url$, which is a listed as a dynamic DNS provider.",
-                        "rule_title": "Dynamic DNS web traffic detected on $src$."
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "src, url , dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, url, dest",
+                    "rule_description": "The host $src$ has been detected making a web request to $url$, which is a listed as a dynamic DNS provider.",
+                    "rule_title": "Dynamic DNS web traffic detected on $src$."
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats summariesonly=true allow_old_summaries=true count values(Web.url) as url min(_time) as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `dynamic_dns_web_traffic`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats summariesonly=true allow_old_summaries=true count values(Web.url) as url min(_time) as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `dynamic_dns_web_traffic`",
+                "suppress": {
+                    "suppress_fields": "src, url , dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for hosts in your environment that may be communicating with a dynamic DNS provider. It checks each URL an endpoint is connecting to against a list of dynamic DNS providers. It returns the source and destination IP address of the web request, the URL requested, and the first time the event occurred.",

@@ -23,36 +23,30 @@
     "description": "This search looks for AWS provisioning activities from previously unseen regions. Region in this context is similar to a state in the United States. Provisioning activities are defined broadly as any event that begins with \"Run\" or \"Create.\"",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src_ip, Region",
-                        "rule_description": "Your AWS infrastructure was provisioned from a region, $Region$, which has never before been seen provisioning your infrastructure.",
-                        "rule_title": "AWS Provision Activity From $region$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src_ip, Region",
+                    "rule_description": "Your AWS infrastructure was provisioned from a region, $Region$, which has never before been seen provisioning your infrastructure.",
+                    "rule_title": "AWS Provision Activity From $region$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress | search Region=* [search sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress | search Region=* | stats earliest(_time) as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime by sourceIPAddress, City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime by Region | eval newRegion=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newRegion=1 | table Region] | spath output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user, src_ip, Region, eventName, errorCode"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress | search Region=* [search sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress | search Region=* | stats earliest(_time) as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime by sourceIPAddress, City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime by Region | eval newRegion=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newRegion=1 | table Region] | spath output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user, src_ip, Region, eventName, errorCode",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The subsearch returns all events with event names that start with \"Run\" or \"Create,\" and then does a <code>GeoIP</code> lookup on the IP address that initiated the action within the last hour. It appends the historical data to those results in the lookup file. Next, it recalculates the <code>firstTime</code> and <code>lastTime</code> field for each country, region, city, and IP address and outputs this data to the lookup file to update the local cache. It then calculates the <code>firstTime</code> and <code>lastTime</code> for each city. It returns only those events from regions that have first been seen in the past hour. This is combined with the main search to return the time, user, IP address, city, event name, and error code from the action.",

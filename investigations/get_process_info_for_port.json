@@ -22,24 +22,18 @@
     "how_to_implement": "To successfully implement this search you must be ingesting endpoint data that associates processes with network events and populate the Endpoint Datamodel",
     "id": "9925d08f-561e-4faa-8912-e3888a842341",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "dest_port",
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "dest_port",
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 7200,
+                "latest_time_offset": 7200
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 7200,
-                    "latest_time_offset": 7200
-                }
-            },
-            {
-                "search": "| tstats `summariesonly` count min(_time)  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.dest = {dest} by Processes.process_name Processes.user Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `ctime(firstTime)`|`ctime(lastTime)` | search [| tstats `summariesonly` count from datamodel=Endpoint.Ports where Ports.dest_port={dest_port} by Ports.process_id Ports.src  | `drop_dm_object_name(Ports)` | rename src as dest]"
-            }
-        ]
+            "search": "| tstats `summariesonly` count min(_time)  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.dest = {dest} by Processes.process_name Processes.user Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `ctime(firstTime)`|`ctime(lastTime)` | search [| tstats `summariesonly` count from datamodel=Endpoint.Ports where Ports.dest_port={dest_port} by Ports.process_id Ports.src  | `drop_dm_object_name(Ports)` | rename src as dest]"
+        }
     },
     "maintainers": [
         {
@@ -58,5 +52,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "2.0"
 }

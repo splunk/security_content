@@ -15,23 +15,17 @@
     "how_to_implement": "If you are using Enterprise Security you are likely already creating notable events with your correlation rules. No additional configuration is necessary.",
     "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 864000,
+                "latest_time_offset": 86400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 864000,
-                    "latest_time_offset": 86400
-                }
-            },
-            {
-                "search": "| search `notable` | search dest={dest} | table _time, rule_name, owner, priority, severity, status_description"
-            }
-        ]
+            "search": "| search `notable` | search dest={dest} | table _time, rule_name, owner, priority, severity, status_description"
+        }
     },
     "maintainers": [
         {
@@ -50,5 +44,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "2.0"
 }

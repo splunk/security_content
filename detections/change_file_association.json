@@ -20,36 +20,30 @@
     "description": "This search looks for changes to registry values that control Windows file associations, executed by a process that is not typical for legitimate, routine changes to this area.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process_name, process",
-                        "rule_description": "The system $dest$ had an unusual change to a file association",
-                        "rule_title": "Suspicious File Association Change on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,user",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process_name, process",
+                    "rule_description": "The system $dest$ had an unusual change to a file association",
+                    "rule_title": "Suspicious File Association Change on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name!=Explorer.exe AND Processes.process_name!=OpenWith.exe by Processes.process_id Processes.dest | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | join [| tstats `summariesonly` values(Registry.registry_path) as registry_path count  FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\\\Explorer\\\\FileExts* by Registry.process_id Registry.dest | `drop_dm_object_name(\"Registry\")` | table process_id dest registry_path]"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name!=Explorer.exe AND Processes.process_name!=OpenWith.exe by Processes.process_id Processes.dest | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | join [| tstats `summariesonly` values(Registry.registry_path) as registry_path count  FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\\\Explorer\\\\FileExts* by Registry.process_id Registry.dest | `drop_dm_object_name(\"Registry\")` | table process_id dest registry_path]",
+                "suppress": {
+                    "suppress_fields": "dest,user",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for changes made to the registry that control Windows file associations. It is typical for users to change the file association to open certain types of files with specific applications. However, when these changes are legitimately performed, they are typically done via the processes explorer.exe or openwith.exe. The search first executes the subsearch that looks at the Registry node, which specifies setting a value in the registry and creates a table of process_id and dest. It then uses those arguments to find out what process and parent process were responsible for making those registry changes.",

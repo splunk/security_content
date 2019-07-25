@@ -16,36 +16,30 @@
     "description": "This search detects writes to the 'System Volume Information' folder by something other than the System process.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, file_name, process",
-                        "rule_description": "The process $process$ on $dest$ wrote $file_name$ to 'System Volume Information'.",
-                        "rule_title": "Suspicious process $process$ wrote to 'System Volume Information' on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 70
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, file_name, process",
+                    "rule_description": "The process $process$ on $dest$ wrote $file_name$ to 'System Volume Information'.",
+                    "rule_title": "Suspicious process $process$ wrote to 'System Volume Information' on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 70
                 },
-                {
-                    "search": "(sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational OR tag=process) EventCode=11 process_id!=4 file_path=*System\\ Volume\\ Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest, Image, file_path | `ctime(firstTime)`| `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "(sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational OR tag=process) EventCode=11 process_id!=4 file_path=*System\\ Volume\\ Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest, Image, file_path | `ctime(firstTime)`| `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search uses data on file writes captured via Sysmon to watch for writes to the \"System Volume Information\" folder by processes other than the system process. The search looks for event code 11 in the Sysmon events, which indicates a file-creation event. It then looks for a file created with a path that includes \"System Volume Information\" and a process ID (PID) other than 4. PID 4 is assigned to the System process on Windows systems. Excluding these writes allows us to filter out legitimate activity. It will report the system where the activity occurred, the path to which the file was written, the process responsible for the write, and the times it first and last saw this activity.",

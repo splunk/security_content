@@ -20,36 +20,30 @@
     "description": "The search looks for command-line arguments used to hide a file or directory using the reg add command.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process",
-                        "rule_description": "Regedit.exe is used by attackers to hide malware files/directories in windows environments via registry key settings. This rule detects command-line arguments used to hide a file/directory",
-                        "rule_title": "Regedit.exe used to hide a file/directory on $dest$ "
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,process",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process",
+                    "rule_description": "Regedit.exe is used by attackers to hide malware files/directories in windows environments via registry key settings. This rule detects command-line arguments used to hide a file/directory",
+                    "rule_title": "Regedit.exe used to hide a file/directory on $dest$ "
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = reg.exe Processes.process=\"*add*\" Processes.process=\"*Hidden*\" Processes.process=\"*REG_DWORD*\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `ctime(firstTime)` |`ctime(lastTime)`| regex process = \"(/d\\s+2)\""
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = reg.exe Processes.process=\"*add*\" Processes.process=\"*Hidden*\" Processes.process=\"*REG_DWORD*\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `ctime(firstTime)` |`ctime(lastTime)`| regex process = \"(/d\\s+2)\"",
+                "suppress": {
+                    "suppress_fields": "dest,process",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Reg.exe is a binary native to Windows platform used to edit the registry hives of the system. Attackers can leverage this binary to hide files by passing in arguments that are used to hide the files. In the search, we first gather results with keywords, add, Hidden, and REG_DWORD, that will be in the raw event and filter by process and the command-line. We then leverage regular expressions on the command-line field to look for /d value as 2 which is responsible for hiding a file or directory.",

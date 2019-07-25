@@ -77,36 +77,30 @@
     "description": "This search looks for command-line arguments that use a <code>/c</code> parameter to execute a command that has not previously been seen.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process",
-                        "rule_description": "The system $dest$ executed a command-line argument, $process$, that has not previously been seen.",
-                        "rule_title": "First-time seen command-line argument was detected on $dest$."
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, process, process",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process",
+                    "rule_description": "The system $dest$ executed a command-line argument, $process$, that has not previously been seen.",
+                    "rule_title": "First-time seen command-line argument was detected on $dest$."
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "30 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = cmd.exe Processes.process = \"* /c *\" by Processes.process Processes.process_name Processes.parent_process_name Processes.dest| `drop_dm_object_name(Processes)`| `ctime(firstTime)` | `ctime(lastTime)` | search [| tstats `summariesonly` earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = cmd.exe Processes.process = \"* /c *\" by Processes.process | `drop_dm_object_name(Processes)` | inputlookup append=t previously_seen_cmd_line_arguments | stats min(firstTime) as firstTime, max(lastTime) as lastTime by process | outputlookup previously_seen_cmd_line_arguments | eval newCmdLineArgument=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newCmdLineArgument=1 | `ctime(firstTime)` | `ctime(lastTime)` | table process]"
+                "schedule": {
+                    "cron_schedule": "30 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = cmd.exe Processes.process = \"* /c *\" by Processes.process Processes.process_name Processes.parent_process_name Processes.dest| `drop_dm_object_name(Processes)`| `ctime(firstTime)` | `ctime(lastTime)` | search [| tstats `summariesonly` earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = cmd.exe Processes.process = \"* /c *\" by Processes.process | `drop_dm_object_name(Processes)` | inputlookup append=t previously_seen_cmd_line_arguments | stats min(firstTime) as firstTime, max(lastTime) as lastTime by process | outputlookup previously_seen_cmd_line_arguments | eval newCmdLineArgument=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newCmdLineArgument=1 | `ctime(firstTime)` | `ctime(lastTime)` | table process]",
+                "suppress": {
+                    "suppress_fields": "dest, process, process",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The subsearch returns all events where <code>cmd.exe</code> was used with a <code>/c</code> parameter in the command-line arguments to execute other commands/programs. It appends the historical data to those results in the lookup file. Next, it recalculates the <code>firstTime</code> and <code>lastTime</code> field for command-line execution and outputs this data to the lookup file to update the local cache. It returns only those events that have first been seen in the past one hour. This is combined with the main search to return the time, user, destination, process, parent process, and value of the command-line argument.",

@@ -20,36 +20,30 @@
     "description": "The search looks at the change-analysis data model and detects email files created outside the normal Outlook directory.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, file_path, action, file_name",
-                        "rule_description": "The system $dest$ has email files outside of the normal Outlook directory ",
-                        "rule_title": "Email files created or modified on $dest$ that are not in the normal Outlook directory"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, file_path",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, file_path, action, file_name",
+                    "rule_description": "The system $dest$ has email files outside of the normal Outlook directory ",
+                    "rule_title": "Email files created or modified on $dest$ that are not in the normal Outlook directory"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name=*.dll OR Filesystem.file_name=*.ost) Filesystem.file_path != \"C:\\\\Users\\\\*\\\\My Documents\\\\Outlook Files\\\\*\" by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name=*.dll OR Filesystem.file_name=*.ost) Filesystem.file_path != \"C:\\\\Users\\\\*\\\\My Documents\\\\Outlook Files\\\\*\" by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest | `drop_dm_object_name(\"Filesystem\")` | `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, file_path",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "In this search, we are looking for activities consistent with an adversary collecting email data from local machines. The search will detect email files (files with .pst or .ost extensions) created in directories other than the standard Outlook directory (c:\\users\\username\\My Documents\\Outlook Files\\.",

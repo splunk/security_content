@@ -18,23 +18,17 @@
     "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
     "id": "0e40fe83-3edb-4d86-8206-8fed36529ca6",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 7200,
+                "latest_time_offset": 0
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 7200,
-                    "latest_time_offset": 0
-                }
-            },
-            {
-                "search": "| search sourcetype=aws:cloudtrail responseElements.instancesSet.items{}.instanceId={dest} |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId as instanceId, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress, responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture as architecture, responseElements.instancesSet.items{}.keyName as keyName | table arn, awsRegion, instanceId, architecture, privateIpAddress, amiID, keyName"
-            }
-        ]
+            "search": "| search sourcetype=aws:cloudtrail responseElements.instancesSet.items{}.instanceId={dest} |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId as instanceId, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress, responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture as architecture, responseElements.instancesSet.items{}.keyName as keyName | table arn, awsRegion, instanceId, architecture, privateIpAddress, amiID, keyName"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -38,36 +38,30 @@
     "description": "This search looks for successful CloudTrail activity by user accounts that are not listed in the identity table or <code>aws_service_accounts.csv</code>. It returns event names and count, as well as the first and last time a specific user or service is detected, grouped by users.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user",
-                        "rule_description": "A successful API activity was invoked by $user$, an unapproved/unknown account.",
-                        "rule_title": "Successful API activity by a non-approved account: $user$"
-                    },
-                    "risk": {
-                        "risk_object": "user",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "user",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user",
+                    "rule_description": "A successful API activity was invoked by $user$, an unapproved/unknown account.",
+                    "rule_title": "Successful API activity by a non-approved account: $user$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail errorCode=success | rename userName as identity | search NOT [| inputlookup identity_lookup_expanded | fields identity] | search NOT [| inputlookup aws_service_accounts | fields identity] | rename identity as user | stats count min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName by user | `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail errorCode=success | rename userName as identity | search NOT [| inputlookup identity_lookup_expanded | fields identity] | search NOT [| inputlookup aws_service_accounts | fields identity] | rename identity as user | stats count min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName by user | `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "user",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "In this search, we are looking for successful API calls via CloudTrail. We filter out events triggered by known users listed in the <code>identity_lookup_expanded</code> lookup file and the service accounts. Once filtered out, we output a table with the event names and count, as well as the first and last time a specific user or service is detected.",

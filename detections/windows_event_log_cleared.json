@@ -49,36 +49,30 @@
     "description": "This search looks for Windows events that indicate one of the Windows event logs has been purged.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest",
-                        "rule_description": "The Event Logging System has been cleared or shutdown on $dest$",
-                        "rule_title": "Windows Event Log Cleared on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 60
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, signature_id",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest",
+                    "rule_description": "The Event Logging System has been cleared or shutdown on $dest$",
+                    "rule_title": "Windows Event Log Cleared on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 60
                 },
-                {
-                    "search": "((eventtype=wineventlog_security) AND (signature_id=1102 OR signature_id=1100)) OR ((eventtype=wineventlog_system) AND signature_id=104) | stats count min(_time) as firstTime max(_time) as lastTime by signature_id dest user| `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "((eventtype=wineventlog_security) AND (signature_id=1102 OR signature_id=1100)) OR ((eventtype=wineventlog_system) AND signature_id=104) | stats count min(_time) as firstTime max(_time) as lastTime by signature_id dest user| `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, signature_id",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks at the Windows security and system event logs. EventCode 1002 in the security log indicates that the log has been cleared, EventCode 1000 in the security log indicates the event logging service has been shut down, and EventCode 104 in the system log indicates the application log has been cleared. If any of these events are found, a notable will be generated.",

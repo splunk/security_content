@@ -19,36 +19,30 @@
     "description": "The search is looking for the creation of program.exe in the C: drive.  The creation of this file in that location may be driven by a motive to perform path interception.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, file_path, file_name",
-                        "rule_description": "A potentially malicious file program.exe was detected on the C: drive. The creation of this file is often associated with a motive to perform a path interception attack. ",
-                        "rule_title": "Path Interception attempt discovered $dest$ via creation of program.exe"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, file_path, file_name",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, file_path, file_name",
+                    "rule_description": "A potentially malicious file program.exe was detected on the C: drive. The creation of this file is often associated with a motive to perform a path interception attack. ",
+                    "rule_title": "Path Interception attempt discovered $dest$ via creation of program.exe"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "30 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem where Filesystem.file_path=\"C:\\\\program.exe\" by Filesystem.file_name | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`"
+                "schedule": {
+                    "cron_schedule": "30 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem where Filesystem.file_path=\"C:\\\\program.exe\" by Filesystem.file_name | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, file_path, file_name",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search queries the Endpoint file-system data model node to list out all the values of destination machines, as well as the values of file hashes and file paths that have the file \"program.exe\" in the C: drive. Path interception occurs when an executable is placed in a specific path so that it is executed by an application instead of by the intended target. In this case, applications vulnerable to path interception (because of unquoted service paths with spaces in Windows registry) allow attackers to execute maliciously crafted program.exes.",

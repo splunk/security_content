@@ -20,36 +20,30 @@
     "description": "This search looks for child processes of spoolsv.exe. This activity is associated with a POC privilege-escalation exploit associated with CVE-2018-8440. Spoolsv.exe is the process associated with the Print Spooler service in Windows and typically runs as SYSTEM.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process_name, parent_process_name",
-                        "rule_description": "A child process of spoolsv.exe was detected on $dest$.",
-                        "rule_title": "Spoolsv.exe spawned a child process on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 60
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, parent_process_name",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process_name, parent_process_name",
+                    "rule_description": "A child process of spoolsv.exe was detected on $dest$.",
+                    "rule_title": "Spoolsv.exe spawned a child process on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 60
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe AND Processes.process_name!=regsvr32.exe by Processes.dest Processes.parent_process Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe AND Processes.process_name!=regsvr32.exe by Processes.dest Processes.parent_process Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, parent_process_name",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for child processes of spoolsv.exe, which is associated with the Print Spooler service on Windows. Children of this process typically run under the SYSTEM context. This search should address the POC developed for the Windows local-privilege-escalation exploit announced in September of 2018. The associated vulnerability was assigned CVE-2018-8440. More information is available at https://doublepulsar.com/task-scheduler-alpc-exploit-high-level-analysis-ff08cda6ad4f.",

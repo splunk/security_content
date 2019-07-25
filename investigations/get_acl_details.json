@@ -18,23 +18,17 @@
     "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
     "id": "f3fb4d1b-5f33-4b01-b541-c7ah9534c242",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "networkAclId"
-                ]
+        "splunk": {
+            "fields_required": [
+                "networkAclId"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 3600,
+                "latest_time_offset": 0
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 3600,
-                    "latest_time_offset": 0
-                }
-            },
-            {
-                "search": "| search sourcetype=aws:description id={networkAclId} | table id account_id vpc_id network_acl_entries{}.*"
-            }
-        ]
+            "search": "| search sourcetype=aws:description id={networkAclId} | table id account_id vpc_id network_acl_entries{}.*"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -20,24 +20,18 @@
     "how_to_implement": "You must be ingesting your network traffic",
     "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd73",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "src_ip",
-                    "dest_ip"
-                ]
+        "splunk": {
+            "fields_required": [
+                "src_ip",
+                "dest_ip"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 0,
+                "latest_time_offset": 86400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 0,
-                    "latest_time_offset": 86400
-                }
-            },
-            {
-                "search": "| tstats allow_old_summaries=true sum(All_Traffic.bytes_out) as \"bytes_out\" sum(All_Traffic.bytes_in) as \"bytes_in\" from datamodel=Network_Traffic where nodename=All_Traffic All_Traffic.dest_port=53 All_Traffic.src={src_ip} All_Traffic.dest={dest_ip} | eval ratio = (bytes_out/bytes_in) | table ratio"
-            }
-        ]
+            "search": "| tstats allow_old_summaries=true sum(All_Traffic.bytes_out) as \"bytes_out\" sum(All_Traffic.bytes_in) as \"bytes_in\" from datamodel=Network_Traffic where nodename=All_Traffic All_Traffic.dest_port=53 All_Traffic.src={src_ip} All_Traffic.dest={dest_ip} | eval ratio = (bytes_out/bytes_in) | table ratio"
+        }
     },
     "maintainers": [
         {
@@ -56,5 +50,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

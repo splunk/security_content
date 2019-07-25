@@ -16,36 +16,30 @@
     "description": "This search detects writes to the recycle bin by a process other than explorer.exe.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, file_name, process_name",
-                        "rule_description": "The process $process_name$ on $dest$ wrote $file_name$ to the Recycle Bin.",
-                        "rule_title": "Suspicious process $process_name$ wrote to the Recycle Bin on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 70
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, file_name, process_name",
+                    "rule_description": "The process $process_name$ on $dest$ wrote $file_name$ to the Recycle Bin.",
+                    "rule_title": "Suspicious process $process_name$ wrote to the Recycle Bin on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 70
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.filepath = \"*$Recycle.Bin*\" by Filesystem.process_id Filesystem.dest | `drop_dm_object_name(\"Filesystem\")`| search [| tstats `summariesonly` values(Processes.user) as user values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name != \"explorer.exe\" by Processes.process_id Processes.dest| `drop_dm_object_name(\"Processes\")` | table process_id dest]"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.filepath = \"*$Recycle.Bin*\" by Filesystem.process_id Filesystem.dest | `drop_dm_object_name(\"Filesystem\")`| search [| tstats `summariesonly` values(Processes.user) as user values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name != \"explorer.exe\" by Processes.process_id Processes.dest| `drop_dm_object_name(\"Processes\")` | table process_id dest]",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search uses data on file writes captured via Sysmon to watch for writes to the Recycle Bin by processes other than explorer.exe. The search looks for event code 11 in the Sysmon events, which indicates a file-creation event. Next, it looks for files created with a path that includes the string \"$Recycle.Bin\" by processes other than explorer.exe, which is the process responsible for copying files to the Recycle Bin on delete. It will report the system where the activity occurred, the path to which the file was written, the process responsible for the write, and the times it first and last saw this activity.",

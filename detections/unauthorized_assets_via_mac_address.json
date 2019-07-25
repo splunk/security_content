@@ -24,36 +24,30 @@
     "description": "By populating the organization's assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization's network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, query",
-                        "rule_description": "The host $src$ issued a DHCP request to connect with your network that does not belong to the list of authorized devices",
-                        "rule_title": "Unauthorized Asset found with mac address: $src_mac$"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 20
-                    },
-                    "suppress": {
-                        "suppress_fields": "src_mac,src_ip",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, query",
+                    "rule_description": "The host $src$ issued a DHCP request to connect with your network that does not belong to the list of authorized devices",
+                    "rule_title": "Unauthorized Asset found with mac address: $src_mac$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 20
                 },
-                {
-                    "search": "| tstats `summariesonly` count from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip All_Sessions.src_mac | dedup All_Sessions.src_mac| `drop_dm_object_name(\"Network_Sessions\")`|`drop_dm_object_name(\"All_Sessions\")` | search NOT [| inputlookup asset_lookup_by_str |rename mac as src_mac | fields + src_mac]"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip All_Sessions.src_mac | dedup All_Sessions.src_mac| `drop_dm_object_name(\"Network_Sessions\")`|`drop_dm_object_name(\"All_Sessions\")` | search NOT [| inputlookup asset_lookup_by_str |rename mac as src_mac | fields + src_mac]",
+                "suppress": {
+                    "suppress_fields": "src_mac,src_ip",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search requires you to leverage the Enterprise Security Assets and Identity framework to populate assets_by_str.csv. Once the assets_by_str.csv is populated, we then query your DHCP logs to detect unknown systems connecting to your network. More documentation is available at: http://docs.splunk.com/Documentation/ES/4.7.1/Admin/Verifyassetandidentitydata.",

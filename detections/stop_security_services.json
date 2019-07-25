@@ -20,36 +20,30 @@
     "description": "This search looks for attempts to stop security-related services on the endpoint.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process, user",
-                        "rule_description": "Attempt to stop a security-related service on $dest$",
-                        "rule_title": "Attempt to Stop Security Service On $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, user",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process, user",
+                    "rule_description": "Attempt to stop a security-related service on $dest$",
+                    "rule_title": "Attempt to Stop Security Service On $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = net.exe OR  Processes.process_name = sc.exe) Processes.process=\"* stop *\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)` |lookup security_services_lookup service as process OUTPUTNEW category, description | search category=security"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = net.exe OR  Processes.process_name = sc.exe) Processes.process=\"* stop *\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)` |lookup security_services_lookup service as process OUTPUTNEW category, description | search category=security",
+                "suppress": {
+                    "suppress_fields": "dest, user",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for the processes <b>net.exe</b> and <b>sc.exe</b> with a parameter of <code>\"stop\"</code>. It then searches a list of security-related services included in a lookup file for matches on the command line. Results are subsequently returned in table format. The included lookup file can be modified to update the services to monitor.",

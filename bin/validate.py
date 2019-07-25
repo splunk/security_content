@@ -53,8 +53,9 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
     if detection['detect']['splunk']:
 
         # do a regex match here instead of key values
-        if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
-                (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
+#        if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
+#                (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
+        if (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1) :
 
             if 'data_models' not in detection['data_metadata']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' field is not set")

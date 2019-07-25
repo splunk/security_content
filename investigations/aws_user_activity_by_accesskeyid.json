@@ -18,23 +18,17 @@
     "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
     "id": "703b65a4-a0ae-4171-965d-45507506c64f",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "accessKeyId"
-                ]
+        "splunk": {
+            "fields_required": [
+                "accessKeyId"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 0,
+                "latest_time_offset": 14400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 0,
-                    "latest_time_offset": 14400
-                }
-            },
-            {
-                "search": "| search sourcetype=aws:cloudtrail userIdentity.accessKeyId={accessKeyId} | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip | table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage"
-            }
-        ]
+            "search": "| search sourcetype=aws:cloudtrail userIdentity.accessKeyId={accessKeyId} | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip | table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

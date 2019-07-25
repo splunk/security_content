@@ -32,36 +32,30 @@
     "description": "This search looks for flags passed to schtasks.exe on the command-line that indicate a task name associated with the Dragonfly threat actor was created or deleted.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process_name",
-                        "rule_description": "This search looks for flags passed to schtasks.exe on the command line that indicate that a task--whose name is associated with the Dragonfly threat actor--has been created or deleted",
-                        "rule_title": "Scheduled task used by Dragonfly threat actor detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, process_name, process",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process_name",
+                    "rule_description": "This search looks for flags passed to schtasks.exe on the command line that indicate that a task--whose name is associated with the Dragonfly threat actor--has been created or deleted",
+                    "rule_title": "Scheduled task used by Dragonfly threat actor detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe  by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search (process=*delete* OR process=*create*) process=*reset*"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe  by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search (process=*delete* OR process=*create*) process=*reset*",
+                "suppress": {
+                    "suppress_fields": "dest, process_name, process",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The search looks for execution of schtasks.exe with parameters that indicate that a specific task \"reset,\" whose name is associated with the Dragonfly threat actor--has been created or deleted. Schtasks.exe is a native Windows program that is used to schedule tasks on local or remote systems. Attackers often leverage this capability to schedule the execution of commands or establish persistence.",

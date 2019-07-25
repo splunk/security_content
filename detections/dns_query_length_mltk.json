@@ -49,36 +49,30 @@
     "description": "This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src",
-                        "rule_description": "Identify DNS traffic with unusual query lengths by record type",
-                        "rule_title": "DNS query length outliers"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "query",
-                        "suppress_period": "43200s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src",
+                    "rule_description": "Identify DNS traffic with unusual query lengths by record type",
+                    "rule_title": "DNS query length outliers"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as start_time max(_time) as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution by DNS.query DNS.record_type | search DNS.record_type=* |  `drop_dm_object_name(DNS)` | `ctime(firstTime)` | `ctime(lastTime)` | eval query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename \"IsOutlier(query_length)\" as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time query record_type count src dest query_length"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as start_time max(_time) as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution by DNS.query DNS.record_type | search DNS.record_type=* |  `drop_dm_object_name(DNS)` | `ctime(firstTime)` | `ctime(lastTime)` | eval query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename \"IsOutlier(query_length)\" as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time query record_type count src dest query_length",
+                "suppress": {
+                    "suppress_fields": "query",
+                    "suppress_period": "43200s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Attackers often use random, long domain names for components of their attack infrastructure. This search leverages the probability distribution function algorithm provided by the Machine Learning Toolkit (MLTK) to identify outliers in the length of the DNS query for each record type observed. The companion search \"Baseline of DNS Query Length - MLTK\" creates a machine-learning (ML) model built over the historical data used by this search. The determination of what is considered an outlier may be adjusted via the threshold parameter in the search. More information on the algorithm used can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.",

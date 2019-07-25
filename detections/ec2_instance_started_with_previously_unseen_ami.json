@@ -38,36 +38,30 @@
     "description": "This search looks for EC2 instances being created with previously unseen AMIs.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest",
-                        "rule_description": "The EC2 instance $dest$ was created with previously unused AMI $amiID$",
-                        "rule_title": "EC2 Instance Type $dest$ Created With New AMI"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest",
+                    "rule_description": "The EC2 instance $dest$ was created with previously unused AMI $amiID$",
+                    "rule_title": "EC2 Instance Type $dest$ Created With New AMI"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | stats earliest(_time) as earliest latest(_time) as latest by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId as amiID | inputlookup append=t previously_seen_ec2_amis.csv | stats min(earliest) as earliest max(latest) as latest by amiID | outputlookup previously_seen_ec2_amis.csv | eval newAMI=if(earliest >= relative_time(now(), \"-70m@m\"), 1, 0) | convert ctime(earliest) ctime(latest) | where newAMI=1 | rename amiID as requestParameters.instancesSet.items{}.imageId | table requestParameters.instancesSet.items{}.imageId] | rename requestParameters.instanceType as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn as arn, requestParameters.instancesSet.items{}.imageId as amiID | table _time, arn, amiID, dest, instanceType"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | stats earliest(_time) as earliest latest(_time) as latest by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId as amiID | inputlookup append=t previously_seen_ec2_amis.csv | stats min(earliest) as earliest max(latest) as latest by amiID | outputlookup previously_seen_ec2_amis.csv | eval newAMI=if(earliest >= relative_time(now(), \"-70m@m\"), 1, 0) | convert ctime(earliest) ctime(latest) | where newAMI=1 | rename amiID as requestParameters.instancesSet.items{}.imageId | table requestParameters.instancesSet.items{}.imageId] | rename requestParameters.instanceType as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn as arn, requestParameters.instancesSet.items{}.imageId as amiID | table _time, arn, amiID, dest, instanceType",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The subsearch returns the AMI image ID of all successful EC2 instance launches within the last hour and then appends the historical data from the lookup file to those results.  It then recalculates the earliest and latest seen time field for each AMI image ID and returns only those AMI image IDs that have first been seen in the past hour.  This is combined with the main search to return the time, user, and instance id of those systems.",

@@ -18,23 +18,17 @@
     "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
     "id": "ddc7af28-c34d-4392-af93-7f29a4e8806c",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "src"
-                ]
+        "splunk": {
+            "fields_required": [
+                "src"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 172800,
+                "latest_time_offset": 86400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 172800,
-                    "latest_time_offset": 86400
-                }
-            },
-            {
-                "search": "|tstats `summariesonly` values(All_Email.dest) as dest values(All_Email.recipient) as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email by All_Email.src |`drop_dm_object_name(All_Email)` | `ctime(firstTime)` | `ctime(lastTime)`"
-            }
-        ]
+            "search": "|tstats `summariesonly` values(All_Email.dest) as dest values(All_Email.recipient) as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email by All_Email.src |`drop_dm_object_name(All_Email)` | `ctime(firstTime)` | `ctime(lastTime)`"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

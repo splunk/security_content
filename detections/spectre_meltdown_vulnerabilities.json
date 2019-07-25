@@ -24,36 +24,30 @@
     "description": "The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest",
-                        "rule_description": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities.",
-                        "rule_title": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 100
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest",
+                    "rule_description": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities.",
+                    "rule_title": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 6 * * *",
-                        "earliest_time": "-25h@h",
-                        "latest_time": "-1h@h"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 100
                 },
-                {
-                    "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest| `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 6 * * *",
+                    "earliest_time": "-25h@h",
+                    "latest_time": "-1h@h"
+                },
+                "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest| `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for the three CVEs associated with the Spectre and Meltdown vulnerabilities.",

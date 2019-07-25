@@ -34,36 +34,30 @@
     "description": "This search is used to detect attempts to use DNS tunneling, by calculating the length of responses to DNS TXT queries. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting unusually large volumes of DNS traffic.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, query",
-                        "rule_description": "A DNS TXT record response of over 100 characters was detected.",
-                        "rule_title": "Long DNS TXT Record Response"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 70
-                    },
-                    "suppress": {
-                        "suppress_fields": "src",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, query",
+                    "rule_description": "A DNS TXT record response of over 100 characters was detected.",
+                    "rule_title": "Long DNS TXT Record Response"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 70
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Resolution where DNS.message_type=response AND DNS.record_type=TXT by DNS.src DNS.dest DNS.answer DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval anslen=len(answer) | search anslen>100 | `ctime(firstTime)` | `ctime(lastTime)` | rename src as \"Source IP\", dest as \"Destination IP\", answer as \"DNS Answer\" anslen as \"Answer Length\" record_type as \"DNS Record Type\" firstTime as \"First Time\" lastTime as \"Last Time\" count as Count | table \"Source IP\" \"Destination IP\" \"DNS Answer\" \"DNS Record Type\"  \"Answer Length\" Count \"First Time\" \"Last Time\""
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Resolution where DNS.message_type=response AND DNS.record_type=TXT by DNS.src DNS.dest DNS.answer DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval anslen=len(answer) | search anslen>100 | `ctime(firstTime)` | `ctime(lastTime)` | rename src as \"Source IP\", dest as \"Destination IP\", answer as \"DNS Answer\" anslen as \"Answer Length\" record_type as \"DNS Record Type\" firstTime as \"First Time\" lastTime as \"Last Time\" count as Count | table \"Source IP\" \"Destination IP\" \"DNS Answer\" \"DNS Record Type\"  \"Answer Length\" Count \"First Time\" \"Last Time\"",
+                "suppress": {
+                    "suppress_fields": "src",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search uses the Network_Resolution data model and gathers all the answers to DNS queries for TXT records. The query then looks at the answer section and calculates the length of the answer. The search will then return information for those responses that exceed 100 characters in length.",

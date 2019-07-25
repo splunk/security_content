@@ -52,36 +52,30 @@
     "description": "The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, or system event logs.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process, user",
-                        "rule_description": "wevtutil is the windows event log tool. This searches for wevtutil clearing the security or system logs.",
-                        "rule_title": "Suspicious wevtutil Usage"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,process",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process, user",
+                    "rule_description": "wevtutil is the windows event log tool. This searches for wevtutil clearing the security or system logs.",
+                    "rule_title": "Suspicious wevtutil Usage"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = wevtutil.exe Processes.process=\"*cl*\" (Processes.process=\"*System*\" OR Processes.process=\"*Security*\" OR Processes.process=\"*Setup*\" OR Processes.process=\"*Application*\") by Processes.process_name Processes.parent_process_name Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `ctime(firstTime)` |`ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = wevtutil.exe Processes.process=\"*cl*\" (Processes.process=\"*System*\" OR Processes.process=\"*Security*\" OR Processes.process=\"*Setup*\" OR Processes.process=\"*Application*\") by Processes.process_name Processes.parent_process_name Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `ctime(firstTime)` |`ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest,process",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for execution of wevtutil.exe with command-line arguments that indicate that it has been used to delete the setup, application, security, or system event logs. The search returns the number of times the behavior was observed, the first and last time it was seen, the host exhibiting the behavior and the user context of the process execution.",

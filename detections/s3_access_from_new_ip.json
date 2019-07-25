@@ -28,36 +28,30 @@
     "description": "This search looks at S3 bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed an S3 bucket.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "bucket_name, src_ip",
-                        "rule_description": "A remote IP, $src_ip$, has made a successful connection with an S3 $bucket_name$.",
-                        "rule_title": "S3 bucket $bucketName$ was accessed by a new $src_ip$"
-                    },
-                    "risk": {
-                        "risk_object": "src_ip",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 20
-                    },
-                    "suppress": {
-                        "suppress_fields": "bucket_name, src_ip",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "bucket_name, src_ip",
+                    "rule_description": "A remote IP, $src_ip$, has made a successful connection with an S3 $bucket_name$.",
+                    "rule_title": "S3 bucket $bucketName$ was accessed by a new $src_ip$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "5 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src_ip",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 20
                 },
-                {
-                    "search": "sourcetype=aws:s3:accesslogs http_status=200  [search sourcetype=aws:s3:accesslogs http_status=200 | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip | inputlookup append=t previously_seen_S3_access_from_remote_ip.csv | stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip.csv | eval newIP=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newIP=1 | convert ctime(firstTime) ctime(lastTime) | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip | table _time bucket_name src_ip City Country operation request_uri"
+                "schedule": {
+                    "cron_schedule": "5 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:s3:accesslogs http_status=200  [search sourcetype=aws:s3:accesslogs http_status=200 | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip | inputlookup append=t previously_seen_S3_access_from_remote_ip.csv | stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip.csv | eval newIP=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newIP=1 | convert ctime(firstTime) ctime(lastTime) | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip | table _time bucket_name src_ip City Country operation request_uri",
+                "suppress": {
+                    "suppress_fields": "bucket_name, src_ip",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Here the subsearch executes first and returns all successful S3 bucket-access attempts (HTTP code \"200\") within the last hour. It groups the results by the earliest and latest times it has seen a remote IP accessing a particular bucket. It appends this information to the historical data from the lookup file and then recalculates the <code>firstTime</code> and <code>lastTime</code> field for each remote IP accessing an S3 bucket. Next, it returns only those remote IP addresses that have first been seen accessing a specific bucket within the past hour. This is combined with the main search to return the time, bucket name, source IP, city, and country operations performed, as well as the requested URI of the resource ",

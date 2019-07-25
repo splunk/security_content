@@ -18,23 +18,17 @@
     "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
     "id": "5df39b3f-447d-4869-b673-8f45ad4616fe",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "src_user"
-                ]
+        "splunk": {
+            "fields_required": [
+                "src_user"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 86400,
+                "latest_time_offset": 86400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 86400,
-                    "latest_time_offset": 86400
-                }
-            },
-            {
-                "search": "| from datamodel Email.All_Email | search src_user={src_user}"
-            }
-        ]
+            "search": "| from datamodel Email.All_Email | search src_user={src_user}"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

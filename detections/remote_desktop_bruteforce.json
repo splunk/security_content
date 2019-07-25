@@ -44,36 +44,30 @@
     "description": "This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, src",
-                        "rule_description": "Remote-desktop traffic detected from $src$ to $dest$. This activity is consistent with a brute-force attack.",
-                        "rule_title": "Bruteforce Remote Desktop Network Traffic detected from $src$ to $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 75
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,src",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, src",
+                    "rule_description": "Remote-desktop traffic detected from $src$ to $dest$. This activity is consistent with a brute-force attack.",
+                    "rule_title": "Bruteforce Remote Desktop Network Traffic detected from $src$ to $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 75
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev avg(count) AS avg p50(count) AS p50| where count>(stdev*2) | rename All_Traffic.src AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count avg p50 stdev"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev avg(count) AS avg p50(count) AS p50| where count>(stdev*2) | rename All_Traffic.src AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count avg p50 stdev",
+                "suppress": {
+                    "suppress_fields": "dest,src",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search monitors for abnormal amounts of remote-desktop (RDP) traffic from a source to a destination that may be indicative of a brute-force attack. It does this by filtering out RDP traffic from the Network_Traffic.All_Traffic data model, using twice the standard deviation of all source-to-destination connections. If any tuple is within more than two standard deviations of all other usual RDP traffic flows, it is indicative of a brute-force attack.",

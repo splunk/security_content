@@ -19,24 +19,18 @@
     "how_to_implement": "To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate events for WMI activity. In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.",
     "id": "155e0571-7db6-42f2-aa62-9a3a4cf35c94",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "process",
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "process",
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 7200,
+                "latest_time_offset": 7200
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 7200,
-                    "latest_time_offset": 7200
-                }
-            },
-            {
-                "search": "sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode>18 EventCode<22 host={dest} | rename host as dest | table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter"
-            }
-        ]
+            "search": "sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode>18 EventCode<22 host={dest} | rename host as dest | table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter"
+        }
     },
     "maintainers": [
         {
@@ -55,5 +49,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -18,36 +18,30 @@
     "description": "This search is used to identify the creation of multiple user accounts using the same email domain name.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src_user",
-                        "rule_description": "This search is used to identify multiple created accounts tied to a specific email domain. Such activity is often indicative of account harvesting. A list of $src_user$ accounts were created.",
-                        "rule_title": "Web Fraud Detection: Possible Account Harvesting"
-                    },
-                    "risk": {
-                        "risk_object": "src_user",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "user",
-                        "suppress_period": "3600s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src_user",
+                    "rule_description": "This search is used to identify multiple created accounts tied to a specific email domain. Such activity is often indicative of account harvesting. A list of $src_user$ accounts were created.",
+                    "rule_title": "Web Fraud Detection: Possible Account Harvesting"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 1 * * *",
-                        "earliest_time": "-1445m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src_user",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "sourcetype=stream:http http_content_type=text* uri=\"/magento2/customer/account/loginPost/\" | rex field=cookie \"form_key=(?<SessionID>\\w+)\" | rex field=form_data \"login\\[username\\]=(?<Username>[^&|^$]+)\" | search Username=* | rex field=Username \"@(?<email_domain>.*)\"|stats dc(Username) as UniqueUsernames list(Username) as src_user by email_domain|where UniqueUsernames> 25"
+                "schedule": {
+                    "cron_schedule": "0 1 * * *",
+                    "earliest_time": "-1445m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=stream:http http_content_type=text* uri=\"/magento2/customer/account/loginPost/\" | rex field=cookie \"form_key=(?<SessionID>\\w+)\" | rex field=form_data \"login\\[username\\]=(?<Username>[^&|^$]+)\" | search Username=* | rex field=Username \"@(?<email_domain>.*)\"|stats dc(Username) as UniqueUsernames list(Username) as src_user by email_domain|where UniqueUsernames> 25",
+                "suppress": {
+                    "suppress_fields": "user",
+                    "suppress_period": "3600s"
                 }
-            ]
+            }
         }
     },
     "eli5": "When a fraudster is setting the stage for a campaign, they will often create many user accounts on the website. This is a simple example of how to detect a many-account creation hosted on a Magento2 e-commerce platform, where the fraudster is using email addresses from a single email domain.",

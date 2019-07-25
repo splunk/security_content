@@ -23,24 +23,18 @@
     "how_to_implement": "You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
     "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "process_name",
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "process_name",
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 0,
+                "latest_time_offset": 86400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 0,
-                    "latest_time_offset": 86400
-                }
-            },
-            {
-                "search": "| tstats `summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name = {process_name} Processes.dest = {dest} by Processes.user Processes.parent_process_name  Processes.process_name  | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`| `ctime(lastTime)`"
-            }
-        ]
+            "search": "| tstats `summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name = {process_name} Processes.dest = {dest} by Processes.user Processes.parent_process_name  Processes.process_name  | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`| `ctime(lastTime)`"
+        }
     },
     "maintainers": [
         {
@@ -59,5 +53,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "2.0"
 }

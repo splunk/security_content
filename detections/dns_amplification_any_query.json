@@ -17,36 +17,30 @@
     "description": "The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest",
-                        "rule_description": "The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.",
-                        "rule_title": "Large Volume of DNS ANY Queries"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 60
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "7200s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest",
+                    "rule_description": "The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.",
+                    "rule_title": "Large Volume of DNS ANY Queries"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "*/5 * * * *",
-                        "earliest_time": "-15m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 60
                 },
-                {
-                    "search": "| tstats `summariesonly` count from datamodel=Network_Resolution where nodename=DNS \"DNS.message_type\"=\"QUERY\" \"DNS.record_type\"=\"ANY\" by \"DNS.dest\" | `drop_dm_object_name(\"DNS\")` | where count>200"
+                "schedule": {
+                    "cron_schedule": "*/5 * * * *",
+                    "earliest_time": "-15m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count from datamodel=Network_Resolution where nodename=DNS \"DNS.message_type\"=\"QUERY\" \"DNS.record_type\"=\"ANY\" by \"DNS.dest\" | `drop_dm_object_name(\"DNS\")` | where count>200",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "7200s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search counts the number of DNS ANY queries received in 5 minutes, and generates a Notable Event if the count exceeds a predefined threshold. The search returns the count, the first time, and the last time a DNS packet was observed with the ANY flag set.",

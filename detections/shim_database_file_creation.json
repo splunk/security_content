@@ -18,36 +18,30 @@
     "description": "This search looks for shim database files being written to default directories. The sdbinst.exe application is used to install shim database files (.sdb). According to Microsoft, a shim is a small library that transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, file_name",
-                        "rule_description": "A file, $file_name$, was created in the default shim database directory on $dest.",
-                        "rule_title": "Shim database file created on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 20
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, file_name",
+                    "rule_description": "A file, $file_name$, was created in the default shim database directory on $dest.",
+                    "rule_title": "Shim database file created on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 20
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Filesystem.action) values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*Windows\\AppPatch\\Custom* by Filesystem.file_name Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` |`drop_dm_object_name(Filesystem)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Filesystem.action) values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*Windows\\AppPatch\\Custom* by Filesystem.file_name Filesystem.dest | `ctime(lastTime)` | `ctime(firstTime)` |`drop_dm_object_name(Filesystem)`",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for files being created in <code>Windows\\AppPatch\\Custom and Windows\\AppPatch\\Custom64</code>, the location where shim databases are installed. It will return all the files created, as well as the time of creation for the first and last file for each endpoint.",

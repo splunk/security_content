@@ -16,36 +16,30 @@
     "description": "This search detects user accounts that have been locked out a relatively high number of times in a short period.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user",
-                        "rule_description": "The account $user$ has been locked out an excessive number of times",
-                        "rule_title": "$user$ locked account an excessive number of times"
-                    },
-                    "risk": {
-                        "risk_object": "user",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "user",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user",
+                    "rule_description": "The account $user$ has been locked out an excessive number of times",
+                    "rule_title": "$user$ locked account an excessive number of times"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-4h@h",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management All_Changes.result=\"lockout\" by All_Changes.user All_Changes.result |`drop_dm_object_name(\"All_Changes\")` |`drop_dm_object_name(\"Account_Management\")`| `ctime(firstTime)` | `ctime(lastTime)` | search count > 5"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-4h@h",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management All_Changes.result=\"lockout\" by All_Changes.user All_Changes.result |`drop_dm_object_name(\"All_Changes\")` |`drop_dm_object_name(\"Account_Management\")`| `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
+                "suppress": {
+                    "suppress_fields": "user",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search queries the `Change.All_Changes` datamodel under the nodename is `Account_Management` , where the result is \"lockout\", which indicates that an account has been locked out. It then counts the number of times a user  has caused an account lockout within a four hour window and displays those users with a count greater than or equal to five.",

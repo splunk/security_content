@@ -20,36 +20,30 @@
     "description": "This search looks for PowerShell processes started with a base64 encoded command-line passed to it, with parameters to modify the execution policy for the process, and those that prevent the display of an interactive prompt to the user. This combination of command-line options is suspicious because it overrides the default PowerShell execution policy, attempts to hide itself from the user, and passes an encoded script to be run on the command-line.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process, process_name",
-                        "rule_description": "The system $dest$ executed a PowerShell that had an encoded command on the command-line, attempted to bypass local execution policy, and prevented the display of an interactive prompt to the user.",
-                        "rule_title": "PowerShell process with multiple suspicious command-line arguments detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 60
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, process_name",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process, process_name",
+                    "rule_description": "The system $dest$ executed a PowerShell that had an encoded command on the command-line, attempted to bypass local execution policy, and prevented the display of an interactive prompt to the user.",
+                    "rule_title": "PowerShell process with multiple suspicious command-line arguments detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "50 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 60
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| search (process=*-EncodedCommand* OR process=*-enc*) process=*-Exec* AND process=*-NonI*"
+                "schedule": {
+                    "cron_schedule": "50 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| search (process=*-EncodedCommand* OR process=*-enc*) process=*-Exec* AND process=*-NonI*",
+                "suppress": {
+                    "suppress_fields": "dest, process_name",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for PowerShell processes that have a number of suspicious flags on the command-line. It is looking for flags are passing encoded commands on the command-line. The flags <code>-EncodedCommand</code> and <code>-enc</code> are two different possible flags that can be used to pass base64 encoded commands to PowerShell. The <code>*-Exec*</code> flag looks to see it the default execution policy of PowerShell is being overridden, while the <code>*-NonI*</code> flag tells the PowerShell process that this will be a noninteractive process, so the user doesn't know about the process. This search will return the host, the user the process ran under, the process and it's command-line arguments, the number of times it's seen this process, and the first and last times it saw this process.",

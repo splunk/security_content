@@ -20,23 +20,17 @@
     "how_to_implement": "To successfully implement this search, you must be ingesting the logs from your DHCP server.",
     "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd33",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "src_mac"
-                ]
+        "splunk": {
+            "fields_required": [
+                "src_mac"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 864000,
+                "latest_time_offset": 86400
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 864000,
-                    "latest_time_offset": 86400
-                }
-            },
-            {
-                "search": "| tstats allow_old_summaries=true count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST All_Sessions.All_Sessions.src_mac= {src_mac} by All_Sessions.src_ip All_Sessions.user | `ctime(lastTime)` | `ctime(firstTime)`"
-            }
-        ]
+            "search": "| tstats allow_old_summaries=true count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST All_Sessions.All_Sessions.src_mac= {src_mac} by All_Sessions.src_ip All_Sessions.user | `ctime(lastTime)` | `ctime(firstTime)`"
+        }
     },
     "maintainers": [
         {
@@ -55,5 +49,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

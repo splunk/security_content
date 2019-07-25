@@ -18,23 +18,17 @@
     "how_to_implement": "Enable the correlation searches included in Splunk Enterprise Security that include Risk Analysis alert actions by leveraging the Risk Analysis Framework",
     "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "user"
-                ]
+        "splunk": {
+            "fields_required": [
+                "user"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 604800,
+                "latest_time_offset": 0
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 604800,
-                    "latest_time_offset": 0
-                }
-            },
-            {
-                "search": "| from datamodel:Risk.All_Risk | search risk_object_type=user risk_object={user} | stats count sum(risk_score) as risk_score values(search_name)  min(_time) as firstTime max(_time) as lastTime by risk_object |`ctime(firstTime)` |`ctime(lastTime)` "
-            }
-        ]
+            "search": "| from datamodel:Risk.All_Risk | search risk_object_type=user risk_object={user} | stats count sum(risk_score) as risk_score values(search_name)  min(_time) as firstTime max(_time) as lastTime by risk_object |`ctime(firstTime)` |`ctime(lastTime)` "
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

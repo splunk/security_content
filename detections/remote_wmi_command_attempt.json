@@ -20,36 +20,30 @@
     "description": "This search looks for wmic.exe being launched with parameters to operate on remote systems.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest,user,process_name",
-                        "rule_description": "This search looks for wmic.exe being launched with parameters to operate on remote systems.",
-                        "rule_title": "Endpoint - Remote WMI command attempt"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,user,process_name",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest,user,process_name",
+                    "rule_description": "This search looks for wmic.exe being launched with parameters to operate on remote systems.",
+                    "rule_title": "Endpoint - Remote WMI command attempt"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "50 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wmic.exe  AND Processes.process= */node* by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "50 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wmic.exe  AND Processes.process= */node* by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest,user,process_name",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Many a times, attackers leverage native Windows utilities that are designed to help administrators better manage their systems, infrastructure, and auditing, but are instead leveraged for malicious purposes. In this case, we are looking for instances of wmic.exe being run with various parameters that are not typically used by administrators.",

@@ -23,36 +23,30 @@
     "description": "This search looks for EC2 instances being modified by users who have not previously modified them.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user, dest",
-                        "rule_description": "The EC2 instance $dest$ was modified by $user$. This user has never modified an EC2 instance before.",
-                        "rule_title": "EC2 Instance Modified By Previously Unseen User $user$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "user, dest",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user, dest",
+                    "rule_description": "The EC2 instance $dest$ was modified by $user$. This user has never modified an EC2 instance before.",
+                    "rule_title": "EC2 Instance Modified By Previously Unseen User $user$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail `ec2ModificationAPIs` [search sourcetype=aws:cloudtrail `ec2ModificationAPIs` errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_modifications_by_user | stats min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup previously_seen_ec2_modifications_by_user | eval newUser=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newUser=1 | `ctime(firstTime)` | `ctime(lastTime)` | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=dest responseElements.instancesSet.items{}.instanceId | spath output=user userIdentity.arn | table _time, user, dest"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail `ec2ModificationAPIs` [search sourcetype=aws:cloudtrail `ec2ModificationAPIs` errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_modifications_by_user | stats min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup previously_seen_ec2_modifications_by_user | eval newUser=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where newUser=1 | `ctime(firstTime)` | `ctime(lastTime)` | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=dest responseElements.instancesSet.items{}.instanceId | spath output=user userIdentity.arn | table _time, user, dest",
+                "suppress": {
+                    "suppress_fields": "user, dest",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The subsearch returns the ARNs of all successful EC2 instance modifications within the last hour and then appends the historical data in the lookup file to those results. EC2 modification APIs are defined by the macro <code>ec2ModificationAPIs</code>. The search then recalculates the <code>firstTime</code> and <code>lastTime</code> field for each ARN and returns only those ARNs that have first been seen in the past hour. This is combined with the main search to return the time, user, and instance ID of those systems.",

@@ -37,36 +37,30 @@
     "description": "This search looks for the creation or deletion of hidden shares using net.exe.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest,process_name",
-                        "rule_description": "Net.exe was used to create or delete hidden network shares by $user$ on $dest$",
-                        "rule_title": "Hidden File shares created/deleted on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,process_name",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest,process_name",
+                    "rule_description": "Net.exe was used to create or delete hidden network shares by $user$ on $dest$",
+                    "rule_title": "Hidden File shares created/deleted on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "5 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search (process=*share* OR process=*delete*)| regex process=\"\\S+[$]\""
+                "schedule": {
+                    "cron_schedule": "5 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search (process=*share* OR process=*delete*)| regex process=\"\\S+[$]\"",
+                "suppress": {
+                    "suppress_fields": "dest,process_name",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Net.exe is a built-in command-line tool on Windows that can be used to create, delete, and manage shared resources on the computer, both locally and remotely. Though this tool is used by Microsoft administrators to manage the network shares, attackers also leverage it to create and delete hidden file shares by appending \"$\" after the name of the share. To look for hidden shares, use a regular expression to look for a <code>(name_file_share)$</code>. In this search, we are looking for the command-line execution of net.exe with command-line parameters such as <code>net</code>, <code>share</code>, or <code>delete</code> that may correspond to the creation of hidden shares",

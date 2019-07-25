@@ -16,36 +16,30 @@
     "description": "This search looks for ColdRoot events from the osx-attacks osquery pack.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "host, user",
-                        "rule_description": "Host $host$ generated an alert for the macOS RAT ColdRoot",
-                        "rule_title": "Osquery ColdRoot alert for $host$"
-                    },
-                    "risk": {
-                        "risk_object": "host",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "host",
-                        "suppress_period": "3600s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "host, user",
+                    "rule_description": "Host $host$ generated an alert for the macOS RAT ColdRoot",
+                    "rule_title": "Osquery ColdRoot alert for $host$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "host",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| from datamodel Alerts.Alerts | search app=osquery:results (name=pack_osx-attacks_OSX_ColdRoot_RAT_Launchd OR name=pack_osx-attacks_OSX_ColdRoot_RAT_Files) | rename columns.path as path | bucket _time span=30s | stats count(path) by _time, host, user, path"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| from datamodel Alerts.Alerts | search app=osquery:results (name=pack_osx-attacks_OSX_ColdRoot_RAT_Launchd OR name=pack_osx-attacks_OSX_ColdRoot_RAT_Files) | rename columns.path as path | bucket _time span=30s | stats count(path) by _time, host, user, path",
+                "suppress": {
+                    "suppress_fields": "host",
+                    "suppress_period": "3600s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The search looks at the Alerts data model to identify those  generated from the osquery osx-attacks.conf pack, which search for the ColdRoot RAT.",

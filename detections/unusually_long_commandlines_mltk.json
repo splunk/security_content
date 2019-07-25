@@ -77,36 +77,30 @@
     "description": "Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process, user",
-                        "rule_description": "An unusually long command line $cmdline$ was found on $dest$",
-                        "rule_title": "Unusually Long Command Line on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,user,process",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process, user",
+                    "rule_description": "An unusually long command line $cmdline$ was found on $dest$",
+                    "rule_title": "Unusually Long Command Line on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as start_time max(_time) as end_time FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | search user!=unknown | apply cmdline_pdfmodel threshold=0.01 | rename \"IsOutlier(processlen)\" as isOutlier | search isOutlier > 0 | table start_time end_time user dest process_name process processlen count"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as start_time max(_time) as end_time FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | search user!=unknown | apply cmdline_pdfmodel threshold=0.01 | rename \"IsOutlier(processlen)\" as isOutlier | search isOutlier > 0 | table start_time end_time user dest process_name process processlen count",
+                "suppress": {
+                    "suppress_fields": "dest,user,process",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search leverages the Machine Learning Toolkit (MLTK) to identify outliers in the length of the command lines observed to be used by a specific user. The companion search, \"Baseline of Command Line Length - MLTK,\" creates a machine-learning (ML) model built over the historical data used by this search. The determination of what is considered an outlier may be adjusted via the threshold parameter in the search. More information on the algorithm used can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.",

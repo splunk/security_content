@@ -38,36 +38,30 @@
     "description": "This search looks for EC2 instances being created with previously unseen instance types.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "instanceType",
-                        "rule_description": "The EC2 instance type $instanceType$ was used for the first time to create $dest$.",
-                        "rule_title": "New EC2 Instance Type $instanceType$ detected"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "instanceType",
+                    "rule_description": "The EC2 instance type $instanceType$ was used for the first time to create $dest$.",
+                    "rule_title": "New EC2 Instance Type $instanceType$ detected"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | fillnull value=\"m1.small\" requestParameters.instanceType | stats earliest(_time) as earliest latest(_time) as latest by requestParameters.instanceType | rename requestParameters.instanceType as instanceType | inputlookup append=t previously_seen_ec2_instance_types.csv | stats min(earliest) as earliest max(latest) as latest by instanceType | outputlookup previously_seen_ec2_instance_types.csv | eval newType=if(earliest >= relative_time(now(), \"-70m@m\"), 1, 0) | convert ctime(earliest) ctime(latest) | where newType=1 | rename instanceType as requestParameters.instanceType | table requestParameters.instanceType] | spath output=user userIdentity.arn | rename requestParameters.instanceType as instanceType, responseElements.instancesSet.items{}.instanceId as dest | table _time, user, dest, instanceType"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | fillnull value=\"m1.small\" requestParameters.instanceType | stats earliest(_time) as earliest latest(_time) as latest by requestParameters.instanceType | rename requestParameters.instanceType as instanceType | inputlookup append=t previously_seen_ec2_instance_types.csv | stats min(earliest) as earliest max(latest) as latest by instanceType | outputlookup previously_seen_ec2_instance_types.csv | eval newType=if(earliest >= relative_time(now(), \"-70m@m\"), 1, 0) | convert ctime(earliest) ctime(latest) | where newType=1 | rename instanceType as requestParameters.instanceType | table requestParameters.instanceType] | spath output=user userIdentity.arn | rename requestParameters.instanceType as instanceType, responseElements.instancesSet.items{}.instanceId as dest | table _time, user, dest, instanceType",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The subsearch returns the instance types of all successful EC2 instance launches within the last hour and then appends the historical data in the lookup file to those results.  It then recalculates the earliest seen time field for each instance type and returns only those instance types that has first been seen in the past hour.  This is combined with the main search to return the time, user, and instance id of those systems.",

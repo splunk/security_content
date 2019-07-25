@@ -18,36 +18,30 @@
     "description": "This search looks for registry activity associated with modifications to the registry key <code>HKLM\\SYSTEM\\CurrentControlSet\\Control\\Print\\Monitors</code>. In this scenario, an attacker can load an arbitrary .dll into the print-monitor registry by giving the full path name to the after.dll. The system will execute the .dll with elevated (SYSTEM) permissions and will persist after reboot.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, registry_path",
-                        "rule_description": "A registry key associated with adding print monitors can potentially be misused by giving it a path of a malicious .dll in the registry.",
-                        "rule_title": "Registry Key changes for Print Monitors detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, registry_path",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, registry_path",
+                    "rule_description": "A registry key associated with adding print monitors can potentially be misused by giving it a path of a malicious .dll in the registry.",
+                    "rule_title": "Registry Key changes for Print Monitors detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND Registry.registry_path=\"*CurrentControlSet\\\\Control\\\\Print\\\\Monitors*\" by Registry.dest, Registry.registry_key_name Registry.status Registry.user Registry.registry_path Registry.action | `drop_dm_object_name(Registry)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND Registry.registry_path=\"*CurrentControlSet\\\\Control\\\\Print\\\\Monitors*\" by Registry.dest, Registry.registry_key_name Registry.status Registry.user Registry.registry_path Registry.action | `drop_dm_object_name(Registry)`",
+                "suppress": {
+                    "suppress_fields": "dest, registry_path",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "In this search, we look for modifications to registry keys used for adding print-monitor entries on Microsoft platforms via the <code>registry_path</code> field in the endpoint data model. It then provides the destination, command used to initiate the change, the user who conducted this activity, the resource affected (registry_key_name), and the entire path of the registry.",

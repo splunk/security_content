@@ -17,36 +17,30 @@
     "description": "This search looks for cleartext protocols at risk of leaking credentials. Currently, this consists of legacy protocols such as telnet, POP3, IMAP, and non-anonymous FTP sessions. While some of these protocols can be used over SSL, they typically run on different assigned ports in those cases.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, dest, user",
-                        "rule_description": "This search looks for the use of cleartext protocols that are known to pass authentication information in the clear. The cleartext credentials are typically passed at the beginning of the session.",
-                        "rule_title": "Possible credential leak over cleartext protocol"
-                    },
-                    "risk": {
-                        "risk_object": "user",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 60
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, dest, user",
+                    "rule_description": "This search looks for the use of cleartext protocols that are known to pass authentication information in the clear. The cleartext credentials are typically passed at the beginning of the session.",
+                    "rule_title": "Possible credential leak over cleartext protocol"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 60
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.protocol=\"tcp\" AND (All_Traffic.dest_port=\"23\" OR All_Traffic.dest_port=\"143\" OR All_Traffic.dest_port=\"110\" OR (All_Traffic.dest_port=\"21\" AND All_Traffic.user != \"anonymous\")) groupby All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Traffic\")`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.protocol=\"tcp\" AND (All_Traffic.dest_port=\"23\" OR All_Traffic.dest_port=\"143\" OR All_Traffic.dest_port=\"110\" OR (All_Traffic.dest_port=\"21\" AND All_Traffic.user != \"anonymous\")) groupby All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Traffic\")`",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search is checking for traffic on well-known ports that are associated with protocols that pass authentication in cleartext.",

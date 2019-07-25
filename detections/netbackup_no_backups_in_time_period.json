@@ -28,36 +28,30 @@
     "description": "This search returns a list of hosts that have not successfully completed a backup in over a week.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest",
-                        "rule_description": "The system $dest$ has not had a successful backup for an extended period.",
-                        "rule_title": "Extended period of no successful backups by $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 10
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest",
+                    "rule_description": "The system $dest$ has not had a successful backup for an extended period.",
+                    "rule_title": "Extended period of no successful backups by $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 0 1 * *",
-                        "earliest_time": "-7d@d",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 10
                 },
-                {
-                    "search": "sourcetype=\"netbackup_logs\" MESSAGE=\"Disk/Partition backup completed successfully.\" | stats latest(_time) as latestTime by COMPUTERNAME | `ctime(latestTime)` | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(), \"-7d@d\"), 1, 0) | search isOutlier=1 | table latestTime, dest"
+                "schedule": {
+                    "cron_schedule": "0 0 1 * *",
+                    "earliest_time": "-7d@d",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=\"netbackup_logs\" MESSAGE=\"Disk/Partition backup completed successfully.\" | stats latest(_time) as latestTime by COMPUTERNAME | `ctime(latestTime)` | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(), \"-7d@d\"), 1, 0) | search isOutlier=1 | table latestTime, dest",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search finds all the successful backup messages in your logs, and then looks for the most recent backup time for each system. It then identifies those systems where the most recent successful backup time is over a week ago, and reports on them.",

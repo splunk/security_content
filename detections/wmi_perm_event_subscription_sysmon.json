@@ -16,36 +16,30 @@
     "description": "This search looks for the creation of WMI permanent event subscriptions.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user",
-                        "rule_description": "This search looks for the creation of a permanent WMI event subscription via Sysmon logs.",
-                        "rule_title": "WMI Event Subscription Detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 70
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,user",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user",
+                    "rule_description": "This search looks for the creation of a permanent WMI event subscription via Sysmon logs.",
+                    "rule_title": "WMI Event Subscription Detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 70
                 },
-                {
-                    "search": "sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=21 | rename host as dest | table _time, dest, user, Operation, EventType, Query, Consumer, Filter"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=\"XmlWinEventLog:Microsoft-Windows-Sysmon/Operational\" EventCode=21 | rename host as dest | table _time, dest, user, Operation, EventType, Query, Consumer, Filter",
+                "suppress": {
+                    "suppress_fields": "dest,user",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Attackers are increasingly abusing Windows Management Infrastructure (WMI) for stealth, persistence, lateral movement, or just to leverage its functionality. This search looks for the creation of a WMI event subscription by watching for Sysmon event ID 21.",

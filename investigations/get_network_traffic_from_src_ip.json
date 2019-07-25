@@ -20,23 +20,17 @@
     "how_to_implement": "To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.",
     "id": "9df9ca9c-a02b-4f48-9eba-0bac55179050",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "src_ip"
-                ]
+        "splunk": {
+            "fields_required": [
+                "src_ip"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 3600,
+                "latest_time_offset": 3600
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 3600,
-                    "latest_time_offset": 3600
-                }
-            },
-            {
-                "search": "| from datamodel Network_Traffic.All_Traffic | search src_ip={src_ip}"
-            }
-        ]
+            "search": "| from datamodel Network_Traffic.All_Traffic | search src_ip={src_ip}"
+        }
     },
     "maintainers": [
         {
@@ -55,5 +49,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

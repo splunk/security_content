@@ -20,36 +20,30 @@
     "description": "Attempt to add a certificate to the untrusted certificate store",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process_name",
-                        "rule_description": "Attempt to add a certificate to the untrusted certificate store",
-                        "rule_title": "Attempt To Add Certificate to Untrusted Store"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "process, dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process_name",
+                    "rule_description": "Attempt to add a certificate to the untrusted certificate store",
+                    "rule_title": "Attempt To Add Certificate to Untrusted Store"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe (Processes.process=*-addstore* AND Processes.process=*disallowed* ) by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe (Processes.process=*-addstore* AND Processes.process=*disallowed* ) by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "process, dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Attackers will often attempt to disable security tools in order to evade detection. It is also possible for end users to attempt to disable anti-virus or other security tools to circumvent restrictions they encounter while trying to execute other programs. One way malware may accomplish this is by adding the legitimate certificate used to sign the security software to the untrusted certificate store. This will cause the system to no longer trust the software signed with this certificate and disallow it from executing. This search simply looks for the execution of <b>certutil.exe</b> with the parameters <code>-addcert</code> and <code>disallowed</code>, which add a certification to the \"untrusted\" certificate store.",

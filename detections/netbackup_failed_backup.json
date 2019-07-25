@@ -28,36 +28,30 @@
     "description": "This search gives you the hosts where a backup was attempted and then failed.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest",
-                        "rule_description": "The system $dest$ attempted a backup but encountered an error.",
-                        "rule_title": "Failed backup attempt by $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 10
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest",
+                    "rule_description": "The system $dest$ attempted a backup but encountered an error.",
+                    "rule_title": "Failed backup attempt by $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 7 * * *",
-                        "earliest_time": "-24h@h",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 10
                 },
-                {
-                    "search": "sourcetype=\"netbackup_logs\" | stats latest(_time) as latestTime by COMPUTERNAME, MESSAGE | search MESSAGE=\"An error occurred, failed to backup.\" | `ctime(latestTime)` | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest, signature"
+                "schedule": {
+                    "cron_schedule": "0 7 * * *",
+                    "earliest_time": "-24h@h",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=\"netbackup_logs\" | stats latest(_time) as latestTime by COMPUTERNAME, MESSAGE | search MESSAGE=\"An error occurred, failed to backup.\" | `ctime(latestTime)` | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest, signature",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks across the most recent backup events for each host, and returns those messages that indicate there was a backup failure.",

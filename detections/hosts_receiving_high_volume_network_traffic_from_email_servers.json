@@ -17,36 +17,30 @@
     "description": "This search looks for an increase of data transfers from your email server to your clients. This could be indicative of a malicious actor collecting data using your email server.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src_ip",
-                        "rule_description": "$src_ip$ receiving high volume of traffic that originated from an email server",
-                        "rule_title": "High volume traffic from email server received by $src_ip$"
-                    },
-                    "risk": {
-                        "risk_object": "src_ip",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "src_ip",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src_ip",
+                    "rule_description": "$src_ip$ receiving high volume of traffic that originated from an email server",
+                    "rule_title": "High volume traffic from email server received by $src_ip$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 0 * * *",
-                        "earliest_time": "-30d@d",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src_ip",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` sum(All_Traffic.bytes_in) as bytes_in from datamodel=Network_Traffic where All_Traffic.dest_category=email_server by All_Traffic.src_ip _time span=1d | `drop_dm_object_name(\"All_Traffic\")` | eventstats avg(bytes_in) as avg_bytes_in stdev(bytes_in) as stdev_bytes_in | eventstats count as num_data_samples avg(eval(if(_time < relative_time(now(), \"@d\"), bytes_in, null))) as per_source_avg_bytes_in stdev(eval(if(_time < relative_time(now(), \"@d\"), bytes_in, null))) as per_source_stdev_bytes_in by src_ip | eval minimum_data_samples = 4, deviation_threshold = 3 | where num_data_samples >= minimum_data_samples AND bytes_in > (avg_bytes_in + (deviation_threshold * stdev_bytes_in)) AND bytes_in > (per_source_avg_bytes_in + (deviation_threshold * per_source_stdev_bytes_in)) AND _time >= relative_time(now(), \"@d\") | eval num_standard_deviations_away_from_server_average = round(abs(bytes_in - avg_bytes_in) / stdev_bytes_in, 2), num_standard_deviations_away_from_client_average = round(abs(bytes_in - per_source_avg_bytes_in) / per_source_stdev_bytes_in, 2) | table src_ip, _time, bytes_in, avg_bytes_in, per_source_avg_bytes_in, num_standard_deviations_away_from_server_average, num_standard_deviations_away_from_client_average"
+                "schedule": {
+                    "cron_schedule": "0 0 * * *",
+                    "earliest_time": "-30d@d",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` sum(All_Traffic.bytes_in) as bytes_in from datamodel=Network_Traffic where All_Traffic.dest_category=email_server by All_Traffic.src_ip _time span=1d | `drop_dm_object_name(\"All_Traffic\")` | eventstats avg(bytes_in) as avg_bytes_in stdev(bytes_in) as stdev_bytes_in | eventstats count as num_data_samples avg(eval(if(_time < relative_time(now(), \"@d\"), bytes_in, null))) as per_source_avg_bytes_in stdev(eval(if(_time < relative_time(now(), \"@d\"), bytes_in, null))) as per_source_stdev_bytes_in by src_ip | eval minimum_data_samples = 4, deviation_threshold = 3 | where num_data_samples >= minimum_data_samples AND bytes_in > (avg_bytes_in + (deviation_threshold * stdev_bytes_in)) AND bytes_in > (per_source_avg_bytes_in + (deviation_threshold * per_source_stdev_bytes_in)) AND _time >= relative_time(now(), \"@d\") | eval num_standard_deviations_away_from_server_average = round(abs(bytes_in - avg_bytes_in) / stdev_bytes_in, 2), num_standard_deviations_away_from_client_average = round(abs(bytes_in - per_source_avg_bytes_in) / per_source_stdev_bytes_in, 2) | table src_ip, _time, bytes_in, avg_bytes_in, per_source_avg_bytes_in, num_standard_deviations_away_from_server_average, num_standard_deviations_away_from_client_average",
+                "suppress": {
+                    "suppress_fields": "src_ip",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search may look complex, but it's a neat representation of how statistics can help you understand your dataset to bubble up events that are not normal compared to its behavior. The search consists of three parts. The first part of the SPL fetches the data you want to work on. In this search, we calculate the sum of bytes sent and bytes_out from systems categorized as email_server to each host. We then calculate the average and standard deviation for the bytes sent to all the hosts combined and on a per-host basis. Then we set threshold values to deviation_threshold and minimum_data_samples using eval statements. The \"deviation_threshold\" field is a multiplying factor to control how much variation you're willing to tolerate. The \"minimum_data_samples\" field is the minimum number of connections of data samples required for the statistic to be valid.  We then check for byte transfers that are statistically significantly higher than normal. The search then gives IP address of the host, the time of the increased byte transfer, how much data was transferred, and the average amount of data transfer the email server normally sends to all hosts and to this specific host. Finally, it includes the number of standard deviations away the byte count was from these averages.",

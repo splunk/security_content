@@ -18,23 +18,17 @@
     "how_to_implement": "This search leverages data extracted from Stream:HTTP. You must configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment server.",
     "id": "bc91a8cf-35e7-4bb2-1120-e756cc06fd89",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "session_id"
-                ]
+        "splunk": {
+            "fields_required": [
+                "session_id"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 3600,
+                "latest_time_offset": 3600
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 3600,
-                    "latest_time_offset": 3600
-                }
-            },
-            {
-                "search": "| search sourcetype=stream:http {session_id} | stats values(url) values(http_user_agent) by src_ip status"
-            }
-        ]
+            "search": "| search sourcetype=stream:http {session_id} | stats values(url) values(http_user_agent) by src_ip status"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

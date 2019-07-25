@@ -47,36 +47,30 @@
     "description": "This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "",
-                        "rule_description": "This search looks for specific GET/HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers.",
-                        "rule_title": "Detect attackers scanning for vulnerable JBoss servers"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 20
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,url",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "",
+                    "rule_description": "This search looks for specific GET/HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers.",
+                    "rule_title": "Detect attackers scanning for vulnerable JBoss servers"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 20
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method=\"GET\" OR Web.http_method=\"HEAD\") AND (Web.url=\"*/web-console/ServerInfo.jsp*\" OR Web.url=\"*web-console*\" OR Web.url=\"*jmx-console*\" OR Web.url = \"*invoker*\") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method=\"GET\" OR Web.http_method=\"HEAD\") AND (Web.url=\"*/web-console/ServerInfo.jsp*\" OR Web.url=\"*web-console*\" OR Web.url=\"*jmx-console*\" OR Web.url = \"*invoker*\") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest,url",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search returns the number of times a URL associated with this type of JexBoss probe is observed.",

@@ -20,36 +20,30 @@
     "description": "This search looks for PowerShell processes launched with arguments that have characters indicative of obfuscation on the command-line.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process_name, process",
-                        "rule_description": "The system $dest$ executed a PowerShell process that has evidence of obfuscation on the command-line",
-                        "rule_title": "PowerShell process with an obfuscation techniques detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 60
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,process_name,process",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process_name, process",
+                    "rule_description": "The system $dest$ executed a PowerShell process that has evidence of obfuscation on the command-line",
+                    "rule_title": "PowerShell process with an obfuscation techniques detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 60
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| eval num_obfuscation = (mvcount(split(process, \"`\"))-1) + (mvcount(split(process, \"^\"))-1) | search num_obfuscation > 0"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| eval num_obfuscation = (mvcount(split(process, \"`\"))-1) + (mvcount(split(process, \"^\"))-1) | search num_obfuscation > 0",
+                "suppress": {
+                    "suppress_fields": "dest,process_name,process",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for PowerShell processes that are passing command-line arguments with unusual characters (backticks and carets) that are PowerShell specific escape characters. Attackers use this obfuscation technique since it does not affect the functionality of PowerShell and it will bypass standard security controls that look for straight up malicious strings and commands. The search counts the occurrence of these obfuscation characters and lists out destination IPs running these PowerShell commands.",

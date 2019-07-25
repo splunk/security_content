@@ -26,36 +26,30 @@
     "description": "This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, url",
-                        "rule_description": "The host $src$ connected to a web site with a domain similar to that which you are monitoring for brand abuse.",
-                        "rule_title": "Web URL Brand Abuse from $src$"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "src",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, url",
+                    "rule_description": "The host $src$ connected to a web site with a domain similar to that which you are monitoring for brand abuse.",
+                    "rule_title": "Web URL Brand Abuse from $src$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| tstats `summariesonly` values(Web.url) as urls min(_time) as firstTime from datamodel=Web by Web.src | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `brand_abuse_web`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(Web.url) as urls min(_time) as firstTime from datamodel=Web by Web.src | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `brand_abuse_web`",
+                "suppress": {
+                    "suppress_fields": "src",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks at all the URLs an endpoint is connecting to and then checks the URL against a list of faux domains that could be indicative of brand abuse.",

@@ -32,36 +32,30 @@
     "description": "This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process, parent_process",
-                        "rule_description": "A prohibited application from prohibited_apps_launching_cmd.csv was leveraged to launch cmd.exe",
-                        "rule_title": "Prohibited application($parent_process$) used to launch cmd.exe on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, parent_process",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process, parent_process",
+                    "rule_description": "A prohibited application from prohibited_apps_launching_cmd.csv was leveraged to launch cmd.exe",
+                    "rule_title": "Prohibited application($parent_process$) used to launch cmd.exe on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe by Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` |search [`prohibited_apps_launching_cmd`]"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.user) as user values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe by Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` |search [`prohibited_apps_launching_cmd`]",
+                "suppress": {
+                    "suppress_fields": "dest, parent_process",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Obtaining access to the Command-Line Interface (CLI) is typically a primary attacker goal. Once an attacker has obtained the ability to execute code on a target system, they will often further manipulate the system via commands passed to the CLI. It is also unusual for many applications to spawn a command shell during normal operation, while it is often observed if an application has been compromised in some way. As such, it is often beneficial to look for cmd.exe being executed by processes that are often targeted for exploitation, or that would not spawn cmd.exe in any other circumstances. A lookup file is provided to easily modify the processes that are being watched for execution of cmd.exe.",

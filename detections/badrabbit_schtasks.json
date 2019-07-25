@@ -52,36 +52,30 @@
     "description": "This search looks for flags passed to schtasks.exe on the command-line that indicate that task names related to the execution of Bad Rabbit ransomware were created or deleted.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process_name",
-                        "rule_description": "This search looks for flags passed to schtasks.exe on the command-line that indicate that task names specific to Bad Rabbit ransomware has been created or deleted",
-                        "rule_title": "Scheduled tasks used in BadRabbit ransomware detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, process_name",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process_name",
+                    "rule_description": "This search looks for flags passed to schtasks.exe on the command-line that indicate that task names specific to Bad Rabbit ransomware has been created or deleted",
+                    "rule_title": "Scheduled tasks used in BadRabbit ransomware detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process  from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe (Processes.process= \"*create*\"  OR Processes.process= \"*delete*\") by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)` | search (process=*rhaegal* OR process=*drogon* OR *viserion_*)"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process  from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe (Processes.process= \"*create*\"  OR Processes.process= \"*delete*\") by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)` | search (process=*rhaegal* OR process=*drogon* OR *viserion_*)",
+                "suppress": {
+                    "suppress_fields": "dest, process_name",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The search looks for execution of schtasks.exe with parameters that indicate that specific task names related to the Bad Rabbit ransomware were created or deleted. The specific task name used are rhaegal, drogon and viserion_. Schtasks.exe is a native windows program that is used to schedule tasks on local or remote systems. Attackers often leverage this capability to schedule the execution of commands or establish persistence.",

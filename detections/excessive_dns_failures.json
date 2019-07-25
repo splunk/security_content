@@ -34,36 +34,30 @@
     "description": "This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, query",
-                        "rule_description": "This search identifies DNS query failures by counting the number of DNS responses that do not indicate success and triggers on more than 50 occurrences.",
-                        "rule_title": "Excessive DNS Failures"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 20
-                    },
-                    "suppress": {
-                        "suppress_fields": "src,query",
-                        "suppress_period": "43200s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, query",
+                    "rule_description": "This search identifies DNS query failures by counting the number of DNS responses that do not indicate success and triggers on more than 50 occurrences.",
+                    "rule_title": "Excessive DNS Failures"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 20
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(\"DNS.query\") as queries from datamodel=Network_Resolution where nodename=DNS \"DNS.reply_code\"!=\"No Error\" \"DNS.reply_code\"!=\"NoError\" DNS.reply_code!=\"unknown\" NOT \"DNS.query\"=\"*.arpa\" \"DNS.query\"=\"*.*\" by \"DNS.src\",\"DNS.query\"| `drop_dm_object_name(\"DNS\")`| lookup cim_corporate_web_domain_lookup domain as query OUTPUT domain| where isnull(domain)| lookup update=true alexa_lookup_by_str domain as query OUTPUT rank| where isnull(rank)| stats sum(count) as count mode(queries) as queries by src| `get_asset(src)`| where count>50"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(\"DNS.query\") as queries from datamodel=Network_Resolution where nodename=DNS \"DNS.reply_code\"!=\"No Error\" \"DNS.reply_code\"!=\"NoError\" DNS.reply_code!=\"unknown\" NOT \"DNS.query\"=\"*.arpa\" \"DNS.query\"=\"*.*\" by \"DNS.src\",\"DNS.query\"| `drop_dm_object_name(\"DNS\")`| lookup cim_corporate_web_domain_lookup domain as query OUTPUT domain| where isnull(domain)| lookup update=true alexa_lookup_by_str domain as query OUTPUT rank| where isnull(rank)| stats sum(count) as count mode(queries) as queries by src| `get_asset(src)`| where count>50",
+                "suppress": {
+                    "suppress_fields": "src,query",
+                    "suppress_period": "43200s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks at DNS traffic with a reply code that is NOT indicative of a successful response. Numerous unsuccessful replies may be indicative of DNS protocol tampering or other malicious activity. If more than 50 of these unsuccessful responses are observed over the time frame of the search, a notable event will be generated.",

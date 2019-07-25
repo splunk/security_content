@@ -20,36 +20,30 @@
     "description": "This search detects the process execution and arguments required to silently create a shim database.  The sdbinst.exe application is used to install shim database files (.sdb). A shim is a small library which transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process",
-                        "rule_description": "The system $dest$ had a shim database installed.",
-                        "rule_title": "Shim Database Installation on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 20
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,user",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process",
+                    "rule_description": "The system $dest$ had a shim database installed.",
+                    "rule_title": "Shim Database Installation on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 20
                 },
-                {
-                    "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sdbinst.exe Processes.process=\"*-p*\" Processes.process=\"*-q*\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sdbinst.exe Processes.process=\"*-p*\" Processes.process=\"*-q*\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest,user",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for the execution of sdbinst.exe with command-line arguments of -q and -p.  The -q option performs a silent installation with no visible window, status, or warning information.  The -p option allows the shim database to contain patches.  It will return the count, the first time, and the last time these command-line arguments were seen on each endpoint and by each user.",

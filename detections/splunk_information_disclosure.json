@@ -16,36 +16,30 @@
     "description": "This search allows you to look for evidence of exploitation for CVE-2018-11409, a Splunk Enterprise Information Disclosure Bug.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, src_ip",
-                        "rule_description": "The Splunk Server $dest$ had a possible Splunk information-disclosure possibility from $src_ip$",
-                        "rule_title": "Possible Splunk Information Disclosure Exploitation Attempt from $src_ip$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, src_ip",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, src_ip",
+                    "rule_description": "The Splunk Server $dest$ had a possible Splunk information-disclosure possibility from $src_ip$",
+                    "rule_title": "Possible Splunk Information Disclosure Exploitation Attempt from $src_ip$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "index=_internal sourcetype=splunkd_ui_access server-info | search clientip!=127.0.0.1 uri_path=\"*raw/services/server/info/server-info\" | rename clientip as src_ip, splunk_server as dest | stats earliest(_time) as firstTime, latest(_time) as lastTime, values(uri) as uri, values(useragent) as http_user_agent, values(user) as user by src_ip, dest | convert ctime(firstTime) ctime(lastTime)"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "index=_internal sourcetype=splunkd_ui_access server-info | search clientip!=127.0.0.1 uri_path=\"*raw/services/server/info/server-info\" | rename clientip as src_ip, splunk_server as dest | stats earliest(_time) as firstTime, latest(_time) as lastTime, values(uri) as uri, values(useragent) as http_user_agent, values(user) as user by src_ip, dest | convert ctime(firstTime) ctime(lastTime)",
+                "suppress": {
+                    "suppress_fields": "dest, src_ip",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search searches Splunk's internal logs for evidence of CVE-2018-11409 exploitation attempts.",

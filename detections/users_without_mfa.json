@@ -38,36 +38,30 @@
     "description": "This search looks for CloudTrail events where a user logged into the AWS account, is making API calls and has not enabled Multi Factor authentication. Multi factor authentication adds a layer of security by forcing the users to type a unique authentication code from an approved authentication device when they access AWS websites or services. AWS Best Practices recommend that you enable MFA for privileged IAM users.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user",
-                        "rule_description": "API Activity detected from $user$ without MFA enabled.",
-                        "rule_title": "API Activity detected from $user$ without MFA enabled"
-                    },
-                    "risk": {
-                        "risk_object": "user",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "user",
-                        "suppress_period": "84600s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user",
+                    "rule_description": "API Activity detected from $user$ without MFA enabled.",
+                    "rule_title": "API Activity detected from $user$ without MFA enabled"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 8 * * *",
-                        "earliest_time": "-1d@d",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail userIdentity.sessionContext.attributes.mfaAuthenticated=false | search NOT [| inputlookup aws_service_accounts | fields identity | rename identity as user]| stats  count min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName by userIdentity.arn userIdentity.type user | `ctime(firstTime)`  | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 8 * * *",
+                    "earliest_time": "-1d@d",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail userIdentity.sessionContext.attributes.mfaAuthenticated=false | search NOT [| inputlookup aws_service_accounts | fields identity | rename identity as user]| stats  count min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName by userIdentity.arn userIdentity.type user | `ctime(firstTime)`  | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "user",
+                    "suppress_period": "84600s"
                 }
-            ]
+            }
         }
     },
     "eli5": " In this search, we query CloudTrail logs and specifically look for events where the multi factor authentication context of the user's session is false which basically means, that the user does not have MFA enabled on AWS. We then filter out all the known AWS service accounts since service accounts typically do not have MFA enabled. The search then creates a table of the first and last time a user without MFA was detected, the values and count of the API calls made, the type of user identity, ARN and the name of the user.",

@@ -18,23 +18,17 @@
     "how_to_implement": "To successfully implement this search you must be ingesting your email logs or capturing unencrypted network traffic which contains email communications.",
     "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd75",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "message_id"
-                ]
+        "splunk": {
+            "fields_required": [
+                "message_id"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 0,
+                "latest_time_offset": 7200
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 0,
-                    "latest_time_offset": 7200
-                }
-            },
-            {
-                "search": "| from datamodel Email.All_Email | search message_id={message_id}"
-            }
-        ]
+            "search": "| from datamodel Email.All_Email | search message_id={message_id}"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

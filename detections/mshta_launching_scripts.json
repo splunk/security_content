@@ -20,36 +20,30 @@
     "description": "This search looks for the execution of \"mshta.exe\" with command-line arguments that launch a script. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process \"mshta.exe\" and its parent process.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process, parent_process_name",
-                        "rule_description": "Mshta.exe is seen to be executing scripts via the command-line arguments",
-                        "rule_title": "Mshta.exe is executing scripts on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, process, parent_process_name",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process, parent_process_name",
+                    "rule_description": "Mshta.exe is seen to be executing scripts via the command-line arguments",
+                    "rule_title": "Mshta.exe is executing scripts on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=mshta.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| search (process=*vbscript* OR process=*javascript*)"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=mshta.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| search (process=*vbscript* OR process=*javascript*)",
+                "suppress": {
+                    "suppress_fields": "dest, process, parent_process_name",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Mshta.exe is a built-in Windows utility that can launch HTML files with .hta extensions (HTML applications), javascript, or VBScript. The search detects this behavior by looking for events where the process mshta.exe is executed with command-line arguments that indicate that a script is invoked",

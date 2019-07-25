@@ -18,23 +18,17 @@
     "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS configuration inputs",
     "id": "f3fb4d1c-5f33-4b01-b541-c3ah9534c241",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "resourceId"
-                ]
+        "splunk": {
+            "fields_required": [
+                "resourceId"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 86400,
+                "latest_time_offset": 0
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 86400,
-                    "latest_time_offset": 0
-                }
-            },
-            {
-                "search": "| search sourcetype=aws:config resourceId={resourceId} | table _time ARN relationships{}.resourceType relationships{}.name relationships{}.resourceId  configuration.privateIpAddresses{}.privateIpAddress configuration.privateIpAddresses{}.association.publicIp"
-            }
-        ]
+            "search": "| search sourcetype=aws:config resourceId={resourceId} | table _time ARN relationships{}.resourceType relationships{}.name relationships{}.resourceId  configuration.privateIpAddresses{}.privateIpAddress configuration.privateIpAddresses{}.association.publicIp"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -48,36 +48,30 @@
     "description": "This search looks for CloudTrail events where a user successfully launches an abnormally high number of instances.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "userName",
-                        "rule_description": "An abnormally high number of instances were launched by a user within in a 10-minute window",
-                        "rule_title": "High Number of instances launched by $userName$"
-                    },
-                    "risk": {
-                        "risk_object": "userName",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "userName",
-                        "suppress_period": "3600s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "userName",
+                    "rule_description": "An abnormally high number of instances were launched by a user within in a 10-minute window",
+                    "rule_title": "High Number of instances launched by $userName$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "*/10 * * * *",
-                        "earliest_time": "-30d@d",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "userName",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | bucket span=10m _time | stats count AS instances_launched by _time userName | eventstats avg(instances_launched) as total_launched_avg, stdev(instances_launched) as total_launched_stdev | eval threshold_value = 4 | eval isOutlier=if(instances_launched > total_launched_avg+(total_launched_stdev * threshold_value), 1, 0) | search isOutlier=1 AND _time >= relative_time(now(), \"-10m@m\") | eval num_standard_deviations_away = round(abs(instances_launched - total_launched_avg) / total_launched_stdev, 2) | table _time, userName, instances_launched, num_standard_deviations_away, total_launched_avg, total_launched_stdev"
+                "schedule": {
+                    "cron_schedule": "*/10 * * * *",
+                    "earliest_time": "-30d@d",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | bucket span=10m _time | stats count AS instances_launched by _time userName | eventstats avg(instances_launched) as total_launched_avg, stdev(instances_launched) as total_launched_stdev | eval threshold_value = 4 | eval isOutlier=if(instances_launched > total_launched_avg+(total_launched_stdev * threshold_value), 1, 0) | search isOutlier=1 AND _time >= relative_time(now(), \"-10m@m\") | eval num_standard_deviations_away = round(abs(instances_launched - total_launched_avg) / total_launched_stdev, 2) | table _time, userName, instances_launched, num_standard_deviations_away, total_launched_avg, total_launched_stdev",
+                "suppress": {
+                    "suppress_fields": "userName",
+                    "suppress_period": "3600s"
                 }
-            ]
+            }
         }
     },
     "eli5": "In this search, we query CloudTrail logs to look for events where an instance is successfully launched by a particular user. Since we want to detect a high number of instances launched within a short period, we create event buckets for 10-minute windows. We then calculate the total number of instances launched by a particular user, as well as the average and standard deviation values. Assign a <code>threshold_value</code> in the search. Start with 3 (but it will likely need to be tweaked for your environment). The <code>eval</code> function will set the outlier 1 if the number of instances is greater than the average number of instances terminated, added to the multiplied value of threshold and standard deviation. For your reference, we then keep only the outliers and calculate the number of standard deviations away the value is from the average.",

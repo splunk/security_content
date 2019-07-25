@@ -16,36 +16,30 @@
     "description": "This search looks for PowerShell reading lsass memory consistent with credential dumping.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user, dest",
-                        "rule_description": "Possible attempt at credential dumping via PowerShell was detected on $dest$ by $user$.",
-                        "rule_title": "Event ID 4663 Specifying PowerShell Reading From LSASS.exe Identified on $dest$."
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "user, dest, process",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user, dest",
+                    "rule_description": "Possible attempt at credential dumping via PowerShell was detected on $dest$ by $user$.",
+                    "rule_title": "Event ID 4663 Specifying PowerShell Reading From LSASS.exe Identified on $dest$."
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "eventtype = wineventlog_security signature_id=4663 Process_Name=*powershell.exe Object_Name=*lsass.exe Access_Mask=0x10 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Process_Name, Process_ID, Message | rename Process_Name as process | `ctime(firstTime)`| `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "eventtype = wineventlog_security signature_id=4663 Process_Name=*powershell.exe Object_Name=*lsass.exe Access_Mask=0x10 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Process_Name, Process_ID, Message | rename Process_Name as process | `ctime(firstTime)`| `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "user, dest, process",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for Windows Event Code(signature_id) 4663 (object access), where the process performing the access is PowerShell.exe, the target process of the access is lsass.exe, and the access mask is given as 0x10. This is consistent with the use of PowerShell to execute Mimikatz using sekurlsa::logonpasswords. It will return the host where the activity occurred, the process and associated id, the enabled privilege, and the message in the event.",

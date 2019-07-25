@@ -37,36 +37,30 @@
     "description": "This search looks for the execution of the cscript.exe or wscript.exe processes, with a parent of cmd.exe. The search will return the count, the first and last time this execution was seen on a machine, the user, and the destination of the machine",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, process_name, parent_process",
-                        "rule_description": "Potentially malicious script execution detected.",
-                        "rule_title": "Command prompt is executing scripts on $dest$ using $process_name$ "
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, process_name",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, process_name, parent_process",
+                    "rule_description": "Potentially malicious script execution detected.",
+                    "rule_title": "Command prompt is executing scripts on $dest$ using $process_name$ "
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process=\"*cmd.exe\" (Processes.process_name=cscript.exe OR Processes.process_name =wscript.exe) by Processes.parent_process Processes.process_name Processes.user Processes.dest | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process=\"*cmd.exe\" (Processes.process_name=cscript.exe OR Processes.process_name =wscript.exe) by Processes.parent_process Processes.process_name Processes.user Processes.dest | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, process_name",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Attackers often leverage various scripting languages to execute their attacks. In a Windows environment, the Windows Script Host is the tool that interprets the scripts and is included in all modern versions of Windows. The Windows Script Host is available as a command-line tool called \"cscript.exe\" or \"wscript.exe.\" To detect this behavior, the search looks for process-creation events for cscript.exe or wscript.exe with a parent process of cmd.exe. The search will return the count, the first and last times this behavior was seen on a destination machine, and user and process information.",

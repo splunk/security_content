@@ -16,36 +16,30 @@
     "description": "This search detects accounts that were created and deleted in a short time period.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user",
-                        "rule_description": "The account $user$ was created and deleted in a short amount of time.",
-                        "rule_title": "Short lived account $user$ on $dest"
-                    },
-                    "risk": {
-                        "risk_object": "user",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "user",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user",
+                    "rule_description": "The account $user$ was created and deleted in a short amount of time.",
+                    "rule_title": "Short lived account $user$ on $dest"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 0,4,8,12,16,20 * * *",
-                        "earliest_time": "-245m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats `summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h All_Changes.user All_Changes.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")` | search result_id = 4720 result_id=4726 | transaction user maxspan=240m | table firstTime lastTime count user dest result_id"
+                "schedule": {
+                    "cron_schedule": "0 0,4,8,12,16,20 * * *",
+                    "earliest_time": "-245m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h All_Changes.user All_Changes.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")` | search result_id = 4720 result_id=4726 | transaction user maxspan=240m | table firstTime lastTime count user dest result_id",
+                "suppress": {
+                    "suppress_fields": "user",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for Windows Event Logs 4720 (account creation) and 4726 (account deletion) and determines if they happen for the same user within 4 hours of each other.  It will report the user and machine that reported the events and the time it first and last saw this activity.",

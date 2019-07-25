@@ -17,36 +17,30 @@
     "description": "This search looks for long URLs that have several SQL commands visible within them.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, src, url",
-                        "rule_description": "Using the length of url or user agent to identify SQL injection",
-                        "rule_title": "SQL Injection with Long URLs"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 30
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,src,url",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, src, url",
+                    "rule_description": "Using the length of url or user agent to identify SQL injection",
+                    "rule_title": "SQL Injection with Long URLs"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 30
                 },
-                {
-                    "search": "| tstats `summariesonly` count from datamodel=Web where Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name(\"Web\")` | eval num_sql_cmds=mvcount(split(url, \"alter%20table\")) + mvcount(split(url, \"between\")) + mvcount(split(url, \"create%20table\")) + mvcount(split(url, \"create%20database\")) + mvcount(split(url, \"create%20index\")) + mvcount(split(url, \"create%20view\")) + mvcount(split(url, \"delete\")) + mvcount(split(url, \"drop%20database\")) + mvcount(split(url, \"drop%20index\")) + mvcount(split(url, \"drop%20table\")) + mvcount(split(url, \"exists\")) + mvcount(split(url, \"exec\")) + mvcount(split(url, \"group%20by\")) + mvcount(split(url, \"having\")) + mvcount(split(url, \"insert%20into\")) + mvcount(split(url, \"inner%20join\")) + mvcount(split(url, \"left%20join\")) + mvcount(split(url, \"right%20join\")) + mvcount(split(url, \"full%20join\")) + mvcount(split(url, \"select\")) + mvcount(split(url, \"distinct\")) + mvcount(split(url, \"select%20top\")) + mvcount(split(url, \"union\")) + mvcount(split(url, \"xp_cmdshell\")) - 24 | where num_sql_cmds > 3"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count from datamodel=Web where Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name(\"Web\")` | eval num_sql_cmds=mvcount(split(url, \"alter%20table\")) + mvcount(split(url, \"between\")) + mvcount(split(url, \"create%20table\")) + mvcount(split(url, \"create%20database\")) + mvcount(split(url, \"create%20index\")) + mvcount(split(url, \"create%20view\")) + mvcount(split(url, \"delete\")) + mvcount(split(url, \"drop%20database\")) + mvcount(split(url, \"drop%20index\")) + mvcount(split(url, \"drop%20table\")) + mvcount(split(url, \"exists\")) + mvcount(split(url, \"exec\")) + mvcount(split(url, \"group%20by\")) + mvcount(split(url, \"having\")) + mvcount(split(url, \"insert%20into\")) + mvcount(split(url, \"inner%20join\")) + mvcount(split(url, \"left%20join\")) + mvcount(split(url, \"right%20join\")) + mvcount(split(url, \"full%20join\")) + mvcount(split(url, \"select\")) + mvcount(split(url, \"distinct\")) + mvcount(split(url, \"select%20top\")) + mvcount(split(url, \"union\")) + mvcount(split(url, \"xp_cmdshell\")) - 24 | where num_sql_cmds > 3",
+                "suppress": {
+                    "suppress_fields": "dest,src,url",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks only at your web servers and returns the source, the web server, the URL and its length, and the user agent associated with HTTP GET requests for extremely long URLs or user agent lengths with more than three common SQL commands found within the URL.",

@@ -28,36 +28,30 @@
     "description": "This search looks for CloudTrail events where a user has created an open/public S3 bucket.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user",
-                        "rule_description": "An open/public S3 bucket, $bucketName$, was created by $user$.",
-                        "rule_title": "Public S3 bucket $bucketName$ created by $user$"
-                    },
-                    "risk": {
-                        "risk_object": "user",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 70
-                    },
-                    "suppress": {
-                        "suppress_fields": "user,bucketName",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user",
+                    "rule_description": "An open/public S3 bucket, $bucketName$, was created by $user$.",
+                    "rule_title": "Public S3 bucket $bucketName$ created by $user$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "5 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 70
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail AllUsers eventName=PutBucketAcl | spath output=userIdentityArn path=userIdentity.arn | spath output=bucketName path=requestParameters.bucketName | spath output=aclControlList path=requestParameters.AccessControlPolicy.AccessControlList | spath input=aclControlList output=grantee path=Grant{} | mvexpand grantee | spath input=grantee | search Grantee.URI=*AllUsers | rename userIdentityArn as user| table _time, src,awsRegion Permission, Grantee.URI, bucketName, user"
+                "schedule": {
+                    "cron_schedule": "5 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail AllUsers eventName=PutBucketAcl | spath output=userIdentityArn path=userIdentity.arn | spath output=bucketName path=requestParameters.bucketName | spath output=aclControlList path=requestParameters.AccessControlPolicy.AccessControlList | spath input=aclControlList output=grantee path=Grant{} | mvexpand grantee | spath input=grantee | search Grantee.URI=*AllUsers | rename userIdentityArn as user| table _time, src,awsRegion Permission, Grantee.URI, bucketName, user",
+                "suppress": {
+                    "suppress_fields": "user,bucketName",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search queries CloudTrail logs for events with S3 bucket access controls given to the \"All Users\" group, which allows anyone in the world access to the resource. This search generates a table displaying the time when the bucket was made public, the permission of the S3 bucket, the bucket name, and the ARN of the user who created the bucket.",

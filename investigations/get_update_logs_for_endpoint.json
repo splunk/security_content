@@ -20,23 +20,17 @@
     "how_to_implement": "You need to be ingesting the update logs from your various systems.",
     "id": "d98675ed-da43-4a7e-96a7-eeca3232ba8e",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 604800,
+                "latest_time_offset": 0
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 604800,
-                    "latest_time_offset": 0
-                }
-            },
-            {
-                "search": "| from datamodel Updates.Updates  | search (vendor_product=\"Microsoft Windows\" OR vendor_product=\"OSX:Update\" OR vendor_product=\"Linux:Update\") dest={dest}"
-            }
-        ]
+            "search": "| from datamodel Updates.Updates  | search (vendor_product=\"Microsoft Windows\" OR vendor_product=\"OSX:Update\" OR vendor_product=\"Linux:Update\") dest={dest}"
+        }
     },
     "maintainers": [
         {
@@ -55,5 +49,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

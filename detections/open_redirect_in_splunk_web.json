@@ -17,36 +17,30 @@
     "description": "This search allows you to look for evidence of exploitation for CVE-2016-4859, the Splunk Open Redirect Vulnerability.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "host",
-                        "rule_description": "Search for exploitation of the Splunk Open Redirect Vulnerability",
-                        "rule_title": "Open Redirect in Splunk Web"
-                    },
-                    "risk": {
-                        "risk_object": "host",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "host",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "host",
+                    "rule_description": "Search for exploitation of the Splunk Open Redirect Vulnerability",
+                    "rule_title": "Open Redirect in Splunk Web"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "host",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "index=_internal sourcetype=splunk_web_access return_to=\"/%09/*\""
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "index=_internal sourcetype=splunk_web_access return_to=\"/%09/*\"",
+                "suppress": {
+                    "suppress_fields": "host",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks within Splunk's internal logs for evidence of CVE-2016-4859 open redirect exploitation attempts.",

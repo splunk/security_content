@@ -24,36 +24,30 @@
     "description": "This search looks for DNS requests for faux domains similar to the domains that you want to have monitored for abuse.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, query",
-                        "rule_description": "The host $src$ issued a DNS request for a domain to that which you are monitoring for brand abuse.",
-                        "rule_title": "DNS Query Brand Abuse from $src$"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "src,query",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, query",
+                    "rule_description": "The host $src$ issued a DNS request for a domain to that which you are monitoring for brand abuse.",
+                    "rule_title": "DNS Query Brand Abuse from $src$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats `summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(\"DNS\")` | `ctime(firstTime)`| `brand_abuse_dns`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(\"DNS\")` | `ctime(firstTime)`| `brand_abuse_dns`",
+                "suppress": {
+                    "suppress_fields": "src,query",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search gathers all the answers to each system's DNS query, then filters out all queries that do not appear on the list of faux \"look-a-like\" domains that have been generated from the brand abuse domains you are monitoring.",

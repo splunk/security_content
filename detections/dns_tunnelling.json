@@ -34,36 +34,30 @@
     "description": "This search is used to detect DNS tunneling, by calculating the sum of the length of DNS queries and DNS answers. The search also filters out potential false positives by filtering out queries made to internal systems and the queries originating from internal DNS, Web, and Email servers. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting an unusually large volume of DNS traffic.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src",
-                        "rule_description": "Potential DNS tunnel detected from $src$ which may be exfiltrating large data",
-                        "rule_title": "DNS tunnel detected on $src$"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 20
-                    },
-                    "suppress": {
-                        "suppress_fields": "src, query",
-                        "suppress_period": "43200s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src",
+                    "rule_description": "Potential DNS tunnel detected from $src$ which may be exfiltrating large data",
+                    "rule_title": "DNS tunnel detected on $src$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 20
                 },
-                {
-                    "search": "| tstats `summariesonly` dc(\"DNS.query\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.query\" | rename \"DNS.src\" as src  \"DNS.query\" as message | eval length=len(message) | stats sum(length) as length by src | append [ tstats `summariesonly` dc(\"DNS.answer\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.answer\" | rename \"DNS.src\" as src  \"DNS.answer\" as message | eval message=if(message==\"unknown\",\"\", message) | eval length=len(message) | stats sum(length) as length by src ] | stats sum(length) as length by src | where length > 10000"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` dc(\"DNS.query\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.query\" | rename \"DNS.src\" as src  \"DNS.query\" as message | eval length=len(message) | stats sum(length) as length by src | append [ tstats `summariesonly` dc(\"DNS.answer\") as count  from datamodel=Network_Resolution  where nodename=DNS \"DNS.message_type\"=\"QUERY\" NOT (`cim_corporate_web_domain_search(\"DNS.query\")`) NOT \"DNS.query\"=\"*.in-addr.arpa\" NOT (\"DNS.src_category\"=\"svc_infra_dns\" OR \"DNS.src_category\"=\"svc_infra_webproxy\" OR \"DNS.src_category\"=\"svc_infra_email*\"   ) by \"DNS.src\",\"DNS.answer\" | rename \"DNS.src\" as src  \"DNS.answer\" as message | eval message=if(message==\"unknown\",\"\", message) | eval length=len(message) | stats sum(length) as length by src ] | stats sum(length) as length by src | where length > 10000",
+                "suppress": {
+                    "suppress_fields": "src, query",
+                    "suppress_period": "43200s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The search will calculate the distinct count and sum of the length of DNS queries made and DNS answers received by a particular host to alert the analyst if the combined length is greater than 10000, which is not typical behavior.",

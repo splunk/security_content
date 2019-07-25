@@ -77,36 +77,30 @@
     "description": "The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service.  Wmic is an interface to the Windows Management Instrumentation.  This search looks for either of these tools being used to delete shadow copies.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process_name",
-                        "rule_description": "Using $process_name$ to delete shadow copies is common behavior by ransomware. This activity was observed on $dest$",
-                        "rule_title": "Deleting Shadow Copies on $dest$ with $process_name$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 75
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, user",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process_name",
+                    "rule_description": "Using $process_name$ to delete shadow copies is common behavior by ransomware. This activity was observed on $dest$",
+                    "rule_title": "Deleting Shadow Copies on $dest$ with $process_name$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 75
                 },
-                {
-                    "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe OR Processes.process_name=wmic.exe)  by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search process=*delete* AND process=*shadow*"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe OR Processes.process_name=wmic.exe)  by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)` | search process=*delete* AND process=*shadow*",
+                "suppress": {
+                    "suppress_fields": "dest, user",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for execution of vssadmin or wmic with both the \"delete\" and \"shadows\" parameters passed on the command-line. The two arguments are searched for separately because we can't predict the number of spaces between the words on the command-line. The search will return the number of times this activity was observed, and the times of the first and last event.",

@@ -18,23 +18,17 @@
     "how_to_implement": "The successfully implement this search you must first send your backup logs to Splunk.",
     "id": "bc91a8cf-aaaa-4bb2-8140-e756cc06fd72",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 1209600,
+                "latest_time_offset": 0
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 1209600,
-                    "latest_time_offset": 0
-                }
-            },
-            {
-                "search": "| search sourcetype=\"netbackup_logs\" dest={dest}"
-            }
-        ]
+            "search": "| search sourcetype=\"netbackup_logs\" dest={dest}"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

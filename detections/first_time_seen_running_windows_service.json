@@ -33,36 +33,30 @@
     "description": "This search looks for the first time a Windows service is seen running in your environment.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "serviceName",
-                        "rule_description": "The service $serviceName$ is running on $dest$. This is the first time this service has been run on any system.",
-                        "rule_title": "First Time Seen Windows Service $serviceName$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "serviceName, dest",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "serviceName",
+                    "rule_description": "The service $serviceName$ is running on $dest$. This is the first time this service has been run on any system.",
+                    "rule_title": "First Time Seen Windows Service $serviceName$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "30 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "eventtype=wineventlog_system signature_id=7036 | rex field=Message \"The (?<serviceName>[\\w\\s-]*) service entered the (?<action>\\w*) state\" | where action=\"running\" | inputlookup append=t previously_seen_running_windows_services | multireport [| stats earliest(eval(coalesce(_time, firstTime))) as firstTime, latest(eval(coalesce(_time, lastTime))) as lastTime by serviceName | outputlookup previously_seen_running_windows_services | where fact=fiction] [| eventstats earliest(eval(coalesce(_time, firstTime))) as firstTime, latest(eval(coalesce(_time, lastTime))) as lastTime by serviceName | where firstTime >= relative_time(now(), \"-60m@m\") AND isnotnull(_time) | stats values(dest) as dest by _time, serviceName] | table _time, serviceName, dest"
+                "schedule": {
+                    "cron_schedule": "30 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "eventtype=wineventlog_system signature_id=7036 | rex field=Message \"The (?<serviceName>[\\w\\s-]*) service entered the (?<action>\\w*) state\" | where action=\"running\" | inputlookup append=t previously_seen_running_windows_services | multireport [| stats earliest(eval(coalesce(_time, firstTime))) as firstTime, latest(eval(coalesce(_time, lastTime))) as lastTime by serviceName | outputlookup previously_seen_running_windows_services | where fact=fiction] [| eventstats earliest(eval(coalesce(_time, firstTime))) as firstTime, latest(eval(coalesce(_time, lastTime))) as lastTime by serviceName | where firstTime >= relative_time(now(), \"-60m@m\") AND isnotnull(_time) | stats values(dest) as dest by _time, serviceName] | table _time, serviceName, dest",
+                "suppress": {
+                    "suppress_fields": "serviceName, dest",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for a change in the status of a Windows service and extracts the name of the service and the action taken by the service. Then the cache file of previously seen Windows services is added to the search. At this point, the search takes two different paths: the first updates the cache file with the latest information and the second searches for services that have never before been seen. It returns the time, the Windows host name, and the service name.",

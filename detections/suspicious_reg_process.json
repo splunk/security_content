@@ -32,36 +32,30 @@
     "description": "This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process_name",
-                        "rule_description": "The system $dest$ had reg.exe process run not initiated by a user.",
-                        "rule_title": "Suspicious reg.exe process detected on $dest$"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest, user",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process_name",
+                    "rule_description": "The system $dest$ had reg.exe process run not initiated by a user.",
+                    "rule_title": "Suspicious reg.exe process detected on $dest$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest Processes.process_id Processes.parent_process_id | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | search [| tstats `summariesonly` count FROM datamodel=Endpoint.Processes where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe by Processes.parent_process_id Processes.dest Processes.process_name | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | rename parent_process_id as process_id |dedup process_id| table process_id dest]"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest Processes.process_id Processes.parent_process_id | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | search [| tstats `summariesonly` count FROM datamodel=Endpoint.Processes where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe by Processes.parent_process_id Processes.dest Processes.process_name | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)` | `ctime(lastTime)` | rename parent_process_id as process_id |dedup process_id| table process_id dest]",
+                "suppress": {
+                    "suppress_fields": "dest, user",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for the execution of reg.exe with a parent process of cmd.exe. It then executes a subsearch looking for those cmd.exe processes with a parent that is not explorer.exe. It then joins those two searches to make sure that the reg.exe process is a grandchild of the non explorer.exe process. The search will return the number of such instances and the first and last time this activity has been seen on each endpoint and user.",

@@ -18,23 +18,17 @@
     "how_to_implement": "You must be ingesting your backup logs.",
     "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
     "investigate": {
-        "splunk": [
-            {
-                "fields_required": [
-                    "dest"
-                ]
+        "splunk": {
+            "fields_required": [
+                "dest"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time_offset": 604800,
+                "latest_time_offset": 0
             },
-            {
-                "schedule": {
-                    "cron_schedule": "",
-                    "earliest_time_offset": 604800,
-                    "latest_time_offset": 0
-                }
-            },
-            {
-                "search": "| search sourcetype=\"netbackup_logs\" COMPUTERNAME={dest} | rename COMPUTERNAME as dest, MESSAGE as signature | table _time, dest, signature"
-            }
-        ]
+            "search": "| search sourcetype=\"netbackup_logs\" COMPUTERNAME={dest} | rename COMPUTERNAME as dest, MESSAGE as signature | table _time, dest, signature"
+        }
     },
     "maintainers": [
         {
@@ -53,5 +47,6 @@
         }
     ],
     "spec_version": 2,
-    "type": "splunk"
+    "type": "splunk",
+    "version": "1.0"
 }

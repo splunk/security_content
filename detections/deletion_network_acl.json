@@ -28,36 +28,30 @@
     "description": "Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the AWS console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the CloudTrail logs to detect users deleting network ACLs.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src, src_user, eventName",
-                        "rule_description": "AWS network ACL has been deleted by $src_user.",
-                        "rule_title": "AWS Network ACL deleted by $src_user$"
-                    },
-                    "risk": {
-                        "risk_object": "src_user",
-                        "risk_object_type": [
-                            "user"
-                        ],
-                        "risk_score": 80
-                    },
-                    "suppress": {
-                        "suppress_fields": "src_user",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, src_user, eventName",
+                    "rule_description": "AWS network ACL has been deleted by $src_user.",
+                    "rule_title": "AWS Network ACL deleted by $src_user$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-1d@d",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src_user",
+                    "risk_object_type": [
+                        "user"
+                    ],
+                    "risk_score": 80
                 },
-                {
-                    "search": "sourcetype=aws:cloudtrail eventName=DeleteNetworkAcl|rename userIdentity.arn as arn  | stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage) values(errorCode) values(userAgent) values(userIdentity.*) by src userName arn eventName | `ctime(lastTime)` | `ctime(firstTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-1d@d",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=aws:cloudtrail eventName=DeleteNetworkAcl|rename userIdentity.arn as arn  | stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage) values(errorCode) values(userAgent) values(userIdentity.*) by src userName arn eventName | `ctime(lastTime)` | `ctime(firstTime)`",
+                "suppress": {
+                    "suppress_fields": "src_user",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The search looks for CloudTrail events to detect whether any network ACLs have been deleted and gives you values of error messages and error codes (if any), user details, user source IP, the user who initiated this request, and the name of the event.",

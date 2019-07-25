@@ -65,36 +65,30 @@
     "description": "This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table \"lookup_interesting_ports\", that is marked as prohibited, and has an associated 'allow' action in the Network_Traffic data model. This could be indicative of a misconfigured network device.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src_ip, dest_ip",
-                        "rule_description": "This search looks for network traffic defined by port and transport in the ES lookup table \"lookup_interesting_ports\", that is marked as prohibited, and yet has an 'allow' action in the Network_Traffic data model. This should help to identify areas where a network device is not properly configured.",
-                        "rule_title": "Prohibited Network Traffic Allowed from $src_ip$"
-                    },
-                    "risk": {
-                        "risk_object": "src_ip",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest_ip,src_ip",
-                        "suppress_period": "14400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src_ip, dest_ip",
+                    "rule_description": "This search looks for network traffic defined by port and transport in the ES lookup table \"lookup_interesting_ports\", that is marked as prohibited, and yet has an 'allow' action in the Network_Traffic data model. This should help to identify areas where a network device is not properly configured.",
+                    "rule_title": "Prohibited Network Traffic Allowed from $src_ip$"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src_ip",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port OUTPUT app is_prohibited note transport | search is_prohibited=true | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Traffic\")`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port OUTPUT app is_prohibited note transport | search is_prohibited=true | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(\"All_Traffic\")`",
+                "suppress": {
+                    "suppress_fields": "dest_ip,src_ip",
+                    "suppress_period": "14400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "The search looks for traffic marked 'is_prohibited' in the Enterprise Security lookup table 'interesting_ports_lookup', and then determines if any network devices have an associated 'allow' action on that traffic by checking the Network_Traffic data model.",

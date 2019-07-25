@@ -49,36 +49,30 @@
     "description": "This search allows you to identify DNS requests and compute the standard deviation on the length of the names being resolved, then filter on two times the standard deviation to show you those queries that are unusually large for your environment.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "src",
-                        "rule_description": "Filter DNS requests and compute the standard deviation then filter on 2 times the standard deviation",
-                        "rule_title": "DNS query length with high standard deviation"
-                    },
-                    "risk": {
-                        "risk_object": "src",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "query",
-                        "suppress_period": "43200s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src",
+                    "rule_description": "Filter DNS requests and compute the standard deviation then filter on 2 times the standard deviation",
+                    "rule_title": "DNS query length with high standard deviation"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | table query query_length record_type count stdev | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(stdev*2)"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | table query query_length record_type count stdev | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(stdev*2)",
+                "suppress": {
+                    "suppress_fields": "query",
+                    "suppress_period": "43200s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Attackers often use random, long domain names for their attack infrastructure. This search looks at all the queries observed over the search time frame, and identifies any domains being resolved with names that are greater that 2 times the standard deviation.",

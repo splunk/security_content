@@ -27,36 +27,30 @@
     "description": "This search looks for DLLs under %AppData% being loaded by rundll32.exe that are calling the exported function at ordinal 2. Calling exported functions by ordinal is not as common as calling by exported name. There was a bug fixed in IDAPro on 2016-08-08 that would not display functions without names.  Calling functions by ordinal would overcome the lack of name and make it harder for analyst to reverse engineer.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "dest, user, process",
-                        "rule_description": "This search looks for DLLs under %AppData% being loaded by rundll32.exe that are calling the exported function at ordinal 2.  Calling exported functions by ordinal is not as common as calling by exported name.  There was a bug fixed in IDAPro on 2016-08-08 that would not display functions with no names.  Calling functions by ordinal would overcome the lack of name and make it harder for analyst to reverse engineer.",
-                        "rule_title": "Endpoint - Suspicious RunDLL usage"
-                    },
-                    "risk": {
-                        "risk_object": "dest",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 50
-                    },
-                    "suppress": {
-                        "suppress_fields": "dest,user",
-                        "suppress_period": "28800s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process",
+                    "rule_description": "This search looks for DLLs under %AppData% being loaded by rundll32.exe that are calling the exported function at ordinal 2.  Calling exported functions by ordinal is not as common as calling by exported name.  There was a bug fixed in IDAPro on 2016-08-08 that would not display functions with no names.  Calling functions by ordinal would overcome the lack of name and make it harder for analyst to reverse engineer.",
+                    "rule_title": "Endpoint - Suspicious RunDLL usage"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 * * * *",
-                        "earliest_time": "-70m@m",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
                 },
-                {
-                    "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = rundll32.exe Processes.process=\"*AppData*\" Processes.process=\"*,#2\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`"
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = rundll32.exe Processes.process=\"*AppData*\" Processes.process=\"*,#2\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest,user",
+                    "suppress_period": "28800s"
                 }
-            ]
+            }
         }
     },
     "eli5": "This search looks for rundll32.exe being run, loading a DLL out of a directory or subdirectory of AppData, and specifying the function at ordinal 2 be run.",

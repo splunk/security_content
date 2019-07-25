@@ -16,36 +16,30 @@
     "description": "This detection search will help profile user accounts in your environment by identifying newly created accounts that have been added to your network in the past week.",
     "detect": {
         "splunk": {
-            "correlation_rule": [
-                {
-                    "notable": {
-                        "nes_fields": "user",
-                        "rule_description": "Using the identities lookup and macro from Enterprise Security to identify (report) new users (6 month period) and temp users (3 months until account expiration)",
-                        "rule_title": "Identify Temporary Users"
-                    },
-                    "risk": {
-                        "risk_object": "user",
-                        "risk_object_type": [
-                            "system"
-                        ],
-                        "risk_score": 40
-                    },
-                    "suppress": {
-                        "suppress_fields": "identity",
-                        "suppress_period": "86400s"
-                    }
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user",
+                    "rule_description": "Using the identities lookup and macro from Enterprise Security to identify (report) new users (6 month period) and temp users (3 months until account expiration)",
+                    "rule_title": "Identify Temporary Users"
                 },
-                {
-                    "schedule": {
-                        "cron_schedule": "0 0 * * *",
-                        "earliest_time": "-24h@h",
-                        "latest_time": "-10m@m"
-                    }
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
                 },
-                {
-                    "search": "| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800, \"Accounts created in last week\") | search empStatus=\"Accounts created in last week\"| `ctime(endDate)` | `ctime(startDate)`| table identity empStatus endDate startDate"
+                "schedule": {
+                    "cron_schedule": "0 0 * * *",
+                    "earliest_time": "-24h@h",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800, \"Accounts created in last week\") | search empStatus=\"Accounts created in last week\"| `ctime(endDate)` | `ctime(startDate)`| table identity empStatus endDate startDate",
+                "suppress": {
+                    "suppress_fields": "identity",
+                    "suppress_period": "86400s"
                 }
-            ]
+            }
         }
     },
     "eli5": "Adversaries will often seek to create new user accounts as a means of maintaining access to a target environment. Using this search, we identify accounts created in the last week by comparing the start date in the Identity_Management data model against the current time.",
