@@ -20,12 +20,12 @@
                 "rule_description": {
                   "description": "Description of the notable event that will display in Incident Review",
                   "examples": [
-                    "The table represents a list of DNS records and their responses for corporate domains that have recently changed"
+                    "The table represents a list of DNS records and their responses for recently changed corporate domains."
                   ],
                   "type": "string"
                 },
                 "rule_title": {
-                  "description": "Title of the notable event that will display in Incident Review. Add tokenized fieldnames",
+                  "description": "Title of the notable event that will display in Incident Review. Add tokenized fieldnames.",
                   "examples": [
                     "DNS record changed on $src$"
                   ],
@@ -43,7 +43,7 @@
               "description": "Fields associated with assigning risk to objects",
               "properties": {
                 "risk_object": {
-                  "description": "TThe field to which you are assigning risk",
+                  "description": "The field to which you are assigning risk",
                   "examples": [
                     "src"
                   ],
@@ -100,7 +100,7 @@
                   "type": "string"
                 },
                 "latest_time": {
-                  "description": "The latest time tes search should run against in Splunk format",
+                  "description": "The latest time the search should run again in Splunk format",
                   "examples": [
                     "-10m@m"
                   ],
@@ -110,7 +110,7 @@
               "type": "object"
             },
             "search": {
-              "description": "The search that will trigger phantom playbook",
+              "description": "The search that will trigger the Phantom playbook",
               "examples": [
                 "| sendalert runphantomplaybook"
               ],
@@ -148,35 +148,35 @@
           "type": "object"
         },
         "phantom_server": {
-          "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)",
+          "description": "IP address and username of the Phantom server. Currently, we ship these values as automation (hostname) and encourage users to modify them according to their environments: for example, automation (hostname)",
           "examples": [
             "automation (hostname)"
           ],
           "type": "string"
         },
         "playbook_name": {
-          "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment",
+          "description": "Name of the playbook. This name should be the same as the name on the Phantom community repository on github, with underscores, and appended with \"community/<playbook_name>.\" The playbooks are hosted on https://github.com/phantomcyber/playbooks. For example: community/simple_network_enrichment",
           "examples": [
             "community/dns_hijack_detect_playbook"
           ],
           "type": "string"
         },
         "playbook_url": {
-          "description": "Url of the playbook on Phantom website.",
+          "description": "URL of the playbook on the Phantom website",
           "examples": [
             "https://my.phantom.us/4.1/playbook/dns-hijack-investigation/"
           ],
           "type": "string"
         },
         "sensitivity": {
-          "description": "TLP colors (white, green, amber or red)",
+          "description": "TLP colors (White, Green, Amber, Red)",
           "examples": [
             "green"
           ],
           "type": "string"
         },
         "severity": {
-          "description": "Severity in phantom (High, Medium, Low)",
+          "description": "Severity in Phantom (High, Medium, Low)",
           "examples": [
             "high"
           ],
@@ -264,14 +264,14 @@
                 "type": "string"
               },
               "latest_time": {
-                "description": "The latest time tes search should run against in Splunk format",
+                "description": "The latest time the search should run again in Splunk format",
                 "type": "string"
               }
             },
             "type": "object"
           },
           "search": {
-            "description": "The search that will trigger phantom playbook",
+            "description": "The search that will trigger the Phantom playbook",
             "type": "string"
           },
           "suppress": {
@@ -333,7 +333,7 @@
               "description": "Fields associated with assigning risk to objects",
               "properties": {
                 "risk_object": {
-                  "description": "TThe field to which you are assigning risk",
+                  "description": "The field to which you are assigning risk",
                   "type": "string"
                 },
                 "risk_object_type": {
@@ -375,14 +375,14 @@
                   "type": "string"
                 },
                 "latest_time": {
-                  "description": "The latest time tes search should run against in Splunk format",
+                  "description": "The latest time the search should run against in Splunk format",
                   "type": "string"
                 }
               },
               "type": "object"
             },
             "search": {
-              "description": "The search (in SPL) executed within core Splunk",
+              "description": "The search (in SPL) executed within Splunk Enterprise",
               "type": "string"
             },
             "suppress": {
@@ -411,7 +411,7 @@
           "type": "object"
         },
         "event_type": {
-          "description": "An anomaly or threat.",
+          "description": "An anomaly or threat",
           "examples": [
             "anomaly"
           ],
@@ -425,14 +425,14 @@
           "type": "string"
         },
         "model_version": {
-          "description": "Url of the playbook on Phantom website.",
+          "description": "URL of the playbook on the Phantom website",
           "examples": [
             "2.0"
           ],
           "type": "string"
         },
         "threat_category": {
-          "description": "The category of a threat in Splunk UBA.",
+          "description": "The category of a threat in Splunk UBA",
           "examples": [
             "Malware"
           ],
@@ -449,7 +449,7 @@
       "type": "object"
     }
   },
-  "description": "A object that defines the parameters for detecting things using various Splunk capabilities",
+  "description": "An object that defines the parameters for detecting things using various Splunk capabilities",
   "properties": {
     "asset_type": {
       "description": "Designates the type of asset being investigated",
@@ -459,7 +459,7 @@
       "type": "string"
     },
     "baselines": {
-      "description": "An array of the baseline objects to exectute before the detection ",
+      "description": "An array of the baseline objects to execute before the detection ",
       "items": {
         "properties": {
           "id": {
@@ -470,7 +470,7 @@
             "type": "string"
           },
           "name": {
-            "description": "name of baseline object",
+            "description": "Name of the baseline object",
             "examples": [
               "Discover DNS records"
             ],
@@ -517,7 +517,7 @@
       "type": "string"
     },
     "data_metadata": {
-      "description": "Information about the date being ingested",
+      "description": "Information about the data being ingested",
       "properties": {
         "data_eventtypes": {
           "description": "A list of eventtypes, if any, used by this search",
@@ -631,7 +631,7 @@
     "description": {
       "description": "A description of what the detection is designed to find",
       "examples": [
-        "The search takes the DNS records and their answers results of the discovered_dns_records lookup and finds if any records have changed by searching DNS response from the Network_Resolution datamodel across the last day."
+        "The search takes the DNS records and the results of the discovered_dns_records lookup and determines whether any records have changed. It does this by searching DNS response from the Network_Resolution data model within the last day."
       ],
       "type": "string"
     },
@@ -667,14 +667,14 @@
       "type": "object"
     },
     "eli5": {
-      "description": "Explain it like I am 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
+      "description": "Explain it Like I'm 5: A detailed description of the SPL of the search, written in a style that can be understood by a future Splunk expert",
       "examples": [
-        "Using a lookup `discover_dns_records` generated by support search \"Discover DNS records\" we check previous network traffic and make sure the responses have not changed."
+        "Using a lookup \"discover_dns_records\" generated by support search \"Discover DNS records,\" we check previous network traffic and make sure the responses have not changed."
       ],
       "type": "string"
     },
     "entities": {
-      "description": "A list of entities that is outputed by the search...",
+      "description": "A list of entities outputted by the search",
       "examples": [
         "dest",
         "user"
@@ -712,19 +712,19 @@
       "uniqueItems": true
     },
     "how_to_implement": {
-      "description": "A discussion on how to implement this search, from what needs to be ingested, config files modified, and suggested per site modifications",
+      "description": "A discussion of how to implement this search, including what needs to be ingested, the config files modified, and suggested per-site modifications",
       "examples": [],
       "type": "string"
     },
     "id": {
       "description": "The unique identifier for the detection",
       "examples": [
-        "To successfully implement this search you will need to ensure that DNS data is populating the `Network_Resolution` data model. It also requires that the `discover_dns_record` lookup table be populated by the included support search \"Discover DNS record\"."
+        "To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. It also requires that the \"discover_dns_record\" lookup table be populated by the included support search \"Discover DNS record.\""
       ],
       "type": "string"
     },
     "investigations": {
-      "description": "An array of the investigation objects to exectute on the detection results ",
+      "description": "An array of the investigation objects to execute on the detection results ",
       "items": {
         "properties": {
           "id": {
@@ -735,9 +735,9 @@
             "type": "string"
           },
           "name": {
-            "description": "Name of investigation object ",
+            "description": "Name of the investigation object ",
             "examples": [
-              "Get DNS Server History for a host"
+              "Get DNS Server History for a Host"
             ],
             "type": "string"
           },
@@ -764,14 +764,14 @@
       "type": "array"
     },
     "known_false_positives": {
-      "description": "Scenarios in which detected behavior is benig, coupled with suggestions on how to verify the behavior",
+      "description": "Scenarios in which detected behavior is benign, coupled with suggestions on how to verify the behavior",
       "examples": [
-        "Legitimate DNS changes can be detected in this search. Investigate, verify and update the list of provided current answers for the domains in question as appropriate."
+        "Legitimate DNS changes can be detected in this search. Investigate, verify, and update the list of provided current answers for the domains in question, as appropriate."
       ],
       "type": "string"
     },
     "maintainers": {
-      "description": "An array of the current maintainers of the Analytic Story.",
+      "description": "An array of the current maintainers of the Analytic Story",
       "items": {
         "properties": {
           "company": {
@@ -1117,16 +1117,16 @@
       "items": {
         "properties": {
           "id": {
-            "description": "UUID of the Respose object",
+            "description": "UUID of the response object",
             "examples": [
               "1169w17b-ef78-4b59-aae8-5369073014e1"
             ],
             "type": "string"
           },
           "name": {
-            "description": "Name of Response Object",
+            "description": "Name of response object",
             "examples": [
-              "DNS Hijack Reponse"
+              "DNS hijack reponse"
             ],
             "type": "string"
           },
