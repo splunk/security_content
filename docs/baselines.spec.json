@@ -151,7 +151,7 @@
       "type": "string"
     },
     "data_metadata": {
-      "description": "Information about the date being ingested",
+      "description": "Information about the data being ingested",
       "properties": {
         "data_eventtypes": {
           "description": "A list of eventtypes, if any, used by this search",
