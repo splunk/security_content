@@ -143,14 +143,15 @@ def write_splunk_docs(stories, OUTPUT_DIR):
             if story['category'] == c:
                 output_file.write("\n==={0}===\n".format(story_name))
 
+                output_file.write("\n{0}\n".format(story['description']))
+
                 # header information
                 output_file.write("""
                                  <div class="toccolours mw-collapsible">
                                  <div class="mw-collapsible-content">
                                  """)
 
-                output_file.write("'''Description''' <br/>\n{0}\n\n".format(story['description']))
-                output_file.write("'''Narrative''' <br/>\n{0}\n\n".format(story['narrative']))
+                output_file.write("\n'''Narrative''' <br/>\n{0}\n\n".format(story['narrative']))
 
                 # print mappings
                 output_file.write("""
@@ -169,6 +170,7 @@ def write_splunk_docs(stories, OUTPUT_DIR):
                 # footer information
                 output_file.write("""
                 </div></div>
+                [[Category:V:Lab:drafts]]
                 """)
 
     output_file.close()
