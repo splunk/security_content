@@ -373,12 +373,13 @@ def generate_detections(REPO_PATH, stories):
 
             # uba
             if 'uba' in detection['detect']:
-                uba = detection['detect']['uba']
+                # uba = detection['detect']['uba']
                 type = 'uba'
-                search = uba['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
-                # earliest_time = uba['earliest_time']
-                # latest_time = uba['latest_time']
-                # cron = uba['cron_schedule']
+                correlation_rule = detection['detect']['uba']['correlation_rule']
+                search = correlation_rule['search']
+                earliest_time = correlation_rule['schedule']['earliest_time']
+                latest_time = correlation_rule['schedule']['latest_time']
+                cron = correlation_rule['schedule']['cron_schedule']
 
             # phantom
             if 'phantom' in detection['detect']:
