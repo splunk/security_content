@@ -16,10 +16,30 @@ Analytics stories organized by categories
 
 ## Cloud Security
 
+* [AWS Cross Account Activity](#aws-cross-account-activity)
+
+* [AWS Cryptomining](#aws-cryptomining)
+
+* [AWS Network ACL Activity](#aws-network-acl-activity)
+
+* [AWS Suspicious Provisioning Activities](#aws-suspicious-provisioning-activities)
+
+* [AWS User Monitoring](#aws-user-monitoring)
+
+* [Suspicious AWS EC2 Activities](#suspicious-aws-ec2-activities)
+
+* [Suspicious AWS Login Activities](#suspicious-aws-login-activities)
+
+* [Suspicious AWS S3 Activities](#suspicious-aws-s3-activities)
+
+* [Suspicious AWS Traffic](#suspicious-aws-traffic)
+
+* [Unusual AWS EC2 Modifications](#unusual-aws-ec2-modifications)
+
 ### AWS Cross Account Activity
+* id = `2f2f610a-d64d-48c2-b57c-967a2b49ab5a`
 * creation_date = 2018-06-04
 * modification_date = 2018-06-04
-* id = 2f2f610a-d64d-48c2-b57c-967a2b49ab5a
 * version = 1.0
 * spec_version = 1
 
@@ -33,8 +53,34 @@ Herein lies the rub. In between the time between when the temporary credentials 
 \
 This Analytic Story includes searches that will help you monitor your AWS CloudTrail logs for evidence of suspicious cross-account activity.  For example, while accessing multiple AWS accounts and roles may be perfectly valid behavior, it may be suspicious when an account requests privileges of an account it has not accessed in the past. After identifying suspicious activities, you can use the provided investigative searches to help you probe more deeply.
 
+##### Detections
+* AWS Cross Account Activity From Previously Unseen Account
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -45,9 +91,9 @@ ATT&CK:
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 
 ### AWS Cryptomining
+* id = `ced74200-8465-4bc3-bd2c-9a782eec6750`
 * creation_date = 2018-03-08
 * modification_date = 2018-03-08
-* id = ced74200-8465-4bc3-bd2c-9a782eec6750
 * version = 1.0
 * spec_version = 1
 
@@ -63,8 +109,38 @@ When malicious miners appropriate a cloud instance, often spinning up hundreds o
 \
 This Analytic Story is focused on detecting suspicious new instances in your EC2 environment to help prevent such a disaster. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
+##### Detections
+* EC2 Instance Started In Previously Unseen Region
+* Abnormally High AWS Instances Launched by User
+* EC2 Instance Started With Previously Unseen Instance Type
+* EC2 Instance Started With Previously Unseen AMI
+* EC2 Instance Started With Previously Unseen User
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -75,9 +151,9 @@ ATT&CK:
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 
 ### AWS Network ACL Activity
+* id = `2e8948a5-5239-406b-b56b-6c50ff268af4`
 * creation_date = 2018-01-10
 * modification_date = 2018-05-21
-* id = 2e8948a5-5239-406b-b56b-6c50ff268af4
 * version = 2.0
 * spec_version = 1
 
@@ -87,8 +163,37 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 ##### Narrative
 AWS CloudTrail is an AWS service that helps you enable governance, compliance, and operational/risk auditing of your AWS account. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. It is crucial for a company to monitor events and actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs to ensure that your servers are not vulnerable to attacks. This analytic story contains detection searches that leverage CloudTrail logs from AWS to check for bad configurations and malicious activity in your AWS network access controls.
 
+##### Detections
+* AWS Network Access Control List Created with All Open Ports
+* AWS Network Access Control List Deleted
+* Detect Spike in blocked Outbound Traffic from your AWS
+* Detect Spike in Network ACL Activity
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -100,9 +205,9 @@ ATT&CK:
 * https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
 
 ### AWS Suspicious Provisioning Activities
+* id = `3338b567-3804-4261-9889-cf0ca4753c7f`
 * creation_date = 2018-03-16
 * modification_date = 2018-03-16
-* id = 3338b567-3804-4261-9889-cf0ca4753c7f
 * version = 1.0
 * spec_version = 1
 
@@ -114,8 +219,37 @@ Because most enterprise AWS activities originate from familiar geographic locati
 \
 This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
 
+##### Detections
+* AWS Cloud Provisioning From Previously Unseen Country
+* AWS Cloud Provisioning From Previously Unseen Region
+* AWS Cloud Provisioning From Previously Unseen City
+* AWS Cloud Provisioning From Previously Unseen IP Address
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -126,9 +260,9 @@ ATT&CK:
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 
 ### AWS User Monitoring
+* id = `2e8948a5-5239-406b-b56b-6c50f1269af3`
 * creation_date = 2018-03-12
 * modification_date = 2018-03-12
-* id = 2e8948a5-5239-406b-b56b-6c50f1269af3
 * version = 1.0
 * spec_version = 1
 
@@ -144,8 +278,38 @@ Fortunately, you can leverage Amazon Web Services (AWS) CloudTrail--a tool that 
 \
 The detection searches in this Analytic Story are designed to help you uncover AWS API activities from users not listed in the identity table, as well as similar activities from disabled accounts.
 
+##### Detections
+* Detect AWS API Activities From Unapproved Accounts
+* Detect Spike in AWS API Activity
+* Detect new API calls from user roles
+* Detect Spike in Security Group Activity
+* Detect API activity from users without MFA
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -157,9 +321,9 @@ ATT&CK:
 * https://blog.redlock.io/cryptojacking-tesla
 
 ### Suspicious AWS EC2 Activities
+* id = `2e8948a5-5239-406b-b56b-6c50f1268af3`
 * creation_date = 2018-02-09
 * modification_date = 2018-02-09
-* id = 2e8948a5-5239-406b-b56b-6c50f1268af3
 * version = 1.0
 * spec_version = 1
 
@@ -169,8 +333,37 @@ Use the searches in this Analytic Story to monitor your AWS EC2 instances for ev
 ##### Narrative
 AWS CloudTrail is an AWS service that helps you enable governance, compliance, and risk auditing within your AWS account. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. It is crucial for a company to monitor events and actions taken in the AWS Console, AWS command-line interface, and AWS SDKs and APIs to ensure that your EC2 instances are not vulnerable to attacks. This Analytic Story identifies suspicious activities in your AWS EC2 instances and helps you respond and investigate those activities.
 
+##### Detections
+* EC2 Instance Started In Previously Unseen Region
+* Abnormally High AWS Instances Terminated by User
+* Abnormally High AWS Instances Launched by User
+* EC2 Instance Started With Previously Unseen User
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -181,9 +374,9 @@ ATT&CK:
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 
 ### Suspicious AWS Login Activities
+* id = `2e8948a5-5239-406b-b56b-6c59f1268af3`
 * creation_date = 2018-02-24
 * modification_date = 2019-05-01
-* id = 2e8948a5-5239-406b-b56b-6c59f1268af3
 * version = 1.0
 * spec_version = 2
 
@@ -193,8 +386,37 @@ Monitor your AWS authentication events using your CloudTrail logs. Searches with
 ##### Narrative
 It is important to monitor and control who has access to your AWS infrastructure. Detecting suspicious logins to your AWS infrastructure will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any EC2 instances created by the attacker.
 
+##### Detections
+* Detect new user AWS Console Login
+* Detect AWS Console Login by User from New City
+* Detect AWS Console Login by User from New Region
+* Detect AWS Console Login by User from New Country
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -208,9 +430,9 @@ ATT&CK:
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
 
 ### Suspicious AWS S3 Activities
+* id = `2e8948a5-5239-406b-b56b-6c50w3168af3`
 * creation_date = 2018-06-25
 * modification_date = 2018-07-24
-* id = 2e8948a5-5239-406b-b56b-6c50w3168af3
 * version = 2.0
 * spec_version = 1
 
@@ -224,8 +446,36 @@ Amazon's "shared responsibility" model dictates that the company has responsibil
 \
 Among things to look out for are S3 access from unfamiliar locations and by unfamiliar users. Some of the searches in this Analytic Story help you detect suspicious behavior and others help you investigate more deeply, when the situation warrants.   
 
+##### Detections
+* Detect New Open S3 buckets
+* Detect S3 access from a new IP
+* Detect Spike in S3 Bucket deletion
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -237,9 +487,9 @@ ATT&CK:
 * https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
 
 ### Suspicious AWS Traffic
+* id = `2e8948a5-5239-406b-b56b-6c50f2168af3`
 * creation_date = 2018-05-07
 * modification_date = 2018-05-07
-* id = 2e8948a5-5239-406b-b56b-6c50f2168af3
 * version = 1.0
 * spec_version = 1
 
@@ -255,8 +505,34 @@ Amazon's VPC service enables you to launch EC2 instances and leverage other Amaz
 \
 The searches in this Analytic Story will monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors.
 
+##### Detections
+* Detect Spike in blocked Outbound Traffic from your AWS
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -267,9 +543,9 @@ ATT&CK:
 * https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
 
 ### Unusual AWS EC2 Modifications
+* id = `73de57ef-0dfc-411f-b1e7-fa24428aeae0`
 * creation_date = 2018-04-09
 * modification_date = 2018-04-09
-* id = 73de57ef-0dfc-411f-b1e7-fa24428aeae0
 * version = 1.0
 * spec_version = 1
 
@@ -281,8 +557,34 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 \
  Searches within this Analytic Story can help you detect the presence of a threat by monitoring for EC2 instances that have been created or changed--either by users that have never previously performed these activities or by known users who modify or create instances in a way that have not been done before. This story also provides investigative searches that help you go deeper once you detect suspicious behavior.
 
+##### Detections
+* EC2 Instance Modified With Previously Unseen User
+
+##### Providing Technologies
+* AWS
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -295,10 +597,26 @@ ATT&CK:
 
 ## Best Practices
 
+* [Account Monitoring and Controls](#account-monitoring-and-controls)
+
+* [Asset Tracking](#asset-tracking)
+
+* [Monitor Backup Solution](#monitor-backup-solution)
+
+* [Monitor for Unauthorized Software](#monitor-for-unauthorized-software)
+
+* [Monitor for Updates](#monitor-for-updates)
+
+* [Prohibited Traffic Allowed or Protocol Mismatch](#prohibited-traffic-allowed-or-protocol-mismatch)
+
+* [Router & Infrastructure Security](#router-&-infrastructure-security)
+
+* [Use of Cleartext Protocols](#use-of-cleartext-protocols)
+
 ### Account Monitoring and Controls
+* id = `8892a655-6205-55f7-abba-06460e38c8ae`
 * creation_date = 2017-08-05
 * modification_date = 2017-09-06
-* id = 8892a655-6205-55f7-abba-06460e38c8ae
 * version = 1.0
 * spec_version = 1
 
@@ -308,8 +626,40 @@ A common attack technique is to leverage user accounts to gain unauthorized acce
 ##### Narrative
 Monitoring user accounts within your enterprise is a critical analytic function that helps ensure that credential and access policies/procedures are properly implemented and are being enforced. Proactive ad-hoc hunting, as well as routine monitoring, can ensure user or system accounts are not being abused by unauthorized individuals or processes. In the event of a network event or breach, user-authentication logs are a key resource in determining if or how an account might have been compromised or co-opted, leading to suspicious or malicious activity.
 
+##### Detections
+* Identify New User Accounts
+* Short Lived Windows Accounts
+* Detect Excessive Account Lockouts From Endpoint
+* Detect Excessive User Account Lockouts
+
+##### Providing Technologies
+* Microsoft Windows
+* Active Directory
+
+##### Data Models
+Change
+Identity_Management
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -323,9 +673,9 @@ ATT&CK:
 * https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
 
 ### Asset Tracking
+* id = `91c676cf-0b23-438d-abee-f6335e1fce77`
 * creation_date = 2017-06-01
 * modification_date = 2017-09-13
-* id = 91c676cf-0b23-438d-abee-f6335e1fce77
 * version = 1.0
 * spec_version = 1
 
@@ -335,8 +685,36 @@ Keep a careful inventory of every asset on your network to make it easier to det
 ##### Narrative
 This Analytic Story is designed to help you develop a better understanding of what authorized and unauthorized devices are part of your enterprise. This story can help you better categorize and classify assets, providing critical business context and awareness of their assets during an incident. Information derived from this Analytic Story can be used to better inform and support other analytic stories. For successful detection, you will need to leverage the Assets and Identity Framework from Enterprise Security to populate your known assets.
 
+##### Detections
+* Detect Unauthorized Assets by MAC address
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+
+##### Data Models
+Network_Sessions
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -347,9 +725,9 @@ ATT&CK:
 * https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
 
 ### Monitor Backup Solution
+* id = `abe807c7-1eb6-4304-ac32-6e7aacdb891d`
 * creation_date = 2017-06-15
 * modification_date = 2017-09-12
-* id = abe807c7-1eb6-4304-ac32-6e7aacdb891d
 * version = 1.0
 * spec_version = 1
 
@@ -359,8 +737,35 @@ Address common concerns when monitoring your backup processes. These searches ca
 ##### Narrative
 Having backups is a standard best practice that helps ensure continuity of business operations.  Having mature backup processes can also help you reduce the risks of many security-related incidents and streamline your response processes. The detection searches in this Analytic Story will help you identify systems that have backup failures, as well as systems that have not been backed up for an extended period of time. The story will also return the notable event history and all of the backup logs for an endpoint.
 
+##### Detections
+* Unsuccessful Netbackup backups
+* Extended Period Without Successful Netbackup Backups
+
+##### Providing Technologies
+* Netbackup
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -371,9 +776,9 @@ ATT&CK:
 * https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
 
 ### Monitor for Unauthorized Software
+* id = `8892a655-6205-43f7-abba-06460e38c8ae`
 * creation_date = 2017-06-26
 * modification_date = 2017-09-15
-* id = 8892a655-6205-43f7-abba-06460e38c8ae
 * version = 1.0
 * spec_version = 1
 
@@ -385,8 +790,39 @@ It is critical to identify unauthorized software and processes running on enterp
 \
 It is important to investigate any software identified as suspicious, in order to understand how it was installed or executed. Analyzing authentication logs or any historic notable events might elicit additional investigative leads of interest. For best results, schedule the search to run every two weeks. 
 
+##### Detections
+* Prohibited Software On Endpoint
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -397,9 +833,9 @@ ATT&CK:
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 
 ### Monitor for Updates
+* id = `9ef8d677-7b52-4213-a038-99cfc7acc2d8`
 * creation_date = 2017-08-15
 * modification_date = 2017-09-15
-* id = 9ef8d677-7b52-4213-a038-99cfc7acc2d8
 * version = 1.0
 * spec_version = 1
 
@@ -413,8 +849,35 @@ Searches in this analytic story are designed to help analysts monitor endpoints 
 \
 Microsoft releases updates for Windows systems on a monthly cadence. They should be installed as soon as possible after following internal testing and validation procedures. Patches and updates for other systems or applications are typically released as needed.
 
+##### Detections
+* No Windows Updates in a time frame
+
+##### Providing Technologies
+* Microsoft Windows
+
+##### Data Models
+Updates
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -425,9 +888,9 @@ ATT&CK:
 * https://learn.cisecurity.org/20-controls-download
 
 ### Prohibited Traffic Allowed or Protocol Mismatch
+* id = `6d13121c-90f3-446d-8ac3-27efbbc65218`
 * creation_date = 2017-04-18
 * modification_date = 2017-09-11
-* id = 6d13121c-90f3-446d-8ac3-27efbbc65218
 * version = 1.0
 * spec_version = 1
 
@@ -437,8 +900,41 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 ##### Narrative
 A traditional security best practice is to control the ports, protocols, and services allowed within your environment. By limiting the services and protocols to those explicitly approved by policy, administrators can minimize the attack surface. The combined effect allows both network defenders and security controls to focus and not be mired in superfluous traffic or data types. Looking for deviations to policy can identify attacker activity that abuses services and protocols to run on alternate or non-standard ports in the attempt to avoid detection or frustrate forensic analysts.
 
+##### Detections
+* TOR Traffic
+* Prohibited Network Traffic Allowed
+* Protocol or Port Mismatch
+* Detect hosts connecting to dynamic domain providers
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+* Palo Alto Firewall
+
+##### Data Models
+Network_Resolution
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -449,9 +945,9 @@ ATT&CK:
 * http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
 
 ### Router & Infrastructure Security
+* id = `91c676cf-0b23-438d-abee-f6335e177e77`
 * creation_date = 2017-06-01
 * modification_date = 2017-09-12
-* id = 91c676cf-0b23-438d-abee-f6335e177e77
 * version = 1.0
 * spec_version = 1
 
@@ -463,8 +959,36 @@ Networking devices, such as routers and switches, are often overlooked as resour
 \
 This Analytic Story helps you gain a better understanding of how your network devices are interacting with your hosts. By compromising your network devices, attackers can obtain direct access to the company's internal infrastructure&#151; effectively increasing the attack surface and accessing private services/data.
 
+##### Detections
+* Detect New Login Attempts to Routers
+
+##### Providing Technologies
+* Active Directory
+* Palo Alto Firewall
+
+##### Data Models
+Authentication
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -476,9 +1000,9 @@ ATT&CK:
 * https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
 
 ### Use of Cleartext Protocols
+* id = `826e6431-aeef-41b4-9fc0-6d0985d65a21`
 * creation_date = 2016-09-13
 * modification_date = 2017-09-15
-* id = 826e6431-aeef-41b4-9fc0-6d0985d65a21
 * version = 1.0
 * spec_version = 1
 
@@ -488,8 +1012,36 @@ Leverage searches that detect cleartext network protocols that may leak credenti
 ##### Narrative
 Various legacy protocols operate by default in the clear, without the protections of encryption. This potentially leaks sensitive information that can be exploited by passively sniffing network traffic. Depending on the protocol, this information could be highly sensitive, or could allow for session hijacking. In addition, these protocols send authentication information, which would allow for the harvesting of usernames and passwords that could potentially be used to authenticate and compromise secondary systems.
 
+##### Detections
+* Protocols passing authentication in cleartext
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+
+##### Data Models
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -502,10 +1054,20 @@ ATT&CK:
 
 ## Vulnerability
 
+* [Apache Struts Vulnerability](#apache-struts-vulnerability)
+
+* [JBoss Vulnerability](#jboss-vulnerability)
+
+* [Spectre And Meltdown Vulnerabilities](#spectre-and-meltdown-vulnerabilities)
+
+* [Splunk Enterprise Vulnerability](#splunk-enterprise-vulnerability)
+
+* [Splunk Enterprise Vulnerability CVE-2018-11409](#splunk-enterprise-vulnerability-cve-2018-11409)
+
 ### Apache Struts Vulnerability
+* id = `2dcfd6a2-e7d2-4873-b6ba-adaf819d2a1e`
 * creation_date = 2017-03-14
 * modification_date = 2018-12-06
-* id = 2dcfd6a2-e7d2-4873-b6ba-adaf819d2a1e
 * version = 1.0
 * spec_version = 1
 
@@ -541,8 +1103,45 @@ Often, a simple inspection of a suspect process name and path can tell you if th
 \
 It can also be very helpful to examine various behaviors of the process of interest or the parent of the process that is of interest. For example, if it turns out that the process of interest is malicious, it would be good to see if the parent to that process spawned other processes that might also be worth further scrutiny. If a process is suspect, reviewing the network connections made around the time of the event and/or if the process spawned any child processes could be helpful in determining whether it is malicious or executing a malicious script.
 
+##### Detections
+* Unusually Long Content-Type Length
+* Web Servers Executing Suspicious Processes
+* Suspicious Java Classes
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+* Bluecoat
+* Apache
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Jose Hernandez
@@ -554,9 +1153,9 @@ ATT&CK:
 * https://github.com/SpiderLabs/owasp-modsecurity-crs/blob/v3.2/dev/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
 
 ### JBoss Vulnerability
+* id = `1f5294cb-b85f-4c2d-9c58-ffcf248f52bd`
 * creation_date = 2016-10-04
 * modification_date = 2017-09-14
-* id = 1f5294cb-b85f-4c2d-9c58-ffcf248f52bd
 * version = 1.0
 * spec_version = 1
 
@@ -594,8 +1193,39 @@ Often, a simple inspection of a suspect process name and path can tell you if th
 \
 It can also be helpful to examine various behaviors of and the parent of the process of interest. For example, if it turns out the process of interest is malicious, it would be good to see whether the parent process spawned other processes that might also warrant further scrutiny. If a process is suspect, a review of the network connections made around the time of the event and noting whether the process has spawned any child processes could be helpful in determining whether it is malicious or executing a malicious script.
 
+##### Detections
+* Detect malicious requests to exploit JBoss servers
+* Detect attackers scanning for vulnerable JBoss servers
+
+##### Providing Technologies
+* Splunk Stream
+* Palo Alto Firewall
+* Apache
+* Bro
+
+##### Data Models
+Web
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -606,9 +1236,9 @@ ATT&CK:
 * http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
 
 ### Spectre And Meltdown Vulnerabilities
+* id = `6d3306f6-bb2b-4219-8609-8efad64032f2`
 * creation_date = 2018-01-08
 * modification_date = 2018-01-08
-* id = 6d3306f6-bb2b-4219-8609-8efad64032f2
 * version = 1.0
 * spec_version = 1
 
@@ -618,8 +1248,36 @@ Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploita
 ##### Narrative
 Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow unintended access to data in memory. This Analytic Story will help you identify the systems can be patched for these vulnerabilities, as well as those that still need to be patched.
 
+##### Detections
+* Spectre and Meltdown Vulnerable Systems
+
+##### Providing Technologies
+* Nessus
+* Qualys
+
+##### Data Models
+Vulnerabilities
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -630,9 +1288,9 @@ ATT&CK:
 * https://meltdownattack.com/
 
 ### Splunk Enterprise Vulnerability
+* id = `4e692b96-de2d-4bd1-9105-37e2368a8db1`
 * creation_date = 2016-09-13
 * modification_date = 2017-09-19
-* id = 4e692b96-de2d-4bd1-9105-37e2368a8db1
 * version = 1.0
 * spec_version = 1
 
@@ -660,8 +1318,34 @@ This Analytic Story is associated with CVE-2016-4859, an open-redirect vulnerabi
 \
 It is important to ensure that your Splunk deployment is being kept up to date and is properly configured. This detection search allows analysts to monitor internal logs to ensure users are properly authenticated and cannot be redirected to any malicious third-party websites.
 
+##### Detections
+* Open Redirect in Splunk Web
+
+##### Providing Technologies
+* Splunk Enterprise
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -673,9 +1357,9 @@ ATT&CK:
 * https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-4859
 
 ### Splunk Enterprise Vulnerability CVE-2018-11409
+* id = `1fc34cbc-34e9-43ba-87ab-6811c9e95400`
 * creation_date = 2018-06-14
 * modification_date = 2018-06-14
-* id = 1fc34cbc-34e9-43ba-87ab-6811c9e95400
 * version = 1.0
 * spec_version = 1
 
@@ -691,8 +1375,34 @@ Read more in Splunk's official response: https://www.splunk.com/view/SP-CAAAP5E#
 \
 A detection search within this Analytic Story looks for vulnerabilities described in CVE-2018-11409: Information Exposure (https://nvd.nist.gov/vuln/detail/CVE-2018-11409). If it turns up activities that may be specific, you can use the included investigative searches to return information regarding web activity and network traffic by src_ip.
 
+##### Detections
+* Splunk Enterprise Information Disclosure
+
+##### Providing Technologies
+* Splunk Enterprise
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -707,10 +1417,22 @@ ATT&CK:
 
 ## Abuse
 
+* [Brand Monitoring](#brand-monitoring)
+
+* [DNS Amplification Attacks](#dns-amplification-attacks)
+
+* [Data Protection](#data-protection)
+
+* [Host Redirection](#host-redirection)
+
+* [Netsh Abuse](#netsh-abuse)
+
+* [Web Fraud Detection](#web-fraud-detection)
+
 ### Brand Monitoring
+* id = `91c676cf-0b23-438d-abee-f6335e1fce78`
 * creation_date = 2017-06-01
 * modification_date = 2017-12-19
-* id = 91c676cf-0b23-438d-abee-f6335e1fce78
 * version = 1.0
 * spec_version = 1
 
@@ -724,8 +1446,43 @@ You can use our adaptation of `DNSTwist`, together with the support searches in 
 \
 Notable events will include IP addresses, URLs, and user data. Drilling down can provide you with even more actionable intelligence, including likely geographic information, contextual searches to help you scope the problem, and investigative searches.
 
+##### Detections
+* Monitor DNS For Brand Abuse
+* Monitor Email For Brand Abuse
+* Monitor Web Traffic For Brand Abuse
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+* Microsoft Exchange
+* Bluecoat
+* Palo Alto Firewall
+
+##### Data Models
+Network_Resolution
+Email
+Web
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -738,9 +1495,9 @@ ATT&CK:
 * https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
 
 ### DNS Amplification Attacks
+* id = `e8afd39e-3294-11e6-b39d-a45e60c6700`
 * creation_date = 2016-08-24
 * modification_date = 2016-09-13
-* id = e8afd39e-3294-11e6-b39d-a45e60c6700
 * version = 1.0
 * spec_version = 1
 
@@ -752,8 +1509,36 @@ The Domain Name System (DNS) is the protocol used to map domain names to IP addr
 \
 The search in this story can help you to detect if attackers are abusing your company's DNS infrastructure to launch DNS amplification attacks causing Denial of Service to other victims.
 
+##### Detections
+* Large Volume of DNS ANY Queries
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+
+##### Data Models
+Network_Resolution
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -765,9 +1550,9 @@ ATT&CK:
 * https://deepthought.isc.org/article/AA-00897/0/What-is-a-DNS-Amplification-Attack.html
 
 ### Data Protection
+* id = `91c676cf-0b23-438d-abee-f6335e1fce33`
 * creation_date = 2017-06-01
 * modification_date = 2017-09-14
-* id = 91c676cf-0b23-438d-abee-f6335e1fce33
 * version = 1.0
 * spec_version = 1
 
@@ -777,8 +1562,40 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 ##### Narrative
 Attackers can leverage a variety of resources to compromise or exfiltrate enterprise data. Common exfiltration techniques include remote-access channels via low-risk, high-payoff active-collections operations and close-access operations using insiders and removable media. While this Analytic Story is not a comprehensive listing of all the methods by which attackers can exfiltrate data, it provides a useful starting point.
 
+##### Detections
+* Detection of DNS Tunnels
+* Detect USB device insertion
+* Detect hosts connecting to dynamic domain providers
+
+##### Providing Technologies
+* Microsoft Windows
+* Splunk Stream
+* Bro
+
+##### Data Models
+Change_Analysis
+Network_Resolution
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -791,9 +1608,9 @@ ATT&CK:
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 
 ### Host Redirection
+* id = `2e8948a5-5239-406b-b56b-6c50fe268af4`
 * creation_date = 2017-06-18
 * modification_date = 2017-09-14
-* id = 2e8948a5-5239-406b-b56b-6c50fe268af4
 * version = 1.0
 * spec_version = 1
 
@@ -803,8 +1620,37 @@ Detect evidence of tactics used to redirect traffic from a host to a destination
 ##### Narrative
 Attackers will often attempt to manipulate client communications for nefarious purposes. In some cases, an attacker may endeavor to modify a local host file to redirect communications with resources (such as antivirus or system-update services) to prevent clients from receiving patches or updates. In other cases, an attacker might use this tactic to have the client connect to a site that looks like the intended site, but instead installs malware or collects information from the victim. Additionally, an attacker may redirect a victim in order to execute a MITM attack and observe communications.
 
+##### Detections
+* Windows hosts file modification
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -815,9 +1661,9 @@ ATT&CK:
 * https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
 
 ### Netsh Abuse
+* id = `2b1800dd-92f9-47ec-a981-fdf1351e5f65`
 * creation_date = 2017-01-04
 * modification_date = 2017-01-05
-* id = 2b1800dd-92f9-47ec-a981-fdf1351e5f65
 * version = 1.0
 * spec_version = 1
 
@@ -829,8 +1675,40 @@ It is a common practice for attackers of all types to leverage native Windows to
 \
 To get started, run the detection search to identify parent processes of `netsh.exe`.
 
+##### Detections
+* Processes created by netsh
+* Processes launching netsh
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -843,9 +1721,9 @@ ATT&CK:
 * http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html
 
 ### Web Fraud Detection
+* id = `31337aaa-bc22-4752-b599-ef112dq1dq7a`
 * creation_date = 2018-07-12
 * modification_date = 2018-10-08
-* id = 31337aaa-bc22-4752-b599-ef112dq1dq7a
 * version = 1.0
 * spec_version = 1
 
@@ -865,8 +1743,38 @@ The anomalous clickspeed search looks for users who are moving through your webs
 \
 Another search detects incidents wherein a single password is used across multiple accounts, which may indicate that a fraudster has infiltrated your environment and embedded a common password within a script.
 
+##### Detections
+* Web Fraud - Account Harvesting
+* Web Fraud - Anomalous User Clickspeed
+* Web Fraud - Password Sharing Across Accounts
+
+##### Providing Technologies
+* Splunk Stream
+* Palo Alto Firewall
+* Bro
+
+##### Data Models
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Jim Apger
@@ -881,10 +1789,32 @@ ATT&CK:
 
 ## Malware
 
+* [ColdRoot MacOS RAT](#coldroot-macos-rat)
+
+* [DHS Report TA18-074A](#dhs-report-ta18-074a)
+
+* [Dynamic DNS](#dynamic-dns)
+
+* [Emotet Malware (DHS Report TA18-201A)](#emotet-malware-(dhs-report-ta18-201a))
+
+* [Hidden Cobra Malware](#hidden-cobra-malware)
+
+* [Orangeworm Attack Group](#orangeworm-attack-group)
+
+* [Ransomware](#ransomware)
+
+* [SamSam Ransomware](#samsam-ransomware)
+
+* [Unusual Processes](#unusual-processes)
+
+* [Windows File Extension and Association Abuse](#windows-file-extension-and-association-abuse)
+
+* [Windows Service Abuse](#windows-service-abuse)
+
 ### ColdRoot MacOS RAT
+* id = `bd91a2bc-d20b-4f44-a982-1bea98e86390`
 * creation_date = 2019-01-29
 * modification_date = 2019-01-09
-* id = bd91a2bc-d20b-4f44-a982-1bea98e86390
 * version = 1.0
 * spec_version = 1
 
@@ -898,8 +1828,36 @@ This Analytic Story addresses the ColdRoot remote access trojan (RAT), which was
 \
 Searches in this Analytic Story leverage the capabilities of OSquery to address ColdRoot detection from several different angles, such as looking for the existence of associated files and processes, and monitoring for signs of an installed keylogger.
 
+##### Detections
+* Processes Tapping Keyboard Events
+* Osquery pack - ColdRoot detection
+
+##### Providing Technologies
+* OSquery
+
+##### Data Models
+Alerts
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Jose Hernandez
@@ -912,9 +1870,9 @@ ATT&CK:
 * https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/
 
 ### DHS Report TA18-074A
+* id = `0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef`
 * creation_date = 2018-03-19
 * modification_date = 2018-03-19
-* id = 0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef
 * version = 2.0
 * spec_version = 1
 
@@ -930,8 +1888,56 @@ One joint Technical Alert (TA) issued by the Department of Homeland and the FBI 
 \
 Suspicious activities--spikes in SMB traffic, processes that launch netsh (to modify the network configuration), suspicious registry modifications, and many more--may all be events you may wish to investigate further. While the use of these technique may be an indication that a nation-state actor is attempting to compromise your environment, it is important to note that these techniques are often employed by other groups, as well.
 
+##### Detections
+* SMB Traffic Spike
+* SMB Traffic Spike - MLTK
+* Processes launching netsh
+* Suspicious Reg.exe Process
+* Sc.exe Manipulating Windows Services
+* Registry Keys Used For Persistence
+* Create local admin accounts using net.exe
+* Single Letter Process On Endpoint
+* Scheduled Task Name Used by Dragonfly Threat Actors
+* Malicious PowerShell Process - Execution Policy Bypass
+* Detect Outbound SMB Traffic
+* Detect New Local Admin account
+* Detect PsExec With accepteula Flag
+* First time seen command line argument
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Microsoft Windows
+* Bro
+* Splunk Stream
+
+##### Data Models
+Endpoint
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -942,9 +1948,9 @@ ATT&CK:
 * https://www.us-cert.gov/ncas/alerts/TA18-074A
 
 ### Dynamic DNS
+* id = `8169f17b-ef68-4b59-aae8-586907301221`
 * creation_date = 2017-11-21
 * modification_date = 2018-09-06
-* id = 8169f17b-ef68-4b59-aae8-586907301221
 * version = 2.0
 * spec_version = 1
 
@@ -954,8 +1960,40 @@ Detect and investigate hosts in your environment that may be communicating with 
 ##### Narrative
 Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow users to rapidly update domain resolutions to IP infrastructure. While their usage can be benign, malicious actors can abuse DDNS to host harmful payloads or interactive-command-and-control infrastructure. These attackers will manually update or automate domain resolution changes by routing dynamic domains to IP addresses that circumvent firewall blocks and blacklists and frustrate a network defender's analytic and investigative processes. These searches will look for DNS queries made from within your infrastructure to suspicious dynamic domains and then investigate more deeply, when appropriate. While this list of top-level dynamic domains is not exhaustive, it can be dynamically updated as new suspicious dynamic domains are identified.
 
+##### Detections
+* Detect hosts connecting to dynamic domain providers
+* Detect web traffic to dynamic domain providers
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+* Bluecoat
+* Palo Alto Firewall
+
+##### Data Models
+Network_Resolution
+Web
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -969,9 +2007,9 @@ ATT&CK:
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
 
 ### Emotet Malware (DHS Report TA18-201A)
+* id = `bb9f5ed2-916e-4364-bb6d-91c310efcf52`
 * creation_date = 2018-09-11
 * modification_date = 2018-09-11
-* id = bb9f5ed2-916e-4364-bb6d-91c310efcf52
 * version = 1.0
 * spec_version = 1
 
@@ -985,8 +2023,52 @@ According to the TA, the the malware continues to be among the most costly and d
 \
 The searches in this Analytic Story will help you find executables that are rarely used in your environment, specific registry paths that malware often uses to ensure survivability and persistence, instances where cmd.exe is used to launch script interpreters, and other indicators that Emotet or other malware has compromised your environment. 
 
+##### Detections
+* Detect Rare Executables
+* Registry Keys Used For Persistence
+* Detect Use of cmd.exe to Launch Script Interpreters
+* Prohibited Software On Endpoint
+* SMB Traffic Spike
+* SMB Traffic Spike - MLTK
+* Suspicious Email Attachment Extensions
+* Email Attachments With Lots Of Spaces
+* Detection of tools built by NirSoft
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Microsoft Exchange
+* Bro
+* Splunk Stream
+
+##### Data Models
+Endpoint
+Email
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -999,9 +2081,9 @@ ATT&CK:
 * https://www.vkremez.com/2017/05/emotet-banking-trojan-malware-analysis.html
 
 ### Hidden Cobra Malware
+* id = `baf7580b-d4b4-4774-8173-7d198e9da335`
 * creation_date = 2018-06-14
 * modification_date = 2018-06-14
-* id = baf7580b-d4b4-4774-8173-7d198e9da335
 * version = 2.0
 * spec_version = 1
 
@@ -1017,8 +2099,52 @@ In June of 2018, The Department of Homeland Security, together with the FBI and 
 \
 Among other searches in this Analytic Story is a detection search that looks for the creation or deletion of hidden shares, such as, "adnim$," which the Hidden Cobra malware creates on the target system. Another looks for the creation of three malicious files associated with the malware. You can also use a search in this story to investigate activity that indicates that malware is sending email back to the attackers.
 
+##### Detections
+* SMB Traffic Spike
+* SMB Traffic Spike - MLTK
+* First time seen command line argument
+* Detect Outbound SMB Traffic
+* Remote Desktop Network Traffic
+* Remote Desktop Process Running On System
+* DNS Query Length With High Standard Deviation
+* Create or delete hidden shares using net.exe
+* Suspicious File Write
+* DNS Query Length Outliers - MLTK
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Splunk Stream
+* Bro
+
+##### Data Models
+Endpoint
+Network_Resolution
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1030,9 +2156,9 @@ ATT&CK:
 * https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Destructive-Malware-Report.pdf
 
 ### Orangeworm Attack Group
+* id = `bb9f5ed2-916e-4364-bb6d-97c370efcf52`
 * creation_date = 2018-06-14
 * modification_date = 2018-06-18
-* id = bb9f5ed2-916e-4364-bb6d-97c370efcf52
 * version = 2.0
 * spec_version = 1
 
@@ -1050,8 +2176,42 @@ Healthcare may be a promising target, because it is notoriously behind in techno
 \
 This Analytic Story is designed to help you detect and investigate suspicious activities that may be indicative of an Orangeworm attack. One detection search looks for command-line arguments. Another monitors for uses of sc.exe, a non-essential Windows file that can manipulate Windows services. One of the investigative searches helps you get more information on web hosts that you suspect have been compromised.
 
+##### Detections
+* First time seen command line argument
+* Sc.exe Manipulating Windows Services
+* First Time Seen Running Windows Service
+
+##### Providing Technologies
+* Microsoft Windows
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -1063,9 +2223,9 @@ ATT&CK:
 * https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/
 
 ### Ransomware
+* id = `cf309d0d-d4aa-4fbb-963d-1e79febd3756`
 * creation_date = 2017-07-24
 * modification_date = 2017-09-10
-* id = cf309d0d-d4aa-4fbb-963d-1e79febd3756
 * version = 1.0
 * spec_version = 1
 
@@ -1075,8 +2235,61 @@ Leverage searches that allow you to detect and investigate unusual activities th
 ##### Narrative
 Ransomware is an ever-present risk to the enterprise, wherein an infected host encrypts business-critical data, holding it hostage until the victim pays the attacker a ransom. There are many types and varieties of ransomware that can affect an enterprise. Attackers can deploy ransomware to enterprises through spearphishing campaigns and driveby downloads, as well as through traditional remote service-based exploitation. In the case of the WannaCry campaign, there was self-propagating wormable functionality that was used to maximize infection. Fortunately, organizations can apply several techniques--such as those in this Analytic Story--to detect and or mitigate the effects of ransomware.
 
+##### Detections
+* Windows Event Log Cleared
+* Suspicious wevtutil Usage
+* USN Journal Deletion
+* Deleting Shadow Copies
+* Spike in File Writes
+* Prohibited Network Traffic Allowed
+* SMB Traffic Spike
+* SMB Traffic Spike - MLTK
+* Common Ransomware Extensions
+* Common Ransomware Notes
+* System Processes Run From Unexpected Locations
+* Remote Process Instantiation via WMI
+* TOR Traffic
+* Registry Keys Used For Persistence
+* Unusually Long Command Line
+* Unusually Long Command Line - MLTK
+* Scheduled tasks used in BadRabbit ransomware
+* Schtasks used for forcing a reboot
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Palo Alto Firewall
+* Bro
+* Splunk Stream
+* Microsoft Windows
+
+##### Data Models
+Endpoint
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -1089,9 +2302,9 @@ ATT&CK:
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 
 ### SamSam Ransomware
+* id = `c4b89506-fbcf-4cb7-bfd6-527e54789604`
 * creation_date = 2018-12-13
 * modification_date = 2018-12-13
-* id = c4b89506-fbcf-4cb7-bfd6-527e54789604
 * version = 1.0
 * spec_version = 1
 
@@ -1111,8 +2324,57 @@ According to Sophos, SamSam previously leveraged  RDP to gain access to targeted
 \
 This Analytic Story includes searches designed to help detect and investigate signs of the SamSam ransomware, such as the creation of fileswrites to system32, writes with tell-tale extensions, batch files written to system32, and evidence of brute-force attacks via RDP.
 
+##### Detections
+* Deleting Shadow Copies
+* Spike in File Writes
+* Common Ransomware Extensions
+* Common Ransomware Notes
+* Prohibited Software On Endpoint
+* Detect PsExec With accepteula Flag
+* Remote Desktop Network Traffic
+* Detect attackers scanning for vulnerable JBoss servers
+* Detect malicious requests to exploit JBoss servers
+* Remote Desktop Network Bruteforce
+* File with Samsam Extension
+* Samsam Test File Write
+* Batch File Write to System32
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Splunk Stream
+* Palo Alto Firewall
+* Apache
+* Bro
+
+##### Data Models
+Endpoint
+Web
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1125,9 +2387,9 @@ ATT&CK:
 * https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-The-Almost-Six-Million-Dollar-Ransomware.pdf?cmp=26061
 
 ### Unusual Processes
+* id = `f4368e3f-d59f-4192-84f6-748ac5a3ddb6`
 * creation_date = 2016-08-09
 * modification_date = 2018-11-20
-* id = f4368e3f-d59f-4192-84f6-748ac5a3ddb6
 * version = 2.0
 * spec_version = 1
 
@@ -1141,8 +2403,45 @@ This Analytic Story lets you identify processes that are either a) not typically
 \
 In the event an unusual process is identified, it is imperative to better understand how that process was able to execute on the host, when it first executed, and whether other hosts are affected. This extra information may provide clues that can help the analyst further investigate any suspicious activity.
 
+##### Detections
+* Uncommon Processes On Endpoint
+* Unusually Long Command Line
+* Unusually Long Command Line - MLTK
+* Detect Rare Executables
+* System Processes Run From Unexpected Locations
+* RunDLL Loading DLL By Ordinal
+* Detect processes used for System Network Configuration Discovery
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -1155,9 +2454,9 @@ ATT&CK:
 * https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
 
 ### Windows File Extension and Association Abuse
+* id = `30552a76-ac78-48e4-b3c0-de4e34e9563d`
 * creation_date = 2018-01-26
 * modification_date = 2018-01-26
-* id = 30552a76-ac78-48e4-b3c0-de4e34e9563d
 * version = 1.0
 * spec_version = 1
 
@@ -1175,8 +2474,41 @@ Changing the association between a file extension and an application can allow a
 \
 Run the searches in this story to detect and investigate suspicious behavior that may indicate abuse or manipulation of Windows file extensions and/or associations.
 
+##### Detections
+* Execution of File with Multiple Extensions
+* Execution of File With Spaces Before Extension
+* Suspicious Changes to File Associations
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1188,9 +2520,9 @@ ATT&CK:
 * https://attack.mitre.org/wiki/Technique/T1042
 
 ### Windows Service Abuse
+* id = `6dbd810e-f66d-414b-8dfc-e46de55cbfe2`
 * creation_date = 2017-11-02
 * modification_date = 2017-11-02
-* id = 6dbd810e-f66d-414b-8dfc-e46de55cbfe2
 * version = 3.0
 * spec_version = 1
 
@@ -1200,8 +2532,42 @@ Windows services are often used by attackers for persistence and the ability to 
 ##### Narrative
 The Windows operating system uses a services architecture to allow for running code in the background, similar to a UNIX daemon. Attackers will often leverage Windows services for persistence, hiding in plain sight, seeking the ability to run privileged code that can interact with the kernel. In many cases, attackers will create a new service to host their malicious code. Attackers have also been observed modifying unnecessary or unused services to point to their own code, as opposed to what was intended. In these cases, attackers often use tools to create or modify services in ways that are not typical for most environments, providing opportunities for detection.
 
+##### Detections
+* Sc.exe Manipulating Windows Services
+* Reg.exe Manipulating Windows Services Registry Keys
+* First Time Seen Running Windows Service
+
+##### Providing Technologies
+* Microsoft Windows
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1215,10 +2581,52 @@ ATT&CK:
 
 ## Adversary Tactics
 
+* [Collection and Staging](#collection-and-staging)
+
+* [Command and Control](#command-and-control)
+
+* [Common Phishing Frameworks](#common-phishing-frameworks)
+
+* [Credential Dumping](#credential-dumping)
+
+* [DNS Hijacking](#dns-hijacking)
+
+* [Disabling Security Tools](#disabling-security-tools)
+
+* [Lateral Movement](#lateral-movement)
+
+* [Malicious PowerShell](#malicious-powershell)
+
+* [Phishing Payloads](#phishing-payloads)
+
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](#possible-backdoor-activity-associated-with-mudcarp-espionage-campaigns)
+
+* [SQL Injection](#sql-injection)
+
+* [Suspicious Command-Line Executions](#suspicious-command-line-executions)
+
+* [Suspicious DNS Traffic](#suspicious-dns-traffic)
+
+* [Suspicious Emails](#suspicious-emails)
+
+* [Suspicious MSHTA Activity](#suspicious-mshta-activity)
+
+* [Suspicious WMI Use](#suspicious-wmi-use)
+
+* [Suspicious Windows Registry Activities](#suspicious-windows-registry-activities)
+
+* [Windows Defense Evasion Tactics](#windows-defense-evasion-tactics)
+
+* [Windows Log Manipulation](#windows-log-manipulation)
+
+* [Windows Persistence Techniques](#windows-persistence-techniques)
+
+* [Windows Privilege Escalation](#windows-privilege-escalation)
+
 ### Collection and Staging
+* id = `8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a`
 * creation_date = 2018-01-08
 * modification_date = 2018-01-08
-* id = 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
 * version = 1.0
 * spec_version = 1
 
@@ -1232,8 +2640,46 @@ A common adversary goal is to identify and exfiltrate data of value from a targe
 \
 Use the searches to detect and monitor suspicious behavior related to these activities.
 
+##### Detections
+* Suspicious writes to windows Recycle Bin
+* Suspicious writes to System Volume Information
+* Email files written outside of the Outlook directory
+* Hosts receiving high volume of network traffic from email server
+* Email servers sending high volume traffic to hosts
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Bro
+* Splunk Stream
+
+##### Data Models
+Endpoint
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1245,9 +2691,9 @@ ATT&CK:
 * https://attack.mitre.org/wiki/Technique/T1074
 
 ### Command and Control
+* id = `943773c6-c4de-4f38-89a8-0b92f98804d8`
 * creation_date = 2018-06-01
 * modification_date = 2018-06-01
-* id = 943773c6-c4de-4f38-89a8-0b92f98804d8
 * version = 1.0
 * spec_version = 1
 
@@ -1259,8 +2705,51 @@ Threat actors typically architect and implement an infrastructure to use in vari
 \
 Because this communication is so critical for an adversary, they often use techniques designed to hide the true nature of the communications. There are many different techniques used to establish and communicate over these channels. This Analytic Story provides searches that look for a variety of the techniques used for these channels, as well as indications that these channels are active, by examining logs associated with border control devices and network-access control lists.
 
+##### Detections
+* Detect Large Outbound ICMP Packets
+* Protocol or Port Mismatch
+* Detection of DNS Tunnels
+* TOR Traffic
+* Prohibited Network Traffic Allowed
+* Clients Connecting to Multiple DNS Servers
+* DNS Query Length With High Standard Deviation
+* Detect hosts connecting to dynamic domain providers
+* Excessive DNS Failures
+* Detect Long DNS TXT Record Response
+* DNS Query Requests Resolved by Unauthorized DNS Servers
+* Detect Spike in blocked Outbound Traffic from your AWS
+* DNS Query Length Outliers - MLTK
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+* Palo Alto Firewall
+* AWS
+
+##### Data Models
+Network_Resolution
+Network_Traffic
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1272,9 +2761,9 @@ ATT&CK:
 * https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
 
 ### Common Phishing Frameworks
+* id = `9a64ab44-9214-4639-8163-7eaa2621bd61`
 * creation_date = 2019-04-29
 * modification_date = 2019-04-29
-* id = 9a64ab44-9214-4639-8163-7eaa2621bd61
 * version = 1.0
 * spec_version = 2
 
@@ -1286,8 +2775,37 @@ As most people know, these emails use fraudulent domains, [email scraping](https
 \
 This Analytic Story focuses on detecting signs of MiTM attacks enabled by [EvilGinx2](https://github.com/kgretzky/evilginx2), a toolkit that sets up a transparent proxy between the targeted site and the user. In this way, the attacker is able to intercept credentials and two-factor identification tokens. It employs a proxy template to allow a registered domain to impersonate targeted sites, such as Linkedin, Amazon, Okta, Github, Twitter, Instagram, Reddit, Office 365, and others. It can even register SSL certificates and camouflage them via a URL shortener, making them difficult to detect. Searches in this story look for signs of MiTM attacks enabled by EvilGinx2.
 
+##### Detections
+* Detect DNS requests to Phishing Sites leveraging EvilGinx2
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+
+##### Data Models
+Network_Resolution
+Web
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Splunk Research Team
@@ -1300,9 +2818,9 @@ ATT&CK:
 * https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/
 
 ### Credential Dumping
+* id = `854d78bf-d0e2-4f4e-b05c-640905f86d7a`
 * creation_date = 2018-08-08
 * modification_date = 2018-08-08
-* id = 854d78bf-d0e2-4f4e-b05c-640905f86d7a
 * version = 1.0
 * spec_version = 1
 
@@ -1316,8 +2834,43 @@ Once attackers obtain valid credentials, they use them to move throughout a targ
 \
 The detection searches in this Analytic Story monitor for the process **reg.exe** with the "save" parameter, as well as for a target registry path that specifies a binary export of credentials from the registry. In addition, the analytics flag Windows events and activities associated with the use of Mimikatz functionality in Powershell Empire.
 
+##### Detections
+* Attempt To Set Default PowerShell Execution Policy To Unrestricted
+* Attempted Credential Dump From Registry Via Reg.exe
+* Detect Mimikatz Via PowerShell And EventCode 4703
+* Detect Mimikatz Via PowerShell And EventCode 4663
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Microsoft Windows
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1330,9 +2883,9 @@ ATT&CK:
 * https://4iq.com/4iq-discovers-1-4-billion-clear-text-credentials-single-database/
 
 ### DNS Hijacking
+* id = `8169f17b-ef68-4b59-aa28-586907301221`
 * creation_date = 2017-11-21
 * modification_date = 2018-09-06
-* id = 8169f17b-ef68-4b59-aa28-586907301221
 * version = 1.0
 * spec_version = 2
 
@@ -1358,8 +2911,39 @@ In DNS hijacking, the attacker assumes control over an account or makes use of a
 \
 The searches in this Analytic Story help you detect and investigate activities that may indicate that DNS hijacking has taken place within your environment.
 
+##### Detections
+* DNS record changed
+* Clients Connecting to Multiple DNS Servers
+* Detect hosts connecting to dynamic domain providers
+* DNS Query Requests Resolved by Unauthorized DNS Servers
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+
+##### Data Models
+Network_Resolution
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -1373,9 +2957,9 @@ ATT&CK:
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
 
 ### Disabling Security Tools
+* id = `fcc27099-46a0-46b0-a271-5c7dab56b6f1`
 * creation_date = 2018-04-09
 * modification_date = 2018-04-09
-* id = fcc27099-46a0-46b0-a271-5c7dab56b6f1
 * version = 1.0
 * spec_version = 1
 
@@ -1385,8 +2969,43 @@ Looks for activities and techniques associated with the disabling of security to
 ##### Narrative
 Attackers employ a variety of tactics in order to avoid detection and operate without barriers. This often involves modifying the configuration of security tools to get around them or explicitly disabling them to prevent them from running. This Analytic Story includes searches that look for activity consistent with attackers attempting to disable various security mechanisms. Such activity may involve monitoring for suspicious registry activity, as this is where much of the configuration for Windows and various other programs reside, or explicitly attempting to shut down security-related services. Other times, attackers attempt various tricks to prevent specific programs from running, such as adding the certificates with which the security tools are signed to a blacklist (which would prevent them from running).
 
+##### Detections
+* Sc.exe Manipulating Windows Services
+* Suspicious Reg.exe Process
+* Processes launching netsh
+* Attempt To Stop Security Service
+* Attempt To Add Certificate To Untrusted Store
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1399,9 +3018,9 @@ ATT&CK:
 * https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf
 
 ### Lateral Movement
+* id = `399d65dc-1f08-499b-a259-aad9051f38ad`
 * creation_date = 2016-09-13
 * modification_date = 2018-05-31
-* id = 399d65dc-1f08-499b-a259-aad9051f38ad
 * version = 1.0
 * spec_version = 1
 
@@ -1419,8 +3038,47 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 \
  It is also important to collect authentication logs for each host, to ensure that the offending accounts are well-documented. Analysts should account for all processes to ensure that the attackers did not install unauthorized software.
 
+##### Detections
+* Schtasks scheduling job on remote system
+* Remote Desktop Process Running On System
+* Remote Desktop Network Traffic
+* Detect Activity Related to Pass the Hash Attacks
+* Remote Registry Key modifications
+
+##### Providing Technologies
+* Microsoft Windows
+* Bro
+* Splunk Stream
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Network_Traffic
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -1432,9 +3090,9 @@ ATT&CK:
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 
 ### Malicious PowerShell
+* id = `2c8ff66e-0b57-42af-8ad7-912438a403fc`
 * creation_date = 2016-09-18
 * modification_date = 2017-08-23
-* id = 2c8ff66e-0b57-42af-8ad7-912438a403fc
 * version = 4.0
 * spec_version = 1
 
@@ -1462,8 +3120,43 @@ It can also be very helpful to examine various behaviors of the process of inter
 \
 In the event a system is suspected of having been compromised via a malicious website, we suggest reviewing the browsing activity from that system around the time of the event. If categories are given for the URLs visited, that can help you zero in on possible malicious sites.
 
+##### Detections
+* Malicious PowerShell Process - Connect To Internet With Hidden Window
+* Malicious PowerShell Process - Encoded Command
+* Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments
+* Malicious PowerShell Process With Obfuscation Techniques
+* Attempt To Set Default PowerShell Execution Policy To Unrestricted
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -1475,9 +3168,9 @@ ATT&CK:
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 
 ### Phishing Payloads
+* id = `57226b40-94f3-4ce5-b101-a75f67759c27`
 * creation_date = 2019-04-29
 * modification_date = 2019-04-29
-* id = 57226b40-94f3-4ce5-b101-a75f67759c27
 * version = 1.0
 * spec_version = 2
 
@@ -1501,8 +3194,40 @@ Following is a typical series of events, according to an [article by Trend Micro
 \
 This Analytic Story focuses on detecting signs that a malicious payload has been injected into your environment. For example, one search detects outlook.exe writing a .zip file. Another looks for suspicious .lnk files launching processes.
 
+##### Detections
+* Detect Oulook.exe writing a .zip file
+* Suspicious LNK file launching a process
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Splunk Research Team
@@ -1513,9 +3238,9 @@ ATT&CK:
 * https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
 
 ### Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+* id = `988C59C5-0A1C-45B6-A555-0C62276E327E`
 * creation_date = 2018-07-24
 * modification_date = 2018-07-24
-* id = 988C59C5-0A1C-45B6-A555-0C62276E327E
 * version = 1.0
 * spec_version = 1
 
@@ -1579,8 +3304,43 @@ If behavioral searches included in this story yield positive hits, iDefense reco
 \
 1. 04d83cd3813698de28cfbba326d7647c
 
+##### Detections
+* First time seen command line argument
+* Registry Keys Used For Persistence
+* Malicious PowerShell Process - Connect To Internet With Hidden Window
+* Unusually Long Command Line
+* Unusually Long Command Line - MLTK
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = iDefense Cyber Espionage Team
@@ -1593,9 +3353,9 @@ ATT&CK:
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
 
 ### SQL Injection
+* id = `4f6632f5-449c-4686-80df-57625f59bab3`
 * creation_date = 2016-09-13
 * modification_date = 2017-09-19
-* id = 4f6632f5-449c-4686-80df-57625f59bab3
 * version = 1.0
 * spec_version = 1
 
@@ -1607,8 +3367,36 @@ It is very common for attackers to inject SQL parameters into vulnerable web app
 \
 This Analytic Story contains a search designed to identify attempts by attackers to leverage this technique to compromise a host and gain a foothold in the target environment.
 
+##### Detections
+* SQL Injection with Long URLs
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+
+##### Data Models
+Web
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -1621,9 +3409,9 @@ ATT&CK:
 * https://www.incapsula.com/web-application-security/sql-injection.html
 
 ### Suspicious Command-Line Executions
+* id = `f4368ddf-d59f-4192-84f6-778ac5a3ffc7`
 * creation_date = 2017-10-09
 * modification_date = 2017-10-23
-* id = f4368ddf-d59f-4192-84f6-778ac5a3ffc7
 * version = 2.0
 * spec_version = 1
 
@@ -1633,8 +3421,44 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 ##### Narrative
 The ability to execute arbitrary commands via the Windows CLI is a primary goal for the adversary. With access to the shell, an attacker can easily run scripts and interact with the target system. Often, attackers may only have limited access to the shell or may obtain access in unusual ways. In addition, malware may execute and interact with the CLI in ways that would be considered unusual and inconsistent with typical user activity. This provides defenders with opportunities to identify suspicious use and investigate, as appropriate. This Analytic Story contains various searches to help identify this suspicious activity, as well as others to aid you in deeper investigation.
 
+##### Detections
+* First time seen command line argument
+* Unusually Long Command Line
+* Unusually Long Command Line - MLTK
+* Detect Prohibited Applications Spawning cmd.exe
+* Detect Use of cmd.exe to Launch Script Interpreters
+* System Processes Run From Unexpected Locations
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -1647,9 +3471,9 @@ ATT&CK:
 * https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
 
 ### Suspicious DNS Traffic
+* id = `3c3835c0-255d-4f9e-ab84-e29ec9ec9b56`
 * creation_date = 2016-09-13
 * modification_date = 2017-09-18
-* id = 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
 * version = 1.0
 * spec_version = 1
 
@@ -1659,8 +3483,43 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 ##### Narrative
 Although DNS is one of the fundamental underlying protocols that make the Internet work, it is often ignored (perhaps because of its complexity and effectiveness).  However, attackers have discovered ways to abuse the protocol to meet their objectives. One potential abuse involves manipulating DNS to hijack traffic and redirect it to an IP address under the attacker's control. This could inadvertently send users intending to visit google.com, for example, to an unrelated malicious website. Another technique involves using the DNS protocol for command-and-control activities with the attacker's malicious code or to covertly exfiltrate data. The searches within this Analytic Story look for these types of abuses.
 
+##### Detections
+* Excessive DNS Failures
+* Clients Connecting to Multiple DNS Servers
+* DNS Query Length With High Standard Deviation
+* DNS Query Requests Resolved by Unauthorized DNS Servers
+* Detect Long DNS TXT Record Response
+* Detection of DNS Tunnels
+* Detect hosts connecting to dynamic domain providers
+* DNS Query Length Outliers - MLTK
+
+##### Providing Technologies
+* Splunk Stream
+* Bro
+
+##### Data Models
+Network_Resolution
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1673,9 +3532,9 @@ ATT&CK:
 * https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454
 
 ### Suspicious Emails
+* id = `2b1800dd-92f9-47ec-a981-fdf1351e5d55`
 * creation_date = 2017-03-24
 * modification_date = 2017-09-19
-* id = 2b1800dd-92f9-47ec-a981-fdf1351e5d55
 * version = 1.0
 * spec_version = 2
 
@@ -1693,8 +3552,36 @@ Once a phishing message has been detected, the next steps are to answer the foll
 \
 1. Have any users interacted with the content of the messages (by downloading an attachment or clicking on a malicious URL)?This Analytic Story provides detection searches to identify suspicious emails, as well as contextual and investigative searches to help answer some of these questions.
 
+##### Detections
+* Suspicious Email Attachment Extensions
+* Email Attachments With Lots Of Spaces
+
+##### Providing Technologies
+* Microsoft Exchange
+
+##### Data Models
+Email
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -1705,9 +3592,9 @@ ATT&CK:
 * https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
 
 ### Suspicious MSHTA Activity
+* id = `2b1800dd-92f9-47dd-a981-fdf13w1q5d55`
 * creation_date = 2018-08-07
 * modification_date = 2018-08-07
-* id = 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
 * version = 1.0
 * spec_version = 1
 
@@ -1721,8 +3608,41 @@ One example of a notable mshta.exe attack was the Kovter malware (https://medium
 \
 The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code.
 
+##### Detections
+* Detect mshta.exe running scripts in command-line arguments
+* Registry Keys Used For Persistence
+* Detect Prohibited Applications Spawning cmd.exe
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -1735,9 +3655,9 @@ ATT&CK:
 * https://attack.mitre.org/wiki/Technique/T1170
 
 ### Suspicious WMI Use
+* id = `c8ddc5be-69bc-4202-b3ab-4010b27d7ad5`
 * creation_date = 2017-01-13
 * modification_date = 2018-10-23
-* id = c8ddc5be-69bc-4202-b3ab-4010b27d7ad5
 * version = 2.0
 * spec_version = 1
 
@@ -1751,8 +3671,46 @@ The detection searches included in this Analytic Story are used to look for susp
 \
 In the event that unauthorized WMI execution occurs, it will be important for analysts and investigators to determine the context of the event. These details may provide insights related to how WMI was used and to what end.
 
+##### Detections
+* Remote WMI Command Attempt
+* Remote Process Instantiation via WMI
+* WMI Permanent Event Subscription
+* WMI Permanent Event Subscription - Sysmon
+* WMI Temporary Event Subscription
+* Process Execution via WMI
+* Script Execution via WMI
+
+##### Providing Technologies
+* Carbon Black Response
+* Sysmon
+* Tanium
+* Ziften
+* CrowdStrike Falcon
+* Microsoft Windows
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1764,9 +3722,9 @@ ATT&CK:
 * https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
 
 ### Suspicious Windows Registry Activities
+* id = `2b1800dd-92f9-47dd-a981-fdf1351e5d55`
 * creation_date = 2018-05-31
 * modification_date = 2018-05-31
-* id = 2b1800dd-92f9-47dd-a981-fdf1351e5d55
 * version = 1.0
 * spec_version = 1
 
@@ -1780,8 +3738,47 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 \
  The searches in this story are designed to help you detect behaviors associated with manipulation of the Windows registry.
 
+##### Detections
+* Remote Registry Key modifications
+* Suspicious Changes to File Associations
+* Disabling Remote User Account Control
+* Registry Keys for Creating SHIM Databases
+* Monitor Registry Keys for Print Monitors
+* Reg.exe used to hide files/directories via registry keys
+* Registry Keys Used For Persistence
+* Registry Keys Used For Privilege Escalation
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+Change_Analysis
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Bhavin Patel
@@ -1793,9 +3790,9 @@ ATT&CK:
 * https://attack.mitre.org/wiki/Technique/T1112
 
 ### Windows Defense Evasion Tactics
+* id = `56e24a28-5003-4047-b2db-e8f3c4618064`
 * creation_date = 2017-10-11
 * modification_date = 2018-05-31
-* id = 56e24a28-5003-4047-b2db-e8f3c4618064
 * version = 1.0
 * spec_version = 1
 
@@ -1805,8 +3802,43 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 ##### Narrative
 Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adversaries employ in a variety of ways to bypass or defeat defensive security measures. There are many techniques enumerated by the MITRE ATT&CK framework that are applicable in this context. This Analytic Story includes searches designed to identify the use of such techniques on Windows platforms.
 
+##### Detections
+* Suspicious Reg.exe Process
+* Disabling Remote User Account Control
+* Hiding Files And Directories With Attrib.exe
+* Reg.exe used to hide files/directories via registry keys
+* Remote Registry Key modifications
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -1817,9 +3849,9 @@ ATT&CK:
 * https://attack.mitre.org/wiki/Defense_Evasion
 
 ### Windows Log Manipulation
+* id = `b6db2c60-a281-48b4-95f1-2cd99ed56835`
 * creation_date = 2017-02-17
 * modification_date = 2017-09-12
-* id = b6db2c60-a281-48b4-95f1-2cd99ed56835
 * version = 2.0
 * spec_version = 1
 
@@ -1831,8 +3863,43 @@ Because attackers often modify system logs to cover their tracks and/or to thwar
 \
 The Analytic Story gives users two different ways to detect manipulation of Windows Event Logs and one way to detect deletion of the Update Sequence Number (USN) Change Journal. The story helps determine the history of the host and the users who have accessed it. Finally, the story aides in investigation by retrieving all the information on the process that caused these events (if the process has been identified).
 
+##### Detections
+* Deleting Shadow Copies
+* Windows Event Log Cleared
+* Suspicious wevtutil Usage
+* USN Journal Deletion
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+* Microsoft Windows
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = Rico Valdez
@@ -1845,9 +3912,9 @@ ATT&CK:
 * http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html
 
 ### Windows Persistence Techniques
+* id = `30874d4f-20a1-488f-85ec-5d52ef74e3f9`
 * creation_date = 2017-04-19
 * modification_date = 2018-05-31
-* id = 30874d4f-20a1-488f-85ec-5d52ef74e3f9
 * version = 2.0
 * spec_version = 1
 
@@ -1857,8 +3924,51 @@ Monitor for activities and techniques associated with maintaining persistence on
 ##### Narrative
 Maintaining persistence is one of the first steps taken by attackers after the initial compromise. Attackers leverage various custom and built-in tools to ensure survivability and persistent access within a compromised enterprise. This Analytic Story provides searches to help you identify various behaviors used by attackers to maintain persistent access to a Windows environment.
 
+##### Detections
+* Registry Keys for Creating SHIM Databases
+* Shim Database Installation With Suspicious Parameters
+* Shim Database File Creation
+* Registry Keys Used For Persistence
+* Schtasks used for forcing a reboot
+* Sc.exe Manipulating Windows Services
+* Reg.exe Manipulating Windows Services Registry Keys
+* Hiding Files And Directories With Attrib.exe
+* Reg.exe used to hide files/directories via registry keys
+* Detect Path Interception By Creation Of program.exe
+* Monitor Registry Keys for Print Monitors
+* Remote Registry Key modifications
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Tanium
+* Ziften
+* Sysmon
+
+##### Data Models
+Endpoint
+Change_Analysis
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey
@@ -1876,9 +3986,9 @@ ATT&CK:
 * https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf
 
 ### Windows Privilege Escalation
+* id = `644e22d3-598a-429c-a007-16fdb802cae5`
 * creation_date = 2017-12-07
 * modification_date = 2017-12-07
-* id = 644e22d3-598a-429c-a007-16fdb802cae5
 * version = 2.0
 * spec_version = 1
 
@@ -1888,8 +3998,42 @@ Monitor for and investigate activities that may be associated with a Windows pri
 ##### Narrative
 Privilege escalation is a "land-and-expand" technique, wherein an adversary gains an initial foothold on a host and then exploits its weaknesses to increase his privileges. The motivation is simple: certain actions on a Windows machine--such as installing software--may require higher-level privileges than those the attacker initially acquired. By increasing his privilege level, the attacker can gain the control required to carry out his malicious ends. This Analytic Story provides searches to detect and investigate behaviors that attackers may use to elevate their privileges in your environment.
 
+##### Detections
+* Overwriting Accessibility Binaries
+* Registry Keys Used For Privilege Escalation
+* Uncommon Processes On Endpoint
+* Child Processes of Spoolsv.exe
+
+##### Providing Technologies
+* Carbon Black Response
+* CrowdStrike Falcon
+* Sysmon
+* Tanium
+* Ziften
+
+##### Data Models
+Endpoint
+
 ##### Mappings
-ATT&CK: 
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
 
 ##### Maintainers
 * name = David Dorsey

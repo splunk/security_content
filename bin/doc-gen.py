@@ -36,6 +36,217 @@ def markdown(x):
     return markdown
 
 
+def process_data_metadata(obj, complete_obj, name):
+
+    # collect tagging
+    metadata = obj['data_metadata']
+    if 'data_models' in metadata:
+        complete_obj[name]['data_models'] = metadata['data_models']
+    if 'providing_technologies' in metadata:
+        complete_obj[name]['providing_technologies'] = metadata['providing_technologies']
+    if 'data_source' in metadata:
+        complete_obj[name]['data_source'] = metadata['data_source']
+
+    if 'mappings' in obj:
+        complete_obj[name]['mappings'] = obj['mappings']
+    if 'fields_required' in obj:
+        complete_obj[name]['entities'] = obj['fields_required']
+    if 'entities' in obj:
+        complete_obj[name]['entities'] = obj['entities']
+
+    return complete_obj
+
+
+def process_metadata(detections, story_name):
+    # grab mappings
+    mappings = dict()
+
+    # grab provising technologies
+    providing_technologies = []
+
+    # grab datamodels
+    data_models = []
+
+    # process the above for detections
+    for detection_name, detection in sorted(detections.iteritems()):
+        for s in detection['stories']:
+
+            # check if the detection is part of this story
+            if s == story_name:
+                # grab providing technologies
+                if 'providing_technologies' in detection:
+                    for pt in detection['providing_technologies']:
+                        providing_technologies.append(pt)
+
+                # grab data models
+                if 'data_models' in detection:
+                    for dm in detection['data_models']:
+                        data_models.append(dm)
+
+            for key in detection['mappings'].keys():
+                mappings[key] = list(detection['mappings'][key])
+
+    return mappings, providing_technologies, data_models
+
+
+def generate_detections(REPO_PATH, stories):
+    # first we process detections
+
+    detections = []
+    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.json")
+    for detections_manifest_file in glob.glob(detections_manifest_files):
+        # read in each story
+        try:
+            detection = json.loads(
+                open(detections_manifest_file, 'r').read())
+        except IOError:
+            sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+        detections.append(detection)
+
+    complete_detections = dict()
+    for detection in detections:
+        # lets process v1 detections
+        if detection['spec_version'] == 1:
+            if verbose:
+                print "processing v1 detection: {0}".format(detection['search_name'])
+            name = detection['search_name']
+            type = 'splunk'
+            description = detection['search_description']
+            id = detection['search_id']
+
+            # grab search information
+            correlation_rule = detection['correlation_rule']
+            search = detection['search']
+            schedule = detection['scheduling']
+            earliest_time = schedule['earliest_time']
+            latest_time = schedule['latest_time']
+            cron = schedule['cron_schedule']
+
+            # grabbing entities
+            entities = []
+
+            investigations = []
+            baselines = []
+            responses = []
+            for story_name, story in sorted(stories.iteritems()):
+                for d in story['detections']:
+                    if d['name'] == name:
+                        if 'investigations' in story:
+                            investigations = story['investigations']
+                        if 'baselines' in story:
+                            baselines = story['baselines']
+
+        # lets process v2 detections
+        if detection['spec_version'] == 2:
+            if verbose:
+                print "processing v2 detection: {0}".format(detection['name'])
+            name = detection['name']
+            id = detection['id']
+            entities = detection['entities']
+            description = detection['description']
+
+            # splunk
+            if 'splunk' in detection['detect']:
+                type = 'splunk'
+                correlation_rule = detection['detect']['splunk']['correlation_rule']
+                search = correlation_rule['search']
+                earliest_time = correlation_rule['schedule']['earliest_time']
+                latest_time = correlation_rule['schedule']['latest_time']
+                cron = correlation_rule['schedule']['cron_schedule']
+
+            # uba
+            if 'uba' in detection['detect']:
+                uba = detection['detect']['uba']
+                type = 'uba'
+                search = uba['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
+                # earliest_time = uba['earliest_time']
+                # latest_time = uba['latest_time']
+                # cron = uba['cron_schedule']
+
+            # phantom
+            if 'phantom' in detection['detect']:
+                phantom = detection['detect']['phantom']
+                type = 'phantom'
+                search = phantom['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
+                # earliest_time = phantom['earliest_time']
+                # latest_time = phantom['latest_time']
+                # cron = phantom['cron_schedule']
+
+            baselines = []
+            investigations = []
+            responses = []
+            if 'baselines' in detection:
+                for b in detection['baselines']:
+                    baselines.append({"type": b['product_type'], "name": b['name']})
+            if 'investigations' in detection:
+                for i in detection['investigations']:
+                    investigations.append({"type": i['product_type'], "name": i['name']})
+            if 'responses' in detection:
+                for r in detection['responses']:
+                    responses.append({"type": r['product_type'], "name": r['name']})
+
+        complete_detections[name] = {}
+        complete_detections[name]['detection_name'] = name
+        complete_detections[name]['id'] = id
+        complete_detections[name]['search'] = search
+        complete_detections[name]['latest_time'] = latest_time
+        complete_detections[name]['earliest_time'] = earliest_time
+        complete_detections[name]['cron'] = cron
+        complete_detections[name]['investigations'] = investigations
+        complete_detections[name]['baselines'] = baselines
+        complete_detections[name]['responses'] = responses
+        complete_detections[name]['entities'] = entities
+        complete_detections[name]['description'] = description
+        complete_detections[name]['correlation_rule'] = correlation_rule
+        complete_detections[name]['type'] = type
+        complete_detections[name]['maintainers'] = detection['maintainers']
+        if 'references' not in detection:
+            detection['references'] = []
+        complete_detections[name]['references'] = detection['references']
+        if 'channel' not in detection:
+            detection['channel'] = ""
+        complete_detections[name]['channel'] = detection['channel']
+        if 'confidence' not in detection:
+            detection['confidence'] = ""
+        complete_detections[name]['confidence'] = detection['confidence']
+        if 'eli5' not in detection:
+            detection['eli5'] = ""
+        complete_detections[name]['eli5'] = detection['eli5']
+        if 'how_to_implement' not in detection:
+            detection['how_to_implement'] = ""
+        complete_detections[name]['how_to_implement'] = detection['how_to_implement']
+        if 'asset_type' not in detection:
+            detection['asset_type'] = ""
+        complete_detections[name]['asset_type'] = detection['asset_type']
+        if 'known_false_positives' not in detection:
+            detection['known_false_positives'] = ""
+        complete_detections[name]['known_false_positives'] = detection['known_false_positives']
+        complete_detections[name]['security_domain'] = detection['security_domain']
+        complete_detections[name]['version'] = detection['version']
+        complete_detections[name]['spec_version'] = detection['spec_version']
+        complete_detections[name]['creation_date'] = detection['creation_date']
+        # set modification date to creation of there is not one
+        if 'modification_date' in detection:
+            complete_detections[name]['modification_date'] = detection['modification_date']
+        else:
+            complete_detections[name]['modification_date'] = detection['creation_date']
+
+        # process its metadata
+        complete_detections = process_data_metadata(detection, complete_detections, name)
+
+        # stories associated with the detection
+        complete_detections[name]['stories'] = []
+        for story_name, story in sorted(stories.iteritems()):
+            for d in story['detections']:
+                if d['name'] == name:
+                    complete_detections[name]['stories'].append(story['story_name'])
+
+        # sort uniq the results
+        complete_detections[name]['stories'] = sorted(set(complete_detections[name]['stories']))
+
+    return complete_detections
+
+
 def generate_stories(REPO_PATH, verbose):
     story_files = []
     story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
@@ -116,7 +327,7 @@ def generate_stories(REPO_PATH, verbose):
     return complete_stories
 
 
-def write_splunk_docs(stories, OUTPUT_DIR):
+def write_splunk_docs(stories, detections, OUTPUT_DIR):
 
     paths = []
     # Create conf files from analytics stories files
@@ -142,41 +353,68 @@ def write_splunk_docs(stories, OUTPUT_DIR):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n==={0}===\n".format(story_name))
-
                 # header information
-                output_file.write("""
-                                 <div class="toccolours mw-collapsible">
-                                 <div class="mw-collapsible-content">
-                                 """)
+                output_file.write("""\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
+                output_file.write("\n====Description====\n{0}\n".format(story['description']))
+                output_file.write("\n====Narrative====\n{0}\n".format(story['narrative']))
 
-                output_file.write("'''Description''' <br/>\n{0}\n\n".format(story['description']))
-                output_file.write("'''Narrative''' <br/>\n{0}\n\n".format(story['narrative']))
+                mappings, providing_technologies, data_models = process_metadata(detections, story_name)
 
-                # print mappings
-                output_file.write("""
-                ''' Framework Mappings ''' <br/>
-                '''ATT&CK''':  <br/>
-                '''Kill Chain Phases''': Actions on Objectives<br/>
-                '''CIS 20''': CIS 11, CIS 12<br/>
-                '''NIST''': PR.PT, DE.AE, PR.IP<br/>
+                # providing tech
+                output_file.write("\n====Providing Technologies====\n")
+                providing_technologies = unique(providing_technologies)
+                for pt in providing_technologies:
+                    output_file.write("* {0}\n".format(pt))
 
-                '''Data Dependencies'''
-                '''Data Models''': <br/>
-                '''Providing Technologies''': <br/>
-                \n
-                """)
+                # providing tech
+                output_file.write("\n====Data Models====\n")
+                data_models = unique(data_models)
+                for dm in data_models:
+                    output_file.write("* {0}\n".format(dm))
+
+                # mappings
+                output_file.write("\n====Mappings====\n")
+
+                output_file.write("\n=====ATT&CK=====\n")
+                if mappings['mitre_attack']:
+                    for m in mappings['mitre_attack']:
+                        output_file.write("* {0}\n".format(m))
+
+                output_file.write("\n=====Kill Chain Phases=====\n")
+                if mappings['kill_chain_phases']:
+                    for m in mappings['kill_chain_phases']:
+                        output_file.write("* {0}\n".format(m))
+
+                if mappings['cis20']:
+                    output_file.write("\n=====CIS=====\n")
+                    for m in mappings['cis20']:
+                        output_file.write("* {0}\n".format(m))
+
+                if mappings['nist']:
+                    output_file.write("\n=====NIST=====\n")
+                    for m in mappings['nist']:
+                        output_file.write("* {0}\n".format(m))
+
+                # references
+                output_file.write("\n====References====\n")
+                for r in story['references']:
+                    output_file.write("* {0}\n".format(markdown(r)))
+
+                # story details
+                output_file.write("\ncreation_date = {0}\n\n".format(story['creation_date']))
+                output_file.write("modification_date = {0}\n\n".format(story['modification_date']))
+                output_file.write("version = {0}\n".format(story['version']))
 
                 # footer information
-                output_file.write("""
-                </div></div>
-                """)
+                output_file.write("""\n</div>\n</div>\n""")
+    output_file.write("""\n[[Category:V:Lab:drafts]]""")
 
     output_file.close()
     story_count = len(stories.keys())
     return story_count, paths
 
 
-def write_markdown_docs(stories, OUTPUT_DIR):
+def write_markdown_docs(stories, detections, OUTPUT_DIR):
     paths = []
     # Create conf files from analytics stories files
     splunk_docs_output_path = OUTPUT_DIR + "/stories_categories.md"
@@ -194,12 +432,18 @@ def write_markdown_docs(stories, OUTPUT_DIR):
     # get a unique set of them
     categories = unique(categories)
 
-    # build category table
+    # build category TOC
     for c in categories:
         output_file.write("\n* [{0}](#{1})\n".format(c[0], c[0].replace(' ', '-').lower()))
 
     for c in categories:
         output_file.write("\n\n## {0}\n".format(c[0]))
+
+        # build story TOC
+        for story_name, story in sorted(stories.iteritems()):
+            # if the category matches
+            if story['category'] == c:
+                output_file.write("\n* [{0}](#{1})\n".format(story_name, story_name.replace(' ', '-').lower()))
 
         # iterate through every story and print it out
         for story_name, story in sorted(stories.iteritems()):
@@ -207,9 +451,9 @@ def write_markdown_docs(stories, OUTPUT_DIR):
             if story['category'] == c:
                 output_file.write("\n### {0}\n".format(story_name))
                 # basic story info
+                output_file.write("* id = `{0}`\n".format(story['id']))
                 output_file.write("* creation_date = {0}\n".format(story['creation_date']))
                 output_file.write("* modification_date = {0}\n".format(story['modification_date']))
-                output_file.write("* id = {0}\n".format(story['id']))
                 output_file.write("* version = {0}\n".format(story['version']))
                 output_file.write("* spec_version = {0}\n".format(story['spec_version']))
 
@@ -217,9 +461,49 @@ def write_markdown_docs(stories, OUTPUT_DIR):
                 output_file.write("\n##### Description\n{0}\n".format(markdown(story['description'])))
                 output_file.write("\n##### Narrative\n{0}\n".format(markdown(story['narrative'])))
 
+                # process detections
+                output_file.write("\n##### Detections\n")
+                # write all detections
+                if 'detections' in story:
+                    for d in story['detections']:
+                        output_file.write("* {0}\n".format(d['name']))
+
+                mappings, providing_technologies, data_models = process_metadata(detections, story_name)
+
+                # providing tech
+                output_file.write("\n##### Providing Technologies\n")
+                providing_technologies = unique(providing_technologies)
+                for pt in providing_technologies:
+                    output_file.write("* {0}\n".format(pt))
+
+                # data models
+                output_file.write("\n##### Data Models\n")
+                data_models = unique(data_models)
+                for dm in data_models:
+                    output_file.write("{0}\n".format(dm))
+
                 # mappings
                 output_file.write("\n##### Mappings\n")
-                output_file.write("ATT&CK: \n")
+
+                output_file.write("\n###### ATT&CK\n")
+                if mappings['mitre_attack']:
+                    for m in mappings['mitre_attack']:
+                        output_file.write("* {0}\n".format(m))
+
+                output_file.write("\n###### Kill Chain Phases\n")
+                if mappings['kill_chain_phases']:
+                    for m in mappings['kill_chain_phases']:
+                        output_file.write("* {0}\n".format(m))
+
+                if mappings['cis20']:
+                    output_file.write("\n###### CIS\n")
+                    for m in mappings['cis20']:
+                        output_file.write("* {0}\n".format(m))
+
+                if mappings['nist']:
+                    output_file.write("\n###### NIST\n")
+                    for m in mappings['nist']:
+                        output_file.write("* {0}\n".format(m))
 
                 # maintainers
                 output_file.write("\n##### Maintainers\n")
@@ -260,16 +544,17 @@ if __name__ == "__main__":
     gmd = args.gen_markdown_docs
 
     complete_stories = generate_stories(REPO_PATH, verbose)
+    complete_detections = generate_detections(REPO_PATH, complete_stories)
 
     if gsd:
-        story_count, paths = write_splunk_docs(complete_stories, OUTPUT_DIR)
+        story_count, paths = write_splunk_docs(complete_stories, complete_detections, OUTPUT_DIR)
         for p in paths:
             print "{0} story documents have been successfully written to {1}".format(story_count, p)
     else:
         print "--gen_splunk_docs  was set to false, not generating splunk documentation"
 
     if gmd:
-        story_count, paths = write_markdown_docs(complete_stories, OUTPUT_DIR)
+        story_count, paths = write_markdown_docs(complete_stories, complete_detections,  OUTPUT_DIR)
         for p in paths:
             print "{0} story documents have been successfully written to {1}".format(story_count, p)
     else:
