@@ -18,6 +18,6 @@ scandir==1.10.0
 semantic_version==2.6.0
 six==1.12.0
 toml==0.10.0
-typing==3.6.6
+typing==3.7.4
 virtualenv==16.7.2
 zipp==0.5.2
