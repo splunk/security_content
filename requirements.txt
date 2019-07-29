@@ -6,7 +6,7 @@ contextlib2==0.5.5
 functools32==3.2.3.post2
 futures==3.2.0
 identify==1.4.5
-importlib-metadata==0.18
+importlib-metadata==0.19
 importlib-resources==1.0.2
 jsonschema==3.0.1
 nodeenv==1.3.3
