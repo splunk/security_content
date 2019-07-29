@@ -74,26 +74,26 @@
       "type": "string"
     },
     "detections": {
-      "description": "An array of detection mechanisms from Splunk, UBA and phantom. ",
+      "description": "An array of detection mechanisms from Splunk, UBA, and Phantom. ",
       "items": {
         "additionalProperties": false,
         "properties": {
           "detection_id": {
-            "description": "unique identifier of the detection, in the form of UUID",
+            "description": "Unique identifier of the detection, in the form of UUID",
             "examples": [
               "1169w17b-ef78-4b59-aae8-5369073014e1"
             ],
             "type": "string"
           },
           "name": {
-            "description": "Name of the Detection. It can be a name of a Splunk correlation search name, a UBA threat or a Phantom detection playbook.",
+            "description": "Name of the Detection. This can be a name of a Splunk correlation search, a UBA threat, or a Phantom detection playbook.",
             "examples": [
               "DNS record changed"
             ],
             "type": "string"
           },
           "type": {
-            "description": "What product gives you a detection",
+            "description": "Product providing the detection",
             "enum": [
               "splunk",
               "uba",
@@ -125,7 +125,7 @@
       "type": "string"
     },
     "maintainers": {
-      "description": "An array of the current maintainers of the Analytic Story.",
+      "description": "An array of the current maintainers of the Analytic Story",
       "items": {
         "additionalProperties": false,
         "properties": {
@@ -218,7 +218,7 @@
       "type": "array"
     },
     "references": {
-      "description": "An array of URLs that give information about the problem the story is addressing",
+      "description": "An array of URLs that provide information about the problem the story addresses",
       "examples": [
         "https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html"
       ],
@@ -237,7 +237,7 @@
       "type": "integer"
     },
     "usecase": {
-      "description": "The usecase to which the Analytic Story belongs to.",
+      "description": "The use case to which the Analytic Story belongs",
       "enum": [
         "Security Monitoring",
         "Advanced Threat Detection",
@@ -250,7 +250,7 @@
       ]
     },
     "version": {
-      "description": "The version of the Analytic Story, bump the version number when the story gets an update",
+      "description": "The version of the Analytic Story (bumps the version number when the story gets an update)",
       "examples": [
         "1.0"
       ],

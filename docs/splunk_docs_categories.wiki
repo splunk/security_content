@@ -28,7 +28,6 @@ Amazon Web Services (AWS) admins manage access to AWS resources and services acr
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===AWS Cryptomining===
@@ -55,7 +54,6 @@ Cryptomining is an intentionally difficult, resource-intensive business. Its com
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===AWS Network ACL Activity===
@@ -82,7 +80,6 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===AWS Suspicious Provisioning Activities===
@@ -109,7 +106,6 @@ Because most enterprise AWS activities originate from familiar geographic locati
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===AWS User Monitoring===
@@ -136,7 +132,6 @@ It seems obvious that it is critical to monitor and control the users who have a
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious AWS EC2 Activities===
@@ -163,7 +158,6 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious AWS Login Activities===
@@ -190,7 +184,6 @@ It is important to monitor and control who has access to your AWS infrastructure
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious AWS S3 Activities===
@@ -217,7 +210,6 @@ As cloud computing has exploded, so has the number of creative attacks on virtua
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious AWS Traffic===
@@ -244,7 +236,6 @@ A virtual private cloud (VPC) is an on-demand managed cloud-computing service th
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Unusual AWS EC2 Modifications===
@@ -271,7 +262,6 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 
@@ -301,7 +291,6 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Asset Tracking===
@@ -328,7 +317,6 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Monitor Backup Solution===
@@ -355,7 +343,6 @@ Having backups is a standard best practice that helps ensure continuity of busin
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Monitor for Unauthorized Software===
@@ -382,7 +369,6 @@ It is critical to identify unauthorized software and processes running on enterp
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Monitor for Updates===
@@ -409,7 +395,6 @@ It is a common best practice to ensure that endpoints are being patched and upda
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Prohibited Traffic Allowed or Protocol Mismatch===
@@ -436,7 +421,6 @@ A traditional security best practice is to control the ports, protocols, and ser
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Router & Infrastructure Security===
@@ -463,7 +447,6 @@ Networking devices, such as routers and switches, are often overlooked as resour
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Use of Cleartext Protocols===
@@ -490,7 +473,6 @@ Various legacy protocols operate by default in the clear, without the protection
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 
@@ -520,7 +502,6 @@ In March of 2017, a remote code-execution vulnerability in the Jakarta Multipart
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===JBoss Vulnerability===
@@ -547,7 +528,6 @@ This Analytic Story looks for probing and exploitation attempts targeting JBoss 
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Spectre And Meltdown Vulnerabilities===
@@ -574,7 +554,6 @@ Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow 
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Splunk Enterprise Vulnerability===
@@ -601,7 +580,6 @@ This Analytic Story is associated with CVE-2016-4859, an open-redirect vulnerabi
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Splunk Enterprise Vulnerability CVE-2018-11409===
@@ -628,7 +606,6 @@ Although there have been no reports of it being exploited, Splunk Enterprise ver
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 
@@ -658,7 +635,6 @@ While you can educate your users and customers about the risks and threats posed
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===DNS Amplification Attacks===
@@ -685,7 +661,6 @@ The Domain Name System (DNS) is the protocol used to map domain names to IP addr
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Data Protection===
@@ -712,7 +687,6 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Host Redirection===
@@ -739,7 +713,6 @@ Attackers will often attempt to manipulate client communications for nefarious p
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Netsh Abuse===
@@ -766,7 +739,6 @@ It is a common practice for attackers of all types to leverage native Windows to
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Web Fraud Detection===
@@ -793,7 +765,6 @@ The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of 
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 
@@ -823,7 +794,6 @@ Conventional wisdom holds that Apple's MacOS operating system is significantly l
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===DHS Report TA18-074A===
@@ -850,7 +820,6 @@ The frequency of nation-state cyber attacks has increased significantly over the
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Dynamic DNS===
@@ -877,7 +846,6 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Emotet Malware (DHS Report TA18-201A)===
@@ -904,7 +872,6 @@ The trojan downloader known as Emotet first surfaced in 2014, when it was discov
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Hidden Cobra Malware===
@@ -931,7 +898,6 @@ North Korea's government-sponsored "cyber army" has been slowly building momentu
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Orangeworm Attack Group===
@@ -958,7 +924,6 @@ In May of 2018, the attack group Orangeworm was implicated for installing a cust
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Ransomware===
@@ -985,7 +950,6 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===SamSam Ransomware===
@@ -1012,7 +976,6 @@ The first version of the SamSam ransomware (a.k.a. Samas or SamsamCrypt) was lau
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Unusual Processes===
@@ -1039,7 +1002,6 @@ Being able to profile a host's processes within your environment can help you mo
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Windows File Extension and Association Abuse===
@@ -1066,7 +1028,6 @@ Attackers use a variety of techniques to entice users to run malicious code or t
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Windows Service Abuse===
@@ -1093,7 +1054,6 @@ The Windows operating system uses a services architecture to allow for running c
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 
@@ -1123,7 +1083,6 @@ A common adversary goal is to identify and exfiltrate data of value from a targe
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Command and Control===
@@ -1150,7 +1109,6 @@ Threat actors typically architect and implement an infrastructure to use in vari
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Common Phishing Frameworks===
@@ -1177,7 +1135,6 @@ As most people know, these emails use fraudulent domains, [email scraping](https
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Credential Dumping===
@@ -1204,7 +1161,6 @@ Credential dumping&#151;gathering credentials from a target system, often hashed
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===DNS Hijacking===
@@ -1231,7 +1187,6 @@ Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/t
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Disabling Security Tools===
@@ -1258,7 +1213,6 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Lateral Movement===
@@ -1285,7 +1239,6 @@ Once attackers gain a foothold within an enterprise, they will seek to expand th
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Malicious PowerShell===
@@ -1312,7 +1265,6 @@ The searches in this Analytic Story monitor for parameters often used for malici
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Phishing Payloads===
@@ -1339,7 +1291,6 @@ Despite its simplicity, phishing remains the most pervasive and dangerous cybert
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns===
@@ -1366,7 +1317,6 @@ This story was created as a joint effort between iDefense and Splunk.<br></br>iD
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===SQL Injection===
@@ -1393,7 +1343,6 @@ It is very common for attackers to inject SQL parameters into vulnerable web app
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious Command-Line Executions===
@@ -1420,7 +1369,6 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious DNS Traffic===
@@ -1447,7 +1395,6 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious Emails===
@@ -1474,7 +1421,6 @@ It is a common practice for attackers of all types to leverage targeted spearphi
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious MSHTA Activity===
@@ -1501,7 +1447,6 @@ One common adversary tactic is to bypass application white-listing solutions via
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious WMI Use===
@@ -1528,7 +1473,6 @@ WMI is a Microsoft infrastructure for management data and operations on Windows 
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Suspicious Windows Registry Activities===
@@ -1555,7 +1499,6 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Windows Defense Evasion Tactics===
@@ -1582,7 +1525,6 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Windows Log Manipulation===
@@ -1609,7 +1551,6 @@ Because attackers often modify system logs to cover their tracks and/or to thwar
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Windows Persistence Techniques===
@@ -1636,7 +1577,6 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
 ===Windows Privilege Escalation===
@@ -1663,6 +1603,5 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
                 
                 </div></div>
-                
                 [[Category:V:Lab:drafts]]
                 
