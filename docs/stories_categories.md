@@ -3555,12 +3555,14 @@ Once a phishing message has been detected, the next steps are to answer the foll
 ##### Detections
 * Suspicious Email Attachment Extensions
 * Email Attachments With Lots Of Spaces
+* Suspicious Email - UBA Anomaly
 
 ##### Providing Technologies
 * Microsoft Exchange
 
 ##### Data Models
 Email
+UEBA
 
 ##### Mappings
 

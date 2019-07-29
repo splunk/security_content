@@ -177,13 +177,13 @@ def generate_detections(REPO_PATH, stories):
             responses = []
             if 'baselines' in detection:
                 for b in detection['baselines']:
-                    baselines.append({"type": b['product_type'], "name": b['name']})
+                    baselines.append({"type": b['type'], "name": b['name']})
             if 'investigations' in detection:
                 for i in detection['investigations']:
-                    investigations.append({"type": i['product_type'], "name": i['name']})
+                    investigations.append({"type": i['type'], "name": i['name']})
             if 'responses' in detection:
                 for r in detection['responses']:
-                    responses.append({"type": r['product_type'], "name": r['name']})
+                    responses.append({"type": r['type'], "name": r['name']})
 
         complete_detections[name] = {}
         complete_detections[name]['detection_name'] = name
@@ -353,9 +353,10 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n==={0}===\n".format(story_name))
+                output_file.write("\n{0}\n".format(story['description']))
+                output_file.write(
+                    """\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
                 # header information
-                output_file.write("""\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
-                output_file.write("\n====Description====\n{0}\n".format(story['description']))
                 output_file.write("\n====Narrative====\n{0}\n".format(story['narrative']))
 
                 mappings, providing_technologies, data_models = process_metadata(detections, story_name)
