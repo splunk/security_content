@@ -373,12 +373,13 @@ def generate_detections(REPO_PATH, stories):
 
             # uba
             if 'uba' in detection['detect']:
-                uba = detection['detect']['uba']
+                # uba = detection['detect']['uba']
                 type = 'uba'
-                search = uba['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
-                # earliest_time = uba['earliest_time']
-                # latest_time = uba['latest_time']
-                # cron = uba['cron_schedule']
+                correlation_rule = detection['detect']['uba']['correlation_rule']
+                search = correlation_rule['search']
+                earliest_time = correlation_rule['schedule']['earliest_time']
+                latest_time = correlation_rule['schedule']['latest_time']
+                cron = correlation_rule['schedule']['cron_schedule']
 
             # phantom
             if 'phantom' in detection['detect']:
@@ -394,13 +395,13 @@ def generate_detections(REPO_PATH, stories):
             responses = []
             if 'baselines' in detection:
                 for b in detection['baselines']:
-                    baselines.append({"type": b['product_type'], "name": b['name']})
+                    baselines.append({"type": b['type'], "name": b['name']})
             if 'investigations' in detection:
                 for i in detection['investigations']:
-                    investigations.append({"type": i['product_type'], "name": i['name']})
+                    investigations.append({"type": i['type'], "name": i['name']})
             if 'responses' in detection:
                 for r in detection['responses']:
-                    responses.append({"type": r['product_type'], "name": r['name']})
+                    responses.append({"type": r['type'], "name": r['name']})
 
         complete_detections[name] = {}
         complete_detections[name]['detection_name'] = name
@@ -829,14 +830,20 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("known_false_positives = {0}\n".format(known_false_positives))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
         output_file.write("\n")
-    output_file.write("### END BASELINES ###")
-
+    output_file.write("\n### END ESCU BASELINES ###\n\n")
+    output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
+    usconf = open('bin/usage_searches.conf', 'r')
+    usage_searches = usconf.read()
+    usconf.close()
+    output_file.write(usage_searches)
+    output_file.write("\n\n### END OF USAGE DASHBOARD CONFIGURATIONS ###")
     output_file.close()
+
     story_count = len(complete_stories.keys())
     return story_count, use_case_lib_path
 
 
-def write_savedsearches_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
+def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR):
 
     # Create savedsearches.conf for all our detections
     detections_output_path = OUTPUT_DIR + "/default/savedsearches.conf"
@@ -862,7 +869,7 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(json.dumps(detection['data_models'])))
 
-        # NEED TO REMOVE MARKDOWN FUNCTION
+        # NEED TO REMOVE MARKDOWN
         if 'eli5' in detection:
             eli5 = markdown(detection['eli5'])
             output_file.write("action.escu.eli5 = {0}\n".format(eli5))
@@ -1086,7 +1093,16 @@ def write_savedsearches_confv1(stories, detections, investigations, baselines, O
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
         output_file.write("search = {0}\n".format(baseline['search']))
-    output_file.write("\n### END ESCU BASELINES ###")
+    output_file.write("\n### END ESCU BASELINES ###\n\n")
+    output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
+
+    usconf = open('bin/usage_searches.conf', 'r')
+    usage_searches = usconf.read()
+    usconf.close()
+    output_file.write(usage_searches)
+    output_file.write("\n\n### END OF USAGE DASHBOARD CONFIGURATIONS ###")
+
+    output_file.close()
 
     detections_count = len(detections)
     investigations_count = len(investigations)
@@ -1127,11 +1143,11 @@ if __name__ == "__main__":
     if storiesv1:
         story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections,
                                                                complete_investigations, complete_baselines, OUTPUT_DIR)
-        print "{0} stories have been successfully to {1}".format(story_count, story_path)
+        print "{0} stories have been successfully written to {1}".format(story_count, story_path)
     else:
         story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections,
                                                                complete_investigations, complete_baselines, OUTPUT_DIR)
-        print "{0} stories have been successfully to {1}".format(story_count, story_path)
+        print "{0} stories have been successfully written to {1}".format(story_count, story_path)
 
     if use_case_lib:
         story_count, use_case_lib_path = write_use_case_lib_conf(complete_stories,
@@ -1140,11 +1156,11 @@ if __name__ == "__main__":
         print "{0} stories have been successfully to {1}".format(story_count, use_case_lib_path)
 
     detections_count, investigations_count, baselines_count, detection_path = \
-        write_savedsearches_confv1(complete_stories, complete_detections, complete_investigations,
+        write_savedsearches_confv1(complete_detections, complete_investigations,
                                    complete_baselines, OUTPUT_DIR)
-    print "{0} detections have been successfully to {1}\n" \
-          "{2} investigations have been successfully to {1}\n" \
-          "{3} baselines have been successfully to {1}".format(detections_count, detection_path, investigations_count,
-                                                               baselines_count)
+    print "{0} detections have been successfully written to {1}\n" \
+          "{2} investigations have been successfully written to {1}\n" \
+          "{3} baselines have been successfully written to {1}".format(detections_count, detection_path,
+                                                                       investigations_count, baselines_count)
 
     print "security content generation completed.."

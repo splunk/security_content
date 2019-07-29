@@ -33,11 +33,11 @@ A object that defines the parameters for detecting things using various Splunk c
 | [modification_date](#modification_date) | `string` | **Required**  | No | Detection Manifest (this schema) |
 | [name](#name) | `string` | Optional  | No | Detection Manifest (this schema) |
 | [original_authors](#original_authors) | `object[]` | **Required**  | No | Detection Manifest (this schema) |
-| [product_type](#product_type) | `enum` | **Required**  | No | Detection Manifest (this schema) |
 | [references](#references) | `string[]` | Optional  | No | Detection Manifest (this schema) |
 | [responses](#responses) | `object[]` | Optional  | No | Detection Manifest (this schema) |
 | [security_domain](#security_domain) | `enum` | **Required**  | No | Detection Manifest (this schema) |
 | [spec_version](#spec_version) | `integer` | Optional  | No | Detection Manifest (this schema) |
+| [type](#type) | `enum` | **Required**  | No | Detection Manifest (this schema) |
 | [version](#version) | `string` | **Required**  | No | Detection Manifest (this schema) |
 | `*` | any | Additional | Yes | this schema *allows* additional properties |
 
@@ -70,7 +70,7 @@ Designates the type of asset being investigated
 
 ## baselines
 
-An array of the baseline objects to exectute before the detection
+An array of the baseline objects to exectute before the detection 
 
 `baselines`
 
@@ -91,7 +91,7 @@ All items must be of the type:
 |----------|------|----------|
 | `id`| string | **Required** |
 | `name`| string | **Required** |
-| `type`|  | Optional |
+| `type`| string | **Required** |
 
 
 
@@ -157,7 +157,7 @@ Type of baseline to execute
 
 `type`
 
-* is optional
+* is **required**
 * type: `enum`
 
 The value of this property **must** be equal to one of the [known values below](#baselines-known-values).
@@ -742,7 +742,8 @@ Unknown type ``.
       "src_mac",
       "src_user",
       "src",
-      "user"
+      "user",
+      "query"
     ],
     "simpletype": "`enum`",
     "meta:enum": {
@@ -768,7 +769,8 @@ Unknown type ``.
       "src_mac": "",
       "src_user": "",
       "src": "",
-      "user": ""
+      "user": "",
+      "query": ""
     }
   },
   "minItems": 0,
@@ -845,7 +847,7 @@ The unique identifier for the detection
 
 ## investigations
 
-An array of the investigation objects to exectute on the detection results
+An array of the investigation objects to exectute on the detection results 
 
 `investigations`
 
@@ -866,7 +868,7 @@ All items must be of the type:
 |----------|------|----------|
 | `id`| string | **Required** |
 | `name`| string | **Required** |
-| `product_type`| string | **Required** |
+| `type`| string | **Required** |
 
 
 
@@ -900,7 +902,7 @@ bc11a8cf-35e7-4bb2-8140-e756cc06fd72
 
 #### name
 
-Name of investigation object
+Name of investigation object 
 
 `name`
 
@@ -926,18 +928,18 @@ Get DNS Server History for a host
 
 
 
-#### product_type
+#### type
 
 Type of investigation object
 
-`product_type`
+`type`
 
 * is **required**
 * type: `enum`
 
 The value of this property **must** be equal to one of the [known values below](#investigations-known-values).
 
-##### product_type Known Values
+##### type Known Values
 | Value | Description |
 |-------|-------------|
 | `phantom` |  |
@@ -946,7 +948,7 @@ The value of this property **must** be equal to one of the [known values below](
 
 
 
-##### product_type Example
+##### type Example
 
 ```json
 splunk
@@ -1387,6 +1389,8 @@ Unknown type ``.
       "Initial Access",
       "Execution",
       "Persistence",
+      "Spearphishing Attachment",
+      "Spearphishing Link",
       "Privilege Escalation",
       "Defense Evasion",
       "Credential Access",
@@ -1507,6 +1511,8 @@ Unknown type ``.
       "Initial Access": "",
       "Execution": "",
       "Persistence": "",
+      "Spearphishing Attachment": "",
+      "Spearphishing Link": "",
       "Privilege Escalation": "",
       "Defense Evasion": "",
       "Credential Access": "",
@@ -1916,34 +1922,6 @@ Daft Punk
 
 
 
-## product_type
-
-The type of detection
-
-`product_type`
-
-* is **required**
-* type: `enum`
-* defined in this schema
-
-The value of this property **must** be equal to one of the [known values below](#product_type-known-values).
-
-### product_type Known Values
-| Value | Description |
-|-------|-------------|
-| `uba` |  |
-| `splunk` |  |
-| `phantom` |  |
-
-
-
-### product_type Example
-
-```json
-"phantom"
-```
-
-
 ## references
 
 A list of URLs that give more information about the search
@@ -2000,7 +1978,7 @@ All items must be of the type:
 |----------|------|----------|
 | `id`| string | **Required** |
 | `name`| string | **Required** |
-| `product_type`|  | **Required** |
+| `type`| string | **Required** |
 
 
 
@@ -2060,18 +2038,18 @@ DNS Hijack Reponse
 
 
 
-#### product_type
+#### type
 
 Type of baseline to execute
 
-`product_type`
+`type`
 
 * is **required**
 * type: `enum`
 
 The value of this property **must** be equal to one of the [known values below](#responses-known-values).
 
-##### product_type Known Values
+##### type Known Values
 | Value | Description |
 |-------|-------------|
 | `phantom` |  |
@@ -2080,7 +2058,7 @@ The value of this property **must** be equal to one of the [known values below](
 
 
 
-##### product_type Example
+##### type Example
 
 ```json
 phantom
@@ -2147,6 +2125,34 @@ The version of the detection specification this manifest follows
 
 ```json
 "2.0"
+```
+
+
+## type
+
+The type of detection
+
+`type`
+
+* is **required**
+* type: `enum`
+* defined in this schema
+
+The value of this property **must** be equal to one of the [known values below](#type-known-values).
+
+### type Known Values
+| Value | Description |
+|-------|-------------|
+| `uba` |  |
+| `splunk` |  |
+| `phantom` |  |
+
+
+
+### type Example
+
+```json
+"phantom"
 ```
 
 

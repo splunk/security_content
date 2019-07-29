@@ -9,7 +9,7 @@ The fields that make up the manifest of a version 2 investigative object
 
 | Abstract | Extensible | Status | Identifiable | Custom Properties | Additional Properties | Defined In |
 |----------|------------|--------|--------------|-------------------|-----------------------|------------|
-| Can be instantiated | No | Experimental | No | Forbidden | Permitted |  |
+| Can be instantiated | Yes | Experimental | No | Forbidden | Permitted |  |
 
 # Investigative Search Manifest Properties
 
@@ -17,18 +17,19 @@ The fields that make up the manifest of a version 2 investigative object
 |----------|------|----------|----------|------------|
 | [creation_date](#creation_date) | `string` | **Required**  | No | Investigative Search Manifest (this schema) |
 | [data_metadata](#data_metadata) | `object` | **Required**  | No | Investigative Search Manifest (this schema) |
-| [definitions](#definitions) | complex | Optional  | No | Investigative Search Manifest (this schema) |
 | [description](#description) | `string` | **Required**  | No | Investigative Search Manifest (this schema) |
+| [eli5](#eli5) | `string` | Optional  | No | Investigative Search Manifest (this schema) |
 | [entities](#entities) | `enum[]` | Optional  | No | Investigative Search Manifest (this schema) |
 | [how_to_implement](#how_to_implement) | `string` | **Required**  | No | Investigative Search Manifest (this schema) |
 | [id](#id) | `string` | **Required**  | No | Investigative Search Manifest (this schema) |
-| [investigate](#investigate) | complex | **Required**  | No | Investigative Search Manifest (this schema) |
+| [investigate](#investigate) | `object` | **Required**  | No | Investigative Search Manifest (this schema) |
+| [known_false_positives](#known_false_positives) | `string` | Optional  | No | Investigative Search Manifest (this schema) |
 | [maintainers](#maintainers) | `object[]` | **Required**  | No | Investigative Search Manifest (this schema) |
 | [modification_date](#modification_date) | `string` | **Required**  | No | Investigative Search Manifest (this schema) |
 | [name](#name) | `string` | Optional  | No | Investigative Search Manifest (this schema) |
 | [original_authors](#original_authors) | `object[]` | **Required**  | No | Investigative Search Manifest (this schema) |
-| [product_type](#product_type) | `enum` | **Required**  | No | Investigative Search Manifest (this schema) |
 | [spec_version](#spec_version) | `integer` | **Required**  | No | Investigative Search Manifest (this schema) |
+| [type](#type) | `enum` | **Required**  | No | Investigative Search Manifest (this schema) |
 | [version](#version) | `string` | **Required**  | No | Investigative Search Manifest (this schema) |
 | `*` | any | Additional | Yes | this schema *allows* additional properties |
 
@@ -170,8 +171,8 @@ Unknown type ``.
       "Endpoint": ""
     }
   },
-  "type": "array",
   "minItems": 0,
+  "type": "array",
   "uniqueItems": true,
   "simpletype": "`enum[]`"
 }
@@ -289,7 +290,12 @@ Unknown type ``.
       "Sysmon",
       "Tanium",
       "Ziften",
-      "OSquery"
+      "Censys",
+      "OSquery",
+      "SMTP",
+      "Cuckoo",
+      "VirusTotal",
+      "DeepSight"
     ],
     "simpletype": "`enum`",
     "meta:enum": {
@@ -315,7 +321,12 @@ Unknown type ``.
       "Sysmon": "",
       "Tanium": "",
       "Ziften": "",
-      "OSquery": ""
+      "Censys": "",
+      "OSquery": "",
+      "SMTP": "",
+      "Cuckoo": "",
+      "VirusTotal": "",
+      "DeepSight": ""
     }
   },
   "minItems": 0,
@@ -332,96 +343,6 @@ Unknown type ``.
 
 
 
-
-
-
-
-
-## definitions
-
-
-`definitions`
-
-* is optional
-* type: complex
-* defined in this schema
-
-### definitions Type
-
-Unknown type ``.
-
-```json
-{
-  "phantom": {
-    "properties": {
-      "phantom_server": {
-        "description": "IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)",
-        "type": "string"
-      },
-      "playbook_display_name": {
-        "description": "Display Name of the playbook. Capitalize each letter and remove underscores from playbook_name field. Eg: Simple Network Enrichment",
-        "type": "string"
-      },
-      "playbook_name": {
-        "description": "Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment",
-        "type": "string"
-      },
-      "playbook_url": {
-        "description": "Url of the playbook on Phantom website.",
-        "type": "string"
-      },
-      "sensitivity": {
-        "description": "TLP colors (White, Green, Amber or Red)",
-        "type": "string"
-      },
-      "severity": {
-        "description": "Severity in phantom (High, Medium, Low)",
-        "type": "string"
-      }
-    },
-    "required": [
-      "phantom_server",
-      "playbook_name",
-      "playbook_url",
-      "playbook_display_name"
-    ],
-    "type": "object"
-  },
-  "splunk": {
-    "properties": {
-      "investigate_window": {
-        "additionalProperties": false,
-        "description": "The fields associated on when this search should run relative to the detection event",
-        "properties": {
-          "earliest_time_offset": {
-            "description": "The number of seconds into the past from the event time the search should cover",
-            "type": "integer"
-          },
-          "latest_time_offset": {
-            "description": "The number of seconds into the future from the event time the search should cover",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "latest_time_offset",
-          "earliest_time_offset"
-        ],
-        "type": "object"
-      },
-      "search": {
-        "description": "The search (in SPL) executed within core Splunk for investgation.",
-        "type": "string"
-      }
-    },
-    "required": [
-      "search",
-      "investigate_window"
-    ],
-    "type": "object"
-  },
-  "simpletype": "complex"
-}
-```
 
 
 
@@ -448,9 +369,30 @@ A description of what the search is designed to detect
 
 
 
+## eli5
+
+Explain it like I’m 5 - A detail description of the SPL of the search, written in a style that can be understood by a future Splunk expert
+
+`eli5`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### eli5 Type
+
+
+`string`
+
+
+
+
+
+
+
 ## entities
 
-A list of entities that will used in the story flow or are relevant to the security investigation.
+A list of entities that will used in the story flow or are relevant to the security investigation. 
 
 `entities`
 
@@ -585,25 +527,78 @@ The unique identifier for the search
 `investigate`
 
 * is **required**
-* type: complex
+* type: `object`
 * defined in this schema
 
 ### investigate Type
 
 
-**One** of the following *conditions* need to be fulfilled.
+`object` with following properties:
 
 
-#### Condition 1
+| Property | Type | Required |
+|----------|------|----------|
+| `phantom`|  | Optional |
+| `splunk`|  | Optional |
+
+
+
+#### phantom
+
+
+`phantom`
+
+* is optional
+* type: reference
+
+##### phantom Type
+
+
+* []() – `#/definitions/phantom`
+
+
+
+
+
+
+
+#### splunk
+
+
+`splunk`
+
+* is optional
+* type: reference
+
+##### splunk Type
 
 
 * []() – `#/definitions/splunk`
 
 
-#### Condition 2
 
 
-* []() – `#/definitions/phantom`
+
+
+
+
+
+
+## known_false_positives
+
+Scenarios in which detected behavior is benig, coupled with suggestions on how to verify the behavior
+
+`known_false_positives`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### known_false_positives Type
+
+
+`string`
+
 
 
 
@@ -850,28 +845,6 @@ Name of the person who originally authored the search
 
 
 
-## product_type
-
-Type of product that will support this investigate object.
-
-`product_type`
-
-* is **required**
-* type: `enum`
-* defined in this schema
-
-The value of this property **must** be equal to one of the [known values below](#product_type-known-values).
-
-### product_type Known Values
-| Value | Description |
-|-------|-------------|
-| `phantom` |  |
-| `splunk` |  |
-| `uba` |  |
-
-
-
-
 ## spec_version
 
 The version of the investigative search specification this manifest follows
@@ -893,6 +866,28 @@ The version of the investigative search specification this manifest follows
 
 
 
+## type
+
+Type of product that will support this investigate object.
+
+`type`
+
+* is **required**
+* type: `enum`
+* defined in this schema
+
+The value of this property **must** be equal to one of the [known values below](#type-known-values).
+
+### type Known Values
+| Value | Description |
+|-------|-------------|
+| `phantom` |  |
+| `splunk` |  |
+| `uba` |  |
+
+
+
+
 ## version
 
 The version of the search
@@ -904,6 +899,259 @@ The version of the search
 * defined in this schema
 
 ### version Type
+
+
+`string`
+
+
+
+
+
+
+
+# Investigative Search Manifest Definitions
+
+| Property | Type | Group |
+|----------|------|-------|
+| [fields_required](#fields_required) | `array` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/splunk` |
+| [phantom_server](#phantom_server) | `string` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/phantom` |
+| [playbook_name](#playbook_name) | `string` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/phantom` |
+| [playbook_url](#playbook_url) | `string` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/phantom` |
+| [schedule](#schedule) | `object` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/splunk` |
+| [search](#search) | `string` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/splunk` |
+| [sensitivity](#sensitivity) | `string` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/phantom` |
+| [severity](#severity) | `string` | `https://api.splunkresearch.com/schemas/investigations.json#/definitions/phantom` |
+
+## fields_required
+
+A list of data models, if any, used by this search
+
+`fields_required`
+
+* is optional
+* type: `array`
+* at least `0` items in the array
+* defined in this schema
+
+### fields_required Type
+
+
+Array type: `array`
+
+
+
+
+
+
+## phantom_server
+
+IP address and username of the phantom server. Currently, we will ship this value as automation (hostname) and we encourage the users to modify those values according to their environment. Eg: automation (hostname)
+
+`phantom_server`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### phantom_server Type
+
+
+`string`
+
+
+
+
+
+
+
+## playbook_name
+
+Name of the playbook. This name should be the same as the name on phantom community repository on github with underscores and appended with community/<playbook_name>. The playbooks are hosted on https://github.com/phantomcyber/playbooks. Eg: community/simple_network_enrichment
+
+`playbook_name`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### playbook_name Type
+
+
+`string`
+
+
+
+
+
+
+
+## playbook_url
+
+Url of the playbook on Phantom website.
+
+`playbook_url`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### playbook_url Type
+
+
+`string`
+
+
+
+
+
+
+
+## schedule
+
+Various fields to assist in scheduling the search
+
+`schedule`
+
+* is optional
+* type: `object`
+* defined in this schema
+
+### schedule Type
+
+
+`object` with following properties:
+
+
+| Property | Type | Required |
+|----------|------|----------|
+| `cron_schedule`| string | Optional |
+| `earliest_time`| string | Optional |
+| `latest_time`| string | Optional |
+
+
+
+#### cron_schedule
+
+Schedule of the search in cron format
+
+`cron_schedule`
+
+* is optional
+* type: `string`
+
+##### cron_schedule Type
+
+
+`string`
+
+
+
+
+
+
+
+
+
+#### earliest_time
+
+The earliest time the search should run in Splunk format
+
+`earliest_time`
+
+* is optional
+* type: `string`
+
+##### earliest_time Type
+
+
+`string`
+
+
+
+
+
+
+
+
+
+#### latest_time
+
+The latest time tes search should run against in Splunk format
+
+`latest_time`
+
+* is optional
+* type: `string`
+
+##### latest_time Type
+
+
+`string`
+
+
+
+
+
+
+
+
+
+
+
+
+## search
+
+The search (in SPL) executed within core Splunk for investgation.
+
+`search`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### search Type
+
+
+`string`
+
+
+
+
+
+
+
+## sensitivity
+
+TLP colors (White, Green, Amber or Red)
+
+`sensitivity`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### sensitivity Type
+
+
+`string`
+
+
+
+
+
+
+
+## severity
+
+Severity in phantom (High, Medium, Low)
+
+`severity`
+
+* is optional
+* type: `string`
+* defined in this schema
+
+### severity Type
 
 
 `string`

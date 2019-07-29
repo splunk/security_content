@@ -54,7 +54,7 @@
     {
       "id": "3096f721-8842-42ce-2fc7-742d8372b712",
       "name": "Suspicious Email Attachment Investigate and Delete",
-      "product_type": "phantom"
+      "type": "phantom"
     }
   ],
   "known_false_positives": "None identified",
@@ -92,8 +92,8 @@
       "name": "David Dorsey"
     }
   ],
-  "product_type": "splunk",
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }

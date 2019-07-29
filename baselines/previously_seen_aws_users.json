@@ -1,12 +1,12 @@
 {
   "baseline": {
     "splunk": {
-        "schedule": {
-          "cron_schedule": "0 0 1 * *",
-          "earliest_time": "-30d@d",
-          "latest_time": "-10m@m"
-        },
-        "search": "sourcetype=aws:cloudtrail eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation src | eval City=if(City LIKE \"\",src,City),Region=if(Region LIKE \"\",src,Region) | stats earliest(_time) as earliest latest(_time) as latest by user src City Region Country | outputlookup previously_seen_users_console_logins.csv | stats count"
+      "schedule": {
+        "cron_schedule": "0 0 1 * *",
+        "earliest_time": "-30d@d",
+        "latest_time": "-10m@m"
+      },
+      "search": "sourcetype=aws:cloudtrail eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation src | eval City=if(City LIKE \"\",src,City),Region=if(Region LIKE \"\",src,Region) | stats earliest(_time) as earliest latest(_time) as latest by user src City Region Country | outputlookup previously_seen_users_console_logins.csv | stats count"
     }
   },
   "creation_date": "2018-02-23",
@@ -56,7 +56,7 @@
       "name": "Jason Brewer"
     }
   ],
-  "product_type": "splunk",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.1"
 }

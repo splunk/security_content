@@ -9,7 +9,7 @@
     }
   },
   "entities": ["dest","user"],
-  "product_type": "splunk",
+  "type": "splunk",
   "creation_date": "2019-02-14",
   "data_metadata": {
     "data_models": [
