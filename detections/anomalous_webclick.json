@@ -52,23 +52,23 @@
     "id": "31337bbb-bc22-4752-b599-ef192df2dc7a",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
             "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
             "name": "Get Notable History",
             "type": "splunk"
         },
         {
-            "id": "5df39b3f-447d-4869-b673-8f45ad4616fe",
-            "name": "Get Emails From Specific Sender",
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
             "type": "splunk"
         },
         {
             "id": "bc91a8cf-35e7-4bb2-1120-e756cc06fd89",
             "name": "Get Web Session Information via session_id",
+            "type": "splunk"
+        },
+        {
+            "id": "5df39b3f-447d-4869-b673-8f45ad4616fe",
+            "name": "Get Emails From Specific Sender",
             "type": "splunk"
         }
     ],

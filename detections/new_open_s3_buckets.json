@@ -62,18 +62,8 @@
     "id": "2a9b80d3-6340-4345-b5ad-290bf3d0dac4",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
+            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
+            "name": "AWS Investigate User Activities By ARN",
             "type": "splunk"
         },
         {
@@ -82,18 +72,28 @@
             "type": "splunk"
         },
         {
-            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
-            "name": "Investigate AWS activities via region name",
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
             "type": "splunk"
         },
         {
-            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
-            "name": "AWS Investigate User Activities By ARN",
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
             "type": "splunk"
         },
         {
             "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
             "name": "Get All AWS Activity From IP Address",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
+            "name": "Investigate AWS activities via region name",
             "type": "splunk"
         }
     ],

@@ -2,8 +2,8 @@
     "asset_type": "Endpoint",
     "baselines": [
         {
-            "id": "fc0edd96-ff2b-48b0-9f1f-63da3782fd63",
-            "name": "Baseline of blocked outbound traffic from AWS",
+            "id": "b2178fed-592f-492b-b851-74161678aa56",
+            "name": "Monitor Unsuccessful Backups",
             "type": "splunk"
         },
         {
@@ -12,23 +12,8 @@
             "type": "splunk"
         },
         {
-            "id": "9f3bae5a-9fe3-49df-8c84-5edc51d84b7f",
-            "name": "Count of Unique IPs Connecting to Ports",
-            "type": "splunk"
-        },
-        {
             "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
             "name": "Monitor Successful Backups",
-            "type": "splunk"
-        },
-        {
-            "id": "b2178fed-592f-492b-b851-74161678aa56",
-            "name": "Monitor Unsuccessful Backups",
-            "type": "splunk"
-        },
-        {
-            "id": "6a4dbd1b-4502-4a11-943a-82b5ae7a42d7",
-            "name": "Windows Updates Install Failures",
             "type": "splunk"
         },
         {
@@ -37,13 +22,28 @@
             "type": "splunk"
         },
         {
-            "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
-            "name": "Baseline of Command Line Length - MLTK",
+            "id": "fc0edd96-ff2b-48b0-9f1f-63da3782fd63",
+            "name": "Baseline of blocked outbound traffic from AWS",
+            "type": "splunk"
+        },
+        {
+            "id": "9f3bae5a-9fe3-49df-8c84-5edc51d84b7f",
+            "name": "Count of Unique IPs Connecting to Ports",
             "type": "splunk"
         },
         {
             "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
             "name": "Baseline of SMB Traffic - MLTK",
+            "type": "splunk"
+        },
+        {
+            "id": "6a4dbd1b-4502-4a11-943a-82b5ae7a42d7",
+            "name": "Windows Updates Install Failures",
+            "type": "splunk"
+        },
+        {
+            "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
+            "name": "Baseline of Command Line Length - MLTK",
             "type": "splunk"
         }
     ],
@@ -99,43 +99,8 @@
     "id": "ea688274-9c06-4473-b951-e4cb7a5d7a45",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
-            "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "f3fb4d1c-5f33-4b01-b541-c3ah9534c241",
-            "name": "AWS Network Interface details via resourceId",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
-            "name": "Get Process Info",
+            "id": "9925d08f-561e-4faa-8912-e3888a842341",
+            "name": "Get Process Information For Port Activity",
             "type": "splunk"
         },
         {
@@ -144,53 +109,8 @@
             "type": "splunk"
         },
         {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
-            "name": "Get DNS Server History for a host",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd73",
-            "name": "Get DNS traffic ratio",
-            "type": "splunk"
-        },
-        {
-            "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
-            "name": "Get All AWS Activity From IP Address",
-            "type": "splunk"
-        },
-        {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
-            "name": "Get Backup Logs For Endpoint",
             "type": "splunk"
         },
         {
@@ -199,23 +119,28 @@
             "type": "splunk"
         },
         {
+            "id": "f3fb4d1c-5f33-4b01-b541-c3ah9534c241",
+            "name": "AWS Network Interface details via resourceId",
+            "type": "splunk"
+        },
+        {
             "id": "df7a7f50-30f2-4cde-8448-69d2d5f9b3c5",
             "name": "Get Vulnerability Logs For Endpoint",
             "type": "splunk"
         },
         {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
-            "name": "Get Authentication Logs For Endpoint",
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd73",
+            "name": "Get DNS traffic ratio",
             "type": "splunk"
         },
         {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+            "name": "Get DNS Server History for a host",
             "type": "splunk"
         },
         {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
+            "name": "Get Backup Logs For Endpoint",
             "type": "splunk"
         },
         {
@@ -224,28 +149,43 @@
             "type": "splunk"
         },
         {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
             "name": "Get Process Info",
             "type": "splunk"
         },
         {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
+            "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
+            "name": "Get All AWS Activity From IP Address",
             "type": "splunk"
         },
         {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
-            "name": "Investigate Web Activity From Host",
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
             "type": "splunk"
         },
         {
             "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
             "name": "Get Parent Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
+            "name": "Investigate Web Activity From Host",
             "type": "splunk"
         }
     ],

@@ -2,13 +2,13 @@
     "asset_type": "Endpoint",
     "baselines": [
         {
-            "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
-            "name": "Monitor Successful Backups",
+            "id": "b2178fed-592f-492b-b851-74161678aa56",
+            "name": "Monitor Unsuccessful Backups",
             "type": "splunk"
         },
         {
-            "id": "b2178fed-592f-492b-b851-74161678aa56",
-            "name": "Monitor Unsuccessful Backups",
+            "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
+            "name": "Monitor Successful Backups",
             "type": "splunk"
         }
     ],
@@ -67,11 +67,6 @@
             "type": "splunk"
         },
         {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
             "name": "Get Risk Modifiers For Endpoint",
             "type": "splunk"
@@ -79,6 +74,11 @@
         {
             "id": "bc91a8cf-aaaa-4bb2-8140-e756cc06fd72",
             "name": "All backup logs for host",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
             "type": "splunk"
         }
     ],

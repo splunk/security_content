@@ -51,23 +51,23 @@
     "id": "8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
             "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
             "name": "Get Notable History",
             "type": "splunk"
         },
         {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
             "type": "splunk"
         },
         {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
             "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
             "type": "splunk"
         }
     ],

@@ -61,38 +61,8 @@
     "id": "8470d755-0c13-45b3-bd63-387a373c10cf",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
-            "name": "Get Process Info",
             "type": "splunk"
         },
         {
@@ -101,33 +71,8 @@
             "type": "splunk"
         },
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
-            "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
             "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
             "type": "splunk"
         },
         {
@@ -136,8 +81,23 @@
             "type": "splunk"
         },
         {
-            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
-            "name": "Get Parent Process Info",
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
             "type": "splunk"
         }
     ],

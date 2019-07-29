@@ -2,23 +2,23 @@
     "asset_type": "AWS Instance",
     "baselines": [
         {
-            "id": "fc0edc95-ff2b-48b1-5f6f-63ga3789fd43",
-            "name": "Create a list of approved AWS service accounts",
-            "type": "splunk"
-        },
-        {
             "id": "fc0edc96-ff2b-48b0-9f6f-63da3783fd63",
             "name": "Baseline of API Calls per User ARN",
             "type": "splunk"
         },
         {
-            "id": "fc0edc95-fq2c-48b0-9f6f-63da3289fd03",
-            "name": "Previously seen API call per user roles in CloudTrail",
+            "id": "fc0edc95-ff2b-48b1-5f6f-63ga3789fd43",
+            "name": "Create a list of approved AWS service accounts",
             "type": "splunk"
         },
         {
             "id": "fc0edd96-ff2b-48b0-9f1f-63da3783fd63",
             "name": "Baseline of Security Group Activity by ARN",
+            "type": "splunk"
+        },
+        {
+            "id": "fc0edc95-fq2c-48b0-9f6f-63da3289fd03",
+            "name": "Previously seen API call per user roles in CloudTrail",
             "type": "splunk"
         }
     ],
@@ -72,13 +72,13 @@
     "id": "22773e84-bac0-4595-b086-20d3f335b4f1",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
             "type": "splunk"
         },
         {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
             "type": "splunk"
         },
         {

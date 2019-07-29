@@ -2,8 +2,8 @@
     "asset_type": "AWS Instance",
     "baselines": [
         {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd63",
-            "name": "Previously Seen AWS Regions",
+            "id": "bb1bd99d-1e93-45f1-9571-cfed42d372b9",
+            "name": "Previously Seen EC2 AMIs",
             "type": "splunk"
         },
         {
@@ -17,8 +17,8 @@
             "type": "splunk"
         },
         {
-            "id": "bb1bd99d-1e93-45f1-9571-cfed42d372b9",
-            "name": "Previously Seen EC2 AMIs",
+            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd63",
+            "name": "Previously Seen AWS Regions",
             "type": "splunk"
         }
     ],

@@ -50,8 +50,8 @@
     "id": "2a371608-331d-4034-ae2c-21dda8f1d0ec",
     "investigations": [
         {
-            "id": "df7a7f50-30f2-4cde-8448-69d2d5f9b3c5",
-            "name": "Get Vulnerability Logs For Endpoint",
+            "id": "9df9ca9c-a02b-4f48-9eba-0bac55179050",
+            "name": "Investigate Network Traffic From src_ip",
             "type": "splunk"
         },
         {
@@ -60,13 +60,13 @@
             "type": "splunk"
         },
         {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
+            "id": "df7a7f50-30f2-4cde-8448-69d2d5f9b3c5",
+            "name": "Get Vulnerability Logs For Endpoint",
             "type": "splunk"
         },
         {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
+            "id": "2f5b960b-71df-49c0-affc-74992ce60e45",
+            "name": "Investigate Web Activity From src_ip",
             "type": "splunk"
         },
         {
@@ -75,18 +75,18 @@
             "type": "splunk"
         },
         {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
             "name": "Get Risk Modifiers For Endpoint",
             "type": "splunk"
         },
         {
-            "id": "9df9ca9c-a02b-4f48-9eba-0bac55179050",
-            "name": "Investigate Network Traffic From src_ip",
-            "type": "splunk"
-        },
-        {
-            "id": "2f5b960b-71df-49c0-affc-74992ce60e45",
-            "name": "Investigate Web Activity From src_ip",
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
             "type": "splunk"
         }
     ],

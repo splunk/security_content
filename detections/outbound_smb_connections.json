@@ -2,23 +2,13 @@
     "asset_type": "Endpoint",
     "baselines": [
         {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
-            "name": "Previously seen command line arguments",
-            "type": "splunk"
-        },
-        {
-            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
-            "name": "Baseline of SMB Traffic - MLTK",
-            "type": "splunk"
-        },
-        {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
-            "name": "Previously seen command line arguments",
-            "type": "splunk"
-        },
-        {
             "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
             "name": "Baseline of DNS Query Length - MLTK",
+            "type": "splunk"
+        },
+        {
+            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
+            "name": "Previously seen command line arguments",
             "type": "splunk"
         },
         {
@@ -78,98 +68,53 @@
     "id": "7f5fb3e1-4209-414-90db-0ec21b936378",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
-            "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
-            "name": "Get Process Info",
-            "type": "splunk"
-        },
-        {
             "id": "9925d08f-561e-4faa-8912-e3888a842341",
             "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
-            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
-            "name": "Get Parent Process Info",
-            "type": "splunk"
-        },
-        {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
-            "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
-            "name": "Get Process Info",
-            "type": "splunk"
-        },
-        {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
-            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
-            "name": "Get Parent Process Info",
             "type": "splunk"
         },
         {
             "id": "5df39b3f-347d-4869-b673-8r45ad4616fe",
             "name": "Get Outbound Emails to Hidden Cobra Threat Actors",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
             "type": "splunk"
         }
     ],

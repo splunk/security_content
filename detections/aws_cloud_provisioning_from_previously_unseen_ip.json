@@ -57,8 +57,8 @@
     "id": "42e15012-ac14-4801-94f4-f1acbe64880b",
     "investigations": [
         {
-            "id": "0abeeb40-1255-4b68-91d1-7a7eb410c4b8",
-            "name": "Get All AWS Activity From City",
+            "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
+            "name": "Get All AWS Activity From IP Address",
             "type": "splunk"
         },
         {
@@ -72,8 +72,8 @@
             "type": "splunk"
         },
         {
-            "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
-            "name": "Get All AWS Activity From IP Address",
+            "id": "0abeeb40-1255-4b68-91d1-7a7eb410c4b8",
+            "name": "Get All AWS Activity From City",
             "type": "splunk"
         }
     ],

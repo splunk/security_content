@@ -37,7 +37,7 @@
                     "earliest_time": "-70m@m",
                     "latest_time": "-10m@m"
                 },
-                "search": "| tstats `summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name = \"scrcons.exe\" by Processes.user Processes.dest Processes.process_name  | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`| `ctime(lastTime)`",
+                "search": "| tstats `summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name = *WmiPrvSE.exe by Processes.user Processes.dest Processes.process_name  | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`| `ctime(lastTime)`",
                 "suppress": {
                     "suppress_fields": "dest, user",
                     "suppress_period": "28800s"
@@ -53,18 +53,8 @@
     "id": "24869767-8579-485d-9a4f-d9ddfd8f0cac",
     "investigations": [
         {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
+            "id": "155e0571-7db6-42f2-aa62-9a3a4cf35c94",
+            "name": "Get Sysmon WMI Activity for Host",
             "type": "splunk"
         },
         {
@@ -78,18 +68,28 @@
             "type": "splunk"
         },
         {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
             "name": "Get Process Info",
             "type": "splunk"
         },
         {
-            "id": "155e0571-7db6-42f2-aa62-9a3a4cf35c94",
-            "name": "Get Sysmon WMI Activity for Host",
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
             "type": "splunk"
         }
     ],

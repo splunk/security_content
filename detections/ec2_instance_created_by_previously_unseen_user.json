@@ -2,8 +2,8 @@
     "asset_type": "AWS Instance",
     "baselines": [
         {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd63",
-            "name": "Previously Seen AWS Regions",
+            "id": "bb1bd99d-1e93-45f1-9571-cfed42d372b9",
+            "name": "Previously Seen EC2 AMIs",
             "type": "splunk"
         },
         {
@@ -17,18 +17,8 @@
             "type": "splunk"
         },
         {
-            "id": "bb1bd99d-1e93-45f1-9571-cfed42d372b9",
-            "name": "Previously Seen EC2 AMIs",
-            "type": "splunk"
-        },
-        {
             "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd63",
             "name": "Previously Seen AWS Regions",
-            "type": "splunk"
-        },
-        {
-            "id": "6c767ac0-0906-4355-9a83-927f5ee7bdad",
-            "name": "Previously Seen EC2 Launches By User",
             "type": "splunk"
         }
     ],
@@ -82,23 +72,13 @@
     "id": "22773e84-bac0-4595-b086-20d3f735b4f1",
     "investigations": [
         {
+            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
+            "name": "AWS Investigate User Activities By ARN",
+            "type": "splunk"
+        },
+        {
             "id": "0e40fe83-3edb-4d86-8206-8fed36529ca6",
             "name": "Get EC2 Launch Details",
-            "type": "splunk"
-        },
-        {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
             "type": "splunk"
         },
         {
@@ -107,13 +87,23 @@
             "type": "splunk"
         },
         {
-            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
-            "name": "Investigate AWS activities via region name",
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
             "type": "splunk"
         },
         {
-            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
-            "name": "AWS Investigate User Activities By ARN",
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
+            "name": "Investigate AWS activities via region name",
             "type": "splunk"
         }
     ],

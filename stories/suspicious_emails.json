@@ -15,6 +15,11 @@
             "detection_id": "56e877a6-1455-4479-ada6-0550dc1e22f8",
             "name": "Email Attachments With Lots Of Spaces",
             "type": "splunk"
+        },
+        {
+            "detection_id": "56e877a6-1455-4479-ad16-0550dc1e33f8",
+            "name": "Suspicious Email - UBA Anomaly",
+            "type": "uba"
         }
     ],
     "id": "2b1800dd-92f9-47ec-a981-fdf1351e5d55",
