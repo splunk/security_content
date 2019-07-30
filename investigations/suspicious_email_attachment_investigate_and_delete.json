@@ -51,7 +51,7 @@
       "name": "Philip Royer"
     }
   ],
-  "product_type": "phantom",
   "spec_version": 2,
+  "type": "phantom",
   "version": "1.0"
 }

@@ -28,8 +28,8 @@ The fields that make up the manifest of a version 2 baseline search
 | [modification_date](#modification_date) | `string` | **Required**  | No | Baseline Manifest (this schema) |
 | [name](#name) | `string` | **Required**  | No | Baseline Manifest (this schema) |
 | [original_authors](#original_authors) | `object[]` | **Required**  | No | Baseline Manifest (this schema) |
-| [product_type](#product_type) | `enum` | **Required**  | No | Baseline Manifest (this schema) |
 | [spec_version](#spec_version) | `integer` | **Required**  | No | Baseline Manifest (this schema) |
+| [type](#type) | `enum` | **Required**  | No | Baseline Manifest (this schema) |
 | [version](#version) | `string` | **Required**  | No | Baseline Manifest (this schema) |
 | `*` | any | Additional | Yes | this schema *allows* additional properties |
 
@@ -207,7 +207,6 @@ Unknown type ``.
   "examples": [
     "Network_Resolution"
   ],
-  "type": "array",
   "items": {
     "enum": [
       "Alerts",
@@ -250,6 +249,7 @@ Unknown type ``.
     }
   },
   "minItems": 0,
+  "type": "array",
   "uniqueItems": true,
   "simpletype": "`enum[]`"
 }
@@ -384,7 +384,10 @@ Unknown type ``.
       "Qualys",
       "Sysmon",
       "Tanium",
-      "Ziften"
+      "Ziften",
+      "Censys",
+      "Passive Total",
+      "WHOIS"
     ],
     "simpletype": "`enum`",
     "meta:enum": {
@@ -409,7 +412,10 @@ Unknown type ``.
       "Qualys": "",
       "Sysmon": "",
       "Tanium": "",
-      "Ziften": ""
+      "Ziften": "",
+      "Censys": "",
+      "Passive Total": "",
+      "WHOIS": ""
     }
   },
   "minItems": 0,
@@ -540,7 +546,9 @@ Unknown type ``.
       "src_mac",
       "src_user",
       "src",
-      "user"
+      "user",
+      "query",
+      "answer"
     ],
     "simpletype": "`enum`",
     "meta:enum": {
@@ -566,7 +574,9 @@ Unknown type ``.
       "src_mac": "",
       "src_user": "",
       "src": "",
-      "user": ""
+      "user": "",
+      "query": "",
+      "answer": ""
     }
   },
   "minItems": 0,
@@ -960,34 +970,6 @@ Daft Punk
 
 
 
-## product_type
-
-The type of baseline
-
-`product_type`
-
-* is **required**
-* type: `enum`
-* defined in this schema
-
-The value of this property **must** be equal to one of the [known values below](#product_type-known-values).
-
-### product_type Known Values
-| Value | Description |
-|-------|-------------|
-| `splunk` |  |
-| `phantom` |  |
-| `uba` |  |
-
-
-
-### product_type Example
-
-```json
-"splunk"
-```
-
-
 ## spec_version
 
 The version of the detection search specification this manifest follows
@@ -1012,6 +994,34 @@ The version of the detection search specification this manifest follows
 
 ```json
 "2.0"
+```
+
+
+## type
+
+The type of baseline
+
+`type`
+
+* is **required**
+* type: `enum`
+* defined in this schema
+
+The value of this property **must** be equal to one of the [known values below](#type-known-values).
+
+### type Known Values
+| Value | Description |
+|-------|-------------|
+| `splunk` |  |
+| `phantom` |  |
+| `uba` |  |
+
+
+
+### type Example
+
+```json
+"splunk"
 ```
 
 

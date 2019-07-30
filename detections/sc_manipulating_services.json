@@ -84,7 +84,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sc.exe Processes.process=\"* create *\" Processes.process=\"* config *\" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`",
+  "search": "| tstats `summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sc.exe (Processes.process=\"* create *\" OR Processes.process=\"* config *\") by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `ctime(firstTime)` | `ctime(lastTime)`",
   "search_description": "This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.",
   "search_id": "f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d",
   "search_name": "Sc.exe Manipulating Windows Services",

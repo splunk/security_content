@@ -44,7 +44,7 @@
       "name": "Bhavin Patel"
     }
   ],
-  "product_type": "phantom",
   "spec_version": 2,
+  "type": "phantom",
   "version": "1.0"
 }

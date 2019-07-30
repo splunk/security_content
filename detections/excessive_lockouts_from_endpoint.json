@@ -52,7 +52,7 @@
     {
       "id": "ab62b5c1-95d4-4e71-8fd7-53a55db33da4",
       "name": "Excessive Account Lockouts Enrichment And Response",
-      "product_type": "phantom"
+      "type": "phantom"
     }
   ],
   "known_false_positives": "It's possible that a widely used system, such as a kiosk, could cause a large number of account lockouts.",
@@ -88,9 +88,9 @@
       "name": "David Dorsey"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "access",
   "spec_version": 2,
+  "type": "splunk",
   "version": "3.0"
 }

@@ -335,17 +335,17 @@
       },
       "type": "array"
     },
-    "product_type": {
+    "spec_version": {
+      "description": "The version of the investigative search specification this manifest follows",
+      "type": "integer"
+    },
+    "type": {
       "description": "Type of product that will support this investigate object.",
       "enum": [
         "phantom",
         "splunk",
         "uba"
       ]
-    },
-    "spec_version": {
-      "description": "The version of the investigative search specification this manifest follows",
-      "type": "integer"
     },
     "version": {
       "description": "The version of the search",
@@ -361,7 +361,7 @@
     "original_authors",
     "description",
     "id",
-    "product_type",
+    "type",
     "spec_version",
     "version",
     "investigate"

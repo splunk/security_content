@@ -4,7 +4,7 @@
     {
       "id": "c096f721-8842-42ce-bfc7-74bd8c72b7c3",
       "name": "Discover DNS records",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "confidence": "medium",
@@ -61,12 +61,12 @@
     {
       "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
       "name": "Get DNS Server History for a host",
-      "product_type": "splunk"
+      "type": "splunk"
     },
     {
       "id": "c096f721-8842-42ce-bfc7-74bd9a72c712",
       "name": "DNS Hijack Enrichment",
-      "product_type": "phantom"
+      "type": "phantom"
     }
   ],
   "known_false_positives": "Legitimate DNS changes can be detected in this search. Investigate, verify and update the list of provided current answers for the domains in question as appropriate.",
@@ -110,9 +110,9 @@
       "name": "Jose Hernandez"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }
