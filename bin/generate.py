@@ -373,12 +373,13 @@ def generate_detections(REPO_PATH, stories):
 
             # uba
             if 'uba' in detection['detect']:
-                uba = detection['detect']['uba']
+                # uba = detection['detect']['uba']
                 type = 'uba'
-                search = uba['search'] = 'CONSTRUCT DETECTION SEARCH HERE'
-                # earliest_time = uba['earliest_time']
-                # latest_time = uba['latest_time']
-                # cron = uba['cron_schedule']
+                correlation_rule = detection['detect']['uba']['correlation_rule']
+                search = correlation_rule['search']
+                earliest_time = correlation_rule['schedule']['earliest_time']
+                latest_time = correlation_rule['schedule']['latest_time']
+                cron = correlation_rule['schedule']['cron_schedule']
 
             # phantom
             if 'phantom' in detection['detect']:
@@ -829,9 +830,15 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("known_false_positives = {0}\n".format(known_false_positives))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
         output_file.write("\n")
-    output_file.write("### END BASELINES ###")
-
+    output_file.write("\n### END ESCU BASELINES ###\n\n")
+    output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
+    usconf = open('bin/usage_searches.conf', 'r')
+    usage_searches = usconf.read()
+    usconf.close()
+    output_file.write(usage_searches)
+    output_file.write("\n\n### END OF USAGE DASHBOARD CONFIGURATIONS ###")
     output_file.close()
+
     story_count = len(complete_stories.keys())
     return story_count, use_case_lib_path
 
@@ -862,7 +869,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(json.dumps(detection['data_models'])))
 
-        # NEED TO REMOVE MARKDOWN FUNCTION
+        # NEED TO REMOVE MARKDOWN
         if 'eli5' in detection:
             eli5 = markdown(detection['eli5'])
             output_file.write("action.escu.eli5 = {0}\n".format(eli5))
@@ -1086,7 +1093,16 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
         output_file.write("search = {0}\n".format(baseline['search']))
-    output_file.write("\n### END ESCU BASELINES ###")
+    output_file.write("\n### END ESCU BASELINES ###\n\n")
+    output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
+
+    usconf = open('bin/usage_searches.conf', 'r')
+    usage_searches = usconf.read()
+    usconf.close()
+    output_file.write(usage_searches)
+    output_file.write("\n\n### END OF USAGE DASHBOARD CONFIGURATIONS ###")
+
+    output_file.close()
 
     detections_count = len(detections)
     investigations_count = len(investigations)

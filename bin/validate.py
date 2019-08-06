@@ -49,17 +49,15 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
             detection['known_false_positives'].encode('ascii')
         except UnicodeEncodeError:
             errors.append("ERROR: known_false_positives not ascii")
-
 # modded to pass validation for uba detections - not yet fleshed out
-    if detection['detect']=='uba':
+    if detection['detect'] == 'uba':
         print "non-splunk detection - uba"
-    elif detection['detect']=='splunk':
+    elif detection['detect'] == 'splunk':
 
         # do a regex match here instead of key values
-#        if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
-#                (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
-        if (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1) :
-
+        # if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
+        #        (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
+        if (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
             if 'data_models' not in detection['data_metadata']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' field is not set")
 
@@ -75,6 +73,28 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
             if not detection['data_metadata']['data_sourcetypes']:
                 errors.append("ERROR: The Splunk search specifies a sourcetype but \
                         'data_sourcetypes' is empty")
+
+    if 'uba' in detection['detect']:
+        if (detection['detect']['uba']['correlation_rule']['search'].find('tstats') != -1) or \
+                (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
+
+            if 'data_models' not in detection['data_metadata']:
+                errors.append("ERROR: The Splunk search uses a data model but 'data_models' field is not set")
+
+            if not detection['data_metadata']['data_models']:
+                errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
+
+        # do a regex match here instead of key values
+        if (detection['detect']['uba']['correlation_rule']['search'].find('sourcetype') != -1):
+            if 'data_sourcetypes' not in detection['data_metadata']:
+                errors.append("ERROR: The Splunk search specifies a sourcetype but 'data_sourcetypes' \
+                            field is not set")
+
+            if not detection['data_metadata']['data_sourcetypes']:
+                errors.append("ERROR: The Splunk search specifies a sourcetype but \
+                        'data_sourcetypes' is empty")
+
+        # do a regex match here instead of key values
 
     return errors
 

@@ -1,108 +1,108 @@
 {
-    "asset_type": "Endpoint",
-    "confidence": "high",
-    "creation_date": "2019-04-29",
-    "data_metadata": {
-        "data_models": [
-            "Network_Resolution",
-            "Web"
-        ],
-        "data_source": [
-            "DNS"
-        ],
-        "providing_technologies": [
-            "Splunk Stream",
-            "Bro"
-        ]
-    },
-    "description": "This search looks for DNS requests for phishing domains that are leveraging EvilGinx tools to mimic websites.",
-    "detect": {
-        "splunk": {
-            "correlation_rule": {
-                "notable": {
-                    "nes_fields": "src, query",
-                    "rule_description": "The host $src$ issued a DNS request for a domain that could be a phishing site leverating EvilGinx toolkit.",
-                    "rule_title": "DNS request for EvilGinx subdomain detected on $src$"
-                },
-                "risk": {
-                    "risk_object": "src",
-                    "risk_object_type": [
-                        "system"
-                    ],
-                    "risk_score": 40
-                },
-                "schedule": {
-                    "cron_schedule": "0 * * * *",
-                    "earliest_time": "-70m@m",
-                    "latest_time": "-10m@m"
-                },
-                "search": "| tstats summariesonly=true allow_old_summaries=true count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | stats count values(query) as query by domain dest src answer| search `evilginx_phishlets_amazon` OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365` OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google` | search NOT [ inputlookup legit_domains.csv | fields domain]| join domain type=outer [| tstats count summariesonly=true allow_old_summaries=true values(Web.url) as url from datamodel=Web.Web by Web.dest Web.site | rename \"Web.*\" as * | rex field=site \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | table dest domain url] | table count src dest query answer domain url",
-                "suppress": {
-                    "suppress_fields": "src, query",
-                    "suppress_period": "14400s"
-                }
-            }
-        }
-    },
-    "eli5": "This search gathers all the answers to each system's DNS query, then filters for queries that have subdomains extracted from the EvilGinx toolkit. It will then run a regex to extract `legit_domains` from the query and remove that from the detection if it is listed in the `legit_domains.csv`",
-    "entities": [
-        "src"
+  "asset_type": "Endpoint",
+  "confidence": "high",
+  "creation_date": "2019-04-29",
+  "data_metadata": {
+    "data_models": [
+      "Network_Resolution",
+      "Web"
     ],
-    "how_to_implement": "You need to ingest data from your DNS logs in the Network_Resolution datamodel. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You will have to add legitimate domain names to the `legit_domains.csv` file shipped with the app. <br></br> <b>Splunk>Phantom Playbook Integration</b><br></br>If Splunk>Phantom is also configured in your environment, a Playbook called `Lets Encrypt Domain Investigate` can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. <br/>(Playbook link:<code>https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/</code>).<br></br>",
-    "id": "24dd17b1-e2fb-4c31-878c-d4f226595bfa",
-    "investigations": [
-        {
-            "id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
-            "name": "Get Certificate logs for a domain",
-            "type": "splunk"
+    "data_source": [
+      "DNS"
+    ],
+    "providing_technologies": [
+      "Splunk Stream",
+      "Bro"
+    ]
+  },
+  "description": "This search looks for DNS requests for phishing domains that are leveraging EvilGinx tools to mimic websites.",
+  "detect": {
+    "splunk": {
+      "correlation_rule": {
+        "notable": {
+          "nes_fields": "src, query",
+          "rule_description": "The host $src$ issued a DNS request for a domain that could be a phishing site leverating EvilGinx toolkit.",
+          "rule_title": "DNS request for EvilGinx subdomain detected on $src$"
         },
-        {
-            "id": "c096f721-8842-42ce-2fc7-742d8272b712",
-            "name": "Domain Certificate Investigation",
-            "type": "phantom"
+        "risk": {
+          "risk_object": "src",
+          "risk_object_type": [
+            "system"
+          ],
+          "risk_score": 40
+        },
+        "schedule": {
+          "cron_schedule": "0 * * * *",
+          "earliest_time": "-70m@m",
+          "latest_time": "-10m@m"
+        },
+        "search": "| tstats summariesonly=true allow_old_summaries=true count min(_time) as firstTime max(_time) as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| rex field=query \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | stats count values(query) as query by domain dest src answer| search `evilginx_phishlets_amazon` OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365` OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google` | search NOT [ inputlookup legit_domains.csv | fields domain]| join domain type=outer [| tstats count summariesonly=true allow_old_summaries=true values(Web.url) as url from datamodel=Web.Web by Web.dest Web.site | rename \"Web.*\" as * | rex field=site \".*?(?<domain>[^./:]+\\.(\\S{2,3}|\\S{2,3}.\\S{2,3}))$\" | table dest domain url] | table count src dest query answer domain url",
+        "suppress": {
+          "suppress_fields": "src, query",
+          "suppress_period": "14400s"
         }
-    ],
-    "known_false_positives": "If a known good domain is not listed in the legit_domains.csv file, then the search could give you false postives. Please update that lookup file to filter out DNS requests to legitimate domains.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
-    ],
-    "mappings": {
-        "cis20": [
-            "CIS 8",
-            "CIS 7"
-        ],
-        "kill_chain_phases": [
-            "Delivery",
-            "Command and Control"
-        ],
-        "mitre_attack": [
-            "Spearphishing Link",
-            "Command and Control"
-        ],
-        "nist": [
-            "ID.AM",
-            "PR.DS",
-            "PR.IP",
-            "DE.AE",
-            "DE.CM"
-        ]
+      }
+    }
+  },
+  "eli5": "This search gathers all the answers to each system's DNS query, then filters for queries that have subdomains extracted from the EvilGinx toolkit. It will then run a regex to extract `legit_domains` from the query and remove that from the detection if it is listed in the `legit_domains.csv`",
+  "entities": [
+    "src"
+  ],
+  "how_to_implement": "You need to ingest data from your DNS logs in the Network_Resolution datamodel. Specifically you must ingest the domain that is being queried and the IP of the host originating the request. Ideally, you should also be ingesting the answer to the query and the query type. This approach allows you to also create your own localized passive DNS capability which can aid you in future investigations. You will have to add legitimate domain names to the `legit_domains.csv` file shipped with the app. <br></br> <b>Splunk>Phantom Playbook Integration</b><br></br>If Splunk>Phantom is also configured in your environment, a Playbook called `Lets Encrypt Domain Investigate` can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. <br/>(Playbook link:<code>https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/</code>).<br></br>",
+  "id": "24dd17b1-e2fb-4c31-878c-d4f226595bfa",
+  "investigations": [
+    {
+      "id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
+      "name": "Get Certificate logs for a domain",
+      "type": "splunk"
     },
-    "modification_date": "2019-04-29",
-    "name": "Detect DNS requests to Phishing Sites leveraging EvilGinx2",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    {
+      "id": "c096f721-8842-42ce-2fc7-742d8272b712",
+      "name": "Domain Certificate Investigation",
+      "type": "phantom"
+    }
+  ],
+  "known_false_positives": "If a known good domain is not listed in the legit_domains.csv file, then the search could give you false postives. Please update that lookup file to filter out DNS requests to legitimate domains.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 8",
+      "CIS 7"
     ],
-    "responses": [],
-    "security_domain": "network",
-    "spec_version": 2,
-    "type": "splunk",
-    "version": "1.0"
+    "kill_chain_phases": [
+      "Delivery",
+      "Command and Control"
+    ],
+    "mitre_attack": [
+      "Spearphishing Link",
+      "Command and Control"
+    ],
+    "nist": [
+      "ID.AM",
+      "PR.DS",
+      "PR.IP",
+      "DE.AE",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2019-04-29",
+  "name": "Detect DNS requests to Phishing Sites leveraging EvilGinx2",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "responses": [],
+  "security_domain": "network",
+  "spec_version": 2,
+  "type": "splunk",
+  "version": "1.0"
 }
