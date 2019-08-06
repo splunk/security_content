@@ -1,0 +1,52 @@
+{
+    "creation_date": "2018-01-18",
+    "data_metadata": {
+        "data_source": [
+            "AWS Description"
+        ],
+        "data_sourcetypes": [
+            "aws:description"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
+    },
+    "description": "This search queries AWS description logs and returns all the information about a specific network ACL via network ACL ID",
+    "entities": [
+        "networkAclId"
+    ],
+    "how_to_implement": "In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.",
+    "id": "f3fb4d1b-5f33-4b01-b541-c7ah9534c242",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "networkAclId"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": 3600,
+                "latest_time": 0
+            },
+            "search": "| search sourcetype=aws:description id={networkAclId} | table id account_id vpc_id network_acl_entries{}.*"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2017-01-22",
+    "name": "AWS Network ACL Details from ID",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
+}

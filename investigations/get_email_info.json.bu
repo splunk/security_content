@@ -1,0 +1,52 @@
+{
+    "creation_date": "2017-04-21",
+    "data_metadata": {
+        "data_models": [
+            "Email"
+        ],
+        "data_source": [
+            "Email"
+        ],
+        "providing_technologies": [
+            "Microsoft Exchange"
+        ]
+    },
+    "description": "This search returns all the information Splunk might have collected a specific email message over the last 2 hours.",
+    "entities": [
+        "message_id"
+    ],
+    "how_to_implement": "To successfully implement this search you must be ingesting your email logs or capturing unencrypted network traffic which contains email communications.",
+    "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd75",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "message_id"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": 0,
+                "latest_time": 7200
+            },
+            "search": "| from datamodel Email.All_Email | search message_id={message_id}"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2017-11-09",
+    "name": "Get Email Info",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
+}

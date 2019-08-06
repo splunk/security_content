@@ -1,0 +1,54 @@
+{
+    "creation_date": "2017-06-26",
+    "data_metadata": {
+        "data_source": [
+            "Network Communications"
+        ],
+        "data_sourcetypes": [
+            "stream:http"
+        ],
+        "providing_technologies": [
+            "Splunk Stream"
+        ]
+    },
+    "description": "This search helps an analyst investigate a notable event related to a potential Apache Struts exploitation. To investigate, we will want to isolate and analyze the \"payload\" or the commands that were passed to the vulnerable hosts by creating a few regular expressions to carve out the commands focusing on common keywords from the payload, such as cmd.exe, /bin/bash and whois. The search returns these suspicious strings found in the HTTP logs of the system of interest.",
+    "entities": [
+        "src_ip",
+        "dest_ip"
+    ],
+    "how_to_implement": "This particular search leverages data extracted from Stream:HTTP. You must configure the http stream using the Splunk Stream App on your Splunk Stream deployment server to extract the cs_content_type field.",
+    "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd89",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "src_ip",
+                "dest_ip"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": 3600,
+                "latest_time_offset": 3600
+            },
+            "search": "| search sourcetype=stream:http src_ip=\"{src_ip}\" dest_ip=\"{dest_ip}\" | eval cs_content_type_length = len(cs_content_type) | search cs_content_type_length > 100 | rex field=\"cs_content_type\" (?<suspicious_strings>cmd.exe) | eval suspicious_strings_found=if(match(cs_content_type, \"application\"), \"True\", \"False\")  | rename suspicious_strings_found AS \"Suspicious Content-Type Found\" | fields \"Suspicious Content-Type Found\", dest_ip, src_ip, suspicious_strings, cs_content_type, cs_content_type_length, url"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2017-10-20",
+    "name": "Investigate Suspicious Strings in HTTP Header",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
+}

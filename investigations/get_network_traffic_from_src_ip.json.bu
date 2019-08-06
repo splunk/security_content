@@ -1,0 +1,54 @@
+{
+    "creation_date": "2018-06-15",
+    "data_metadata": {
+        "data_models": [
+            "Network_Traffic"
+        ],
+        "data_source": [
+            "Network Communications"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Bro",
+            "Palo Alto Firewall"
+        ]
+    },
+    "description": "This search allows you to find all the network traffic from a specific IP address.",
+    "entities": [
+        "src_ip"
+    ],
+    "how_to_implement": "To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.",
+    "id": "9df9ca9c-a02b-4f48-9eba-0bac55179050",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "src_ip"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": 3600,
+                "latest_time": 3600
+            },
+            "search": "| from datamodel Network_Traffic.All_Traffic | search src_ip={src_ip}"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "modification_date": "2018-06-15",
+    "name": "Investigate Network Traffic From src_ip",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
+}
