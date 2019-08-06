@@ -40,7 +40,7 @@ The category to which the Analytic Story belongs
 
 * is **required**
 * type: `enum[]`
-* at least `0` items in the array
+* between `0` and `1` items in the array
 * defined in this schema
 
 ### category Type
@@ -143,7 +143,7 @@ A high-level description or goal of the Analytic Story
 
 ## detections
 
-An array of detection mechanisms from Splunk, UBA and phantom.
+An array of detection mechanisms from Splunk, UBA and phantom. 
 
 `detections`
 

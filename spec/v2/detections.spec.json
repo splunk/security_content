@@ -486,11 +486,11 @@
             "examples": [
               "splunk"
             ],
-            "product_type": "string"
+            "type": "string"
           }
         },
         "required": [
-          "product_type",
+          "type",
           "name",
           "id"
         ],
@@ -554,7 +554,8 @@
               "Network_Sessions",
               "Updates",
               "Risk",
-              "Endpoint"
+              "Endpoint",
+              "UEBA"
             ]
           },
           "minItems": 0,
@@ -704,7 +705,8 @@
           "src_user",
           "src",
           "user",
-          "query"
+          "query",
+          "url"
         ]
       },
       "minItems": 0,
@@ -741,7 +743,7 @@
             ],
             "type": "string"
           },
-          "product_type": {
+          "type": {
             "description": "Type of investigation object",
             "enum": [
               "phantom",
@@ -755,7 +757,7 @@
           }
         },
         "required": [
-          "product_type",
+          "type",
           "name",
           "id"
         ],
@@ -1100,17 +1102,6 @@
       },
       "type": "array"
     },
-    "product_type": {
-      "description": "The type of detection",
-      "enum": [
-        "uba",
-        "splunk",
-        "phantom"
-      ],
-      "examples": [
-        "phantom"
-      ]
-    },
     "references": {
       "description": "A list of URLs that give more information about the search",
       "examples": [
@@ -1141,7 +1132,7 @@
             ],
             "type": "string"
           },
-          "product_type": {
+          "type": {
             "description": "Type of baseline to execute",
             "enum": [
               "phantom",
@@ -1151,11 +1142,11 @@
             "examples": [
               "phantom"
             ],
-            "product_type": "string"
+            "type": "string"
           }
         },
         "required": [
-          "product_type",
+          "type",
           "name",
           "id"
         ],
@@ -1182,6 +1173,17 @@
       ],
       "type": "integer"
     },
+    "type": {
+      "description": "The type of detection",
+      "enum": [
+        "uba",
+        "splunk",
+        "phantom"
+      ],
+      "examples": [
+        "phantom"
+      ]
+    },
     "version": {
       "description": "The version of the detection",
       "examples": [
@@ -1202,7 +1204,7 @@
     "original_authors",
     "description",
     "id",
-    "product_type",
+    "type",
     "security_domain",
     "version",
     "detect"

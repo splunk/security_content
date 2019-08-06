@@ -109,11 +109,6 @@ require([
                             <div id="search_detection">
                             </div>
                         </div>
-                        <h3>Context</h3>
-                        <div>
-                            <div id="search_contextual">
-                            </div>
-                        </div>
                         <h3>Investigative</h3>
                         <div>
                             <div id="search_investigative">

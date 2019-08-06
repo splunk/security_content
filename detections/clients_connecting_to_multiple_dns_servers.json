@@ -55,7 +55,7 @@
     {
       "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
       "name": "Get DNS Server History for a host",
-      "product_type": "splunk"
+      "type": "splunk"
     }
   ],
   "known_false_positives": "It's possible that an enterprise has more than five DNS servers that are configured in a round-robin rotation. Please customize the search, as appropriate.",
@@ -97,9 +97,9 @@
       "name": "David Dorsey"
     }
   ],
-  "product_type": "splunk",
   "responses": [],
   "security_domain": "network",
   "spec_version": 2,
+  "type": "splunk",
   "version": "1.0"
 }
