@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2016-09-18",
     "description": "Attackers are finding stealthy ways \"live off the land,\" leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.",
     "detections": [

@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-01-13",
     "description": "Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.",
     "detections": [

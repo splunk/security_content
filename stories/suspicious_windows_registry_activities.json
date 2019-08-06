@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-05-31",
     "description": "Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.",
     "detections": [

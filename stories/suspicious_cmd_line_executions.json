@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-10-09",
     "description": "Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.",
     "detections": [

@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-02-17",
     "description": "Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.",
     "detections": [

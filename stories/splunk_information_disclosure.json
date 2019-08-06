@@ -2,9 +2,7 @@
     "category": [
         "Vulnerability"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-06-14",
     "description": "Reduce the risk of CVE-2018-11409, an information disclosure vulnerability within some older versions of Splunk Enterprise, with searches designed to help ensure that your Splunk system does not leak information to authenticated users.",
     "detections": [

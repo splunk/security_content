@@ -538,6 +538,7 @@
           ],
           "items": {
             "enum": [
+              "UEBA",
               "Alerts",
               "Application_State",
               "Authentication",
@@ -681,6 +682,7 @@
       ],
       "items": {
         "enum": [
+          "url",
           "accessKeyId",
           "arn",
           "awsRegion",

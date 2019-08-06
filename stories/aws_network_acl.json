@@ -2,9 +2,7 @@
     "category": [
         "Cloud Security"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-01-10",
     "description": "Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.",
     "detections": [

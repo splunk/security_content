@@ -2,9 +2,7 @@
     "category": [
         "Vulnerability"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-03-14",
     "description": "Detect and investigate activities--such as unusually long <code>Content-Type</code> length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.",
     "detections": [

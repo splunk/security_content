@@ -2,9 +2,7 @@
     "category": [
         "Abuse"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-06-01",
     "description": "Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.",
     "detections": [

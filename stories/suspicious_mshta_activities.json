@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-08-07",
     "description": "Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.",
     "detections": [

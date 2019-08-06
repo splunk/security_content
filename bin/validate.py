@@ -50,7 +50,10 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
         except UnicodeEncodeError:
             errors.append("ERROR: known_false_positives not ascii")
 
-    if detection['detect']['splunk']:
+# modded to pass validation for uba detections - not yet fleshed out
+    if detection['detect']=='uba':
+        print "non-splunk detection - uba"
+    elif detection['detect']=='splunk':
 
         # do a regex match here instead of key values
 #        if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \

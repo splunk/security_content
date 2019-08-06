@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-10-11",
     "description": "Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious <code>reg.exe</code> processes, files hidden with <code>attrib.exe</code> and disabling user-account control, among many others ",
     "detections": [

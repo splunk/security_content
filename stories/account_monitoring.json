@@ -2,9 +2,7 @@
     "category": [
         "Best Practices"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-08-05",
     "description": "A common attack technique is to leverage user accounts to gain unauthorized access to the target's network. This Analytic Story minimizes opportunities for attack by helping you actively manage creation/use/dormancy/deletion--the lifecycle of system and application accounts.",
     "detections": [

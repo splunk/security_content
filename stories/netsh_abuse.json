@@ -2,9 +2,7 @@
     "category": [
         "Abuse"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-01-04",
     "description": "Detect activities and various techniques associated with the abuse of <code>netsh.exe</code>, which can disable local firewall settings or set up a remote connection to a host from an infected system.",
     "detections": [

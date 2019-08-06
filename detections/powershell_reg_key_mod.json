@@ -1,6 +1,6 @@
 {
     "asset_type": "Endpoint",
-    "confidence": "High",
+    "confidence": "high",
     "creation_date": "2018-08-28",
     "data_metadata": {
         "data_models": [

@@ -2,9 +2,7 @@
     "category": [
         "Abuse"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-07-12",
     "description": "Monitor your environment for activity consistent with common attack techniques bad actors use when attempting to compromise web servers or other web-related assets.",
     "detections": [

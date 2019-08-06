@@ -2,9 +2,7 @@
     "category": [
         "Best Practices"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2017-06-26",
     "description": "Identify and investigate prohibited/unauthorized software or processes that may be concealing malicious behavior within your environment. ",
     "detections": [

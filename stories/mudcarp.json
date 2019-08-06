@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU channel"
-    ],
+    "channel": "ESCU channel",
     "creation_date": "2018-07-24",
     "description": "Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.",
     "detections": [

@@ -2,9 +2,7 @@
     "category": [
         "Vulnerability"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-01-08",
     "description": "Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.",
     "detections": [

@@ -2,9 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-04-09",
     "description": "Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious <code>reg.exe</code> processes, processes launching netsh, and many others.",
     "detections": [

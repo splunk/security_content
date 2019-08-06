@@ -2,9 +2,7 @@
     "category": [
         "Malware"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-06-14",
     "description": "Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.",
     "detections": [

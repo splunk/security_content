@@ -2,9 +2,7 @@
     "category": [
         "Cloud Security"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-06-04",
     "description": "Track when a user assumes an IAM role in another AWS account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.",
     "detections": [

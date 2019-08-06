@@ -2,9 +2,7 @@
     "category": [
         "Best Practices"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2016-09-13",
     "description": "Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.",
     "detections": [

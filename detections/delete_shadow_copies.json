@@ -93,6 +93,7 @@
             "name": "Get Risk Modifiers For Endpoint",
             "type": "splunk"
         },
+        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
             "name": "Investigate Web Activity From Host",
             "type": "splunk"

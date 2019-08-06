@@ -2,9 +2,7 @@
     "category": [
         "Abuse"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2016-08-24",
     "description": "DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to <code>ANY</code> queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.",
     "detections": [

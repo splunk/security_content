@@ -2,9 +2,7 @@
     "category": [
         "Cloud Security"
     ],
-    "channel": [
-        "ESCU"
-    ],
+    "channel": "ESCU",
     "creation_date": "2018-03-16",
     "description": "Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.",
     "detections": [
