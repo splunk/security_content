@@ -1,17 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
-            "name": "Baseline of Command Line Length - MLTK",
-            "type": "splunk"
-        },
-        {
-            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
-            "name": "Baseline of SMB Traffic - MLTK",
-            "type": "splunk"
-        }
-    ],
     "confidence": "medium",
     "creation_date": "2016-08-09",
     "data_metadata": {
@@ -65,11 +53,6 @@
     "how_to_implement": "To successfully implement this search, you must be ingesting data that records process activity from your hosts and populating the endpoint data model with the resultant dataset. The macro <code>filter_rare_process_whitelist</code> searches two lookup files to whitelist your processes.  These consist of <code>rare_process_whitelist_default.csv</code> and <code>rare_process_whitelist_local.csv</code>. To add your own processes to the whitelist, add them to <code>rare_process_whitelist_local.csv</code>. If you wish to remove an entry from the default lookup file, you will have to modify the macro itself to set the whitelist value for that process to false. You can modify the limit parameter and search scheduling to better suit your environment.",
     "id": "44fddcb2-8d3b-454c-874e-7c6de5a4f7ac",
     "investigations": [
-        {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
         {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",

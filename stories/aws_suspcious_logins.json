@@ -54,6 +54,6 @@
         "https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html"
     ],
     "spec_version": 2,
-    "usecase": "Advanced Threat Detection",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

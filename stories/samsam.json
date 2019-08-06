@@ -98,6 +98,6 @@
         "https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-The-Almost-Six-Million-Dollar-Ransomware.pdf?cmp=26061"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

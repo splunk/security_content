@@ -1,17 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
-            "name": "Previously seen command line arguments",
-            "type": "splunk"
-        },
-        {
-            "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
-            "name": "Baseline of Command Line Length - MLTK",
-            "type": "splunk"
-        }
-    ],
     "confidence": "medium",
     "creation_date": "2016-09-18",
     "data_metadata": {

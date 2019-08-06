@@ -59,11 +59,6 @@
     "id": "b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8",
     "investigations": [
         {
-            "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
-            "name": "Get Process Responsible For The DNS Traffic",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd75",
             "name": "Get Email Info",
             "type": "splunk"
@@ -76,11 +71,6 @@
         {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
-            "name": "Get DNS Server History for a host",
             "type": "splunk"
         },
         {

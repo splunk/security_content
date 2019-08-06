@@ -36,6 +36,6 @@
         "https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

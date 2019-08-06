@@ -38,6 +38,6 @@
         "https://www.exploit-db.com/exploits/44865/"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

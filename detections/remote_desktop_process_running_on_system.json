@@ -1,37 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
-            "name": "Previously seen command line arguments",
-            "type": "splunk"
-        },
-        {
-            "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
-            "name": "Baseline of DNS Query Length - MLTK",
-            "type": "splunk"
-        },
-        {
-            "id": "5cdda34f-4caf-4128-a713-0837fc48b67a",
-            "name": "Identify Systems Creating Remote Desktop Traffic",
-            "type": "splunk"
-        },
-        {
-            "id": "063dfe9f-b1d7-4254-a16d-1e2e7eadd6a8",
-            "name": "Identify Systems Using Remote Desktop",
-            "type": "splunk"
-        },
-        {
-            "id": "baaeea15-fe8a-4090-92c2-5b60943bb608",
-            "name": "Identify Systems Receiving Remote Desktop Traffic",
-            "type": "splunk"
-        },
-        {
-            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
-            "name": "Baseline of SMB Traffic - MLTK",
-            "type": "splunk"
-        }
-    ],
     "confidence": "medium",
     "creation_date": "2016-09-13",
     "data_metadata": {
@@ -85,16 +53,6 @@
     "how_to_implement": "To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. The search requires you to identify systems that do not commonly use remote desktop. You can use the included support search \"Identify Systems Using Remote Desktop\" to identify these systems. After identifying them, you will need to add the \"common_rdp_source\" category to that system using the Enterprise Security Assets and Identities framework. This can be done by adding an entry in the assets.csv file located in <code>SA-IdentityManagement/lookups</code>.",
     "id": "f5939373-8054-40ad-8c64-cec478a22a4a",
     "investigations": [
-        {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
-            "id": "5df39b3f-347d-4869-b673-8r45ad4616fe",
-            "name": "Get Outbound Emails to Hidden Cobra Threat Actors",
-            "type": "splunk"
-        },
         {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",

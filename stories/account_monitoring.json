@@ -61,6 +61,6 @@
         "https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

@@ -78,6 +78,6 @@
         "https://www.vkremez.com/2017/05/emotet-banking-trojan-malware-analysis.html"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

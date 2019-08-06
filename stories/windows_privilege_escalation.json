@@ -51,6 +51,6 @@
         "https://attack.mitre.org/wiki/Privilege_Escalation"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "2.0"
 }

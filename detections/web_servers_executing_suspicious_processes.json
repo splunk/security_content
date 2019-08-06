@@ -59,11 +59,6 @@
             "type": "splunk"
         },
         {
-            "id": "f5c39fac-205c-4e07-9004-8fd61ea3431a",
-            "name": "Investigate Web POSTs From src",
-            "type": "splunk"
-        },
-        {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
             "name": "Get Risk Modifiers For User",
             "type": "splunk"

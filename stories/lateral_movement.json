@@ -57,6 +57,6 @@
         "https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

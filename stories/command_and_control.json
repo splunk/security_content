@@ -97,6 +97,6 @@
         "https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

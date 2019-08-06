@@ -1,17 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
-            "name": "Baseline of DNS Query Length - MLTK",
-            "type": "splunk"
-        },
-        {
-            "id": "fc0edd96-ff2b-48b0-9f1f-63da3782fd63",
-            "name": "Baseline of blocked outbound traffic from AWS",
-            "type": "splunk"
-        }
-    ],
     "confidence": "low",
     "creation_date": "2017-07-19",
     "data_metadata": {
@@ -63,11 +51,6 @@
     "id": "104658f4-afdc-499f-9719-17a43f9826f4",
     "investigations": [
         {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
             "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
             "name": "Get Process Responsible For The DNS Traffic",
             "type": "splunk"
@@ -75,11 +58,6 @@
         {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "f3fb4d1c-5f33-4b01-b541-c3ah9534c241",
-            "name": "AWS Network Interface details via resourceId",
             "type": "splunk"
         },
         {
@@ -100,11 +78,6 @@
         {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
             "name": "Get Process Info",
-            "type": "splunk"
-        },
-        {
-            "id": "446ec87a-85c6-40d4-b060-bea4498281d6",
-            "name": "Get All AWS Activity From IP Address",
             "type": "splunk"
         },
         {

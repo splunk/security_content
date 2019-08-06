@@ -37,6 +37,6 @@
         "https://deepthought.isc.org/article/AA-00897/0/What-is-a-DNS-Amplification-Attack.html"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

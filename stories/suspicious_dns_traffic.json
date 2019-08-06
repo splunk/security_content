@@ -73,6 +73,6 @@
         "https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

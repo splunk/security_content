@@ -44,6 +44,6 @@
         "https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "2.0"
 }

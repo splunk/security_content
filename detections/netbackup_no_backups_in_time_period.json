@@ -1,17 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "b2178fed-592f-492b-b851-74161678aa56",
-            "name": "Monitor Unsuccessful Backups",
-            "type": "splunk"
-        },
-        {
-            "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
-            "name": "Monitor Successful Backups",
-            "type": "splunk"
-        }
-    ],
     "confidence": "high",
     "creation_date": "2017-06-15",
     "data_metadata": {

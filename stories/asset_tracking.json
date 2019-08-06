@@ -36,6 +36,6 @@
         "https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

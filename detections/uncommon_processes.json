@@ -1,12 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
-            "name": "Baseline of Command Line Length - MLTK",
-            "type": "splunk"
-        }
-    ],
     "confidence": "high",
     "creation_date": "2017-12-08",
     "data_metadata": {

@@ -1,37 +1,5 @@
 {
     "asset_type": "",
-    "baselines": [
-        {
-            "id": "b2178fed-592f-492b-b851-74161678aa56",
-            "name": "Monitor Unsuccessful Backups",
-            "type": "splunk"
-        },
-        {
-            "id": "6a4dbd1b-4502-4a11-943a-82b5ae7a42d7",
-            "name": "Windows Updates Install Failures",
-            "type": "splunk"
-        },
-        {
-            "id": "b4d0dfb2-2195-4f6e-93a3-48468ed9734e",
-            "name": "Monitor Successful Backups",
-            "type": "splunk"
-        },
-        {
-            "id": "6a80535c-86a6-4b54-894c-4b446d0c701d",
-            "name": "Windows Updates Install Successes",
-            "type": "splunk"
-        },
-        {
-            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
-            "name": "Baseline of SMB Traffic - MLTK",
-            "type": "splunk"
-        },
-        {
-            "id": "d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459",
-            "name": "Baseline of Command Line Length - MLTK",
-            "type": "splunk"
-        }
-    ],
     "confidence": "medium",
     "creation_date": "2017-02-17",
     "data_metadata": {
@@ -86,23 +54,8 @@
     "id": "2827c0fd-e1be-4868-ae25-59d28e0f9d4f",
     "investigations": [
         {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "d98675ed-da43-4a7e-96a7-eeca3232ba8e",
-            "name": "Get Update Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "df7a7f50-30f2-4cde-8448-69d2d5f9b3c5",
-            "name": "Get Vulnerability Logs For Endpoint",
             "type": "splunk"
         },
         {
@@ -138,11 +91,6 @@
         {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
             "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d44",
-            "name": "Get Backup Logs For Endpoint",
             "type": "splunk"
         },
         {

@@ -101,6 +101,6 @@
         "https://www.us-cert.gov/ncas/alerts/TA18-074A"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "2.0"
 }

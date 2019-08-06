@@ -66,11 +66,6 @@
     "id": "b89919ed-fe5f-492c-b139-95dbb162040e",
     "investigations": [
         {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
             "type": "splunk"

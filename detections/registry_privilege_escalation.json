@@ -62,18 +62,8 @@
             "type": "splunk"
         },
         {
-            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
-            "name": "Get Parent Process Info",
-            "type": "splunk"
-        },
-        {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
             "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
-            "name": "Get Process Info",
             "type": "splunk"
         },
         {

@@ -5,21 +5,6 @@
             "id": "bb1bd99d-1e93-45f1-9571-cfed42d372b9",
             "name": "Previously Seen EC2 AMIs",
             "type": "splunk"
-        },
-        {
-            "id": "6c767ac0-0906-4355-9a83-927f5ee7bdad",
-            "name": "Previously Seen EC2 Launches By User",
-            "type": "splunk"
-        },
-        {
-            "id": "b8f029f2-65a6-4d76-be98-dad1c9d59c45",
-            "name": "Previously Seen EC2 Instance Types",
-            "type": "splunk"
-        },
-        {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd63",
-            "name": "Previously Seen AWS Regions",
-            "type": "splunk"
         }
     ],
     "confidence": "medium",

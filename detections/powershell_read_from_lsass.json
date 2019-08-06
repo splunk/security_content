@@ -88,11 +88,6 @@
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
             "name": "Get User Information from Identity Table",
             "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd22",
-            "name": "Investigate Web Activity From Host",
-            "type": "splunk"
         }
     ],
     "known_false_positives": "The activity may be legitimate. PowerShell is often used by administrators to perform various tasks, and it's possible this event could be generated in those cases. In these cases, false positives should be fairly obvious and you may need to tweak the search to eliminate noise.",

@@ -1,12 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "64ce0ade-cb01-4678-bddd-d31c0b175394",
-            "name": "Previously Seen Running Windows Services",
-            "type": "splunk"
-        }
-    ],
     "confidence": "high",
     "creation_date": "2018-6-29",
     "data_metadata": {

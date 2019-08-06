@@ -1,22 +1,5 @@
 {
     "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "c914844c-0ff5-4efc-8d44-c063443129ba",
-            "name": "Baseline of DNS Query Length - MLTK",
-            "type": "splunk"
-        },
-        {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd23",
-            "name": "Previously seen command line arguments",
-            "type": "splunk"
-        },
-        {
-            "id": "df98763b-0b08-4281-8ef9-08db7ac572a9",
-            "name": "Baseline of SMB Traffic - MLTK",
-            "type": "splunk"
-        }
-    ],
     "confidence": "high",
     "creation_date": "2018-06-14",
     "data_metadata": {
@@ -68,16 +51,6 @@
     "how_to_implement": "You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. This is typically populated via endpoint detection-and-response products, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file system reads and writes. In addition, this search leverages an included lookup file that contains the names of the files to watch for, as well as a note to communicate why that file name is being monitored. This lookup file can be edited to add or remove file the file names you want to monitor.",
     "id": "57f76b8a-32f0-42ed-b358-d9fa3ca7bac8",
     "investigations": [
-        {
-            "id": "9925d08f-561e-4faa-8912-e3888a842341",
-            "name": "Get Process Information For Port Activity",
-            "type": "splunk"
-        },
-        {
-            "id": "5df39b3f-347d-4869-b673-8r45ad4616fe",
-            "name": "Get Outbound Emails to Hidden Cobra Threat Actors",
-            "type": "splunk"
-        },
         {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",

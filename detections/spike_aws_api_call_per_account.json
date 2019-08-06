@@ -5,21 +5,6 @@
             "id": "fc0edc96-ff2b-48b0-9f6f-63da3783fd63",
             "name": "Baseline of API Calls per User ARN",
             "type": "splunk"
-        },
-        {
-            "id": "fc0edc95-ff2b-48b1-5f6f-63ga3789fd43",
-            "name": "Create a list of approved AWS service accounts",
-            "type": "splunk"
-        },
-        {
-            "id": "fc0edd96-ff2b-48b0-9f1f-63da3783fd63",
-            "name": "Baseline of Security Group Activity by ARN",
-            "type": "splunk"
-        },
-        {
-            "id": "fc0edc95-fq2c-48b0-9f6f-63da3289fd03",
-            "name": "Previously seen API call per user roles in CloudTrail",
-            "type": "splunk"
         }
     ],
     "confidence": "medium",

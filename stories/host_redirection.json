@@ -9,6 +9,16 @@
     "description": "Detect evidence of tactics used to redirect traffic from a host to a destination other than the one intended--potentially one that is part of an adversary's attack infrastructure. An example is redirecting communications regarding patches and updates or misleading users into visiting a malicious website.",
     "detections": [
         {
+            "detection_id": "74ec6f18-604b-4202-a567-86b2066be3ce",
+            "name": "Clients Connecting to Multiple DNS Servers",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f6",
+            "name": "DNS Query Requests Resolved by Unauthorized DNS Servers",
+            "type": "splunk"
+        },
+        {
             "detection_id": "06a6fc63-a72d-41dc-8736-7e3dd9612116",
             "name": "Windows hosts file modification",
             "type": "splunk"
@@ -36,6 +46,6 @@
         "https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

@@ -56,6 +56,6 @@
         "https://attack.mitre.org/wiki/Defense_Evasion"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

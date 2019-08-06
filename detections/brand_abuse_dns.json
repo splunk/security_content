@@ -63,23 +63,8 @@
             "type": "splunk"
         },
         {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd75",
-            "name": "Get Email Info",
-            "type": "splunk"
-        },
-        {
-            "id": "5df39b3f-447d-4869-b673-8f45ad4616fe",
-            "name": "Get Emails From Specific Sender",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
-            "name": "Get DNS Server History for a host",
             "type": "splunk"
         },
         {

@@ -55,16 +55,6 @@
             "type": "splunk"
         },
         {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
-            "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "03bffe94-ec7a-4cbe-b677-6af40d1c4505",
-            "name": "Get Logon Rights Modifications For Endpoint",
-            "type": "splunk"
-        },
-        {
             "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
             "name": "Get Risk Modifiers For User",
             "type": "splunk"
@@ -77,11 +67,6 @@
         {
             "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
             "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
             "type": "splunk"
         },
         {

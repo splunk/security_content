@@ -57,6 +57,6 @@
         "https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "4.0"
 }

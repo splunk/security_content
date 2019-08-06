@@ -56,6 +56,6 @@
         "https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }

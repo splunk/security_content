@@ -50,18 +50,8 @@
     "id": "104658f4-afdc-499f-9719-17a43f9826f5",
     "investigations": [
         {
-            "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
-            "name": "Get Process Responsible For The DNS Traffic",
-            "type": "splunk"
-        },
-        {
             "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
             "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
-            "name": "Get DNS Server History for a host",
             "type": "splunk"
         },
         {

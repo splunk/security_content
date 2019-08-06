@@ -43,6 +43,6 @@
         "http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

@@ -1,4 +1,4 @@
-{
+
     "category": [
         "Best Practices"
     ],
@@ -36,6 +36,6 @@
         "https://learn.cisecurity.org/20-controls-download"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Compliance",
     "version": "1.0"
 }

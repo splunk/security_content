@@ -48,6 +48,6 @@
         "https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

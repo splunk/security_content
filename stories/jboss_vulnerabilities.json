@@ -41,6 +41,6 @@
         "http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Advanced Threat Detection",
     "version": "1.0"
 }

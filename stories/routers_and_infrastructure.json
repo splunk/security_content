@@ -37,6 +37,6 @@
         "https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html"
     ],
     "spec_version": 2,
-    "usecase": "XXXXXXXX",
+    "usecase": "Security Monitoring",
     "version": "1.0"
 }
