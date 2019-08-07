@@ -682,7 +682,6 @@
       ],
       "items": {
         "enum": [
-          "url",
           "accessKeyId",
           "arn",
           "awsRegion",

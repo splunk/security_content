@@ -2,7 +2,7 @@
     "category": [
         "Best Practices"
     ],
-    "channel": "E",
+    "channel": "ESCU",
     "creation_date": "2017-08-15",
     "description": "Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.",
     "detections": [

@@ -2,7 +2,7 @@
     "category": [
         "Adversary Tactics"
     ],
-    "channel": "E",
+    "channel": "ESCU",
     "creation_date": "2017-11-21",
     "description": "Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.",
     "detections": [
