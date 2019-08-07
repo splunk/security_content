@@ -1,54 +1,54 @@
 {
-  "creation_date": "2018-06-14",
-  "data_metadata": {
-    "data_models": [
-      "Email"
-    ],
-    "data_source": [
-      "Email"
-    ],
-    "providing_technologies": [
-      "Microsoft Exchange"
-    ]
-  },
-  "description": "This search returns the information of the users that sent emails to the accounts controlled by the Hidden Cobra Threat Actors: specifically to <code>misswang8107@gmail.com</code>, and from <code>redhat@gmail.com</code>.",
-  "entities": [
-    "src_user",
-    "recipient"
-  ],
-  "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
-  "id": "5df39b3f-347d-4869-b673-8r45ad4616fe",
-  "investigate": {
-    "splunk": {
-      "fields_required": [
+    "creation_date": "2018-06-14",
+    "data_metadata": {
+        "data_models": [
+            "Email"
+        ],
+        "data_source": [
+            "Email"
+        ],
+        "providing_technologies": [
+            "Microsoft Exchange"
+        ]
+    },
+    "description": "This search returns the information of the users that sent emails to the accounts controlled by the Hidden Cobra Threat Actors: specifically to <code>misswang8107@gmail.com</code>, and from <code>redhat@gmail.com</code>.",
+    "entities": [
         "src_user",
         "recipient"
-      ],
-      "schedule": {
-        "cron_schedule": "",
-        "earliest_time": 86400,
-        "latest_time": 0
-      },
-      "search": "| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time) as lastTime values(dest) values(src) by src_user recipient | `ctime(firstTime)` | `ctime(lastTime)`"
-    }
-  },
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "modification_date": "2018-06-14",
-  "name": "Get Outbound Emails to Hidden Cobra Threat Actors",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "spec_version": 2,
-  "type": "splunk",
-  "version": "1.0"
+    ],
+    "how_to_implement": "To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.",
+    "id": "5df39b3f-347d-4869-b673-8r45ad4616fe",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "src_user",
+                "recipient"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": "86400",
+                "latest_time": "0"
+            },
+            "search": "| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time) as lastTime values(dest) values(src) by src_user recipient | `ctime(firstTime)` | `ctime(lastTime)`"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2018-06-14",
+    "name": "Get Outbound Emails to Hidden Cobra Threat Actors",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

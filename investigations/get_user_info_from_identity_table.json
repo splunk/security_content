@@ -1,49 +1,49 @@
 {
-  "creation_date": "2017-04-10",
-  "data_metadata": {
-    "data_source": [
-      "Identity Table"
-    ],
-    "providing_technologies": [
-      "Splunk Enterprise Security"
-    ]
-  },
-  "description": "Gather more information about the user identified in the Notable Event.",
-  "entities": [
-    "user"
-  ],
-  "how_to_implement": "To successfully implement this search you must have populated the identity table with information about your users.",
-  "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-  "investigate": {
-    "splunk": {
-      "fields_required": [
+    "creation_date": "2017-04-10",
+    "data_metadata": {
+        "data_source": [
+            "Identity Table"
+        ],
+        "providing_technologies": [
+            "Splunk Enterprise Security"
+        ]
+    },
+    "description": "Gather more information about the user identified in the Notable Event.",
+    "entities": [
         "user"
-      ],
-      "schedule": {
-        "cron_schedule": "",
-        "earliest_time": 864000,
-        "latest_time": 86400
-      },
-      "search": "| `identities` | search identity={user} | table _time, identity, first, last, email, category, watchlist"
-    }
-  },
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "modification_date": "2017-09-20",
-  "name": "Get User Information from Identity Table",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "spec_version": 2,
-  "type": "splunk",
-  "version": "1.0"
+    ],
+    "how_to_implement": "To successfully implement this search you must have populated the identity table with information about your users.",
+    "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "user"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": "864000",
+                "latest_time": "86400"
+            },
+            "search": "| `identities` | search identity={user} | table _time, identity, first, last, email, category, watchlist"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2017-09-20",
+    "name": "Get User Information from Identity Table",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

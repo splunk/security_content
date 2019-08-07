@@ -1,52 +1,52 @@
 {
-  "creation_date": "2018-03-19",
-  "data_metadata": {
-    "data_source": [
-      "AWS CloudTrail logs"
-    ],
-    "data_sourcetypes": [
-      "aws:cloudtrail"
-    ],
-    "providing_technologies": [
-      "AWS"
-    ]
-  },
-  "description": "This search retrieves all the activity from a specific city and will create a table containing the time, city, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.",
-  "entities": [
-    "City"
-  ],
-  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
-  "id": "0abeeb40-1255-4b68-91d1-7a7eb410c4b8",
-  "investigate": {
-    "splunk": {
-      "fields_required": [
+    "creation_date": "2018-03-19",
+    "data_metadata": {
+        "data_source": [
+            "AWS CloudTrail logs"
+        ],
+        "data_sourcetypes": [
+            "aws:cloudtrail"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
+    },
+    "description": "This search retrieves all the activity from a specific city and will create a table containing the time, city, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.",
+    "entities": [
         "City"
-      ],
-      "schedule": {
-        "cron_schedule": "",
-        "earliest_time": 14400,
-        "latest_time": 0
-      },
-      "search": "| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search City={City} | spath output=user path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName | spath output=userType path=userIdentity.type | rename sourceIPAddress as src_ip | table _time, City, user, userName, userType, src_ip, awsRegion, eventName, errorCode"
-    }
-  },
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "modification_date": "2018-03-19",
-  "name": "Get All AWS Activity From City",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "spec_version": 2,
-  "type": "splunk",
-  "version": "1.0"
+    ],
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+    "id": "0abeeb40-1255-4b68-91d1-7a7eb410c4b8",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "City"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": "14400",
+                "latest_time": "0"
+            },
+            "search": "| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search City={City} | spath output=user path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName | spath output=userType path=userIdentity.type | rename sourceIPAddress as src_ip | table _time, City, user, userName, userType, src_ip, awsRegion, eventName, errorCode"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "modification_date": "2018-03-19",
+    "name": "Get All AWS Activity From City",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }
