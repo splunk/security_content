@@ -75,7 +75,7 @@
     "earliest_time": "-70m@m",
     "latest_time": "-10m@m"
   },
-  "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | table query query_length record_type count stdev | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(stdev*2)",
+  "search": "| tstats `summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type |  `drop_dm_object_name(\"DNS\")` | eval query_length = len(query) | table src query query_length record_type count | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2) | eval z_score=(query_length-avg)/stdev",
   "search_description": "This search allows you to identify DNS requests and compute the standard deviation on the length of the names being resolved, then filter on two times the standard deviation to show you those queries that are unusually large for your environment.",
   "search_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f5",
   "search_name": "DNS Query Length With High Standard Deviation",
