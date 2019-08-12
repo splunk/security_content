@@ -15,7 +15,7 @@ class DetectCommand(GeneratingCommand):
 
     logger = splunk.mining.dcutils.getLogger()
     story = Option(require=True)
-    risk = Option(validate=Boolean(), default=True, require=True)
+    risk = Option(validate=Boolean(), default=True)
     
     # global variables
     detection_searches_to_run = []
@@ -156,8 +156,7 @@ class DetectCommand(GeneratingCommand):
                             job.refresh()
                             if job['isDone'] == "1":
                                 break
-                else:
-                    continue
+                
 
                 self.logger.info("detect.py - Results: {0}".format(detection_results))
 

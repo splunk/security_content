@@ -57,7 +57,7 @@ class RunStoryCommand(GeneratingCommand):
             if 'kill_chain_phases' in search['mappings'] and search['mappings']['kill_chain_phases']:
                 runstory_results['kill_chain_phases'] = search['mappings']['kill_chain_phases']
 
-            runstory_results['mitre_attack'] = "-"
+            runstory_results['mitre_attack'] = "-" 
             if 'mitre_attack' in search['mappings'] and search['mappings']['mitre_attack']:
                 runstory_results['att&ck category'] = search['mappings']['mitre_attack']
 
