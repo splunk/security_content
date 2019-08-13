@@ -831,13 +831,6 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
         output_file.write("\n")
     output_file.write("\n### END ESCU BASELINES ###\n\n")
-    output_file.write("\n### USAGE DASHBOARD CONFIGURATIONS ###\n\n")
-    usconf = open('bin/usage_searches.conf', 'r')
-    usage_searches = usconf.read()
-    usconf.close()
-    output_file.write(usage_searches)
-    output_file.write("\n\n### END OF USAGE DASHBOARD CONFIGURATIONS ###")
-    output_file.close()
 
     story_count = len(complete_stories.keys())
     return story_count, use_case_lib_path
