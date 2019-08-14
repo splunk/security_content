@@ -1,62 +1,62 @@
 {
-  "baseline": {
-    "splunk": {
-      "schedule": {
-        "cron_schedule": "0 0 1 * *",
-        "earliest_time": "-30d@d",
-        "latest_time": "-10m@m"
-      },
-      "search": "sourcetype=aws:cloudtrail eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation src | eval City=if(City LIKE \"\",src,City),Region=if(Region LIKE \"\",src,Region) | stats earliest(_time) as earliest latest(_time) as latest by user src City Region Country | outputlookup previously_seen_users_console_logins.csv | stats count"
-    }
-  },
-  "creation_date": "2018-02-23",
-  "data_metadata": {
-    "data_source": [
-      "AWS CloudTrail logs"
-    ],
-    "data_sourcetypes": [
-      "aws:cloudtrail"
-    ],
-    "providing_technologies": [
-      "AWS"
-    ]
-  },
-  "description": "This search looks for CloudTrail events where a user logs into the console, then creates a baseline of the latest and earliest times, City, Region, and Country we have encountered this user in our dataset, grouped by ARN, within the last 30 days.",
-  "eli5": "In this support search, we look for console login events by a particular user and create an initial baseline cache for the previous 30 days, including the earliest and latest times, City, Region, and Country a particular user ARN is seen in our dataset, grouped by the ARN value. In cases where City and Region cannot be determined, the source IP address is substituted for these values.",
-  "entities": [
-    "user",
-    "src"
-  ],
-  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the user name entries in <code>previously_seen_users_console_logins.csv</code>, which is a lookup file created as a result of running this support search.",
-  "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd03",
-  "known_false_positives": "n/a",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
+    "baseline": {
+        "splunk": {
+            "schedule": {
+                "cron_schedule": "0 0 1 * *",
+                "earliest_time": "-30d@d",
+                "latest_time": "-10m@m"
+            },
+            "search": "sourcetype=aws:cloudtrail eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation src | eval City=if(City LIKE \"\",src,City),Region=if(Region LIKE \"\",src,Region) | stats earliest(_time) as earliest latest(_time) as latest by user src City Region Country | outputlookup previously_seen_users_console_logins.csv | stats count"
+        }
     },
-    {
-      "company": "Splunk",
-      "email": "jbrewer@splunk.com",
-      "name": "Jason Brewer"
-    }
-  ],
-  "modification_date": "2018-04-30",
-  "name": "Previously seen users in CloudTrail",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
+    "creation_date": "2018-02-23",
+    "data_metadata": {
+        "data_source": [
+            "AWS CloudTrail logs"
+        ],
+        "data_sourcetypes": [
+            "aws:cloudtrail"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
     },
-    {
-      "company": "Splunk",
-      "email": "jbrewer@splunk.com",
-      "name": "Jason Brewer"
-    }
-  ],
-  "spec_version": 2,
-  "type": "splunk",
-  "version": "1.1"
+    "description": "This search looks for CloudTrail events where a user logs into the console, then creates a baseline of the latest and earliest times, City, Region, and Country we have encountered this user in our dataset, grouped by ARN, within the last 30 days.",
+    "eli5": "In this support search, we look for console login events by a particular user and create an initial baseline cache for the previous 30 days, including the earliest and latest times, City, Region, and Country a particular user ARN is seen in our dataset, grouped by the ARN value. In cases where City and Region cannot be determined, the source IP address is substituted for these values.",
+    "entities": [
+        "user",
+        "src"
+    ],
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the user name entries in <code>previously_seen_users_console_logins.csv</code>, which is a lookup file created as a result of running this support search.",
+    "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd03",
+    "known_false_positives": "n/a",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        },
+        {
+            "company": "Splunk",
+            "email": "jbrewer@splunk.com",
+            "name": "Jason Brewer"
+        }
+    ],
+    "modification_date": "2018-04-30",
+    "name": "Previously seen users in CloudTrail",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        },
+        {
+            "company": "Splunk",
+            "email": "jbrewer@splunk.com",
+            "name": "Jason Brewer"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.1"
 }

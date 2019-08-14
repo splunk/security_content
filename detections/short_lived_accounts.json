@@ -1,79 +1,126 @@
 {
-  "asset_type": "Windows",
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "user",
-      "rule_description": "The account $user$ was created and deleted in a short amount of time.",
-      "rule_title": "Short lived account $user$ on $dest"
+    "asset_type": "Windows",
+    "confidence": "medium",
+    "creation_date": "2018-01-05",
+    "data_metadata": {
+        "data_models": [
+            "Change"
+        ],
+        "data_source": [
+            "Windows Event Logs"
+        ],
+        "providing_technologies": [
+            "Microsoft Windows"
+        ]
     },
-    "risk": {
-      "risk_object": "user",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 40
+    "description": "This search detects accounts that were created and deleted in a short time period.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user",
+                    "rule_description": "The account $user$ was created and deleted in a short amount of time.",
+                    "rule_title": "Short lived account $user$ on $dest"
+                },
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
+                },
+                "schedule": {
+                    "cron_schedule": "0 0,4,8,12,16,20 * * *",
+                    "earliest_time": "-245m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h All_Changes.user All_Changes.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")` | search result_id = 4720 result_id=4726 | transaction user maxspan=240m | table firstTime lastTime count user dest result_id",
+                "suppress": {
+                    "suppress_fields": "user",
+                    "suppress_period": "86400s"
+                }
+            }
+        }
     },
-    "suppress": {
-      "suppress_fields": "user",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2018-01-05",
-  "data_metadata": {
-    "data_models": [
-      "Change"
+    "eli5": "This search looks for Windows Event Logs 4720 (account creation) and 4726 (account deletion) and determines if they happen for the same user within 4 hours of each other.  It will report the user and machine that reported the events and the time it first and last saw this activity.",
+    "entities": [
+        "user"
     ],
-    "data_source": [
-      "Windows Event Logs"
+    "how_to_implement": "This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/",
+    "id": "b25f6f62-0782-43c1-b403-083231ffd97d",
+    "investigations": [
+        {
+            "id": "552bc86c-f72c-4d44-b3f2-06ede13af7bb",
+            "name": "Get Logon Rights Modifications For User",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "03bffe94-ec7a-4cbe-b677-6af40d1c4505",
+            "name": "Get Logon Rights Modifications For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Microsoft Windows"
-    ]
-  },
-  "eli5": "This search looks for Windows Event Logs 4720 (account creation) and 4726 (account deletion) and determines if they happen for the same user within 4 hours of each other.  It will report the user and machine that reported the events and the time it first and last saw this activity.",
-  "how_to_implement": "This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/",
-  "known_false_positives": "It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 16"
+    "known_false_positives": "It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "mitre_attack": [
-      "Valid Accounts"
+    "mappings": {
+        "cis20": [
+            "CIS 16"
+        ],
+        "mitre_attack": [
+            "Valid Accounts"
+        ],
+        "nist": [
+            "PR.IP"
+        ]
+    },
+    "modification_date": "2018-01-05",
+    "name": "Short Lived Windows Accounts",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "nist": [
-      "PR.IP"
-    ]
-  },
-  "modification_date": "2018-01-05",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 0,4,8,12,16,20 * * *",
-    "earliest_time": "-245m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h All_Changes.user All_Changes.dest | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(\"All_Changes\")` | search result_id = 4720 result_id=4726 | transaction user maxspan=240m | table firstTime lastTime count user dest result_id",
-  "search_description": "This search detects accounts that were created and deleted in a short time period.",
-  "search_id": "b25f6f62-0782-43c1-b403-083231ffd97d",
-  "search_name": "Short Lived Windows Accounts",
-  "search_type": "detection",
-  "security_domain": "access",
-  "spec_version": 1,
-  "status": "production",
-  "team_notes": "",
-  "version": "1.0"
+    "references": [],
+    "security_domain": "access",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -1,45 +1,52 @@
 {
-  "channel": "ESCU",
-  "creation_date": "2018-02-09",
-  "data_metadata": {
-    "data_source": [
-      "AWS CloudTrail logs"
+    "creation_date": "2018-02-09",
+    "data_metadata": {
+        "data_source": [
+            "AWS CloudTrail logs"
+        ],
+        "data_sourcetypes": [
+            "aws:cloudtrail"
+        ],
+        "providing_technologies": [
+            "AWS"
+        ]
+    },
+    "description": "This search lists all the user activities logged by CloudTrail for a specific region in question and will create a table of the values of parameters requested, the type of the event and the response from the AWS API by each user",
+    "entities": [
+        "awsRegion"
     ],
-    "data_sourcetypes": [
-      "aws:cloudtrail"
+    "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
+    "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
+    "investigate": {
+        "splunk": {
+            "fields_required": [
+                "awsRegion"
+            ],
+            "schedule": {
+                "cron_schedule": "",
+                "earliest_time": "14400",
+                "latest_time": "0"
+            },
+            "search": "| search sourcetype=aws:cloudtrail awsRegion={awsRegion}| rename requestParameters.instancesSet.items{}.instanceId as instanceId| stats values(eventName) by userName instanceId"
+        }
+    },
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "providing_technologies": [
-      "AWS"
-    ]
-  },
-  "fields_required": [
-    "awsRegion"
-  ],
-  "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "modification_date": "2018-02-09",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "search": "| search sourcetype=aws:cloudtrail awsRegion={awsRegion}| rename requestParameters.instancesSet.items{}.instanceId as instanceId| stats values(eventName) by userName instanceId",
-  "search_description": "This search lists all the user activities logged by CloudTrail for a specific region in question and will create a table of the values of parameters requested, the type of the event and the response from the AWS API by each user",
-  "search_id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd11",
-  "search_name": "Investigate AWS activities via region name",
-  "search_type": "investigative",
-  "search_window": {
-    "earliest_time_offset": 14400,
-    "latest_time_offset": 0
-  },
-  "spec_version": 1,
-  "version": "1.0"
+    "modification_date": "2018-02-09",
+    "name": "Investigate AWS activities via region name",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

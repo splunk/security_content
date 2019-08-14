@@ -1,96 +1,96 @@
 {
-  "asset_type": "Windows",
-  "confidence": "low",
-  "creation_date": "2017-08-17",
-  "data_metadata": {
-    "data_models": [
-      "Change"
-    ],
-    "data_source": [
-      "Windows Event Logs"
-    ],
-    "providing_technologies": [
-      "Microsoft Windows"
-    ]
-  },
-  "description": "This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.",
-  "detect": {
-    "splunk": {
-      "correlation_rule": {
-        "notable": {
-          "nes_fields": "dest",
-          "rule_description": "The system $dest$ has generated a high number of account lockouts.",
-          "rule_title": "$dest$ has generated a high number of account lockouts"
-        },
-        "risk": {
-          "risk_object": "dest",
-          "risk_object_type": [
-            "system"
-          ],
-          "risk_score": 40
-        },
-        "schedule": {
-          "cron_schedule": "0 * * * *",
-          "earliest_time": "-4h@h",
-          "latest_time": "-5m@m"
-        },
-        "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management All_Changes.result=\"lockout\" by All_Changes.dest All_Changes.result |`drop_dm_object_name(\"All_Changes\")` |`drop_dm_object_name(\"Account_Management\")`| `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
-        "suppress": {
-          "suppress_fields": "dest",
-          "suppress_period": "86400s"
-        }
-      }
-    }
-  },
-  "eli5": "This search queries the `Change.All_Changes` datamodel under the nodename is `Account_Management` , where the result is \"lockout\", which indicates that an account has been locked out. It then counts the number of times an endpoint has caused an account lockout within a four hour window and displays those hosts with a count greater than or equal to five.",
-  "entities": [
-    "dest"
-  ],
-  "how_to_implement": "You must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment. <br></br> <b>Splunk>Phantom Playbook Integration</b><br></br>If Splunk>Phantom is also configured in your environment, a Playbook called \"Excessive Account Lockouts Enrichment and Response\" can be configured to run when any results are found by this detection search. The Playbook executes the Contextual and Investigative searches in this Story, conducts additional information gathering on Windows endpoints, and takes a response action to shut down the affected endpoint. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. <br/>(Playbook Link:<code>https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/</code>).<br></br>",
-  "id": "c026e3dd-7e18-4abb-8f41-929e836efe74",
-  "investigations": [
-    {
-      "id": "ab62b5c1-95d4-4e71-8fd7-53a55db33da4",
-      "name": "Excessive Account Lockouts Enrichment And Response",
-      "type": "phantom"
-    }
-  ],
-  "known_false_positives": "It's possible that a widely used system, such as a kiosk, could cause a large number of account lockouts.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
+    "asset_type": "Windows",
+    "confidence": "low",
+    "creation_date": "2017-08-17",
+    "data_metadata": {
+        "data_models": [
+            "Change"
+        ],
+        "data_source": [
+            "Windows Event Logs"
+        ],
+        "providing_technologies": [
+            "Microsoft Windows"
+        ]
     },
-    {
-      "company": "Splunk",
-      "email": "proyer@splunk.com",
-      "name": "Philip Royer"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 16"
+    "description": "This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest",
+                    "rule_description": "The system $dest$ has generated a high number of account lockouts.",
+                    "rule_title": "$dest$ has generated a high number of account lockouts"
+                },
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
+                },
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-4h@h",
+                    "latest_time": "-5m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management All_Changes.result=\"lockout\" by All_Changes.dest All_Changes.result |`drop_dm_object_name(\"All_Changes\")` |`drop_dm_object_name(\"Account_Management\")`| `ctime(firstTime)` | `ctime(lastTime)` | search count > 5",
+                "suppress": {
+                    "suppress_fields": "dest",
+                    "suppress_period": "86400s"
+                }
+            }
+        }
+    },
+    "eli5": "This search queries the `Change.All_Changes` datamodel under the nodename is `Account_Management` , where the result is \"lockout\", which indicates that an account has been locked out. It then counts the number of times an endpoint has caused an account lockout within a four hour window and displays those hosts with a count greater than or equal to five.",
+    "entities": [
+        "dest"
     ],
-    "mitre_attack": [
-      "Valid Accounts"
+    "how_to_implement": "You must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment. <br></br> <b>Splunk>Phantom Playbook Integration</b><br></br>If Splunk>Phantom is also configured in your environment, a Playbook called \"Excessive Account Lockouts Enrichment and Response\" can be configured to run when any results are found by this detection search. The Playbook executes the Contextual and Investigative searches in this Story, conducts additional information gathering on Windows endpoints, and takes a response action to shut down the affected endpoint. To use this integration, install the Phantom App for Splunk <code>https://splunkbase.splunk.com/app/3411/</code>, add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions when configuring this detection search, and set the corresponding Playbook to active. <br/>(Playbook Link:<code>https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/</code>).<br></br>",
+    "id": "c026e3dd-7e18-4abb-8f41-929e836efe74",
+    "investigations": [
+        {
+            "id": "ab62b5c1-95d4-4e71-8fd7-53a55db33da4",
+            "name": "Excessive Account Lockouts Enrichment And Response",
+            "type": "phantom"
+        }
     ],
-    "nist": [
-      "PR.IP"
-    ]
-  },
-  "modification_date": "2019-04-18",
-  "name": "Detect Excessive Account Lockouts From Endpoint",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "responses": [],
-  "security_domain": "access",
-  "spec_version": 2,
-  "type": "splunk",
-  "version": "3.0"
+    "known_false_positives": "It's possible that a widely used system, such as a kiosk, could cause a large number of account lockouts.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        },
+        {
+            "company": "Splunk",
+            "email": "proyer@splunk.com",
+            "name": "Philip Royer"
+        }
+    ],
+    "mappings": {
+        "cis20": [
+            "CIS 16"
+        ],
+        "mitre_attack": [
+            "Valid Accounts"
+        ],
+        "nist": [
+            "PR.IP"
+        ]
+    },
+    "modification_date": "2019-04-18",
+    "name": "Detect Excessive Account Lockouts From Endpoint",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "responses": [],
+    "security_domain": "access",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "3.0"
 }
