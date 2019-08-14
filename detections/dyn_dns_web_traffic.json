@@ -1,89 +1,148 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "high",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "src, url, dest",
-      "rule_description": "The host $src$ has been detected making a web request to $url$, which is a listed as a dynamic DNS provider.",
-      "rule_title": "Dynamic DNS web traffic detected on $src$."
+    "asset_type": "Endpoint",
+    "confidence": "high",
+    "creation_date": "2018-09-06",
+    "data_metadata": {
+        "data_models": [
+            "Web"
+        ],
+        "data_source": [
+            "Web Traffic"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Bro",
+            "Bluecoat",
+            "Palo Alto Firewall"
+        ]
     },
-    "risk": {
-      "risk_object": "src",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 40
+    "description": "This search looks for web connections to dynamic DNS providers.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, url, dest",
+                    "rule_description": "The host $src$ has been detected making a web request to $url$, which is a listed as a dynamic DNS provider.",
+                    "rule_title": "Dynamic DNS web traffic detected on $src$."
+                },
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
+                },
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats summariesonly=true allow_old_summaries=true count values(Web.url) as url min(_time) as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `dynamic_dns_web_traffic`",
+                "suppress": {
+                    "suppress_fields": "src, url , dest",
+                    "suppress_period": "86400s"
+                }
+            }
+        }
     },
-    "suppress": {
-      "suppress_fields": "src, url , dest",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2018-09-06",
-  "data_metadata": {
-    "data_models": [
-      "Web"
+    "eli5": "This search looks for hosts in your environment that may be communicating with a dynamic DNS provider. It checks each URL an endpoint is connecting to against a list of dynamic DNS providers. It returns the source and destination IP address of the web request, the URL requested, and the first time the event occurred.",
+    "entities": [
+        "src"
     ],
-    "data_source": [
-      "Web Traffic"
+    "how_to_implement": "This search requires you to be ingesting web-traffic logs. You can obtain these logs from indexing data from a web proxy or by using a network-traffic-analysis tool, such as Bro or Splunk Stream. The web data model must contain the URL being requested, the IP address of the host initiating the request, and the destination IP. This search also leverages a lookup file, <code>dynamic_dns_providers_default.csv</code>, which contains a non-exhaustive list of dynamic DNS providers. Consider periodically updating this local lookup file with new domains.<br></br>This search produces fields (`isDynDNS`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> IsDynamicDNS, <b>Field:</b> isDynDNS</li></ul><br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
+    "id": "134da869-e264-4a8f-8d7e-fcd01c18f301",
+    "investigations": [
+        {
+            "id": "910e6512-edc9-4f93-ba24-5b786f47a672",
+            "name": "Get Process Responsible For The DNS Traffic",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd73",
+            "name": "Get DNS traffic ratio",
+            "type": "splunk"
+        },
+        {
+            "id": "2f5b960b-71df-49c0-affc-74992ce60e45",
+            "name": "Investigate Web Activity From src_ip",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+            "name": "Get DNS Server History for a host",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Splunk Stream",
-      "Bro",
-      "Bluecoat",
-      "Palo Alto Firewall"
-    ]
-  },
-  "eli5": "This search looks for hosts in your environment that may be communicating with a dynamic DNS provider. It checks each URL an endpoint is connecting to against a list of dynamic DNS providers. It returns the source and destination IP address of the web request, the URL requested, and the first time the event occurred.",
-  "how_to_implement": "This search requires you to be ingesting web-traffic logs. You can obtain these logs from indexing data from a web proxy or by using a network-traffic-analysis tool, such as Bro or Splunk Stream. The web data model must contain the URL being requested, the IP address of the host initiating the request, and the destination IP. This search also leverages a lookup file, <code>dynamic_dns_providers_default.csv</code>, which contains a non-exhaustive list of dynamic DNS providers. Consider periodically updating this local lookup file with new domains.<br></br>This search produces fields (`isDynDNS`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> IsDynamicDNS, <b>Field:</b> isDynDNS</li></ul><br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
-  "known_false_positives": "It is possible that list of dynamic DNS providers is outdated and/or that the URL being requested is legitimate.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 7",
-      "CIS 8"
+    "known_false_positives": "It is possible that list of dynamic DNS providers is outdated and/or that the URL being requested is legitimate.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Command and Control",
-      "Actions on Objectives"
+    "mappings": {
+        "cis20": [
+            "CIS 7",
+            "CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Command and Control",
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Command and Control",
+            "Web Service",
+            "Exfiltration Over Command and Control Channel",
+            "Defense Evasion"
+        ],
+        "nist": [
+            "PR.IP",
+            "DE.DP"
+        ]
+    },
+    "modification_date": "2018-09-06",
+    "name": "Detect web traffic to dynamic domain providers",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Command and Control",
-      "Web Service",
-      "Exfiltration Over Command and Control Channel",
-      "Defense Evasion"
-    ],
-    "nist": [
-      "PR.IP",
-      "DE.DP"
-    ]
-  },
-  "modification_date": "2018-09-06",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats summariesonly=true allow_old_summaries=true count values(Web.url) as url min(_time) as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status | `drop_dm_object_name(\"Web\")` | `ctime(firstTime)` | `dynamic_dns_web_traffic`",
-  "search_description": "This search looks for web connections to dynamic DNS providers.",
-  "search_id": "134da869-e264-4a8f-8d7e-fcd01c18f301",
-  "search_name": "Detect web traffic to dynamic domain providers",
-  "search_type": "detection",
-  "security_domain": "network",
-  "spec_version": 1,
-  "version": "1.0"
+    "references": [],
+    "security_domain": "network",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

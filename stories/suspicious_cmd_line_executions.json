@@ -1,56 +1,66 @@
 {
-  "category": "Adversary Tactics",
-  "channel": "ESCU",
-  "creation_date": "2017-10-09",
-  "description": "Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.",
-  "id": "f4368ddf-d59f-4192-84f6-778ac5a3ffc7",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "modification_date": "2017-10-23",
-  "name": "Suspicious Command-Line Executions",
-  "narrative": "The ability to execute arbitrary commands via the Windows CLI is a primary goal for the adversary. With access to the shell, an attacker can easily run scripts and interact with the target system. Often, attackers may only have limited access to the shell or may obtain access in unusual ways. In addition, malware may execute and interact with the CLI in ways that would be considered unusual and inconsistent with typical user activity. This provides defenders with opportunities to identify suspicious use and investigate, as appropriate. This Analytic Story contains various searches to help identify this suspicious activity, as well as others to aid you in deeper investigation.",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "references": [
-    "https://attack.mitre.org/wiki/Technique/T1059",
-    "https://www.microsoft.com/en-us/wdsi/threats/macro-malware",
-    "https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf"
-  ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable Info",
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Authentication Logs For Endpoint"
+    "category": [
+        "Adversary Tactics"
     ],
-    "detection_searches": [
-      "First time seen command line argument",
-      "Unusually Long Command Line",
-      "Unusually Long Command Line - MLTK",
-      "Detect Prohibited Applications Spawning cmd.exe",
-      "Detect Use of cmd.exe to Launch Script Interpreters",
-      "System Processes Run From Unexpected Locations"
+    "channel": "ESCU",
+    "creation_date": "2017-10-09",
+    "description": "Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.",
+    "detections": [
+        {
+            "detection_id": "9be56c82-b1cc-4318-87eb-q138afaaqa39",
+            "name": "First time seen command line argument",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "c77162d3-f93c-45cc-80c8-22f6a4264e7f",
+            "name": "Unusually Long Command Line",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "57edaefa-a73b-45e5-bbae-f39c1473f941",
+            "name": "Unusually Long Command Line - MLTK",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "dcfd6b40-42f9-469d-a433-2e53f7486664",
+            "name": "Detect Prohibited Applications Spawning cmd.exe",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "b89919ed-fe5f-492c-b139-95dbb162039e",
+            "name": "Detect Use of cmd.exe to Launch Script Interpreters",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "a34aae96-ccf8-4aef-952c-3ea21444444d",
+            "name": "System Processes Run From Unexpected Locations",
+            "type": "splunk"
+        }
     ],
-    "investigative_searches": [
-      "Get Process Info",
-      "Get Parent Process Info",
-      "Investigate Web Activity From Host"
+    "id": "f4368ddf-d59f-4192-84f6-778ac5a3ffc7",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "support_searches": [
-      "Previously seen command line arguments",
-      "Baseline of Command Line Length - MLTK"
-    ]
-  },
-  "spec_version": 1,
-  "version": "2.0"
+    "modification_date": "2017-10-23",
+    "name": "Suspicious Command-Line Executions",
+    "narrative": "The ability to execute arbitrary commands via the Windows CLI is a primary goal for the adversary. With access to the shell, an attacker can easily run scripts and interact with the target system. Often, attackers may only have limited access to the shell or may obtain access in unusual ways. In addition, malware may execute and interact with the CLI in ways that would be considered unusual and inconsistent with typical user activity. This provides defenders with opportunities to identify suspicious use and investigate, as appropriate. This Analytic Story contains various searches to help identify this suspicious activity, as well as others to aid you in deeper investigation.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "references": [
+        "https://attack.mitre.org/wiki/Technique/T1059",
+        "https://www.microsoft.com/en-us/wdsi/threats/macro-malware",
+        "https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf"
+    ],
+    "spec_version": 2,
+    "usecase": "Advanced Threat Detection",
+    "version": "2.0"
 }

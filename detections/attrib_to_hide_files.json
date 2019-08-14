@@ -1,84 +1,134 @@
 {
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "dest, user, process",
-      "rule_description": "Attrib.exe is often used by attackers to hide malware files and directories in windows environments. This rule detects command-line arguments used to hide a file/directory",
-      "rule_title": "Suspicious usage of attrib.exe on $dest$ "
+    "asset_type": "",
+    "confidence": "medium",
+    "creation_date": "2017-10-23",
+    "data_metadata": {
+        "data_models": [
+            "Endpoint"
+        ],
+        "data_source": [
+            "Endpoint Intel"
+        ],
+        "providing_technologies": [
+            "Carbon Black Response",
+            "CrowdStrike Falcon",
+            "Sysmon",
+            "Tanium",
+            "Ziften"
+        ]
     },
-    "risk": {
-      "risk_object": "dest",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 50
+    "description": "Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "dest, user, process",
+                    "rule_description": "Attrib.exe is often used by attackers to hide malware files and directories in windows environments. This rule detects command-line arguments used to hide a file/directory",
+                    "rule_title": "Suspicious usage of attrib.exe on $dest$ "
+                },
+                "risk": {
+                    "risk_object": "dest",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
+                },
+                "schedule": {
+                    "cron_schedule": "30 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count min(_time) values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=attrib.exe (Processes.process=*+h*) by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`",
+                "suppress": {
+                    "suppress_fields": "dest, process",
+                    "suppress_period": "86400s"
+                }
+            }
+        }
     },
-    "suppress": {
-      "suppress_fields": "dest, process",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2017-10-23",
-  "data_metadata": {
-    "data_models": [
-      "Endpoint"
+    "eli5": "This search is looking to detect command-line execution with of attrib.exe binary with the +h flag set.  The +h flag is used to hide a file.",
+    "entities": [
+        "dest"
     ],
-    "data_source": [
-      "Endpoint Intel"
+    "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
+    "id": "c77162d3-f93c-45cc-80c8-22f6b5264g9f",
+    "investigations": [
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Carbon Black Response",
-      "CrowdStrike Falcon",
-      "Sysmon",
-      "Tanium",
-      "Ziften"
-    ]
-  },
-  "eli5": "This search is looking to detect command-line execution with of attrib.exe binary with the +h flag set.  The +h flag is used to hide a file.",
-  "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
-  "known_false_positives": "Some applications and users may legitimately use attrib.exe to interact with the files. ",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 8"
+    "known_false_positives": "Some applications and users may legitimately use attrib.exe to interact with the files. ",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Actions on Objectives"
+    "mappings": {
+        "cis20": [
+            "CIS 8"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives"
+        ],
+        "mitre_attack": [
+            "Defense Evasion",
+            "Persistence"
+        ],
+        "nist": [
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2018-11-15",
+    "name": "Hiding Files And Directories With Attrib.exe",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "mitre_attack": [
-      "Defense Evasion",
-      "Persistence"
-    ],
-    "nist": [
-      "DE.CM"
-    ]
-  },
-  "modification_date": "2018-11-15",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "30 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "| tstats `summariesonly` count min(_time) values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=attrib.exe (Processes.process=*+h*) by Processes.parent_process Processes.process_name Processes.user | `drop_dm_object_name(\"Processes\")` | `ctime(firstTime)`|`ctime(lastTime)`",
-  "search_description": "Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.",
-  "search_id": "c77162d3-f93c-45cc-80c8-22f6b5264g9f",
-  "search_name": "Hiding Files And Directories With Attrib.exe",
-  "search_type": "detection",
-  "security_domain": "endpoint",
-  "spec_version": 1,
-  "version": "2.0"
+    "references": [],
+    "security_domain": "endpoint",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "2.0"
 }

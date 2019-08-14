@@ -231,7 +231,8 @@
           "src_mac",
           "src_user",
           "src",
-          "user"
+          "user",
+          "dest_ip"
         ]
       },
       "minItems": 0,

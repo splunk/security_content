@@ -1,44 +1,39 @@
 {
-  "category": "Best Practices",
-  "channel": "ESCU",
-  "creation_date": "2017-08-15",
-  "description": "Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.",
-  "id": "9ef8d677-7b52-4213-a038-99cfc7acc2d8",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "modification_date": "2017-09-15",
-  "name": "Monitor for Updates",
-  "narrative": "It is a common best practice to ensure that endpoints are being patched and updated in a timely manner, in order to reduce the risk of compromise via a publicly disclosed vulnerability. Timely application of updates/patches is important to eliminate known vulnerabilities that may be exploited by various threat actors.<br></br>Searches in this analytic story are designed to help analysts monitor endpoints for system patches and/or updates. This helps analysts identify any systems that are not successfully updated in a timely matter.<br></br>Microsoft releases updates for Windows systems on a monthly cadence. They should be installed as soon as possible after following internal testing and validation procedures. Patches and updates for other systems or applications are typically released as needed.",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "references": [
-    "https://learn.cisecurity.org/20-controls-download"
-  ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable Info",
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Authentication Logs For Endpoint",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
+    "category": [
+        "Best Practices"
     ],
-    "detection_searches": [
-      "No Windows Updates in a time frame"
+    "channel": "ESCU",
+    "creation_date": "2017-08-15",
+    "description": "Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.",
+    "detections": [
+        {
+            "detection_id": "1a77c08c-2f56-409c-a2d3-7d64617edd4f",
+            "name": "No Windows Updates in a time frame",
+            "type": "splunk"
+        }
     ],
-    "investigative_searches": [],
-    "support_searches": []
-  },
-  "spec_version": 1,
-  "version": "1.0"
+    "id": "9ef8d677-7b52-4213-a038-99cfc7acc2d8",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "modification_date": "2017-09-15",
+    "name": "Monitor for Updates",
+    "narrative": "It is a common best practice to ensure that endpoints are being patched and updated in a timely manner, in order to reduce the risk of compromise via a publicly disclosed vulnerability. Timely application of updates/patches is important to eliminate known vulnerabilities that may be exploited by various threat actors.<br></br>Searches in this analytic story are designed to help analysts monitor endpoints for system patches and/or updates. This helps analysts identify any systems that are not successfully updated in a timely matter.<br></br>Microsoft releases updates for Windows systems on a monthly cadence. They should be installed as soon as possible after following internal testing and validation procedures. Patches and updates for other systems or applications are typically released as needed.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "references": [
+        "https://learn.cisecurity.org/20-controls-download"
+    ],
+    "spec_version": 2,
+    "usecase": "Compliance",
+    "version": "1.0"
 }

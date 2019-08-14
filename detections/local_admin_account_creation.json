@@ -1,86 +1,133 @@
 {
-  "asset_type": "Windows",
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "user,src_user, dest",
-      "rule_description": "The new user account $user$ was created on $dest$ by $src_user$.",
-      "rule_title": "New local admin account $user$ created by $src_user$."
+    "asset_type": "Windows",
+    "confidence": "medium",
+    "creation_date": "2018-03-26",
+    "data_metadata": {
+        "data_eventtypes": [
+            "wineventlog_security"
+        ],
+        "data_source": [
+            "Windows Event Logs"
+        ],
+        "providing_technologies": [
+            "Microsoft Windows"
+        ]
     },
-    "risk": {
-      "risk_object": "user",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 40
+    "description": "This search looks for newly created accounts that have been elevated to local administrators.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "user,src_user, dest",
+                    "rule_description": "The new user account $user$ was created on $dest$ by $src_user$.",
+                    "rule_title": "New local admin account $user$ created by $src_user$."
+                },
+                "risk": {
+                    "risk_object": "user",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 40
+                },
+                "schedule": {
+                    "cron_schedule": "0 9 * * *",
+                    "earliest_time": "-1440m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "eventtype = wineventlog_security signature_id=4720 OR (signature_id=4732 Group_Name= Administrators) | transaction Security_ID maxspan=180m | search signature_id=4720 signature_id=4732 | table _time user dest signature_id Security_ID Group_Name src_user Message",
+                "suppress": {
+                    "suppress_fields": "user",
+                    "suppress_period": "86400s"
+                }
+            }
+        }
     },
-    "suppress": {
-      "suppress_fields": "user",
-      "suppress_period": "86400s"
-    }
-  },
-  "creation_date": "2018-03-26",
-  "data_metadata": {
-    "data_eventtypes": [
-      "wineventlog_security"
+    "eli5": "This search looks for Windows Event Code 4720 (account creation) and 4732 (account added to a security-enabled local group), where the group name is \"Administrators\", and determines whether they are generated for the same user's Security ID within three hours of each other.  It will return the user account that was added, the Security ID, the group name to which the user was added, the account name of the user who initiated the action, and the subsequent message returned.",
+    "entities": [
+        "user"
     ],
-    "data_source": [
-      "Windows Event Logs"
+    "how_to_implement": "You must be ingesting Windows Security logs. You must also enable the account change auditing here:http://docs.splunk.com/Documentation/Splunk/7.0.2/Data/MonitorWindowseventlogdata. Additionally, this search requires you to enable your Group Management Audit Logs in your Local Windows Security Policy and to be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/. Finally, please make sure that the local administrator group name is \"Administrators\" to be able to look for the right group membership changes.<br></br>This search produces fields (`Security_ID`,`Group_Name`,`Message`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> Security ID, <b>Field:</b> Security_ID</li><li><b>Label:</b> Group Name, <b>Field:</b> Group_Name</li><li><b>Label:</b> Message, <b>Field:</b> Message</li></ul><br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
+    "id": "b25f6f62-0712-43c1-b203-083231ffd97d",
+    "investigations": [
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "fecf2918-670d-4f1c-872b-3d7317a41bf9",
+            "name": "Get Parent Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+            "name": "Get Risk Modifiers For User",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd71",
+            "name": "Get Process Info",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+            "name": "Get User Information from Identity Table",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Microsoft Windows"
-    ]
-  },
-  "eli5": "This search looks for Windows Event Code 4720 (account creation) and 4732 (account added to a security-enabled local group), where the group name is \"Administrators\", and determines whether they are generated for the same user's Security ID within three hours of each other.  It will return the user account that was added, the Security ID, the group name to which the user was added, the account name of the user who initiated the action, and the subsequent message returned.",
-  "how_to_implement": "You must be ingesting Windows Security logs. You must also enable the account change auditing here:http://docs.splunk.com/Documentation/Splunk/7.0.2/Data/MonitorWindowseventlogdata. Additionally, this search requires you to enable your Group Management Audit Logs in your Local Windows Security Policy and to be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/. Finally, please make sure that the local administrator group name is \"Administrators\" to be able to look for the right group membership changes.<br></br>This search produces fields (`Security_ID`,`Group_Name`,`Message`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> Security ID, <b>Field:</b> Security_ID</li><li><b>Label:</b> Group Name, <b>Field:</b> Group_Name</li><li><b>Label:</b> Message, <b>Field:</b> Message</li></ul><br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
-  "known_false_positives": "The activity may be legitimate. For this reason, it's best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not \"Administrators\", this search may generate an excessive number of false positives",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 16"
+    "known_false_positives": "The activity may be legitimate. For this reason, it's best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not \"Administrators\", this search may generate an excessive number of false positives",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
     ],
-    "kill_chain_phases": [
-      "Actions on Objectives",
-      "Command and Control"
+    "mappings": {
+        "cis20": [
+            "CIS 16"
+        ],
+        "kill_chain_phases": [
+            "Actions on Objectives",
+            "Command and Control"
+        ],
+        "mitre_attack": [
+            "Valid Accounts",
+            "Defense Evasion",
+            "Persistence"
+        ],
+        "nist": [
+            "PR.AC",
+            "DE.CM"
+        ]
+    },
+    "modification_date": "2019-02-28",
+    "name": "Detect New Local Admin account",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "mitre_attack": [
-      "Valid Accounts",
-      "Defense Evasion",
-      "Persistence"
-    ],
-    "nist": [
-      "PR.AC",
-      "DE.CM"
-    ]
-  },
-  "modification_date": "2019-02-28",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 9 * * *",
-    "earliest_time": "-1440m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "eventtype = wineventlog_security signature_id=4720 OR (signature_id=4732 Group_Name= Administrators) | transaction Security_ID maxspan=180m | search signature_id=4720 signature_id=4732 | table _time user dest signature_id Security_ID Group_Name src_user Message",
-  "search_description": "This search looks for newly created accounts that have been elevated to local administrators.",
-  "search_id": "b25f6f62-0712-43c1-b203-083231ffd97d",
-  "search_name": "Detect New Local Admin account",
-  "search_type": "detection",
-  "security_domain": "access",
-  "spec_version": 1,
-  "status": "production",
-  "team_notes": "",
-  "version": "1.0"
+    "references": [],
+    "security_domain": "access",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }
