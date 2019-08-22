@@ -117,6 +117,9 @@
             "Actions on Objectives"
         ],
         "mitre_attack": [
+            "Lateral Movement",
+            "Execution",
+            "Command and Control",
             "Commonly Used Port"
         ],
         "nist": [

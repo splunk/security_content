@@ -116,6 +116,9 @@
             "Actions on Objectives"
         ],
         "mitre_attack": [
+            "Discovery",
+            "Execution",
+            "Lateral Movement",
             "Third-party Software",
             "Account Discovery"
         ],

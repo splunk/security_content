@@ -103,7 +103,8 @@
             "CIS 16"
         ],
         "mitre_attack": [
-            "Valid Accounts"
+            "Persistence",
+            "Create Account"
         ],
         "nist": [
             "PR.IP"
