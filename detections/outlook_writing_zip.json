@@ -78,6 +78,7 @@
       "Actions on Objectives"
     ],
     "mitre_attack": [
+      "Initial Access",
       "Spearphishing Attachment"
     ],
     "nist": [

@@ -103,6 +103,7 @@
             "CIS 16"
         ],
         "mitre_attack": [
+            "Initial Access",
             "Valid Accounts"
         ],
         "nist": [
