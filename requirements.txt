@@ -20,4 +20,4 @@ six==1.12.0
 toml==0.10.0
 typing==3.7.4
 virtualenv==16.7.2
-zipp==0.5.2
+zipp==0.6.0
