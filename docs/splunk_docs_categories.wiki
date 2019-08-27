@@ -1332,11 +1332,14 @@ Detect evidence of tactics used to redirect traffic from a host to a destination
 Attackers will often attempt to manipulate client communications for nefarious purposes. In some cases, an attacker may endeavor to modify a local host file to redirect communications with resources (such as antivirus or system-update services) to prevent clients from receiving patches or updates. In other cases, an attacker might use this tactic to have the client connect to a site that looks like the intended site, but instead installs malware or collects information from the victim. Additionally, an attacker may redirect a victim in order to execute a MITM attack and observe communications.
 
 ====Providing Technologies====
+* Splunk Stream
+* Bro
 * Carbon Black Response
 * CrowdStrike Falcon
 * Sysmon
 
 ====Data Models====
+* Network_Resolution
 * Endpoint
 
 ====Mappings====
