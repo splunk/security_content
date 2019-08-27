@@ -357,7 +357,7 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                 output_file.write(
                     """\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
                 # header information
-                output_file.write("\n====Narrative====\n{0}\n".format(story['narrative']))
+                output_file.write("\n====Narrative====\n{0}\n".format(markdown(story['narrative'])))
 
                 mappings, providing_technologies, data_models = process_metadata(detections, story_name)
 
