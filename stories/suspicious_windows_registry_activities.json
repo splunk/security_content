@@ -57,7 +57,7 @@
   ],
   "modification_date": "2018-05-31",
   "name": "Suspicious Windows Registry Activities",
-  "narrative": "Attackers are developing increasingly sophisticated techniques for hijacking target servers, while evading detection. One such technique that has become progressively more common is registry modification.\n\n The registry is a key component of the Windows operating system. It has a hierarchical database called \"registry\" that contains settings, options, and values for executables. Once the threat actor gains access to a machine, they can use reg.exe to modify their account to obtain administrator-level privileges, maintain persistence, and move laterally within the environment.\n\n The searches in this story are designed to help you detect behaviors associated with manipulation of the Windows registry.",
+  "narrative": "Attackers are developing increasingly sophisticated techniques for hijacking target servers, while evading detection. One such technique that has become progressively more common is registry modification.\\n The registry is a key component of the Windows operating system. It has a hierarchical database called \"registry\" that contains settings, options, and values for executables. Once the threat actor gains access to a machine, they can use reg.exe to modify their account to obtain administrator-level privileges, maintain persistence, and move laterally within the environment.\\n The searches in this story are designed to help you detect behaviors associated with manipulation of the Windows registry.",
   "original_authors": [
     {
       "company": "Splunk",
