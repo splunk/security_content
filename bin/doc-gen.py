@@ -17,25 +17,6 @@ def unique(list1):
     return unique_list
 
 
-def markdown(x):
-    markdown = str(x)
-    markdown = markdown.replace("<code>", "`")
-    markdown = markdown.replace("</code>", "`")
-    markdown = markdown.replace("<b>", "**")
-    markdown = markdown.replace("</b>", "**")
-    # list tag replacements
-    markdown = markdown.replace("<ol><li>", "\\\n\\\n1. ")
-    markdown = markdown.replace("</li><li>", "\\\n\\\n1. ")
-    markdown = markdown.replace("</li></ol>", "")
-    markdown = markdown.replace("</li></ul>", "")
-    markdown = markdown.replace("<ul><li>", "\\\n\\\n1. ")
-    # break tags replacements
-    markdown = markdown.replace("<br></br>", "\\\n\\\n")
-    markdown = markdown.replace("<br/><br/>", "\\\n\\\n")
-    markdown = markdown.replace("<br/>", "\\\n\\\n")
-    return markdown
-
-
 def process_data_metadata(obj, complete_obj, name):
 
     # collect tagging
@@ -399,7 +380,7 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                 # references
                 output_file.write("\n====References====\n")
                 for r in story['references']:
-                    output_file.write("* {0}\n".format(markdown(r)))
+                    output_file.write("* {0}\n".format(r))
 
                 # story details
                 output_file.write("\ncreation_date = {0}\n\n".format(story['creation_date']))
@@ -459,8 +440,8 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
                 output_file.write("* spec_version = {0}\n".format(story['spec_version']))
 
                 # description and narrative
-                output_file.write("\n##### Description\n{0}\n".format(markdown(story['description'])))
-                output_file.write("\n##### Narrative\n{0}\n".format(markdown(story['narrative'])))
+                output_file.write("\n##### Description\n{0}\n".format(story['description']))
+                output_file.write("\n##### Narrative\n{0}\n".format(story['narrative']))
 
                 # process detections
                 output_file.write("\n##### Detections\n")
@@ -516,7 +497,7 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
                 # references
                 output_file.write("\n##### References\n")
                 for r in story['references']:
-                    output_file.write("* {0}\n".format(markdown(r)))
+                    output_file.write("* {0}\n".format(r))
 
     output_file.close()
     story_count = len(stories.keys())
