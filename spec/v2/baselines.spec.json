@@ -310,7 +310,8 @@
           "src",
           "user",
           "query",
-          "answer"
+          "answer",
+          "domain"
         ]
       },
       "minItems": 0,

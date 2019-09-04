@@ -15,7 +15,7 @@ class Investigate(StreamingCommand):
 
   logger = splunk.mining.dcutils.getLogger()
   def stream(self, records):
-    for record in records:
+    for record in records: 
 
       search_results = self.search_results_info
       port = splunk.getDefault('port')

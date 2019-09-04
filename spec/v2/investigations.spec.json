@@ -232,7 +232,8 @@
           "src_user",
           "src",
           "user",
-          "dest_ip"
+          "dest_ip",
+          "domain"
         ]
       },
       "minItems": 0,
