@@ -32,6 +32,15 @@ class DetectCommand(GeneratingCommand):
         #self.logger.info("detect.py - prepping to run support search: {0}".format(support_data['search_name']))
         return self.support_searches_to_run
 
+    def _investigative_searches(self, content):
+        investigative_data = {}
+        investigative_data['search_name'] = content['action.escu.full_search_name']
+        investigative_data['search_description'] = content['description']
+        investigative_data['search'] = content['search']
+        self.investigative_searches_to_run.append(investigative_data)
+        self.logger.info("invest.py - prepping to collect investigative_data: {0}".format(investigative_data['search_name']))
+        return self.investigative_searches_to_run
+
     def _detection_searches(self, content):
         detection_data = {}
         detection_data['search_name'] = content['action.escu.full_search_name']
@@ -93,7 +102,17 @@ class DetectCommand(GeneratingCommand):
                     support_searches_to_run = self._support_searches(content)
                     self.runstory_results['support_search_name'] = self._run_support(support_searches_to_run, service,earliest_time,latest_time)
                 # else:
-                #     self.runstory_results['support_search_name'] = "No Support searches in this story"
+                
+                #    self.runstory_results['support_search_name'] = "No Support searches in this story"
+                if content['action.escu.search_type'] == 'investigative':
+                    investigative_searches_to_run = self._investigative_searches(content)
+                    investigative_searches = []
+
+                    for search in investigative_searches_to_run:
+                        
+                        investigative_searches.append(search['search_name'])
+                    self.runstory_results['investigative_searches'] = investigative_searches
+
                 if content['action.escu.search_type'] == 'detection':
                     detection_searches_to_run = self._detection_searches(content)
 
@@ -127,22 +146,22 @@ class DetectCommand(GeneratingCommand):
 
             if job['resultCount'] > "0":
                 detection_results = []
-                common_field = []
-                self.runstory_results['common_field'] = []
+                entities = []
+                self.runstory_results['entities'] = []
 
                 for result in job_results:
                     detection_results.append(dict(result))
                     for key, value in result.items():
                         if type(value) == list and key in search['risk_object']:
                             for i in value:
-                                if i not in common_field:
-                                    common_field.append(i)
+                                if i not in entities:
+                                    entities.append(i)
 
-                        if type(value) == str and key in search['risk_object'] and value not in common_field:
-                            common_field.append(value)
+                        if type(value) == str and key in search['risk_object'] and value not in entities:
+                            entities.append(value)
 
                 if risk == True:
-                    for i in common_field:
+                    for i in entities:
                         create_risk_score = "|makeresults" + "| eval story=\"" + \
                             story + "\""  + "| eval search_name=\"" + \
                             search['search_name'] + "\"" + "| eval risk_object = \"" + \
@@ -160,7 +179,7 @@ class DetectCommand(GeneratingCommand):
 
                 self.logger.info("detect.py - Results: {0}".format(detection_results))
 
-                self.runstory_results['common_field'] = common_field
+                self.runstory_results['entities'] = entities
                 self.runstory_results['detection_results'] = detection_results
                 self.runstory_results['detection_result_count'] = job['resultCount']
                 self.runstory_results['detection_search_name'] = search['search_name']
@@ -168,20 +187,22 @@ class DetectCommand(GeneratingCommand):
                 self.runstory_results['risk_object_type'] = search['risk_object_type']
                 self.runstory_results['risk_score'] = search['risk_score']
                 self.runstory_results['risk_object'] = search['risk_object']
-                #self.runstory_results['support_search_name'] = 
+                #self.run_story_results['investigative_searches'] = 
+                #self.runstory_results['support_search_name'] = support_search_name
                 yield {
                         '_time': time.time(),
                         '_raw': self.runstory_results,
                         'sourcetype': "_json",
                         'story': story,
                         'support_search_name': self.runstory_results['support_search_name'],
-                        'common_field': self.runstory_results['common_field'],
+                        'entities': self.runstory_results['entities'],
                         'mappings': self.runstory_results['mappings'],
                         'detection_search_name': self.runstory_results['detection_search_name'],
                         'detection_result_count': self.runstory_results['detection_result_count'],
                         'risk_score': self.runstory_results['risk_score'],
                         'risk_object_type': self.runstory_results['risk_object_type'],
-                        'risk_object': self.runstory_results['risk_object']
+                        'risk_object': self.runstory_results['risk_object'],
+                        'investigative_search_name' : self.runstory_results['investigative_searches']
                      }
 
 
