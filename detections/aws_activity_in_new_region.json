@@ -49,7 +49,7 @@
       }
     }
   },
-  "eli5": "In this search, we query CloudTrail logs to look for events that indicate that an instance was started in a particular region. Using the <code>previously_seen_aws_regions.csv</code> lookup file created using the support search, we compare the region where this instance was started to all previously observed regions. The <code>eval</code> and <code>if</code> functions determine that the earliest times seen for this region and instance were within the last day. If a new region is detected, it will alert you with \"Instance Started in a New Region\". However, this region will be added to the list of <code>previously_seen_aws_regions.csv</code>. Please maintain <code>previously_seen_aws_regions.csv</code>",
+  "eli5": "In this search, we query CloudTrail logs to look for events that indicate that an instance was started in a particular region. Using the `previously_seen_aws_regions.csv` lookup file created using the support search, we compare the region where this instance was started to all previously observed regions. The `eval` and `if` functions determine that the earliest times seen for this region and instance were within the last day. If a new region is detected, it will alert you with \"Instance Started in a New Region\". However, this region will be added to the list of `previously_seen_aws_regions.csv`. Please maintain `previously_seen_aws_regions.csv`",
   "entities": [
     "awsRegion"
   ],

@@ -1,124 +1,124 @@
 {
-    "asset_type": "Endpoint",
-    "baselines": [
-        {
-            "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd61",
-            "name": "Systems Ready for Spectre-Meltdown Windows Patch",
-            "type": "splunk"
-        }
+  "asset_type": "Endpoint",
+  "baselines": [
+    {
+      "id": "fc0edc95-ff2b-48b0-9f6f-63da3789fd61",
+      "name": "Systems Ready for Spectre-Meltdown Windows Patch",
+      "type": "splunk"
+    }
+  ],
+  "confidence": "high",
+  "creation_date": "2018-01-07",
+  "data_metadata": {
+    "data_models": [
+      "Vulnerabilities"
     ],
-    "confidence": "high",
-    "creation_date": "2018-01-07",
-    "data_metadata": {
-        "data_models": [
-            "Vulnerabilities"
-        ],
-        "data_source": [
-            "Vulnerability Scanner"
-        ],
-        "providing_technologies": [
-            "Nessus",
-            "Qualys"
-        ]
+    "data_source": [
+      "Vulnerability Scanner"
+    ],
+    "providing_technologies": [
+      "Nessus",
+      "Qualys"
+    ]
+  },
+  "description": "The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.",
+  "detect": {
+    "splunk": {
+      "correlation_rule": {
+        "notable": {
+          "nes_fields": "dest",
+          "rule_description": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities.",
+          "rule_title": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities"
+        },
+        "risk": {
+          "risk_object": "dest",
+          "risk_object_type": [
+            "system"
+          ],
+          "risk_score": 100
+        },
+        "schedule": {
+          "cron_schedule": "0 6 * * *",
+          "earliest_time": "-25h@h",
+          "latest_time": "-1h@h"
+        },
+        "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest| `ctime(firstTime)` | `ctime(lastTime)`",
+        "suppress": {
+          "suppress_fields": "dest",
+          "suppress_period": "86400s"
+        }
+      }
+    }
+  },
+  "eli5": "This search looks for the three CVEs associated with the Spectre and Meltdown vulnerabilities.",
+  "entities": [
+    "dest"
+  ],
+  "how_to_implement": "The search requires that you are ingesting your vulnerability-scanner data and that it reports the CVE of the vulnerability identified.",
+  "id": "354be8e0-32cd-4da0-8c47-796de13b60ea",
+  "investigations": [
+    {
+      "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+      "name": "Get Authentication Logs For Endpoint",
+      "type": "splunk"
     },
-    "description": "The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.",
-    "detect": {
-        "splunk": {
-            "correlation_rule": {
-                "notable": {
-                    "nes_fields": "dest",
-                    "rule_description": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities.",
-                    "rule_title": "$dest is vulnerable to the Spectre or Meltdown CPU vulnerabilities"
-                },
-                "risk": {
-                    "risk_object": "dest",
-                    "risk_object_type": [
-                        "system"
-                    ],
-                    "risk_score": 100
-                },
-                "schedule": {
-                    "cron_schedule": "0 6 * * *",
-                    "earliest_time": "-25h@h",
-                    "latest_time": "-1h@h"
-                },
-                "search": "| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Vulnerabilities where Vulnerabilities.cve =\"CVE-2017-5753\" OR Vulnerabilities.cve =\"CVE-2017-5715\" OR Vulnerabilities.cve =\"CVE-2017-5754\" by Vulnerabilities.dest| `ctime(firstTime)` | `ctime(lastTime)`",
-                "suppress": {
-                    "suppress_fields": "dest",
-                    "suppress_period": "86400s"
-                }
-            }
-        }
+    {
+      "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
+      "name": "Get Risk Modifiers For User",
+      "type": "splunk"
     },
-    "eli5": "This search looks for the three CVEs associated with the Spectre and Meltdown vulnerabilities.",
-    "entities": [
-        "dest"
-    ],
-    "how_to_implement": "The search requires that you are ingesting your vulnerability-scanner data and that it reports the CVE of the vulnerability identified.",
-    "id": "354be8e0-32cd-4da0-8c47-796de13b60ea",
-    "investigations": [
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
-            "name": "Get Authentication Logs For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d55",
-            "name": "Get Risk Modifiers For User",
-            "type": "splunk"
-        },
-        {
-            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
-            "name": "Get Notable History",
-            "type": "splunk"
-        },
-        {
-            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
-            "name": "Get Notable Info",
-            "type": "splunk"
-        },
-        {
-            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
-            "name": "Get Risk Modifiers For Endpoint",
-            "type": "splunk"
-        },
-        {
-            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
-            "name": "Get User Information from Identity Table",
-            "type": "splunk"
-        }
-    ],
-    "known_false_positives": "It is possible that your vulnerability scanner is not detecting that the patches have been applied.",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "mappings": {
-        "cis20": [
-            "CIS 4"
-        ],
-        "nist": [
-            "ID.RA",
-            "RS.MI",
-            "PR.IP",
-            "DE.CM"
-        ]
+    {
+      "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+      "name": "Get Notable History",
+      "type": "splunk"
     },
-    "modification_date": "2017-01-07",
-    "name": "Spectre and Meltdown Vulnerable Systems",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    {
+      "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+      "name": "Get Notable Info",
+      "type": "splunk"
+    },
+    {
+      "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+      "name": "Get Risk Modifiers For Endpoint",
+      "type": "splunk"
+    },
+    {
+      "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd74",
+      "name": "Get User Information from Identity Table",
+      "type": "splunk"
+    }
+  ],
+  "known_false_positives": "It is possible that your vulnerability scanner is not detecting that the patches have been applied.",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "mappings": {
+    "cis20": [
+      "CIS 4"
     ],
-    "references": [],
-    "security_domain": "endpoint",
-    "spec_version": 2,
-    "type": "splunk",
-    "version": "1.0"
+    "nist": [
+      "ID.RA",
+      "RS.MI",
+      "PR.IP",
+      "DE.CM"
+    ]
+  },
+  "modification_date": "2017-01-07",
+  "name": "Spectre and Meltdown Vulnerable Systems",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "references": [],
+  "security_domain": "endpoint",
+  "spec_version": 2,
+  "type": "splunk",
+  "version": "1.0"
 }

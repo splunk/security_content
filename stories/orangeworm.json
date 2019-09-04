@@ -1,50 +1,50 @@
 {
-    "category": [
-        "Malware"
-    ],
-    "channel": "ESCU",
-    "creation_date": "2018-06-14",
-    "description": "Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.",
-    "detections": [
-        {
-            "detection_id": "9be56c82-b1cc-4318-87eb-q138afaaqa39",
-            "name": "First time seen command line argument",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d",
-            "name": "Sc.exe Manipulating Windows Services",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "823136f2-d755-4b6d-ae04-372b486a5808",
-            "name": "First Time Seen Running Windows Service",
-            "type": "splunk"
-        }
-    ],
-    "id": "bb9f5ed2-916e-4364-bb6d-97c370efcf52",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "modification_date": "2018-06-18",
-    "name": "Orangeworm Attack Group",
-    "narrative": "In May of 2018, the attack group Orangeworm was implicated for installing a custom backdoor called Trojan.Kwampirs within large international healthcare corporations in the United States, Europe, and Asia. This malware provides the attackers with remote access to the target system, decrypting and extracting a copy of its main DLL payload from its resource section. Before writing the payload to disk, it inserts a randomly generated string into the middle of the decrypted payload in an attempt to evade hash-based detections.<br></br>Awareness of the Orangeworm group first surfaced in January, 2015. It has conducted targeted attacks against related industries, as well, such as pharmaceuticals and healthcare IT solution providers.<br></br>Although the group's motivation is unknown, its goal may be stealing patient information to sell on the black market. Another possible explanation is corporate espionage. <br></br>Healthcare may be a promising target, because it is notoriously behind in technology, often using older operating systems and neglecting to patch computers. Even so, the group was able to evade detection for a full three years. Sources say that the malware spread quickly within the target networks, infecting computers used to control medical devices, such as MRI and X-ray machines.<br></br>This Analytic Story is designed to help you detect and investigate suspicious activities that may be indicative of an Orangeworm attack. One detection search looks for command-line arguments. Another monitors for uses of sc.exe, a non-essential Windows file that can manipulate Windows services. One of the investigative searches helps you get more information on web hosts that you suspect have been compromised.",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "references": [
-        "https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia",
-        "https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/"
-    ],
-    "spec_version": 2,
-    "usecase": "Advanced Threat Detection",
-    "version": "2.0"
+  "category": [
+    "Malware"
+  ],
+  "channel": "ESCU",
+  "creation_date": "2018-06-14",
+  "description": "Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.",
+  "detections": [
+    {
+      "detection_id": "9be56c82-b1cc-4318-87eb-q138afaaqa39",
+      "name": "First time seen command line argument",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d",
+      "name": "Sc.exe Manipulating Windows Services",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "823136f2-d755-4b6d-ae04-372b486a5808",
+      "name": "First Time Seen Running Windows Service",
+      "type": "splunk"
+    }
+  ],
+  "id": "bb9f5ed2-916e-4364-bb6d-97c370efcf52",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2018-06-18",
+  "name": "Orangeworm Attack Group",
+  "narrative": "In May of 2018, the attack group Orangeworm was implicated for installing a custom backdoor called Trojan.Kwampirs within large international healthcare corporations in the United States, Europe, and Asia. This malware provides the attackers with remote access to the target system, decrypting and extracting a copy of its main DLL payload from its resource section. Before writing the payload to disk, it inserts a randomly generated string into the middle of the decrypted payload in an attempt to evade hash-based detections.\n\nAwareness of the Orangeworm group first surfaced in January, 2015. It has conducted targeted attacks against related industries, as well, such as pharmaceuticals and healthcare IT solution providers.\n\nAlthough the group's motivation is unknown, its goal may be stealing patient information to sell on the black market. Another possible explanation is corporate espionage. \n\nHealthcare may be a promising target, because it is notoriously behind in technology, often using older operating systems and neglecting to patch computers. Even so, the group was able to evade detection for a full three years. Sources say that the malware spread quickly within the target networks, infecting computers used to control medical devices, such as MRI and X-ray machines.\n\nThis Analytic Story is designed to help you detect and investigate suspicious activities that may be indicative of an Orangeworm attack. One detection search looks for command-line arguments. Another monitors for uses of sc.exe, a non-essential Windows file that can manipulate Windows services. One of the investigative searches helps you get more information on web hosts that you suspect have been compromised.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "references": [
+    "https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia",
+    "https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/"
+  ],
+  "spec_version": 2,
+  "usecase": "Advanced Threat Detection",
+  "version": "2.0"
 }

@@ -1,52 +1,52 @@
 {
-    "baseline": {
-        "splunk": {
-            "schedule": {
-                "cron_schedule": "",
-                "earliest_time": "-30d@d",
-                "latest_time": "-10m@m"
-            },
-            "search": "| tstats `summariesonly` count from datamodel=Endpoint.Processes where Processes.process_name=\"*mstsc.exe*\" by Processes.dest Processes.process_name | `drop_dm_object_name(Processes)` | sort - count"
-        }
-    },
-    "creation_date": "2017-04-18",
-    "data_metadata": {
-        "data_models": [
-            "Endpoint"
-        ],
-        "data_source": [
-            "Endpoint Intel"
-        ],
-        "providing_technologies": [
-            "Carbon Black Response",
-            "CrowdStrike Falcon",
-            "Sysmon",
-            "Tanium",
-            "Ziften"
-        ]
-    },
-    "description": "This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system.",
-    "eli5": "This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system. It does this by looking for the process name in the Endpoint data model.",
-    "how_to_implement": "To successfully implement this search you must be ingesting endpoint data that records process activity.",
-    "id": "063dfe9f-b1d7-4254-a16d-1e2e7eadd6a8",
-    "known_false_positives": "",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+  "baseline": {
+    "splunk": {
+      "schedule": {
+        "cron_schedule": "",
+        "earliest_time": "-30d@d",
+        "latest_time": "-10m@m"
+      },
+      "search": "| tstats `summariesonly` count from datamodel=Endpoint.Processes where Processes.process_name=\"*mstsc.exe*\" by Processes.dest Processes.process_name | `drop_dm_object_name(Processes)` | sort - count"
+    }
+  },
+  "creation_date": "2017-04-18",
+  "data_metadata": {
+    "data_models": [
+      "Endpoint"
     ],
-    "modification_date": "2019-04-01",
-    "name": "Identify Systems Using Remote Desktop",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
+    "data_source": [
+      "Endpoint Intel"
     ],
-    "spec_version": 2,
-    "type": "splunk",
-    "version": "1.0"
+    "providing_technologies": [
+      "Carbon Black Response",
+      "CrowdStrike Falcon",
+      "Sysmon",
+      "Tanium",
+      "Ziften"
+    ]
+  },
+  "description": "This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system.",
+  "eli5": "This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system. It does this by looking for the process name in the Endpoint data model.",
+  "how_to_implement": "To successfully implement this search you must be ingesting endpoint data that records process activity.",
+  "id": "063dfe9f-b1d7-4254-a16d-1e2e7eadd6a8",
+  "known_false_positives": "",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2019-04-01",
+  "name": "Identify Systems Using Remote Desktop",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "spec_version": 2,
+  "type": "splunk",
+  "version": "1.0"
 }

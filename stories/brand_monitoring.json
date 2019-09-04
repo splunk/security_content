@@ -1,51 +1,51 @@
 {
-    "category": [
-        "Abuse"
-    ],
-    "channel": "ESCU",
-    "creation_date": "2017-06-01",
-    "description": "Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.",
-    "detections": [
-        {
-            "detection_id": "24dd17b1-e2fb-4c31-878c-d4f746595bfa",
-            "name": "Monitor DNS For Brand Abuse",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8",
-            "name": "Monitor Email For Brand Abuse",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "134da869-e264-4a8f-8d7e-fcd0ec88f301",
-            "name": "Monitor Web Traffic For Brand Abuse",
-            "type": "splunk"
-        }
-    ],
-    "id": "91c676cf-0b23-438d-abee-f6335e1fce78",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "modification_date": "2017-12-19",
-    "name": "Brand Monitoring",
-    "narrative": "While you can educate your users and customers about the risks and threats posed by typosquatting, phishing, and corporate espionage, human error is a persistent fact of life. Of course, your adversaries are all too aware of this reality and will happily leverage it for nefarious purposes whenever possible&#51;phishing with lookalike addresses, embedding faux command-and-control domains in malware, and hosting malicious content on domains that closely mimic your corporate servers. This is where brand monitoring comes in.<br/>You can use our adaptation of <code>DNSTwist</code>, together with the support searches in this Analytic Story, to generate permutations of specified brands and external domains. Splunk can monitor email, DNS requests, and web traffic for these permutations and provide you with early warnings and situational awareness--powerful elements of an effective defense.<br/>Notable events will include IP addresses, URLs, and user data. Drilling down can provide you with even more actionable intelligence, including likely geographic information, contextual searches to help you scope the problem, and investigative searches.",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "references": [
-        "https://blog.domaintools.com/tag/brand-monitor/",
-        "https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/",
-        "https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/"
-    ],
-    "spec_version": 2,
-    "usecase": "Advanced Threat Detection",
-    "version": "1.0"
+  "category": [
+    "Abuse"
+  ],
+  "channel": "ESCU",
+  "creation_date": "2017-06-01",
+  "description": "Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.",
+  "detections": [
+    {
+      "detection_id": "24dd17b1-e2fb-4c31-878c-d4f746595bfa",
+      "name": "Monitor DNS For Brand Abuse",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8",
+      "name": "Monitor Email For Brand Abuse",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "134da869-e264-4a8f-8d7e-fcd0ec88f301",
+      "name": "Monitor Web Traffic For Brand Abuse",
+      "type": "splunk"
+    }
+  ],
+  "id": "91c676cf-0b23-438d-abee-f6335e1fce78",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2017-12-19",
+  "name": "Brand Monitoring",
+  "narrative": "While you can educate your users and customers about the risks and threats posed by typosquatting, phishing, and corporate espionage, human error is a persistent fact of life. Of course, your adversaries are all too aware of this reality and will happily leverage it for nefarious purposes whenever possible&#51;phishing with lookalike addresses, embedding faux command-and-control domains in malware, and hosting malicious content on domains that closely mimic your corporate servers. This is where brand monitoring comes in.\nYou can use our adaptation of `DNSTwist`, together with the support searches in this Analytic Story, to generate permutations of specified brands and external domains. Splunk can monitor email, DNS requests, and web traffic for these permutations and provide you with early warnings and situational awareness--powerful elements of an effective defense.\nNotable events will include IP addresses, URLs, and user data. Drilling down can provide you with even more actionable intelligence, including likely geographic information, contextual searches to help you scope the problem, and investigative searches.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "references": [
+    "https://blog.domaintools.com/tag/brand-monitor/",
+    "https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/",
+    "https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/"
+  ],
+  "spec_version": 2,
+  "usecase": "Advanced Threat Detection",
+  "version": "1.0"
 }
