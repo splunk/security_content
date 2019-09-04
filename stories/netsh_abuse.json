@@ -27,7 +27,7 @@
   ],
   "modification_date": "2017-01-05",
   "name": "Netsh Abuse",
-  "narrative": "It is a common practice for attackers of all types to leverage native Windows tools and functionality to execute commands for malicious reasons. One such tool on Windows OS is `netsh.exe`,a command-line scripting utility that allows you to--either locally or remotely--display or modify the network configuration of a computer that is currently running. `Netsh.exe` can be used to discover and disable local firewall settings. It can also be used to set up a remote connection to a host from an infected system.\\nTo get started, run the detection search to identify parent processes of `netsh.exe`.",
+  "narrative": "It is a common practice for attackers of all types to leverage native Windows tools and functionality to execute commands for malicious reasons. One such tool on Windows OS is `netsh.exe`,a command-line scripting utility that allows you to--either locally or remotely--display or modify the network configuration of a computer that is currently running. `Netsh.exe` can be used to discover and disable local firewall settings. It can also be used to set up a remote connection to a host from an infected system.\\n\\\nTo get started, run the detection search to identify parent processes of `netsh.exe`.",
   "original_authors": [
     {
       "company": "Splunk",
