@@ -1,84 +1,123 @@
 {
-  "asset_type": "Endpoint",
-  "channel": "ESCU",
-  "confidence": "medium",
-  "correlation_rule": {
-    "notable": {
-      "nes_fields": "src, url, http_user_agent",
-      "rule_description": "The host $src$ with user agent $http_user_agent$ is sending web traffic to $url$, which contains suspicious Java classes. These classes may be indicative of remote code execution in Java frameworks, such as Apache Struts.",
-      "rule_title": "Suspicious Java Classes: Possible RCE against Struts or similar Java framework from $src$"
+    "asset_type": "Endpoint",
+    "confidence": "medium",
+    "creation_date": "2018-12-06",
+    "data_metadata": {
+        "data_source": [
+            "Web Traffic"
+        ],
+        "data_sourcetypes": [
+            "stream:http"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Bro",
+            "Bluecoat",
+            "Apache"
+        ]
     },
-    "risk": {
-      "risk_object": "src",
-      "risk_object_type": [
-        "system"
-      ],
-      "risk_score": 50
+    "description": "This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, url, http_user_agent",
+                    "rule_description": "The host $src$ with user agent $http_user_agent$ is sending web traffic to $url$, which contains suspicious Java classes. These classes may be indicative of remote code execution in Java frameworks, such as Apache Struts.",
+                    "rule_title": "Suspicious Java Classes: Possible RCE against Struts or similar Java framework from $src$"
+                },
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 50
+                },
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "sourcetype=\"stream:http\" http_method=POST http_content_length>1 | regex form_data=\"(?i)java\\.lang\\.(?:runtime|processbuilder)\" | rename src_ip as src | stats count earliest(_time) as firstTime, latest(_time) as lastTime, values(url) as uri, values(status) as status, values(http_user_agent) as http_user_agent by src, dest | convert ctime(firstTime) ctime(lastTime)",
+                "suppress": {
+                    "suppress_fields": "src, url, http_user_agent",
+                    "suppress_period": "3600s"
+                }
+            }
+        }
     },
-    "suppress": {
-      "suppress_fields": "src, url, http_user_agent",
-      "suppress_period": "3600s"
-    }
-  },
-  "creation_date": "2018-12-06",
-  "data_metadata": {
-    "data_source": [
-      "Web Traffic"
+    "eli5": "The search leverages HTTP form data from typically POST events that can be captured with Splunk streams or similar wire data capture tools. The search looks for java classes like `processbuilder` and `runtime` are used to create a new process and execute commands inside java, and are synonymous with spawning a shell. There are very exceptional reasons to ever these classes in Java via an HTTP API and hence when seen are highly suspicious. Also, this is a common vectors leverage to exploit Apache Struts.",
+    "entities": [
+        "src"
     ],
-    "data_sourcetypes": [
-      "stream:http"
+    "how_to_implement": "In order to properly run this search, Splunk needs to ingest data from your web-traffic appliances that serve or sit in the path of your Struts application servers. This can be accomplished by indexing data from a web proxy, or by using network traffic-analysis tools, such as Splunk Stream or Bro.",
+    "id": "if1fea6da-3c86-4c1d-b255-fc3b2781a491",
+    "investigations": [
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd76",
+            "name": "Get Authentication Logs For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "f5c39fac-205c-4e07-9004-8fd61ea3431a",
+            "name": "Investigate Web POSTs From src",
+            "type": "splunk"
+        },
+        {
+            "id": "3d6c3213-5fff-4a1e-b57d-b24c262171e7",
+            "name": "Get Notable History",
+            "type": "splunk"
+        },
+        {
+            "id": "f3fb4d1b-5f33-4b01-b541-c7af9534c242",
+            "name": "Get Notable Info",
+            "type": "splunk"
+        },
+        {
+            "id": "fdcfb369-1725-4c24-824a-22972d7f0d65",
+            "name": "Get Risk Modifiers For Endpoint",
+            "type": "splunk"
+        },
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd89",
+            "name": "Investigate Suspicious Strings in HTTP Header",
+            "type": "splunk"
+        }
     ],
-    "providing_technologies": [
-      "Splunk Stream",
-      "Bro",
-      "Bluecoat",
-      "Apache"
-    ]
-  },
-  "eli5": "The search leverages HTTP form data from typically POST events that can be captured with Splunk streams or similar wire data capture tools. The search looks for java classes like `processbuilder` and `runtime` are used to create a new process and execute commands inside java, and are synonymous with spawning a shell. There are very exceptional reasons to ever these classes in Java via an HTTP API and hence when seen are highly suspicious. Also, this is a common vectors leverage to exploit Apache Struts.",
-  "how_to_implement": "In order to properly run this search, Splunk needs to ingest data from your web-traffic appliances that serve or sit in the path of your Struts application servers. This can be accomplished by indexing data from a web proxy, or by using network traffic-analysis tools, such as Splunk Stream or Bro.",
-  "known_false_positives": "There are no known false positives.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "jhernandez@splunk.com",
-      "name": "Jose Hernandez"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 7",
-      "CIS 12"
+    "known_false_positives": "There are no known false positives.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "jhernandez@splunk.com",
+            "name": "Jose Hernandez"
+        }
     ],
-    "kill_chain_phases": [
-      "Exploitation"
+    "mappings": {
+        "cis20": [
+            "CIS 7",
+            "CIS 12"
+        ],
+        "kill_chain_phases": [
+            "Exploitation"
+        ],
+        "mitre_attack": [
+            "Execution"
+        ],
+        "nist": [
+            "DE.AE"
+        ]
+    },
+    "modification_date": "2018-12-06",
+    "name": "Suspicious Java Classes",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "jhernandez@splunk.com",
+            "name": "Jose Hernandez"
+        }
     ],
-    "mitre_attack": [
-      "Execution"
-    ],
-    "nist": [
-      "DE.AE"
-    ]
-  },
-  "modification_date": "2018-12-06",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "jhernandez@splunk.com",
-      "name": "Jose Hernandez"
-    }
-  ],
-  "scheduling": {
-    "cron_schedule": "0 * * * *",
-    "earliest_time": "-70m@m",
-    "latest_time": "-10m@m"
-  },
-  "search": "sourcetype=\"stream:http\" http_method=POST http_content_length>1 | regex form_data=\"(?i)java\\.lang\\.(?:runtime|processbuilder)\" | rename src_ip as src | stats count earliest(_time) as firstTime, latest(_time) as lastTime, values(url) as uri, values(status) as status, values(http_user_agent) as http_user_agent by src, dest | convert ctime(firstTime) ctime(lastTime)",
-  "search_description": "This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.",
-  "search_id": "if1fea6da-3c86-4c1d-b255-fc3b2781a491",
-  "search_name": "Suspicious Java Classes",
-  "search_type": "detection",
-  "security_domain": "threat",
-  "spec_version": 1,
-  "version": "1.0"
+    "references": [],
+    "security_domain": "threat",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

@@ -41,7 +41,7 @@ Analytics stories organized by categories
 * creation_date = 2018-06-04
 * modification_date = 2018-06-04
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Track when a user assumes an IAM role in another AWS account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
@@ -95,7 +95,7 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 * creation_date = 2018-03-08
 * modification_date = 2018-03-08
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or EC2 instances started by previously unseen users are just a few examples of potentially malicious behavior.
@@ -155,7 +155,7 @@ This Analytic Story is focused on detecting suspicious new instances in your EC2
 * creation_date = 2018-01-10
 * modification_date = 2018-05-21
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
@@ -209,7 +209,7 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 * creation_date = 2018-03-16
 * modification_date = 2018-03-16
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.
@@ -264,7 +264,7 @@ This Analytic Story was designed to provide you with flexibility in the precisio
 * creation_date = 2018-03-12
 * modification_date = 2018-03-12
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
@@ -325,7 +325,7 @@ The detection searches in this Analytic Story are designed to help you uncover A
 * creation_date = 2018-02-09
 * modification_date = 2018-02-09
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.
@@ -434,7 +434,7 @@ It is important to monitor and control who has access to your AWS infrastructure
 * creation_date = 2018-06-25
 * modification_date = 2018-07-24
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
@@ -491,7 +491,7 @@ Among things to look out for are S3 access from unfamiliar locations and by unfa
 * creation_date = 2018-05-07
 * modification_date = 2018-05-07
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
@@ -547,7 +547,7 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 * creation_date = 2018-04-09
 * modification_date = 2018-04-09
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Identify unusual changes to your AWS EC2 instances that may indicate malicious activity. Modifications to your EC2 instances by previously unseen users is an example of an activity that may warrant further investigation.
@@ -618,7 +618,7 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 * creation_date = 2017-08-05
 * modification_date = 2017-09-06
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 A common attack technique is to leverage user accounts to gain unauthorized access to the target's network. This Analytic Story minimizes opportunities for attack by helping you actively manage creation/use/dormancy/deletion--the lifecycle of system and application accounts.
@@ -677,7 +677,7 @@ Identity_Management
 * creation_date = 2017-06-01
 * modification_date = 2017-09-13
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Keep a careful inventory of every asset on your network to make it easier to detect rogue devices. Unauthorized/unmanaged devices could be an indication of malicious behavior that should be investigated further.
@@ -729,7 +729,7 @@ Network_Sessions
 * creation_date = 2017-06-15
 * modification_date = 2017-09-12
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Address common concerns when monitoring your backup processes. These searches can help you reduce risks from ransomware, device theft, or denial of physical access to a host by backing up data on endpoints.
@@ -780,7 +780,7 @@ Having backups is a standard best practice that helps ensure continuity of busin
 * creation_date = 2017-06-26
 * modification_date = 2017-09-15
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Identify and investigate prohibited/unauthorized software or processes that may be concealing malicious behavior within your environment. 
@@ -837,7 +837,7 @@ Endpoint
 * creation_date = 2017-08-15
 * modification_date = 2017-09-15
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.
@@ -892,7 +892,7 @@ Updates
 * creation_date = 2017-04-18
 * modification_date = 2017-09-11
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
@@ -949,7 +949,7 @@ Network_Traffic
 * creation_date = 2017-06-01
 * modification_date = 2017-09-12
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Validate the security configuration of network infrastructure and verify that only authorized users and systems are accessing critical assets. Core routing and switching infrastructure are common strategic targets for attackers.
@@ -1004,7 +1004,7 @@ Authentication
 * creation_date = 2016-09-13
 * modification_date = 2017-09-15
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
@@ -1069,7 +1069,7 @@ Network_Traffic
 * creation_date = 2017-03-14
 * modification_date = 2018-12-06
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect and investigate activities--such as unusually long `Content-Type` length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
@@ -1157,7 +1157,7 @@ Endpoint
 * creation_date = 2016-10-04
 * modification_date = 2017-09-14
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 In March of 2016, adversaries were seen using JexBoss--an open-source utility used for testing and exploiting JBoss application servers. These searches help detect evidence of these attacks, such as network connections to external resources or web services spawning atypical child processes, among others.
@@ -1240,7 +1240,7 @@ Web
 * creation_date = 2018-01-08
 * modification_date = 2018-01-08
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.
@@ -1292,7 +1292,7 @@ Vulnerabilities
 * creation_date = 2016-09-13
 * modification_date = 2017-09-19
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Keeping your Splunk deployment up to date is critical and may help you reduce the risk of CVE-2016-4859, an open-redirection vulnerability within some older versions of Splunk Enterprise. The detection search will help ensure that users are being properly authenticated and not being redirected to malicious domains.
@@ -1361,7 +1361,7 @@ It is important to ensure that your Splunk deployment is being kept up to date a
 * creation_date = 2018-06-14
 * modification_date = 2018-06-14
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Reduce the risk of CVE-2018-11409, an information disclosure vulnerability within some older versions of Splunk Enterprise, with searches designed to help ensure that your Splunk system does not leak information to authenticated users.
@@ -1434,7 +1434,7 @@ A detection search within this Analytic Story looks for vulnerabilities describe
 * creation_date = 2017-06-01
 * modification_date = 2017-12-19
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
@@ -1499,7 +1499,7 @@ Web
 * creation_date = 2016-08-24
 * modification_date = 2016-09-13
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to `ANY` queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
@@ -1554,7 +1554,7 @@ Network_Resolution
 * creation_date = 2017-06-01
 * modification_date = 2017-09-14
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
@@ -1612,7 +1612,7 @@ Network_Resolution
 * creation_date = 2017-06-18
 * modification_date = 2017-09-14
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect evidence of tactics used to redirect traffic from a host to a destination other than the one intended--potentially one that is part of an adversary's attack infrastructure. An example is redirecting communications regarding patches and updates or misleading users into visiting a malicious website.
@@ -1621,14 +1621,19 @@ Detect evidence of tactics used to redirect traffic from a host to a destination
 Attackers will often attempt to manipulate client communications for nefarious purposes. In some cases, an attacker may endeavor to modify a local host file to redirect communications with resources (such as antivirus or system-update services) to prevent clients from receiving patches or updates. In other cases, an attacker might use this tactic to have the client connect to a site that looks like the intended site, but instead installs malware or collects information from the victim. Additionally, an attacker may redirect a victim in order to execute a MITM attack and observe communications.
 
 ##### Detections
+* Clients Connecting to Multiple DNS Servers
+* DNS Query Requests Resolved by Unauthorized DNS Servers
 * Windows hosts file modification
 
 ##### Providing Technologies
+* Splunk Stream
+* Bro
 * Carbon Black Response
 * CrowdStrike Falcon
 * Sysmon
 
 ##### Data Models
+Network_Resolution
 Endpoint
 
 ##### Mappings
@@ -1665,7 +1670,7 @@ Endpoint
 * creation_date = 2017-01-04
 * modification_date = 2017-01-05
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect activities and various techniques associated with the abuse of `netsh.exe`, which can disable local firewall settings or set up a remote connection to a host from an infected system.
@@ -1725,7 +1730,7 @@ Endpoint
 * creation_date = 2018-07-12
 * modification_date = 2018-10-08
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor your environment for activity consistent with common attack techniques bad actors use when attempting to compromise web servers or other web-related assets.
@@ -1816,7 +1821,7 @@ Another search detects incidents wherein a single password is used across multip
 * creation_date = 2019-01-29
 * modification_date = 2019-01-09
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
@@ -1874,7 +1879,7 @@ Alerts
 * creation_date = 2018-03-19
 * modification_date = 2018-03-19
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.
@@ -1952,7 +1957,7 @@ Network_Traffic
 * creation_date = 2017-11-21
 * modification_date = 2018-09-06
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.
@@ -2011,7 +2016,7 @@ Web
 * creation_date = 2018-09-11
 * modification_date = 2018-09-11
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect rarely used executables, specific registry paths that may confer malware survivability and persistence, instances where cmd.exe is used to launch script interpreters, and other indicators that the Emotet financial malware has compromised your environment.
@@ -2085,7 +2090,7 @@ Network_Traffic
 * creation_date = 2018-06-14
 * modification_date = 2018-06-14
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
@@ -2160,7 +2165,7 @@ Network_Traffic
 * creation_date = 2018-06-14
 * modification_date = 2018-06-18
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
@@ -2227,7 +2232,7 @@ Endpoint
 * creation_date = 2017-07-24
 * modification_date = 2017-09-10
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
@@ -2306,7 +2311,7 @@ Network_Traffic
 * creation_date = 2018-12-13
 * modification_date = 2018-12-13
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
@@ -2391,7 +2396,7 @@ Network_Traffic
 * creation_date = 2016-08-09
 * modification_date = 2018-11-20
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Quickly identify systems running new or unusual processes in your environment that could be indicators of suspicious activity. Processes run from unusual locations, those with conspicuously long command lines, and rare executables are all examples of activities that may warrant deeper investigation.
@@ -2458,7 +2463,7 @@ Endpoint
 * creation_date = 2018-01-26
 * modification_date = 2018-01-26
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect and investigate suspected abuse of file extensions and Windows file associations. Some of the malicious behaviors involved may include inserting spaces before file extensions or prepending the file extension with a different one, among other techniques.
@@ -2524,7 +2529,7 @@ Endpoint
 * creation_date = 2017-11-02
 * modification_date = 2017-11-02
 * version = 3.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.
@@ -2628,7 +2633,7 @@ Endpoint
 * creation_date = 2018-01-08
 * modification_date = 2018-01-08
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor for and investigate activities--such as suspicious writes to the Windows Recycling Bin or email servers sending high amounts of traffic to specific hosts, for example--that may indicate that an adversary is harvesting and exfiltrating sensitive data. 
@@ -2695,7 +2700,7 @@ Network_Traffic
 * creation_date = 2018-06-01
 * modification_date = 2018-06-01
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.
@@ -2822,7 +2827,7 @@ Web
 * creation_date = 2018-08-08
 * modification_date = 2018-08-08
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attmpts to dump credentials.
@@ -2961,7 +2966,7 @@ Network_Resolution
 * creation_date = 2018-04-09
 * modification_date = 2018-04-09
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious `reg.exe` processes, processes launching netsh, and many others.
@@ -3022,7 +3027,7 @@ Endpoint
 * creation_date = 2016-09-13
 * modification_date = 2018-05-31
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
@@ -3094,7 +3099,7 @@ Endpoint
 * creation_date = 2016-09-18
 * modification_date = 2017-08-23
 * version = 4.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
@@ -3242,7 +3247,7 @@ Endpoint
 * creation_date = 2018-07-24
 * modification_date = 2018-07-24
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
@@ -3357,7 +3362,7 @@ Endpoint
 * creation_date = 2016-09-13
 * modification_date = 2017-09-19
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.
@@ -3413,7 +3418,7 @@ Web
 * creation_date = 2017-10-09
 * modification_date = 2017-10-23
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
@@ -3475,7 +3480,7 @@ Endpoint
 * creation_date = 2016-09-13
 * modification_date = 2017-09-18
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
@@ -3598,7 +3603,7 @@ UEBA
 * creation_date = 2018-08-07
 * modification_date = 2018-08-07
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
@@ -3661,7 +3666,7 @@ Endpoint
 * creation_date = 2017-01-13
 * modification_date = 2018-10-23
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.
@@ -3728,7 +3733,7 @@ Endpoint
 * creation_date = 2018-05-31
 * modification_date = 2018-05-31
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.
@@ -3796,7 +3801,7 @@ Change_Analysis
 * creation_date = 2017-10-11
 * modification_date = 2018-05-31
 * version = 1.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe` and disabling user-account control, among many others 
@@ -3855,7 +3860,7 @@ Endpoint
 * creation_date = 2017-02-17
 * modification_date = 2017-09-12
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.
@@ -3918,7 +3923,7 @@ Endpoint
 * creation_date = 2017-04-19
 * modification_date = 2018-05-31
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.
@@ -3992,7 +3997,7 @@ Change_Analysis
 * creation_date = 2017-12-07
 * modification_date = 2017-12-07
 * version = 2.0
-* spec_version = 1
+* spec_version = 2
 
 ##### Description
 Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.

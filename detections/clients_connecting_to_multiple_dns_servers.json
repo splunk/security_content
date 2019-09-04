@@ -1,105 +1,105 @@
 {
-  "asset_type": "Endpoint",
-  "baselines": [],
-  "confidence": "medium",
-  "creation_date": "2016-09-13",
-  "data_metadata": {
-    "data_models": [
-      "Network_Resolution"
-    ],
-    "data_source": [
-      "DNS"
-    ],
-    "providing_technologies": [
-      "Splunk Stream",
-      "Bro"
-    ]
-  },
-  "description": "This search allows you to identify the endpoints that have connected to more than five DNS servers and made DNS Queries over the time frame of the search.",
-  "detect": {
-    "splunk": {
-      "correlation_rule": {
-        "notable": {
-          "nes_fields": "src, dest",
-          "rule_description": "This search allows you to identify the endpoints that have connected to more than five DNS servers over the time frame specified in the search.",
-          "rule_title": "Client $src$ Connecting to Multiple DNS Servers"
-        },
-        "risk": {
-          "risk_object": "src",
-          "risk_object_type": [
-            "system"
-          ],
-          "risk_score": 80
-        },
-        "schedule": {
-          "cron_schedule": "0 * * * *",
-          "earliest_time": "-70m@m",
-          "latest_time": "-10m@m"
-        },
-        "search": "| tstats `summariesonly` count, values(DNS.dest) AS dest dc(DNS.dest) as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY by DNS.src | `drop_dm_object_name(\"Network_Resolution\")` |where dest_count > 5",
-        "suppress": {
-          "suppress_fields": "src",
-          "suppress_period": "86400s"
+    "asset_type": "Endpoint",
+    "baselines": [],
+    "confidence": "medium",
+    "creation_date": "2016-09-13",
+    "data_metadata": {
+        "data_models": [
+            "Network_Resolution"
+        ],
+        "data_source": [
+            "DNS"
+        ],
+        "providing_technologies": [
+            "Splunk Stream",
+            "Bro"
+        ]
+    },
+    "description": "This search allows you to identify the endpoints that have connected to more than five DNS servers and made DNS Queries over the time frame of the search.",
+    "detect": {
+        "splunk": {
+            "correlation_rule": {
+                "notable": {
+                    "nes_fields": "src, dest",
+                    "rule_description": "This search allows you to identify the endpoints that have connected to more than five DNS servers over the time frame specified in the search.",
+                    "rule_title": "Client $src$ Connecting to Multiple DNS Servers"
+                },
+                "risk": {
+                    "risk_object": "src",
+                    "risk_object_type": [
+                        "system"
+                    ],
+                    "risk_score": 80
+                },
+                "schedule": {
+                    "cron_schedule": "0 * * * *",
+                    "earliest_time": "-70m@m",
+                    "latest_time": "-10m@m"
+                },
+                "search": "| tstats `summariesonly` count, values(DNS.dest) AS dest dc(DNS.dest) as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY by DNS.src | `drop_dm_object_name(\"Network_Resolution\")` |where dest_count > 5",
+                "suppress": {
+                    "suppress_fields": "src",
+                    "suppress_period": "86400s"
+                }
+            }
         }
-      }
-    }
-  },
-  "eli5": "DNS Queries with multiple DNS servers from a single client is unusual and may be indicative of malicious activity. This search works by performing a count by the source of the distinct destinations for the DNS traffic. The search uses the <code>Network_Resolution</code> data model.",
-  "entities": [
-    "dest",
-    "src"
-  ],
-  "how_to_implement": "This search requires that DNS data is being ingested and populating the <code>Network_Resolution</code> data model. This data can come from DNS logs or from solutions that parse network traffic for this data, such as Splunk Stream or Bro.<br></br>This search produces fields (`dest_count`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> Distinct DNS Connections, <b>Field:</b> dest_count</li></ul><br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
-  "id": "74ec6f18-604b-4202-a567-86b2066be3ce",
-  "investigations": [
-    {
-      "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
-      "name": "Get DNS Server History for a host",
-      "type": "splunk"
-    }
-  ],
-  "known_false_positives": "It's possible that an enterprise has more than five DNS servers that are configured in a round-robin rotation. Please customize the search, as appropriate.",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "mappings": {
-    "cis20": [
-      "CIS 9",
-      "CIS 12",
-      "CIS 13"
+    },
+    "eli5": "DNS Queries with multiple DNS servers from a single client is unusual and may be indicative of malicious activity. This search works by performing a count by the source of the distinct destinations for the DNS traffic. The search uses the <code>Network_Resolution</code> data model.",
+    "entities": [
+        "dest",
+        "src"
     ],
-    "kill_chain_phases": [
-      "Command and Control"
+    "how_to_implement": "This search requires that DNS data is being ingested and populating the <code>Network_Resolution</code> data model. This data can come from DNS logs or from solutions that parse network traffic for this data, such as Splunk Stream or Bro.<br></br>This search produces fields (`dest_count`) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable. To see the additional metadata, add the following fields, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):<br></br><ul><li><b>Label:</b> Distinct DNS Connections, <b>Field:</b> dest_count</li></ul><br></br>Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`",
+    "id": "74ec6f18-604b-4202-a567-86b2066be3ce",
+    "investigations": [
+        {
+            "id": "bc91a8cf-35e7-4bb2-8140-e756cc06fd72",
+            "name": "Get DNS Server History for a host",
+            "type": "splunk"
+        }
     ],
-    "mitre_attack": [
-      "Command and Control",
-      "Exfiltration",
-      "Exfiltration Over Alternative Protocol",
-      "Commonly Used Port",
-      "Standard Application Layer Protocol"
+    "known_false_positives": "It's possible that an enterprise has more than five DNS servers that are configured in a round-robin rotation. Please customize the search, as appropriate.",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
     ],
-    "nist": [
-      "PR.PT",
-      "DE.AE",
-      "PR.DS"
-    ]
-  },
-  "modification_date": "2017-09-18",
-  "name": "Clients Connecting to Multiple DNS Servers",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "davidd@splunk.com",
-      "name": "David Dorsey"
-    }
-  ],
-  "responses": [],
-  "security_domain": "network",
-  "spec_version": 2,
-  "type": "splunk",
-  "version": "1.0"
+    "mappings": {
+        "cis20": [
+            "CIS 9",
+            "CIS 12",
+            "CIS 13"
+        ],
+        "kill_chain_phases": [
+            "Command and Control"
+        ],
+        "mitre_attack": [
+            "Command and Control",
+            "Exfiltration",
+            "Exfiltration Over Alternative Protocol",
+            "Commonly Used Port",
+            "Standard Application Layer Protocol"
+        ],
+        "nist": [
+            "PR.PT",
+            "DE.AE",
+            "PR.DS"
+        ]
+    },
+    "modification_date": "2017-09-18",
+    "name": "Clients Connecting to Multiple DNS Servers",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "davidd@splunk.com",
+            "name": "David Dorsey"
+        }
+    ],
+    "responses": [],
+    "security_domain": "network",
+    "spec_version": 2,
+    "type": "splunk",
+    "version": "1.0"
 }

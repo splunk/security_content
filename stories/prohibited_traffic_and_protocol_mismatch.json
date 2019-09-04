@@ -1,49 +1,54 @@
 {
-  "category": "Best Practices",
-  "channel": "ESCU",
-  "creation_date": "2017-04-18",
-  "description": "Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.",
-  "id": "6d13121c-90f3-446d-8ac3-27efbbc65218",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "modification_date": "2017-09-11",
-  "name": "Prohibited Traffic Allowed or Protocol Mismatch",
-  "narrative": "A traditional security best practice is to control the ports, protocols, and services allowed within your environment. By limiting the services and protocols to those explicitly approved by policy, administrators can minimize the attack surface. The combined effect allows both network defenders and security controls to focus and not be mired in superfluous traffic or data types. Looking for deviations to policy can identify attacker activity that abuses services and protocols to run on alternate or non-standard ports in the attempt to avoid detection or frustrate forensic analysts.",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "references": [
-    "http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/"
-  ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable History",
-      "Get Authentication Logs For Endpoint",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
+    "category": [
+        "Best Practices"
     ],
-    "detection_searches": [
-      "TOR Traffic",
-      "Prohibited Network Traffic Allowed",
-      "Protocol or Port Mismatch",
-      "Detect hosts connecting to dynamic domain providers"
+    "channel": "ESCU",
+    "creation_date": "2017-04-18",
+    "description": "Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.",
+    "detections": [
+        {
+            "detection_id": "ea688274-9c06-4473-b951-e4cb7a5d7a45",
+            "name": "TOR Traffic",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "ce5a0962-849f-4720-a678-753fe6674479",
+            "name": "Prohibited Network Traffic Allowed",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "54dc1265-2f74-4b6d-b30d-49eb506a31b3",
+            "name": "Protocol or Port Mismatch",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "c77162d3-f93c-45cc-80c8-22f6v5464g9f",
+            "name": "Detect hosts connecting to dynamic domain providers",
+            "type": "splunk"
+        }
     ],
-    "investigative_searches": [
-      "Get Process Information For Port Activity"
+    "id": "6d13121c-90f3-446d-8ac3-27efbbc65218",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
     ],
-    "support_searches": [
-      "Count of Unique IPs Connecting to Ports"
-    ]
-  },
-  "spec_version": 1,
-  "version": "1.0"
+    "modification_date": "2017-09-11",
+    "name": "Prohibited Traffic Allowed or Protocol Mismatch",
+    "narrative": "A traditional security best practice is to control the ports, protocols, and services allowed within your environment. By limiting the services and protocols to those explicitly approved by policy, administrators can minimize the attack surface. The combined effect allows both network defenders and security controls to focus and not be mired in superfluous traffic or data types. Looking for deviations to policy can identify attacker activity that abuses services and protocols to run on alternate or non-standard ports in the attempt to avoid detection or frustrate forensic analysts.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "references": [
+        "http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/"
+    ],
+    "spec_version": 2,
+    "usecase": "Security Monitoring",
+    "version": "1.0"
 }

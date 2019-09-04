@@ -1,59 +1,76 @@
 {
-  "category": "Adversary Tactics",
-  "channel": "ESCU",
-  "creation_date": "2016-09-13",
-  "description": "Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.",
-  "id": "3c3835c0-255d-4f9e-ab84-e29ec9ec9b56",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "modification_date": "2017-09-18",
-  "name": "Suspicious DNS Traffic",
-  "narrative": "Although DNS is one of the fundamental underlying protocols that make the Internet work, it is often ignored (perhaps because of its complexity and effectiveness).  However, attackers have discovered ways to abuse the protocol to meet their objectives. One potential abuse involves manipulating DNS to hijack traffic and redirect it to an IP address under the attacker's control. This could inadvertently send users intending to visit google.com, for example, to an unrelated malicious website. Another technique involves using the DNS protocol for command-and-control activities with the attacker's malicious code or to covertly exfiltrate data. The searches within this Analytic Story look for these types of abuses.",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "rvaldez@splunk.com",
-      "name": "Rico Valdez"
-    }
-  ],
-  "references": [
-    "http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/",
-    "http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680",
-    "https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454"
-  ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable Info",
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Authentication Logs For Endpoint",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
+    "category": [
+        "Adversary Tactics"
     ],
-    "detection_searches": [
-      "Excessive DNS Failures",
-      "Clients Connecting to Multiple DNS Servers",
-      "DNS Query Length With High Standard Deviation",
-      "DNS Query Requests Resolved by Unauthorized DNS Servers",
-      "Detect Long DNS TXT Record Response",
-      "Detection of DNS Tunnels",
-      "Detect hosts connecting to dynamic domain providers",
-      "DNS Query Length Outliers - MLTK"
+    "channel": "ESCU",
+    "creation_date": "2016-09-13",
+    "description": "Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.",
+    "detections": [
+        {
+            "detection_id": "104658f4-afdc-499e-9719-17243f9826f1",
+            "name": "Excessive DNS Failures",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "74ec6f18-604b-4202-a567-86b2066be3ce",
+            "name": "Clients Connecting to Multiple DNS Servers",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f5",
+            "name": "DNS Query Length With High Standard Deviation",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "1a67f15a-f4ff-4170-84e9-08cf6f75d6f6",
+            "name": "DNS Query Requests Resolved by Unauthorized DNS Servers",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "05437c07-62f5-452e-afdc-04dd44815bb9",
+            "name": "Detect Long DNS TXT Record Response",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "104658f4-afdc-499f-9719-17a43f9826f4",
+            "name": "Detection of DNS Tunnels",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "c77162d3-f93c-45cc-80c8-22f6v5464g9f",
+            "name": "Detect hosts connecting to dynamic domain providers",
+            "type": "splunk"
+        },
+        {
+            "detection_id": "85fbcfe8-9718-4911-adf6-7000d077a3a9",
+            "name": "DNS Query Length Outliers - MLTK",
+            "type": "splunk"
+        }
     ],
-    "investigative_searches": [
-      "Get DNS Server History for a host",
-      "Get DNS traffic ratio",
-      "Get Process Responsible For The DNS Traffic"
+    "id": "3c3835c0-255d-4f9e-ab84-e29ec9ec9b56",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
     ],
-    "support_searches": [
-      "Baseline of DNS Query Length - MLTK"
-    ]
-  },
-  "spec_version": 1,
-  "version": "1.0"
+    "modification_date": "2017-09-18",
+    "name": "Suspicious DNS Traffic",
+    "narrative": "Although DNS is one of the fundamental underlying protocols that make the Internet work, it is often ignored (perhaps because of its complexity and effectiveness).  However, attackers have discovered ways to abuse the protocol to meet their objectives. One potential abuse involves manipulating DNS to hijack traffic and redirect it to an IP address under the attacker's control. This could inadvertently send users intending to visit google.com, for example, to an unrelated malicious website. Another technique involves using the DNS protocol for command-and-control activities with the attacker's malicious code or to covertly exfiltrate data. The searches within this Analytic Story look for these types of abuses.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "rvaldez@splunk.com",
+            "name": "Rico Valdez"
+        }
+    ],
+    "references": [
+        "http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/",
+        "http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680",
+        "https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454"
+    ],
+    "spec_version": 2,
+    "usecase": "Advanced Threat Detection",
+    "version": "1.0"
 }

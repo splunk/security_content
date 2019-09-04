@@ -1,46 +1,41 @@
 {
-  "category": "Adversary Tactics",
-  "channel": "ESCU",
-  "creation_date": "2016-09-13",
-  "description": "Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.",
-  "id": "4f6632f5-449c-4686-80df-57625f59bab3",
-  "maintainers": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "modification_date": "2017-09-19",
-  "name": "SQL Injection",
-  "narrative": "It is very common for attackers to inject SQL parameters into vulnerable web applications, which then interpret the malicious SQL statements.<br></br>This Analytic Story contains a search designed to identify attempts by attackers to leverage this technique to compromise a host and gain a foothold in the target environment.",
-  "original_authors": [
-    {
-      "company": "Splunk",
-      "email": "bpatel@splunk.com",
-      "name": "Bhavin Patel"
-    }
-  ],
-  "references": [
-    "https://www.owasp.org/index.php/SQL_Injection",
-    "https://www.owasp.org/index.php/Blind_SQL_Injection",
-    "https://www.incapsula.com/web-application-security/sql-injection.html"
-  ],
-  "searches": {
-    "contextual_searches": [
-      "Get Notable Info",
-      "Get Notable History",
-      "Get User Information from Identity Table",
-      "Get Authentication Logs For Endpoint",
-      "Get Risk Modifiers For User",
-      "Get Risk Modifiers For Endpoint"
+    "category": [
+        "Adversary Tactics"
     ],
-    "detection_searches": [
-      "SQL Injection with Long URLs"
+    "channel": "ESCU",
+    "creation_date": "2016-09-13",
+    "description": "Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.",
+    "detections": [
+        {
+            "detection_id": "e0aad4cf-0790-423b-8328-7564d0d938f9",
+            "name": "SQL Injection with Long URLs",
+            "type": "splunk"
+        }
     ],
-    "investigative_searches": [],
-    "support_searches": []
-  },
-  "spec_version": 1,
-  "version": "1.0"
+    "id": "4f6632f5-449c-4686-80df-57625f59bab3",
+    "maintainers": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "modification_date": "2017-09-19",
+    "name": "SQL Injection",
+    "narrative": "It is very common for attackers to inject SQL parameters into vulnerable web applications, which then interpret the malicious SQL statements.<br></br>This Analytic Story contains a search designed to identify attempts by attackers to leverage this technique to compromise a host and gain a foothold in the target environment.",
+    "original_authors": [
+        {
+            "company": "Splunk",
+            "email": "bpatel@splunk.com",
+            "name": "Bhavin Patel"
+        }
+    ],
+    "references": [
+        "https://www.owasp.org/index.php/SQL_Injection",
+        "https://www.owasp.org/index.php/Blind_SQL_Injection",
+        "https://www.incapsula.com/web-application-security/sql-injection.html"
+    ],
+    "spec_version": 2,
+    "usecase": "Advanced Threat Detection",
+    "version": "1.0"
 }

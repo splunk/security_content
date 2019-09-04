@@ -24,8 +24,8 @@
       "correlation_rule": {
         "notable": {
           "nes_fields": "dest, process_name, file_name",
-          "rule_description": "Oulook.exe is writing a zip file $file_name$ on $dest$",
-          "rule_title": "Oulook.exe is writing a zip file $file_name$ on $dest$"
+          "rule_description": "Outlook.exe is writing a zip file $file_name$ on $dest$",
+          "rule_title": "Outlook.exe is writing a zip file $file_name$ on $dest$"
         },
         "risk": {
           "risk_object": "dest",
@@ -47,7 +47,7 @@
       }
     }
   },
-  "eli5": "In this search, we are essentially trying to detect if outlook.exe is writing a `.zip` file to the disk. The way this search would run is, it will execute the the subsearch first which looks for all .zip files being written to the disk and outputs a crucial field \"process\\_id\", that we use the main search to check if that process\\_id belongs to a process\\_name of outlook.exe. The search uses a join command to essentially give you an end result of the first and last time that zip file was written by outlook.exe, the dest and user logged on the system, the hash value and the complete path to the zip file on disk",
+  "eli5": "In this search, we are essentially trying to detect if outlook.exe is writing a `.zip` file to the disk. The way this search would run is, it will execute the the subsearch first which looks for all .zip files being written to the disk and outputs a crucial field \"process_id\", that we use the main search to check if that process\\_id belongs to a process_name of outlook.exe. The search uses a join command to essentially give you an end result of the first and last time that zip file was written by outlook.exe, the dest and user logged on the system, the hash value and the complete path to the zip file on disk",
   "entities": [
     "dest"
   ],
@@ -78,6 +78,7 @@
       "Actions on Objectives"
     ],
     "mitre_attack": [
+      "Initial Access",
       "Spearphishing Attachment"
     ],
     "nist": [
