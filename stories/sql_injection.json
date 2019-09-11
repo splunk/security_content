@@ -22,7 +22,7 @@
   ],
   "modification_date": "2017-09-19",
   "name": "SQL Injection",
-  "narrative": "It is very common for attackers to inject SQL parameters into vulnerable web applications, which then interpret the malicious SQL statements.\\n\\\nThis Analytic Story contains a search designed to identify attempts by attackers to leverage this technique to compromise a host and gain a foothold in the target environment.",
+  "narrative": "It is very common for attackers to inject SQL parameters into vulnerable web applications, which then interpret the malicious SQL statements.\\\nThis Analytic Story contains a search designed to identify attempts by attackers to leverage this technique to compromise a host and gain a foothold in the target environment.",
   "original_authors": [
     {
       "company": "Splunk",

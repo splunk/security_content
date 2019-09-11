@@ -22,7 +22,7 @@
   ],
   "modification_date": "2018-04-09",
   "name": "Unusual AWS EC2 Modifications",
-  "narrative": "A common attack technique is to infiltrate a cloud instance and make modifications. The adversary can then secure access to your infrastructure or hide their activities. So it's important to stay alert to changes that may indicate that your environment has been compromised. \\n\\\n Searches within this Analytic Story can help you detect the presence of a threat by monitoring for EC2 instances that have been created or changed--either by users that have never previously performed these activities or by known users who modify or create instances in a way that have not been done before. This story also provides investigative searches that help you go deeper once you detect suspicious behavior.",
+  "narrative": "A common attack technique is to infiltrate a cloud instance and make modifications. The adversary can then secure access to your infrastructure or hide their activities. So it's important to stay alert to changes that may indicate that your environment has been compromised. \\\n Searches within this Analytic Story can help you detect the presence of a threat by monitoring for EC2 instances that have been created or changed--either by users that have never previously performed these activities or by known users who modify or create instances in a way that have not been done before. This story also provides investigative searches that help you go deeper once you detect suspicious behavior.",
   "original_authors": [
     {
       "company": "Splunk",
