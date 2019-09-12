@@ -20,7 +20,7 @@
       "AWS"
     ]
   },
-  "description": "This search detects new API calls that have either never been seen before or that have not been seen in the previous hour, where the identity type is <code>AssumedRole</code>.",
+  "description": "This search detects new API calls that have either never been seen before or that have not been seen in the previous hour, where the identity type is `AssumedRole`.",
   "detect": {
     "splunk": {
       "correlation_rule": {
@@ -49,7 +49,7 @@
       }
     }
   },
-  "eli5": "The subsearch will execute first and return the user roles and names of the API calls completed within the last hour, where the type of user identity is <code>AssumedRole</code>. It then appends the historical data to those results in the lookup file. Next, it recalculates the <code>earliest</code> and <code>latest</code> fields for each user role, as well as the name of the API call, and returns only those roles and API calls that have first been seen in the past hour. This is combined with the main search to return the values of API calls, name of the user role, and the earliest and latest time of this activity. It is worth noting that the name of the role of a particular user is parsed as \"userName\" in the CloudTrail logs.",
+  "eli5": "The subsearch will execute first and return the user roles and names of the API calls completed within the last hour, where the type of user identity is `AssumedRole`. It then appends the historical data to those results in the lookup file. Next, it recalculates the `earliest` and `latest` fields for each user role, as well as the name of the API call, and returns only those roles and API calls that have first been seen in the past hour. This is combined with the main search to return the values of API calls, name of the user role, and the earliest and latest time of this activity. It is worth noting that the name of the role of a particular user is parsed as \"userName\" in the CloudTrail logs.",
   "entities": [
     "user"
   ],
