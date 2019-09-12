@@ -5,7 +5,7 @@ configparser==3.8.1
 contextlib2==0.5.5
 functools32==3.2.3.post2
 futures==3.2.0
-identify==1.4.6
+identify==1.4.7
 importlib-metadata==0.22
 importlib-resources==1.0.2
 jsonschema==3.0.2
