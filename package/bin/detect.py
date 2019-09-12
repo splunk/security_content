@@ -105,7 +105,7 @@ class DetectCommand(GeneratingCommand):
     
     # Let's create it and then make sure it exists    
         service.kvstore.create(collection_name)
-        collection_name = service.kvstore[collection_name]
+        collection = service.kvstore[collection_name]
             
 
         for savedsearch in savedsearches:
@@ -189,9 +189,8 @@ class DetectCommand(GeneratingCommand):
                             job.refresh()
                             if job['isDone'] == "1":
                                 break
-                #Adding results to KV store
 
-                collection_name.data.insert(json.dumps({"detection_search_name": search['search_name'], "detection_results": detection_results}))
+                collection.data.insert(json.dumps({"detection_search_name": search['search_name'], "detection_results": detection_results}))
                 
 
                 self.logger.info("detect.py - Results: {0}".format(detection_results))
