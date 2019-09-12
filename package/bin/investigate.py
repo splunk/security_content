@@ -26,6 +26,7 @@ class Investigate(StreamingCommand):
       investigative_search_name = []
       investigative_search_fields_required = []
       investigative_search = []
+      detection_results = []
 
 
       for savedsearch in savedsearches:
@@ -38,8 +39,8 @@ class Investigate(StreamingCommand):
             if content['action.escu.full_search_name'] in record['investigative_search_name']:
               investigative_search.append(content['search'])
               record['investigative_search'] = investigative_search
-
-            record['fields_reuiqred'] = type(content['action.escu.fields_required'])
+              detection_results.append(record['detection_results'])
+              record['detection_resultsssssss'] = detection_results
 
      
       yield record

@@ -22,6 +22,7 @@ class DetectCommand(GeneratingCommand):
     investigative_searches_to_run = []
     support_searches_to_run = []
     runstory_results = {}
+    collection_names = []
 
     def _support_searches(self, content):
         support_data = {}
@@ -85,7 +86,7 @@ class DetectCommand(GeneratingCommand):
         risk = self.risk      
         search_results = self.search_results_info
         port = splunk.getDefault('port')
-        service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port)
+        service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner = "nobody")
         self.logger.info("detect.pytime - starting run story")
 
         if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
@@ -93,6 +94,19 @@ class DetectCommand(GeneratingCommand):
             latest_time = search_results.search_lt
 
         savedsearches = service.saved_searches
+        collection_name = []
+
+        # for collection in service.kvstore:
+        #     collection_name.append(collection.name)
+
+        collection_name = "story_results"
+        if collection_name in service.kvstore:
+                service.kvstore.delete(collection_name)
+    
+    # Let's create it and then make sure it exists    
+        service.kvstore.create(collection_name)
+        collection_name = service.kvstore[collection_name]
+            
 
         for savedsearch in savedsearches:
             content = savedsearch.content
@@ -175,6 +189,9 @@ class DetectCommand(GeneratingCommand):
                             job.refresh()
                             if job['isDone'] == "1":
                                 break
+                #Adding results to KV store
+
+                collection_name.data.insert(json.dumps({"detection_search_name": search['search_name'], "detection_results": detection_results}))
                 
 
                 self.logger.info("detect.py - Results: {0}".format(detection_results))
@@ -187,6 +204,7 @@ class DetectCommand(GeneratingCommand):
                 self.runstory_results['risk_object_type'] = search['risk_object_type']
                 self.runstory_results['risk_score'] = search['risk_score']
                 self.runstory_results['risk_object'] = search['risk_object']
+                self.runstory_results['collection_name'] = collection_name
                 #self.run_story_results['investigative_searches'] = 
                 #self.runstory_results['support_search_name'] = support_search_name
                 yield {
@@ -197,12 +215,14 @@ class DetectCommand(GeneratingCommand):
                         'support_search_name': self.runstory_results['support_search_name'],
                         'entities': self.runstory_results['entities'],
                         'mappings': self.runstory_results['mappings'],
+                        'detection_results': self.runstory_results['detection_results'],
                         'detection_search_name': self.runstory_results['detection_search_name'],
                         'detection_result_count': self.runstory_results['detection_result_count'],
                         'risk_score': self.runstory_results['risk_score'],
                         'risk_object_type': self.runstory_results['risk_object_type'],
                         'risk_object': self.runstory_results['risk_object'],
-                        'investigative_search_name' : self.runstory_results['investigative_searches']
+                        'investigative_search_name' : self.runstory_results['investigative_searches'],
+                        'collection_name' : self.runstory_results['collection_name']
                      }
 
 
