@@ -1,54 +1,54 @@
 {
-    "category": [
-        "Adversary Tactics"
-    ],
-    "channel": "ESCU",
-    "creation_date": "2017-12-07",
-    "description": "Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.",
-    "detections": [
-        {
-            "detection_id": "13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae",
-            "name": "Overwriting Accessibility Binaries",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "c9f4b923-f8af-4155-b697-1354f5bcbc5e",
-            "name": "Registry Keys Used For Privilege Escalation",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "29ccce64-a10c-4389-a45f-337cb29ba1f7",
-            "name": "Uncommon Processes On Endpoint",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "aa0c4aeb-5b18-41c4-8c07-f1442d7599df",
-            "name": "Child Processes of Spoolsv.exe",
-            "type": "splunk"
-        }
-    ],
-    "id": "644e22d3-598a-429c-a007-16fdb802cae5",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "modification_date": "2017-12-07",
-    "name": "Windows Privilege Escalation",
-    "narrative": "Privilege escalation is a \"land-and-expand\" technique, wherein an adversary gains an initial foothold on a host and then exploits its weaknesses to increase his privileges. The motivation is simple: certain actions on a Windows machine--such as installing software--may require higher-level privileges than those the attacker initially acquired. By increasing his privilege level, the attacker can gain the control required to carry out his malicious ends. This Analytic Story provides searches to detect and investigate behaviors that attackers may use to elevate their privileges in your environment.",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "davidd@splunk.com",
-            "name": "David Dorsey"
-        }
-    ],
-    "references": [
-        "https://attack.mitre.org/wiki/Privilege_Escalation"
-    ],
-    "spec_version": 2,
-    "usecase": "Advanced Threat Detection",
-    "version": "2.0"
+  "category": [
+    "Adversary Tactics"
+  ],
+  "channel": "ESCU",
+  "creation_date": "2017-12-07",
+  "description": "Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.",
+  "detections": [
+    {
+      "detection_id": "13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae",
+      "name": "Overwriting Accessibility Binaries",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "c9f4b923-f8af-4155-b697-1354f5bcbc5e",
+      "name": "Registry Keys Used For Privilege Escalation",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "29ccce64-a10c-4389-a45f-337cb29ba1f7",
+      "name": "Uncommon Processes On Endpoint",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "aa0c4aeb-5b18-41c4-8c07-f1442d7599df",
+      "name": "Child Processes of Spoolsv.exe",
+      "type": "splunk"
+    }
+  ],
+  "id": "644e22d3-598a-429c-a007-16fdb802cae5",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "modification_date": "2017-12-07",
+  "name": "Windows Privilege Escalation",
+  "narrative": "Privilege escalation is a \"land-and-expand\" technique, wherein an adversary gains an initial foothold on a host and then exploits its weaknesses to increase his privileges. The motivation is simple: certain actions on a Windows machine--such as installing software--may require higher-level privileges than those the attacker initially acquired. By increasing his privilege level, the attacker can gain the control required to carry out his malicious ends. This Analytic Story provides searches to detect and investigate behaviors that attackers may use to elevate their privileges in your environment.",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "davidd@splunk.com",
+      "name": "David Dorsey"
+    }
+  ],
+  "references": [
+    "https://attack.mitre.org/wiki/Privilege_Escalation"
+  ],
+  "spec_version": 2,
+  "usecase": "Advanced Threat Detection",
+  "version": "2.0"
 }

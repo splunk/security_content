@@ -1,50 +1,50 @@
 {
-    "category": [
-        "Cloud Security"
-    ],
-    "channel": "ESCU",
-    "creation_date": "2018-06-25",
-    "description": "Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.",
-    "detections": [
-        {
-            "detection_id": "2a9b80d3-6340-4345-b5ad-290bf3d0dac4",
-            "name": "Detect New Open S3 buckets",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "2a9b80d3-6340-4345-b5ad-291bq3d0daq4",
-            "name": "Detect S3 access from a new IP",
-            "type": "splunk"
-        },
-        {
-            "detection_id": "ad12w478-84a8-4641-a3w1-e32372q4bd53",
-            "name": "Detect Spike in S3 Bucket deletion",
-            "type": "splunk"
-        }
-    ],
-    "id": "2e8948a5-5239-406b-b56b-6c50w3168af3",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
-    ],
-    "modification_date": "2018-07-24",
-    "name": "Suspicious AWS S3 Activities",
-    "narrative": "As cloud computing has exploded, so has the number of creative attacks on virtual environments. And as the number-two cloud-service provider, Amazon Web Services (AWS) has certainly had its share.<br></br>Amazon's \"shared responsibility\" model dictates that the company has responsibility for the environment outside of the VM and the customer is responsible for the security inside of the S3 container. As such, it's important to stay vigilant for activities that may belie suspicious behavior inside of your environment.<br></br>Among things to look out for are S3 access from unfamiliar locations and by unfamiliar users. Some of the searches in this Analytic Story help you detect suspicious behavior and others help you investigate more deeply, when the situation warrants.   ",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
-    ],
-    "references": [
-        "https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf",
-        "https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/"
-    ],
-    "spec_version": 2,
-    "usecase": "Security Monitoring",
-    "version": "2.0"
+  "category": [
+    "Cloud Security"
+  ],
+  "channel": "ESCU",
+  "creation_date": "2018-06-25",
+  "description": "Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.",
+  "detections": [
+    {
+      "detection_id": "2a9b80d3-6340-4345-b5ad-290bf3d0dac4",
+      "name": "Detect New Open S3 buckets",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "2a9b80d3-6340-4345-b5ad-291bq3d0daq4",
+      "name": "Detect S3 access from a new IP",
+      "type": "splunk"
+    },
+    {
+      "detection_id": "ad12w478-84a8-4641-a3w1-e32372q4bd53",
+      "name": "Detect Spike in S3 Bucket deletion",
+      "type": "splunk"
+    }
+  ],
+  "id": "2e8948a5-5239-406b-b56b-6c50w3168af3",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2018-07-24",
+  "name": "Suspicious AWS S3 Activities",
+  "narrative": "As cloud computing has exploded, so has the number of creative attacks on virtual environments. And as the number-two cloud-service provider, Amazon Web Services (AWS) has certainly had its share.\\\nAmazon's \"shared responsibility\" model dictates that the company has responsibility for the environment outside of the VM and the customer is responsible for the security inside of the S3 container. As such, it's important to stay vigilant for activities that may belie suspicious behavior inside of your environment.\\\nAmong things to look out for are S3 access from unfamiliar locations and by unfamiliar users. Some of the searches in this Analytic Story help you detect suspicious behavior and others help you investigate more deeply, when the situation warrants.   ",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "references": [
+    "https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf",
+    "https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/"
+  ],
+  "spec_version": 2,
+  "usecase": "Security Monitoring",
+  "version": "2.0"
 }

@@ -1,48 +1,48 @@
 {
-    "baseline": {
-        "splunk": {
-            "schedule": {
-                "cron_schedule": "",
-                "earliest_time": "-30d@d",
-                "latest_time": "-10m@m"
-            },
-            "search": "| from datamodel Identity_Management.All_Assets | stats count values(nt_host) by category | sort -count"
-        }
-    },
-    "creation_date": "2017-06-11",
-    "data_metadata": {
-        "data_models": [
-            "Identity_Management"
-        ],
-        "data_source": [
-            "Splunk Enterprise Security"
-        ],
-        "providing_technologies": [
-            "Splunk Enterprise Security"
-        ]
-    },
-    "description": "This search shows you every asset category you have and the assets that belong to those categories.",
-    "eli5": "This search gives you the number and the names of the hosts of each host in your environment by category. It will then sort them by the count.",
-    "how_to_implement": "To successfully implement this search you must first leverage the Assets and Identity framework in Enterprise Security to populate your assets_by_str.csv file which should then be mapped to the Identity_Management data model. The Identity_Management data model will contain a list of known authorized company assets. Ensure that all inventoried systems are constantly vetted and updated.",
-    "id": "dcfd6b40-42f9-469d-a433-2e53f7489ff9",
-    "known_false_positives": "",
-    "maintainers": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+  "baseline": {
+    "splunk": {
+      "schedule": {
+        "cron_schedule": "",
+        "earliest_time": "-30d@d",
+        "latest_time": "-10m@m"
+      },
+      "search": "| from datamodel Identity_Management.All_Assets | stats count values(nt_host) by category | sort -count"
+    }
+  },
+  "creation_date": "2017-06-11",
+  "data_metadata": {
+    "data_models": [
+      "Identity_Management"
     ],
-    "modification_date": "2017-09-13",
-    "name": "Count of assets by category",
-    "original_authors": [
-        {
-            "company": "Splunk",
-            "email": "bpatel@splunk.com",
-            "name": "Bhavin Patel"
-        }
+    "data_source": [
+      "Splunk Enterprise Security"
     ],
-    "spec_version": 2,
-    "type": "splunk",
-    "version": "1.0"
+    "providing_technologies": [
+      "Splunk Enterprise Security"
+    ]
+  },
+  "description": "This search shows you every asset category you have and the assets that belong to those categories.",
+  "eli5": "This search gives you the number and the names of the hosts of each host in your environment by category. It will then sort them by the count.",
+  "how_to_implement": "To successfully implement this search you must first leverage the Assets and Identity framework in Enterprise Security to populate your assets_by_str.csv file which should then be mapped to the Identity_Management data model. The Identity_Management data model will contain a list of known authorized company assets. Ensure that all inventoried systems are constantly vetted and updated.",
+  "id": "dcfd6b40-42f9-469d-a433-2e53f7489ff9",
+  "known_false_positives": "",
+  "maintainers": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "modification_date": "2017-09-13",
+  "name": "Count of assets by category",
+  "original_authors": [
+    {
+      "company": "Splunk",
+      "email": "bpatel@splunk.com",
+      "name": "Bhavin Patel"
+    }
+  ],
+  "spec_version": 2,
+  "type": "splunk",
+  "version": "1.0"
 }

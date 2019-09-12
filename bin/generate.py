@@ -14,25 +14,6 @@ import datetime
 ALL_UUIDS = []
 
 
-def markdown(x):
-    markdown = str(x)
-    markdown = markdown.replace("<code>", "`")
-    markdown = markdown.replace("</code>", "`")
-    markdown = markdown.replace("<b>", "**")
-    markdown = markdown.replace("</b>", "**")
-    # list tag replacements
-    markdown = markdown.replace("<ol><li>", "\\\n\\\n1. ")
-    markdown = markdown.replace("</li><li>", "\\\n\\\n1. ")
-    markdown = markdown.replace("</li></ol>", "")
-    markdown = markdown.replace("</li></ul>", "")
-    markdown = markdown.replace("<ul><li>", "\\\n\\\n1. ")
-    # break tags replacements
-    markdown = markdown.replace("<br></br>", "\\\n\\\n")
-    markdown = markdown.replace("<br/><br/>", "\\\n\\\n")
-    markdown = markdown.replace("<br/>", "\\\n\\\n")
-    return markdown
-
-
 def process_data_metadata(obj, complete_obj, name):
 
     # collect tagging
@@ -583,15 +564,10 @@ def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
             if 'baselines' in detections[d['name']]:
                 total_baselines.append(detections[d['name']]['baselines'])
         output_file.write("baselines = %s\n" % json.dumps(total_baselines[0]))
+        output_file.write("description = %s\n" % story['description'])
 
-        # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
-        description = markdown(story['description'])
-        output_file.write("description = %s\n" % description)
-
-        # REMOVE THIS FUNCTION MAKE SURE ALL NARRATIVE ARE NATIVELY IN MARKDOWN
         if story['narrative']:
-            narrative = markdown(story['narrative'])
-            output_file.write("narrative = %s\n" % narrative)
+            output_file.write("narrative = %s\n" % story['narrative'])
         output_file.write("\n")
 
     # close file, count stories we found and return
@@ -716,14 +692,10 @@ def write_analytics_story_confv1(stories, detections, investigations, baselines,
         # write out providing technologies models
         output_file.write("providing_technologies = %s\n" % (json.dumps(sorted(set(providing_technologies)))))
 
-        # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
-        description = markdown(story['description'])
-        output_file.write("description = %s\n" % description)
+        output_file.write("description = %s\n" % story['description'])
 
-        # REMOVE THIS FUNCTION MAKE SURE ALL NARRATIVE ARE NATIVELY IN MARKDOWN
         if story['narrative']:
-            narrative = markdown(story['narrative'])
-            output_file.write("narrative = %s\n" % narrative)
+            output_file.write("narrative = %s\n" % story['narrative'])
         output_file.write("\n")
 
     output_file.write("#### END STORIES ####")
@@ -775,14 +747,9 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
                     searches.append("ESCU - " + baseline_name)
 
         output_file.write("searches = %s\n" % json.dumps(searches))
-
-        # REMOVE THIS FUNCTION MAKE SURE ALL DESCRIPTIONs ARE NATIVELY IN MARKDOWN
-        description = markdown(story['description'])
-        output_file.write("description = %s\n" % description)
-        # REMOVE THIS FUNCTION MAKE SURE ALL NARRATIVE ARE NATIVELY IN MARKDOWN
+        output_file.write("description = %s\n" % story['description'])
         if story['narrative']:
-            narrative = markdown(story['narrative'])
-            output_file.write("narrative = %s\n" % narrative)
+            output_file.write("narrative = %s\n" % story['narrative'])
         output_file.write("\n")
     output_file.write("### END STORIES ###\n\n")
 
@@ -793,13 +760,10 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("type = detection\n")
         output_file.write("asset_type = {0}\n".format(detection['asset_type']))
         output_file.write("confidence = {0}\n".format(detection['confidence']))
-        eli5 = markdown(detection['eli5'])
-        output_file.write("explanation = {0}\n".format(eli5))
-        how_to_implement = markdown(detection['how_to_implement'])
-        output_file.write("how_to_implement = {0}\n".format(how_to_implement))
+        output_file.write("explanation = {0}\n".format(detection['eli5']))
+        output_file.write("how_to_implement = {0}\n".format(detection['how_to_implement']))
         output_file.write("annotations = {0}\n".format(json.dumps(detection['mappings'])))
-        known_false_positives = markdown(detection['known_false_positives'])
-        output_file.write("known_false_positives = {0}\n".format(known_false_positives))
+        output_file.write("known_false_positives = {0}\n".format(detection['known_false_positives']))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("\n")
     output_file.write("### END DETECTIONS ###\n\n")
@@ -809,10 +773,8 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
         output_file.write("[savedsearch://ESCU - {0}]\n".format(investigation_name))
         output_file.write("type = investigation\n")
         output_file.write("explanation = none\n")
-        how_to_implement = markdown(investigation['how_to_implement'])
-        output_file.write("how_to_implement = {0}\n".format(how_to_implement))
-        known_false_positives = markdown(investigation['known_false_positives'])
-        output_file.write("known_false_positives = {0}\n".format(known_false_positives))
+        output_file.write("how_to_implement = {0}\n".format(investigation['how_to_implement']))
+        output_file.write("known_false_positives = {0}\n".format(investigation['known_false_positives']))
         output_file.write("earliest_time_offset = {0}\n".format(investigation['earliest_time']))
         output_file.write("latest_time_offset = {0}\n".format(investigation['latest_time']))
         output_file.write("\n")
@@ -822,12 +784,9 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     for baseline_name, baseline in sorted(baselines.iteritems()):
         output_file.write("[savedsearch://ESCU - {0}]\n".format(baseline_name))
         output_file.write("type = support\n")
-        eli5 = markdown(baseline['eli5'])
-        output_file.write("explanation = {0}\n".format(eli5))
-        how_to_implement = markdown(baseline['how_to_implement'])
-        output_file.write("how_to_implement = {0}\n".format(how_to_implement))
-        known_false_positives = markdown(baseline['known_false_positives'])
-        output_file.write("known_false_positives = {0}\n".format(known_false_positives))
+        output_file.write("explanation = {0}\n".format(baseline['eli5']))
+        output_file.write("how_to_implement = {0}\n".format(baseline['how_to_implement']))
+        output_file.write("known_false_positives = {0}\n".format(baseline['known_false_positives']))
         output_file.write("providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
         output_file.write("\n")
     output_file.write("\n### END ESCU BASELINES ###\n\n")
@@ -856,26 +815,21 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
         output_file.write("[ESCU - {0} - Rule]\n".format(detection_name))
         output_file.write("action.escu = 0\n")
         output_file.write("action.escu.enabled = 1\n")
-        description = markdown(detection['description'])
-        output_file.write("description = {0}\n".format(description))
+        output_file.write("description = {0}\n".format(detection['description']))
         output_file.write("action.escu.mappings = {0}\n".format(json.dumps(detection['mappings'])))
         if 'data_models' in detection:
             output_file.write("action.escu.data_models = {0}\n".format(json.dumps(detection['data_models'])))
 
-        # NEED TO REMOVE MARKDOWN
         if 'eli5' in detection:
-            eli5 = markdown(detection['eli5'])
-            output_file.write("action.escu.eli5 = {0}\n".format(eli5))
+            output_file.write("action.escu.eli5 = {0}\n".format(detection['eli5']))
         else:
             output_file.write("action.escu.eli5 = none\n")
         if 'how_to_implement' in detection:
-            how_to_implement = markdown(detection['how_to_implement'])
-            output_file.write("action.escu.how_to_implement = {0}\n".format(how_to_implement))
+            output_file.write("action.escu.how_to_implement = {0}\n".format(detection['how_to_implement']))
         else:
             output_file.write("action.escu.how_to_implement = none\n")
         if 'known_false_positives' in detection:
-            known_false_positives = markdown(detection['known_false_positives'])
-            output_file.write("action.escu.known_false_positives = %s\n" % known_false_positives)
+            output_file.write("action.escu.known_false_positives = %s\n" % detection['known_false_positives'])
         else:
             output_file.write("action.escu.known_false_positives = None at this time\n")
 
@@ -1004,8 +958,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = investigative\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(investigation_name))
-        description = markdown(investigation['description'])
-        output_file.write("description = {0}\n".format(description))
+        output_file.write("description = {0}\n".format(investigation['description']))
         output_file.write("action.escu.creation_date = {0}\n".format(investigation['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(investigation['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(investigation['stories'])))
@@ -1016,20 +969,16 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
         if 'providing_technologies' in detection:
             output_file.write("action.escu.providing_technologies = {0}\n".format(
                 json.dumps(investigation['providing_technologies'])))
-        # NEED TO REMOVE MARKDOWN FUNCTION
         if 'eli5' in investigation:
-            eli5 = markdown(investigation['eli5'])
-            output_file.write("action.escu.eli5 = {0}\n".format(eli5))
+            output_file.write("action.escu.eli5 = {0}\n".format(investigation['eli5']))
         else:
             output_file.write("action.escu.eli5 = none\n")
         if 'how_to_implement' in investigation:
-            how_to_implement = markdown(investigation['how_to_implement'])
-            output_file.write("action.escu.how_to_implement = {0}\n".format(how_to_implement))
+            output_file.write("action.escu.how_to_implement = {0}\n".format(investigation['how_to_implement']))
         else:
             output_file.write("action.escu.how_to_implement = none\n")
         if 'known_false_positives' in investigation:
-            known_false_positives = markdown(investigation['known_false_positives'])
-            output_file.write("action.escu.known_false_positives = %s\n" % known_false_positives)
+            output_file.write("action.escu.known_false_positives = %s\n" % investigation['known_false_positives'])
         else:
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in investigation:
@@ -1051,8 +1000,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
         output_file.write("action.escu.enabled = 1\n")
         output_file.write("action.escu.search_type = support\n")
         output_file.write("action.escu.full_search_name = ESCU - {0}\n".format(baseline_name))
-        description = markdown(baseline['description'])
-        output_file.write("description = {0}\n".format(description))
+        output_file.write("description = {0}\n".format(baseline['description']))
         output_file.write("action.escu.creation_date = {0}\n".format(baseline['creation_date']))
         output_file.write("action.escu.modification_date = {0}\n".format(baseline['modification_date']))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(baseline['stories'])))
@@ -1064,20 +1012,16 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("dispatch.latest_time = {0}\n".format(baseline['latest_time']))
         if 'providing_technologies' in baseline:
             output_file.write("action.escu.providing_technologies = {0}\n".format(json.dumps(baseline['providing_technologies'])))
-        # NEED TO REMOVE MARKDOWN FUNCTION
         if 'eli5' in baseline:
-            eli5 = markdown(baseline['eli5'])
-            output_file.write("action.escu.eli5 = {0}\n".format(eli5))
+            output_file.write("action.escu.eli5 = {0}\n".format(baseline['eli5']))
         else:
             output_file.write("action.escu.eli5 = none\n")
         if 'how_to_implement' in baseline:
-            how_to_implement = markdown(baseline['how_to_implement'])
-            output_file.write("action.escu.how_to_implement = {0}\n".format(how_to_implement))
+            output_file.write("action.escu.how_to_implement = {0}\n".format(baseline['how_to_implement']))
         else:
             output_file.write("action.escu.how_to_implement = none\n")
         if 'known_false_positives' in baseline:
-            known_false_positives = markdown(baseline['known_false_positives'])
-            output_file.write("action.escu.known_false_positives = %s\n" % known_false_positives)
+            output_file.write("action.escu.known_false_positives = %s\n" % baseline['known_false_positives'])
         else:
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in baseline:
