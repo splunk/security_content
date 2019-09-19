@@ -304,35 +304,35 @@ def generate_detections(REPO_PATH, stories):
     complete_detections = dict()
     for detection in detections:
         # lets process v1 detections
-        if detection['spec_version'] == 1:
-            if verbose:
-                print "processing v1 detection: {0}".format(detection['search_name'])
-            name = detection['search_name']
-            type = 'splunk'
-            description = detection['search_description']
-            id = detection['search_id']
+        # if detection['spec_version'] == 1:
+        #     if verbose:
+        #         print "processing v1 detection: {0}".format(detection['search_name'])
+        #     name = detection['search_name']
+        #     type = 'splunk'
+        #     description = detection['search_description']
+        #     id = detection['search_id']
 
-            # grab search information
-            correlation_rule = detection['correlation_rule']
-            search = detection['search']
-            schedule = detection['scheduling']
-            earliest_time = schedule['earliest_time']
-            latest_time = schedule['latest_time']
-            cron = schedule['cron_schedule']
+        #     # grab search information
+        #     correlation_rule = detection['correlation_rule']
+        #     search = detection['search']
+        #     schedule = detection['scheduling']
+        #     earliest_time = schedule['earliest_time']
+        #     latest_time = schedule['latest_time']
+        #     cron = schedule['cron_schedule']
 
-            # grabbing entities
-            entities = []
+        #     # grabbing entities
+        #     entities = []
 
-            investigations = []
-            baselines = []
-            responses = []
-            for story_name, story in sorted(stories.iteritems()):
-                for d in story['detections']:
-                    if d['name'] == name:
-                        if 'investigations' in story:
-                            investigations = story['investigations']
-                        if 'baselines' in story:
-                            baselines = story['baselines']
+        #     investigations = []
+        #     baselines = []
+        #     responses = []
+        #     for story_name, story in sorted(stories.iteritems()):
+        #         for d in story['detections']:
+        #             if d['name'] == name:
+        #                 if 'investigations' in story:
+        #                     investigations = story['investigations']
+        #                 if 'baselines' in story:
+        #                     baselines = story['baselines']
 
         # lets process v2 detections
         if detection['spec_version'] == 2:
@@ -488,32 +488,32 @@ def generate_stories(REPO_PATH, verbose):
         complete_stories[name]['maintainers'] = story['maintainers']
 
         # grab searches
-        if story['spec_version'] == 1:
-            detections = []
-            baselines = []
-            investigations = []
-            category = []
+        # if story['spec_version'] == 1:
+        #     detections = []
+        #     baselines = []
+        #     investigations = []
+        #     category = []
 
-            category.append(story['category'])
+        #     category.append(story['category'])
 
-            if 'detection_searches' in story['searches']:
-                for d in story['searches']['detection_searches']:
-                    detections.append({"type": "splunk", "name": d})
-                complete_stories[name]['detections'] = detections
+        #     if 'detection_searches' in story['searches']:
+        #         for d in story['searches']['detection_searches']:
+        #             detections.append({"type": "splunk", "name": d})
+        #         complete_stories[name]['detections'] = detections
 
-            # in spec v1 these are part of the story which is why we are grabbing them here
-            if 'support_searches' in story['searches']:
-                for b in story['searches']['support_searches']:
-                    baselines.append({"type": "splunk", "name": b})
-                complete_stories[name]['baselines'] = baselines
+        #     # in spec v1 these are part of the story which is why we are grabbing them here
+        #     if 'support_searches' in story['searches']:
+        #         for b in story['searches']['support_searches']:
+        #             baselines.append({"type": "splunk", "name": b})
+        #         complete_stories[name]['baselines'] = baselines
 
-            if 'contextual_searches' in story['searches']:
-                for i in story['searches']['contextual_searches']:
-                    investigations.append({"type": "splunk", "name": i})
-            if 'investigative_searches' in story['searches']:
-                for i in story['searches']['investigative_searches']:
-                    investigations.append({"type": "splunk", "name": i})
-            complete_stories[name]['investigations'] = investigations
+        #     if 'contextual_searches' in story['searches']:
+        #         for i in story['searches']['contextual_searches']:
+        #             investigations.append({"type": "splunk", "name": i})
+        #     if 'investigative_searches' in story['searches']:
+        #         for i in story['searches']['investigative_searches']:
+        #             investigations.append({"type": "splunk", "name": i})
+        #     complete_stories[name]['investigations'] = investigations
 
         if story['spec_version'] == 2:
             detections = []
@@ -526,9 +526,9 @@ def generate_stories(REPO_PATH, verbose):
     return complete_stories
 
 
-def write_analytics_story_confv2(stories, detections, investigations, baselines, OUTPUT_DIR):
+def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
     # Create conf files from analytics stories files
-    story_output_path = OUTPUT_DIR + "/default/analytics_stories.conf"
+    story_output_path = OUTPUT_DIR + "/default/analytics_stories_v2.conf"
     output_file = open(story_output_path, 'w')
 
     output_file.write("#############\n")
@@ -576,7 +576,7 @@ def write_analytics_story_confv2(stories, detections, investigations, baselines,
     return story_count, story_output_path
 
 
-# def write_analytics_story_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
+def write_analytics_story_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
 
     # Create conf files from analytics stories files
     story_output_path = OUTPUT_DIR + "/default/analytic_stories.conf"
@@ -795,7 +795,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     return story_count, use_case_lib_path
 
 
-def write_savedsearches_confv2(detections, investigations, baselines, OUTPUT_DIR):
+def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR):
 
     # Create savedsearches.conf for all our detections
     detections_output_path = OUTPUT_DIR + "/default/savedsearches.conf"
@@ -1065,7 +1065,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-    parser.add_argument("-sv2", "--storiesv2", required=False, default=True, action='store_true',
+    parser.add_argument("-sv1", "--storiesv1", required=False, default=True, action='store_true',
                         help="generates analytics_stories.conf in v1 format")
     parser.add_argument("-u", "--use_case_lib", required=False, default=True, action='store_true',
                         help="generates use_case_library.conf for ES")
@@ -1075,7 +1075,7 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     verbose = args.verbose
-    storiesv2 = args.storiesv2
+    storiesv1 = args.storiesv1
     use_case_lib = args.use_case_lib
 
     complete_stories = generate_stories(REPO_PATH, verbose)
@@ -1084,8 +1084,13 @@ if __name__ == "__main__":
     complete_baselines = generate_baselines(REPO_PATH, complete_detections, complete_stories)
     # complete_responses = generate_responses(REPO_PATH, complete_responses)
 
-    if storiesv2:
-        story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections, complete_investigations, complete_baselines, OUTPUT_DIR)
+    if storiesv1:
+        story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections,
+                                                               complete_investigations, complete_baselines, OUTPUT_DIR)
+        print "{0} stories have been successfully written to {1}".format(story_count, story_path)
+    else:
+        story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections,
+                                                               complete_investigations, complete_baselines, OUTPUT_DIR)
         print "{0} stories have been successfully written to {1}".format(story_count, story_path)
 
     if use_case_lib:
@@ -1095,7 +1100,7 @@ if __name__ == "__main__":
         print "{0} stories have been successfully to {1}".format(story_count, use_case_lib_path)
 
     detections_count, investigations_count, baselines_count, detection_path = \
-        write_savedsearches_confv2(complete_detections, complete_investigations,
+        write_savedsearches_confv1(complete_detections, complete_investigations,
                                    complete_baselines, OUTPUT_DIR)
     print "{0} detections have been successfully written to {1}\n" \
           "{2} investigations have been successfully written to {1}\n" \
