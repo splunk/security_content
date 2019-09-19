@@ -101,23 +101,23 @@ def generate_baselines(REPO_PATH, detections, stories):
     for baseline in baselines:
 
         # lets process v1 baseline
-        if baseline['spec_version'] == 1:
-            if verbose:
-                print "processing v1 baseline: {0}".format(baseline['search_name'])
-            name = baseline['search_name']
-            type = 'splunk'
-            id = baseline['search_id']
-            description = baseline['search_description']
+        # if baseline['spec_version'] == 1:
+        #     if verbose:
+        #         print "processing v1 baseline: {0}".format(baseline['search_name'])
+        #     name = baseline['search_name']
+        #     type = 'splunk'
+        #     id = baseline['search_id']
+        #     description = baseline['search_description']
 
-            # grab search information
-            search = baseline['search']
-            schedule = baseline['scheduling']
-            earliest_time = schedule['earliest_time']
-            latest_time = schedule['latest_time']
-            if 'cron_schedule' in schedule:
-                cron = schedule['cron_schedule']
-            else:
-                cron = ''
+        #     # grab search information
+        #     search = baseline['search']
+        #     schedule = baseline['scheduling']
+        #     earliest_time = schedule['earliest_time']
+        #     latest_time = schedule['latest_time']
+        #     if 'cron_schedule' in schedule:
+        #         cron = schedule['cron_schedule']
+        #     else:
+        #         cron = ''
 
         if baseline['spec_version'] == 2:
             if verbose:
@@ -192,20 +192,20 @@ def generate_investigations(REPO_PATH, detections, stories):
     for investigation in investigations:
 
         # lets process v1 investigation
-        if investigation['spec_version'] == 1:
-            type = 'splunk'
-            if verbose:
-                print "processing v1 investigation: {0}".format(investigation['search_name'])
-            name = investigation['search_name']
-            id = investigation['search_id']
-            description = investigation['search_description']
+        # if investigation['spec_version'] == 1:
+        #     type = 'splunk'
+        #     if verbose:
+        #         print "processing v1 investigation: {0}".format(investigation['search_name'])
+        #     name = investigation['search_name']
+        #     id = investigation['search_id']
+        #     description = investigation['search_description']
 
-            # grab search information
-            search = investigation['search']
-            schedule = investigation['search_window']
-            earliest_time = schedule['earliest_time_offset']
-            latest_time = schedule['latest_time_offset']
-            cron = ''
+        #     # grab search information
+        #     search = investigation['search']
+        #     schedule = investigation['search_window']
+        #     earliest_time = schedule['earliest_time_offset']
+        #     latest_time = schedule['latest_time_offset']
+        #     cron = ''
 
         if investigation['spec_version'] == 2:
             if verbose:
@@ -526,9 +526,9 @@ def generate_stories(REPO_PATH, verbose):
     return complete_stories
 
 
-def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
+def write_analytics_story_confv2(stories, detections, investigations, baselines, OUTPUT_DIR):
     # Create conf files from analytics stories files
-    story_output_path = OUTPUT_DIR + "/default/analytics_stories_v2.conf"
+    story_output_path = OUTPUT_DIR + "/default/analytic_stories.conf"
     output_file = open(story_output_path, 'w')
 
     output_file.write("#############\n")
@@ -576,7 +576,7 @@ def write_analytics_story_confv2(stories, detections, OUTPUT_DIR):
     return story_count, story_output_path
 
 
-def write_analytics_story_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
+# def write_analytics_story_confv1(stories, detections, investigations, baselines, OUTPUT_DIR):
 
     # Create conf files from analytics stories files
     story_output_path = OUTPUT_DIR + "/default/analytic_stories.conf"
@@ -795,7 +795,7 @@ def write_use_case_lib_conf(stories, detections, investigations, baselines, OUTP
     return story_count, use_case_lib_path
 
 
-def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR):
+def write_savedsearches_confv2(detections, investigations, baselines, OUTPUT_DIR):
 
     # Create savedsearches.conf for all our detections
     detections_output_path = OUTPUT_DIR + "/default/savedsearches.conf"
@@ -843,6 +843,9 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.asset_at_risk = {0}\n".format(detection['asset_type']))
         if 'entities' in detection:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(detection['entities'])))
+        if 'entities' in detection:
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
+
         if 'providing_technologies' in detection:
             output_file.write("action.escu.providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(detection['stories'])))
@@ -983,6 +986,8 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in investigation:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(investigation['entities'])))
+        if 'entities' in investigation:
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(investigation['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
@@ -1026,6 +1031,8 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in baseline:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(baseline['entities'])))
+        if 'entities' in baseline:
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(baseline['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
@@ -1054,12 +1061,12 @@ if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
-    It generates the savesearches.conf, analytics_stories.conf files for ES.""")
+    It generates the savesearches.conf, analytic_stories.conf files for ESCU.""")
     parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-    parser.add_argument("-sv1", "--storiesv1", required=False, default=True, action='store_true',
-                        help="generates analytics_stories.conf in v1 format")
+    parser.add_argument("-sv2", "--storiesv2", required=False, default=True, action='store_true',
+                        help="generates analytics_stories.conf in v2 format")
     parser.add_argument("-u", "--use_case_lib", required=False, default=True, action='store_true',
                         help="generates use_case_library.conf for ES")
 
@@ -1068,7 +1075,7 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     verbose = args.verbose
-    storiesv1 = args.storiesv1
+    storiesv2 = args.storiesv2
     use_case_lib = args.use_case_lib
 
     complete_stories = generate_stories(REPO_PATH, verbose)
@@ -1077,13 +1084,10 @@ if __name__ == "__main__":
     complete_baselines = generate_baselines(REPO_PATH, complete_detections, complete_stories)
     # complete_responses = generate_responses(REPO_PATH, complete_responses)
 
-    if storiesv1:
-        story_count, story_path = write_analytics_story_confv1(complete_stories, complete_detections,
-                                                               complete_investigations, complete_baselines, OUTPUT_DIR)
-        print "{0} stories have been successfully written to {1}".format(story_count, story_path)
-    else:
-        story_count, story_path = write_analytics_story_confv2(complete_stories, complete_detections,
-                                                               complete_investigations, complete_baselines, OUTPUT_DIR)
+    if storiesv2:
+        story_count, story_path = write_analytics_story_confv2(complete_stories,
+                                                               complete_detections, complete_investigations,
+                                                               complete_baselines, OUTPUT_DIR)
         print "{0} stories have been successfully written to {1}".format(story_count, story_path)
 
     if use_case_lib:
@@ -1093,7 +1097,7 @@ if __name__ == "__main__":
         print "{0} stories have been successfully to {1}".format(story_count, use_case_lib_path)
 
     detections_count, investigations_count, baselines_count, detection_path = \
-        write_savedsearches_confv1(complete_detections, complete_investigations,
+        write_savedsearches_confv2(complete_detections, complete_investigations,
                                    complete_baselines, OUTPUT_DIR)
     print "{0} detections have been successfully written to {1}\n" \
           "{2} investigations have been successfully written to {1}\n" \
