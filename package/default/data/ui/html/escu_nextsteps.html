@@ -209,7 +209,12 @@ require([
         var rid = tokens.get("rid");
         var sourcetype = tokens.get("type");
 
-        if(sourcetype == "investigate")
+        if(sourcetype == "contextualize")
+        {
+            sourcetype = "escu-contextualize";
+            document.getElementById("divTitle").innerHTML = "ESCU Context";
+        }
+        else
         {
             sourcetype = "escu-investigate";
             document.getElementById("divTitle").innerHTML = "ESCU Investigate";
