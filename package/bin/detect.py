@@ -15,9 +15,8 @@ class DetectCommand(GeneratingCommand):
 
     logger = splunk.mining.dcutils.getLogger()
     story = Option(require=True)
-    risk = Option(validate=Boolean(), default=True)
     
-    # global variables
+    # global vasiables
     detection_searches_to_run = []
     investigative_searches_to_run = []
     support_searches_to_run = []
@@ -38,8 +37,9 @@ class DetectCommand(GeneratingCommand):
         investigative_data['search_name'] = content['action.escu.full_search_name']
         investigative_data['search_description'] = content['description']
         investigative_data['search'] = content['search']
+        investigative_data['entities'] = content['action.escu.entities']
         self.investigative_searches_to_run.append(investigative_data)
-        self.logger.info("invest.py - prepping to collect investigative_data: {0}".format(investigative_data['search_name']))
+        self.logger.info("detect.py - prepping to collect investigative_data: {0}".format(investigative_data['search_name']))
         return self.investigative_searches_to_run
 
     def _detection_searches(self, content):
@@ -47,9 +47,7 @@ class DetectCommand(GeneratingCommand):
         detection_data['search_name'] = content['action.escu.full_search_name']
         detection_data['search_description'] = content['description']
         detection_data['search'] = content['search']
-        detection_data['risk_object_type'] = content['action.risk.param._risk_object_type']
-        detection_data['risk_score'] = content['action.risk.param._risk_score']
-        detection_data['risk_object'] = content['action.risk.param._risk_object']
+        detection_data['entities'] = content['action.escu.entities']
         detection_data['mappings'] = json.loads(content['action.escu.mappings'])
         self.detection_searches_to_run.append(detection_data)
         #self.logger.info("detect.py - prepping to run detection search: {0}".format(detection_data['search_name']))
@@ -83,7 +81,6 @@ class DetectCommand(GeneratingCommand):
 
     def generate(self):
         story = self.story
-        risk = self.risk      
         search_results = self.search_results_info
         port = splunk.getDefault('port')
         service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner = "nobody")
@@ -120,12 +117,19 @@ class DetectCommand(GeneratingCommand):
                 #    self.runstory_results['support_search_name'] = "No Support searches in this story"
                 if content['action.escu.search_type'] == 'investigative':
                     investigative_searches_to_run = self._investigative_searches(content)
+                    investigative_search_name = []
                     investigative_searches = []
+                    entities = []
 
                     for search in investigative_searches_to_run:
                         
-                        investigative_searches.append(search['search_name'])
+                        investigative_search_name.append(search['search_name'])
+                        investigative_searches.append(search['search'])
+                        entities.append(search['entities'])
+
+                    self.runstory_results['investigative_search_name'] = investigative_search_name
                     self.runstory_results['investigative_searches'] = investigative_searches
+                    self.runstory_results['entities'] = entities
 
                 if content['action.escu.search_type'] == 'detection':
                     detection_searches_to_run = self._detection_searches(content)
@@ -166,30 +170,15 @@ class DetectCommand(GeneratingCommand):
                 for result in job_results:
                     detection_results.append(dict(result))
                     for key, value in result.items():
-                        if type(value) == list and key in search['risk_object']:
+                        if type(value) == list and key in search['entities']:
                             for i in value:
                                 if i not in entities:
                                     entities.append(i)
 
-                        if type(value) == str and key in search['risk_object'] and value not in entities:
+                        if type(value) == str and key in search['entities'] and value not in entities:
                             entities.append(value)
 
-                if risk == True:
-                    for i in entities:
-                        create_risk_score = "|makeresults" + "| eval story=\"" + \
-                            story + "\""  + "| eval search_name=\"" + \
-                            search['search_name'] + "\"" + "| eval risk_object = \"" + \
-                            str(i) + "\"" + "| eval risk_score = \"" + search['risk_score'] + \
-                            "\"" + "| eval risk_object_type = \"" + search['risk_object_type'] + \
-                            "\"" + "| sendalert risk"
-
-                        kwargs = {"exec_mode": "normal"}
-                        job = service.jobs.create(create_risk_score, **kwargs)
-                        while True:
-                            job.refresh()
-                            if job['isDone'] == "1":
-                                break
-
+                
                 collection.data.insert(json.dumps({"detection_search_name": search['search_name'], "detection_results": detection_results}))
                 
 
@@ -200,12 +189,7 @@ class DetectCommand(GeneratingCommand):
                 self.runstory_results['detection_result_count'] = job['resultCount']
                 self.runstory_results['detection_search_name'] = search['search_name']
                 self.runstory_results['mappings'] = search['mappings']
-                self.runstory_results['risk_object_type'] = search['risk_object_type']
-                self.runstory_results['risk_score'] = search['risk_score']
-                self.runstory_results['risk_object'] = search['risk_object']
                 self.runstory_results['collection_name'] = collection_name
-                #self.run_story_results['investigative_searches'] = 
-                #self.runstory_results['support_search_name'] = support_search_name
                 yield {
                         '_time': time.time(),
                         '_raw': self.runstory_results,
@@ -217,10 +201,9 @@ class DetectCommand(GeneratingCommand):
                         'detection_results': self.runstory_results['detection_results'],
                         'detection_search_name': self.runstory_results['detection_search_name'],
                         'detection_result_count': self.runstory_results['detection_result_count'],
-                        'risk_score': self.runstory_results['risk_score'],
-                        'risk_object_type': self.runstory_results['risk_object_type'],
-                        'risk_object': self.runstory_results['risk_object'],
-                        'investigative_search_name' : self.runstory_results['investigative_searches'],
+                        'investigative_search_name' : self.runstory_results['investigative_search_name'],
+                        'investigative_searches' : self.runstory_results['investigative_searches'],
+                        'entities': self.runstory_results['entities'],
                         'collection_name' : self.runstory_results['collection_name']
                      }
 
