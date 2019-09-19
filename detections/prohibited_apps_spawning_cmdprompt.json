@@ -60,7 +60,8 @@
   },
   "eli5": "Obtaining access to the Command-Line Interface (CLI) is typically a primary attacker goal. Once an attacker has obtained the ability to execute code on a target system, they will often further manipulate the system via commands passed to the CLI. It is also unusual for many applications to spawn a command shell during normal operation, while it is often observed if an application has been compromised in some way. As such, it is often beneficial to look for cmd.exe being executed by processes that are often targeted for exploitation, or that would not spawn cmd.exe in any other circumstances. A lookup file is provided to easily modify the processes that are being watched for execution of cmd.exe.",
   "entities": [
-    "dest"
+    "dest",
+    "process_name"
   ],
   "how_to_implement": "You must be ingesting data that records process activity from your hosts and populates the Endpoint data model with the resultant dataset. This search includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list of processes that should not be spawning cmd.exe. You can modify this lookup to better suit your environment.",
   "id": "dcfd6b40-42f9-469d-a433-2e53f7486664",
