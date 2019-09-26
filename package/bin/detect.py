@@ -10,18 +10,21 @@ import time
 from datetime import datetime, timedelta
 
 
-@Configuration(streaming=True,local=True)
+@Configuration(streaming=True, local=True)
 class DetectCommand(GeneratingCommand):
-
     logger = splunk.mining.dcutils.getLogger()
     story = Option(require=True)
-    
-    # global vasiables
+
+    # global variables
     detection_searches_to_run = []
     investigative_searches_to_run = []
     support_searches_to_run = []
-    runstory_results = {}
+    story_results = {}
     collection_names = []
+
+    def _dump(self, obj):
+        for attr in dir(obj):
+            self.logger.info("detect.py - obj.{0} = {1}".format(attr, getattr(obj, attr)))
 
     def _support_searches(self, content):
         support_data = {}
@@ -29,7 +32,7 @@ class DetectCommand(GeneratingCommand):
         support_data['search_description'] = content['description']
         support_data['search'] = content['search']
         self.support_searches_to_run.append(support_data)
-        #self.logger.info("detect.py - prepping to run support search: {0}".format(support_data['search_name']))
+        # self.logger.info("detect.py - prepping to run support search: {0}".format(support_data['search_name']))
         return self.support_searches_to_run
 
     def _investigative_searches(self, content):
@@ -37,9 +40,10 @@ class DetectCommand(GeneratingCommand):
         investigative_data['search_name'] = content['action.escu.full_search_name']
         investigative_data['search_description'] = content['description']
         investigative_data['search'] = content['search']
-        investigative_data['entities'] = content['action.escu.entities']
+        investigative_data['fields_required'] = content['action.escu.fields_required']
         self.investigative_searches_to_run.append(investigative_data)
-        self.logger.info("detect.py - prepping to collect investigative_data: {0}".format(investigative_data['search_name']))
+        self.logger.info(
+            "invest.py - prepping to collect investigative_data: {0}".format(investigative_data['search_name']))
         return self.investigative_searches_to_run
 
     def _detection_searches(self, content):
@@ -50,12 +54,13 @@ class DetectCommand(GeneratingCommand):
         detection_data['entities'] = content['action.escu.entities']
         detection_data['mappings'] = json.loads(content['action.escu.mappings'])
         self.detection_searches_to_run.append(detection_data)
-        #self.logger.info("detect.py - prepping to run detection search: {0}".format(detection_data['search_name']))
+        self.logger.info("detect.py - prepping to run detection search: {0}".format(detection_data['search_name']))
         return self.detection_searches_to_run
 
     def _run_support(self, support_searches_to_run, service, earliest_time, latest_time):
         # Run all Support searches
         support_search_name = []
+
         for search in support_searches_to_run:
             # setup service job
             latest_support_time = earliest_time
@@ -79,143 +84,192 @@ class DetectCommand(GeneratingCommand):
 
         return support_search_name
 
+    def _process_entities(self, result, search):
+        entity_results = dict()
+
+        for key, value in result.items():
+
+            # if the key exists lets append to it
+            if key in entity_results:
+                # self.logger.info("detect.py - entity value: {0} -- type {1}".format(key, type(value)))
+                # if the result back is a list and its name is a entity lets store each value
+                if type(value) == list and key in search['entities']:
+                    for i in value:
+                        # if we haven't stored this value lets add it
+                        if i not in entity_results[key]:
+                            entity_results[key].append(i)
+                # if the result is a string and is name is a entity of the detection lets store it
+                if type(value) == str and key in search['entities'] and value not in entity_results[key]:
+                    entity_results[key].append(value)
+            else:
+                # its the first time we see this entity lets create a list its values
+                entity_results[key] = []
+                if type(value) == list and key in search['entities']:
+                    for i in value:
+                        # if we haven't stored this value lets add it
+                        if i not in entity_results[key]:
+                            entity_results[key].append(i)
+
+                if type(value) == str and key in search['entities'] and value not in entity_results[key]:
+                    entity_results[key].append(value)
+
+        # lets build an entity object from the results and a list to store them in
+        entity = {}
+        for entity_name, entity_value in entity_results.items():
+
+            # first check that the entity result is not empty
+            if entity_value:
+                if entity_name in entity.keys():
+                    # self.logger.info( "detect.py - ENTITY name {0} EXISTS | ENTITY value {1} | SEARCH: {2}".format(entity_name,entity_value,search['search_name']))
+                    for v in entity_value:
+                        entity[entity_name]['count'] += 1
+                        entity[entity_name]['entity_results'].append(v)
+                else:
+                    # self.logger.info("detect.py - ENTITY name {0} DOES NOT EXISTS | ENTITY value {1} | SEARCH: {2}".format(entity_name,entity_value,search['search_name']))
+                    entity[entity_name] = {}
+                    for v in entity_value:
+                        if 'count' in entity[entity_name].keys():
+                            entity[entity_name]['count'] += 1
+                        else:
+                            entity[entity_name]['count'] = 1
+                        if 'entity_results' in entity[entity_name].keys():
+                            entity[entity_name]['entity_results'].append(v)
+                        else:
+                            entity[entity_name]['entity_results'] = []
+                            entity[entity_name]['entity_results'].append(v)
+        return entity
+
+    def _store_collections(self, collection):
+        collection_results = {}
+        collection_results['story'] = self.story
+        collection_results['detections'] = self.story_results['detections']
+        collection_results['executed_by'] = self.story_results['executed_by']
+        collection.data.insert(json.dumps(collection_results))
+
     def generate(self):
-        story = self.story
-        search_results = self.search_results_info
+
+        # connect to splunk and start execution
         port = splunk.getDefault('port')
-        service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner = "nobody")
+        service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner="nobody")
         self.logger.info("detect.pytime - starting run story")
 
-        if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
-            earliest_time = search_results.search_et
-            latest_time = search_results.search_lt
+        # get story name
+        self.story_results['story'] = self.story
 
+        # get username
+        search = '| rest /services/authentication/current-context/context | fields + username'
+        results = service.jobs.oneshot(search)
+        username_results = splunklib.results.ResultsReader(results)
+        username = next(iter(username_results))['username']
+        self.story_results['executed_by'] = username
+
+        # get time window
+        if hasattr(self.search_results_info, 'search_et') and hasattr(self.search_results_info, 'search_lt'):
+            earliest_time = self.search_results_info.search_et
+            latest_time = self.search_results_info.search_lt
+
+        # get saved_searches
         savedsearches = service.saved_searches
-        collection_name = []
 
-        # for collection in service.kvstore:
-        #     collection_name.append(collection.name)
-
+        # create collection if it does not exists otherwise wipe it
         collection_name = "story_results"
         if collection_name in service.kvstore:
-                service.kvstore.delete(collection_name)
-    
-    # Let's create it and then make sure it exists    
+            service.kvstore.delete(collection_name)
         service.kvstore.create(collection_name)
         collection = service.kvstore[collection_name]
-            
 
+        # get all savedsearches content
         for savedsearch in savedsearches:
             content = savedsearch.content
 
-            if 'action.escu.analytic_story' in content and story in content['action.escu.analytic_story']:
+            # check we are on the right story
+            if 'action.escu.analytic_story' in content and self.story in content['action.escu.analytic_story']:
+
+                # if it has a support search grab it otherwise replace its value with a message
+                # THIS CAN BE REMOVED AFTER BASELINE MODULE IS CONSTRUCTED
                 if content['action.escu.search_type'] == 'support':
                     support_searches_to_run = self._support_searches(content)
-                    self.runstory_results['support_search_name'] = self._run_support(support_searches_to_run, service,earliest_time,latest_time)
-                # else:
-                
-                #    self.runstory_results['support_search_name'] = "No Support searches in this story"
-                if content['action.escu.search_type'] == 'investigative':
-                    investigative_searches_to_run = self._investigative_searches(content)
-                    investigative_search_name = []
-                    investigative_searches = []
-                    entities = []
+                    support_search_name = self._run_support(support_searches_to_run, service, earliest_time,
+                                                            latest_time)
+                else:
+                    support_search_name = ["no support/baseline search in this analytics story"]
 
-                    for search in investigative_searches_to_run:
-                        
-                        investigative_search_name.append(search['search_name'])
-                        investigative_searches.append(search['search'])
-                        entities.append(search['entities'])
-
-                    self.runstory_results['investigative_search_name'] = investigative_search_name
-                    self.runstory_results['investigative_searches'] = investigative_searches
-                    self.runstory_results['entities'] = entities
-
+                # if it has detection searches grab it
                 if content['action.escu.search_type'] == 'detection':
                     detection_searches_to_run = self._detection_searches(content)
 
-    # run all support searches and store its name to display later
-        self.logger.info("detect.py - start support search:")
-        
-        self.logger.info("detect.py - start detection search:")
+        # lets create a array to store our detections in
+        self.story_results['detections'] = []
 
-        #Running detections without a function in order to yield proper results back in splunk. Havent found a good way around this yet. 
+        # run detection searches
         for search in detection_searches_to_run:
 
-            self.runstory_results['detection_results'] = []
+            # set parameters for search
             kwargs = {"exec_mode": "normal", "earliest_time": earliest_time, "latest_time": latest_time}
             spl = search['search']
             self.logger.info("detect.py - running detection search: {0}".format(search['search_name']))
+
+            # add pipe if is missing
             if spl[0] != "|":
                 spl = "| search %s" % spl
+
+            # dispatch job
             job = service.jobs.create(spl, **kwargs)
 
-
+            # we sleep for 2 seconds to not DOS Splunk with submitting searches
             time.sleep(2)
+
+            # check for results, if done we process them
             while True:
                 job.refresh()
                 if job['isDone'] == "1":
                     self.logger.info("detect.py - Finished Detection search: {0}".format(search['search_name']))
                     break
 
-
+            # process raw results with reader
             job_results = splunklib.results.ResultsReader(job.results())
-            
 
+            # if there are results lets process them
             if job['resultCount'] > "0":
+                # place to store results and entity results
                 detection_results = []
+
                 entities = []
-                self.runstory_results['entities'] = []
-
+                # process results
                 for result in job_results:
+                    # add store detection results
                     detection_results.append(dict(result))
-                    for key, value in result.items():
-                        if type(value) == list and key in search['entities']:
-                            for i in value:
-                                if i not in entities:
-                                    entities.append(i)
 
-                        if type(value) == str and key in search['entities'] and value not in entities:
-                            entities.append(value)
+                    # lets process entity results now
+                    entity = self._process_entities(result, search)
 
-                
-                collection.data.insert(json.dumps({"detection_search_name": search['search_name'], "detection_results": detection_results}))
-                
+                entities.append(entity)
 
-                self.logger.info("detect.py - Results: {0}".format(detection_results))
+                self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
 
-                self.runstory_results['entities'] = entities
-                self.runstory_results['detection_results'] = detection_results
-                self.runstory_results['detection_result_count'] = job['resultCount']
-                self.runstory_results['detection_search_name'] = search['search_name']
-                self.runstory_results['mappings'] = search['mappings']
-                self.runstory_results['collection_name'] = collection_name
-                yield {
-                        '_time': time.time(),
-                        '_raw': self.runstory_results,
-                        'sourcetype': "_json",
-                        'story': story,
-                        'support_search_name': self.runstory_results['support_search_name'],
-                        'entities': self.runstory_results['entities'],
-                        'mappings': self.runstory_results['mappings'],
-                        'detection_results': self.runstory_results['detection_results'],
-                        'detection_search_name': self.runstory_results['detection_search_name'],
-                        'detection_result_count': self.runstory_results['detection_result_count'],
-                        'investigative_search_name' : self.runstory_results['investigative_search_name'],
-                        'investigative_searches' : self.runstory_results['investigative_searches'],
-                        'entities': self.runstory_results['entities'],
-                        'collection_name' : self.runstory_results['collection_name']
-                     }
+                detection = {}
+                detection['detection_result_count'] = job['resultCount']
+                detection['detection_search_name'] = search['search_name']
+                detection['mappings'] = search['mappings']
+                detection['detection_results'] = detection_results
+                detection['support_search_name'] = support_search_name
+                detection['entities'] = entities
+                self.story_results['detections'].append(detection)
 
+                # lets store our collections
+                self._store_collections(collection)
 
+        yield {
+            '_time': time.time(),
+            '_raw': self.story_results,
+            'sourcetype': "_json",
+            'story': self.story,
+            'detections': self.story_results['detections'],
+            'executed_by': self.story_results['executed_by']
+        }
 
-        self.logger.info("detect.py - FINSIHED detection search:")
-
-        
-        #self.logger.info("detect.py - FINAL object: {0}".format(self.runstory_results))
-
-        
     def __init__(self):
-            super(DetectCommand, self).__init__()
+        super(DetectCommand, self).__init__()
+
 
 dispatch(DetectCommand, sys.argv, sys.stdin, sys.stdout, __name__)
