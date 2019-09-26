@@ -84,8 +84,7 @@ class DetectCommand(GeneratingCommand):
 
         return support_search_name
 
-    def _process_entities(self, result, search):
-        entity_results = dict()
+    def _process_entities(self, result, search, entity_results):
 
         for key, value in result.items():
 
@@ -235,13 +234,15 @@ class DetectCommand(GeneratingCommand):
                 detection_results = []
 
                 entities = []
+                entity_results = dict()
+
                 # process results
                 for result in job_results:
                     # add store detection results
                     detection_results.append(dict(result))
 
                     # lets process entity results now
-                    entity = self._process_entities(result, search)
+                    entity = self._process_entities(result, search, entity_results)
 
                 entities.append(entity)
 
