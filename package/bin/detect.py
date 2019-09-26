@@ -22,12 +22,9 @@ class DetectCommand(GeneratingCommand):
     support_searches_to_run = []
     story_results = {}
     collection_names = []
+    COLLECTION_NAME = "story_results_test"
 
-    def _dump(self, obj):
-        for attr in dir(obj):
-            c=0
-            #self.logger.info("detect.py - obj.{0} = {1}".format(attr, getattr(obj, attr)))
-
+    
     def _support_searches(self, content):
         support_data = {}
         support_data['search_name'] = content['action.escu.full_search_name']
@@ -182,11 +179,12 @@ class DetectCommand(GeneratingCommand):
 
         # create collection if it does not exists otherwise wipe it
         collection_name = "story_results_test"
-        if collection_name in service.kvstore:
-            service.kvstore.delete(collection_name)
-        service.kvstore.create(collection_name)
-        collection = service.kvstore[collection_name]
-        support_search_name = ["no support/baseline search in this analytics story"]
+        if self.COLLECTION_NAME in service.kvstore:
+            service.kvstore.delete(self.COLLECTION_NAME)
+        service.kvstore.create(self.COLLECTION_NAME)
+
+        collection = service.kvstore[self.COLLECTION_NAME]
+        support_search_name = ["No Support or Baseline search in this Analytic Story"]
 
         # get all savedsearches content
         for savedsearch in savedsearches:
