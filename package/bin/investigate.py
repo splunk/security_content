@@ -15,44 +15,78 @@ from datetime import datetime, timedelta
 class Investigate(StreamingCommand):
 
   logger = splunk.mining.dcutils.getLogger()
-  def stream(self, records):
+  investigative_searches_to_run = []
+  runstory_results={}
+  final_search = ""
 
-    investigative_search_name = []
-    investigative_search_fields_required = []
-    investigative_searches = []
-    detection_results = []
-    risk_object = []
-    runstory_results = {}
-    entities= []
+  def _investigative_searches(self, content):
+        investigative_data = {}
+        investigative_data['search_name'] = content['action.escu.full_search_name']
+        investigative_data['search_description'] = content['description']
+        investigative_data['search'] = content['search']
+        investigative_data['entities'] = content['action.escu.entities']
+        self.investigative_searches_to_run.append(investigative_data)
+        return self.investigative_searches_to_run
+
+  def _generate_investigation_objects(self,entity):
+        for key, value in entity.items():
+            
+            for investigative_search in self.investigative_searches_to_run:
+                search = investigative_search['search']
+                search_name = investigative_search['search_name']
+                investigative_entities = json.loads(investigative_search['entities'])
+                
+                if key in investigative_entities:
+                  #self.logger.info("investigate.py - Collection: {0}".format(len(value['entity_results'])))
+                  key = "{" + key + "}"
+                  for v in value['entity_results']:                
+                    self.final_search = (search.replace(key,v))
+                    self.logger.info("investigate.py - Collection: {0}".format(self.final_search))
+
+                  return self.final_search 
+                    
+
+
+  def stream(self, records):
+    
     search_results = self.search_results_info
     port = splunk.getDefault('port')
-    service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port)
+    service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner = "nobody")
     savedsearches = service.saved_searches
 
     if hasattr(search_results, 'search_et') and hasattr(search_results, 'search_lt'):
           earliest_time = search_results.search_et
           latest_time = search_results.search_lt
+  
+    common_entities = []
+    investigative_searches = []
+    story = "Malicious PowerShell"
+    collection_name = "detectionresults"
+    collection = service.kvstore[collection_name]
+    
 
-    for record in records: 
+    if collection_name in service.kvstore:
+        self.logger.info("investigate.py - Collection: {0}".format(collection_name))
 
-      detection_results.append(record['detection_results'])
-      entities.append(record['entities'])
-      investigative_search_name.append(record['investigative_search_name'])
-      investigative_searches .append(record['investigative_searches'])
-      risk_object.append(record['risk_object'])
+    for savedsearch in savedsearches:
+      content = savedsearch.content
+      if 'action.escu.analytic_story' in content and story in content['action.escu.analytic_story']:          
+          if content['action.escu.search_type'] == 'investigative':                   
+              self.investigative_searches_to_run = self._investigative_searches(content)
+    
+    detection_results = collection.data.query()   
+    for detection_result in detection_results:
+      
+      for each_result in detection_result['detections']:    
 
-      record['WIN'] = entities
+        # Loop through values in the entities key 
+          for entity in (each_result['entities']):
+              final_search = self._generate_investigation_objects(entity)
+              #self.logger.info("investigate.py - FINAL SEARCH: {0}".format(final_search))
+
+    for record in records:        
       yield record
-
-    self.logger.info("investigate.py - PRINTING THE RECORDS: {0}".format(entities))
-    self.logger.info("investigate.py - PRINTING THE RECORDS: {0}".format(investigative_search_name))
-    self.logger.info("investigate.py - PRINTING THE RECORDS: {0}".format(investigative_searches)) 
-
-
-
-
-
-      #replace the values in the searches
+            
 
 
       #Run the searches
