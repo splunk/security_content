@@ -48,7 +48,9 @@
   },
   "eli5": "This search looks for PowerShell processes that have a number of suspicious flags on the command-line. It is looking for flags are passing encoded commands on the command-line. The flags `-EncodedCommand` and `-enc` are two different possible flags that can be used to pass base64 encoded commands to PowerShell. The `*-Exec*` flag looks to see it the default execution policy of PowerShell is being overridden, while the `*-NonI*` flag tells the PowerShell process that this will be a noninteractive process, so the user doesn't know about the process. This search will return the host, the user the process ran under, the process and it's command-line arguments, the number of times it's seen this process, and the first and last times it saw this process.",
   "entities": [
-    "dest"
+    "dest",
+    "process_name",
+    "user"
   ],
   "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the \"process\" field in the Endpoint data model.",
   "id": "2cdb91d2-542c-497f-b252-be495e71f38c",
