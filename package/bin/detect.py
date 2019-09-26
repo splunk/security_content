@@ -8,6 +8,7 @@ from splunklib.searchcommands.validators import Boolean
 import splunk.mining.dcutils
 import time
 from datetime import datetime, timedelta
+import re
 
 
 @Configuration(streaming=True, local=True)
@@ -24,7 +25,8 @@ class DetectCommand(GeneratingCommand):
 
     def _dump(self, obj):
         for attr in dir(obj):
-            self.logger.info("detect.py - obj.{0} = {1}".format(attr, getattr(obj, attr)))
+            c=0
+            #self.logger.info("detect.py - obj.{0} = {1}".format(attr, getattr(obj, attr)))
 
     def _support_searches(self, content):
         support_data = {}
@@ -88,28 +90,36 @@ class DetectCommand(GeneratingCommand):
 
         for key, value in result.items():
 
+            # Convert search['entities'] to a list
+            entities = str(search['entities']).strip('][').replace('"','').split(', ')
+            
             # if the key exists lets append to it
+
             if key in entity_results:
-                # self.logger.info("detect.py - entity value: {0} -- type {1}".format(key, type(value)))
+                
                 # if the result back is a list and its name is a entity lets store each value
-                if type(value) == list and key in search['entities']:
-                    for i in value:
-                        # if we haven't stored this value lets add it
-                        if i not in entity_results[key]:
-                            entity_results[key].append(i)
-                # if the result is a string and is name is a entity of the detection lets store it
-                if type(value) == str and key in search['entities'] and value not in entity_results[key]:
-                    entity_results[key].append(value)
-            else:
-                # its the first time we see this entity lets create a list its values
-                entity_results[key] = []
-                if type(value) == list and key in search['entities']:
+                if type(value) == list and key in entities:
                     for i in value:
                         # if we haven't stored this value lets add it
                         if i not in entity_results[key]:
                             entity_results[key].append(i)
 
-                if type(value) == str and key in search['entities'] and value not in entity_results[key]:
+                # if the result is a string and is name is a entity of the detection lets store it
+                
+                    
+                if type(value) == str and key in entities and value not in entity_results[key]:
+                    entity_results[key].append(value)
+                    
+            else:
+                # its the first time we see this entity lets create a list its values
+                entity_results[key] = []
+                if type(value) == list and key in entities:
+                    for i in value:
+                        # if we haven't stored this value lets add it
+                        if i not in entity_results[key]:
+                            entity_results[key].append(i)
+
+                if type(value) == str and key in entities and value not in entity_results[key]:
                     entity_results[key].append(value)
 
         # lets build an entity object from the results and a list to store them in
@@ -171,15 +181,17 @@ class DetectCommand(GeneratingCommand):
         savedsearches = service.saved_searches
 
         # create collection if it does not exists otherwise wipe it
-        collection_name = "story_results"
+        collection_name = "story_results_test"
         if collection_name in service.kvstore:
             service.kvstore.delete(collection_name)
         service.kvstore.create(collection_name)
         collection = service.kvstore[collection_name]
+        support_search_name = ["no support/baseline search in this analytics story"]
 
         # get all savedsearches content
         for savedsearch in savedsearches:
             content = savedsearch.content
+            
 
             # check we are on the right story
             if 'action.escu.analytic_story' in content and self.story in content['action.escu.analytic_story']:
@@ -190,9 +202,7 @@ class DetectCommand(GeneratingCommand):
                     support_searches_to_run = self._support_searches(content)
                     support_search_name = self._run_support(support_searches_to_run, service, earliest_time,
                                                             latest_time)
-                else:
-                    support_search_name = ["no support/baseline search in this analytics story"]
-
+                    
                 # if it has detection searches grab it
                 if content['action.escu.search_type'] == 'detection':
                     detection_searches_to_run = self._detection_searches(content)
@@ -246,7 +256,7 @@ class DetectCommand(GeneratingCommand):
 
                 entities.append(entity)
 
-                self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
+                #self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
 
                 detection = {}
                 detection['detection_result_count'] = job['resultCount']
