@@ -60,6 +60,7 @@ class DetectCommand(GeneratingCommand):
     def _run_support(self, support_searches_to_run, service, earliest_time, latest_time):
         # Run all Support searches
         support_search_name = []
+
         for search in support_searches_to_run:
             # setup service job
             latest_support_time = earliest_time
@@ -82,6 +83,68 @@ class DetectCommand(GeneratingCommand):
             support_search_name.append(search['search_name'])
 
         return support_search_name
+
+    def _process_entities(self, result, search):
+        entity_results = dict()
+
+        for key, value in result.items():
+
+            # if the key exists lets append to it
+            if key in entity_results:
+                # self.logger.info("detect.py - entity value: {0} -- type {1}".format(key, type(value)))
+                # if the result back is a list and its name is a entity lets store each value
+                if type(value) == list and key in search['entities']:
+                    for i in value:
+                        # if we haven't stored this value lets add it
+                        if i not in entity_results[key]:
+                            entity_results[key].append(i)
+                # if the result is a string and is name is a entity of the detection lets store it
+                if type(value) == str and key in search['entities'] and value not in entity_results[key]:
+                    entity_results[key].append(value)
+            else:
+                # its the first time we see this entity lets create a list its values
+                entity_results[key] = []
+                if type(value) == list and key in search['entities']:
+                    for i in value:
+                        # if we haven't stored this value lets add it
+                        if i not in entity_results[key]:
+                            entity_results[key].append(i)
+
+                if type(value) == str and key in search['entities'] and value not in entity_results[key]:
+                    entity_results[key].append(value)
+
+        # lets build an entity object from the results and a list to store them in
+        entity = {}
+        for entity_name, entity_value in entity_results.items():
+
+            # first check that the entity result is not empty
+            if entity_value:
+                if entity_name in entity.keys():
+                    # self.logger.info( "detect.py - ENTITY name {0} EXISTS | ENTITY value {1} | SEARCH: {2}".format(entity_name,entity_value,search['search_name']))
+                    for v in entity_value:
+                        entity[entity_name]['count'] += 1
+                        entity[entity_name]['entity_results'].append(v)
+                else:
+                    # self.logger.info("detect.py - ENTITY name {0} DOES NOT EXISTS | ENTITY value {1} | SEARCH: {2}".format(entity_name,entity_value,search['search_name']))
+                    entity[entity_name] = {}
+                    for v in entity_value:
+                        if 'count' in entity[entity_name].keys():
+                            entity[entity_name]['count'] += 1
+                        else:
+                            entity[entity_name]['count'] = 1
+                        if 'entity_results' in entity[entity_name].keys():
+                            entity[entity_name]['entity_results'].append(v)
+                        else:
+                            entity[entity_name]['entity_results'] = []
+                            entity[entity_name]['entity_results'].append(v)
+        return entity
+
+    def _store_collections(self, collection):
+        collection_results = {}
+        collection_results['story'] = self.story
+        collection_results['detections'] = self.story_results['detections']
+        collection_results['executed_by'] = self.story_results['executed_by']
+        collection.data.insert(json.dumps(collection_results))
 
     def generate(self):
 
@@ -171,65 +234,15 @@ class DetectCommand(GeneratingCommand):
                 # place to store results and entity results
                 detection_results = []
 
-                entity_results = dict()
                 entities = []
                 # process results
                 for result in job_results:
-
                     # add store detection results
                     detection_results.append(dict(result))
 
                     # lets process entity results now
-                    for key, value in result.items():
+                    entity = self._process_entities(result, search)
 
-                        # if the key exists lets append to it
-                        if key in entity_results:
-                            # self.logger.info("detect.py - entity value: {0} -- type {1}".format(key, type(value)))
-                            # if the result back is a list and its name is a entity lets store each value
-                            if type(value) == list and key in search['entities']:
-                                for i in value:
-                                    # if we haven't stored this value lets add it
-                                    if i not in entity_results[key]:
-                                        entity_results[key].append(i)
-                            # if the result is a string and is name is a entity of the detection lets store it
-                            if type(value) == str and key in search['entities'] and value not in entity_results[key]:
-                                entity_results[key].append(value)
-                        else:
-                            # its the first time we see this entity lets create a list its values
-                            entity_results[key] = []
-                            if type(value) == list and key in search['entities']:
-                                for i in value:
-                                    # if we haven't stored this value lets add it
-                                    if i not in entity_results[key]:
-                                        entity_results[key].append(i)
-
-                            if type(value) == str and key in search['entities'] and value not in entity_results[key]:
-                                entity_results[key].append(value)
-
-                    # lets build an entity object from the results and a list to store them in
-                    entity = {}
-                    for entity_name, entity_value in entity_results.items():
-
-                        # first check that the entity result is not empty
-                        if entity_value:
-                            if entity_name in entity.keys():
-                                # self.logger.info( "detect.py - ENTITY name {0} EXISTS | ENTITY value {1} | SEARCH: {2}".format(entity_name,entity_value,search['search_name']))
-                                for v in entity_value:
-                                    entity[entity_name]['count'] += 1
-                                    entity[entity_name]['entity_results'].append(v)
-                            else:
-                                # self.logger.info("detect.py - ENTITY name {0} DOES NOT EXISTS | ENTITY value {1} | SEARCH: {2}".format(entity_name,entity_value,search['search_name']))
-                                entity[entity_name] = {}
-                                for v in entity_value:
-                                    if 'count' in entity[entity_name].keys():
-                                        entity[entity_name]['count'] += 1
-                                    else:
-                                        entity[entity_name]['count'] = 1
-                                    if 'entity_results' in entity[entity_name].keys():
-                                        entity[entity_name]['entity_results'].append(v)
-                                    else:
-                                        entity[entity_name]['entity_results'] = []
-                                        entity[entity_name]['entity_results'].append(v)
                 entities.append(entity)
 
                 self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
@@ -243,11 +256,8 @@ class DetectCommand(GeneratingCommand):
                 detection['entities'] = entities
                 self.story_results['detections'].append(detection)
 
-        collection_results = {}
-        collection_results['story'] = self.story
-        collection_results['detections'] = self.story_results['detections']
-        collection_results['executed_by'] = self.story_results['executed_by']
-        collection.data.insert(json.dumps(collection_results))
+                # lets store our collections
+                self._store_collections(collection)
 
         yield {
             '_time': time.time(),
