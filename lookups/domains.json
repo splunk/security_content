@@ -1,0 +1,5 @@
+{
+    "description": "A list of domains that can be whitelisted", 
+    "filename": "domains.csv", 
+    "name": "domains"
+}

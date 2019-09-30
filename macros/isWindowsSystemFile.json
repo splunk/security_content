@@ -1,0 +1,5 @@
+{
+    "definition": "lookup update=true isWindowsSystemFile_lookup filename as process_name OUTPUT systemFile | search systemFile=true", 
+    "description": "This macro limits the output to process names that are in the Windows System directory",
+    "name": "isWindowsSystemFile"
+}

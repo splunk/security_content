@@ -196,29 +196,12 @@
         "description": "Various fields to enhance usability in Enterprise Security",
         "properties": {
           "macros": {
-            "description": "A list of macros in the search that can be used for filtering",
+            "description": "A list of macros in the search",
+            "examples": [
+              "detection_search_output_filter"
+            ],
             "items": {
-              "properties": {
-                "name" : {
-                  "description": "The name of the macro",
-                  "examples": [
-                    "detection_search_output_filter"
-                  ],
-                  "type": "string"
-                },
-                "description" : {
-                  "description": "What the macro is intended to filter",
-                  "examples": [
-                    "Use this macro to filter out known good objects"
-                  ],
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name",
-                "description"
-              ],
-              "type": "object"
+              "type": "string"
             },
             "type": "array"
           },
