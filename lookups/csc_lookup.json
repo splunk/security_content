@@ -1,6 +1,6 @@
 {
     "description": "The CSC control numbers and names", 
     "filename": "csc_lookup.csv", 
-    "min_matches": "1", 
+    "min_matches": 1, 
     "name": "csc_lookup"
 }

@@ -3,6 +3,6 @@
     "description": "A list of suspicious file names", 
     "filename": "suspicious_files.csv", 
     "match_type": "WILDCARD(file)", 
-    "min_matches": "1", 
+    "min_matches": 1, 
     "name": "suspicious_writes_lookup"
 }

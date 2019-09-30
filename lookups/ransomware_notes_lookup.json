@@ -3,6 +3,6 @@
     "description": "A list of file names that are ransomware note files", 
     "filename": "ransomware_notes.csv", 
     "match_type": "WILDCARD(ransomware_notes)", 
-    "min_matches": "1", 
+    "min_matches": 1, 
     "name": "ransomware_notes_lookup"
 }

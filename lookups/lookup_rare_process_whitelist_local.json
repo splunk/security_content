@@ -4,6 +4,6 @@
     "description": "A list of rare processes that are legitimate provided by the end user", 
     "filename": "rare_process_whitelist_local.csv", 
     "match_type": "WILDCARD(process)", 
-    "min_matches": "1", 
+    "min_matches": 1, 
     "name": "lookup_rare_process_whitelist_local"
 }
