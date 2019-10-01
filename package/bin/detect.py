@@ -22,7 +22,8 @@ class DetectCommand(GeneratingCommand):
     support_searches_to_run = []
     story_results = {}
     collection_names = []
-    COLLECTION_NAME = "story_results_test"
+    COLLECTION_NAME = "mp_detect"
+    collection_results = {}
 
     
     def _support_searches(self, content):
@@ -146,11 +147,11 @@ class DetectCommand(GeneratingCommand):
         return entity
 
     def _store_collections(self, collection):
-        collection_results = {}
-        collection_results['story'] = self.story
-        collection_results['detections'] = self.story_results['detections']
-        collection_results['executed_by'] = self.story_results['executed_by']
-        collection.data.insert(json.dumps(collection_results))
+        
+        self.collection_results['story'] = self.story
+        self.collection_results['detections'] = self.story_results['detections']
+        self.collection_results['executed_by'] = self.story_results['executed_by']
+        collection.data.insert(json.dumps(self.collection_results))
 
     def generate(self):
 
@@ -266,7 +267,7 @@ class DetectCommand(GeneratingCommand):
                 self.story_results['detections'].append(detection)
 
                 # lets store our collections
-                self._store_collections(collection)
+        self._store_collections(collection)
 
         yield {
             '_time': time.time(),
