@@ -875,6 +875,12 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
                 output_file.write("action.notable.param.severity = {0}\n"
                                   .format(detection['confidence']))
 
+            if 'drilldown_name' in detection['correlation_rule']['notable'] and 'drilldown_search' in detection['correlation_rule']['notable']:
+                output_file.write("action.notable.param.drilldown_name = {0}\n"
+                                  .format(detection['correlation_rule']['notable']['drilldown_name']))
+                output_file.write("action.notable.param.drilldown_search = {0}\n"
+                                  .format(detection['correlation_rule']['notable']['drilldown_search']))
+                
             # include investigative search as a notable action
             # this is code that needs to be cleaned up on its implementation in ES
             investigations_output = ""
