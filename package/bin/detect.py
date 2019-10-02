@@ -22,7 +22,7 @@ class DetectCommand(GeneratingCommand):
     support_searches_to_run = []
     story_results = {}
     collection_names = []
-    COLLECTION_NAME = "mp_detect"
+    COLLECTION_NAME = "mpd _detect"
     collection_results = {}
 
     
