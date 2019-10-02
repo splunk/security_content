@@ -103,6 +103,16 @@
           },
           "type": "object"
         },
+        "lookups": {
+          "description": "A list of lookups in the search",
+          "examples": [
+            "detection_search_lookup"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "macros": {
           "description": "A list of macros in the search",
           "examples": [
