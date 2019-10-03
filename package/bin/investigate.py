@@ -229,7 +229,6 @@ class Investigate(StreamingCommand):
 
      
     for record in records:
-      #record['investigations'] = json.dumps(investigations)
 
       yield record
 
