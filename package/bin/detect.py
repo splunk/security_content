@@ -22,7 +22,7 @@ class DetectCommand(GeneratingCommand):
     support_searches_to_run = []
     story_results = {}
     collection_names = []
-    COLLECTION_NAME = "mpd _detect"
+    COLLECTION_NAME = "mp_detect_new"
     collection_results = {}
 
     
@@ -179,7 +179,7 @@ class DetectCommand(GeneratingCommand):
         savedsearches = service.saved_searches
 
         # create collection if it does not exists otherwise wipe it
-        collection_name = "story_results_test"
+        #collection_name = "story_results_test"
         if self.COLLECTION_NAME in service.kvstore:
             service.kvstore.delete(self.COLLECTION_NAME)
         service.kvstore.create(self.COLLECTION_NAME)
