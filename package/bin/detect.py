@@ -25,7 +25,6 @@ class DetectCommand(GeneratingCommand):
     COLLECTION_NAME = "mp_detect_new"
     collection_results = {}
 
-    
     def _support_searches(self, content):
         support_data = {}
         support_data['search_name'] = content['action.escu.full_search_name']
@@ -85,16 +84,15 @@ class DetectCommand(GeneratingCommand):
         return support_search_name
 
     def _process_entities(self, result, search, entity_results):
-
         for key, value in result.items():
 
             # Convert search['entities'] to a list
-            entities = str(search['entities']).strip('][').replace('"','').split(', ')
-            
+            entities = str(search['entities']).strip('][').replace('"', '').split(', ')
+
             # if the key exists lets append to it
 
             if key in entity_results:
-                
+
                 # if the result back is a list and its name is a entity lets store each value
                 if type(value) == list and key in entities:
                     for i in value:
@@ -103,11 +101,10 @@ class DetectCommand(GeneratingCommand):
                             entity_results[key].append(i)
 
                 # if the result is a string and is name is a entity of the detection lets store it
-                
-                    
+
                 if type(value) == str and key in entities and value not in entity_results[key]:
                     entity_results[key].append(value)
-                    
+
             else:
                 # its the first time we see this entity lets create a list its values
                 entity_results[key] = []
@@ -147,12 +144,11 @@ class DetectCommand(GeneratingCommand):
         return entity
 
     def _store_collections(self, collection):
-        
+
         self.collection_results['story'] = self.story
         self.collection_results['detections'] = self.story_results['detections']
         self.collection_results['executed_by'] = self.story_results['executed_by']
         collection.data.insert(json.dumps(self.collection_results))
-
 
     def _get_username(self, service):
         search = '| rest /services/authentication/current-context/context | fields + username'
@@ -161,8 +157,8 @@ class DetectCommand(GeneratingCommand):
         username = next(iter(username_results))['username']
         self.story_results['executed_by'] = username
 
+    def _process_job_results(self, job, job_results, search, support_search_name):
 
-    def _process_job_results(self,job_reults):
         # if there are results lets process them
         if job['resultCount'] > "0":
             # place to store results and entity results
@@ -191,7 +187,7 @@ class DetectCommand(GeneratingCommand):
             detection['entities'] = entities
             self.story_results['detections'].append(detection)
 
-    def _run_detections(self, detection_searches_to_run, service, earliest_time, latest_time):
+    def _run_detections(self, detection_searches_to_run, service, earliest_time, latest_time, support_search_name):
         # create an array to store our detections in
         self.story_results['detections'] = []
 
@@ -224,8 +220,7 @@ class DetectCommand(GeneratingCommand):
             job_results = splunklib.results.ResultsReader(job.results())
 
             # process job results into detection objects extract the necessary keys
-            self._process_job_results(job_results)
-
+            self._process_job_results(job, job_results, search, support_search_name)
 
     def generate(self):
 
@@ -258,26 +253,40 @@ class DetectCommand(GeneratingCommand):
         # if there are no support searches lets pre-set a value
         support_search_name = ["No Support or Baseline search in this Analytic Story"]
 
+        # lets create a container of detection searches to run
+        detection_searches_to_run = []
+
         # get all savedsearches content
         for savedsearch in savedsearches:
             content = savedsearch.content
 
             # check we are on the right story
-            if 'action.escu.analytic_story' in content and self.story in content['action.escu.analytic_story']:
+            if 'action.escu.analytic_story' in content:
+               stories = str(content['action.escu.analytic_story']).strip('][').replace('"', '').split(', ')
+               for s in stories:
+                    self.logger.info(
+                        "detect.py - S {0}".format(s))
 
-                # if it has a support search grab it otherwise replace its value with a message
-                # THIS CAN BE REMOVED AFTER BASELINE MODULE IS CONSTRUCTED
-                if content['action.escu.search_type'] == 'support':
-                    support_searches_to_run = self._support_searches(content)
-                    support_search_name = self._run_support(support_searches_to_run, service, earliest_time,
+                    if s == self.story:
+                        # if it has a support search grab it otherwise replace its value with a message
+                        # THIS CAN BE REMOVED AFTER BASELINE MODULE IS CONSTRUCTED
+                        if content['action.escu.search_type'] == 'support':
+                            support_searches_to_run = self._support_searches(content)
+                            support_search_name = self._run_support(support_searches_to_run, service, earliest_time,
                                                             latest_time)
-                    
-                # if it has detection searches grab it
-                if content['action.escu.search_type'] == 'detection':
-                    detection_searches_to_run = self._detection_searches(content)
+
+                        # if it has detection searches grab it
+                        if content['action.escu.search_type'] == 'detection':
+                            detection_searches_to_run = self._detection_searches(content)
+
+        # if detection to run is empty we likely got a incorrect story name
+        if len(detection_searches_to_run) < 1:
+            raise Exception(
+                'no detections found for story: {0} .. try a correct story name or check spelling'.format(self.story))
+
 
         # now lets run all the detection searches and process their results into story_results['detections']
-        self._run_detections(detection_searches_to_run, service, earliest_time,latest_time)
+        self._run_detections(detection_searches_to_run, service, earliest_time, latest_time, support_search_name)
 
         # lets store our collections
         self._store_collections(collection)
