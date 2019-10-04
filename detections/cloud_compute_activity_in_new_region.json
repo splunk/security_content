@@ -31,7 +31,7 @@
           "rule_description": "A cloud compute instance, $dest$ is started in a new, previously unseen, region $region$",
           "rule_title": "Cloud instance $dest$ started in a new region $region$",
           "drilldown_name": "See all activity in $region$",
-          "drilldown_search": "| from datamodel:Cloud_Draft_v4.Cloud_Compute | search region=\"$region$\""
+          "drilldown_search": "| from datamodel:Cloud_Draft_v6.Compute | search region=\"$region$\""
         },
         "risk": {
           "risk_object": "dest",
@@ -45,9 +45,9 @@
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
         },
-        "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Cloud_Compute.dest) as dest from datamodel=Cloud_Draft_v4.Cloud_Compute where Cloud_Compute.event_name=RunInstances by Cloud_Compute.region, Cloud_Compute.src_user | `drop_dm_object_name(\"Cloud_Compute\")` | inputlookup append=t previously_cloud_regions_test.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by region, src_user | multireport [| table region, firstTime, lastTime | outputlookup previously_cloud_regions_test.csv | where fact=fiction][| eval new_region=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_region=1 | convert ctime(firstTime) ctime(lastTime)] | table region, dest, src_user, firstTime, lastTime",
+        "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Draft_v6.Compute where Compute.event_name=RunInstances by Compute.region, Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_cloud_regions_test.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by region, src_user | multireport [| table region, firstTime, lastTime | outputlookup previously_cloud_regions_test.csv | where fact=fiction][| eval new_region=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_region=1 | convert ctime(firstTime) ctime(lastTime)] | table region, dest, src_user, firstTime, lastTime",
         "suppress": {
-          "suppress_fields": "region",
+          "suppress_fields": "dest,region",
           "suppress_period": "14400s"
         }
       }
@@ -59,12 +59,12 @@
     "region",
     "src_user"
   ],
-  "how_to_implement": "You must be ingesting the approrpiate cloud infrastructure logs and have the Security Research cloud data model installed. Run the \"Previously Seen Cloud Regions\" support search to create of baseline of previously seen regions.",
+  "how_to_implement": "You must be ingesting the approrpiate cloud infrastructure logs and have the Security Research cloud data model installed. Run the \"Previously Seen Cloud Compute Instance Types\" support search to create of baseline of previously seen regions.",
   "id": "fa4089e2-50e3-40f7-8469-d2cc1564ca59",
   "investigations": [
     {
       "id": "3dc3a8e7-394b-44ae-8262-4ef8e90b723d",
-      "name": "Investigate User Activities In Cloud Region",
+      "name": "Investigate User Activities In Single Cloud Region",
       "type": "splunk"
     },
     {

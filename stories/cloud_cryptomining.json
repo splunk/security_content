@@ -3,7 +3,7 @@
     "Cloud Security"
   ],
   "channel": "ESCU",
-  "creation_date": "2018-03-08",
+  "creation_date": "2019-10-02",
   "description": "Monitor your cloud compute instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or compute instances started by previously unseen users are just a few examples of potentially malicious behavior.",
   "detections": [
     {
@@ -12,27 +12,22 @@
       "type": "splunk"
     },
     {
-      "detection_id": "2a9b80d3-6340-4345-b5ad-290bf5d0dac4",
-      "name": "Abnormally High AWS Instances Launched by User",
-      "type": "splunk"
-    },
-    {
       "detection_id": "65541c80-03c7-4e05-83c8-1dcd57a2e1ad",
-      "name": "EC2 Instance Started With Previously Unseen Instance Type",
+      "name": "Cloud Compute Instance Created With Previously Unseen Instance Type",
       "type": "splunk"
     },
     {
-      "detection_id": "347ec301-601b-48b9-81aa-9ddf9c829dd3",
-      "name": "EC2 Instance Started With Previously Unseen AMI",
+      "detection_id": "bc24922d-987c-4645-b288-f8c73ec194c4",
+      "name": "Cloud Compute Instance Created With Previously Unseen Image",
       "type": "splunk"
     },
     {
-      "detection_id": "22773e84-bac0-4595-b086-20d3f735b4f1",
-      "name": "EC2 Instance Started With Previously Unseen User",
+      "detection_id": "76988f6a-3935-48f6-a9e5-6fca8b3ed843",
+      "name": "Cloud Compute Instance Created By Previously Unseen User",
       "type": "splunk"
     }
   ],
-  "id": "ced74200-8465-4bc3-bd2c-9a782eec6750",
+  "id": "3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a",
   "maintainers": [
     {
       "company": "Splunk",
@@ -42,7 +37,7 @@
   ],
   "modification_date": "2019-10-02",
   "name": "Cloud Cryptomining",
-  "narrative": "Cryptomining is an intentionally difficult, resource-intensive business. Its complexity was designed into the process to ensure that the number of blocks mined each day would remain steady. So, it's par for the course that ambitious, but unscrupulous, miners make amassing the computing power of large enterprises--a practice known as cryptojacking--a top priority. \\\nCryptojacking has attracted an increasing amount of media attention since its explosion in popularity in the fall of 2017. The attacks have moved from in-browser exploits and mobile phones to enterprise cloud services, such as Amazon Web Services (AWS). It's difficult to determine exactly how widespread the practice has become, since bad actors continually evolve their ability to escape detection, including employing unlisted endpoints, moderating their CPU usage, and hiding the mining pool's IP address behind a free CDN. \\\nhen malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \\\nThis Analytic Story is focused on detecting suspicious new instances in your EC2 environment to help prevent such a disaster. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.",
+  "narrative": "Cryptomining is an intentionally difficult, resource-intensive business. Its complexity was designed into the process to ensure that the number of blocks mined each day would remain steady. So, it's par for the course that ambitious, but unscrupulous, miners make amassing the computing power of large enterprises--a practice known as cryptojacking--a top priority. \\\nCryptojacking has attracted an increasing amount of media attention since its explosion in popularity in the fall of 2017. The attacks have moved from in-browser exploits and mobile phones to enterprise cloud services, such as Amazon Web Services (AWS), Google Cloud Platform (GCP), or Azure. It's difficult to determine exactly how widespread the practice has become, since bad actors continually evolve their ability to escape detection, including employing unlisted endpoints, moderating their CPU usage, and hiding the mining pool's IP address behind a free CDN. \\\nhen malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \\\nThis Analytic Story is focused on detecting suspicious new instances in your cloud environment to help prevent such a disaster. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.",
   "original_authors": [
     {
       "company": "Splunk",
