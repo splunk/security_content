@@ -167,7 +167,17 @@ class DetectCommand(GeneratingCommand):
             entities = []
             entity_results = dict()
             # process results
+           
+            epoch = []
             for result in job_results:
+                for k,v in result.items():
+                    if k == "firstTime":
+                        first = int(time.mktime(time.strptime(v, '%m/%d/%Y %H:%M:%S')))
+                        epoch.append(first)
+
+                    if k == "lastTime":
+                        last = int(time.mktime(time.strptime(v, '%m/%d/%Y %H:%M:%S')))
+                        epoch.append(last)
                 # add store detection results
                 detection_results.append(dict(result))
 
@@ -176,9 +186,20 @@ class DetectCommand(GeneratingCommand):
 
             entities.append(entity)
 
-            # self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
+            self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
+            first_detection_time = min(epoch)
+            
+            first_detection_time = datetime.utcfromtimestamp(first_detection_time).strftime('%Y-%m-%d %H:%M:%S')
+
+            last_detection_time= max(epoch)
+            first_detection_time = datetime.utcfromtimestamp(first_detection_time).strftime('%Y-%m-%d %H:%M:%S')
+           
+            self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(f,l))
 
             detection = {}
+            detection['first_detection_time'] = f
+            detection['last_detection_time'] = l
+            # self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(first_detection_time,last_detection_time))
             detection['detection_result_count'] = job['resultCount']
             detection['detection_search_name'] = search['search_name']
             detection['mappings'] = search['mappings']
@@ -264,9 +285,7 @@ class DetectCommand(GeneratingCommand):
             if 'action.escu.analytic_story' in content:
                stories = str(content['action.escu.analytic_story']).strip('][').replace('"', '').split(', ')
                for s in stories:
-                    self.logger.info(
-                        "detect.py - S {0}".format(s))
-
+        
                     if s == self.story:
                         # if it has a support search grab it otherwise replace its value with a message
                         # THIS CAN BE REMOVED AFTER BASELINE MODULE IS CONSTRUCTED
