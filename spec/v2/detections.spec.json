@@ -195,6 +195,26 @@
       "correlation_rule": {
         "description": "Various fields to enhance usability in Enterprise Security",
         "properties": {
+          "lookups": {
+            "description": "A list of lookups in the search",
+            "examples": [
+              "detection_search_lookup"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "macros": {
+            "description": "A list of macros in the search",
+            "examples": [
+              "detection_search_output_filter"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "notable": {
             "description": "Various fields associated with creating a notable event",
             "properties": {
@@ -714,7 +734,8 @@
           "dest_ip",
           "userName",
           "dest_user",
-          "url"
+          "url",
+          "domain"
         ]
       },
       "minItems": 0,

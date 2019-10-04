@@ -801,6 +801,81 @@ def validate_baselines(REPO_PATH, verbose):
     return error
 
 
+def validate_macros(REPO_PATH, verbose):
+    ''' Validates Macros'''
+    error = False
+
+    schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/macros.spec.json')
+    schema = json.loads(open(schema_file, 'rb').read())
+
+    macros_manifest_files = path.join(path.expanduser(REPO_PATH), "macros/*.json")
+    for macros_manifest_file in glob.glob(macros_manifest_files):
+        if verbose:
+            print "processing macro {0}".format(macros_manifest_file)
+
+        # read in each macro
+        try:
+            macro = json.loads(
+                open(macros_manifest_file, 'r').read())
+        except IOError:
+            print "Error reading {0}".format(macros_manifest_file)
+            error = True
+            continue
+
+        try:
+            jsonschema.validate(instance=macro, schema=schema)
+        except jsonschema.exceptions.ValidationError as json_ve:
+            print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), macros_manifest_file)
+            print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+            error = True
+
+    return error
+
+def validate_lookups(REPO_PATH, verbose):
+    ''' Validates Lookups'''
+    error = False
+
+    schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/lookups.spec.json')
+    schema = json.loads(open(schema_file, 'rb').read())
+
+    lookups_manifest_files = path.join(path.expanduser(REPO_PATH), "lookups/*.json")
+    for lookups_manifest_file in glob.glob(lookups_manifest_files):
+        if verbose:
+            print "processing lookup {0}".format(lookups_manifest_file)
+
+        # read in each lookup
+        try:
+            macro = json.loads(
+                open(lookups_manifest_file, 'r').read())
+        except IOError:
+            print "Error reading {0}".format(lookups_manifest_file)
+            error = True
+            continue
+
+        try:
+            jsonschema.validate(instance=macro, schema=schema)
+        except jsonschema.exceptions.ValidationError as json_ve:
+            print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), lookups_manifest_file)
+            print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+            error = True
+
+       
+        if 'filename' not in macro and 'collection' not in macro:
+            print "ERROR: filename or collection must be set at:"
+            print "\t{}".format(lookups_manifest_file) 
+            error = True
+
+        if 'filename' in macro:
+            lookup_csv_file = path.join(path.expanduser(REPO_PATH), "lookups/%s" % macro['filename'])
+            if not path.isfile(lookup_csv_file):
+                print "ERROR: filename {} does not exist".format(macro['filename'])
+                print lookup_csv_file
+                print "\t{}".format(lookups_manifest_file)
+                error = True
+
+    return error
+
+
 if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
@@ -821,6 +896,10 @@ if __name__ == "__main__":
 
     baseline_error = validate_baselines(REPO_PATH, verbose)
 
+    macros_error = validate_macros(REPO_PATH, verbose)
+
+    lookups_error = validate_lookups(REPO_PATH, verbose)
+
     if story_error:
         sys.exit("Errors found")
     elif detection_error:
@@ -828,6 +907,10 @@ if __name__ == "__main__":
     elif investigation_error:
         sys.exit("Errors found")
     elif baseline_error:
+        sys.exit("Errors found")
+    elif macros_error:
+        sys.exit("Errors found")
+    elif lookups_error:
         sys.exit("Errors found")
     else:
         print "No Errors found"

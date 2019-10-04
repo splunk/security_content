@@ -1,0 +1,6 @@
+{
+    "description": "A list of suspicious extensions for email attachments", 
+    "filename": "suspicious_email_attachments.csv", 
+    "match_type": "WILDCARD(file_name)", 
+    "name": "isSuspiciousFileExtension_lookup"
+}

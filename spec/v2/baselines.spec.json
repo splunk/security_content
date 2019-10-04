@@ -103,6 +103,26 @@
           },
           "type": "object"
         },
+        "lookups": {
+          "description": "A list of lookups in the search",
+          "examples": [
+            "detection_search_lookup"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "macros": {
+          "description": "A list of macros in the search",
+          "examples": [
+            "detection_search_output_filter"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "search": {
           "description": "The search (in SPL) executed within core Splunk for investgation.",
           "examples": [
@@ -314,7 +334,8 @@
           "src",
           "user",
           "query",
-          "answer"
+          "answer",
+          "domain"
         ]
       },
       "minItems": 0,

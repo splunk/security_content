@@ -14,6 +14,9 @@
     ]
   },
   "description": "This search queries the Certificates datamodel and give you all the information for a specific domain. Please note that the certificates issued by \"Let's Encrypt\" are widely used by attackers.",
+  "entities": [
+    "domain"
+  ],
   "how_to_implement": "You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel. Please note the wildcard(*) before domain in the search syntax, we use to match for all domain and subdomain combinations",
   "id": "bc91a8cf-35e7-4bb2-2240-e756cc06fd73",
   "investigate": {
@@ -47,5 +50,5 @@
   ],
   "spec_version": 2,
   "type": "splunk",
-  "version": "1.0"
+  "version": "2.0"
 }
