@@ -55,7 +55,9 @@
   },
   "eli5": "The subsearch returns all events where `cmd.exe` was used with a `/c` parameter in the command-line arguments to execute other commands/programs. It appends the historical data to those results in the lookup file. Next, it recalculates the `firstTime` and `lastTime` field for command-line execution and outputs this data to the lookup file to update the local cache. It returns only those events that have first been seen in the past one hour. This is combined with the main search to return the time, user, destination, process, parent process, and value of the command-line argument.",
   "entities": [
-    "dest"
+    "dest",
+    "process_name",
+    "user"
   ],
   "how_to_implement": "You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must be ingesting logs with both the process name and command line from your endpoints. The complete process name with command-line arguments are mapped to the \"process\" field in the Endpoint data model. Please make sure you run the support search \"Previously seen command line arguments,\"&#151;which creates a lookup file called `previously_seen_cmd_line_arguments.csv`&#151;a historical baseline of all command-line arguments. You must also validate this list. For the search to do accurate calculation, ensure the search scheduling is the same value as the `relative_time` evaluation function.",
   "id": "9be56c82-b1cc-4318-87eb-q138afaaqa39",
