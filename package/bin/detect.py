@@ -22,7 +22,7 @@ class DetectCommand(GeneratingCommand):
     support_searches_to_run = []
     story_results = {}
     collection_names = []
-    COLLECTION_NAME = "mp_detect_new"
+    COLLECTION_NAME = "daftpunk"
     collection_results = {}
 
     def _support_searches(self, content):
@@ -188,18 +188,14 @@ class DetectCommand(GeneratingCommand):
 
             self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
             first_detection_time = min(epoch)
-            
             first_detection_time = datetime.utcfromtimestamp(first_detection_time).strftime('%Y-%m-%d %H:%M:%S')
 
             last_detection_time= max(epoch)
-            first_detection_time = datetime.utcfromtimestamp(first_detection_time).strftime('%Y-%m-%d %H:%M:%S')
-           
-            self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(f,l))
+            last_detection_time = datetime.utcfromtimestamp(last_detection_time).strftime('%Y-%m-%d %H:%M:%S')
 
             detection = {}
-            detection['first_detection_time'] = f
-            detection['last_detection_time'] = l
-            # self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(first_detection_time,last_detection_time))
+            detection['first_detection_time'] = first_detection_time
+            detection['last_detection_time'] = last_detection_time
             detection['detection_result_count'] = job['resultCount']
             detection['detection_search_name'] = search['search_name']
             detection['mappings'] = search['mappings']
@@ -247,7 +243,7 @@ class DetectCommand(GeneratingCommand):
 
         # connect to splunk and start execution
         port = splunk.getDefault('port')
-        service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner="nobody")
+        service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner="nobody",app="DA-ESS-ContentUpdate")
         self.logger.info("detect.pytime - starting run story")
 
         # get story name
