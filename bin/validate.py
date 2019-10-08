@@ -12,7 +12,7 @@ import argparse
 from os import path
 
 
-def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
+def validate_detection_contentv2(detection, DETECTION_UUIDS, errors, macros, lookups):
 
     if detection['id'] == '':
         errors.append('ERROR: Blank ID')
@@ -50,9 +50,7 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
         except UnicodeEncodeError:
             errors.append("ERROR: known_false_positives not ascii")
 # modded to pass validation for uba detections - not yet fleshed out
-    if detection['detect'] == 'uba':
-        print "non-splunk detection - uba"
-    elif detection['detect'] == 'splunk':
+    if 'splunk' in detection['detect']:
 
         # do a regex match here instead of key values
         # if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
@@ -67,12 +65,20 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors):
         # do a regex match here instead of key values
         if (detection['detect']['splunk']['correlation_rule']['search'].find('sourcetype') != -1):
             if 'data_sourcetypes' not in detection['data_metadata']:
-                errors.append("ERROR: The Splunk search specifies a sourcetype but 'data_sourcetypes' \
-                            field is not set")
+                errors.append("ERROR: The Splunk search specifies a sourcetype but 'data_sourcetypes' field is not set")
+            elif not detection['data_metadata']['data_sourcetypes']:
+                errors.append("ERROR: The Splunk search specifies a sourcetype but 'data_sourcetypes' is empty")
 
-            if not detection['data_metadata']['data_sourcetypes']:
-                errors.append("ERROR: The Splunk search specifies a sourcetype but \
-                        'data_sourcetypes' is empty")
+        if 'macros' in detection['detect']['splunk']['correlation_rule']:
+            for macro in detection['detect']['splunk']['correlation_rule']['macros']:
+                if macro not in macros:
+                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" but there is no macro manifest for it".format(macro))
+
+        if 'lookups' in detection['detect']['splunk']['correlation_rule']:
+            for lookup in detection['detect']['splunk']['correlation_rule']['lookups']:
+                if lookup not in lookups:
+                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
+
 
     if 'uba' in detection['detect']:
         if (detection['detect']['uba']['correlation_rule']['search'].find('tstats') != -1) or \
@@ -459,7 +465,7 @@ def validate_investigation_content(investigation, investigation_uuids):
     return errors
 
 
-def validate_detection_content(detection, DETECTION_UUIDS):
+def validate_detection_content(detection, DETECTION_UUIDS, macros, lookups):
     '''Validate that the content of a detection manifest is correct'''
     errors = []
 
@@ -468,7 +474,7 @@ def validate_detection_content(detection, DETECTION_UUIDS):
         errors = validate_detection_contentv1(detection, DETECTION_UUIDS, errors)
 
     if detection["spec_version"] == 2:
-        errors = validate_detection_contentv2(detection, DETECTION_UUIDS, errors)
+        errors = validate_detection_contentv2(detection, DETECTION_UUIDS, errors, macros, lookups)
 
     return errors
 
@@ -592,7 +598,7 @@ def validate_investigation(REPO_PATH, verbose):
     return error
 
 
-def validate_detection(REPO_PATH, verbose):
+def validate_detection(REPO_PATH, verbose, macros, lookups):
     ''' Validates Detections'''
 
     DETECTION_UUIDS = []
@@ -652,7 +658,7 @@ def validate_detection(REPO_PATH, verbose):
             continue
 
         # now lets validate the content
-        detection_errors = validate_detection_content(detection, DETECTION_UUIDS)
+        detection_errors = validate_detection_content(detection, DETECTION_UUIDS, macros, lookups)
         if detection_errors:
             error = True
             for err in detection_errors:
@@ -808,6 +814,7 @@ def validate_macros(REPO_PATH, verbose):
     schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/macros.spec.json')
     schema = json.loads(open(schema_file, 'rb').read())
 
+    macro_manifests = {}
     macros_manifest_files = path.join(path.expanduser(REPO_PATH), "macros/*.json")
     for macros_manifest_file in glob.glob(macros_manifest_files):
         if verbose:
@@ -829,7 +836,9 @@ def validate_macros(REPO_PATH, verbose):
             print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
             error = True
 
-    return error
+        macro_manifests[macro['name']] = macro
+
+    return error, macro_manifests
 
 def validate_lookups(REPO_PATH, verbose):
     ''' Validates Lookups'''
@@ -838,6 +847,7 @@ def validate_lookups(REPO_PATH, verbose):
     schema_file = path.join(path.expanduser(REPO_PATH), 'spec/v2/lookups.spec.json')
     schema = json.loads(open(schema_file, 'rb').read())
 
+    lookup_manifests = {}
     lookups_manifest_files = path.join(path.expanduser(REPO_PATH), "lookups/*.json")
     for lookups_manifest_file in glob.glob(lookups_manifest_files):
         if verbose:
@@ -845,7 +855,7 @@ def validate_lookups(REPO_PATH, verbose):
 
         # read in each lookup
         try:
-            macro = json.loads(
+            lookup = json.loads(
                 open(lookups_manifest_file, 'r').read())
         except IOError:
             print "Error reading {0}".format(lookups_manifest_file)
@@ -853,27 +863,29 @@ def validate_lookups(REPO_PATH, verbose):
             continue
 
         try:
-            jsonschema.validate(instance=macro, schema=schema)
+            jsonschema.validate(instance=lookup, schema=schema)
         except jsonschema.exceptions.ValidationError as json_ve:
             print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), lookups_manifest_file)
             print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
             error = True
 
-       
-        if 'filename' not in macro and 'collection' not in macro:
+        
+        if 'filename' not in lookup and 'collection' not in lookup:
             print "ERROR: filename or collection must be set at:"
             print "\t{}".format(lookups_manifest_file) 
             error = True
 
-        if 'filename' in macro:
-            lookup_csv_file = path.join(path.expanduser(REPO_PATH), "lookups/%s" % macro['filename'])
+        if 'filename' in lookup:
+            lookup_csv_file = path.join(path.expanduser(REPO_PATH), "lookups/%s" % lookup['filename'])
             if not path.isfile(lookup_csv_file):
-                print "ERROR: filename {} does not exist".format(macro['filename'])
+                print "ERROR: filename {} does not exist".format(lookup['filename'])
                 print lookup_csv_file
                 print "\t{}".format(lookups_manifest_file)
                 error = True
 
-    return error
+        lookup_manifests[lookup['name']] = lookup
+
+    return error, lookup_manifests
 
 
 if __name__ == "__main__":
@@ -888,17 +900,18 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     verbose = args.verbose
 
+    macros_error, macros = validate_macros(REPO_PATH, verbose)
+
+    lookups_error, lookups = validate_lookups(REPO_PATH, verbose)
+
     story_error = validate_story(REPO_PATH, verbose)
 
-    detection_error = validate_detection(REPO_PATH, verbose)
+    detection_error = validate_detection(REPO_PATH, verbose, macros, lookups)
 
     investigation_error = validate_investigation(REPO_PATH, verbose)
 
     baseline_error = validate_baselines(REPO_PATH, verbose)
 
-    macros_error = validate_macros(REPO_PATH, verbose)
-
-    lookups_error = validate_lookups(REPO_PATH, verbose)
 
     if story_error:
         sys.exit("Errors found")

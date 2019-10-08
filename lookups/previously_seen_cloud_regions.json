@@ -1,0 +1,8 @@
+{
+    "default_match": "false", 
+    "description": "A place holder for a list of used cloud compute images",
+    "filename": "previously_seen_cloud_regions.csv",
+    "min_matches": 1,
+    "name": "previously_seen_cloud_regions"
+}
+    

@@ -26,6 +26,12 @@
   "detect": {
     "splunk": {
       "correlation_rule": {
+        "macros": [
+          "previously_seen_cloud_regions_input_filter"
+        ],
+        "lookups": [
+          "previously_seen_cloud_regions"
+        ],
         "notable": {
           "nes_fields": "dest,region",
           "rule_description": "A cloud compute instance, $dest$ is started in a new, previously unseen, region $region$",
@@ -45,7 +51,7 @@
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
         },
-        "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Draft_v6.Compute where Compute.event_name=RunInstances by Compute.region, Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_cloud_regions_test.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by region, src_user | multireport [| table region, firstTime, lastTime | outputlookup previously_cloud_regions_test.csv | where fact=fiction][| eval new_region=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_region=1 | convert ctime(firstTime) ctime(lastTime)] | table region, dest, src_user, firstTime, lastTime",
+        "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Draft_v6.Compute where Compute.event_name=RunInstances `previously_seen_cloud_regions_input_filter` by Compute.region, Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_seen_cloud_regions | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by region, src_user | multireport [| table region, firstTime, lastTime | outputlookup previously_seen_cloud_regions | where fact=fiction][| eval new_region=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_region=1 | convert ctime(firstTime) ctime(lastTime)] | table region, dest, src_user, firstTime, lastTime",
         "suppress": {
           "suppress_fields": "dest,region",
           "suppress_period": "14400s"
