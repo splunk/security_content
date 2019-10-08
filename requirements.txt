@@ -10,7 +10,7 @@ importlib-metadata==0.23
 importlib-resources==1.0.2
 jsonschema==3.0.2
 nodeenv==1.3.3
-pathlib2==2.3.4
+pathlib2==2.3.5
 pre-commit==1.18.3
 pyrsistent==0.15.4
 PyYAML==5.1.2
