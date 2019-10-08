@@ -49,9 +49,8 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors, macros, loo
             detection['known_false_positives'].encode('ascii')
         except UnicodeEncodeError:
             errors.append("ERROR: known_false_positives not ascii")
-# modded to pass validation for uba detections - not yet fleshed out
+    # modded to pass validation for uba detections - not yet fleshed out
     if 'splunk' in detection['detect']:
-
         # do a regex match here instead of key values
         # if (detection['detect']['splunk']['correlation_rule']['search'].find('tstats') != -1) or \
         #        (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
@@ -80,7 +79,13 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors, macros, loo
                     errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
 
 
-    if 'uba' in detection['detect']:
+        if 'notable' in  detection['detect']['splunk']['correlation_rule']:
+            if ('drilldown_search' in detection['detect']['splunk']['correlation_rule']['notable']) ^ \
+                    ('drilldown_name' in detection['detect']['splunk']['correlation_rule']['notable']):
+
+                errors.append("ERROR: Both drilldown_search and drilldown_name must be defined")
+
+    elif 'uba' in detection['detect']:
         if (detection['detect']['uba']['correlation_rule']['search'].find('tstats') != -1) or \
                 (detection['detect']['splunk']['correlation_rule']['search'].find('datamodel') != -1):
 

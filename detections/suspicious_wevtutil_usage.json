@@ -22,6 +22,8 @@
         "splunk": {
             "correlation_rule": {
                 "notable": {
+                    "drilldown_name": "View wevtutil process information on $dest$",
+                    "drilldown_search": "| from datamodel:Endpoint.Processes | search dest=\"$dest$\"  process=*wevtutil*",
                     "nes_fields": "dest, process, user",
                     "rule_description": "wevtutil is the windows event log tool. This searches for wevtutil clearing the security or system logs.",
                     "rule_title": "Suspicious wevtutil Usage"
