@@ -105,7 +105,7 @@ def validate_detection_contentv2(detection, DETECTION_UUIDS, errors, macros, loo
     return errors
 
 
-def validate_investigation_contentv2(investigation, investigation_uuids, errors):
+def validate_investigation_contentv2(investigation, investigation_uuids, errors, macros, lookups):
 
     if investigation['id'] == '':
         errors.append('ERROR: Blank ID')
@@ -165,10 +165,21 @@ def validate_investigation_contentv2(investigation, investigation_uuids, errors)
                 errors.append("ERROR: The Splunk search specifies a sourcetype but \
                         'data_sourcetypes' is empty")
 
+        if 'macros' in investigation['investigate']['splunk']:
+            for macro in investigation['investigate']['splunk']['macros']:
+                if macro not in macros:
+                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" but there is no macro manifest for it".format(macro))
+
+        if 'lookups' in investigation['investigate']['splunk']:
+            for lookup in investigation['investigate']['splunk']['lookups']:
+                if lookup not in lookups:
+                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
+
+
     return errors
 
 
-def validate_baselines_contentv2(baseline, baselines_uuids, errors):
+def validate_baselines_contentv2(baseline, baselines_uuids, errors, macros, lookups):
 
     if baseline['id'] == '':
         errors.append('ERROR: Blank ID')
@@ -206,7 +217,7 @@ def validate_baselines_contentv2(baseline, baselines_uuids, errors):
         except UnicodeEncodeError:
             errors.append("ERROR: known_false_positives not ascii")
 
-    if baseline['baseline']['splunk']:
+    if 'splunk' in baseline['baseline']:
 
         # do a regex match here instead of key values
         if (baseline['baseline']['splunk']['search'].find('tstats') != -1) or \
@@ -227,6 +238,18 @@ def validate_baselines_contentv2(baseline, baselines_uuids, errors):
             if not baseline['data_metadata']['data_sourcetypes']:
                 errors.append("ERROR: The Splunk search specifies a sourcetype but \
                         'data_sourcetypes' is empty")
+
+        if 'macros' in baseline['baseline']['splunk']:
+            for macro in baseline['baseline']['splunk']['macros']:
+                if macro not in macros:
+                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" but there is no macro manifest for it".format(macro))
+
+        if 'lookups' in baseline['baseline']['splunk']:
+            for lookup in baseline['baseline']['splunk']['lookups']:
+                if lookup not in lookups:
+                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
+
+
 
     return errors
 
@@ -451,7 +474,7 @@ def validate_baselines_contentv1(baseline, baselines_uuids, errors):
     return errors
 
 
-def validate_investigation_content(investigation, investigation_uuids):
+def validate_investigation_content(investigation, investigation_uuids, macros, lookups):
     '''Validate that the content of a investigation manifest is correct'''
     errors = []
 
@@ -460,7 +483,7 @@ def validate_investigation_content(investigation, investigation_uuids):
         errors = validate_investigation_contentv1(investigation, investigation_uuids, errors)
 
     if investigation["spec_version"] == 2:
-        errors = validate_investigation_contentv2(investigation, investigation_uuids, errors)
+        errors = validate_investigation_contentv2(investigation, investigation_uuids, errors, macros, lookups)
 
     return errors
 
@@ -504,7 +527,7 @@ def validate_story_content(story, STORY_UUIDS):
     return errors
 
 
-def validate_baselines_content(baseline, baselines_uuids):
+def validate_baselines_content(baseline, baselines_uuids, macros, lookups):
     '''Validate that the content of a baseline manifest is correct'''
     errors = []
 
@@ -513,12 +536,12 @@ def validate_baselines_content(baseline, baselines_uuids):
         errors = validate_baselines_contentv1(baseline, baselines_uuids, errors)
 
     if baseline["spec_version"] == 2:
-        errors = validate_baselines_contentv2(baseline, baselines_uuids, errors)
+        errors = validate_baselines_contentv2(baseline, baselines_uuids, errors, macros, lookups)
 
     return errors
 
 
-def validate_investigation(REPO_PATH, verbose):
+def validate_investigation(REPO_PATH, verbose, macros, lookups):
     ''' Validates Investigation'''
 
     INVESTIGATION_UUIDS = []
@@ -589,7 +612,7 @@ def validate_investigation(REPO_PATH, verbose):
             continue
 
         # now lets validate the content
-        investigation_errors = validate_investigation_content(investigation, INVESTIGATION_UUIDS)
+        investigation_errors = validate_investigation_content(investigation, INVESTIGATION_UUIDS, macros, lookups)
         if investigation_errors:
             error = True
             for err in investigation_errors:
@@ -737,7 +760,7 @@ def validate_story(REPO_PATH, verbose):
     return error
 
 
-def validate_baselines(REPO_PATH, verbose):
+def validate_baselines(REPO_PATH, verbose, macros, lookups):
     ''' Validates Baselines'''
 
     BASELINE_UUIDS = []
@@ -798,7 +821,7 @@ def validate_baselines(REPO_PATH, verbose):
             continue
 
         # now lets validate the content
-        baselines_errors = validate_baselines_content(baseline, BASELINE_UUIDS)
+        baselines_errors = validate_baselines_content(baseline, BASELINE_UUIDS, macros, lookups)
         if baselines_errors:
             error = True
             for err in baselines_errors:
@@ -908,9 +931,9 @@ if __name__ == "__main__":
 
     detection_error = validate_detection(REPO_PATH, verbose, macros, lookups)
 
-    investigation_error = validate_investigation(REPO_PATH, verbose)
+    investigation_error = validate_investigation(REPO_PATH, verbose, macros, lookups)
 
-    baseline_error = validate_baselines(REPO_PATH, verbose)
+    baseline_error = validate_baselines(REPO_PATH, verbose, macros, lookups)
 
 
     if story_error:
