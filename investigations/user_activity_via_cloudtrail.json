@@ -12,6 +12,9 @@
     ]
   },
   "description": "This search lists all the logged CloudTrail activities by a specific user ARN and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and all the user's identity information.",
+  "entities": [
+    "user"
+  ],
   "how_to_implement": "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.",
   "id": "bc91a8cd-35e7-4bb2-6140-e756cc46fd71",
   "investigate": {
