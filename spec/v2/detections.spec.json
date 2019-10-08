@@ -218,6 +218,14 @@
           "notable": {
             "description": "Various fields associated with creating a notable event",
             "properties": {
+              "drilldown_name": {
+                "description": "The text for the drilldown hyperlink within the Incident Review dashboard",
+                "type": "string"
+              },
+              "drilldown_search": {
+                "description": "The actual drilldown search",
+                "type": "string"
+              },
               "nes_fields": {
                 "description": "A list of suggested fields to be used for notable-event suppression",
                 "type": "string"
