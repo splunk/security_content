@@ -22,7 +22,7 @@ class DetectCommand(GeneratingCommand):
     support_searches_to_run = []
     story_results = {}
     collection_names = []
-    COLLECTION_NAME = "daftpunk"
+    COLLECTION_NAME = "mp_detect_new"
     DETECT_INDEX = "detect_index"
     collection_results = {}
 
@@ -305,8 +305,7 @@ class DetectCommand(GeneratingCommand):
                         # THIS CAN BE REMOVED AFTER BASELINE MODULE IS CONSTRUCTED
                         if content['action.escu.search_type'] == 'support':
                             support_searches_to_run = self._support_searches(content)
-                            support_search_name = self._run_support(support_searches_to_run, service, earliest_time,
-                                                            latest_time)
+                            support_search_name = self._run_support(support_searches_to_run, service,earliest_time,latest_time)
 
                         # if it has detection searches grab it
                         if content['action.escu.search_type'] == 'detection':
@@ -337,18 +336,16 @@ class DetectCommand(GeneratingCommand):
         # Yield individual results after processing them to preserve field names 
         
         for result in self.story_results['detections']:
-        
-            #self.logger.info("detect.py - Yield {0} ".format(len(s['detection_results'])))
-            executed_by = self.story_results['executed_by']
-            story = self.story_results['story']
+            result['executed_by'] = self.story_results['executed_by']
+            result['story'] = self.story_results['story']
 
             yield {
 
             '_time': time.time(),
             '_raw': result,
             'sourcetype': "_json",
-            'story': story,
-            'executed_by': executed_by,
+            'story': result['story'],
+            'executed_by': result['executed_by'],
             'detection_result_count': result['detection_result_count'],
             'detection_search_name': result['detection_search_name'],
             'first_detection_time': result['first_detection_time'],
