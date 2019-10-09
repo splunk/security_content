@@ -1,87 +1,63 @@
-<form>
-  <label>Run Story</label>
-  <search id="detection_results">
-    <query>|  detect story="$title$" risk="$risk$" earliest_time=$earliest$ latest_time=$latest$</query>
-  </search>
-  <fieldset submitButton="true">
-    <input type="dropdown" token="title" searchWhenChanged="true">
-      <label>Select a Story</label>
-      <fieldForLabel>title</fieldForLabel>
-      <fieldForValue>title</fieldForValue>
-      <search>
-        <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | fields title | sort title</query>
-        <earliest>-24h@h</earliest>
-        <latest>now</latest>
-      </search>
-    </input>
-    <input type="radio" token="risk">
-      <label>Create Risk Alerts</label>
-      <choice value="true">True</choice>
-      <choice value="false">False</choice>
-      <default>false</default>
-    </input>
-    <input type="time" searchWhenChanged="true">
-      <change>
-        <eval token="earliest">if(isnum('earliest'),'earliest',relative_time(now(),'earliest')</eval>
-        <eval token="latest">if(isnum('latest'),'latest',relative_time(now(),'latest')</eval>
-      </change>
-      <label></label>
-      <default>
-        <earliest>-24h@h</earliest>
-        <latest>now</latest>
-      </default>
-    </input>
-  </fieldset>
-  <row>
+ <row id="tabs">
     <panel>
-      <title>Support Searches</title>
+      <html>
+
+
+                <ul id="tabs_list" class="nav nav-tabs">
+                  <li class="active">
+                      <a href="#"  data-toggle="tab" data-elements="analytic">
+                        Analytic Story Results
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#"  data-toggle="tab" data-elements="search">
+                        Search Results
+                      </a>
+                  </li>
+                </ul>
+            </html>
+    </panel>
+  </row>
+  <row id="analytic">
+    <panel>
+      <title>Analytic Story Results</title>
       <table>
-        <search base="detection_results">
-          <query>| dedup support_search_name | table support_search_name</query>
+        <title>For Analytic Stories, the search looks for matches in the story description, title, or narrative fields, as well as the names of the detection searches. In the "Search Results" tab, you'll see matches that appear in the title, description, type, or "Explain it like I'm 5" field, or in the searches themselves.  An asterisk (*) entered in the search box will list all of the Analytic Stories and searches contained within them.</title>
+        <search base="baseAS">
+          <query>| makemv delim="," allowempty=t detection_searches
+            | rex field=detection_searches "\W+(?&lt;"Detection_Searches"&gt;.*)\W+"
+            | eval Detection_Searches=trim(Detection_Searches, "/\"")
+            | table title  description  Detection_Searches
+            | rename title AS "Analytic Story"</query>
         </search>
         <option name="count">10</option>
-        <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>Detection search results</title>
-      <table>
-        <title>REsultss</title>
-        <search base="detection_results">
-          <query>| stats count values(story) as story values(detection_search_name) as detection_search_name values(mappings) as mappings  by common_field risk_score risk_object risk_object_type</query>
-        </search>
+        <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
-        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">true</option>
-        <format type="color" field="detection_results">
-          <colorPalette type="list">[#53A051,#006D9C,#F8BE34,#F1813F,#DC4E41]</colorPalette>
-          <scale type="threshold">0,30,70,100</scale>
-        </format>
-        <format type="color" field="num_search_results">
-          <colorPalette type="list">[#53A051,#F8BE34,#F1813F,#DC4E41]</colorPalette>
-          <scale type="threshold">5,80,100</scale>
-        </format>
-        <format type="number" field="num_search_results"></format>
+        <option name="wrap">true</option>
+        <drilldown>
+          <link target="_blank">
+            <![CDATA[
+                    /app/DA-ESS-ContentUpdate/analytic_story_details?hideFilters=true&form.analytic_story_name=$row.Analytic Story$
+                    ]]>
+          </link>
+        </drilldown>
       </table>
     </panel>
   </row>
-  <row>
+  <row id="search">
     <panel>
-      <title>Number of results per entity</title>
+      <title>Search Results</title>
       <table>
-        <title>Top Entities</title>
-        <search id="firstPostProcess" base="detection_results">
-          <query>| mvexpand entities | stats count values(detection_name) as detection_name by entities | table detection_name count entities| sort - count</query>
+        <title>Below are keyword matches that appear in the title, description, type, or "Explain it like I'm 5" field or in the search itself. An asterisk (*) entered in the search box will list all of the searches from all of the Analytic Stories.</title>
+        <search base="baseSS">
+          <query>|rename title as "Search Name" action.escu.search_type as "Search type" action.escu.mappings as "Mappings" action.escu.eli5 as "ELI5"| table "Search type","Search Name", description, search</query>
         </search>
-        <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
-        <format type="color" field="count">
-          <colorPalette type="list">[#53A051,#DC4E41]</colorPalette>
-          <scale type="threshold">2</scale>
-        </format>
+        <option name="count">10</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
       </table>
     </panel>
   </row>
