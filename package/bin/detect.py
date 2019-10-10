@@ -72,10 +72,12 @@ class DetectCommand(GeneratingCommand):
                 spl = "| search %s" % spl
             #self.logger.info("detect.py - running support search: {0}".format(search['search_name']))
             job = service.jobs.create(spl, **kwargs)
+            if job['isFailed'] == True:
+                self.logger.info("detect.py - NO support search: {0}".format(spl))
             while True:
                 job.refresh()
                 if job['isDone'] == "1":
-                    #self.logger.info("detect.py - completed support search: {0}".format(search['search_name']))
+                    self.logger.info("detect.py - completed support search: {0}".format(search['search_name']))
                     break
             # append each completed support search
             support_search_name.append(search['search_name'])
@@ -238,15 +240,18 @@ class DetectCommand(GeneratingCommand):
 
             # dispatch job
             job = service.jobs.create(spl, **kwargs)
+            if job['isFailed'] == True:
+                self.logger.info("detect.py - NO support search: {0}".format(spl))
 
             # we sleep for 2 seconds to not DOS Splunk with submitting searches
             time.sleep(2)
+
 
             # check for results, if done we process them
             while True:
                 job.refresh()
                 if job['isDone'] == "1":
-                    #self.logger.info("detect.py - Finished Detection search: {0}".format(search['search_name']))
+                    self.logger.info("detect.py - Finished Detection search: {0}".format(search['search_name']))
                     break
 
             # process raw results with reader
@@ -294,13 +299,14 @@ class DetectCommand(GeneratingCommand):
         # get all savedsearches content
         for savedsearch in savedsearches:
             content = savedsearch.content
-
+            
             # check we are on the right story
             if 'action.escu.analytic_story' in content:
                stories = str(content['action.escu.analytic_story']).strip('][').replace('"', '').split(', ')
                for s in stories:
         
                     if s == self.story:
+    
                         # if it has a support search grab it otherwise replace its value with a message
                         # THIS CAN BE REMOVED AFTER BASELINE MODULE IS CONSTRUCTED
                         if content['action.escu.search_type'] == 'support':
