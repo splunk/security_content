@@ -205,11 +205,15 @@ class DetectCommand(GeneratingCommand):
             entities.append(entity)
 
             #self.logger.info("detect.py - PROCESSED ENTITY {0} | SEARCH: {1}".format(entity, search['search_name']))
-            first_detection_time = min(epoch)
-            first_detection_time = datetime.utcfromtimestamp(first_detection_time).strftime('%Y-%m-%d %H:%M:%S')
+            if epoch:
+                first_detection_time = min(epoch)
+                first_detection_time = datetime.utcfromtimestamp(first_detection_time).strftime('%Y-%m-%d %H:%M:%S')
 
-            last_detection_time= max(epoch)
-            last_detection_time = datetime.utcfromtimestamp(last_detection_time).strftime('%Y-%m-%d %H:%M:%S')
+                last_detection_time= max(epoch)
+                last_detection_time = datetime.utcfromtimestamp(last_detection_time).strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                first_detection_time = ""
+                last_detection_time = ""
 
             detection = {}
             detection['first_detection_time'] = first_detection_time
@@ -240,8 +244,8 @@ class DetectCommand(GeneratingCommand):
 
             # dispatch job
             job = service.jobs.create(spl, **kwargs)
-            if job['isFailed'] == True:
-                self.logger.info("detect.py - NO support search: {0}".format(spl))
+            # if job['isFailed'] == True:
+            #     self.logger.info("detect.py - No Detection search: {0}".format(spl))
 
             # we sleep for 2 seconds to not DOS Splunk with submitting searches
             time.sleep(2)
@@ -291,10 +295,11 @@ class DetectCommand(GeneratingCommand):
         collection = service.kvstore[self.COLLECTION_NAME]
 
         # if there are no support searches lets pre-set a value
-        support_search_name = ["No Support or Baseline search in this Analytic Story"]
+        
 
         # lets create a container of detection searches to run
         detection_searches_to_run = []
+        support_searches_to_run = []
 
         # get all savedsearches content
         for savedsearch in savedsearches:
@@ -311,7 +316,7 @@ class DetectCommand(GeneratingCommand):
                         # THIS CAN BE REMOVED AFTER BASELINE MODULE IS CONSTRUCTED
                         if content['action.escu.search_type'] == 'support':
                             support_searches_to_run = self._support_searches(content)
-                            support_search_name = self._run_support(support_searches_to_run, service,earliest_time,latest_time)
+                            
 
                         # if it has detection searches grab it
                         if content['action.escu.search_type'] == 'detection':
@@ -323,6 +328,10 @@ class DetectCommand(GeneratingCommand):
 
             raise Exception(
                 'no detections found for story: {0} .. try a correct story name or check spelling'.format(self.story))
+        if support_searches_to_run:
+            support_search_name = self._run_support(support_searches_to_run, service,earliest_time,latest_time)
+        else:
+            support_search_name = ["No Support or Baseline search in this Analytic Story"]
 
 
         # now lets run all the detection searches and process their results into story_results['detections']
