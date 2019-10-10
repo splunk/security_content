@@ -244,9 +244,7 @@ class DetectCommand(GeneratingCommand):
 
             # dispatch job
             job = service.jobs.create(spl, **kwargs)
-            # if job['isFailed'] == True:
-            #     self.logger.info("detect.py - No Detection search: {0}".format(spl))
-
+            
             # we sleep for 2 seconds to not DOS Splunk with submitting searches
             time.sleep(2)
 
@@ -254,15 +252,19 @@ class DetectCommand(GeneratingCommand):
             # check for results, if done we process them
             while True:
                 job.refresh()
-                if job['isDone'] == "1":
-                    self.logger.info("detect.py - Finished Detection search: {0}".format(search['search_name']))
+                if job['isFailed'] == "1":
+                    self.logger.info("detect.py - Failed detection search: {0}".format(spl))
+                    #raise Exception('detect.py - The search: {0} failed to execute'.format(search['search_name']))
                     break
 
-            # process raw results with reader
-            job_results = splunklib.results.ResultsReader(job.results())
+                if job['isDone'] == "1":
+                    self.logger.info("detect.py - Finished Detection search: {0}".format(search['search_name']))
+                    # process raw results with reader
+                    job_results = splunklib.results.ResultsReader(job.results())
 
-            # process job results into detection objects extract the necessary keys
-            self._process_job_results(job, job_results, search, support_search_name)
+                    # process job results into detection objects extract the necessary keys
+                    self._process_job_results(job, job_results, search, support_search_name)
+                    break
 
 
 
@@ -271,7 +273,7 @@ class DetectCommand(GeneratingCommand):
         # connect to splunk and start execution
         port = splunk.getDefault('port')
         service = splunklib.client.connect(token=self._metadata.searchinfo.session_key, port=port, owner="nobody",app="DA-ESS-ContentUpdate")
-        self.logger.info("detect.pytime - starting run story")
+        self.logger.info("detect.pytime - starting run story - {0} ".format(self.story))
 
         # get story name
         self.story_results['story'] = self.story
@@ -294,10 +296,6 @@ class DetectCommand(GeneratingCommand):
 
         collection = service.kvstore[self.COLLECTION_NAME]
 
-        # if there are no support searches lets pre-set a value
-        
-
-        # lets create a container of detection searches to run
         detection_searches_to_run = []
         support_searches_to_run = []
 
@@ -324,7 +322,7 @@ class DetectCommand(GeneratingCommand):
 
         # if detection to run is empty we likely got a incorrect story name
         if len(detection_searches_to_run) < 1:
-            self.logger.info("detect.py - no detection searches=")
+            self.logger.error("detect.py - No detection searches in this story")
 
             raise Exception(
                 'no detections found for story: {0} .. try a correct story name or check spelling'.format(self.story))
