@@ -21,23 +21,69 @@
         <latest>now</latest>
       </default>
     </input>
+    <input type="radio" token="index">
+      <label>index detect results</label>
+      <choice value="yes">Yes</choice>
+      <choice value="no">No</choice>
+      <default>no</default>
+      <initialValue>no</initialValue>
+      <change>
+        <condition value="yes">
+          <set token="first_token">true</set>
+          <unset token="second_token"></unset>
+        </condition>
+        <condition value="second">
+          <set token="second_token">true</set>
+          <unset token="first_token"></unset>
+        </condition>
+      </change>
+      <search>
+        <query/>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
   </fieldset>
-  <row id="tabs">
+  <row>
     <panel>
-      <html>
-        <ul id="tabs" class="nav nav-tabs">
-        <li class="active">
-            <a href="#" class="toggle-tab" data-toggle="tab" data-elements="detection">
-              Detection Results
-            </a>
-        </li>
-        <li>
-            <a href="#" class="toggle-tab" data-toggle="tab" data-elements="investigate">
-              Investigate Results
-            </a>
-        </li>
-        </ul>
-      </html>
+      <title>Top detections by dest</title>
+      <table>
+        <search base="detection_results">
+          <query>| `format_detection_results` 
+| stats count values(detection_search_name) by entity_dest</query>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Top detections by user</title>
+      <table>
+        <search base="detection_results">
+          <query>| `format_detection_results` 
+| stats count values(detection_search_name) by entity_user</query>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Detections per entity</title>
+        <search base="detection_results">
+          <query>| `format_detection_results` | stats values(entity_*)  values(detection_result_count) by detection_search_name</query>
+        </search>
+        <option name="count">10</option>
+        <option name="dataOverlayMode">highlow</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
+        <format type="color" field="values(detection_result_count)">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#53A051"></colorPalette>
+          <scale type="minMidMax" maxValue="10"></scale>
+        </format>
+      </table>
     </panel>
   </row>
   <row id="detection">
@@ -50,8 +96,6 @@
         <option name="refresh.display">progressbar</option>
       </event>
     </panel>
-  </row>
-  <row id="investigate">
     <panel>
       <title>Investigate Results</title>
       <table>
@@ -59,11 +103,24 @@
         <search base="detection_results">
           <query>|investigate</query>
         </search>
-        <option name="count">10</option>
+        <option name="count">2</option>
         <option name="dataOverlayMode">none</option>
-        <option name="drilldown">row</option>
+        <option name="drilldown">cell</option>
         <option name="rowNumbers">true</option>
+        <option name="totalsRow">false</option>
         <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Index Results</title>
+      <table>
+        <search base="detection_results">
+          <query>|  eval yes="yes" | eval Status = "$index$" | eval "Index Detection Results" = "detect_index"  | search yes=$index$| collect index=detect_index | stats count as "Number of Detections" by Status "Index Detection Results"</query>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
