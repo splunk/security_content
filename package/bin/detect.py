@@ -226,6 +226,21 @@ class DetectCommand(GeneratingCommand):
             detection['entities'] = entities
             self.story_results['detections'].append(detection)
 
+        # Wondering if we want to tell the users that a particular detection search ran successfully and produced no results. 
+        if job['resultCount'] == "0": 
+            detection = {}           
+            detection['first_detection_time'] = "null"
+            detection['last_detection_time'] = "null"
+            detection['detection_result_count'] = job['resultCount']
+            detection['detection_search_name'] = search['search_name']
+            detection['mappings'] = search['mappings']
+            detection['detection_results'] = "null"
+            detection['support_search_name'] = support_search_name
+            detection['entities'] = "null"
+            self.story_results['detections'].append(detection)
+
+
+
     def _run_detections(self, detection_searches_to_run, service, earliest_time, latest_time, support_search_name):
         # create an array to store our detections in
         self.story_results['detections'] = []
