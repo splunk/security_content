@@ -225,7 +225,7 @@ class Investigate(StreamingCommand):
                         results['investigations_results'].append(investigations_results)
 
             else:
-                results['story'] = "no investigatiions for this story found"
+                results['story'] = "no investigations for this story found"
 
             yield results
 
