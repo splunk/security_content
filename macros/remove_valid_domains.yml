@@ -1,0 +1,5 @@
+definition: eval domain=trim(domain,"*") | search NOT[| inputlookup domains]  NOT[
+  |inputlookup cim_corporate_email_domain_lookup] NOT[inputlookup cim_corporate_web_domain_lookup]
+  | eval domain="*"+domain+"*"
+description: This macro removes valid domains from the output
+name: remove_valid_domains

@@ -1,0 +1,6 @@
+default_match: 'false'
+description: A list of services that deal with security
+filename: security_services.csv
+match_type: WILDCARD(service)
+min_matches: 1
+name: security_services_lookup

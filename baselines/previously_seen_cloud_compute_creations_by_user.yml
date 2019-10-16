@@ -1,0 +1,45 @@
+baseline:
+  splunk:
+    lookups:
+      - previously_seen_cloud_compute_creations_by_user
+    macros:
+      - previously_seen_cloud_compute_creations_by_user_input_filter
+    schedule:
+      cron_schedule: ''
+      earliest_time: -90d@d
+      latest_time: -10m@m
+    search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from
+      datamodel=Cloud_Draft_v6.Compute where Compute.action=run `previously_seen_cloud_compute_creations_by_user_input_filter`
+      by Compute.src_user | `drop_dm_object_name("Compute")` | outputlookup previously_seen_cloud_compute_creations_by_user
+      | stats count'
+creation_date: '2019-10-03'
+data_metadata:
+  data_models:
+    - Cloud
+  data_source:
+    - Cloud Infrastructure Logs
+  providing_technologies:
+    - AWS
+    - Azure
+    - GCP
+description: This search builds a table of previously seen users that have launched
+  a cloud compute instance.
+eli5: In this support search, we create a table of the earliest and latest time for
+  each user that has created a cloud compute instance.
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+id: 9fa1c205-4e08-4681-bb1b-d0943e734b85
+known_false_positives: ''
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2018-03-15'
+name: Previously Seen Cloud Compute Creations By User
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+spec_version: 2
+type: splunk
+version: '1.0'

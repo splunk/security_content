@@ -1,0 +1,6 @@
+definition: lookup update=true dynamic_dns_providers_default dynamic_dns_domains as
+  url OUTPUTNEW isDynDNS_default | lookup update=true dynamic_dns_providers_local
+  dynamic_dns_domains as url OUTPUTNEW isDynDNS_local| eval isDynDNS = coalesce(isDynDNS_default,
+  isDynDNS_local)|fields - isDynDNS_default, isDynDNS_local| search isDynDNS=True
+description: This is a description
+name: dynamic_dns_web_traffic

@@ -6,6 +6,7 @@ Generates splunk configurations from manifest files under the security-content r
 
 import glob
 import json
+import yaml
 import argparse
 from os import path
 import sys
@@ -85,16 +86,18 @@ def process_baseline_stories(name, stories, detections):
 
 def generate_macros(REPO_PATH):
     'Process the macro manifests'
-    
+
     macros = []
-    macros_manifest_files = path.join(path.expanduser(REPO_PATH), "macros/*.json")
+    macros_manifest_files = path.join(path.expanduser(REPO_PATH), "macros/*.yml")
     for macros_manifest_file in glob.glob(macros_manifest_files):
-        # read in each story
-        try:
-            macro = json.loads(
-                open(macros_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(macros_manifest_file))
+        # read in each macro
+        with open(macros_manifest_file, 'r') as stream:
+            try:
+                macro = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(macros_manifest_file))
+
 
         if 'definition' not in macro:
             macro['definition'] = "`comment({0})`".format(macro['description'])
@@ -105,32 +108,39 @@ def generate_macros(REPO_PATH):
 
 def generate_lookups(REPO_PATH):
     'Process the lookup manifests'
-    
+
     lookups = []
-    lookups_manifest_files = path.join(path.expanduser(REPO_PATH), "lookups/*.json")
+    lookups_manifest_files = path.join(path.expanduser(REPO_PATH), "lookups/*.yml")
     for lookups_manifest_file in glob.glob(lookups_manifest_files):
-        # read in each story
-        try:
-            lookup = json.loads(
-                open(lookups_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(lookups_manifest_file))
+        # read in each lookup
+        with open(lookups_manifest_file, 'r') as stream:
+            try:
+                lookup = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(lookups_manifest_file))
+
+
         lookups.append(lookup)
 
     return lookups
+
 
 def generate_baselines(REPO_PATH, detections, stories):
     # first we process detections
 
     baselines = []
-    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.json")
+    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.yml")
     for baselines_manifest_file in glob.glob(baselines_manifest_files):
-        # read in each story
-        try:
-            baseline = json.loads(
-                open(baselines_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(baselines_manifest_file))
+        # read in each baseline
+        with open(baselines_manifest_file, 'r') as stream:
+            try:
+                baseline = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(baselines_manifest_file))
+
+
         baselines.append(baseline)
 
     complete_baselines = dict()
@@ -214,14 +224,17 @@ def generate_investigations(REPO_PATH, detections, stories):
     # first we process detections
 
     investigations = []
-    investigations_manifest_files = path.join(path.expanduser(REPO_PATH), "investigations/*.json")
+    investigations_manifest_files = path.join(path.expanduser(REPO_PATH), "investigations/*.yml")
     for investigations_manifest_file in glob.glob(investigations_manifest_files):
-        # read in each story
-        try:
-            investigation = json.loads(
-                open(investigations_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(investigations_manifest_file))
+        # read in each investigation
+        with open(investigations_manifest_file, 'r') as stream:
+            try:
+                investigation = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(investigations_manifest_file))
+
+
         investigations.append(investigation)
 
     complete_investigations = dict()
@@ -327,14 +340,17 @@ def generate_detections(REPO_PATH, stories):
     # first we process detections
 
     detections = []
-    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.json")
+    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.yml")
     for detections_manifest_file in glob.glob(detections_manifest_files):
-        # read in each story
-        try:
-            detection = json.loads(
-                open(detections_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+        # read in each detection
+        with open(detections_manifest_file, 'r') as stream:
+            try:
+                detection = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+
+
         detections.append(detection)
 
     complete_detections = dict()
@@ -484,15 +500,18 @@ def generate_detections(REPO_PATH, stories):
 
 def generate_stories(REPO_PATH, verbose):
     story_files = []
-    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
+    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.yml")
 
     for story_manifest_file in glob.glob(story_manifest_files):
         # read in each story
-        try:
-            story = json.loads(
-                open(story_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(story_manifest_file))
+        with open(story_manifest_file, 'r') as stream:
+            try:
+                story = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(story_manifest_file))
+
+
         story_files.append(story)
 
     # store an object with all stories and their data
@@ -911,12 +930,13 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
                 output_file.write("action.notable.param.severity = {0}\n"
                                   .format(detection['confidence']))
 
-            if 'drilldown_name' in detection['correlation_rule']['notable'] and 'drilldown_search' in detection['correlation_rule']['notable']:
+            if 'drilldown_name' in detection['correlation_rule']['notable'] \
+                    and 'drilldown_search' in detection['correlation_rule']['notable']:
                 output_file.write("action.notable.param.drilldown_name = {0}\n"
                                   .format(detection['correlation_rule']['notable']['drilldown_name']))
                 output_file.write("action.notable.param.drilldown_search = {0}\n"
                                   .format(detection['correlation_rule']['notable']['drilldown_search']))
-                
+
             # include investigative search as a notable action
             # this is code that needs to be cleaned up on its implementation in ES
             investigations_output = ""
@@ -1090,6 +1110,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
 
     return detections_count, investigations_count, baselines_count, detection_path
 
+
 def write_macros_conf(macros, OUTPUT_DIR):
     '''Write the macros.conf file'''
 
@@ -1102,7 +1123,7 @@ def write_macros_conf(macros, OUTPUT_DIR):
     output_file.write("# Contact: research@splunk.com\n")
     output_file.write("#############\n\n")
 
-    for macro in sorted(macros, key = lambda i: i['name']):
+    for macro in sorted(macros, key=lambda i: i['name']):
         arg_count = len(macro['arguments']) if 'arguments' in macro else 0
         stanza_name = macro['name'] if arg_count == 0 else "%s(%d)" % (macro['name'], arg_count)
         output_file.write("[{0}]\n".format(stanza_name))
@@ -1113,6 +1134,7 @@ def write_macros_conf(macros, OUTPUT_DIR):
 
     output_file.close()
     return len(macros), macros_output_path
+
 
 def write_transforms_conf(lookups, OUTPUT_DIR):
     '''write transforms.conf'''
@@ -1126,13 +1148,13 @@ def write_transforms_conf(lookups, OUTPUT_DIR):
     output_file.write("# Contact: research@splunk.com\n")
     output_file.write("#############\n\n")
 
-    for lookup in sorted(lookups, key = lambda i: i['name']):
+    for lookup in sorted(lookups, key=lambda i: i['name']):
         output_file.write("[{}]\n".format(lookup['name']))
         if 'filename' in lookup:
             output_file.write("filename = {}\n".format(lookup['filename']))
         else:
             output_file.write("collection = {}\n".format(lookup['collection']))
-    
+
         if 'default_match' in lookup:
             output_file.write("default_match = {}\n".format(lookup['default_match']))
         if 'case_sensitive_match' in lookup:
@@ -1207,9 +1229,7 @@ if __name__ == "__main__":
           "{1} investigations have been successfully written to {3}\n" \
           "{2} baselines have been successfully written to {3}\n" \
           "{4} macros have been successfully written to {5}\n" \
-          "{6} lookups have been successfully written to {7}\n".format(detections_count, investigations_count,
-                                                                        baselines_count, detection_path,
-                                                                        macros_count, macros_path,
-                                                                        lookups_count, lookups_path)
+          "{6} lookups have been successfully written to {7}\n".format(detections_count,
+                investigations_count, baselines_count, detection_path, macros_count, macros_path, lookups_count, lookups_path)
 
     print "security content generation completed.."

@@ -1,0 +1,41 @@
+creation_date: '2019-10-02'
+data_metadata:
+  data_models:
+    - Cloud
+  data_source:
+    - Cloud Infrastructure Logs
+  providing_technologies:
+    - AWS
+    - Azure
+    - GCP
+description: This search lists all the logged cloud infrastructure activities by a
+  specific cloud user in a specific cloud region
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+id: 3dc3a8e7-394b-44ae-8262-4ef8e90b723d
+investigate:
+  splunk:
+    fields_required:
+      - region
+      - src_user
+    macros:
+      - investigate_user_activities_in_single_cloud_region_output_filter
+    schedule:
+      cron_schedule: 0 * * * *
+      earliest_time: -70m@m
+      latest_time: -10m@m
+    search: '| from datamodel:Cloud_Draft_v4.Compute | search region={region} user={src_user}
+      `investigate_user_activities_in_single_cloud_region_output_filter`'
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2019-04-30'
+name: Investigate User Activities In Single Cloud Region
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+spec_version: 2
+type: splunk
+version: '2.0'

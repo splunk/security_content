@@ -1,0 +1,4 @@
+definition: (query=outlook* AND query=login* AND query=account*)
+description: This limits the query fields to domains that are associated with evilginx
+  masquerading as Outlook
+name: evilginx_phishlets_outlook

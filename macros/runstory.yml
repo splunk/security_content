@@ -1,0 +1,6 @@
+arguments:
+  - story_name
+definition: runstory story=$story_name$ | table name, num_search_results, description,
+  kill_chain_phases, mitre_attack
+description: This macro takes an analytic story name and runs it
+name: runstory
