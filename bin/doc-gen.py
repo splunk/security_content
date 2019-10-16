@@ -1,5 +1,5 @@
 import glob
-import json
+import yaml
 import argparse
 from os import path
 import sys
@@ -74,14 +74,17 @@ def generate_detections(REPO_PATH, stories):
     # first we process detections
 
     detections = []
-    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.json")
+    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.yml")
     for detections_manifest_file in glob.glob(detections_manifest_files):
-        # read in each story
-        try:
-            detection = json.loads(
-                open(detections_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+
+        # read in each detection
+        with open(detections_manifest_file, 'r') as stream:
+            try:
+                detection = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+
         detections.append(detection)
 
     complete_detections = dict()
@@ -230,15 +233,18 @@ def generate_detections(REPO_PATH, stories):
 
 def generate_stories(REPO_PATH, verbose):
     story_files = []
-    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
+    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.yml")
 
     for story_manifest_file in glob.glob(story_manifest_files):
+
         # read in each story
-        try:
-            story = json.loads(
-                open(story_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(story_manifest_file))
+        with open(story_manifest_file, 'r') as stream:
+            try:
+                story = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(story_manifest_file))
+
         story_files.append(story)
 
     # store an object with all stories and their data

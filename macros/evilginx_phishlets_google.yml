@@ -1,0 +1,4 @@
+definition: (query=accounts* AND query=ssl* AND query=www*)
+description: This limits the query fields to domains that are associated with evilginx
+  masquerading as Google
+name: evilginx_phishlets_google

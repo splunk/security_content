@@ -1,0 +1,57 @@
+category:
+  - Adversary Tactics
+channel: ESCU
+creation_date: '2018-05-31'
+description: Monitor and detect registry changes initiated from remote locations,
+  which can be a sign that an attacker has infiltrated your system.
+detections:
+  - detection_id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
+    name: Remote Registry Key modifications
+    type: splunk
+  - detection_id: 1b989a0e-0129-4446-a695-f193a5b746fc
+    name: Suspicious Changes to File Associations
+    type: splunk
+  - detection_id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
+    name: Disabling Remote User Account Control
+    type: splunk
+  - detection_id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
+    name: Registry Keys for Creating SHIM Databases
+    type: splunk
+  - detection_id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
+    name: Monitor Registry Keys for Print Monitors
+    type: splunk
+  - detection_id: c77162d3-f93c-45cc-80c8-22f6b5264x9f
+    name: Reg.exe used to hide files/directories via registry keys
+    type: splunk
+  - detection_id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
+    name: Registry Keys Used For Persistence
+    type: splunk
+  - detection_id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
+    name: Registry Keys Used For Privilege Escalation
+    type: splunk
+id: 2b1800dd-92f9-47dd-a981-fdf1351e5d55
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+modification_date: '2018-05-31'
+name: Suspicious Windows Registry Activities
+narrative: "Attackers are developing increasingly sophisticated techniques for hijacking\
+  \ target servers, while evading detection. One such technique that has become progressively\
+  \ more common is registry modification.\\\n The registry is a key component of the\
+  \ Windows operating system. It has a hierarchical database called \"registry\" that\
+  \ contains settings, options, and values for executables. Once the threat actor\
+  \ gains access to a machine, they can use reg.exe to modify their account to obtain\
+  \ administrator-level privileges, maintain persistence, and move laterally within\
+  \ the environment.\\\n The searches in this story are designed to help you detect\
+  \ behaviors associated with manipulation of the Windows registry."
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references:
+  - https://redcanary.com/blog/windows-registry-attacks-threat-detection/
+  - https://attack.mitre.org/wiki/Technique/T1112
+spec_version: 2
+usecase: Advanced Threat Detection
+version: '1.0'

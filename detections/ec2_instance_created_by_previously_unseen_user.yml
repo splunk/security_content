@@ -1,0 +1,103 @@
+asset_type: AWS Instance
+baselines:
+  - id: 6c767ac0-0906-4355-9a83-927f5ee7bdad
+    name: Previously Seen EC2 Launches By User
+    type: splunk
+confidence: medium
+creation_date: '2018-03-15'
+data_metadata:
+  data_source:
+    - AWS CloudTrail logs
+  data_sourcetypes:
+    - aws:cloudtrail
+  providing_technologies:
+    - AWS
+description: This search looks for EC2 instances being created by users who have not
+  created them before.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: user, dest
+        rule_description: The EC2 instance $dest$ was created by $user$.  This user
+          has never created an EC2 instance before.
+        rule_title: EC2 Instance Created By Previously Unseen User $user$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 30
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail
+        eventName=RunInstances errorCode=success | stats earliest(_time) as firstTime
+        latest(_time) as lastTime by userIdentity.arn | rename userIdentity.arn as
+        arn | inputlookup append=t previously_seen_ec2_launches_by_user.csv | stats
+        min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup
+        previously_seen_ec2_launches_by_user.csv | eval newUser=if(firstTime >= relative_time(now(),
+        "-70m@m"), 1, 0) | where newUser=1 | `ctime(firstTime)` | `ctime(lastTime)`
+        | rename arn as userIdentity.arn | table userIdentity.arn] | rename requestParameters.instanceType
+        as instanceType, responseElements.instancesSet.items{}.instanceId as dest,
+        userIdentity.arn as user | table _time, user, dest, instanceType
+      suppress:
+        suppress_fields: user, dest
+        suppress_period: 14400s
+eli5: The subsearch returns the ARNs of all successful EC2 instance launches within
+  the last hour and then appends the historical data in the lookup file to those results.  It
+  then recalculates the `firstTime` and `lastTime` field for each ARN and returns
+  only those ARNs that have first been seen in the past hour.  This is combined with
+  the main search to return the time, user, and instance id of those systems.
+entities:
+  - dest
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen EC2 Launches By
+  User" support search once to create a history of previously seen ARNs.
+id: 22773e84-bac0-4595-b086-20d3f735b4f1
+investigations:
+  - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
+    name: AWS Investigate User Activities By ARN
+    type: splunk
+  - id: 0e40fe83-3edb-4d86-8206-8fed36529ca6
+    name: Get EC2 Launch Details
+    type: splunk
+  - id: f3db4d1b-5f33-4b01-c541-c7ah9514c242
+    name: Get EC2 Instance Details by instanceId
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+  - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd11
+    name: Investigate AWS activities via region name
+    type: splunk
+known_false_positives: It's possible that a user will start to create EC2 instances
+  when they haven't before for any number of reasons. Verify with the user that is
+  launching instances that this is the intended behavior.
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+mappings:
+  cis20:
+    - CIS 1
+  nist:
+    - ID.AM
+modification_date: '2018-03-12'
+name: EC2 Instance Started With Previously Unseen User
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'

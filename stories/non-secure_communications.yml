@@ -1,0 +1,33 @@
+category:
+  - Best Practices
+channel: ESCU
+creation_date: '2016-09-13'
+description: Leverage searches that detect cleartext network protocols that may leak
+  credentials or should otherwise be encrypted.
+detections:
+  - detection_id: 6923cd64-17a0-453c-b945-81ac2d8c6db9
+    name: Protocols passing authentication in cleartext
+    type: splunk
+id: 826e6431-aeef-41b4-9fc0-6d0985d65a21
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+modification_date: '2017-09-15'
+name: Use of Cleartext Protocols
+narrative: Various legacy protocols operate by default in the clear, without the protections
+  of encryption. This potentially leaks sensitive information that can be exploited
+  by passively sniffing network traffic. Depending on the protocol, this information
+  could be highly sensitive, or could allow for session hijacking. In addition, these
+  protocols send authentication information, which would allow for the harvesting
+  of usernames and passwords that could potentially be used to authenticate and compromise
+  secondary systems.
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references:
+  - https://www.monkey.org/~dugsong/dsniff/
+spec_version: 2
+usecase: Security Monitoring
+version: '1.0'
