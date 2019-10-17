@@ -78,9 +78,6 @@ investigations:
   - id: 33a95cf2-900c-4636-8fca-5c5f71474720
     name: Investigate Cloud Compute Instance Activities
     type: splunk
-  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
-    name: Get Notable History
-    type: splunk
 known_false_positives: It's possible that a user has unknowingly started an instance
   in a new region. Please verify that this activity is legitimate.
 maintainers:
