@@ -6,6 +6,7 @@ Generates splunk configurations from manifest files under the security-content r
 
 import glob
 import json
+import yaml
 import argparse
 from os import path
 import sys
@@ -83,41 +84,86 @@ def process_baseline_stories(name, stories, detections):
     return sorted(set(baseline_stories))
 
 
+def generate_macros(REPO_PATH):
+    'Process the macro manifests'
+
+    macros = []
+    macros_manifest_files = path.join(path.expanduser(REPO_PATH), "macros/*.yml")
+    for macros_manifest_file in glob.glob(macros_manifest_files):
+        # read in each macro
+        with open(macros_manifest_file, 'r') as stream:
+            try:
+                macro = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(macros_manifest_file))
+
+
+        if 'definition' not in macro:
+            macro['definition'] = "`comment({0})`".format(macro['description'])
+        macros.append(macro)
+
+    return macros
+
+
+def generate_lookups(REPO_PATH):
+    'Process the lookup manifests'
+
+    lookups = []
+    lookups_manifest_files = path.join(path.expanduser(REPO_PATH), "lookups/*.yml")
+    for lookups_manifest_file in glob.glob(lookups_manifest_files):
+        # read in each lookup
+        with open(lookups_manifest_file, 'r') as stream:
+            try:
+                lookup = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(lookups_manifest_file))
+
+
+        lookups.append(lookup)
+
+    return lookups
+
+
 def generate_baselines(REPO_PATH, detections, stories):
     # first we process detections
 
     baselines = []
-    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.json")
+    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.yml")
     for baselines_manifest_file in glob.glob(baselines_manifest_files):
-        # read in each story
-        try:
-            baseline = json.loads(
-                open(baselines_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(baselines_manifest_file))
+        # read in each baseline
+        with open(baselines_manifest_file, 'r') as stream:
+            try:
+                baseline = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(baselines_manifest_file))
+
+
         baselines.append(baseline)
 
     complete_baselines = dict()
     for baseline in baselines:
 
         # lets process v1 baseline
-        # if baseline['spec_version'] == 1:
-        #     if verbose:
-        #         print "processing v1 baseline: {0}".format(baseline['search_name'])
-        #     name = baseline['search_name']
-        #     type = 'splunk'
-        #     id = baseline['search_id']
-        #     description = baseline['search_description']
+        if baseline['spec_version'] == 1:
+            if verbose:
+                print "processing v1 baseline: {0}".format(baseline['search_name'])
+            name = baseline['search_name']
+            type = 'splunk'
+            id = baseline['search_id']
+            description = baseline['search_description']
 
-        #     # grab search information
-        #     search = baseline['search']
-        #     schedule = baseline['scheduling']
-        #     earliest_time = schedule['earliest_time']
-        #     latest_time = schedule['latest_time']
-        #     if 'cron_schedule' in schedule:
-        #         cron = schedule['cron_schedule']
-        #     else:
-        #         cron = ''
+            # grab search information
+            search = baseline['search']
+            schedule = baseline['scheduling']
+            earliest_time = schedule['earliest_time']
+            latest_time = schedule['latest_time']
+            if 'cron_schedule' in schedule:
+                cron = schedule['cron_schedule']
+            else:
+                cron = ''
 
         if baseline['spec_version'] == 2:
             if verbose:
@@ -178,34 +224,37 @@ def generate_investigations(REPO_PATH, detections, stories):
     # first we process detections
 
     investigations = []
-    investigations_manifest_files = path.join(path.expanduser(REPO_PATH), "investigations/*.json")
+    investigations_manifest_files = path.join(path.expanduser(REPO_PATH), "investigations/*.yml")
     for investigations_manifest_file in glob.glob(investigations_manifest_files):
-        # read in each story
-        try:
-            investigation = json.loads(
-                open(investigations_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(investigations_manifest_file))
+        # read in each investigation
+        with open(investigations_manifest_file, 'r') as stream:
+            try:
+                investigation = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(investigations_manifest_file))
+
+
         investigations.append(investigation)
 
     complete_investigations = dict()
     for investigation in investigations:
 
         # lets process v1 investigation
-        # if investigation['spec_version'] == 1:
-        #     type = 'splunk'
-        #     if verbose:
-        #         print "processing v1 investigation: {0}".format(investigation['search_name'])
-        #     name = investigation['search_name']
-        #     id = investigation['search_id']
-        #     description = investigation['search_description']
+        if investigation['spec_version'] == 1:
+            type = 'splunk'
+            if verbose:
+                print "processing v1 investigation: {0}".format(investigation['search_name'])
+            name = investigation['search_name']
+            id = investigation['search_id']
+            description = investigation['search_description']
 
-        #     # grab search information
-        #     search = investigation['search']
-        #     schedule = investigation['search_window']
-        #     earliest_time = schedule['earliest_time_offset']
-        #     latest_time = schedule['latest_time_offset']
-        #     cron = ''
+            # grab search information
+            search = investigation['search']
+            schedule = investigation['search_window']
+            earliest_time = schedule['earliest_time_offset']
+            latest_time = schedule['latest_time_offset']
+            cron = ''
 
         if investigation['spec_version'] == 2:
             if verbose:
@@ -291,48 +340,51 @@ def generate_detections(REPO_PATH, stories):
     # first we process detections
 
     detections = []
-    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.json")
+    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.yml")
     for detections_manifest_file in glob.glob(detections_manifest_files):
-        # read in each story
-        try:
-            detection = json.loads(
-                open(detections_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+        # read in each detection
+        with open(detections_manifest_file, 'r') as stream:
+            try:
+                detection = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+
+
         detections.append(detection)
 
     complete_detections = dict()
     for detection in detections:
         # lets process v1 detections
-        # if detection['spec_version'] == 1:
-        #     if verbose:
-        #         print "processing v1 detection: {0}".format(detection['search_name'])
-        #     name = detection['search_name']
-        #     type = 'splunk'
-        #     description = detection['search_description']
-        #     id = detection['search_id']
+        if detection['spec_version'] == 1:
+            if verbose:
+                print "processing v1 detection: {0}".format(detection['search_name'])
+            name = detection['search_name']
+            type = 'splunk'
+            description = detection['search_description']
+            id = detection['search_id']
 
-        #     # grab search information
-        #     correlation_rule = detection['correlation_rule']
-        #     search = detection['search']
-        #     schedule = detection['scheduling']
-        #     earliest_time = schedule['earliest_time']
-        #     latest_time = schedule['latest_time']
-        #     cron = schedule['cron_schedule']
+            # grab search information
+            correlation_rule = detection['correlation_rule']
+            search = detection['search']
+            schedule = detection['scheduling']
+            earliest_time = schedule['earliest_time']
+            latest_time = schedule['latest_time']
+            cron = schedule['cron_schedule']
 
-        #     # grabbing entities
-        #     entities = []
+            # grabbing entities
+            entities = []
 
-        #     investigations = []
-        #     baselines = []
-        #     responses = []
-        #     for story_name, story in sorted(stories.iteritems()):
-        #         for d in story['detections']:
-        #             if d['name'] == name:
-        #                 if 'investigations' in story:
-        #                     investigations = story['investigations']
-        #                 if 'baselines' in story:
-        #                     baselines = story['baselines']
+            investigations = []
+            baselines = []
+            responses = []
+            for story_name, story in sorted(stories.iteritems()):
+                for d in story['detections']:
+                    if d['name'] == name:
+                        if 'investigations' in story:
+                            investigations = story['investigations']
+                        if 'baselines' in story:
+                            baselines = story['baselines']
 
         # lets process v2 detections
         if detection['spec_version'] == 2:
@@ -448,15 +500,18 @@ def generate_detections(REPO_PATH, stories):
 
 def generate_stories(REPO_PATH, verbose):
     story_files = []
-    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
+    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.yml")
 
     for story_manifest_file in glob.glob(story_manifest_files):
         # read in each story
-        try:
-            story = json.loads(
-                open(story_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(story_manifest_file))
+        with open(story_manifest_file, 'r') as stream:
+            try:
+                story = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(story_manifest_file))
+
+
         story_files.append(story)
 
     # store an object with all stories and their data
@@ -488,32 +543,32 @@ def generate_stories(REPO_PATH, verbose):
         complete_stories[name]['maintainers'] = story['maintainers']
 
         # grab searches
-        # if story['spec_version'] == 1:
-        #     detections = []
-        #     baselines = []
-        #     investigations = []
-        #     category = []
+        if story['spec_version'] == 1:
+            detections = []
+            baselines = []
+            investigations = []
+            category = []
 
-        #     category.append(story['category'])
+            category.append(story['category'])
 
-        #     if 'detection_searches' in story['searches']:
-        #         for d in story['searches']['detection_searches']:
-        #             detections.append({"type": "splunk", "name": d})
-        #         complete_stories[name]['detections'] = detections
+            if 'detection_searches' in story['searches']:
+                for d in story['searches']['detection_searches']:
+                    detections.append({"type": "splunk", "name": d})
+                complete_stories[name]['detections'] = detections
 
-        #     # in spec v1 these are part of the story which is why we are grabbing them here
-        #     if 'support_searches' in story['searches']:
-        #         for b in story['searches']['support_searches']:
-        #             baselines.append({"type": "splunk", "name": b})
-        #         complete_stories[name]['baselines'] = baselines
+            # in spec v1 these are part of the story which is why we are grabbing them here
+            if 'support_searches' in story['searches']:
+                for b in story['searches']['support_searches']:
+                    baselines.append({"type": "splunk", "name": b})
+                complete_stories[name]['baselines'] = baselines
 
-        #     if 'contextual_searches' in story['searches']:
-        #         for i in story['searches']['contextual_searches']:
-        #             investigations.append({"type": "splunk", "name": i})
-        #     if 'investigative_searches' in story['searches']:
-        #         for i in story['searches']['investigative_searches']:
-        #             investigations.append({"type": "splunk", "name": i})
-        #     complete_stories[name]['investigations'] = investigations
+            if 'contextual_searches' in story['searches']:
+                for i in story['searches']['contextual_searches']:
+                    investigations.append({"type": "splunk", "name": i})
+            if 'investigative_searches' in story['searches']:
+                for i in story['searches']['investigative_searches']:
+                    investigations.append({"type": "splunk", "name": i})
+            complete_stories[name]['investigations'] = investigations
 
         if story['spec_version'] == 2:
             detections = []
@@ -843,9 +898,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.asset_at_risk = {0}\n".format(detection['asset_type']))
         if 'entities' in detection:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(detection['entities'])))
-        if 'entities' in detection:
             output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
-
         if 'providing_technologies' in detection:
             output_file.write("action.escu.providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(detection['stories'])))
@@ -877,6 +930,13 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
                                   .format(detection['security_domain']))
                 output_file.write("action.notable.param.severity = {0}\n"
                                   .format(detection['confidence']))
+
+            if 'drilldown_name' in detection['correlation_rule']['notable'] \
+                    and 'drilldown_search' in detection['correlation_rule']['notable']:
+                output_file.write("action.notable.param.drilldown_name = {0}\n"
+                                  .format(detection['correlation_rule']['notable']['drilldown_name']))
+                output_file.write("action.notable.param.drilldown_search = {0}\n"
+                                  .format(detection['correlation_rule']['notable']['drilldown_search']))
 
             # include investigative search as a notable action
             # this is code that needs to be cleaned up on its implementation in ES
@@ -986,8 +1046,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in investigation:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(investigation['entities'])))
-        if 'entities' in investigation:
-            output_file.write("action.escu.entities = {0}\n".format(json.dumps(investigation['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
@@ -1031,8 +1090,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in baseline:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(baseline['entities'])))
-        if 'entities' in baseline:
-            output_file.write("action.escu.entities = {0}\n".format(json.dumps(baseline['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
@@ -1054,6 +1112,68 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
     detection_path = detections_output_path
 
     return detections_count, investigations_count, baselines_count, detection_path
+
+
+def write_macros_conf(macros, OUTPUT_DIR):
+    '''Write the macros.conf file'''
+
+    macros_output_path = OUTPUT_DIR + "/default/macros.conf"
+    output_file = open(macros_output_path, 'w')
+    output_file.write("#############\n")
+    output_file.write("# Automatically generated by generator.py in splunk/security-content\n")
+    output_file.write("# On Date: {0} UTC\n".format(datetime.datetime.utcnow().replace(microsecond=0).isoformat()))
+    output_file.write("# Author: Splunk Security Research\n")
+    output_file.write("# Contact: research@splunk.com\n")
+    output_file.write("#############\n\n")
+
+    for macro in sorted(macros, key=lambda i: i['name']):
+        arg_count = len(macro['arguments']) if 'arguments' in macro else 0
+        stanza_name = macro['name'] if arg_count == 0 else "%s(%d)" % (macro['name'], arg_count)
+        output_file.write("[{0}]\n".format(stanza_name))
+        if arg_count:
+            output_file.write("args = {0}\n".format(", ".join(macro['arguments'])))
+        output_file.write("definition = {0}\n".format(macro['definition']))
+        output_file.write("description = {0}\n\n".format(macro['description']))
+
+    output_file.close()
+    return len(macros), macros_output_path
+
+
+def write_transforms_conf(lookups, OUTPUT_DIR):
+    '''write transforms.conf'''
+
+    transforms_output_path = OUTPUT_DIR + "/default/transforms.conf"
+    output_file = open(transforms_output_path, 'w')
+    output_file.write("#############\n")
+    output_file.write("# Automatically generated by generator.py in splunk/security-content\n")
+    output_file.write("# On Date: {0} UTC\n".format(datetime.datetime.utcnow().replace(microsecond=0).isoformat()))
+    output_file.write("# Author: Splunk Security Research\n")
+    output_file.write("# Contact: research@splunk.com\n")
+    output_file.write("#############\n\n")
+
+    for lookup in sorted(lookups, key=lambda i: i['name']):
+        output_file.write("[{}]\n".format(lookup['name']))
+        if 'filename' in lookup:
+            output_file.write("filename = {}\n".format(lookup['filename']))
+        else:
+            output_file.write("collection = {}\n".format(lookup['collection']))
+
+        if 'default_match' in lookup:
+            output_file.write("default_match = {}\n".format(lookup['default_match']))
+        if 'case_sensitive_match' in lookup:
+            output_file.write("case_sensitive_match = {}\n".format(lookup['case_sensitive_match']))
+        if 'description' in lookup:
+            output_file.write("description = {}\n".format(lookup['description']))
+        if 'match_type' in lookup:
+            output_file.write("match_type = {}\n".format(lookup['match_type']))
+        if 'max_matches' in lookup:
+            output_file.write("max_matches = {}\n".format(lookup['max_matches']))
+        if 'min_matches' in lookup:
+            output_file.write("min_matches = {}\n".format(lookup['min_matches']))
+
+        output_file.write("\n")
+
+    return len(lookups), transforms_output_path
 
 
 if __name__ == "__main__":
@@ -1079,6 +1199,8 @@ if __name__ == "__main__":
     use_case_lib = args.use_case_lib
 
     complete_stories = generate_stories(REPO_PATH, verbose)
+    complete_macros = generate_macros(REPO_PATH)
+    complete_lookups = generate_lookups(REPO_PATH)
     complete_detections = generate_detections(REPO_PATH, complete_stories)
     complete_investigations = generate_investigations(REPO_PATH, complete_detections, complete_stories)
     complete_baselines = generate_baselines(REPO_PATH, complete_detections, complete_stories)
@@ -1102,9 +1224,15 @@ if __name__ == "__main__":
     detections_count, investigations_count, baselines_count, detection_path = \
         write_savedsearches_confv1(complete_detections, complete_investigations,
                                    complete_baselines, OUTPUT_DIR)
-    print "{0} detections have been successfully written to {1}\n" \
-          "{2} investigations have been successfully written to {1}\n" \
-          "{3} baselines have been successfully written to {1}".format(detections_count, detection_path,
-                                                                       investigations_count, baselines_count)
+
+    macros_count, macros_path = write_macros_conf(complete_macros, OUTPUT_DIR)
+    lookups_count, lookups_path = write_transforms_conf(complete_lookups, OUTPUT_DIR)
+
+    print "{0} detections have been successfully written to {3}\n" \
+          "{1} investigations have been successfully written to {3}\n" \
+          "{2} baselines have been successfully written to {3}\n" \
+          "{4} macros have been successfully written to {5}\n" \
+          "{6} lookups have been successfully written to {7}\n".format(detections_count,
+                investigations_count, baselines_count, detection_path, macros_count, macros_path, lookups_count, lookups_path)
 
     print "security content generation completed.."
