@@ -248,6 +248,7 @@
           "process",
           "recipient",
           "Region",
+          "region",
           "resourceId",
           "session_id",
           "src_ip",
