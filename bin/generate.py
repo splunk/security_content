@@ -100,7 +100,7 @@ def generate_macros(REPO_PATH):
 
 
         if 'definition' not in macro:
-            macro['definition'] = "`comment({0})`".format(macro['description'])
+            macro['definition'] = "`comment(\"{0}\")`".format(macro['description'])
         macros.append(macro)
 
     return macros
