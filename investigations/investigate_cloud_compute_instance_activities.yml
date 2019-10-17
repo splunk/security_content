@@ -1,7 +1,7 @@
 creation_date: '2019-10-02'
 data_metadata:
   data_models:
-    - Cloud
+    - Cloud_Infrastructure
   data_source:
     - Cloud Infrastructure Logs
   providing_technologies:
@@ -24,7 +24,7 @@ investigate:
       cron_schedule: ''
       earliest_time: '7200'
       latest_time: '0'
-    search: '| from datamodel:Cloud_Draft_v4.Cloud_Compute | search dest={dest} `investigate_cloud_compute_instance_activities_output_filter`'
+    search: '| from datamodel:Cloud_Infrastructure.Cloud_Compute | search dest={dest} `investigate_cloud_compute_instance_activities_output_filter`'
 maintainers:
   - company: Splunk
     email: davidd@splunk.com
