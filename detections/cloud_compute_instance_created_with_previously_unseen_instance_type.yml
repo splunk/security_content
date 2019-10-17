@@ -23,6 +23,7 @@ detect:
         - previously_seen_cloud_compute_instance_types
       macros:
         - previously_seen_cloud_compute_instance_types_input_filter
+        - previously_seen_cloud_compute_instance_types_search_window_begin_offset
       notable:
         drilldown_name: Find all compute instances of type $instance_type$
         drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | instance_type=$instance_type$'
@@ -47,7 +48,8 @@ detect:
         max(lastTime) as lastTime, values(dest) as dest by instance_type, src_user
         | multireport [| table instance_type, firstTime, lastTime | outputlookup previously_seen_cloud_compute_instance_types
         | where fact=fiction][| eval new_type=if(firstTime >= relative_time(now(),
-        "-70m@m"), 1, 0) | where new_type=1 | convert ctime(firstTime) ctime(lastTime)]
+        `previously_seen_cloud_compute_instance_types_search_window_begin_offset`), 1, 0)
+        | where new_type=1 | convert ctime(firstTime) ctime(lastTime)]
         | table instance_type, dest, src_user, firstTime, lastTime'
       suppress:
         suppress_fields: dest

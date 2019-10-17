@@ -23,6 +23,7 @@ detect:
         - previously_seen_cloud_compute_creations_by_user
       macros:
         - previously_seen_cloud_compute_creations_by_user_input_filter
+        - previously_seen_cloud_compute_creations_by_user_search_window_begin_offset
       notable:
         drilldown_name: Show all instances created by $src_user$
         drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | action=run src_user=$src_user$'
@@ -46,7 +47,8 @@ detect:
         firstTime max(lastTime) as lastTime, values(dest) as dest by src_user | multireport
         [| table src_user, firstTime, lastTime | outputlookup previously_seen_cloud_compute_creations_by_user
         | where fact=fiction][| eval new_user=if(firstTime >= relative_time(now(),
-        "-70m@m"), 1, 0) | where new_user=1 | convert ctime(firstTime) ctime(lastTime)]
+        `previously_seen_cloud_compute_creations_by_user_search_window_begin_offset`), 1, 0)
+        | where new_user=1 | convert ctime(firstTime) ctime(lastTime)]
         | table src_user, dest, firstTime, lastTime'
       suppress:
         suppress_fields: src_user, dest

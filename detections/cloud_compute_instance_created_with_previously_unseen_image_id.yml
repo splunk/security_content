@@ -23,6 +23,7 @@ detect:
         - previously_seen_cloud_compute_images
       macros:
         - previously_seen_cloud_compute_image_input_filter
+        - previously_seen_cloud_compute_image_search_window_begin_offset
       notable:
         drilldown_name: Show all instances created with image $image_id$
         drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | image_id=$image_id$'
@@ -46,7 +47,7 @@ detect:
         as firstTime max(lastTime) as lastTime, values(dest) as dest by image_id,
         src_user | multireport [| table image_id, firstTime, lastTime | outputlookup
         previously_seen_cloud_compute_images | where fact=fiction][| eval new_image=if(firstTime
-        >= relative_time(now(), "-70m@m"), 1, 0) | where new_image=1 | convert ctime(firstTime)
+        >= relative_time(now(), `previously_seen_cloud_compute_image_search_window_begin_offset`), 1, 0) | where new_image=1 | convert ctime(firstTime)
         ctime(lastTime)] | table image_id, dest, src_user, firstTime, lastTime'
       suppress:
         suppress_fields: dest
