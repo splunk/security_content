@@ -7,6 +7,7 @@ Validates Manifest file under the security-content repo for correctness.
 import glob
 import json
 import jsonschema
+import yaml
 import sys
 import argparse
 from os import path
@@ -570,23 +571,21 @@ def validate_investigation(REPO_PATH, verbose, macros, lookups):
         print "ERROR: reading version 2 investigations schema file {0}".format(v2_schema_file)
 
     error = False
-    manifest_files = path.join(path.expanduser(REPO_PATH), "investigations/*.json")
+    manifest_files = path.join(path.expanduser(REPO_PATH), "investigations/*.yml")
 
     for manifest_file in glob.glob(manifest_files):
         if verbose:
             print "processing investigation {0}".format(manifest_file)
+
         # read in each investigation
-        try:
-            investigation = json.loads(
-                open(manifest_file, 'r').read())
-        except IOError:
-            print "ERROR: reading {0}".format(manifest_file)
-            error = True
-            continue
-        except ValueError:
-            print "ERROR: File is not proper JSON {0}".format(manifest_file)
-            error = True
-            continue
+        with open(manifest_file, 'r') as stream:
+            try:
+                investigation = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print "Error reading {0}".format(manifest_file)
+                error = True
+                continue
 
         # validate v1 and v2 stories against spec for both investigations and old contexual searches
 
@@ -648,20 +647,21 @@ def validate_detection(REPO_PATH, verbose, macros, lookups):
         print "ERROR: File is not proper JSON {0}".format(v2_schema_file)
 
     error = False
-    manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.json")
+    manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.yml")
 
     for manifest_file in glob.glob(manifest_files):
         if verbose:
             print "processing detection {0}".format(manifest_file)
 
-        # read in each story
-        try:
-            detection = json.loads(
-                open(manifest_file, 'r').read())
-        except IOError:
-            print "Error reading {0}".format(manifest_file)
-            error = True
-            continue
+        # read in each detection
+        with open(manifest_file, 'r') as stream:
+            try:
+                detection = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print "Error reading {0}".format(manifest_file)
+                error = True
+                continue
 
         # validate v1 and v2 stories against spec
         if detection['spec_version'] == 1:
@@ -718,20 +718,21 @@ def validate_story(REPO_PATH, verbose):
         print "ERROR: File is not proper JSON {0}".format(v2_schema_file)
 
     error = False
-    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
+    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.yml")
 
     for story_manifest_file in glob.glob(story_manifest_files):
         if verbose:
             print "processing story {0}".format(story_manifest_file)
 
         # read in each story
-        try:
-            story = json.loads(
-                open(story_manifest_file, 'r').read())
-        except IOError:
-            print "Error reading {0}".format(story_manifest_file)
-            error = True
-            continue
+        with open(story_manifest_file, 'r') as stream:
+            try:
+                story = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print "Error reading {0}".format(story_manifest_file)
+                error = True
+                continue
 
         # validate v1 and v2 stories against spec
         if story['spec_version'] == 1:
@@ -788,20 +789,21 @@ def validate_baselines(REPO_PATH, verbose, macros, lookups):
         print "ERROR: File is not proper JSON {0}".format(v2_schema_file)
 
     error = False
-    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.json")
+    baselines_manifest_files = path.join(path.expanduser(REPO_PATH), "baselines/*.yml")
 
     for baselines_manifest_file in glob.glob(baselines_manifest_files):
         if verbose:
-            print "processing story {0}".format(baselines_manifest_file)
+            print "processing baseline {0}".format(baselines_manifest_file)
 
         # read in each baseline
-        try:
-            baseline = json.loads(
-                open(baselines_manifest_file, 'r').read())
-        except IOError:
-            print "Error reading {0}".format(baselines_manifest_file)
-            error = True
-            continue
+        with open(baselines_manifest_file, 'r') as stream:
+            try:
+                baseline = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print "Error reading {0}".format(baselines_manifest_file)
+                error = True
+                continue
 
         # validate v1 and v2 stories against spec
         if baseline['spec_version'] == 1:
@@ -843,19 +845,21 @@ def validate_macros(REPO_PATH, verbose):
     schema = json.loads(open(schema_file, 'rb').read())
 
     macro_manifests = {}
-    macros_manifest_files = path.join(path.expanduser(REPO_PATH), "macros/*.json")
+    macros_manifest_files = path.join(path.expanduser(REPO_PATH), "macros/*.yml")
     for macros_manifest_file in glob.glob(macros_manifest_files):
         if verbose:
             print "processing macro {0}".format(macros_manifest_file)
 
         # read in each macro
-        try:
-            macro = json.loads(
-                open(macros_manifest_file, 'r').read())
-        except IOError:
-            print "Error reading {0}".format(macros_manifest_file)
-            error = True
-            continue
+        with open(macros_manifest_file, 'r') as stream:
+            try:
+                macro = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print "Error reading {0}".format(macros_manifest_file)
+                error = True
+                continue
+
 
         try:
             jsonschema.validate(instance=macro, schema=schema)
@@ -876,19 +880,20 @@ def validate_lookups(REPO_PATH, verbose):
     schema = json.loads(open(schema_file, 'rb').read())
 
     lookup_manifests = {}
-    lookups_manifest_files = path.join(path.expanduser(REPO_PATH), "lookups/*.json")
+    lookups_manifest_files = path.join(path.expanduser(REPO_PATH), "lookups/*.yml")
     for lookups_manifest_file in glob.glob(lookups_manifest_files):
         if verbose:
             print "processing lookup {0}".format(lookups_manifest_file)
 
         # read in each lookup
-        try:
-            lookup = json.loads(
-                open(lookups_manifest_file, 'r').read())
-        except IOError:
-            print "Error reading {0}".format(lookups_manifest_file)
-            error = True
-            continue
+        with open(lookups_manifest_file, 'r') as stream:
+            try:
+                lookup = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print "Error reading {0}".format(lookups_manifest_file)
+                error = True
+                continue
 
         try:
             jsonschema.validate(instance=lookup, schema=schema)
@@ -897,11 +902,6 @@ def validate_lookups(REPO_PATH, verbose):
             print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
             error = True
 
-        
-        if 'filename' not in lookup and 'collection' not in lookup:
-            print "ERROR: filename or collection must be set at:"
-            print "\t{}".format(lookups_manifest_file) 
-            error = True
 
         if 'filename' in lookup:
             lookup_csv_file = path.join(path.expanduser(REPO_PATH), "lookups/%s" % lookup['filename'])

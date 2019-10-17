@@ -1,0 +1,119 @@
+asset_type: Endpoint
+confidence: medium
+creation_date: '2018-01-26'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+    - Tanium
+    - Ziften
+description: This search looks for changes to registry values that control Windows
+  file associations, executed by a process that is not typical for legitimate, routine
+  changes to this area.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, user, process_name, process
+        rule_description: The system $dest$ had an unusual change to a file association
+        rule_title: Suspicious File Association Change on $dest$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 40
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+        lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
+        as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name!=Explorer.exe
+        AND Processes.process_name!=OpenWith.exe by Processes.process_id Processes.dest
+        | `drop_dm_object_name("Processes")` | `ctime(firstTime)` | `ctime(lastTime)`
+        | join [| tstats `summariesonly` values(Registry.registry_path) as registry_path
+        count  FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\Explorer\\FileExts*
+        by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` |
+        table process_id dest registry_path]'
+      suppress:
+        suppress_fields: dest,user
+        suppress_period: 28800s
+eli5: This search looks for changes made to the registry that control Windows file
+  associations. It is typical for users to change the file association to open certain
+  types of files with specific applications. However, when these changes are legitimately
+  performed, they are typically done via the processes explorer.exe or openwith.exe.
+  The search first executes the subsearch that looks at the Registry node, which specifies
+  setting a value in the registry and creates a table of process_id and dest. It then
+  uses those arguments to find out what process and parent process were responsible
+  for making those registry changes.
+entities:
+  - dest
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on registry changes that include the name of the process responsible for the changes
+  from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry`
+  nodes.
+id: 1b989a0e-0129-4446-a695-f193a5b746fc
+investigations:
+  - id: fecf2918-670d-4f1c-872b-3d7317a41xf9
+    name: Get Registry Activities
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+known_false_positives: There may be other processes in your environment that users
+  may legitimately use to modify file associations. If this is the case and you are
+  finding false positives, you can modify the search to add those processes as exceptions.
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+  cis20:
+    - CIS 3
+    - CIS 8
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Persistence
+    - Change Default File Association
+  nist:
+    - DE.CM
+    - PR.PT
+    - PR.IP
+modification_date: '2018-01-26'
+name: Suspicious Changes to File Associations
+original_authors:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '2.0'

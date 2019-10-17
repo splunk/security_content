@@ -1,0 +1,90 @@
+category:
+  - Malware
+channel: ESCU
+creation_date: '2017-07-24'
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage,
+  the presence of common ransomware extensions, and system processes run from unexpected
+  locations, and many others.
+detections:
+  - detection_id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
+    name: Windows Event Log Cleared
+    type: splunk
+  - detection_id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
+    name: Suspicious wevtutil Usage
+    type: splunk
+  - detection_id: b6e0ff70-b122-4227-9368-4cf322ab43c3
+    name: USN Journal Deletion
+    type: splunk
+  - detection_id: b89919ed-ee5f-492c-b139-95dbb162039e
+    name: Deleting Shadow Copies
+    type: splunk
+  - detection_id: fdb0f805-74e4-4539-8c00-618927333aae
+    name: Spike in File Writes
+    type: splunk
+  - detection_id: ce5a0962-849f-4720-a678-753fe6674479
+    name: Prohibited Network Traffic Allowed
+    type: splunk
+  - detection_id: 7f5fb3e1-4209-4914-90db-0ec21b936378
+    name: SMB Traffic Spike
+    type: splunk
+  - detection_id: d25773ba-9ad8-48d1-858e-07ad0bbeb828
+    name: SMB Traffic Spike - MLTK
+    type: splunk
+  - detection_id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
+    name: Common Ransomware Extensions
+    type: splunk
+  - detection_id: ada0f478-84a8-4641-a3f1-d82362d6bd71
+    name: Common Ransomware Notes
+    type: splunk
+  - detection_id: a34aae96-ccf8-4aef-952c-3ea21444444d
+    name: System Processes Run From Unexpected Locations
+    type: splunk
+  - detection_id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
+    name: Remote Process Instantiation via WMI
+    type: splunk
+  - detection_id: ea688274-9c06-4473-b951-e4cb7a5d7a45
+    name: TOR Traffic
+    type: splunk
+  - detection_id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
+    name: Registry Keys Used For Persistence
+    type: splunk
+  - detection_id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
+    name: Unusually Long Command Line
+    type: splunk
+  - detection_id: 57edaefa-a73b-45e5-bbae-f39c1473f941
+    name: Unusually Long Command Line - MLTK
+    type: splunk
+  - detection_id: 1297fb80-f42a-4b4a-9c8b-78c066437cf6
+    name: Scheduled tasks used in BadRabbit ransomware
+    type: splunk
+  - detection_id: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
+    name: Schtasks used for forcing a reboot
+    type: splunk
+id: cf309d0d-d4aa-4fbb-963d-1e79febd3756
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2017-09-10'
+name: Ransomware
+narrative: Ransomware is an ever-present risk to the enterprise, wherein an infected
+  host encrypts business-critical data, holding it hostage until the victim pays the
+  attacker a ransom. There are many types and varieties of ransomware that can affect
+  an enterprise. Attackers can deploy ransomware to enterprises through spearphishing
+  campaigns and driveby downloads, as well as through traditional remote service-based
+  exploitation. In the case of the WannaCry campaign, there was self-propagating wormable
+  functionality that was used to maximize infection. Fortunately, organizations can
+  apply several techniques--such as those in this Analytic Story--to detect and or
+  mitigate the effects of ransomware.
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references:
+  - https://www.symantec.com/connect/blogs/what-you-need-know-about-wannacry-ransomware
+  - https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
+  - https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
+spec_version: 2
+usecase: Advanced Threat Detection
+version: '1.0'

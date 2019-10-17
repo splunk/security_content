@@ -1,0 +1,44 @@
+category:
+  - Adversary Tactics
+channel: ESCU
+creation_date: '2017-10-11'
+description: 'Detect tactics used by malware to evade defenses on Windows endpoints.
+  A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe`
+  and disabling user-account control, among many others '
+detections:
+  - detection_id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
+    name: Suspicious Reg.exe Process
+    type: splunk
+  - detection_id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
+    name: Disabling Remote User Account Control
+    type: splunk
+  - detection_id: c77162d3-f93c-45cc-80c8-22f6b5264g9f
+    name: Hiding Files And Directories With Attrib.exe
+    type: splunk
+  - detection_id: c77162d3-f93c-45cc-80c8-22f6b5264x9f
+    name: Reg.exe used to hide files/directories via registry keys
+    type: splunk
+  - detection_id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
+    name: Remote Registry Key modifications
+    type: splunk
+id: 56e24a28-5003-4047-b2db-e8f3c4618064
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2018-05-31'
+name: Windows Defense Evasion Tactics
+narrative: Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that
+  adversaries employ in a variety of ways to bypass or defeat defensive security measures.
+  There are many techniques enumerated by the MITRE ATT&CK framework that are applicable
+  in this context. This Analytic Story includes searches designed to identify the
+  use of such techniques on Windows platforms.
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references:
+  - https://attack.mitre.org/wiki/Defense_Evasion
+spec_version: 2
+usecase: Advanced Threat Detection
+version: '1.0'

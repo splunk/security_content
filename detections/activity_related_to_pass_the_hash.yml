@@ -1,0 +1,101 @@
+asset_type: Endpoint
+confidence: low
+creation_date: '2016-09-13'
+data_metadata:
+  data_eventtypes:
+    - wineventlog_security
+  data_source:
+    - Authentication
+  providing_technologies:
+    - Microsoft Windows
+description: This search looks for specific authentication events from the Windows
+  Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: src_ip, dest, user
+        rule_description: This search looks for Authentication log events from the
+          Windows Security Audit logs to detect potential attempts for Passing the
+          Hash
+        rule_title: Detect Activity Related to Pass the Hash
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 10
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: eventtype=wineventlog_security (signature_id = 4624 OR signature_id
+        = 4625) Logon_Process = NtLmSsp Logon_Type=3 Account_Name ! = "ANONYMOUS LOGON"
+        Key_Length = 0 | table _time src_ip user dest dest_nt_domain signature_id
+        signature
+      suppress:
+        suppress_fields: dest
+        suppress_period: 86400s
+eli5: To detect pass the hash activity, we look at all events with event code 4624
+  or 4625 that specify a logon type 3 (network logons). We are looking for the NtLmSsP
+  account, with a key length set to 0. These indicate lower level protocols that are
+  typically used through Pass the Hash (WMI, SMB, etc.). The search also filters out
+  events with an account name of 'Anonymous' to help reduce false positives.
+entities:
+  - dest
+how_to_implement: To successfully implement this search, you must ingest your Windows
+  Security Event logs and leverage the latest TA for Windows.
+id: f5939373-8054-40ad-8c64-cec478a22a4b
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+known_false_positives: Legitimate logon activity by authorized NTLM systems may be
+  detected by this search. Please investigate as appropriate.
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+mappings:
+  cis20:
+    - CIS 3
+    - CIS 5
+    - CIS 16
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Lateral Movement
+    - Pass the Hash
+  nist:
+    - PR.PT
+    - PR.AT
+    - PR.AC
+    - PR.IP
+modification_date: '2019-02-27'
+name: Detect Activity Related to Pass the Hash Attacks
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references: []
+security_domain: access
+spec_version: 2
+type: splunk
+version: '2.0'
