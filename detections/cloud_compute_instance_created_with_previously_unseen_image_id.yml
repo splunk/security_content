@@ -64,7 +64,7 @@ entities:
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed. Run the "Previously Seen
   Cloud Compute Images" support search to create of baseline of previously seen images.
-id: 8dbcf362-ae43-44ea-9084-77db4bed2c68
+id:  bc24922d-987c-4645-b288-f8c73ec194c4
 investigations:
   - id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a
     name: Investigate User Activities In All Cloud Regions
@@ -84,7 +84,7 @@ mappings:
     - CIS 1
   nist:
     - ID.AM
-modification_date: '2018-03-12'
+modification_date: '2018-10-12'
 name: Cloud Compute Instance Created With Previously Unseen Image
 original_authors:
   - company: Splunk
