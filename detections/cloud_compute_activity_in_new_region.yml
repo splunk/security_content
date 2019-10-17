@@ -24,6 +24,7 @@ detect:
         - previously_seen_cloud_regions
       macros:
         - previously_seen_cloud_regions_input_filter
+        - previously_seen_cloud_regions_search_window_begin_offset
       notable:
         drilldown_name: See all activity in $region$
         drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | search region="$region$"'
@@ -47,7 +48,8 @@ detect:
         | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest)
         as dest by region, src_user | multireport [| table region, firstTime, lastTime
         | outputlookup previously_seen_cloud_regions | where fact=fiction][| eval
-        new_region=if(firstTime >= relative_time(now(), "-70m@m"), 1, 0) | where new_region=1
+        new_region=if(firstTime >= relative_time(now(), "`previously_seen_cloud_regions_search_window_begin_offset`"), 1, 0)
+        | where new_region=1
         | convert ctime(firstTime) ctime(lastTime)] | table region, dest, src_user,
         firstTime, lastTime'
       suppress:
