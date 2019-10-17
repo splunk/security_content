@@ -10,6 +10,9 @@ data_metadata:
     - GCP
 description: This search lists all the logged cloud infrastructure activities by a
   specific cloud user
+entities:
+  - region
+  - src_user
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed.
 id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a
