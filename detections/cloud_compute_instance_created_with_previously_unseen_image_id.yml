@@ -41,7 +41,7 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
-        as dest from datamodel= Cloud_Infrastructure.Compute where Compute.action=run `previously_seen_cloud_compute_image_input_filter`
+        as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run `previously_seen_cloud_compute_image_input_filter`
         by Compute.image_id, Compute.src_user | `drop_dm_object_name("Compute")` |
         inputlookup append=t previously_seen_cloud_compute_images | stats min(firstTime)
         as firstTime max(lastTime) as lastTime, values(dest) as dest by image_id,
