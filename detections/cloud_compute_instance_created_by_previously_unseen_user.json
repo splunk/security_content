@@ -11,7 +11,7 @@
   "creation_date": "2019-10-03",
   "data_metadata": {
     "data_models": [
-      "Cloud"
+      "Cloud_Infrastructure"
     ],
     "data_source": [
       "Cloud Infrastructure Logs"
@@ -37,7 +37,7 @@
           "rule_description": "The compute instance $dest$ was created by $src_user$. This is the first time $src_user$ has created a compute instance.",
           "rule_title": "Cloud Compute Instance Created By Previously Unseen User $src_user$",
           "drilldown_name": "Show all instances created by $src_user$",
-          "drilldown_search": "| from datamodel:Cloud_Draft_v6.Compute | action=run src_user=$src_user$"
+          "drilldown_search": "| from datamodel:Cloud_Infrastructure.Compute | action=run src_user=$src_user$"
         },
         "risk": {
           "risk_object": "dest",
@@ -51,7 +51,7 @@
           "earliest_time": "-70m@m",
           "latest_time": "-10m@m"
         },
-        "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Draft_v6.Compute where Compute.action=run by Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_seen_cloud_compute_creations_by_user  | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by src_user | multireport [| table src_user, firstTime, lastTime | outputlookup previously_seen_cloud_compute_creations_by_user | where fact=fiction][| eval new_user=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_user=1 | convert ctime(firstTime) ctime(lastTime)] | table src_user, dest, firstTime, lastTime",
+        "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run by Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_seen_cloud_compute_creations_by_user  | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by src_user | multireport [| table src_user, firstTime, lastTime | outputlookup previously_seen_cloud_compute_creations_by_user | where fact=fiction][| eval new_user=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_user=1 | convert ctime(firstTime) ctime(lastTime)] | table src_user, dest, firstTime, lastTime",
         "suppress": {
           "suppress_fields": "src_user, dest",
           "suppress_period": "14400s"

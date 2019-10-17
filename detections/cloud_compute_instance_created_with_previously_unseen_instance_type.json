@@ -11,7 +11,7 @@
     "creation_date": "2019-10-03",
     "data_metadata": {
       "data_models": [
-        "Cloud"
+        "Cloud_Infrastructure"
       ],
       "data_source": [
         "Cloud Infrastructure Logs"
@@ -37,7 +37,7 @@
                     "rule_description": "The instance type $instance_type$ was used for the first time to create $dest$.",
                     "rule_title": "New Cloud Compute Instance Type $instance_type$ detected",
                     "drilldown_name": "Find all compute instances of type $instance_type$",
-                    "drilldown_search": "| from datamodel:Cloud_Draft_v6.Compute | instance_type=$instance_type$"
+                    "drilldown_search": "| from datamodel:Cloud_Infrastructure.Compute | instance_type=$instance_type$"
                 },
                 "risk": {
                     "risk_object": "dest",
@@ -51,7 +51,7 @@
                     "earliest_time": "-70m@m",
                     "latest_time": "-10m@m"
                 },
-                "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Draft_v6.Compute where Compute.event_name=RunInstances `previously_seen_cloud_compute_instance_types_input_filter` by Compute.instance_type, Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_seen_cloud_compute_instance_types | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by instance_type, src_user | multireport [| table instance_type, firstTime, lastTime | outputlookup previously_seen_cloud_compute_instance_types | where fact=fiction][| eval new_type=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_type=1 | convert ctime(firstTime) ctime(lastTime)] | table instance_type, dest, src_user, firstTime, lastTime",
+                "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Infrastructure.Compute where Compute.event_name=RunInstances `previously_seen_cloud_compute_instance_types_input_filter` by Compute.instance_type, Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_seen_cloud_compute_instance_types | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by instance_type, src_user | multireport [| table instance_type, firstTime, lastTime | outputlookup previously_seen_cloud_compute_instance_types | where fact=fiction][| eval new_type=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_type=1 | convert ctime(firstTime) ctime(lastTime)] | table instance_type, dest, src_user, firstTime, lastTime",
                 "suppress": {
                     "suppress_fields": "dest",
                     "suppress_period": "14400s"

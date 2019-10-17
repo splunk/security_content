@@ -11,7 +11,7 @@
     "creation_date": "2019-10-03",
     "data_metadata": {
       "data_models": [
-        "Cloud"
+        "Cloud_Infrastructure"
       ],
       "data_source": [
         "Cloud Infrastructure Logs"
@@ -37,7 +37,7 @@
                     "rule_description": "The cloud compute instance $dest$ was created with previously unused image $image_id$",
                     "rule_title": "Cloud Compute Instances Created With New Image",
                     "drilldown_name": "Show all instances created with image $image_id$",
-                    "drilldown_search": "| from datamodel:Cloud_Draft_v6.Compute | image_id=$image_id$"
+                    "drilldown_search": "| from datamodel:Cloud_Infrastructure.Compute | image_id=$image_id$"
                 },
                 "risk": {
                     "risk_object": "dest",
@@ -51,7 +51,7 @@
                     "earliest_time": "-70m@m",
                     "latest_time": "-10m@m"
                 },
-                "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Draft_v6.Compute where Compute.action=run `previously_seen_cloud_compute_image_input_filter` by Compute.image_id, Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_seen_cloud_compute_images | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by image_id, src_user | multireport [| table image_id, firstTime, lastTime | outputlookup previously_seen_cloud_compute_images | where fact=fiction][| eval new_image=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_image=1 | convert ctime(firstTime) ctime(lastTime)] | table image_id, dest, src_user, firstTime, lastTime",
+                "search": "| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest) as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run `previously_seen_cloud_compute_image_input_filter` by Compute.image_id, Compute.src_user | `drop_dm_object_name(\"Compute\")` | inputlookup append=t previously_seen_cloud_compute_images | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest by image_id, src_user | multireport [| table image_id, firstTime, lastTime | outputlookup previously_seen_cloud_compute_images | where fact=fiction][| eval new_image=if(firstTime >= relative_time(now(), \"-70m@m\"), 1, 0) | where new_image=1 | convert ctime(firstTime) ctime(lastTime)] | table image_id, dest, src_user, firstTime, lastTime",
                 "suppress": {
                     "suppress_fields": "dest",
                     "suppress_period": "14400s"
