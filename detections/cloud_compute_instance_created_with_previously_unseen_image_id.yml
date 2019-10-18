@@ -15,7 +15,7 @@ data_metadata:
     - Azure
     - GCP
 description: This search looks for cloud compute instances being created with previously
-  unseen image ids.
+  unseen image IDs.
 detect:
   splunk:
     correlation_rule:
@@ -29,7 +29,7 @@ detect:
         drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | image_id=$image_id$'
         nes_fields: dest
         rule_description: The cloud compute instance $dest$ was created with previously
-          unused image $image_id$
+          unused image $image_id$.
         rule_title: Cloud Compute Instances Created With New Image
       risk:
         risk_object: dest
@@ -52,19 +52,17 @@ detect:
       suppress:
         suppress_fields: dest
         suppress_period: 14400s
-eli5: The search returns the first time seen, last time seen, and the systems for
-  each image id and user. It then appends the historical data and merges it into the
+eli5: For each image ID and user, the search returns the first time seen, last time seen, and the systems. It then appends the historical data and merges it into the
   data. The search then splits and outputs the updated times for each image back to
-  the lookup file and then clears out any output. The other part of the search limits
-  the results to when the image was seen for the first time no longer than 70 minutes
-  previously. It then displays the new image, the instances created using it, the
-  user who created them, and the times associated.
+  the lookup file and clears out any output. The other part of the search limits
+  the results to when the image was seen for the first time within the previous 70 minutes. It then displays the new image, the instances created using it, the
+  user who created it, and the associated times.
 entities:
   - dest
   - src_user
-how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
   and have the Security Research cloud data model installed. Run the "Previously Seen
-  Cloud Compute Images" support search to create of baseline of previously seen images.
+  Cloud Compute Images" support search to create a baseline of previously seen images.
 id:  bc24922d-987c-4645-b288-f8c73ec194c4
 investigations:
   - id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a

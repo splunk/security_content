@@ -14,7 +14,7 @@ data_metadata:
     - AWS
     - Azure
     - GCP
-description: This search looks for cloud compute instances being created by users
+description: This search looks for cloud compute instances created by users
   who have not created them before.
 detect:
   splunk:
@@ -53,16 +53,15 @@ detect:
       suppress:
         suppress_fields: src_user, dest
         suppress_period: 14400s
-eli5: The search returns the first time seen, last time seen, and the systems for
-  each user. It then appends the historical data and merges it into the data. The
+eli5: For each user, the search returns the first time seen, last time seen, and the systems. It then appends the historical data and merges it into the data. The
   search then splits and outputs the updated times for each user back to the lookup
   file and then clears out any output. The other part of the search limits the results
-  to when the user was seen for the first time no longer than 70 minutes previously.
-  It then displays the new user, the instances created by them, and the times associated.
+  to when the user was seen for the first time within the previous 70 minutes.
+  It then displays the new user, the instances created by that user, and the associated times.
 entities:
   - dest
   - src_user
-how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
   and have the Security Research cloud data model installed. Run the "Previously Seen
   Cloud Compute Creations By User" support search to create of baseline of previously
   seen users.
@@ -75,8 +74,7 @@ investigations:
     name: Investigate Cloud Compute Instance Activities
     type: splunk
 known_false_positives: It's possible that a user will start to create compute instances
-  when they haven't before for any number of reasons. Verify with the user that is
-  launching instances that this is the intended behavior.
+  for the first time, for any number of reasons. Verify with the user launching instances that this is the intended behavior.
 maintainers:
   - company: Splunk
     email: davidd@splunk.com

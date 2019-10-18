@@ -14,9 +14,9 @@ data_metadata:
     - AWS
     - Azure
     - GCP
-description: This search looks at cloud infrastructure events where an instance is
-  created in any region in the last one hour and then compares it to a lookup file
-  of previously seen regions where an instance was created
+description: This search looks at cloud-infrastructure events where an instance is
+  created in any region within the last hour and then compares it to a lookup file
+  of previously seen regions where instances have been created.
 detect:
   splunk:
     correlation_rule:
@@ -29,7 +29,7 @@ detect:
         drilldown_name: See all activity in $region$
         drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | search region="$region$"'
         nes_fields: dest,region
-        rule_description: A cloud compute instance, $dest$ is started in a new, previously
+        rule_description: A cloud compute instance, $dest$, is started in a new, previously
           unseen, region $region$
         rule_title: Cloud instance $dest$ started in a new region $region$
       risk:
@@ -56,19 +56,19 @@ detect:
         suppress_fields: dest,region
         suppress_period: 14400s
 eli5: In this search, we query cloud infrastructure compute logs to look for events
-  that indicate that an instance was started in a particular region. Using the `previously_seen_cloud_regions`
+  that indicate that an instance was started in a particular region. Using the \"previously_seen_cloud_regions\"
   lookup file created using the support search, we compare the region where this instance
-  was started to all previously observed regions. The `eval` and `if` functions determine
+  was started to all previously observed regions. The \"eval\" and \"if\" functions determine
   that the earliest times seen for this region and instance were within the last day.
-  If a new region is detected, it will alert you with "Instance Started in a New Region".
-  However, this region will be added to the list in `previously_seen_cloud_regions`.
+  If a new region is detected, it will alert you with \"Instance Started in a New Region.\"
+  However, this region will be added to the list in \"previously_seen_cloud_regions.\"
 entities:
   - dest
   - region
   - src_user
-how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-  and have the Security Research cloud data model installed. Run the "Previously Seen
-  Cloud Compute Instance Types" support search to create of baseline of previously
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
+  and have the Security Research cloud data model installed. Run the \"Previously Seen
+  Cloud Compute Instance Types\" support search to create a baseline of previously
   seen regions.
 id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 investigations:
