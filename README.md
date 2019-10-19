@@ -1,23 +1,46 @@
 security-content ![security-content](static/logo.png)
 =====
-Contains a collection of topic-based security guides called "Analytic Stories," which are mapped to the MITRE ATT&CK Framework, Lockheed Martin Kill Chain phases, and CIS controls. They include corresponding detection, investigative, and support searches. The content here is packaged and shipped as part of the Splunk Enterprise Security Content Updates (ESCU). 
 
 | branch | build status |
 | ---    | ---          |
 | develop| [![develop status](https://circleci.com/gh/splunk/security-content/tree/develop.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/develop)|
 | master | [![master status](https://circleci.com/gh/splunk/security-content/tree/master.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/master)|
 
+The security-content was designed to bring the community together to improve our collective defenses. By sharing research and analytics, we can help the entire industry craft more effective strategies. security-content provides a mechanism to facilitate this exchange. 
+
+security-content is composed of a collection of security guides called Analytic Stories that provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats. 
+
+You can set security-content to run [detections and automatically](https://github.com/splunk/analytic_story_execution) funnel the results to investigations, reducing the need for manual intervention. When available, you can automatically trigger reponses, as well. The alerts you'll get include context (history, correlations, etc.), so they help you understand their importance. The net effect is a more efficient workflow, as well as more comprehensive, effective defenses.
+
+Follow the instructions below to get started.
+
+
 # Usage
-Can be consumed using:
+security-content can be used via:
 
 #### [Splunk App](https://github.com/splunk/security-content/releases)
 Grab the latest release of DA-ESS-ContentUpdate and install it on a Splunk Enterprise server (search head).
 
-#### [API](https://github.com/splunk/security-content-api)
-`curl https://g7jbilqdth.execute-api.us-west-2.amazonaws.com/api/`
+#### [API](https//docs.splunkresearch.com/?version=latest)
+```
+curl -s https://content.splunkresearch.com | jq
+{
+  "hello": "welcome to Splunks Research security content api",
+  "available_endpoints": [
+    "/stories",
+    "/detections",
+    "/investigations",
+    "/baselines",
+    "/responses",
+    "/package"
+  ]
+}
+```
 
-#### [CLI](https://github.com/splunk/security-content-api/blob/master/content-update.py)
-`python content-update.py -o $SPLUNK_HOME/etc/apps/DA-ESS-ContentUpdate --splunk_user admin --splunk_password xxxx`
+# What's in an Analytic Story?
+[Analytic Stories](https://github.com/splunk/security-content/blob/develop/docs/stories_categories.md) and their corresponding searches are composed of **.yml** files (manifests) and associated .conf files. The stories reside in [/stories](/stories) and the searches live in [/detections](/detections). 
+
+Manifests contain a number of mandatory and optional fields. You can see the full field list for each piece of content [here](https://github.com/splunk/security-content/tree/develop/docs#spec-documentation)
 
 # Writing Content
 First, make sure to follow the steps to install **dependecies and pre-commit hook's** under [developing](https://github.com/splunk/security-content#developing) before you begin. 
@@ -25,6 +48,8 @@ First, make sure to follow the steps to install **dependecies and pre-commit hoo
 1. Select the content [piece](https://github.com/splunk/security-content#content-parts) you want to write. 
 2. Copy an example and edit it to suit your needs. At a minimum, you must write a [story](stories/), [a detection search](detections/), and an [investigative search](investigations/).
 3. Make a pull request. If Circle CI fails, refer to [troubleshooting](https://github.com/splunk/security-content#troubleshooting).
+
+For a more detailed explanation on how to contribute to the project please see [Contributing](#Contributing)
 
 # Security Content Layout
 ![](static/structure.png)
