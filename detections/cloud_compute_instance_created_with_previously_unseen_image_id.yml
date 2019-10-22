@@ -61,8 +61,9 @@ entities:
   - dest
   - src_user
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  and have the Security Research cloud data model installed. Run the "Previously Seen
-  Cloud Compute Images" support search to create a baseline of previously seen images.
+  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
+  installed. Run the "Previously Seen Cloud Compute Images" support search to create
+  a baseline of previously seen images.
 id:  bc24922d-987c-4645-b288-f8c73ec194c4
 investigations:
   - id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a

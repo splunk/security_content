@@ -64,8 +64,9 @@ entities:
   - dest
   - src_user
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  and have the Security Research cloud data model installed. Run the "Previously Seen
-  Cloud Regions" support search to create a baseline of previously seen regions.
+  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
+  installed. Run the " Previously Seen Cloud Compute Instance Types" support search
+  to create a baseline of previously seen regions.
 id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 investigations:
   - id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a

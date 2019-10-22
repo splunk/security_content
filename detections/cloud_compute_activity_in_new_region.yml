@@ -67,8 +67,8 @@ entities:
   - region
   - src_user
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  and have the Security Research cloud data model installed. Run the \"Previously Seen
-  Cloud Compute Instance Types\" support search to create a baseline of previously
+  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
+  installed. Run the \"Previously Seen Cloud Compute Instance Types\" support search to create a baseline of previously
   seen regions.
 id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 investigations:

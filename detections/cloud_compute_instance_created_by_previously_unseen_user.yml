@@ -62,9 +62,9 @@ entities:
   - dest
   - src_user
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  and have the Security Research cloud data model installed. Run the "Previously Seen
-  Cloud Compute Creations By User" support search to create of baseline of previously
-  seen users.
+  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
+  installed. Run the "Previously Seen Cloud Compute Creations By User" support search to create of
+  baseline of previously seen users.
 id: 76988f6a-3935-48f6-a9e5-6fca8b3ed843
 investigations:
   - id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a
