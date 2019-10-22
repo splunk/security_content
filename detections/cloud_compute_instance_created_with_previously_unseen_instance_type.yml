@@ -25,7 +25,7 @@ detect:
         - previously_seen_cloud_compute_instance_types_input_filter
       notable:
         drilldown_name: Find all compute instances of type $instance_type$
-        drilldown_search: '| from datamodel:Cloud_Draft_v6.Compute | instance_type=$instance_type$'
+        drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | instance_type=$instance_type$'
         nes_fields: instance_type
         rule_description: The instance type $instance_type$ was used for the first
           time to create $dest$.
@@ -40,7 +40,7 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
-        as dest from datamodel=Cloud_Draft_v6.Compute where Compute.event_name=RunInstances
+        as dest from datamodel=Cloud_Infrastructure.Compute where Compute.event_name=RunInstances
         `previously_seen_cloud_compute_instance_types_input_filter` by Compute.instance_type,
         Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup append=t
         previously_seen_cloud_compute_instance_types | stats min(firstTime) as firstTime

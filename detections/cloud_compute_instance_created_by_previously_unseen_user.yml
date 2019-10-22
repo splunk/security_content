@@ -25,7 +25,7 @@ detect:
         - previously_seen_cloud_compute_creations_by_user_input_filter
       notable:
         drilldown_name: Show all instances created by $src_user$
-        drilldown_search: '| from datamodel:Cloud_Draft_v6.Compute | action=run src_user=$src_user$'
+        drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | action=run src_user=$src_user$'
         nes_fields: src_user, dest
         rule_description: The compute instance $dest$ was created by $src_user$. This
           is the first time $src_user$ has created a compute instance.
@@ -40,7 +40,7 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
-        as dest from datamodel=Cloud_Draft_v6.Compute where Compute.action=run by
+        as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run by
         Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup append=t
         previously_seen_cloud_compute_creations_by_user  | stats min(firstTime) as
         firstTime max(lastTime) as lastTime, values(dest) as dest by src_user | multireport

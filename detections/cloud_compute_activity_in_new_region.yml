@@ -26,7 +26,7 @@ detect:
         - previously_seen_cloud_regions_input_filter
       notable:
         drilldown_name: See all activity in $region$
-        drilldown_search: '| from datamodel:Cloud_Draft_v6.Compute | search region="$region$"'
+        drilldown_search: '| from datamodel:Cloud_Infrastructure.Compute | search region="$region$"'
         nes_fields: dest,region
         rule_description: A cloud compute instance, $dest$ is started in a new, previously
           unseen, region $region$
@@ -41,7 +41,7 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
-        as dest from datamodel=Cloud_Draft_v6.Compute where Compute.event_name=RunInstances
+        as dest from datamodel=Cloud_Infrastructure.Compute where Compute.event_name=RunInstances
         `previously_seen_cloud_regions_input_filter` by Compute.region, Compute.src_user
         | `drop_dm_object_name("Compute")` | inputlookup append=t previously_seen_cloud_regions
         | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest)
