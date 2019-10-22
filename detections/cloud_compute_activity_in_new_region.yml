@@ -7,7 +7,7 @@ confidence: medium
 creation_date: '2019-10-02'
 data_metadata:
   data_models:
-    - Cloud
+    - Cloud_Infrastructure
   data_source:
     - Cloud Infrastructure Logs
   providing_technologies:
