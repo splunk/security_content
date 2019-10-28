@@ -57,6 +57,8 @@ eli5: This search looks for PowerShell processes running with specific command-l
   this process.
 entities:
   - dest
+  - process_name
+  - user
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.

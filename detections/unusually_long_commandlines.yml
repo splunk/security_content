@@ -47,6 +47,8 @@ eli5: This search calculates the average and standard deviation for the length o
   command line.
 entities:
   - dest
+  - process_name
+  - user
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships, from your endpoints to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
