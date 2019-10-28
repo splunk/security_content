@@ -97,8 +97,6 @@ def generate_macros(REPO_PATH):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(macros_manifest_file))
-
-
         if 'definition' not in macro:
             macro['definition'] = "`comment(\"{0}\")`".format(macro['description'])
         macros.append(macro)
@@ -119,8 +117,6 @@ def generate_lookups(REPO_PATH):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(lookups_manifest_file))
-
-
         lookups.append(lookup)
 
     return lookups
@@ -139,7 +135,6 @@ def generate_baselines(REPO_PATH, detections, stories):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(baselines_manifest_file))
-
 
         baselines.append(baseline)
 
@@ -233,7 +228,6 @@ def generate_investigations(REPO_PATH, detections, stories):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(investigations_manifest_file))
-
 
         investigations.append(investigation)
 
@@ -349,7 +343,6 @@ def generate_detections(REPO_PATH, stories):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(detections_manifest_file))
-
 
         detections.append(detection)
 
@@ -510,7 +503,6 @@ def generate_stories(REPO_PATH, verbose):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(story_manifest_file))
-
 
         story_files.append(story)
 
@@ -1233,6 +1225,9 @@ if __name__ == "__main__":
           "{2} baselines have been successfully written to {3}\n" \
           "{4} macros have been successfully written to {5}\n" \
           "{6} lookups have been successfully written to {7}\n".format(detections_count,
-                investigations_count, baselines_count, detection_path, macros_count, macros_path, lookups_count, lookups_path)
+                                                                       investigations_count, baselines_count,
+                                                                       detection_path, macros_count,
+                                                                       macros_path, lookups_count,
+                                                                       lookups_path)
 
     print "security content generation completed.."

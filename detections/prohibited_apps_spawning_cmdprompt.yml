@@ -39,10 +39,10 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(Processes.user) as user values(Processes.process)
+      search: '| tstats `summariesonly` count values(Processes.process)
         as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
         where Processes.process_name=cmd.exe by Processes.parent_process_name Processes.process_name
-        Processes.dest | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`
+        Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`
         |search [`prohibited_apps_launching_cmd`]'
       suppress:
         suppress_fields: dest, parent_process
@@ -58,6 +58,8 @@ eli5: Obtaining access to the Command-Line Interface (CLI) is typically a primar
   that are being watched for execution of cmd.exe.
 entities:
   - dest
+  - process_name
+  - user
 how_to_implement: You must be ingesting data that records process activity from your
   hosts and populates the Endpoint data model with the resultant dataset. This search
   includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list

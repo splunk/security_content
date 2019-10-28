@@ -35,15 +35,9 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as start_time max(_time)
-        as end_time FROM datamodel=Endpoint.Processes by Processes.user Processes.dest
-        Processes.process_name Processes.process | `drop_dm_object_name(Processes)`
-        | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | search
-        user!=unknown | apply cmdline_pdfmodel threshold=0.01 | rename "IsOutlier(processlen)"
-        as isOutlier | search isOutlier > 0 | table start_time end_time user dest
-        process_name process processlen count'
+      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | search user!=unknown | apply cmdline_pdfmodel threshold=0.01 | rename "IsOutlier(processlen)" as isOutlier | search isOutlier > 0 | table firstTime lastTime user dest process_name process processlen count'
       suppress:
-        suppress_fields: dest,user,process
+        suppress_fields: dest,user,process_name
         suppress_period: 28800s
 eli5: This search leverages the Machine Learning Toolkit (MLTK) to identify outliers
   in the length of the command lines observed to be used by a specific user. The companion
@@ -53,6 +47,8 @@ eli5: This search leverages the Machine Learning Toolkit (MLTK) to identify outl
   More information on the algorithm used can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
 entities:
   - dest
+  - process_name
+  - user
 how_to_implement: You must be ingesting endpoint data that monitors command lines
   and populates the Endpoint data model in the Processes node. The command-line arguments
   are mapped to the "process" field in the Endpoint data model. In addition, MLTK

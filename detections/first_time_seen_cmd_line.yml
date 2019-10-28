@@ -59,6 +59,8 @@ eli5: The subsearch returns all events where `cmd.exe` was used with a `/c` para
   user, destination, process, parent process, and value of the command-line argument.
 entities:
   - dest
+  - process_name
+  - user
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must be ingesting
   logs with both the process name and command line from your endpoints. The complete
