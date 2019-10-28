@@ -100,7 +100,7 @@ def generate_macros(REPO_PATH):
 
 
         if 'definition' not in macro:
-            macro['definition'] = "`comment({0})`".format(macro['description'])
+            macro['definition'] = "`comment(\"{0}\")`".format(macro['description'])
         macros.append(macro)
 
     return macros
@@ -898,6 +898,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.asset_at_risk = {0}\n".format(detection['asset_type']))
         if 'entities' in detection:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(detection['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         if 'providing_technologies' in detection:
             output_file.write("action.escu.providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(detection['stories'])))
@@ -1045,6 +1046,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in investigation:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(investigation['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
@@ -1088,6 +1090,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in baseline:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(baseline['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
