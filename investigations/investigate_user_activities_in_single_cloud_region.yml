@@ -27,8 +27,7 @@ investigate:
       cron_schedule: 0 * * * *
       earliest_time: -70m@m
       latest_time: -10m@m
-    search: '| from datamodel:Cloud_Infrastructure.Compute | search region={region} user={src_user} | fields - _* | 
-      `investigate_user_activities_in_single_cloud_region_output_filter`'
+    search: '| from datamodel:Cloud_Infrastructure.Compute | search region={region} user={src_user} | fields - _* | `investigate_user_activities_in_single_cloud_region_output_filter`'
 maintainers:
   - company: Splunk
     email: davidd@splunk.com
