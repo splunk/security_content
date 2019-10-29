@@ -50,6 +50,8 @@ eli5: Attackers often leverage various scripting languages to execute their atta
   information.
 entities:
   - dest
+  - process_name
+  - user
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
   in the processes node. If you are using Sysmon, you must have at least version 6.0.4

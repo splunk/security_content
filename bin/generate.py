@@ -97,10 +97,8 @@ def generate_macros(REPO_PATH):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(macros_manifest_file))
-
-
         if 'definition' not in macro:
-            macro['definition'] = "`comment({0})`".format(macro['description'])
+            macro['definition'] = "`comment(\"{0}\")`".format(macro['description'])
         macros.append(macro)
 
     return macros
@@ -119,8 +117,6 @@ def generate_lookups(REPO_PATH):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(lookups_manifest_file))
-
-
         lookups.append(lookup)
 
     return lookups
@@ -139,7 +135,6 @@ def generate_baselines(REPO_PATH, detections, stories):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(baselines_manifest_file))
-
 
         baselines.append(baseline)
 
@@ -233,7 +228,6 @@ def generate_investigations(REPO_PATH, detections, stories):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(investigations_manifest_file))
-
 
         investigations.append(investigation)
 
@@ -349,7 +343,6 @@ def generate_detections(REPO_PATH, stories):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(detections_manifest_file))
-
 
         detections.append(detection)
 
@@ -510,7 +503,6 @@ def generate_stories(REPO_PATH, verbose):
             except yaml.YAMLError as exc:
                 print(exc)
                 sys.exit("ERROR: reading {0}".format(story_manifest_file))
-
 
         story_files.append(story)
 
@@ -898,6 +890,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.asset_at_risk = {0}\n".format(detection['asset_type']))
         if 'entities' in detection:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(detection['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         if 'providing_technologies' in detection:
             output_file.write("action.escu.providing_technologies = {0}\n".format(json.dumps(detection['providing_technologies'])))
         output_file.write("action.escu.analytic_story = {0}\n".format(json.dumps(detection['stories'])))
@@ -1045,6 +1038,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in investigation:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(investigation['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
@@ -1088,6 +1082,7 @@ def write_savedsearches_confv1(detections, investigations, baselines, OUTPUT_DIR
             output_file.write("action.escu.known_false_positives = None at this time\n")
         if 'entities' in baseline:
             output_file.write("action.escu.fields_required = {0}\n".format(json.dumps(baseline['entities'])))
+            output_file.write("action.escu.entities = {0}\n".format(json.dumps(detection['entities'])))
         output_file.write("disabled=true\n")
         output_file.write("schedule_window = auto\n")
         output_file.write("is_visible = false\n")
@@ -1230,6 +1225,9 @@ if __name__ == "__main__":
           "{2} baselines have been successfully written to {3}\n" \
           "{4} macros have been successfully written to {5}\n" \
           "{6} lookups have been successfully written to {7}\n".format(detections_count,
-                investigations_count, baselines_count, detection_path, macros_count, macros_path, lookups_count, lookups_path)
+                                                                       investigations_count, baselines_count,
+                                                                       detection_path, macros_count,
+                                                                       macros_path, lookups_count,
+                                                                       lookups_path)
 
     print "security content generation completed.."
