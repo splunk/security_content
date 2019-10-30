@@ -30,7 +30,7 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            if [-v ${CIRCLE_PULL_REQUEST}]; then
+            if [${CIRCLE_PULL_REQUEST}]; then
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
                 cd security-content
                 git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
