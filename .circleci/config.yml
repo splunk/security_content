@@ -31,9 +31,9 @@ jobs:
           name: checkout repo
           command: |
             if [ "${CIRCLE_BRANCH}" == "" ]; then
-                git clone https://${GITHUB_TOKEN}@github.com/splunk/${CIRCLE_PROJECT_REPONAME}
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
-                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_REPONAME}
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - restore_cache:
           key: virtualenv
@@ -64,9 +64,9 @@ jobs:
           name: checkout repo
           command: |
             if [ "${CIRCLE_BRANCH}" == "" ]; then
-                git clone https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_REPONAME}
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
-                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_REPONAME}
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - run: *apt-install
       - run:
