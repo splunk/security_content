@@ -42,6 +42,7 @@ action.escu.asset_at_risk = {{ detection.asset_type }}
 {% endif %}
 {% if detection.entities is defined %}
 action.escu.fields_required = {{ detection.entities | tojson }}
+action.escu.entities = {{ detection.entities | tojson }}
 {% endif %}
 {% if detection.data_metadata.providing_technologies is defined %}
 action.escu.providing_technologies = {{ detection.data_metadata.providing_technologies | tojson }}
@@ -151,6 +152,7 @@ action.escu.known_false_positives = None at this time
 {% endif %}
 {% if investigation.entities is defined %}
 action.escu.fields_required = {{ investigation.entities | tojson }}
+action.escu.entities = {{ investigation.entities | tojson }}
 {% endif %}
 disabled = true
 schedule_window = auto
@@ -204,6 +206,7 @@ action.escu.known_false_positives = None at this time
 {% endif %}
 {% if baseline.entities is defined %}
 action.escu.fields_required = {{ baseline.entities | tojson }}
+action.escu.entities = {{ baseline.entities | tojson }}
 {% endif %}
 disabled = true
 schedule_window = auto
