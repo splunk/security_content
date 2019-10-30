@@ -154,7 +154,7 @@ jobs:
       - run:
           name: grab appinspect
           command: |
-            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
+            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-2.0.0.tar.gz -o appinspect-lastest.tar.gz
             mkdir appinspect-latest
             tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
       - run:
