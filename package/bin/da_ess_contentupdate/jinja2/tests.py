@@ -5,13 +5,13 @@
 
     Jinja test functions. Used with the "is" operator.
 
-    :copyright: (c) 2010 by the Jinja Team.
+    :copyright: (c) 2017 by the Jinja Team.
     :license: BSD, see LICENSE for more details.
 """
+import operator
 import re
-from collections import Mapping
 from jinja2.runtime import Undefined
-from jinja2._compat import text_type, string_types, integer_types
+from jinja2._compat import text_type, string_types, integer_types, abc
 import decimal
 
 number_re = re.compile(r'^-?\d+(\.\d+)?$')
@@ -83,7 +83,7 @@ def test_mapping(value):
 
     .. versionadded:: 2.6
     """
-    return isinstance(value, Mapping)
+    return isinstance(value, abc.Mapping)
 
 
 def test_number(value):
@@ -101,28 +101,6 @@ def test_sequence(value):
     except:
         return False
     return True
-
-
-def test_equalto(value, other):
-    """Check if an object has the same value as another object:
-
-    .. sourcecode:: jinja
-
-        {% if foo.expression is equalto 42 %}
-            the foo attribute evaluates to the constant 42
-        {% endif %}
-
-    This appears to be a useless test as it does exactly the same as the
-    ``==`` operator, but it can be useful when used together with the
-    `selectattr` function:
-
-    .. sourcecode:: jinja
-
-        {{ users|selectattr("email", "equalto", "foo@bar.invalid") }}
-
-    .. versionadded:: 2.8
-    """
-    return value == other
 
 
 def test_sameas(value, other):
@@ -152,6 +130,14 @@ def test_escaped(value):
     return hasattr(value, '__html__')
 
 
+def test_in(value, seq):
+    """Check if value is in seq.
+
+    .. versionadded:: 2.10
+    """
+    return value in seq
+
+
 TESTS = {
     'odd':              test_odd,
     'even':             test_even,
@@ -168,6 +154,21 @@ TESTS = {
     'iterable':         test_iterable,
     'callable':         test_callable,
     'sameas':           test_sameas,
-    'equalto':          test_equalto,
-    'escaped':          test_escaped
+    'escaped':          test_escaped,
+    'in':               test_in,
+    '==':               operator.eq,
+    'eq':               operator.eq,
+    'equalto':          operator.eq,
+    '!=':               operator.ne,
+    'ne':               operator.ne,
+    '>':                operator.gt,
+    'gt':               operator.gt,
+    'greaterthan':      operator.gt,
+    'ge':               operator.ge,
+    '>=':               operator.ge,
+    '<':                operator.lt,
+    'lt':               operator.lt,
+    'lessthan':         operator.lt,
+    '<=':               operator.le,
+    'le':               operator.le,
 }
