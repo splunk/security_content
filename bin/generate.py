@@ -5,7 +5,6 @@ Generates splunk configurations from manifest files under the security-content r
 '''
 
 import glob
-import json
 import yaml
 import argparse
 from os import path
