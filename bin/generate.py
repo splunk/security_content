@@ -1155,7 +1155,7 @@ def write_transforms_conf(lookups, OUTPUT_DIR):
         if 'case_sensitive_match' in lookup:
             output_file.write("case_sensitive_match = {}\n".format(lookup['case_sensitive_match']))
         if 'description' in lookup:
-            output_file.write("description = {}\n".format(lookup['description']))
+            output_file.write("# description = {}\n".format(lookup['description']))
         if 'match_type' in lookup:
             output_file.write("match_type = {}\n".format(lookup['match_type']))
         if 'max_matches' in lookup:
