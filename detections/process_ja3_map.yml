@@ -3,11 +3,14 @@ confidence: low
 creation_date: '2019-10-25'
 data_metadata:
   data_source:
-    - Carbon Black, Bro
+    - Carbon Black
+    - Bro
   data_sourcetypes:
-    - cb:response, bro:ssl
+    - cb:response
+    - bro:ssl
   providing_technologies:
-    - Carbon Black Response, Bro
+    - Carbon Black Response
+    - Bro
 description: This search will map Carbon Black Reponse process data to Bro SSL network data w/JA3 signatures.
 detect: 
   splunk:
