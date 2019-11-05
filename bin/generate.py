@@ -92,7 +92,9 @@ def generate_use_case_library_conf(stories, detections, investigations, baseline
                          trim_blocks=True)
     template = j2_env.get_template('use_case_library.j2')
     output_path = OUTPUT_PATH + "/default/use_case_library.conf"
-    output = template.render(stories=stories, detections=detections, investigations=investigations, baselines=baselines, time=utc_time)
+    output = template.render(stories=stories, detections=detections,
+                             investigations=investigations,
+                             baselines=baselines, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
 
@@ -126,7 +128,8 @@ def identify_next_steps(detections, investigations):
                     if i['type'] == 'splunk':
                         investigations_output += "ESCU - {0}\\n".format(i['name'])
                         next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n"
-                        next_steps += "1.[[action|escu_investigate]]: Based on ESCU investigate recommendations:\\n%s\"}" % investigations_output
+                        next_steps += "1.[[action|escu_investigate]]: Based on ESCU investigate \
+                                        recommendations:\\          n%s\"}" % investigations_output
                     if i['type'] == 'phantom':
                         has_phantom = True
 
@@ -244,9 +247,10 @@ def enrich_stories(stories, detections, investigations, baselines):
 
         for detection in story['detections']:
             for detection_obj in detections:
-                if detection['detection_id']==detection_obj['id']:
+                if detection['detection_id'] == detection_obj['id']:
                     if 'providing_technologies' in detection_obj['data_metadata']:
-                        providing_technologies = providing_technologies | set(detection_obj['data_metadata']['providing_technologies'])
+                        providing_technologies = providing_technologies | set(detection_obj
+                                                                              ['data_metadata']['providing_technologies'])
                     if 'data_models' in detection_obj['data_metadata']:
                         data_models = data_models | set(detection_obj['data_metadata']['data_models'])
                     if detection_obj['type'] == 'splunk':
@@ -268,7 +272,8 @@ def enrich_stories(stories, detections, investigations, baselines):
             for s in investigation['stories']:
                 if s == story['name']:
                     if 'providing_technologies' in investigation['data_metadata']:
-                        providing_technologies = providing_technologies | set(investigation['data_metadata']['providing_technologies'])
+                        providing_technologies = providing_technologies | set(investigation
+                                                                              ['data_metadata']['providing_technologies'])
                     if 'data_models' in investigation['data_metadata']:
                         data_models = data_models | set(investigation['data_metadata']['data_models'])
                     if investigation['type'] == 'splunk':

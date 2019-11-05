@@ -9,13 +9,13 @@ baseline:
       earliest_time: -90d@d
       latest_time: -10m@m
     search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from
-      datamodel=Cloud.Compute where Compute.action=run `previously_seen_cloud_compute_instance_types_input_filter`
+      datamodel=Cloud_Infrastructure.Compute where Compute.action=run `previously_seen_cloud_compute_instance_types_input_filter`
       by Compute.instance_type | `drop_dm_object_name("Compute")` | outputlookup previously_seen_cloud_compute_instance_types
       | stats count'
 creation_date: '2019-10-03'
 data_metadata:
   data_models:
-    - Cloud
+    - Cloud_Infrastructure
   data_source:
     - Cloud Infrastructure Logs
   providing_technologies:

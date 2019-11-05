@@ -33,7 +33,7 @@ detect:
       search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
         lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src
         All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev
-        avg(count) AS avg p50(count) AS p50| where count>(stdev*2) | rename All_Traffic.src
+        avg(count) AS avg p50(count) AS p50 | where count>(avg + stdev*2) | rename All_Traffic.src
         AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count
         avg p50 stdev'
       suppress:
