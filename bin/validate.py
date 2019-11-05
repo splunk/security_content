@@ -10,7 +10,6 @@ import jsonschema
 import yaml
 import sys
 import argparse
-import re
 from os import path
 
 
@@ -111,7 +110,9 @@ def validate_single_baseline_content(baseline, baselines_uuids, errors, macros, 
         baselines_uuids.append(baseline['id'])
 
     if baseline['name'].endswith(" "):
-        errors.append("ERROR: Investigation name has trailing spaces: '%s'" % baseline['name'])
+        errors.append(
+            "ERROR: Investigation name has trailing spaces: '%s'" %
+            baseline['name'])
 
     try:
         baseline['description'].encode('ascii')
@@ -148,8 +149,6 @@ def validate_single_baseline_content(baseline, baselines_uuids, errors, macros, 
             if not baseline['data_metadata']['data_models']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
 
-            errors = validate_data_model_and_search(baseline['baseline']['splunk']['search'], baseline['data_metadata'], errors)
-
         # do a regex match here instead of key values
         if (baseline['baseline']['splunk']['search'].find('sourcetype') != -1):
             if 'data_sourcetypes' not in baseline['data_metadata']:
@@ -163,12 +162,14 @@ def validate_single_baseline_content(baseline, baselines_uuids, errors, macros, 
         if 'macros' in baseline['baseline']['splunk']:
             for macro in baseline['baseline']['splunk']['macros']:
                 if macro not in macros:
-                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" but there is no macro manifest for it".format(macro))
+                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" \
+                                  but there is no macro manifest for it".format(macro))
 
         if 'lookups' in baseline['baseline']['splunk']:
             for lookup in baseline['baseline']['splunk']['lookups']:
                 if lookup not in lookups:
-                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
+                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" \
+                                  but there is no lookup manifest for it".format(lookup))
 
     return errors
 
@@ -273,8 +274,6 @@ def validate_single_detection_content(detection, DETECTION_UUIDS, macros, lookup
             if not detection['data_metadata']['data_models']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
 
-            errors = validate_data_model_and_search(detection['detect']['splunk']['correlation_rule']['search'], detection['data_metadata'], errors)
-
         # do a regex match here instead of key values
         if (detection['detect']['splunk']['correlation_rule']['search'].find('sourcetype') != -1):
             if 'data_sourcetypes' not in detection['data_metadata']:
@@ -285,12 +284,14 @@ def validate_single_detection_content(detection, DETECTION_UUIDS, macros, lookup
         if 'macros' in detection['detect']['splunk']['correlation_rule']:
             for macro in detection['detect']['splunk']['correlation_rule']['macros']:
                 if macro not in macros:
-                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" but there is no macro manifest for it".format(macro))
+                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" \
+                                  but there is no macro manifest for it".format(macro))
 
         if 'lookups' in detection['detect']['splunk']['correlation_rule']:
             for lookup in detection['detect']['splunk']['correlation_rule']['lookups']:
                 if lookup not in lookups:
-                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
+                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" \
+                                  but there is no lookup manifest for it".format(lookup))
 
         if 'notable' in detection['detect']['splunk']['correlation_rule']:
             if ('drilldown_search' in detection['detect']['splunk']['correlation_rule']['notable']) ^ \
@@ -386,9 +387,6 @@ def validate_single_investigation_content(investigation, investigation_uuids, ma
             if not investigation['data_metadata']['data_models']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
 
-            errors = validate_data_model_and_search(investigation['investigate']['splunk']['search'], investigation['data_metadata'], errors)
-
-
         # do a regex match here instead of key values
         if (investigation['investigate']['splunk']['search'].find('sourcetype') != -1):
             if 'data_sourcetypes' not in investigation['data_metadata']:
@@ -402,28 +400,14 @@ def validate_single_investigation_content(investigation, investigation_uuids, ma
         if 'macros' in investigation['investigate']['splunk']:
             for macro in investigation['investigate']['splunk']['macros']:
                 if macro not in macros:
-                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" but there is no macro manifest for it".format(macro))
+                    errors.append("ERROR: The Splunk search specifies a macro \"{}\" \
+                                  but there is no macro manifest for it".format(macro))
 
         if 'lookups' in investigation['investigate']['splunk']:
             for lookup in investigation['investigate']['splunk']['lookups']:
                 if lookup not in lookups:
-                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
-
-    return errors
-
-
-def validate_data_model_and_search(search, data_metadata, errors):
-    # Validate data model field against data model in search
-
-    pattern = 'from datamodel\s*=\s*([^\s]*)'
-    extracted_data_model = re.search(pattern, search)
-    if extracted_data_model:
-        pattern = '^[^\.]*'
-        parent_data_model = re.search(pattern, extracted_data_model.group(1))
-
-        if 'data_models' in data_metadata:
-            if data_metadata['data_models'][0] != parent_data_model.group(0):
-                errors.append("ERROR: 'data_models' field doesn't match data model used in the search")
+                    errors.append("ERROR: The Splunk search specifies a lookup \"{}\" \
+                                  but there is no lookup manifest for it".format(lookup))
 
     return errors
 
@@ -443,8 +427,10 @@ if __name__ == "__main__":
     macros_error, macros = validate_object(REPO_PATH, 'spec/v2/macros.spec.json', 'macros/*.yml', True, verbose)
     lookups_error, lookups = validate_object(REPO_PATH, 'spec/v2/lookups.spec.json', 'lookups/*.yml', True, verbose)
     story_error = validate_object(REPO_PATH, 'spec/v2/story.spec.json', 'stories/*.yml', False, verbose)
-    detection_error = validate_object(REPO_PATH, 'spec/v2/detections.spec.json', 'detections/*.yml', False, verbose, lookups, macros)
-    investigation_error = validate_object(REPO_PATH, 'spec/v2/investigations.spec.json', 'investigations/*.yml', False, verbose, lookups, macros)
+    detection_error = validate_object(REPO_PATH, 'spec/v2/detections.spec.json', 'detections/*.yml', False,
+                                      verbose, lookups, macros)
+    investigation_error = validate_object(REPO_PATH, 'spec/v2/investigations.spec.json', 'investigations/*.yml',
+                                          False, verbose, lookups, macros)
     baseline_error = validate_object(REPO_PATH, 'spec/v2/baselines.spec.json', 'baselines/*.yml', False, verbose, lookups, macros)
 
     if story_error or detection_error or investigation_error or baseline_error or macros_error or lookups_error:
