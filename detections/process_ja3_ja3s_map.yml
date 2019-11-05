@@ -51,7 +51,7 @@ entities:
 how_to_implement: To successfully implement this search, you must be ingesting Bro SSL logs w/JA3 + JA3S signatures. Additionally you'll need
                   Carbon Black 'netconn' logs to map the process to network traffic (destination IP). If you want to use this with OSX 
                   clients, you'll need to create a KV store of MD5 -> Process Path to work around a Carbon Black agent issue. 
-id: 
+id: fc0edc95-ff2b-48b1-5f6f-777a3789fd43
 investigations:
 
 known_false_positives: None as this is leveraged for discovery (hunting) and not detection.
