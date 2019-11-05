@@ -10,6 +10,7 @@ import jsonschema
 import yaml
 import sys
 import argparse
+import re
 from os import path
 
 
@@ -110,9 +111,7 @@ def validate_single_baseline_content(baseline, baselines_uuids, errors, macros, 
         baselines_uuids.append(baseline['id'])
 
     if baseline['name'].endswith(" "):
-        errors.append(
-            "ERROR: Investigation name has trailing spaces: '%s'" %
-            baseline['name'])
+        errors.append("ERROR: Investigation name has trailing spaces: '%s'" % baseline['name'])
 
     try:
         baseline['description'].encode('ascii')
@@ -148,6 +147,8 @@ def validate_single_baseline_content(baseline, baselines_uuids, errors, macros, 
 
             if not baseline['data_metadata']['data_models']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
+
+            errors = validate_data_model_and_search(baseline['baseline']['splunk']['search'], baseline['data_metadata'], errors)
 
         # do a regex match here instead of key values
         if (baseline['baseline']['splunk']['search'].find('sourcetype') != -1):
@@ -272,6 +273,8 @@ def validate_single_detection_content(detection, DETECTION_UUIDS, macros, lookup
             if not detection['data_metadata']['data_models']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
 
+            errors = validate_data_model_and_search(detection['detect']['splunk']['correlation_rule']['search'], detection['data_metadata'], errors)
+
         # do a regex match here instead of key values
         if (detection['detect']['splunk']['correlation_rule']['search'].find('sourcetype') != -1):
             if 'data_sourcetypes' not in detection['data_metadata']:
@@ -383,6 +386,9 @@ def validate_single_investigation_content(investigation, investigation_uuids, ma
             if not investigation['data_metadata']['data_models']:
                 errors.append("ERROR: The Splunk search uses a data model but 'data_models' is empty")
 
+            errors = validate_data_model_and_search(investigation['investigate']['splunk']['search'], investigation['data_metadata'], errors)
+
+
         # do a regex match here instead of key values
         if (investigation['investigate']['splunk']['search'].find('sourcetype') != -1):
             if 'data_sourcetypes' not in investigation['data_metadata']:
@@ -402,6 +408,22 @@ def validate_single_investigation_content(investigation, investigation_uuids, ma
             for lookup in investigation['investigate']['splunk']['lookups']:
                 if lookup not in lookups:
                     errors.append("ERROR: The Splunk search specifies a lookup \"{}\" but there is no lookup manifest for it".format(lookup))
+
+    return errors
+
+
+def validate_data_model_and_search(search, data_metadata, errors):
+    # Validate data model field against data model in search
+
+    pattern = 'from datamodel\s*=\s*([^\s]*)'
+    extracted_data_model = re.search(pattern, search)
+    if extracted_data_model:
+        pattern = '^[^\.]*'
+        parent_data_model = re.search(pattern, extracted_data_model.group(1))
+
+        if 'data_models' in data_metadata:
+            if data_metadata['data_models'][0] != parent_data_model.group(0):
+                errors.append("ERROR: 'data_models' field doesn't match data model used in the search")
 
     return errors
 
