@@ -32,7 +32,7 @@ detect:
         where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h
         All_Changes.user All_Changes.dest | `ctime(lastTime)` | `ctime(firstTime)`
         | `drop_dm_object_name("All_Changes")` | search result_id = 4720 result_id=4726
-        | transaction user maxspan=240m | table firstTime lastTime count user dest
+        | transaction user connected=false maxspan=240m | table firstTime lastTime count user dest
         result_id'
       suppress:
         suppress_fields: user
