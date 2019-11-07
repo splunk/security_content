@@ -321,6 +321,8 @@
           "instanceId",
           "message_id",
           "networkAclId",
+          "parent_process_id",
+          "process_id",
           "process_name",
           "process",
           "recipient",
