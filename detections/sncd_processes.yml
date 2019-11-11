@@ -37,7 +37,7 @@ detect:
         max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest
         Processes.process_name Processes.user _time | `ctime(firstTime)` | `ctime(lastTime)`
         | `drop_dm_object_name(Processes)` | search `system_network_configuration_discovery_tools`
-        | transaction dest maxpause=5m |where eventcount>=5 | table firstTime lastTime
+        | transaction dest connected=false maxpause=5m |where eventcount>=5 | table firstTime lastTime
         dest user process_name process parent_process eventcount'
       suppress:
         suppress_fields: dest,user
