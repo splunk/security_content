@@ -53,6 +53,9 @@ how_to_implement: To successfully implement this search, you must be ingesting B
                   clients, you'll need to create a KV store of MD5 -> Process Path to work around a Carbon Black agent issue. 
 id: 3d6c3213-5fff-4a1e-667d-b24c262171e7
 investigations:
+   - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+     name: Get Parent Process Info
+     type: splunk
 
 known_false_positives: None as this is leveraged for discovery (hunting) and not detection.
 maintainers:
@@ -60,7 +63,6 @@ maintainers:
     email: rvaldez@splunk.com
     name: Rico Valdez
 mappings:
-  cis20:
   kill_chain_phases:
     - Actions on Objectives
   mitre_attack:
@@ -68,13 +70,15 @@ mappings:
     - Command and Control
     - Exfiltration
     - Persistence
-  nist:
 modification_date: '2019-10-25'
 name: Process to JA3 Mapping
 original_authors:
   - company: Box
-    email: jweiss@box.com, msconzo@box.com
-    name: Jayson Weiss, Mike Sconzo
+    email: jweiss@box.com
+    name: Jayson Weiss
+  - company: Box
+    email: msconzo@box.com
+    name: Mike Sconzo  
 references: ['https://github.com/salesforce/ja3']
 security_domain: network
 spec_version: 2

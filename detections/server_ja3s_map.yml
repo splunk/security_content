@@ -40,8 +40,11 @@ eli5: Mapping JA3S to server name or IP address can be useful in understanding i
 entities:
   - dest
 how_to_implement: To successfully implement this search, you must be ingesting Bro SSL logs w/JA3S signature.
-id: 
+id: 3d553213-5fff-4a1e-667d-b24c262171e7
 investigations:
+   - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+     name: Get Parent Process Info
+     type: splunk
 
 known_false_positives: None as this is leveraged for discovery (hunting) and not detection.
 maintainers:
@@ -49,19 +52,20 @@ maintainers:
     email: rvaldez@splunk.com
     name: Rico Valdez
 mappings:
-  cis20:
   kill_chain_phases:
     - Actions on Objectives
   mitre_attack:
     - Command and Control
     - Exfiltration
-  nist:
 modification_date: '2019-10-25'
 name: Server to JA3S Mapping
 original_authors:
   - company: Box
-    email: jweiss@box.com, msconzo@box.com
-    name: Jayson Weiss, Mike Sconzo
+    email: jweiss@box.com
+    name: Jayson Weiss
+  - company: Box
+    email: msconzo@box.com
+    name: Mike Sconzo  
 references: ['https://github.com/salesforce/ja3']
 security_domain: network
 spec_version: 2
