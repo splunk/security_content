@@ -6,6 +6,9 @@ description: Email remains one of the primary means for attackers to gain an ini
   foothold within the modern enterprise. Detect and investigate suspicious emails
   in your environment with the help of the searches in this Analytic Story.
 detections:
+  - detection_id: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
+    name: Monitor Email For Brand Abuse
+    type: splunk
   - detection_id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
     name: Suspicious Email Attachment Extensions
     type: splunk

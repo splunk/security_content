@@ -11,7 +11,7 @@
     Situations where this is useful are often forking web applications that
     are initialized on the first request.
 
-    :copyright: (c) 2010 by the Jinja Team.
+    :copyright: (c) 2017 by the Jinja Team.
     :license: BSD.
 """
 from os import path, listdir
@@ -45,7 +45,7 @@ else:
         return marshal.loads(f.read())
 
 
-bc_version = 2
+bc_version = 3
 
 # magic version used to only change with new jinja versions.  With 2.6
 # we change this to also take Python version changes into account.  The
@@ -296,9 +296,8 @@ class MemcachedBytecodeCache(BytecodeCache):
 
     Libraries compatible with this class:
 
-    -   `werkzeug <http://werkzeug.pocoo.org/>`_.contrib.cache
-    -   `python-memcached <http://www.tummy.com/Community/software/python-memcached/>`_
-    -   `cmemcache <http://gijsbert.org/cmemcache/>`_
+    -   `cachelib <https://github.com/pallets/cachelib>`_
+    -   `python-memcached <https://pypi.org/project/python-memcached/>`_
 
     (Unfortunately the django cache interface is not compatible because it
     does not support storing binary data, only unicode.  You can however pass

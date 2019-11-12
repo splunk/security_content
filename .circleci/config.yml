@@ -87,7 +87,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
+            python bin/generate.py --path . --output package -v
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
       - run:
@@ -305,6 +305,3 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-
-
-

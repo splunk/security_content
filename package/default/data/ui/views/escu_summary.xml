@@ -28,12 +28,12 @@
             <html>
                 <ul id="tabs_list" class="nav nav-tabs">
                   <li class="active">
-                      <a href="#" class="toggle-tab es-soc-analytic-story-stats" data-toggle="tab" data-elements="analytic_stories_header_stats,analytic_stories_viz,kill_chain_viz,analytic_stories_details_table">
+                      <a href="#" class="toggle-tab es-soc-analytic-story-stats" data-elements="analytic_stories_header_stats,analytic_stories_viz,kill_chain_viz,analytic_stories_details_table">
                         Analytic Story Summary
                       </a>
                   </li>
                   <li>
-                      <a href="#" class="toggle-tab es-soc-search-stats" data-toggle="tab" data-elements="search_stats_header,search_stats_viz,tab_search_type_table">
+                      <a href="#" class="toggle-tab es-soc-search-stats" data-elements="search_stats_header,search_stats_viz,tab_search_type_table">
                         Search Summary
                       </a>
                   </li>

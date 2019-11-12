@@ -22,12 +22,12 @@ search (title=*$field1$* OR description=*$field1$* OR search=*$field1$*  OR acti
 
                 <ul id="tabs_list" class="nav nav-tabs">
                   <li class="active">
-                      <a href="#"  data-toggle="tab" data-elements="analytic">
+                      <a href="#" data-elements="analytic">
                         Analytic Story Results
                       </a>
                   </li>
                   <li>
-                      <a href="#"  data-toggle="tab" data-elements="search">
+                      <a href="#" data-elements="search">
                         Search Results
                       </a>
                   </li>
