@@ -139,7 +139,6 @@ jobs:
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
               tar -zxf content-pack-build.tar.gz
-              CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
               mv package DA-ESS-ContentUpdate
               slim package -o upload DA-ESS-ContentUpdate
               cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
@@ -229,7 +228,6 @@ jobs:
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
             mv package DA-ESS-ContentUpdate
             tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate/*
       - persist_to_workspace:
