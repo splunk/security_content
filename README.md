@@ -21,7 +21,7 @@ The Splunk Security Content Exchange can be used via:
 #### [Splunk App](https://github.com/splunk/security-content/releases)
 Grab the latest release of DA-ESS-ContentUpdate and install it on a Splunk Enterprise server (search head).
 
-#### [API](https//docs.splunkresearch.com/?version=latest)
+#### [API](https://docs.splunkresearch.com/?version=latest)
 ```
 curl -s https://content.splunkresearch.com | jq
 {
