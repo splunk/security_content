@@ -47,7 +47,7 @@ eli5: This search looks for modifications made to the Windows registry from remo
   performed the modification.
 entities:
   - dest
-how_to_implement: To successfully implement this search, you must populate the `Change_Analysis`
+how_to_implement: To successfully implement this search, you must populate the `Endpoint`
   data model. This is typically populated via endpoint detection-and-response products,
   such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for
   this search is typically generated via logs that report reads and writes to the
