@@ -61,7 +61,13 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/validate.py --path . --verbose
-
+      - run:
+          name: check for broken links using liche 
+          command: |
+            go version
+            go get -u github.com/raviqqe/liche
+            cd security-content
+            liche -r docs/
   build-sources:
     executor: content-executor
     steps:
