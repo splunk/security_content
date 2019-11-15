@@ -65,6 +65,7 @@ jobs:
           name: check for broken links using liche 
           command: |
             go version
+            export GO111MODULE=on
             go get -u github.com/raviqqe/liche
             cd security-content
             liche -r docs/
