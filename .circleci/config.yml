@@ -15,7 +15,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev -qq
+    sudo apt install -y python-dev snapd -qq
     sudo snap install go --classic
 
 executors:
