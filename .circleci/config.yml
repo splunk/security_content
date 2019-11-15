@@ -67,8 +67,8 @@ jobs:
             go get -v -u github.com/raviqqe/liche
             cd security-content
             liche -r docs/
-          environment:
-            GO111MODULE: "on"
+            #          environment:
+            #GO111MODULE: "on"
   build-sources:
     executor: content-executor
     steps:
