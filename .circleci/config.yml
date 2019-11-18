@@ -67,6 +67,12 @@ jobs:
             source venv/bin/activate
             python bin/validate.py --path . --verbose
       - run:
+          name: run doc-gen
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/doc-gen.py --path . --output docs -v
+      - run:
           name: check for broken links using liche 
           command: |
             echo 'export GOROOT=~/.go' >> $BASH_ENV
