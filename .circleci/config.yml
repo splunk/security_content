@@ -69,6 +69,11 @@ jobs:
       - run:
           name: check for broken links using liche 
           command: |
+            ls ~/.go
+            echo 'export GOROOT=~/.go' >> $BASH_ENV
+            echo 'export PATH=$GOROOT/bin:$PATH' >> $BASH_ENV
+            echo 'export GOPATH=~/go' >> $BASH_ENV
+            echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
             echo 'export GO111MODULE="on"' >> $BASH_ENV 
             source $BASH_ENV
             go get -v -u github.com/raviqqe/liche
