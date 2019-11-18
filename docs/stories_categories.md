@@ -1491,7 +1491,7 @@ Web
 * company = davidd@splunk.com
 
 ##### References
-* https://blog.domaintools.com/tag/brand-monitor/
+* https://research.domaintools.com/monitor/brand-monitor/
 * https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
 * https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
 
