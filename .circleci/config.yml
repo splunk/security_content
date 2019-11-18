@@ -15,8 +15,10 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev snapd -qq
+    sudo apt install -y python-dev -qq
     # install go for other testing tools
+    rm goinstall.sh
+    rm -rf ~/.go
     wget https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh
     sudo chown circleci goinstall.sh
     chmod +x goinstall.sh
