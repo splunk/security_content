@@ -69,6 +69,7 @@ jobs:
       - run:
           name: check for broken links using liche 
           command: |
+            cat .bashrc
             go get -v -u github.com/raviqqe/liche
             cd security-content
             liche -r docs/
