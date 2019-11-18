@@ -78,6 +78,7 @@ jobs:
             go get -u github.com/raviqqe/liche
             cd security-content
             liche -r docs/
+            liche README.md
   build-sources:
     executor: content-executor
     steps:
