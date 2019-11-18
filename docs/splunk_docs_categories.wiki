@@ -1317,7 +1317,7 @@ Notable events will include IP addresses, URLs, and user data. Drilling down can
 * DE.CM
 
 ====References====
-* https://blog.domaintools.com/tag/brand-monitor/
+* https://www.zerofox.com/blog/what-is-digital-risk-monitoring/
 * https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
 * https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
 
@@ -1371,7 +1371,7 @@ The search in this story can help you to detect if attackers are abusing your co
 
 ====References====
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
-* https://deepthought.isc.org/article/AA-00897/0/What-is-a-DNS-Amplification-Attack.html
+* https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/
 
 creation_date = 2016-08-24
 
@@ -3041,6 +3041,8 @@ Once a phishing message has been detected, the next steps are to answer the foll
 
 ====Providing Technologies====
 * Microsoft Exchange
+* Bro
+* Splunk Stream
 
 ====Data Models====
 * Email

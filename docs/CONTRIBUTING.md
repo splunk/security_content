@@ -34,7 +34,7 @@ If you wish to be a contributing member of our community, please see the agreeme
 Please make sure to read and observe our [Code of Conduct](contributing/code-of-conduct.md). Please follow it in all of your interactions involving the project.
 
 ##### Setup Development Environment
-see [Developing section](README.MD/#Developing)
+see [Developing section](https://github.com/splunk/security-content#developing)
 
 ## Contribution Workflow
 Help is always welcome! For example, documentation can always use improvement. There's always code that can be clarified, functionality that can be extended, and tests to be added to guarantee behavior. If you see something you think should be fixed, don't be afraid to own it.

@@ -15,7 +15,12 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev -qq
+    sudo apt install -y python-dev snapd -qq
+    # install go for other testing tools
+    wget https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh
+    sudo chown circleci goinstall.sh
+    chmod +x goinstall.sh
+    ./goinstall.sh
 
 executors:
   content-executor:
@@ -61,7 +66,25 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/validate.py --path . --verbose
-
+      - run:
+          name: run doc-gen
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/doc-gen.py --path . --output docs -v
+      - run:
+          name: check for broken links using liche 
+          command: |
+            echo 'export GOROOT=~/.go' >> $BASH_ENV
+            echo 'export PATH=$GOROOT/bin:$PATH' >> $BASH_ENV
+            echo 'export GOPATH=~/go' >> $BASH_ENV
+            echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
+            echo 'export GO111MODULE="on"' >> $BASH_ENV 
+            source $BASH_ENV
+            go get -u github.com/raviqqe/liche
+            cd security-content
+            liche -r docs/
+            liche README.md
   build-sources:
     executor: content-executor
     steps:

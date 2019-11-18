@@ -1491,7 +1491,7 @@ Web
 * company = davidd@splunk.com
 
 ##### References
-* https://blog.domaintools.com/tag/brand-monitor/
+* https://www.zerofox.com/blog/what-is-digital-risk-monitoring/
 * https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
 * https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
 
@@ -1547,7 +1547,7 @@ Network_Resolution
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
-* https://deepthought.isc.org/article/AA-00897/0/What-is-a-DNS-Amplification-Attack.html
+* https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/
 
 ### Data Protection
 * id = `91c676cf-0b23-438d-abee-f6335e1fce33`
@@ -3461,12 +3461,15 @@ Once a phishing message has been detected, the next steps are to answer the foll
 1. Have any users interacted with the content of the messages (by downloading an attachment or clicking on a malicious URL)?This Analytic Story provides detection searches to identify suspicious emails, as well as contextual and investigative searches to help answer some of these questions.
 
 ##### Detections
+* Monitor Email For Brand Abuse
 * Suspicious Email Attachment Extensions
 * Email Attachments With Lots Of Spaces
 * Suspicious Email - UBA Anomaly
 
 ##### Providing Technologies
 * Microsoft Exchange
+* Bro
+* Splunk Stream
 
 ##### Data Models
 Email
