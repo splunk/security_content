@@ -69,12 +69,11 @@ jobs:
       - run:
           name: check for broken links using liche 
           command: |
-            source ~/.bashrc
+            echo 'export GO111MODULE="on"' >> $BASH_ENV 
+            source $BASH_ENV
             go get -v -u github.com/raviqqe/liche
             cd security-content
             liche -r docs/
-          environment:
-            GO111MODULE: "on"
   build-sources:
     executor: content-executor
     steps:
