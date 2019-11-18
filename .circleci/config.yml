@@ -69,16 +69,12 @@ jobs:
       - run:
           name: check for broken links using liche 
           command: |
-            #source ~/.bashrc
+            source ~/.bashrc
             go get -v -u github.com/raviqqe/liche
             cd security-content
             liche -r docs/
           environment:
-            - GO111MODULE: "on"
-            - GOROOT: "/home/circleci/.go"
-            - PATH: "$GOROOT/bin:$PATH"
-            - GOPATH: "/home/circleci/go"
-            - PATH: "$GOPATH/bin:$PATH"
+            GO111MODULE: "on"
   build-sources:
     executor: content-executor
     steps:
