@@ -16,7 +16,11 @@ apt-run: &apt-install
   command: |
     sudo apt update -qq
     sudo apt install -y python-dev snapd -qq
-    sudo snap install go --classic
+    # install go for other testing tools
+    wget https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh
+    sudo chown circleci goinstall.sh
+    chmod +x goinstall.sh
+    ./goinstall.sh
 
 executors:
   content-executor:
