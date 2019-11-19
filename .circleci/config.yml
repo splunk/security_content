@@ -60,7 +60,7 @@ jobs:
           command: |
             cd security-content
             rm -rf venv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
       - save_cache:
@@ -109,7 +109,7 @@ jobs:
           command: |
             cd security-content
             rm -rf venv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
       - run:
@@ -159,7 +159,7 @@ jobs:
               cd ~/slim-latest
               sudo pip install --upgrade pip setuptools
               sudo pip install virtualenv
-              virtualenv --python=/usr/bin/python2.7 --clear venv
+              virtualenv --python=/usr/bin/python3 --clear venv
               source venv/bin/activate
               pip install semantic_version
               pip install .
@@ -198,7 +198,7 @@ jobs:
             rm -rf venv
             sudo pip install --upgrade pip setuptools
             sudo pip install virtualenv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install .
       - run:
@@ -233,7 +233,7 @@ jobs:
           command: |
             cd security-content
             rm -rf venv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
       - run:
