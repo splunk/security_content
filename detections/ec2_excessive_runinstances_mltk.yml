@@ -29,13 +29,7 @@ detect:
         cron_schedule: '*/10 * * * *'
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: >-
-        sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success 
-        | bucket span=10m _time 
-        | stats sum(instances_launched) as instances_launched by _time userName 
-        | apply ec2_excessive_runinstances_v1 
-        | rename "IsOutlier(instances_launched)" as isOutlier 
-        | where isOutlier=1
+      search: sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | bucket span=10m _time | stats sum(instances_launched) as instances_launched by _time userName | apply ec2_excessive_runinstances_v1 | rename "IsOutlier(instances_launched)" as isOutlier | where isOutlier=1
       suppress:
         suppress_fields: userName
         suppress_period: 3600s
