@@ -1,0 +1,3 @@
+description: Use this macro to add additional filters for monitoring ec2 
+  runinstances [eg - userName != 'someUserNameExperiencingFalsePositives'].
+name: ec2_excessive_runinstances_mltk_input_filter
