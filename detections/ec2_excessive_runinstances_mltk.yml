@@ -36,7 +36,7 @@ detect:
       search: >-
         sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
         | bucket span=10m _time 
-        | stats sum(instances_launched) as instances_launched by _time userName 
+        | stats count as instances_launched by _time userName 
         | apply ec2_excessive_runinstances_v1 
         | rename "IsOutlier(instances_launched)" as isOutlier 
         | where isOutlier=1
