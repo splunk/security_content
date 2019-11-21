@@ -1,4 +1,8 @@
 asset_type: AWS Instance
+baselines:
+  - id: fa5634df-fb05-4b4b-aba0-6115138bb1ba
+    name: Baseline of Excessive AWS Instances Launched by User
+    type: splunk
 confidence: medium
 creation_date: '2019-11-14'
 data_metadata:
@@ -29,7 +33,13 @@ detect:
         cron_schedule: '*/10 * * * *'
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | bucket span=10m _time | stats sum(instances_launched) as instances_launched by _time userName | apply ec2_excessive_runinstances_v1 | rename "IsOutlier(instances_launched)" as isOutlier | where isOutlier=1
+      search: >-
+        sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
+        | bucket span=10m _time 
+        | stats sum(instances_launched) as instances_launched by _time userName 
+        | apply ec2_excessive_runinstances_v1 
+        | rename "IsOutlier(instances_launched)" as isOutlier 
+        | where isOutlier=1
       suppress:
         suppress_fields: userName
         suppress_period: 3600s
