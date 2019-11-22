@@ -28,11 +28,10 @@ eli5: Create a machine-learning (ML) model to establish a baseline for how many
   RunInstances users do in the environment. This can help you identify excessive
   numbers of RunInstances which may warrant further investigation to determine if there 
   is misuse or abuse.
-how_to_implement: >-
-  You must install the AWS App for Splunk (version 5.1.0 or later)
+how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. 
-
+  inputs.\
+  
   In addition, you must have the Machine Learning Toolkit (MLTK) version
   >= 4.2 installed, along with any required dependencies. Depending on the number
   of users in your environment, you may also need to adjust the value for max_inputs
@@ -40,10 +39,10 @@ how_to_implement: >-
   completes in a reasonable timeframe. By default, the search builds the model using
   the past 30 days of data. You can modify the search window to build the model over
   a longer period of time, which may give you better results. You may also want to
-  periodically re-run this search to rebuild the model with the latest data. 
-
+  periodically re-run this search to rebuild the model with the latest data.\
+  
   More information on the algorithm used in the search can be found at 
-  `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+  `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.'
 id: fa5634df-fb05-4b4b-aba0-6115138bb1ba
 known_false_positives: ''
 maintainers:
