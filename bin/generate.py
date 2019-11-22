@@ -354,11 +354,10 @@ if __name__ == "__main__":
     macros_path = generate_macros_conf(macros)
 
     if VERBOSE:
-        print "{0} stories have been successfully written to {1}".format(len(stories), story_path)
-        print "{0} stories have been successfully written to {1}".format(len(stories), use_case_lib_path)
-        print "{0} detections have been successfully written to {1}".format(len(detections), detection_path)
-        print "{0} investigations have been successfully written to {1}".format(len(investigations), detection_path)
-        print "{0} baselines have been successfully written to {1}".format(len(baselines), detection_path)
-        print "{0} macros have been successfully written to {1}".format(len(macros), macros_path)
-        print "{0} lookups have been successfully written to {1}".format(len(lookups), lookups_path)
-        print "security content generation completed.."
+        print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
+        print("{0} stories have been successfully written to {1}".format(len(stories), use_case_lib_path))
+        print("{0} detections have been successfully written to {1}".format(len(detections), detection_path))
+        print("{0} investigations have been successfully written to {1}".format(len(investigations), detection_path))
+        print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
+        print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
+        print("security content generation completed..")
