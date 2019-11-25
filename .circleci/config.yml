@@ -15,7 +15,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev -qq
+    sudo apt install -y python-dev python3-dev -qq
     # install go for other testing tools
     # but first lets clean up the env
     if  [ -f goinstall.sh ]; then
