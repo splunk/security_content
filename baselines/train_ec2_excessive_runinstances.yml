@@ -8,9 +8,8 @@ baseline:
       latest_time: -1d@d
     search: >-
       sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
-      | bucket span=10m _time 
-      | rename arn AS userName
-      | stats count as instances_launched by _time userName 
+      | bucket span=10m _time
+      | stats count as instances_launched by _time src_user
       | fit DensityFunction instances_launched threshold=0.0005 into ec2_excessive_runinstances_v1
 creation_date: '2019-11-14'
 data_metadata:

@@ -20,12 +20,12 @@ detect:
       macros:
         - ec2_excessive_runinstances_mltk_input_filter
       notable:
-        nes_fields: userName
+        nes_fields: src_user
         rule_description: An abnormally high number of instances were launched by
           a user within in a 10-minute window
-        rule_title: High Number of instances launched by $userName$
+        rule_title: High Number of instances launched by $src_user$
       risk:
-        risk_object: userName
+        risk_object: src_user
         risk_object_type:
           - user
         risk_score: 30
@@ -36,13 +36,12 @@ detect:
       search: >-
         sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
         | bucket span=10m _time 
-        | rename arn AS userName
-        | stats count as instances_launched by _time userName 
+        | stats count as instances_launched by _time src_user 
         | apply ec2_excessive_runinstances_v1 
         | rename "IsOutlier(instances_launched)" as isOutlier 
         | where isOutlier=1
       suppress:
-        suppress_fields: userName
+        suppress_fields: src_user
         suppress_period: 3600s
 eli5: In this search, we query CloudTrail logs to look for events where an instance
   is successfully launched by a particular user. Since we want to detect a high number
@@ -50,7 +49,7 @@ eli5: In this search, we query CloudTrail logs to look for events where an insta
   windows. We then compare the total number of instances launched by a particular
   user against the saved baseline data in the model ec2_excessive_runinstances_v1.
 entities:
-  - userName
+  - src_user
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. The threshold value should be tuned to your environment.
