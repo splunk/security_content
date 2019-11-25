@@ -1,7 +1,7 @@
 asset_type: AWS Instance
 baselines:
   - id: fa5634df-fb05-4b4b-aba0-6115138bb1ba
-    name: Baseline of Excessive AWS Instances Launched by User
+    name: Baseline of Excessive AWS Instances Launched by User - MLTK
     type: splunk
 confidence: medium
 creation_date: '2019-11-14'
@@ -36,6 +36,7 @@ detect:
       search: >-
         sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
         | bucket span=10m _time 
+        | rename arn AS userName
         | stats count as instances_launched by _time userName 
         | apply ec2_excessive_runinstances_v1 
         | rename "IsOutlier(instances_launched)" as isOutlier 
@@ -95,7 +96,7 @@ mappings:
     - DE.DP
     - DE.AE
 modification_date: '2019-11-14'
-name: Abnormally High AWS Instances Launched by User
+name: Abnormally High AWS Instances Launched by User - MLTK
 original_authors:
   - company: Splunk
     email: jbrewer@splunk.com
