@@ -28,29 +28,29 @@ def validate_object(REPO_PATH, schema_path, manifest_path, return_objects, verbo
     try:
         schema = json.loads(open(schema_file, 'rb').read())
     except IOError:
-        print "ERROR: reading baseline schema file {0}".format(schema_file)
+        print("ERROR: reading baseline schema file {0}".format(schema_file))
 
     objects = {}
     manifest_files = path.join(path.expanduser(REPO_PATH), manifest_path)
 
     for manifest_file in glob.glob(manifest_files):
         if verbose:
-            print "processing manifest {0}".format(manifest_file)
+            print("processing manifest {0}".format(manifest_file))
 
         with open(manifest_file, 'r') as stream:
             try:
                 object = list(yaml.safe_load_all(stream))[0]
             except yaml.YAMLError as exc:
                 print(exc)
-                print "Error reading {0}".format(manifest_file)
+                print("Error reading {0}".format(manifest_file))
                 error = True
                 continue
 
         try:
             jsonschema.validate(instance=object, schema=schema)
         except jsonschema.exceptions.ValidationError as json_ve:
-            print "ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file)
-            print "\tAffected Object: {}".format(json.dumps(json_ve.instance))
+            print("ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file))
+            print("\tAffected Object: {}".format(json.dumps(json_ve.instance)))
             error = True
 
         objects[object['name']] = object
@@ -78,9 +78,9 @@ def validate_lookups_content(REPO_PATH, lookup_path, lookup, manifest_file):
     if 'filename' in lookup:
         lookup_csv_file = path.join(path.expanduser(REPO_PATH), lookup_path % lookup['filename'])
         if not path.isfile(lookup_csv_file):
-            print "ERROR: filename {} does not exist".format(lookup['filename'])
-            print lookup_csv_file
-            print "\t{}".format(manifest_file)
+            print("ERROR: filename {} does not exist".format(lookup['filename']))
+            print(lookup_csv_file)
+            print("\t{}".format(manifest_file))
             error = True
 
     return error
@@ -94,7 +94,7 @@ def validate_baselines_content(baseline, macros, lookups, baselines_manifest_fil
     if baselines_errors:
         error = True
         for err in baselines_errors:
-            print "{0} at:\n\t {1}".format(err, baselines_manifest_file)
+            print("{0} at:\n\t {1}".format(err, baselines_manifest_file))
 
     return error
 
@@ -181,7 +181,7 @@ def validate_story_content(story, story_manifest_file, story_uuids):
     if story_errors:
         error = True
         for err in story_errors:
-            print "{0} at:\n\t {1}".format(err, story_manifest_file)
+            print("{0} at:\n\t {1}".format(err, story_manifest_file))
 
     return error
 
@@ -218,7 +218,7 @@ def validate_detection_content(detection, macros, lookups, manifest_file, detect
     if detection_errors:
         error = True
         for err in detection_errors:
-            print "{0} at:\n\t {1}".format(err, manifest_file)
+            print("{0} at:\n\t {1}".format(err, manifest_file))
 
     return error
 
@@ -331,7 +331,7 @@ def validate_investigation_content(investigation, macros, lookups, manifest_file
     if investigation_errors:
         error = True
         for err in investigation_errors:
-            print "{0} at:\n\t {1}".format(err, manifest_file)
+            print("{0} at:\n\t {1}".format(err, manifest_file))
 
     return error
 
@@ -436,4 +436,4 @@ if __name__ == "__main__":
     if story_error or detection_error or investigation_error or baseline_error or macros_error or lookups_error:
         sys.exit("Errors found")
     else:
-        print "No Errors found"
+        print("No Errors found")
