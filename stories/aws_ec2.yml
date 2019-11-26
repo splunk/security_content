@@ -23,6 +23,9 @@ detections:
   - detection_id: dec41ad5-d579-42cb-b4c6-f5dbb778bbe5
     name: Abnormally High AWS Instances Launched by User - MLTK
     type: splunk
+  - detection_id: 1c02b86a-cd85-473e-a50b-014a9ac8fe3e
+    name: Abnormally High AWS Instances Terminated by User - MLTK
+    type: splunk
 id: 2e8948a5-5239-406b-b56b-6c50f1268af3
 maintainers:
   - company: Splunk
