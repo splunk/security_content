@@ -20,6 +20,9 @@ detections:
   - detection_id: 22773e84-bac0-4595-b086-20d3f735b4f1
     name: EC2 Instance Started With Previously Unseen User
     type: splunk
+  - detection_id: dec41ad5-d579-42cb-b4c6-f5dbb778bbe5
+    name: Abnormally High AWS Instances Launched by User - MLTK
+    type: splunk
 id: 2e8948a5-5239-406b-b56b-6c50f1268af3
 maintainers:
   - company: Splunk
