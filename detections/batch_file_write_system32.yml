@@ -1,0 +1,105 @@
+asset_type: Endpoint
+confidence: high
+creation_date: '2018-12-14'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+description: The search looks for a batch file (.bat) written to the Windows system
+  directory tree.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, file_name
+        rule_description: A batch file was written to the system directory on $dest$.
+        rule_title: Batch file write to system32 detected on $dest$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 80
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+        lastTime values(Filesystem.dest) as dest values(Filesystem.file_name) as file_name
+        values(Filesystem.user) as user from datamodel=Endpoint.Filesystem by Filesystem.file_path
+        | `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`|
+        rex field=file_name "(?<file_extension>\.[^\.]+)$" | search file_path=*system32*
+        AND file_extension=.bat'
+      suppress:
+        suppress_fields: dest,file_name
+        suppress_period: 14400s
+eli5: This search looks at file modifications across your hosts, as well as for evidence
+  of batch files being written to paths that include "system32." This activity is
+  consistent with some SamSam attacks and is, in general, suspicious.
+entities:
+  - dest
+how_to_implement: You must be ingesting data that records the file-system activity
+  from your hosts to populate the Endpoint file-system data-model node. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
+id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc
+    name: Investigate Successful Remote Desktop Authentications
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+known_false_positives: It is possible for this search to generate a notable event
+  for a batch file write to a path that includes the string "system32", but is not
+  the actual Windows system directory. As such, you should confirm the path of the
+  batch file identified by the search. In addition, a false positive may be generated
+  by an administrator copying a legitimate batch file in this directory tree. You
+  should confirm that the activity is legitimate and modify the search to add exclusions,
+  as necessary.
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+  cis20:
+    - CIS 8
+  kill_chain_phases:
+    - Delivery
+  mitre_attack: []
+  nist:
+    - PR.PT
+    - DE.CM
+modification_date: '2018-12-14'
+name: Batch File Write to System32
+original_authors:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'

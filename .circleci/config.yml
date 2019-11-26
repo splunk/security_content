@@ -16,6 +16,18 @@ apt-run: &apt-install
   command: |
     sudo apt update -qq
     sudo apt install -y python-dev -qq
+    # install go for other testing tools
+    # but first lets clean up the env
+    if  [ -f goinstall.sh ]; then
+        rm goinstall.sh
+    fi
+    if [ -d ~/.go ]; then
+        rm -rf ~/.go
+    fi
+    wget https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh
+    sudo chown circleci goinstall.sh
+    chmod +x goinstall.sh
+    ./goinstall.sh
 
 executors:
   content-executor:
@@ -30,7 +42,12 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            if [ "${CIRCLE_BRANCH}" == "" ]; then
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                cd security-content
+                git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
+                git checkout ${CIRCLE_BRANCH}
+            elif [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
@@ -56,7 +73,25 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/validate.py --path . --verbose
-
+      - run:
+          name: run doc-gen
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/doc-gen.py --path . --output docs -v
+      - run:
+          name: check for broken links using liche 
+          command: |
+            echo 'export GOROOT=~/.go' >> $BASH_ENV
+            echo 'export PATH=$GOROOT/bin:$PATH' >> $BASH_ENV
+            echo 'export GOPATH=~/go' >> $BASH_ENV
+            echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
+            echo 'export GO111MODULE="on"' >> $BASH_ENV 
+            source $BASH_ENV
+            go get -u github.com/raviqqe/liche
+            cd security-content
+            liche -r docs/
+            liche README.md
   build-sources:
     executor: content-executor
     steps:
@@ -82,7 +117,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
+            python bin/generate.py --path . --output package -v
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
       - run:
@@ -134,7 +169,6 @@ jobs:
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
               tar -zxf content-pack-build.tar.gz
-              CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
               mv package DA-ESS-ContentUpdate
               slim package -o upload DA-ESS-ContentUpdate
               cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
@@ -154,7 +188,7 @@ jobs:
       - run:
           name: grab appinspect
           command: |
-            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
+            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-2.0.0.tar.gz -o appinspect-lastest.tar.gz
             mkdir appinspect-latest
             tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
       - run:
@@ -224,7 +258,6 @@ jobs:
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
             mv package DA-ESS-ContentUpdate
             tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate/*
       - persist_to_workspace:
@@ -300,6 +333,3 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-
-
-

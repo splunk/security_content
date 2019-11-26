@@ -1,0 +1,114 @@
+asset_type: Endpoint
+baselines: []
+confidence: medium
+creation_date: '2017-11-17'
+data_metadata:
+  data_models:
+    - Network_Resolution
+  data_source:
+    - DNS
+  providing_technologies:
+    - Splunk Stream
+    - Bro
+description: Malicious actors often abuse legitimate Dynamic DNS services to host
+  malicious payloads or interactive command and control nodes. Attackers will automate
+  domain resolution changes by routing dynamic domains to countless IP addresses to
+  circumvent firewall blocks, blacklists as well as frustrate a network defenders
+  analytic and investigative processes. This search will look for DNS queries made
+  from within your infrastructure to suspicious dynamic domains.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: answer, src, query
+        rule_description: The search has detected a host making outbound queries to
+          Dynamic DNS providers
+        rule_title: Host $src$ detected to make a query to a Dynamic DNS provider
+      risk:
+        risk_object: src
+        risk_object_type:
+          - system
+        risk_score: 20
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `summariesonly` count values(DNS.answer) as answer min(_time)
+        as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name("DNS")`
+        | `ctime(firstTime)` | `dynamic_dns_providers`'
+      suppress:
+        suppress_fields: src, query
+        suppress_period: 86400s
+eli5: The search leverages an accelerated `Network_Resolution` data model to count
+  and list the values of resolved domains for each DNS query. It checks the results
+  against the list of Dynamic DNS providers in the lookup `dynamic_dns_providers`
+  by each host (DNS.src).
+entities:
+  - dest
+  - query
+how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This
+  can be done by ingesting logs from your server or data, collected passively by Splunk
+  Stream or a similar solution. Specifically, data that contains the domain that is
+  being queried and the IP of the host originating the request must be populating
+  the `Network_Resolution` data model. This search also leverages a lookup file, `dynamic_dns_providers_default.csv`,
+  which contains a non-exhaustive list of Dynamic DNS providers. Please consider updating
+  the local lookup periodically by adding new domains to the list of `dynamic_dns_providers_local.csv`.\
+
+  This search produces fields (query, answer, isDynDNS) that are not yet supported
+  by ES Incident Review and therefore cannot be viewed when a notable event is raised.
+  These fields contribute additional context to the notable event. To see the additional
+  metadata, add the following fields, if not already present, to Incident Review.
+  Event Attributes (Configure > Incident Management > Incident Review Settings > Add
+  New Entry):\\n1. **Label:** DNS Query, **Field:** query\
+
+  1. \
+
+  1. **Label:** DNS Answer, **Field:** answer\
+
+  1. \
+
+  1. **Label:** IsDynamicDNS, **Field:** isDynDNS\
+
+  Detailed documentation on how to create a new field within Incident Review may be
+  found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
+id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd72
+    name: Get DNS Server History for a host
+    type: splunk
+known_false_positives: Some users and applications may leverage Dynamic DNS to reach
+  out to some domains on the Internet since dynamic DNS by itself is not malicious,
+  however this activity must be verified.
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+mappings:
+  cis20:
+    - CIS 8
+    - CIS 12
+    - CIS 13
+  kill_chain_phases:
+    - Command and Control
+    - Actions on Objectives
+  mitre_attack:
+    - Exfiltration
+    - Exfiltration Over Command and Control Channel
+    - Defense Evasion
+    - Commonly Used Port
+  nist:
+    - PR.DS
+    - PR.PT
+    - DE.AE
+    - DE.CM
+modification_date: '2017-09-18'
+name: Detect hosts connecting to dynamic domain providers
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+responses: []
+security_domain: network
+spec_version: 2
+type: splunk
+version: '1.0'

@@ -1,0 +1,4 @@
+definition: (query=api* AND query = github*)
+description: This limits the query fields to domains that are associated with evilginx
+  masquerading as GitHub
+name: evilginx_phishlets_github

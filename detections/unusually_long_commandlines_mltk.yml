@@ -1,0 +1,123 @@
+asset_type: ''
+baselines:
+  - id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
+    name: Baseline of Command Line Length - MLTK
+    type: splunk
+confidence: medium
+creation_date: '2019-05-08'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+    - Tanium
+    - Ziften
+description: Command lines that are extremely long may be indicative of malicious
+  activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK)
+  to help identify command lines with lengths that are unusual for a given user.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, process, user
+        rule_description: An unusually long command line $cmdline$ was found on $dest$
+        rule_title: Unusually Long Command Line on $dest$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 50
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`| eval processlen=len(process) | search user!=unknown | apply cmdline_pdfmodel threshold=0.01 | rename "IsOutlier(processlen)" as isOutlier | search isOutlier > 0 | table firstTime lastTime user dest process_name process processlen count'
+      suppress:
+        suppress_fields: dest,user,process_name
+        suppress_period: 28800s
+eli5: This search leverages the Machine Learning Toolkit (MLTK) to identify outliers
+  in the length of the command lines observed to be used by a specific user. The companion
+  search, "Baseline of Command Line Length - MLTK," creates a machine-learning (ML)
+  model built over the historical data used by this search. The determination of what
+  is considered an outlier may be adjusted via the threshold parameter in the search.
+  More information on the algorithm used can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+entities:
+  - dest
+  - process_name
+  - user
+how_to_implement: You must be ingesting endpoint data that monitors command lines
+  and populates the Endpoint data model in the Processes node. The command-line arguments
+  are mapped to the "process" field in the Endpoint data model. In addition, MLTK
+  version >= 4.2 must be installed on your search heads, along with any required dependencies.
+  Finally, the support search "Baseline of Command Line Length - MLTK" must be executed
+  before this detection search, as it builds an ML model over the historical data
+  used by this search. It is important that this search is run in the same app context
+  as the associated support search, so that the model created by the support search
+  is available for use. You should periodically re-run the support search to rebuild
+  the model with the latest data available in your environment.
+id: 57edaefa-a73b-45e5-bbae-f39c1473f941
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd22
+    name: Investigate Web Activity From Host
+    type: splunk
+known_false_positives: Some legitimate applications use long command lines for installs
+  or updates. You should review identified command lines for legitimacy. You may modify
+  the first part of the search to omit legitimate command lines from consideration.
+  If you are seeing more results than desired, you may consider changing the value
+  of threshold in the search to a smaller value. You should also periodically re-run
+  the support search to re-build the ML model on the latest data. You may get unexpected
+  results if the user identified in the results is not present in the data used to
+  build the associated model.
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+  cis20:
+    - CIS 8
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Execution
+  nist:
+    - PR.PT
+    - DE.CM
+modification_date: '2019-05-08'
+name: Unusually Long Command Line - MLTK
+original_authors:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'

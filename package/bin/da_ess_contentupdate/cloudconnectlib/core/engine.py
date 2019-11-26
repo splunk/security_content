@@ -290,8 +290,7 @@ class Job(object):
                 break
 
     def _send_request(self, url, method, header, body):
-        """Do send request with a simple error handling strategy. Refer to
-        https://confluence.splunk.com/display/PROD/CC+1.0+-+Detail+Design"""
+        """Do send request with a simple error handling strategy."""
         try:
             response = self._client.request(
                 url, method, headers=header, body=body

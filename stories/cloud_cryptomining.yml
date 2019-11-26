@@ -1,0 +1,61 @@
+category:
+  - Cloud Security
+channel: ESCU
+creation_date: '2019-10-02'
+description: Monitor your cloud compute instances for activities related to cryptojacking/cryptomining.
+  New instances that originate from previously unseen regions, users who launch abnormally
+  high numbers of instances, or compute instances started by previously unseen users
+  are just a few examples of potentially malicious behavior.
+detections:
+  - detection_id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
+    name: Cloud Compute Instance Started In Previously Unused Region
+    type: splunk
+  - detection_id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
+    name: Cloud Compute Instance Created With Previously Unseen Instance Type
+    type: splunk
+  - detection_id: 8dbcf362-ae43-44ea-9084-77db4bed2c68
+    name: Cloud Compute Instance Created With Previously Unseen Image
+    type: splunk
+  - detection_id: 76988f6a-3935-48f6-a9e5-6fca8b3ed843
+    name: Cloud Compute Instance Created By Previously Unseen User
+    type: splunk
+id: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2019-10-02'
+name: Cloud Cryptomining
+narrative: 'Cryptomining is an intentionally difficult, resource-intensive business.
+  Its complexity was designed into the process to ensure that the number of blocks
+  mined each day would remain steady. So, it''s par for the course that ambitious,
+  but unscrupulous, miners make amassing the computing power of large enterprises--a
+  practice known as cryptojacking--a top priority. \
+
+  Cryptojacking has attracted an increasing amount of media attention since its explosion
+  in popularity in the fall of 2017. The attacks have moved from in-browser exploits
+  and mobile phones to enterprise cloud services, such as Amazon Web Services (AWS),
+  Google Cloud Platform (GCP), and Azure. It''s difficult to determine exactly how
+  widespread the practice has become, since bad actors continually evolve their ability
+  to escape detection, including employing unlisted endpoints, moderating their CPU
+  usage, and hiding the mining pool''s IP address behind a free CDN. \
+
+  When malicious miners appropriate a cloud instance, often spinning up hundreds of
+  new instances, the costs can become astronomical for the account holder. So it
+  is critically important to monitor your systems for suspicious activities that could
+  indicate that your network has been infiltrated. \
+
+  This Analytic Story is focused on detecting suspicious new instances in your cloud
+  environment to help prevent cryptominers from gaining a foothold. It contains detection searches that
+  will detect when a previously unused instance type or AMI is used. It also contains
+  support searches to build lookup files to ensure proper execution of the detection
+  searches.'
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references:
+  - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+spec_version: 2
+usecase: Security Monitoring
+version: '1.0'

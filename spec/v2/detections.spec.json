@@ -195,9 +195,37 @@
       "correlation_rule": {
         "description": "Various fields to enhance usability in Enterprise Security",
         "properties": {
+          "lookups": {
+            "description": "A list of lookups in the search",
+            "examples": [
+              "detection_search_lookup"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "macros": {
+            "description": "A list of macros in the search",
+            "examples": [
+              "detection_search_output_filter"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "notable": {
             "description": "Various fields associated with creating a notable event",
             "properties": {
+              "drilldown_name": {
+                "description": "The text for the drilldown hyperlink within the Incident Review dashboard",
+                "type": "string"
+              },
+              "drilldown_search": {
+                "description": "The actual drilldown search",
+                "type": "string"
+              },
               "nes_fields": {
                 "description": "A list of suggested fields to be used for notable-event suppression",
                 "type": "string"
@@ -544,6 +572,7 @@
               "Certificates",
               "Change_Analysis",
               "Change",
+              "Cloud_Infrastructure",
               "Malware",
               "Email",
               "Identity_Management",
@@ -595,7 +624,9 @@
             "enum": [
               "Apache",
               "AWS",
+              "Azure",
               "Bro",
+              "GCP",
               "Microsoft Windows",
               "Linux",
               "macOS",
@@ -694,10 +725,13 @@
           "instanceId",
           "message_id",
           "networkAclId",
+          "parent_process_id",
+          "process_id",
           "process_name",
           "process",
           "recipient",
           "Region",
+          "region",
           "resourceId",
           "session_id",
           "src_ip",
@@ -706,7 +740,12 @@
           "src",
           "user",
           "query",
-          "url"
+          "host",
+          "dest_ip",
+          "userName",
+          "dest_user",
+          "url",
+          "domain"
         ]
       },
       "minItems": 0,
@@ -905,9 +944,17 @@
               "Lateral Movement",
               "Collection",
               "Exfiltration",
+              "Accessibility Features",
+              "Account Discovery",
+              "AppInit DLLs",
+              "Application Shimming",
+              "Authentication Package",
+              "Change Default File Association",
               "Command and Control",
               "Command and Control Protocol",
+              "Command-Line Interface",
               "Commonly Used Port",
+              "Credential Dumping",
               "Custom Cryptographic Protocol",
               "DLL Injection",
               "DLL Search Order Hijacking",

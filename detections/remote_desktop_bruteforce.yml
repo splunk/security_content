@@ -1,0 +1,104 @@
+asset_type: Endpoint
+confidence: medium
+creation_date: '2018-12-14'
+data_metadata:
+  data_models:
+    - Network_Traffic
+  data_source:
+    - Network Communications
+  providing_technologies:
+    - Bro
+    - Splunk Stream
+description: This search looks for RDP application network traffic and filters any
+  source/destination pair generating more than twice the standard deviation of the
+  average traffic.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, src
+        rule_description: Remote-desktop traffic detected from $src$ to $dest$. This
+          activity is consistent with a brute-force attack.
+        rule_title: Bruteforce Remote Desktop Network Traffic detected from $src$
+          to $dest$
+      risk:
+        risk_object: src
+        risk_object_type:
+          - system
+        risk_score: 75
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+        lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src
+        All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev
+        avg(count) AS avg p50(count) AS p50 | where count>(avg + stdev*2) | rename All_Traffic.src
+        AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count
+        avg p50 stdev'
+      suppress:
+        suppress_fields: dest,src
+        suppress_period: 28800s
+eli5: This search monitors for abnormal amounts of remote-desktop (RDP) traffic from
+  a source to a destination that may be indicative of a brute-force attack. It does
+  this by filtering out RDP traffic from the Network_Traffic.All_Traffic data model,
+  using twice the standard deviation of all source-to-destination connections. If
+  any tuple is within more than two standard deviations of all other usual RDP traffic
+  flows, it is indicative of a brute-force attack.
+entities:
+  - src
+how_to_implement: You must ensure that your network traffic data is populating the
+  Network_Traffic data model.
+id: a98727cc-286b-4ff2-b898-41df64695923
+investigations:
+  - id: 9925d08f-561e-4faa-8912-e3888a842341
+    name: Get Process Information For Port Activity
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc
+    name: Investigate Successful Remote Desktop Authentications
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+known_false_positives: RDP gateways may have unusually high amounts of traffic from
+  all other hosts' RDP applications in the network.
+maintainers:
+  - company: Splunk
+    email: jhernandez@splunk.com
+    name: Jose Hernandez
+mappings:
+  cis20:
+    - CIS 12
+    - CIS 9
+    - CIS 16
+  kill_chain_phases:
+    - Reconnaissance
+    - Delivery
+  mitre_attack:
+    - Credential Access
+    - Remote Desktop Protocol
+    - Lateral Movement
+  nist:
+    - DE.AE
+    - PR.AC
+    - PR.IP
+modification_date: '2018-12-14'
+name: Remote Desktop Network Bruteforce
+original_authors:
+  - company: Splunk
+    email: jhernandez@splunk.com
+    name: Jose Hernandez
+references: []
+security_domain: network
+spec_version: 2
+type: splunk
+version: '1.0'

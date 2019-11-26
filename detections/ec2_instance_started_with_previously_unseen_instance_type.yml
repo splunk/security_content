@@ -1,0 +1,87 @@
+asset_type: AWS Instance
+baselines:
+  - id: b8f029f2-65a6-4d76-be98-dad1c9d59c45
+    name: Previously Seen EC2 Instance Types
+    type: splunk
+confidence: medium
+creation_date: '2018-03-12'
+data_metadata:
+  data_source:
+    - AWS CloudTrail logs
+  data_sourcetypes:
+    - aws:cloudtrail
+  providing_technologies:
+    - AWS
+description: This search looks for EC2 instances being created with previously unseen
+  instance types.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: instanceType
+        rule_description: The EC2 instance type $instanceType$ was used for the first
+          time to create $dest$.
+        rule_title: New EC2 Instance Type $instanceType$ detected
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 30
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail
+        eventName=RunInstances errorCode=success | fillnull value="m1.small" requestParameters.instanceType
+        | stats earliest(_time) as earliest latest(_time) as latest by requestParameters.instanceType
+        | rename requestParameters.instanceType as instanceType | inputlookup append=t
+        previously_seen_ec2_instance_types.csv | stats min(earliest) as earliest max(latest)
+        as latest by instanceType | outputlookup previously_seen_ec2_instance_types.csv
+        | eval newType=if(earliest >= relative_time(now(), "-70m@m"), 1, 0) | convert
+        ctime(earliest) ctime(latest) | where newType=1 | rename instanceType as requestParameters.instanceType
+        | table requestParameters.instanceType] | spath output=user userIdentity.arn
+        | rename requestParameters.instanceType as instanceType, responseElements.instancesSet.items{}.instanceId
+        as dest | table _time, user, dest, instanceType
+      suppress:
+        suppress_fields: dest
+        suppress_period: 14400s
+eli5: The subsearch returns the instance types of all successful EC2 instance launches
+  within the last hour and then appends the historical data in the lookup file to
+  those results.  It then recalculates the earliest seen time field for each instance
+  type and returns only those instance types that has first been seen in the past
+  hour.  This is combined with the main search to return the time, user, and instance
+  id of those systems.
+entities:
+  - dest
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen EC2 Instance Types"
+  support search once to create a history of previously seen instance types.
+id: 65541c80-03c7-4e05-83c8-1dcd57a2e1ad
+investigations:
+  - id: 0e40fe83-3edb-4d86-8206-8fed36529ca6
+    name: Get EC2 Launch Details
+    type: splunk
+known_false_positives: It is possible that an admin will create a new system using
+  a new instance type never used before. Verify with the creator that they intended
+  to create the system with the new instance type.
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+mappings:
+  cis20:
+    - CIS 1
+  nist:
+    - ID.AM
+modification_date: '2018-03-12'
+name: EC2 Instance Started With Previously Unseen Instance Type
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'
