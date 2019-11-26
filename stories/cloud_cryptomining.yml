@@ -19,6 +19,9 @@ detections:
   - detection_id: 76988f6a-3935-48f6-a9e5-6fca8b3ed843
     name: Cloud Compute Instance Created By Previously Unseen User
     type: splunk
+  - detection_id: dec41ad5-d579-42cb-b4c6-f5dbb778bbe5
+    name: Abnormally High AWS Instances Launched by User - MLTK
+    type: splunk
 id: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
 maintainers:
   - company: Splunk
