@@ -68,7 +68,7 @@ references:
   - https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html
   - http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/
   - https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
-  - https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf
+  - https://www.youtube.com/watch?v=dq2Hv7J9fvk
 spec_version: 2
 usecase: Advanced Threat Detection
 version: '2.0'
