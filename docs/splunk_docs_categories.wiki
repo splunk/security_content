@@ -1563,8 +1563,6 @@ Another search detects incidents wherein a single password is used across multip
 
 ====Providing Technologies====
 * Splunk Stream
-* Palo Alto Firewall
-* Bro
 
 ====Data Models====
 
@@ -3409,7 +3407,7 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html
 * http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/
 * https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
-* https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf
+* https://www.youtube.com/watch?v=dq2Hv7J9fvk
 
 creation_date = 2017-04-19
 
