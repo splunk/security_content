@@ -99,7 +99,7 @@ To automatically generate docs from schema:
 * note that [requirements.txt](https://github.com/splunk/security-content/blob/develop/requirements.txt) hardcodes the versions for packages we use [dependabot](https://dependabot.com/) to make sure we safely always upgrade to the latest versions. 
 
 ## Support
-Please use the [GitHub Issue Tracker](https://github.com/splunk/security_content/issues) to submit bugs or request features.
+Please use the [GitHub Issue Tracker](https://github.com/splunk/security-content/issues) to submit bugs or request features.
 
 If you have questions or need support, you can:
 
