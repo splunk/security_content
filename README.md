@@ -79,7 +79,7 @@ Install project dependecies and tests that run before content is committed:
 ##### CI Tools
 Tools that help with testing CI jobs:
 
-1. Install CircleCI [CLI Tool](https://circleci.com/docs/2.0/local-cli/#installation).
+1. Install CircleCI [CLI Tool](https://circleci.com/docs/2.0/local-cli/).
 2. To test a local change to CircleCI or build, make sure you are running Docker, then enter
 `circleci local execute -e GITHUB_TOKEN=$GITHUB_TOKEN --branch <your branch>`.
 
