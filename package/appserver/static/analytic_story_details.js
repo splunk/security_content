@@ -146,7 +146,7 @@ require([
         $('.run-story').unbind('click');
 
         $('.run-story').on('click', function(evt) {
-            splunkUtil.redirect_to('https://github.com/splunk/analytic_story_execution', window.open(), true);
+            window.open('https://github.com/splunk/analytic_story_execution');
         });
 
         let asSearch = splunkjs.mvc.Components.getInstance(epoch);
