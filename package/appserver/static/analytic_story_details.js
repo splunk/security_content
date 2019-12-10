@@ -143,17 +143,6 @@ require([
             search: "| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | search title=\"" + asName + "\" | spath input=providing_technologies path={} output=tex | spath input=reference path={} output=ref | spath input=data_models path={} output=dm | table title, category, description, version, mappings, creation_date, modification_date, dm, narrative, tex, ref"
         });
 
-        $('.run-story').unbind('click');
-
-        $('.run-story').on('click', function(evt) {
-            splunkUtil.redirect_to('/app/DA-ESS-ContentUpdate/search', {
-                q: `| runstory story="${asName}" | table name, num_search_results, description, kill_chain_phases, mitre_attack`,
-                earliest: "-60m",
-                latest: "now",
-
-            }, window.open(), true);
-        });
-
         let asSearch = splunkjs.mvc.Components.getInstance(epoch);
         let asResults = asSearch.data("results", {
             count: 0
