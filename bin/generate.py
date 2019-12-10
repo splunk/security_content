@@ -149,10 +149,6 @@ def identify_next_steps(detections, investigations):
                         next_steps += "Based on ESCU investigate recommendations:\\n%s\"}" % (investigations_output)
                 if has_phantom:
                     detection['recommended_actions'] = 'runphantomplaybook, escu_investigate'
-                else:
-                    detection['recommended_actions'] = 'escu_investigate'
-                detection['next_steps'] = next_steps
-
         enriched_detections.append(detection)
 
     return enriched_detections

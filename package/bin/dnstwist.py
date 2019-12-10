@@ -90,7 +90,7 @@ class DomainFuzz(object):
     def __validate_domain(self, domain):
         if len(domain) == len(domain.encode('idna')) and domain != domain.encode('idna'):
             return False
-        allowed = re.compile('(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\\.)+[a-zA-Z]{2,63}\\.?$)', re.IGNORECASE)
+        allowed = re.compile(b'(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\\.)+[a-zA-Z]{2,63}\\.?$)', re.IGNORECASE)
         return allowed.match(domain.encode('idna'))
 
     def __filter_domains(self):
@@ -361,7 +361,11 @@ class DnsTwistCommand(GeneratingCommand):
 
         for csv_file_name in csv_file_names:
             if os.path.exists(csv_file_name):
-                csv_file = open(csv_file_name, "rb")
+                # this is nasty but works .. please forgive me
+                if sys.version_info >= (3, 0):
+                    csv_file = open(csv_file_name, "r", newline='')
+                else:
+                    csv_file = open(csv_file_name, "r")
                 for input_domain in csv.DictReader(csv_file):
                     if input_domain['domain'] not in domains_to_twist:
                         domains_to_twist.append(input_domain['domain'])
