@@ -102,8 +102,7 @@ original_authors:
     email: iDefense.IntelOps@accenture.com
     name: iDefense Cyber Espionage Team
 references:
-  - https://intelgraph.idefense.com/#/node/threat_group/view/29fbec10-8cc8-4662-8362-2c24c1eeb74c
-  - https://intelgraph.idefense.com/#/node/intelligence_alert/view/62bb3669-9386-4264-b51a-59876cf50ffe
+  - https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
   - http://blog.amossys.fr/badflick-is-not-so-bad.html
 spec_version: 2
 usecase: Advanced Threat Detection

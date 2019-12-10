@@ -79,7 +79,7 @@ Install project dependecies and tests that run before content is committed:
 ##### CI Tools
 Tools that help with testing CI jobs:
 
-1. Install CircleCI [CLI Tool](https://circleci.com/docs/2.0/local-cli/#installation).
+1. Install CircleCI [CLI Tool](https://circleci.com/docs/2.0/local-cli/).
 2. To test a local change to CircleCI or build, make sure you are running Docker, then enter
 `circleci local execute -e GITHUB_TOKEN=$GITHUB_TOKEN --branch <your branch>`.
 
@@ -99,7 +99,7 @@ To automatically generate docs from schema:
 * note that [requirements.txt](https://github.com/splunk/security-content/blob/develop/requirements.txt) hardcodes the versions for packages we use [dependabot](https://dependabot.com/) to make sure we safely always upgrade to the latest versions. 
 
 ## Support
-Please use the [GitHub Issue Tracker](https://github.com/splunk/security_content/issues) to submit bugs or request features.
+Please use the [GitHub Issue Tracker](https://github.com/splunk/security-content/issues) to submit bugs or request features.
 
 If you have questions or need support, you can:
 

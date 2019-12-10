@@ -54,7 +54,7 @@ original_authors:
     name: Bhavin Patel
 references:
   - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-  - https://blog.redlock.io/cryptojacking-tesla
+  - https://redlock.io/blog/cryptojacking-tesla
 spec_version: 2
 usecase: Security Monitoring
 version: '1.0'

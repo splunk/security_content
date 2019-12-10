@@ -79,8 +79,6 @@ action.notable.param.severity = {{ detection.confidence }}
 action.notable.param.drilldown_name = {{ correlation_rule.notable.drilldown_name }}
 action.notable.param.drilldown_search = {{ correlation_rule.notable.drilldown_search }}
 {% endif %}
-action.notable.param.recommended_actions = {{ detection.recommended_actions }}
-action.notable.param.next_steps = {{ detection.next_steps }}
 {% if correlation_rule.risk is defined %}
 action.risk = 1
 action.risk.param._risk_object = {{ correlation_rule.risk.risk_object }}
