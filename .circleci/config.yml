@@ -90,7 +90,7 @@ jobs:
             source $BASH_ENV
             go get -u github.com/raviqqe/liche
             cd security-content
-            liche -r docs -v
+            liche docs/stories_categories.md -v
             liche README.md -v
   build-sources:
     executor: content-executor

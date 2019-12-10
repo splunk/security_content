@@ -334,6 +334,7 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 * Cloud Compute Instance Created With Previously Unseen Instance Type
 * Cloud Compute Instance Created With Previously Unseen Image
 * Cloud Compute Instance Created By Previously Unseen User
+* Abnormally High AWS Instances Launched by User - MLTK
 
 ##### Providing Technologies
 * AWS
@@ -390,6 +391,8 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 * Abnormally High AWS Instances Terminated by User
 * Abnormally High AWS Instances Launched by User
 * EC2 Instance Started With Previously Unseen User
+* Abnormally High AWS Instances Launched by User - MLTK
+* Abnormally High AWS Instances Terminated by User - MLTK
 
 ##### Providing Technologies
 * AWS
@@ -1749,8 +1752,6 @@ Another search detects incidents wherein a single password is used across multip
 
 ##### Providing Technologies
 * Splunk Stream
-* Palo Alto Firewall
-* Bro
 
 ##### Data Models
 
@@ -3889,7 +3890,7 @@ Change_Analysis
 * https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html
 * http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/
 * https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
-* https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf
+* https://www.youtube.com/watch?v=dq2Hv7J9fvk
 
 ### Windows Privilege Escalation
 * id = `644e22d3-598a-429c-a007-16fdb802cae5`
