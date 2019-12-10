@@ -87,7 +87,7 @@ Tools that help with testing CI jobs:
 To automatically generate docs from schema:
 
 1. Install https://github.com/adobe/jsonschema2md.
-2. Enter `jsonschema2md -d spec/v2/detections.json.spec -o docs`.
+2. Enter `jsonschema2md -d spec/v2/detections.spec.json -o docs`.
 
 # Troubleshooting
 #### Our Automated Tests
