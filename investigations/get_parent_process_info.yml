@@ -27,8 +27,8 @@ investigate:
       - process_name
       - dest
     schedule:
-      earliest_time: 86400
-      latest_time: 0
+      earliest_time: "86400"
+      latest_time: "0"
     search: '| tstats `summariesonly` count values(Processes.process) as process min(_time)
       as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where
       Processes.process_name = {process_name} Processes.dest = {dest} by Processes.user

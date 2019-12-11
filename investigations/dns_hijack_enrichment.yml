@@ -38,9 +38,8 @@ investigate:
     playbook_name: community/dns_hijack_enrichment
     playbook_url: https://my.phantom.us/4.2/playbook/dns-hijack-enrichment/
     schedule:
-      cron_schedule: 0 * * * *
-      earliest_time: 7200
-      latest_time: 0
+      earliest_time: "7200"
+      latest_time: "0"
     sensitivity: green
     severity: medium
 maintainers:

@@ -21,9 +21,8 @@ investigate:
     fields_required:
       - user
     schedule:
-      cron_schedule: 0 * * * *
-      earliest_time: 72000
-      latest_time: 36000
+      earliest_time: "72000"
+      latest_time: "36000"
     search: '| search sourcetype=aws:cloudtrail userIdentity.arn={user} | table _time
       userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src
       awsRegion eventName eventType'

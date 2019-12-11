@@ -24,8 +24,8 @@ investigate:
     macros:
       - investigate_user_activities_in_all_cloud_region_output_filter
     schedule:
-      earliest_time: 86400
-      latest_time: 14400
+      earliest_time: "86400"
+      latest_time: "14400"
     search: '| from datamodel:Cloud_Infrastructure.Compute | search user={src_user} | fields - _* | `investigate_user_activities_in_all_cloud_region_output_filter`'
 maintainers:
   - company: Splunk
