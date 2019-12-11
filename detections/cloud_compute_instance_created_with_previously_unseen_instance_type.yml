@@ -49,7 +49,7 @@ detect:
         | multireport [| table instance_type, firstTime, lastTime | outputlookup previously_seen_cloud_compute_instance_types
         | where fact=fiction][| eval new_type=if(firstTime >= relative_time(now(),
         `previously_seen_cloud_compute_instance_types_search_window_begin_offset`), 1, 0)
-        | where new_type=1 | convert security_content_ctime(firstTime) security_content_ctime(lastTime)]
+        | where new_type=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
         | table instance_type, dest, src_user, firstTime, lastTime'
       suppress:
         suppress_fields: dest

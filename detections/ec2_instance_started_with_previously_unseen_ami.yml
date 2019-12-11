@@ -32,17 +32,17 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail
-        eventName=RunInstances errorCode=success | stats earliest(_time) as earliest
-        latest(_time) as latest by requestParameters.instancesSet.items{}.imageId
+        eventName=RunInstances errorCode=success | stats earliest(_time) as firstTime
+        latest(_time) as lastTime by requestParameters.instancesSet.items{}.imageId
         | rename requestParameters.instancesSet.items{}.imageId as amiID | inputlookup
-        append=t previously_seen_ec2_amis.csv | stats min(earliest) as earliest max(latest)
-        as latest by amiID | outputlookup previously_seen_ec2_amis.csv | eval newAMI=if(earliest
-        >= relative_time(now(), "-70m@m"), 1, 0) | convert security_content_ctime(earliest) security_content_ctime(latest)
+        append=t previously_seen_ec2_amis.csv | stats min(firstTime) as firstTime max(lastTime)
+        as lastTime by amiID | outputlookup previously_seen_ec2_amis.csv | eval newAMI=if(firstTime
+        >= relative_time(now(), "-70m@m"), 1, 0) | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
         | where newAMI=1 | rename amiID as requestParameters.instancesSet.items{}.imageId
         | table requestParameters.instancesSet.items{}.imageId] | rename requestParameters.instanceType
         as instanceType, responseElements.instancesSet.items{}.instanceId as dest,
         userIdentity.arn as arn, requestParameters.instancesSet.items{}.imageId as
-        amiID | table _time, arn, amiID, dest, instanceType
+        amiID | table firstTime, lastTime, arn, amiID, dest, instanceType
       suppress:
         suppress_fields: dest
         suppress_period: 14400s

@@ -6,9 +6,9 @@ baseline:
       latest_time: m@m
     search: sourcetype=aws:cloudtrail eventName=ConsoleLogin | rename userIdentity.arn
       as user | iplocation src | eval City=if(City LIKE "",src,City),Region=if(Region
-      LIKE "",src,Region) | stats earliest(_time) AS earliest latest(_time) AS latest
+      LIKE "",src,Region) | stats earliest(_time) AS firstTime latest(_time) AS firstTime
       by user src City Region Country | inputlookup append=t previously_seen_users_console_logins.csv
-      | stats min(earliest) as earliest max(latest) as latest by user src City Region
+      | stats min(firstTime) as firstTime max(firstTime) as firstTime by user src City Region
       Country | outputlookup previously_seen_users_console_logins.csv
 creation_date: '2019-04-25'
 data_metadata:

@@ -50,7 +50,7 @@ detect:
         | outputlookup previously_seen_cloud_regions | where fact=fiction][| eval
         new_region=if(firstTime >= relative_time(now(), `previously_seen_cloud_regions_search_window_begin_offset`), 1, 0)
         | where new_region=1
-        | convert security_content_ctime(firstTime) security_content_ctime(lastTime)] | table region, dest, src_user,
+        | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`] | table region, dest, src_user,
         firstTime, lastTime'
       suppress:
         suppress_fields: dest,region

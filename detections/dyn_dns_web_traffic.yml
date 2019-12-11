@@ -29,7 +29,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats security_content_summariesonly=true allow_old_summaries=true count values(Web.url)
+      search: '| tstats `security_content_summariesonly` count values(Web.url)
         as url min(_time) as firstTime from datamodel=Web where Web.status=200 by
         Web.src Web.dest Web.status | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
         | `dynamic_dns_web_traffic`'

@@ -6,7 +6,7 @@ baseline:
       latest_time: -10m@m
     search: '| inputlookup cim_corporate_email_domains.csv | inputlookup append=T
       cim_corporate_web_domains.csv | inputlookup append=T cim_cloud_domains.csv |
-      eval domain = trim(replace(domain, "\*", "")) | join domain [|tstats security_content_summariesonly=true
+      eval domain = trim(replace(domain, "\*", "")) | join domain [|tstats `security_content_summariesonly`
       count values(DNS.record_type) as type, values(DNS.answer) as answer from datamodel=Network_Resolution
       where DNS.message_type=RESPONSE DNS.answer!="unknown" DNS.answer!="" by DNS.query
       | rename DNS.query as query | where query!="unknown" | rex field=query "(?<domain>\w+\.\w+?)(?:$|/)"]
