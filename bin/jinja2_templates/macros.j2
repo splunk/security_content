@@ -5,6 +5,12 @@
 # Contact: research@splunk.com
 #############
 
+
+[ctime(1)]
+args = field
+definition = convert timeformat="%m/%d/%Y %H:%M:%S" ctime($field$)
+iseval = 0
+
 {% for macro in macros %}
 [{{ macro.name }}{% if macro.arguments is defined %}({{ macro.arguments|length }}){% endif %}]
 {% if macro.arguments is defined %}
