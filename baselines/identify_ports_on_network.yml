@@ -4,7 +4,7 @@ baseline:
       cron_schedule: ''
       earliest_time: -30d@d
       latest_time: -10m@m
-    search: '| tstats `summariesonly` count dc(All_Traffic.src) as numberOfUniqueHosts
+    search: '| tstats `security_content_summariesonly` count dc(All_Traffic.src) as numberOfUniqueHosts
       from datamodel=Network_Traffic by All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
       | sort - count'
 creation_date: '2017-06-24'

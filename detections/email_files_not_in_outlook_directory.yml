@@ -32,7 +32,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(Filesystem.file_path) as file_path
+      search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path
         min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
         where (Filesystem.file_name=*.dll OR Filesystem.file_name=*.ost) Filesystem.file_path
         != "C:\\Users\\*\\My Documents\\Outlook Files\\*" by Filesystem.action Filesystem.process_id

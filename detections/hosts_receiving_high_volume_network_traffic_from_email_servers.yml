@@ -29,7 +29,7 @@ detect:
         cron_schedule: 0 0 * * *
         earliest_time: -30d@d
         latest_time: -10m@m
-      search: '| tstats `summariesonly` sum(All_Traffic.bytes_in) as bytes_in from
+      search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_in) as bytes_in from
         datamodel=Network_Traffic where All_Traffic.dest_category=email_server by
         All_Traffic.src_ip _time span=1d | `drop_dm_object_name("All_Traffic")` |
         eventstats avg(bytes_in) as avg_bytes_in stdev(bytes_in) as stdev_bytes_in

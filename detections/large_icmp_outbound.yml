@@ -30,7 +30,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count earliest(_time) as earliest latest(_time)
+      search: '| tstats `security_content_summariesonly` count earliest(_time) as earliest latest(_time)
         as latest values(All_Traffic.action) values(All_Traffic.bytes) from datamodel=Network_Traffic
         where All_Traffic.action !=blocked All_Traffic.dest_category !=internal (All_Traffic.protocol=icmp
         OR All_Traffic.transport=icmp) All_Traffic.bytes > 1000 by All_Traffic.src_ip

@@ -29,7 +29,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values("DNS.query") as queries from
+      search: '| tstats `security_content_summariesonly` count values("DNS.query") as queries from
         datamodel=Network_Resolution where nodename=DNS "DNS.reply_code"!="No Error"
         "DNS.reply_code"!="NoError" DNS.reply_code!="unknown" NOT "DNS.query"="*.arpa"
         "DNS.query"="*.*" by "DNS.src","DNS.query"| `drop_dm_object_name("DNS")`|

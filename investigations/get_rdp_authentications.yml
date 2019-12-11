@@ -22,7 +22,7 @@ investigate:
       cron_schedule: ''
       earliest_time: '86400'
       latest_time: '0'
-    search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+    search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
       lastTime from datamodel=Authentication where Authentication.signature_id=4624
       Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app
       Authentication.user Authentication.signature Authentication.src_nt_domain |

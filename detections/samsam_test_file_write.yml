@@ -29,7 +29,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_name)
         as file_name from datamodel=Endpoint.Filesystem where Filesystem.file_path=*\\windows\\system32\\test.txt
         by Filesystem.file_path | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)`

@@ -29,7 +29,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(Processes.process) as process
+      search: '| tstats `security_content_summariesonly` count values(Processes.process) as process
         min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
         where Processes.parent_process_name = *WmiPrvSE.exe by Processes.user Processes.dest
         Processes.process_name  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|

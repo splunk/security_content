@@ -27,7 +27,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -4h@h
         latest_time: -5m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
         All_Changes.result="lockout" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`
         |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

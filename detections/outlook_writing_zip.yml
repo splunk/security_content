@@ -31,13 +31,13 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly`  min(_time) as firstTime max(_time) as lastTime
+      search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(_time) as lastTime
         FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe
         OR Processes.process_name=explorer.exe by _time span=5m Processes.parent_process_id
         Processes.process_id Processes.dest Processes.process_name Processes.parent_process_name
         Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | rename process_id as malicious_id| rename parent_process_id as outlook_id|
-        join malicious_id type=inner[| tstats `summariesonly` count values(Filesystem.file_path)
+        join malicious_id type=inner[| tstats `security_content_summariesonly` count values(Filesystem.file_path)
         as file_path values(Filesystem.file_name) as file_name  FROM datamodel=Endpoint.Filesystem
         where (Filesystem.file_path=*zip*   OR Filesystem.file_name=*.lnk ) AND (Filesystem.file_path=C:\\Users*
         OR Filesystem.file_path=*Local\\Temp*) by  _time span=5m Filesystem.process_id

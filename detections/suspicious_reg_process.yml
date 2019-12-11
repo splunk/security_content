@@ -32,12 +32,12 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name
         != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name
         Processes.parent_process_name Processes.dest Processes.process_id Processes.parent_process_id
         | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-        | search [| tstats `summariesonly` count FROM datamodel=Endpoint.Processes
+        | search [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
         where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe
         by Processes.parent_process_id Processes.dest Processes.process_name | `drop_dm_object_name("Processes")`
         | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename parent_process_id as process_id
