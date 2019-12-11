@@ -311,7 +311,7 @@ The detection searches in this Analytic Story are designed to help you uncover A
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-* https://blog.redlock.io/cryptojacking-tesla
+* https://redlock.io/blog/cryptojacking-tesla
 
 ### Cloud Cryptomining
 * id = `3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a`
@@ -1550,7 +1550,7 @@ Network_Resolution
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
-* https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/
+* https://www.imperva.com/learn/application-security/dns-amplification/
 
 ### Data Protection
 * id = `91c676cf-0b23-438d-abee-f6335e1fce33`
@@ -3043,7 +3043,7 @@ Endpoint
 * company = davidd@splunk.com
 
 ##### References
-* https://www.binarydefense.com/bds/reliably-detecting-pass-the-hash-through-event-log-analysis/
+* https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 
 ### Malicious PowerShell
@@ -3262,8 +3262,7 @@ Endpoint
 * company = iDefense.IntelOps@accenture.com
 
 ##### References
-* https://intelgraph.idefense.com/#/node/threat_group/view/29fbec10-8cc8-4662-8362-2c24c1eeb74c
-* https://intelgraph.idefense.com/#/node/intelligence_alert/view/62bb3669-9386-4264-b51a-59876cf50ffe
+* https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
 
 ### SQL Injection
