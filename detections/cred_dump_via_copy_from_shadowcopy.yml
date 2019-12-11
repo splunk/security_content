@@ -7,11 +7,7 @@ data_metadata:
   data_source:
     - Endpoint Intel
   providing_technologies:
-    - Carbon Black Response
-    - CrowdStrike Falcon
     - Sysmon
-    - Tanium
-    - Ziften
 description: This search detects credential dumping using copy command from a shadow copy.
 detect:
   splunk:

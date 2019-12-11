@@ -7,11 +7,7 @@ data_metadata:
   data_source:
     - Endpoint Intel
   providing_technologies:
-    - Carbon Black Response
-    - CrowdStrike Falcon
     - Sysmon
-    - Tanium
-    - Ziften
 description: This search looks for execution of reg.exe with parameters specifying
   an export of keys that contain hashed credentials that attackers may try to crack
   offline.
@@ -74,7 +70,7 @@ mappings:
   nist:
     - DE.CM
 modification_date: '2019-12-02'
-name: Attempted Credential Dump From Registry Via Reg.exe
+name: Attempted Credential Dump From Registry via Reg.exe
 original_authors:
   - company: Splunk
     email: rvaldez@splunk.com

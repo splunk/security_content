@@ -55,7 +55,7 @@ mappings:
   nist:
     - DE.CM
 modification_date: '2019-12-10'
-name: Creation of Shadow Copy with wmic
+name: Creation of Shadow Copy with wmic and powershell
 original_authors:
   - company: Splunk
     email: pbareiss@splunk.com
