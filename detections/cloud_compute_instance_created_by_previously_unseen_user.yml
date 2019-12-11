@@ -48,7 +48,7 @@ detect:
         [| table src_user, firstTime, lastTime | outputlookup previously_seen_cloud_compute_creations_by_user
         | where fact=fiction][| eval new_user=if(firstTime >= relative_time(now(),
         `previously_seen_cloud_compute_creations_by_user_search_window_begin_offset`), 1, 0)
-        | where new_user=1 | convert ctime(firstTime) ctime(lastTime)]
+        | where new_user=1 | convert security_content_ctime(firstTime) security_content_ctime(lastTime)]
         | table src_user, dest, firstTime, lastTime'
       suppress:
         suppress_fields: src_user, dest

@@ -35,7 +35,7 @@ detect:
         as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
         where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by
         Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)`
-        | `ctime(firstTime)`| `ctime(lastTime)` | search (process=*share* OR process=*delete*)|
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | search (process=*share* OR process=*delete*)|
         regex process="\S+[$]"'
       suppress:
         suppress_fields: dest,process_name

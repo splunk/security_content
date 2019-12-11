@@ -37,7 +37,7 @@ detect:
         | stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name
         remote_ip | outputlookup previously_seen_S3_access_from_remote_ip.csv | eval
         newIP=if(firstTime >= relative_time(now(), "-70m@m"), 1, 0) | where newIP=1
-        | convert ctime(firstTime) ctime(lastTime) | table bucket_name remote_ip]|
+        | convert security_content_ctime(firstTime) security_content_ctime(lastTime) | table bucket_name remote_ip]|
         iplocation remote_ip |rename remote_ip as src_ip | table _time bucket_name
         src_ip City Country operation request_uri
       suppress:

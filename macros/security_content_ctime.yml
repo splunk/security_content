@@ -1,0 +1,5 @@
+arguments:
+  - field
+definition: eval date='$field$' | `ctime(date,"%m-%d-%Y")`
+description: convert epoch time to string
+name: security_content_ctime

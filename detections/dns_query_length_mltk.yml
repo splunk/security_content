@@ -35,7 +35,7 @@ detect:
       search: '| tstats `summariesonly` count min(_time) as start_time max(_time)
         as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
         by DNS.query DNS.record_type | search DNS.record_type=* |  `drop_dm_object_name(DNS)`
-        | `ctime(firstTime)` | `ctime(lastTime)` | eval query_length = len(query)
+        | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval query_length = len(query)
         | apply dns_query_pdfmodel threshold=0.01 | rename "IsOutlier(query_length)"
         as isOutlier | search isOutlier > 0 | sort -query_length | table start_time
         end_time query record_type count src dest query_length'

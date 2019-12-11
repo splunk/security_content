@@ -8,7 +8,7 @@ baseline:
       lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry
       AND (All_Changes.object_path="HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat*")
       by All_Changes.dest, All_Changes.command, All_Changes.user, All_Changes.object,
-      All_Changes.object_path | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name("All_Changes")`'
+      All_Changes.object_path | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name("All_Changes")`'
 creation_date: '2018-01-08'
 data_metadata:
   data_models:

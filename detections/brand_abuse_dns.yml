@@ -34,7 +34,7 @@ detect:
         latest_time: -10m@m
       search: '| tstats `summariesonly` values(DNS.answer) as IPs min(_time) as firstTime
         from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name("DNS")`
-        | `ctime(firstTime)`| `brand_abuse_dns`'
+        | `security_content_ctime(firstTime)`| `brand_abuse_dns`'
       suppress:
         suppress_fields: src,query
         suppress_period: 14400s

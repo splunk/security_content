@@ -32,7 +32,7 @@ detect:
       search: '| tstats `summariesonly` count values(Filesystem.action) as action
         values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time)
         as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest
-        | `ctime(lastTime)` | `ctime(firstTime)` | `drop_dm_object_name(Filesystem)`
+        | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)`
         | `suspicious_writes`'
       suppress:
         suppress_fields: dest,file_name

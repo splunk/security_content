@@ -41,7 +41,7 @@ detect:
         values(Processes.parent_process) as parent_process min(_time) as firstTime
         max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
         by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
-        `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`|
+        `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
         search (process=*-EncodedCommand* OR process=*-enc*) process=*-Exec* AND process=*-NonI*'
       suppress:
         suppress_fields: dest, process_name

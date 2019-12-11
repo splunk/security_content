@@ -35,7 +35,7 @@ detect:
         Windows" by Updates.dest Updates.status Updates.vendor_product | rename Updates.dest
         as Host | rename Updates.status as "Update Status" | rename Updates.vendor_product
         as Product | eval isOutlier=if(latestTime <= relative_time(now(), "-60d@d"),
-        1, 0)  | `ctime(latestTime)`  | search isOutlier=1 | rename latestTime as
+        1, 0)  | `security_content_ctime(latestTime)`  | search isOutlier=1 | rename latestTime as
         "Last Update Time", | table Host, "Update Status", Product, "Last Update Time"'
       suppress:
         suppress_fields: dest

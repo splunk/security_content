@@ -38,14 +38,14 @@ detect:
       search: '| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime
         from datamodel=Endpoint.Processes where Processes.process_name = cmd.exe Processes.process
         = "* /c *" by Processes.process Processes.process_name Processes.parent_process_name
-        Processes.dest| `drop_dm_object_name(Processes)`| `ctime(firstTime)` | `ctime(lastTime)`
+        Processes.dest| `drop_dm_object_name(Processes)`| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | search [| tstats `summariesonly` earliest(_time) as firstTime latest(_time)
         as lastTime from datamodel=Endpoint.Processes where Processes.process_name
         = cmd.exe Processes.process = "* /c *" by Processes.process | `drop_dm_object_name(Processes)`
         | inputlookup append=t previously_seen_cmd_line_arguments | stats min(firstTime)
         as firstTime, max(lastTime) as lastTime by process | outputlookup previously_seen_cmd_line_arguments
         | eval newCmdLineArgument=if(firstTime >= relative_time(now(), "-70m@m"),
-        1, 0) | where newCmdLineArgument=1 | `ctime(firstTime)` | `ctime(lastTime)`
+        1, 0) | where newCmdLineArgument=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | table process]'
       suppress:
         suppress_fields: dest, process

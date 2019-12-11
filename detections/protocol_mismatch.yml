@@ -43,7 +43,7 @@ detect:
         OR All_Traffic.dest_port=8080 OR All_Traffic.dest_port=8000)) OR (All_Traffic.app=ssl
         NOT (All_Traffic.dest_port=443 OR All_Traffic.dest_port=8443)) OR (All_Traffic.app=smtp
         NOT All_Traffic.dest_port=25) by All_Traffic.src_ip, All_Traffic.dest_ip,
-        All_Traffic.app, All_Traffic.dest_port |`ctime(firstTime)` | `ctime(lastTime)`
+        All_Traffic.app, All_Traffic.dest_port |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | `drop_dm_object_name("All_Traffic")`'
       suppress:
         suppress_fields: dest_ip, dest_port

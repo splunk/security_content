@@ -41,7 +41,7 @@ detect:
         | inputlookup append=t previously_seen_users_console_logins.csv  | stats min(earliest)
         as earliest max(latest) as latest by user | eval userStatus=if(earliest >=
         relative_time(now(), "-70m@m"), "First Time Logging into AWS Console","Previously
-        Seen User") | convert ctime(earliest) ctime(latest) | where userStatus ="First
+        Seen User") | convert security_content_ctime(earliest) security_content_ctime(latest) | where userStatus ="First
         Time Logging into AWS Console" '
       suppress:
         suppress_fields: user

@@ -37,7 +37,7 @@ detect:
         form_data="(?i)java\.lang\.(?:runtime|processbuilder)" | rename src_ip as
         src | stats count earliest(_time) as firstTime, latest(_time) as lastTime,
         values(url) as uri, values(status) as status, values(http_user_agent) as http_user_agent
-        by src, dest | convert ctime(firstTime) ctime(lastTime)
+        by src, dest | convert security_content_ctime(firstTime) security_content_ctime(lastTime)
       suppress:
         suppress_fields: src, url, http_user_agent
         suppress_period: 3600s

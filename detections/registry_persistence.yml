@@ -38,7 +38,7 @@ detect:
         OR Registry.registry_path=*currentversion\\runservices* OR Registry.registry_path=*\\CurrentControlSet\\Control\\Lsa\\*
         OR Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
         Execution Options*" OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*)
-        by Registry.dest , Registry.status, Registry.user | `ctime(lastTime)` | `ctime(firstTime)`
+        by Registry.dest , Registry.status, Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
         | `drop_dm_object_name(Registry)`'
       suppress:
         suppress_fields: dest,user,registry_path

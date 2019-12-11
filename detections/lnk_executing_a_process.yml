@@ -42,7 +42,7 @@ detect:
         _time span=1h Processes.parent_process_id Processes.process_id Processes.process_name
         Processes.dest Processes.process_path Processes.process | `drop_dm_object_name(Processes)`
         | rename parent_process_id as lnk_pid | fields _time lnk_pid process_id dest
-        process_name process_path process] | `ctime(firstTime)` | `ctime(lastTime)`
+        process_name process_path process] | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | table firstTime, lastTime, lnk_pid, process_id, user, dest, file_name, file_path,
         process_name, process, process_path, file_hash'
       suppress:

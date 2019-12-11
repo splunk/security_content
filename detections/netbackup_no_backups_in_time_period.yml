@@ -28,7 +28,7 @@ detect:
         earliest_time: -7d@d
         latest_time: -10m@m
       search: sourcetype="netbackup_logs" MESSAGE="Disk/Partition backup completed
-        successfully." | stats latest(_time) as latestTime by COMPUTERNAME | `ctime(latestTime)`
+        successfully." | stats latest(_time) as latestTime by COMPUTERNAME | `security_content_ctime(latestTime)`
         | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(),
         "-7d@d"), 1, 0) | search isOutlier=1 | table latestTime, dest
       suppress:

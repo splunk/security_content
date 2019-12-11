@@ -41,8 +41,8 @@ detect:
         where Processes.process_name=powershell.exe AND (Processes.process="* -ex*" OR Processes.process="* bypass *") by
         Processes.process_id, Processes.user, Processes.dest 
         | `drop_dm_object_name(Processes)` 
-        | `ctime(firstTime)` 
-        | `ctime(lastTime)`'
+        | `security_content_ctime(firstTime)` 
+        | `security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest, process_name
         suppress_period: 14400s

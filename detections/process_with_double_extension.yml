@@ -37,7 +37,7 @@ detect:
         OR Processes.process = *.htm.exe OR Processes.process = *.html.exe OR Processes.process
         = *.txt.exe OR Processes.process = *.pdf.exe OR Processes.process = *.doc.exe
         by Processes.dest Processes.user Processes.process Processes.parent_process
-        | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name(Processes)`'
+        | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`'
       suppress:
         suppress_fields: dest, process
         suppress_period: 28800s

@@ -35,7 +35,7 @@ detect:
         Processes.process_name = wmic.exe Processes.process="*/node*" Processes.process="*process*"
         Processes.process="*call*" Processes.process="*create*"   by Processes.process_name
         Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)`
-        | `ctime(firstTime)` |`ctime(lastTime)`'
+        | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest,user,process
         suppress_period: 28800s

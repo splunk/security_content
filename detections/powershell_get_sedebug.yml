@@ -32,8 +32,8 @@ detect:
         | rex field=Message "Enabled Privileges:\s+(?<privs>\w+)\s+Disabled Privileges:"
         | where privs="SeDebugPrivilege" | stats count min(_time) as firstTime max(_time)
         as lastTime by dest, Process_Name, privs, Process_ID, Message | rename privs
-        as "Enabled Privilege" | rename Process_Name as process |  `ctime(firstTime)`|
-        `ctime(lastTime)`
+        as "Enabled Privilege" | rename Process_Name as process |  `security_content_ctime(firstTime)`|
+        `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: user, dest, process
         suppress_period: 86400s

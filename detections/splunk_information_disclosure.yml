@@ -32,7 +32,7 @@ detect:
         uri_path="*raw/services/server/info/server-info" | rename clientip as src_ip,
         splunk_server as dest | stats earliest(_time) as firstTime, latest(_time)
         as lastTime, values(uri) as uri, values(useragent) as http_user_agent, values(user)
-        as user by src_ip, dest | convert ctime(firstTime) ctime(lastTime)
+        as user by src_ip, dest | convert security_content_ctime(firstTime) security_content_ctime(lastTime)
       suppress:
         suppress_fields: dest, src_ip
         suppress_period: 14400s

@@ -32,7 +32,7 @@ detect:
       search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
         lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
         as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name |
-        `drop_dm_object_name(Filesystem)` | `ctime(lastTime)` | `ctime(firstTime)`|
+        `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`|
         rex field=file_name "(?<file_extension>\.[^\.]+)$" | search file_extension=.stubbin
         OR file_extension=.berkshire OR file_extension=.satoshi OR file_extension=.sophos
         OR file_extension=.keyxml'

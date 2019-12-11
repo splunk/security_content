@@ -31,7 +31,7 @@ detect:
       search: eventtype = wineventlog_security signature_id=4663 Process_Name=*powershell.exe
         Object_Name=*lsass.exe Access_Mask=0x10 | stats count min(_time) as firstTime
         max(_time) as lastTime by dest, Process_Name, Process_ID, Message | rename
-        Process_Name as process | `ctime(firstTime)`| `ctime(lastTime)`
+        Process_Name as process | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: user, dest, process
         suppress_period: 86400s

@@ -25,7 +25,7 @@ investigate:
       latest_time: '86400'
     search: '|tstats `summariesonly` values(All_Email.dest) as dest values(All_Email.recipient)
       as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email
-      by All_Email.src |`drop_dm_object_name(All_Email)` | `ctime(firstTime)` | `ctime(lastTime)`'
+      by All_Email.src |`drop_dm_object_name(All_Email)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
 maintainers:
   - company: Splunk
     email: rvaldez@splunk.com

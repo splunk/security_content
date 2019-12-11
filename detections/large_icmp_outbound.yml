@@ -35,8 +35,8 @@ detect:
         where All_Traffic.action !=blocked All_Traffic.dest_category !=internal (All_Traffic.protocol=icmp
         OR All_Traffic.transport=icmp) All_Traffic.bytes > 1000 by All_Traffic.src_ip
         All_Traffic.dest_ip | `drop_dm_object_name("All_Traffic")` | search ( dest_ip!=10.0.0.0/8
-        AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) | convert ctime(earliest)
-        ctime(latest)'
+        AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) | convert security_content_ctime(earliest)
+        security_content_ctime(latest)'
       suppress:
         suppress_fields: src_ip
         suppress_period: 28800s

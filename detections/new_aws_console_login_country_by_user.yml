@@ -43,7 +43,7 @@ detect:
         >= relative_time(now(), "@d"), "New Country","Previously Seen Country") |
         eval UserData=if(earliestseen >= relative_time(now(), "@d") OR isnull(earliestseen),
         "New User","Old User") | where userStatus="New Country" AND UserData="Old
-        User" | convert ctime(earliest) ctime(latest) ctime(earliestseen) | table
+        User" | convert security_content_ctime(earliest) security_content_ctime(latest) security_content_ctime(earliestseen) | table
         user Country userStatus earliest latest earliestseen'
       suppress:
         suppress_fields: user

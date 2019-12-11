@@ -31,7 +31,7 @@ detect:
         latest_time: -10m@m
       search: '| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800,
         "Accounts created in last week") | search empStatus="Accounts created in last
-        week"| `ctime(endDate)` | `ctime(startDate)`| table identity empStatus endDate
+        week"| `security_content_ctime(endDate)` | `security_content_ctime(startDate)`| table identity empStatus endDate
         startDate'
       suppress:
         suppress_fields: identity

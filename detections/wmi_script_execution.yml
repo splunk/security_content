@@ -32,8 +32,8 @@ detect:
       search: '| tstats `summariesonly` count values(Processes.process) as process
         min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
         where Processes.process_name = "scrcons.exe" by Processes.user Processes.dest
-        Processes.process_name  | `drop_dm_object_name("Processes")` | `ctime(firstTime)`|
-        `ctime(lastTime)`'
+        Processes.process_name  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|
+        `security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest,process
         suppress_period: 28800s

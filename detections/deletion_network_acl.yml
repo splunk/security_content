@@ -32,7 +32,7 @@ detect:
       search: sourcetype=aws:cloudtrail eventName=DeleteNetworkAcl|rename userIdentity.arn
         as arn  | stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage)
         values(errorCode) values(userAgent) values(userIdentity.*) by src userName
-        arn eventName | `ctime(lastTime)` | `ctime(firstTime)`
+        arn eventName | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
       suppress:
         suppress_fields: arn
         suppress_period: 14400s

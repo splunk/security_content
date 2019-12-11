@@ -45,7 +45,7 @@ detect:
         lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND
         All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source
         by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
-        | `ctime(firstTime)`| `ctime(lastTime)`'
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest,src
         suppress_period: 28800s

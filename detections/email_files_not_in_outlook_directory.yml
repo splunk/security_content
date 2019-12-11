@@ -37,7 +37,7 @@ detect:
         where (Filesystem.file_name=*.dll OR Filesystem.file_name=*.ost) Filesystem.file_path
         != "C:\\Users\\*\\My Documents\\Outlook Files\\*" by Filesystem.action Filesystem.process_id
         Filesystem.file_name Filesystem.dest | `drop_dm_object_name("Filesystem")`
-        | `ctime(firstTime)` | `ctime(lastTime)`'
+        | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest, file_path
         suppress_period: 86400s

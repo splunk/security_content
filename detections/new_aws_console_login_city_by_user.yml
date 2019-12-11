@@ -42,8 +42,8 @@ detect:
         by user | fields earliestseen user] | eval userStatus=if(earliest >= relative_time(now(),
         "@d"), "New City","Previously Seen City") | eval UserData=if(earliestseen
         >= relative_time(now(), "@d") OR isnull(earliestseen), "New User","Old User")
-        | where userStatus="New City" AND UserData="Old User" | convert ctime(earliest)
-        ctime(latest) ctime(earliestseen) | table user City userStatus earliest latest
+        | where userStatus="New City" AND UserData="Old User" | convert security_content_ctime(earliest)
+        security_content_ctime(latest) security_content_ctime(earliestseen) | table user City userStatus earliest latest
         earliestseen'
       suppress:
         suppress_fields: user

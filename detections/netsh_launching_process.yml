@@ -41,7 +41,7 @@ detect:
         Processes.parent_process="C:\Windows\System32\
 
         etsh.exe" by Processes.parent_process Processes.process_name Processes.user
-        Processes.dest | `drop_dm_object_name("Processes")` | `ctime(firstTime)`|`ctime(lastTime)`'
+        Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest, process
         suppress_period: 86400s

@@ -39,7 +39,7 @@ detect:
         Processes.process_name = wevtutil.exe Processes.process="*cl*" (Processes.process="*System*"
         OR Processes.process="*Security*" OR Processes.process="*Setup*" OR Processes.process="*Application*")
         by Processes.process_name Processes.parent_process_name Processes.dest Processes.user|
-        `drop_dm_object_name(Processes)` | `ctime(firstTime)` |`ctime(lastTime)`'
+        `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest,process
         suppress_period: 28800s

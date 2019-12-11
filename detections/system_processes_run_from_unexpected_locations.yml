@@ -36,7 +36,7 @@ detect:
         lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*"
         Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.user Processes.dest
         Processes.process_name Processes.process_path Processes.process_id | `drop_dm_object_name("Processes")`
-        | `ctime(firstTime)`| `ctime(lastTime)`| `isWindowsSystemFile`'
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `isWindowsSystemFile`'
       suppress:
         suppress_fields: dest,process_name
         suppress_period: 86400s

@@ -31,7 +31,7 @@ detect:
       search: (sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational OR tag=process)
         EventCode=11 process_id!=4 file_path=*System\ Volume\ Information* | stats
         count min(_time) as firstTime max(_time) as lastTime by dest, Image, file_path
-        | `ctime(firstTime)`| `ctime(lastTime)`
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
