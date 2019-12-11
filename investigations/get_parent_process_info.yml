@@ -3,43 +3,46 @@ data_metadata:
   data_models:
     - Endpoint
   data_source:
-    - Endpoint
+    - Endpoint Intel
   providing_technologies:
     - Carbon Black Response
     - CrowdStrike Falcon
     - Sysmon
     - Tanium
     - Ziften
-description: This search queries the Endpoint data model to give you details about
-  the parent process of a process running on a host which is under investigation.
-  Enter the values of the process name in question and the dest
+description: This search provides the process information for the parent process
+  of the process that is being investigated.
 entities:
-  - process_name
+  - parent_process_id
   - dest
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the "process"
-  field in the Endpoint data model.
+  including parent-child relationships from your systems. This data must be CIM compliant
+  for it to populate the Endpoint data model.
 id: fecf2918-670d-4f1c-872b-3d7317a41bf9
 investigate:
   splunk:
     fields_required:
-      - process_name
+      - parent_process_id
       - dest
     schedule:
-      cron_schedule: ''
-      earliest_time: '0'
-      latest_time: '86400'
-    search: '| tstats `summariesonly` count values(Processes.process) as process min(_time)
-      as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where
-      Processes.process_name = {process_name} Processes.dest = {dest} by Processes.user
-      Processes.parent_process_name  Processes.process_name  | `drop_dm_object_name("Processes")`
-      | `ctime(firstTime)`| `ctime(lastTime)`'
+      earliest_time: '43200'
+      latest_time: '0'
+    search: '| tstats `summariesonly` values(Processes.process) as parent_process,
+      values(Processes.process_name) as parent_process_name,
+      values(Processes.parent_process_name) as grandparent_process_name,
+      values(Processes.parent_process_id) as grandparent_process_id
+      earliest(_time) as parent_process_start_time FROM datamodel=Endpoint.Processes where
+      Processes.process_id={parent_process_id} AND Processes.dest={dest} by
+      Processes.process_id, Processes.dest, Processes.user
+      | `drop_dm_object_name("Processes")`
+      | `ctime(firstTime)`| `ctime(lastTime)`
+      | table process_id, dest, user, parent_process_name, parent_process,
+      grandparent_process_id, grandparent_process_name'
 maintainers:
   - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
-modification_date: '2019-02-28'
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2019-11-23'
 name: Get Parent Process Info
 original_authors:
   - company: Splunk
@@ -47,4 +50,4 @@ original_authors:
     name: Bhavin Patel
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'
