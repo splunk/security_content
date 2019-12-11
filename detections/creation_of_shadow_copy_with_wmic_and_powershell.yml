@@ -1,0 +1,68 @@
+asset_type: Endpoint
+confidence: medium
+creation_date: '2019-12-10'
+data_metadata:
+  data_eventtypes:
+    - powershell scriptblock logging
+  data_source:
+    - Windows Event Logs
+  providing_technologies:
+    - Microsoft Windows
+description: This search detects the use of wmic and powershell to create a shadow copy.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: user, dest
+        rule_description: An attempt to create a shadow copy with wmic and powershell was detected on $dest$.
+        rule_title: Attempted Credential Dump of ntds.dit on $dest$
+      risk:
+        risk_object: user
+        risk_object_type:
+          - system
+        risk_score: 30
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: 'source="wineventlog:microsoft-windows-powershell/operational" Message=*win32_shadowcopy* Message=*Create*
+        | stats count min(_time) as firstTime max(_time) as lastTime by dvc User EventCode Message
+        | rename User as user, dvc as dest | `ctime(firstTime)`| `ctime(lastTime)`'
+      suppress:
+        suppress_fields: dest
+        suppress_period: 86400s
+eli5: The ntds.dit file contains the Active Directory (AD) database. This file can't be copied directly.
+  That's why attacker create first a shadow copy and then exfiltrate the file. This search detects the creation
+  of a shadow copy using wmic, which is executed by powershell.
+entities:
+  - dest
+how_to_implement: You must enable powershell scriptblock logging in order to detect this attack.
+id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
+known_false_positives: Legtimate administrator usage of wmic to create a shadowcopy
+maintainers:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+mappings:
+  cis20:
+    - CIS 8
+    - CIS 16
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Credential Access
+    - Credential Dumping
+  nist:
+    - DE.CM
+modification_date: '2019-12-10'
+name: Creation of Shadow Copy with wmic
+original_authors:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+references:
+  - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'

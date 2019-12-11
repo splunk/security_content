@@ -1,0 +1,70 @@
+asset_type: Windows
+confidence: high
+creation_date: '2019-12-06'
+data_metadata:
+  data_eventtypes:
+    - wineventlog_sysmon
+  data_source:
+    - Windows Event Logs
+  providing_technologies:
+    - Microsoft Windows
+description: This search detects memory dumping of the LSASS process.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest
+        rule_description: Possible attempt at credential dumping was detected on $dest$.
+        rule_title: LSASS memory dump detected on $dest$.
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 70
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll*
+        | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage, TargetProcessId, SourceImage, SourceProcessId
+        | rename Computer as dest
+        | `ctime(firstTime)`| `ctime(lastTime)`
+      suppress:
+        suppress_fields: dest
+        suppress_period: 86400s
+eli5: dbgcore.dll is a specifc dll for windows core debugging. It is used to obatain a memory dumping of a process.
+  This search detects the usage of this dll for creating a memory dump of LSASS process. Memory dumps of the lsass process
+  through for example task manager or procdump is detected with this search.
+entities:
+  - dest
+how_to_implement: 'This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 10 for lsass.exe'
+id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
+known_false_positives: Administrator can create memory dumps for debugging purposes.
+  But creating a memory dump of the lsass process is not usual.
+maintainers:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+mappings:
+  cis20:
+    - CIS 6
+    - CIS 8
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Credential Access
+    - Credential Dumping
+  nist:
+    - DE.CM
+modification_date: '2019-12-06'
+name: Access LSASS Memory for Dump Creation
+original_authors:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+references:
+  - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: "1"

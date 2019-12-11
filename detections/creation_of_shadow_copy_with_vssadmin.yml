@@ -1,0 +1,76 @@
+asset_type: Endpoint
+confidence: high
+creation_date: '2019-12-06'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+    - Tanium
+    - Ziften
+description: This search detects the use of vssadmin to create a shadow copy.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: user, dest, process_name, process
+        rule_description: An attempt to create a shadow copy with vssadmin was detected on $dest$.
+        rule_title: Attempted Credential Dump of ntds.dit from $user$
+      risk:
+        risk_object: user
+        risk_object_type:
+          - system
+        risk_score: 60
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats summariesonly=true count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+        where Processes.process_name=vssadmin.exe Processes.process=*create* Processes.process=*shadow*
+        by Processes.dest Processes.user Processes.process_name Processes.process  Processes.parent_process Processes.process_id Processes.parent_process_id
+        | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`'
+      suppress:
+        suppress_fields: process_name, dest
+        suppress_period: 86400s
+eli5: The ntds.dit file contains the Active Directory (AD) database. This file can't be copied directly.
+  That's why attacker create first a shadow copy and then exfiltrate the file. This search detects the creation
+  of a shadow copy using vssadmin.
+entities:
+  - dest
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints to populate the Endpoint
+  data model in the Processes node. The command-line arguments are mapped to the "process"
+  field in the Endpoint data model.
+id: 33ddfe05-bff2-4f34-8daf-2e112c3889f1
+known_false_positives: Legtimate administrator usage of vssadmin
+maintainers:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+mappings:
+  cis20:
+    - CIS 8
+    - CIS 16
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Credential Access
+    - Credential Dumping
+  nist:
+    - DE.CM
+modification_date: '2019-12-06'
+name: Creation of Shadow Copy with vssadmin
+original_authors:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+references:
+  - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'
