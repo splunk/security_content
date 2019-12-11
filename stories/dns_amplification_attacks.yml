@@ -40,7 +40,7 @@ original_authors:
     name: Bhavin Patel
 references:
   - https://www.us-cert.gov/ncas/alerts/TA13-088A
-  - https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/
+  - https://www.imperva.com/learn/application-security/dns-amplification/
 spec_version: 2
 usecase: Security Monitoring
 version: '1.0'

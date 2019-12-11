@@ -146,12 +146,7 @@ require([
         $('.run-story').unbind('click');
 
         $('.run-story').on('click', function(evt) {
-            splunkUtil.redirect_to('/app/DA-ESS-ContentUpdate/search', {
-                q: `| runstory story="${asName}" | table name, num_search_results, description, kill_chain_phases, mitre_attack`,
-                earliest: "-60m",
-                latest: "now",
-
-            }, window.open(), true);
+            window.open('https://github.com/splunk/analytic_story_execution');
         });
 
         let asSearch = splunkjs.mvc.Components.getInstance(epoch);

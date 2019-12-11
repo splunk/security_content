@@ -311,7 +311,7 @@ The detection searches in this Analytic Story are designed to help you uncover A
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-* https://blog.redlock.io/cryptojacking-tesla
+* https://redlock.io/blog/cryptojacking-tesla
 
 ### Cloud Cryptomining
 * id = `3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a`
@@ -334,6 +334,7 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 * Cloud Compute Instance Created With Previously Unseen Instance Type
 * Cloud Compute Instance Created With Previously Unseen Image
 * Cloud Compute Instance Created By Previously Unseen User
+* Abnormally High AWS Instances Launched by User - MLTK
 
 ##### Providing Technologies
 * AWS
@@ -390,6 +391,8 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 * Abnormally High AWS Instances Terminated by User
 * Abnormally High AWS Instances Launched by User
 * EC2 Instance Started With Previously Unseen User
+* Abnormally High AWS Instances Launched by User - MLTK
+* Abnormally High AWS Instances Terminated by User - MLTK
 
 ##### Providing Technologies
 * AWS
@@ -1547,7 +1550,7 @@ Network_Resolution
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
-* https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack/
+* https://www.imperva.com/learn/application-security/dns-amplification/
 
 ### Data Protection
 * id = `91c676cf-0b23-438d-abee-f6335e1fce33`
@@ -1749,8 +1752,6 @@ Another search detects incidents wherein a single password is used across multip
 
 ##### Providing Technologies
 * Splunk Stream
-* Palo Alto Firewall
-* Bro
 
 ##### Data Models
 
@@ -3042,7 +3043,7 @@ Endpoint
 * company = davidd@splunk.com
 
 ##### References
-* https://www.binarydefense.com/bds/reliably-detecting-pass-the-hash-through-event-log-analysis/
+* https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 
 ### Malicious PowerShell
@@ -3261,8 +3262,7 @@ Endpoint
 * company = iDefense.IntelOps@accenture.com
 
 ##### References
-* https://intelgraph.idefense.com/#/node/threat_group/view/29fbec10-8cc8-4662-8362-2c24c1eeb74c
-* https://intelgraph.idefense.com/#/node/intelligence_alert/view/62bb3669-9386-4264-b51a-59876cf50ffe
+* https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
 
 ### SQL Injection
@@ -3889,7 +3889,7 @@ Change_Analysis
 * https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html
 * http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/
 * https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
-* https://www.defcon.org/images/defcon-22/dc-22-presentations/Bloxham/DEFCON-22-Brady-Bloxham-Windows-API-Abuse-UPDATED.pdf
+* https://www.youtube.com/watch?v=dq2Hv7J9fvk
 
 ### Windows Privilege Escalation
 * id = `644e22d3-598a-429c-a007-16fdb802cae5`
