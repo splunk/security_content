@@ -28,7 +28,7 @@ detect:
       search: source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId) as ProcessId by Computer, Image
         | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll
         | rename Computer as dest
-        | `ctime(firstTime)`| `ctime(lastTime)`
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: dest, Image
         suppress_period: 86400s
@@ -37,6 +37,19 @@ entities:
   - dest
 how_to_implement: 'This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 7 with powershell.exe'
 id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
+investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
 known_false_positives: Other tools can import the same DLLs. These tools should be
     part of a whtelist.
 maintainers:

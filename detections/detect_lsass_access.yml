@@ -28,7 +28,7 @@ detect:
       search: source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=10 TargetImage=*lsass.exe (GrantedAccess=0x1010 OR GrantedAccess=0x1410)
         | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name, SourceImage, SourceProcessId, TargetImage, TargetProcessId, EventCode, GrantedAccess
         | rename Computer as dest
-        | `ctime(firstTime)`| `ctime(lastTime)`
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: user, dest, ProcessName
         suppress_period: 86400s
@@ -39,6 +39,19 @@ entities:
   - dest
 how_to_implement: 'This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 10 with lsass.exe'
 id: 2c365e57-4414-4540-8dc0-73ab10729996
+investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
 known_false_positives: The activity may be legitimate. Other tools can access lsass
   for legitimate reasons, and it's possible this event could be generated
   in those cases. In these cases, false positives should be fairly obvious and you

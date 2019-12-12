@@ -25,10 +25,10 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats summariesonly=true count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
         where Processes.process_name=wmic.exe Processes.process=*shadowcopy* Processes.process=*create*
         by Processes.dest Processes.user Processes.process_name Processes.process  Processes.parent_process Processes.process_id Processes.parent_process_id
-        | `drop_dm_object_name(Processes)` | `ctime(firstTime)`| `ctime(lastTime)`'
+        | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: process_name, dest
         suppress_period: 86400s
@@ -42,6 +42,19 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
   data model in the Processes node. The command-line arguments are mapped to the "process"
   field in the Endpoint data model.
 id: 77477e68-9a4d-4d76-8bb2-6b04b58b4b62
+investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
 known_false_positives: Legtimate administrator usage of wmic to create a shadowcopy
 maintainers:
   - company: Splunk

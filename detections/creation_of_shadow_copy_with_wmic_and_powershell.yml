@@ -27,7 +27,7 @@ detect:
         latest_time: -10m@m
       search: 'source="wineventlog:microsoft-windows-powershell/operational" Message=*win32_shadowcopy* Message=*Create*
         | stats count min(_time) as firstTime max(_time) as lastTime by dvc User EventCode Message
-        | rename User as user, dvc as dest | `ctime(firstTime)`| `ctime(lastTime)`'
+        | rename User as user, dvc as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
@@ -38,6 +38,19 @@ entities:
   - dest
 how_to_implement: You must enable powershell scriptblock logging in order to detect this attack.
 id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
+investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
 known_false_positives: Legtimate administrator usage of wmic to create a shadowcopy
 maintainers:
   - company: Splunk

@@ -28,7 +28,7 @@ detect:
       search: source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll*
         | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage, TargetProcessId, SourceImage, SourceProcessId
         | rename Computer as dest
-        | `ctime(firstTime)`| `ctime(lastTime)`
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
@@ -39,6 +39,19 @@ entities:
   - dest
 how_to_implement: 'This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 10 for lsass.exe'
 id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
+investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
 known_false_positives: Administrator can create memory dumps for debugging purposes.
   But creating a memory dump of the lsass process is not usual.
 maintainers:

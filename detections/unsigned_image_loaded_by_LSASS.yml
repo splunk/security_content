@@ -28,7 +28,7 @@ detect:
       search: source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventID=7 Image=*lsass.exe Signed=false
         | stats count min(_time) as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
         | rename Computer as dest
-        | `ctime(firstTime)`| `ctime(lastTime)`
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: dest, ImageLoaded
         suppress_period: 86400s
@@ -39,6 +39,19 @@ entities:
   - dest
 how_to_implement: 'This search needs Sysmon Logs with a sysmon configuration, which includes EventCode 7 with lsass.exe'
 id: 56ef054c-76ef-45f9-af4a-a634695dcd65
+investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
 known_false_positives: Other tools could load images into LSASS for legitimate reason.
   But enterprise tools should always use signed DLLs.
 maintainers:
