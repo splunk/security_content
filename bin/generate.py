@@ -149,10 +149,6 @@ def identify_next_steps(detections, investigations):
                         next_steps += "Based on ESCU investigate recommendations:\\n%s\"}" % (investigations_output)
                 if has_phantom:
                     detection['recommended_actions'] = 'runphantomplaybook, escu_investigate'
-                else:
-                    detection['recommended_actions'] = 'escu_investigate'
-                detection['next_steps'] = next_steps
-
         enriched_detections.append(detection)
 
     return enriched_detections
@@ -354,11 +350,10 @@ if __name__ == "__main__":
     macros_path = generate_macros_conf(macros)
 
     if VERBOSE:
-        print "{0} stories have been successfully written to {1}".format(len(stories), story_path)
-        print "{0} stories have been successfully written to {1}".format(len(stories), use_case_lib_path)
-        print "{0} detections have been successfully written to {1}".format(len(detections), detection_path)
-        print "{0} investigations have been successfully written to {1}".format(len(investigations), detection_path)
-        print "{0} baselines have been successfully written to {1}".format(len(baselines), detection_path)
-        print "{0} macros have been successfully written to {1}".format(len(macros), macros_path)
-        print "{0} lookups have been successfully written to {1}".format(len(lookups), lookups_path)
-        print "security content generation completed.."
+        print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
+        print("{0} stories have been successfully written to {1}".format(len(stories), use_case_lib_path))
+        print("{0} detections have been successfully written to {1}".format(len(detections), detection_path))
+        print("{0} investigations have been successfully written to {1}".format(len(investigations), detection_path))
+        print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
+        print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
+        print("security content generation completed..")

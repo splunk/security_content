@@ -49,7 +49,7 @@ def process_metadata(detections, story_name):
     data_models = []
 
     # process the above for detections
-    for detection_name, detection in sorted(detections.iteritems()):
+    for detection_name, detection in sorted(detections.items()):
         for s in detection['stories']:
 
             # check if the detection is part of this story
@@ -92,7 +92,7 @@ def generate_detections(REPO_PATH, stories):
         # lets process v1 detections
         if detection['spec_version'] == 1:
             if verbose:
-                print "processing v1 detection: {0}".format(detection['search_name'])
+                print("processing v1 detection: {0}".format(detection['search_name']))
             name = detection['search_name']
             type = 'splunk'
             description = detection['search_description']
@@ -112,7 +112,7 @@ def generate_detections(REPO_PATH, stories):
             investigations = []
             baselines = []
             responses = []
-            for story_name, story in sorted(stories.iteritems()):
+            for story_name, story in sorted(stories.items()):
                 for d in story['detections']:
                     if d['name'] == name:
                         if 'investigations' in story:
@@ -123,7 +123,7 @@ def generate_detections(REPO_PATH, stories):
         # lets process v2 detections
         if detection['spec_version'] == 2:
             if verbose:
-                print "processing v2 detection: {0}".format(detection['name'])
+                print("processing v2 detection: {0}".format(detection['name']))
             name = detection['name']
             id = detection['id']
             entities = detection['entities']
@@ -220,7 +220,7 @@ def generate_detections(REPO_PATH, stories):
 
         # stories associated with the detection
         complete_detections[name]['stories'] = []
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             for d in story['detections']:
                 if d['name'] == name:
                     complete_detections[name]['stories'].append(story['story_name'])
@@ -252,7 +252,7 @@ def generate_stories(REPO_PATH, verbose):
     complete_stories = dict()
     for story in story_files:
         if verbose:
-            print "processing story: {0}".format(story['name'])
+            print("processing story: {0}".format(story['name']))
         # Start building the story for the use case
         name = story['name']
         complete_stories[name] = {}
@@ -326,7 +326,7 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
 
     # calculate categories
     categories = []
-    for story_name, story in sorted(stories.iteritems()):
+    for story_name, story in sorted(stories.items()):
         c = story['category']
         categories.append(c)
 
@@ -336,7 +336,7 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
         output_file.write("\n\n=={0}==\n".format(c[0]))
 
         # iterate through every story and print it out
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n==={0}===\n".format(story_name))
@@ -413,7 +413,7 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
 
     # calculate categories
     categories = []
-    for story_name, story in sorted(stories.iteritems()):
+    for story_name, story in sorted(stories.items()):
         c = story['category']
         categories.append(c)
 
@@ -428,13 +428,13 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
         output_file.write("\n\n## {0}\n".format(c[0]))
 
         # build story TOC
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n* [{0}](#{1})\n".format(story_name, story_name.replace(' ', '-').lower()))
 
         # iterate through every story and print it out
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n### {0}\n".format(story_name))
@@ -537,15 +537,15 @@ if __name__ == "__main__":
     if gsd:
         story_count, paths = write_splunk_docs(complete_stories, complete_detections, OUTPUT_DIR)
         for p in paths:
-            print "{0} story documents have been successfully written to {1}".format(story_count, p)
+            print("{0} story documents have been successfully written to {1}".format(story_count, p))
     else:
-        print "--gen_splunk_docs  was set to false, not generating splunk documentation"
+        print("--gen_splunk_docs  was set to false, not generating splunk documentation")
 
     if gmd:
         story_count, paths = write_markdown_docs(complete_stories, complete_detections,  OUTPUT_DIR)
         for p in paths:
-            print "{0} story documents have been successfully written to {1}".format(story_count, p)
+            print("{0} story documents have been successfully written to {1}".format(story_count, p))
     else:
-        print "--gen_splunk_docs  was set to false, not generating splunk documentation"
+        print("--gen_splunk_docs  was set to false, not generating splunk documentation")
 
-    print "documentation generation for security content completed.."
+    print("documentation generation for security content completed..")
