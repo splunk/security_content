@@ -1,4 +1,5 @@
-security-content ![security-content](docs/static/logo.jpg)
+# Security Content
+![security-content](docs/static/logo.png) 
 =====
 
 | branch | build status |
