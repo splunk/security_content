@@ -1,4 +1,4 @@
-# Security Content
+# Splunk Security Content Exchange
 ![security-content](docs/static/logo.png) 
 =====
 
