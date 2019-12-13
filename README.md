@@ -1,4 +1,4 @@
-security-content ![security-content](static/logo.png)
+security-content ![security-content](docs/static/logo.png)
 =====
 
 | branch | build status |
@@ -52,7 +52,7 @@ First, make sure to follow the steps to install **dependencies and pre-commit ho
 For a more detailed explanation on how to contribute to the project, please see ["Contributing"](#Contributing)
 
 # Security Content Layout
-![](static/structure.png)
+![](docs/static/structure.png)
 
 #### Content Parts
 * [stories/](stories/): All Analytic Stories 
