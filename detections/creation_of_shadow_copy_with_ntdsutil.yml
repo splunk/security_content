@@ -28,8 +28,8 @@ detect:
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
         where Processes.process_name=ntdsutil.exe Processes.process=*ntds* Processes.process=*create* `creation_of_shadow_copy_with_ntdsutil_input_filter`
         by Processes.dest Processes.user Processes.process_name Processes.process  Processes.parent_process Processes.process_id Processes.parent_process_id
-        | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
-        | `creation_of_shadow_copy_with_ntdsutil_output_filter`
+        | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+        | `creation_of_shadow_copy_with_ntdsutil_output_filter`'
       suppress:
         suppress_fields: process_name, dest
         suppress_period: 86400s
