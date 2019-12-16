@@ -2069,8 +2069,8 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 ====References====
 * https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/
-* https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-ransomware-chooses-Its-targets-carefully-wpna.pdf
-* https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-The-Almost-Six-Million-Dollar-Ransomware.pdf?cmp=26061
+* https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
+* https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
 
 creation_date = 2018-12-13
 
