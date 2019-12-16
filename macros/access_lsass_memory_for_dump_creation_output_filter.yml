@@ -1,0 +1,2 @@
+description: Use this macro to add additional output filters for access lsass memory for dump creation
+name: access_lsass_memory_for_dump_creation_output_filter
