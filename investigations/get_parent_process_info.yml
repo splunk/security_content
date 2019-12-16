@@ -27,10 +27,9 @@ investigate:
       - process_name
       - dest
     schedule:
-      cron_schedule: ''
-      earliest_time: '0'
-      latest_time: '86400'
-    search: '| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time)
+      earliest_time: "86400"
+      latest_time: "0"
+    search: '| tstats `summariesonly` count values(Processes.process) as process min(_time)
       as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where
       Processes.process_name = {process_name} Processes.dest = {dest} by Processes.user
       Processes.parent_process_name  Processes.process_name  | `drop_dm_object_name("Processes")`
