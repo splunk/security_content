@@ -1,0 +1,2 @@
+description: Use this macro to add additional input filter for create remote thread into lsass
+name: create_remote_thread_into_lsass_input_filter

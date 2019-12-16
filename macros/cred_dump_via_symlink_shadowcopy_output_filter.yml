@@ -1,0 +1,2 @@
+description: Use this macro to add additional output filter for cred dump via symlink shadowcopy
+name: cred_dump_via_symlink_shadowcopy_output_filter

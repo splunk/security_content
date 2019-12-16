@@ -1,0 +1,2 @@
+description: Use this macro to add additional input filter for attempt to set default powershell execution policy to unrestricted or bypass
+name: attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass_input_filter

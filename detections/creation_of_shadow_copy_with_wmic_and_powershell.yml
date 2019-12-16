@@ -21,13 +21,17 @@ detect:
         risk_object_type:
           - system
         risk_score: 30
+      macros:
+        - creation_of_shadow_copy_with_wmic_and_powershell_input_filter
+        - creation_of_shadow_copy_with_wmic_and_powershell_output_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: 'source="wineventlog:microsoft-windows-powershell/operational" Message=*win32_shadowcopy* Message=*Create*
+      search: '`creation_of_shadow_copy_with_wmic_and_powershell_input_filter` source="wineventlog:microsoft-windows-powershell/operational" Message=*win32_shadowcopy* Message=*Create*
         | stats count min(_time) as firstTime max(_time) as lastTime by dvc User EventCode Message
-        | rename User as user, dvc as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
+        | rename User as user, dvc as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+        | `creation_of_shadow_copy_with_wmic_and_powershell_output_filter` '
       suppress:
         suppress_fields: dest
         suppress_period: 86400s

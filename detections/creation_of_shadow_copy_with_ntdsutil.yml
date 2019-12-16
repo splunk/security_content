@@ -21,6 +21,9 @@ detect:
         risk_object_type:
           - system
         risk_score: 60
+      macros:
+        - creation_of_shadow_copy_with_ntdsutil_input_filter
+        - creation_of_shadow_copy_with_ntdsutil_output_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m

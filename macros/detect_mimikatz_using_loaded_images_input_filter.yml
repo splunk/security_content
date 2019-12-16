@@ -1,0 +1,2 @@
+description: Use this macro to add additional input filter for detect mimikatz using loaded images
+name: detect_mimikatz_using_loaded_images_input_filter

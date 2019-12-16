@@ -1,0 +1,2 @@
+description: Use this macro to add additional input filter for unsigned image loaded by LSASS
+name: unsigned_image_loaded_by_LSASS_input_filter
