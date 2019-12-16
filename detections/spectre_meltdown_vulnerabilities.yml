@@ -31,10 +31,10 @@ detect:
         cron_schedule: 0 6 * * *
         earliest_time: -25h@h
         latest_time: -1h@h
-      search: '| tstats `summariesonly` min(_time) as firstTime max(_time) as lastTime
+      search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime
         from datamodel=Vulnerabilities where Vulnerabilities.cve ="CVE-2017-5753"
         OR Vulnerabilities.cve ="CVE-2017-5715" OR Vulnerabilities.cve ="CVE-2017-5754"
-        by Vulnerabilities.dest| `ctime(firstTime)` | `ctime(lastTime)`'
+        by Vulnerabilities.dest| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest
         suppress_period: 86400s

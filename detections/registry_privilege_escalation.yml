@@ -32,12 +32,12 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(Registry.registry_key_name) as
+      search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as
         registry_key_name values(Registry.registry_path) as registry_path min(_time)
         as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where
         (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
-        Execution Options*") by Registry.dest , Registry.status, Registry.user | `ctime(lastTime)`
-        | `ctime(firstTime)` | `drop_dm_object_name(Registry)`'
+        Execution Options*") by Registry.dest , Registry.status, Registry.user | `security_content_ctime(lastTime)`
+        | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`'
       suppress:
         suppress_fields: dest, user, registry_path
         suppress_period: 14400s

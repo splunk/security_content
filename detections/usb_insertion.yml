@@ -30,11 +30,11 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count earliest(_time) AS earliest latest(_time)
+      search: '| tstats `security_content_summariesonly` count earliest(_time) AS earliest latest(_time)
         AS latest from datamodel=Change_Analysis where (nodename = All_Changes) All_Changes.result="Removable
         Storage device" (All_Changes.result_id=4663 OR All_Changes.result_id=4656)
         (All_Changes.src_priority=high) by All_Changes.dest | `drop_dm_object_name("All_Changes")`|
-        `ctime(earliest)`| `ctime(latest)` '
+        `security_content_ctime(earliest)`| `security_content_ctime(latest)` '
       suppress:
         suppress_fields: dest
         suppress_period: 86400s

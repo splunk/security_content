@@ -31,12 +31,12 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime from datamodel=Network_Traffic where All_Traffic.protocol="tcp" AND
         (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143" OR All_Traffic.dest_port="110"
         OR (All_Traffic.dest_port="21" AND All_Traffic.user != "anonymous")) groupby
         All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port |
-        `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name("All_Traffic")`'
+        `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")`'
       suppress:
         suppress_fields: dest
         suppress_period: 86400s

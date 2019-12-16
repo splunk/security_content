@@ -29,7 +29,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry
         AND (All_Changes.object_path="*CurrentVersion\\AppCompatFlags\\Custom*" OR
         All_Changes.object_path="*CurrentVersion\\AppCompatFlags\\InstalledSDB*")

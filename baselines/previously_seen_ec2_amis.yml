@@ -6,7 +6,7 @@ baseline:
       latest_time: -10m@m
     search: sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | rename
       requestParameters.instancesSet.items{}.imageId as amiID | stats earliest(_time)
-      as earliest latest(_time) as latest by amiID | outputlookup previously_seen_ec2_amis.csv
+      as firstTime latest(_time) as lastTime by amiID | outputlookup previously_seen_ec2_amis.csv
       | stats count
 creation_date: '2018-03-12'
 data_metadata:

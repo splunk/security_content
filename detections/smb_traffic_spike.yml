@@ -27,7 +27,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -7d@d
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count from datamodel=Network_Traffic where
+      search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic where
         All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb
         by _time span=1h, All_Traffic.src | `drop_dm_object_name("All_Traffic")` |
         eventstats max(_time) as maxtime | stats count as num_data_samples max(eval(if(_time

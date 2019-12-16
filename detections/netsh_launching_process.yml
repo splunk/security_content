@@ -36,12 +36,12 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(Processes.process) min(_time)
+      search: '| tstats `security_content_summariesonly` count values(Processes.process) min(_time)
         as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where
         Processes.parent_process="C:\Windows\System32\
 
         etsh.exe" by Processes.parent_process Processes.process_name Processes.user
-        Processes.dest | `drop_dm_object_name("Processes")` | `ctime(firstTime)`|`ctime(lastTime)`'
+        Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`'
       suppress:
         suppress_fields: dest, process
         suppress_period: 86400s

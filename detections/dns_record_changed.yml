@@ -34,7 +34,7 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: '| inputlookup discovered_dns_records.csv | rename answer as discovered_answer
-        | join domain[|tstats summariesonly=true count values(DNS.record_type) as
+        | join domain[|tstats `security_content_summariesonly` count values(DNS.record_type) as
         type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution
         where DNS.message_type=RESPONSE DNS.answer!="unknown" DNS.answer!="" by DNS.query
         | rename DNS.query as query | where query!="unknown" | rex field=query "(?<domain>\w+\.\w+?)(?:$|/)"]

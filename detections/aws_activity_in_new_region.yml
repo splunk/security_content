@@ -37,7 +37,7 @@ detect:
         | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup
         previously_seen_aws_regions.csv | eval regionStatus=if(earliest >= relative_time(now(),
         "-1d@d"), "Instance Started in a New Region","Previously Seen Region") | convert
-        ctime(earliest) ctime(latest) | where regionStatus="Instance Started in a
+        security_content_ctime(earliest) security_content_ctime(latest) | where regionStatus="Instance Started in a
         New Region"
       suppress:
         suppress_fields: awsRegion

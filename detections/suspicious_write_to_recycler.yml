@@ -28,11 +28,11 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name)
         as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.filepath
         = "*$Recycle.Bin*" by Filesystem.process_id Filesystem.dest | `drop_dm_object_name("Filesystem")`|
-        search [| tstats `summariesonly` values(Processes.user) as user values(Processes.process_name)
+        search [| tstats `security_content_summariesonly` values(Processes.user) as user values(Processes.process_name)
         as process_name values(Processes.parent_process_name) as parent_process_name
         FROM datamodel=Endpoint.Processes where Processes.process_name != "explorer.exe"
         by Processes.process_id Processes.dest| `drop_dm_object_name("Processes")`

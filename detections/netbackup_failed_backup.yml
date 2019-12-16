@@ -35,7 +35,7 @@ detect:
         earliest_time: -24h@h
         latest_time: -10m@m
       search: sourcetype="netbackup_logs" | stats latest(_time) as latestTime by COMPUTERNAME,
-        MESSAGE | search MESSAGE="An error occurred, failed to backup." | `ctime(latestTime)`
+        MESSAGE | search MESSAGE="An error occurred, failed to backup." | `security_content_ctime(latestTime)`
         | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest,
         signature
       suppress:

@@ -37,13 +37,13 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime from datamodel=Network_Traffic where (All_Traffic.app=dns NOT All_Traffic.dest_port=53)
         OR ((All_Traffic.app=web-browsing OR All_Traffic.app=http) NOT (All_Traffic.dest_port=80
         OR All_Traffic.dest_port=8080 OR All_Traffic.dest_port=8000)) OR (All_Traffic.app=ssl
         NOT (All_Traffic.dest_port=443 OR All_Traffic.dest_port=8443)) OR (All_Traffic.app=smtp
         NOT All_Traffic.dest_port=25) by All_Traffic.src_ip, All_Traffic.dest_ip,
-        All_Traffic.app, All_Traffic.dest_port |`ctime(firstTime)` | `ctime(lastTime)`
+        All_Traffic.app, All_Traffic.dest_port |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | `drop_dm_object_name("All_Traffic")`'
       suppress:
         suppress_fields: dest_ip, dest_port

@@ -30,8 +30,8 @@ detect:
         latest_time: -10m@m
       search: ((eventtype=wineventlog_security) AND (signature_id=1102 OR signature_id=1100))
         OR ((eventtype=wineventlog_system) AND signature_id=104) | stats count min(_time)
-        as firstTime max(_time) as lastTime by signature_id dest user| `ctime(firstTime)`
-        | `ctime(lastTime)`
+        as firstTime max(_time) as lastTime by signature_id dest user| `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: dest, signature_id
         suppress_period: 28800s

@@ -33,11 +33,11 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime values(Processes.process) as process  from datamodel=Endpoint.Processes
         where Processes.process_name=schtasks.exe (Processes.process= "*create*"  OR
         Processes.process= "*delete*") by Processes.parent_process Processes.process_name
-        Processes.user | `drop_dm_object_name("Processes")` | `ctime(firstTime)`|`ctime(lastTime)`
+        Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
         | search (process=*rhaegal* OR process=*drogon* OR *viserion_*)'
       suppress:
         suppress_fields: dest, process_name

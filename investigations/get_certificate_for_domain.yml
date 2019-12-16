@@ -29,7 +29,7 @@ investigate:
       All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name
       All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash |
       `drop_dm_object_name(All_Certificates)` | `drop_dm_object_name(SSL)` | rename
-      ssl_subject_common_name as domain | `ctime(firstTime)` | `ctime(lastTime)`'
+      ssl_subject_common_name as domain | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
 maintainers:
   - company: Splunk
     email: bpatel@splunk.com
