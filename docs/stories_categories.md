@@ -2364,8 +2364,8 @@ Network_Traffic
 
 ##### References
 * https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/
-* https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-ransomware-chooses-Its-targets-carefully-wpna.pdf
-* https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/SamSam-The-Almost-Six-Million-Dollar-Ransomware.pdf?cmp=26061
+* https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
+* https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
 
 ### Unusual Processes
 * id = `f4368e3f-d59f-4192-84f6-748ac5a3ddb6`
