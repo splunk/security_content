@@ -4,7 +4,7 @@ baseline:
       cron_schedule: ''
       earliest_time: -90d@d
       latest_time: -10m@m
-    search: sourcetype=aws:cloudtrail `ec2ModificationAPIs` errorCode=success | spath
+    search: sourcetype=aws:cloudtrail `ec2_modification_api_calls` errorCode=success | spath
       output=arn userIdentity.arn | stats earliest(_time) as firstTime latest(_time)
       as lastTime by arn | outputlookup previously_seen_ec2_modifications_by_user
       | stats count
@@ -20,11 +20,11 @@ description: This search builds a table of previously seen ARNs that have launch
   a EC2 instance.
 eli5: In this support search, we create a table of the earliest and latest times that
   an ARN has modified a EC2 instance. The list of APIs that modify an EC2 are defined
-  in the `ec2ModificationAPIs` macro for ease of use. This table is then outputted
+  in the `ec2_modification_api_calls` macro for ease of use. This table is then outputted
   to a file.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2ModificationAPIs`.
+  inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
 id: 4d69091b-d975-4267-85df-888bd41034eb
 known_false_positives: ''
 maintainers:

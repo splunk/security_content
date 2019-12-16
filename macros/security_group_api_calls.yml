@@ -4,4 +4,4 @@ definition: (eventName=AuthorizeSecurityGroupIngress OR eventName=CreateSecurity
   OR eventName=DescribeStaleSecurityGroups OR eventName=RevokeSecurityGroupIngress
   OR eventName=UpdateSecurityGroupRuleDescriptionsIngress)
 description: This macro is a list of AWS event names associated with security groups
-name: securityGroupAPIs
+name: security_group_api_calls
