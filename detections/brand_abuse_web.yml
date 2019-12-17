@@ -34,8 +34,8 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` values(Web.url) as urls min(_time) as firstTime
-        from datamodel=Web by Web.src | `drop_dm_object_name("Web")` | `ctime(firstTime)`
+      search: '| tstats `security_content_summariesonly` values(Web.url) as urls min(_time) as firstTime
+        from datamodel=Web by Web.src | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
         | `brand_abuse_web`'
       suppress:
         suppress_fields: src

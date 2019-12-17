@@ -30,7 +30,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count from datamodel=Network_Resolution where
+      search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where
         DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
         DNS.dest | `drop_dm_object_name("DNS")`'
       suppress:

@@ -33,9 +33,9 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(DNS.answer) as answer min(_time)
+      search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer min(_time)
         as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name("DNS")`
-        | `ctime(firstTime)` | `dynamic_dns_providers`'
+        | `security_content_ctime(firstTime)` | `dynamic_dns_providers`'
       suppress:
         suppress_fields: src, query
         suppress_period: 86400s

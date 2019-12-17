@@ -30,7 +30,7 @@ detect:
         EventCode=5861 Binding | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)"
         | search consumer!="NTEventLogEventConsumer=\"SCM Event Log Consumer\"" |
         stats count min(_time) as firstTime max(_time) as lastTime by ComputerName,
-        consumer, Message | `ctime(firstTime)`| `ctime(lastTime)` | rename ComputerName
+        consumer, Message | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | rename ComputerName
         as dest
       suppress:
         suppress_fields: dest

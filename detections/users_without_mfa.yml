@@ -34,7 +34,7 @@ detect:
         | search NOT [| inputlookup aws_service_accounts | fields identity | rename
         identity as user]| stats  count min(_time) as firstTime max(_time) as lastTime
         values(eventName) as eventName by userIdentity.arn userIdentity.type user
-        | `ctime(firstTime)`  | `ctime(lastTime)`
+        | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: user
         suppress_period: 84600s

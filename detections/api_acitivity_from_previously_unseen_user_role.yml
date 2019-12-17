@@ -38,10 +38,10 @@ detect:
         |  inputlookup append=t previously_seen_api_calls_from_user_roles | stats
         min(earliest) as earliest, max(latest) as latest by userName eventName | outputlookup
         previously_seen_api_calls_from_user_roles| eval newApiCallfromUserRole=if(earliest>=relative_time(now(),
-        "-70m@m"), 1, 0) | where newApiCallfromUserRole=1 | `ctime(earliest)` | `ctime(latest)`
+        "-70m@m"), 1, 0) | where newApiCallfromUserRole=1 | `security_content_ctime(earliest)` | `security_content_ctime(latest)`
         | table eventName userName]  |rename userName as user| stats values(eventName)
-        earliest(_time) as earliest latest(_time) as latest by user | `ctime(earliest)`
-        | `ctime(latest)`
+        earliest(_time) as earliest latest(_time) as latest by user | `security_content_ctime(earliest)`
+        | `security_content_ctime(latest)`
       suppress:
         suppress_fields: user
         suppress_period: 86400s

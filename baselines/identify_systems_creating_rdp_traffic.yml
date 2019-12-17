@@ -4,7 +4,7 @@ baseline:
       cron_schedule: ''
       earliest_time: -30d@d
       latest_time: -10m@m
-    search: '| tstats `summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=3389
+    search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=3389
       by All_Traffic.src | `drop_dm_object_name("All_Traffic")` | sort - count'
 creation_date: '2017-04-24'
 data_metadata:

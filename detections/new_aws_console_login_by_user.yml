@@ -37,12 +37,11 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: 'sourcetype=aws:cloudtrail eventName=ConsoleLogin | rename userIdentity.arn
-        as user  |stats earliest(_time) as earliest latest(_time) as latest by user
-        | inputlookup append=t previously_seen_users_console_logins.csv  | stats min(earliest)
-        as earliest max(latest) as latest by user | eval userStatus=if(earliest >=
+        as user | stats earliest(_time) as firstTime latest(_time) as lastTime by user
+        | inputlookup append=t previously_seen_users_console_logins.csv  | stats min(firstTime)
+        as firstTime max(lastTime) as lastTime by user | eval userStatus=if(firstTime >=
         relative_time(now(), "-70m@m"), "First Time Logging into AWS Console","Previously
-        Seen User") | convert ctime(earliest) ctime(latest) | where userStatus ="First
-        Time Logging into AWS Console" '
+        Seen User") | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`| where userStatus ="First Time Logging into AWS Console" '
       suppress:
         suppress_fields: user
         suppress_period: 86400s

@@ -4,7 +4,7 @@ baseline:
       cron_schedule: ''
       earliest_time: -90d@d
       latest_time: -10m@m
-    search: sourcetype=aws:cloudtrail `securityGroupAPIs` | spath output=arn path=userIdentity.arn
+    search: sourcetype=aws:cloudtrail `security_group_api_calls` | spath output=arn path=userIdentity.arn
       | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls)
       as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls,
       stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints,
@@ -31,7 +31,7 @@ eli5: Use this search to create a baseline for API calls related to security gro
   of data points for each ARN. This table is stored in a lookup file.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs. To add or remove API event names for security groups, edit the macro `securityGroupAPIs`.
+  inputs. To add or remove API event names for security groups, edit the macro `security_group_api_calls`.
 id: fc0edd96-ff2b-48b0-9f1f-63da3783fd63
 known_false_positives: ''
 maintainers:

@@ -36,15 +36,14 @@ detect:
         cron_schedule: 5 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| inputlookup previously_seen_users_console_logins.csv | stats min(earliest)
-        as earliest max(latest) as latest by user Region | join user type=outer [|
-        inputlookup previously_seen_users_console_logins.csv | stats min(earliest)
-        AS earliestseen by user | fields earliestseen user] | eval userStatus=if(earliest
+      search: '| inputlookup previously_seen_users_console_logins.csv | stats min(firstTime)
+        as firstTime max(lastTime) as lastTime by user Region | join user type=outer [|
+        inputlookup previously_seen_users_console_logins.csv | stats min(firstTime)
+        AS earliestseen by user | fields earliestseen user] | eval userStatus=if(firstTime
         >= relative_time(now(), "@d"), "New Region","Previously Seen Region") | eval
         UserData=if(earliestseen >= relative_time(now(), "@d") OR isnull(earliestseen),
         "New User","Old User") | where userStatus="New Region" AND UserData="Old User"
-        | convert ctime(earliest) ctime(latest) ctime(earliestseen) | table user Region
-        userStatus earliest latest earliestseen'
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `security_content_ctime(earliestseen)` | table user Region userStatus firstTime lastTime earliestseen'
       suppress:
         suppress_fields: user
         suppress_period: 86400s

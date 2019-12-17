@@ -25,7 +25,7 @@ investigate:
       cron_schedule: ''
       earliest_time: '3600'
       latest_time: '3600'
-    search: '| tstats `summariesonly` values(Web.url) as url from datamodel=Web by
+    search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web by
       Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`|
       where like(src, "{src}") and like(http_method, "POST")'
 maintainers:

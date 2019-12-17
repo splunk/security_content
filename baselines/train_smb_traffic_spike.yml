@@ -4,7 +4,7 @@ baseline:
       cron_schedule: ''
       earliest_time: -31d@d
       latest_time: -1d@d
-    search: '| tstats `summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=139
+    search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=139
       OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=10m, All_Traffic.src
       | eval HourOfDay=strftime(_time, "%H") | eval DayOfWeek=strftime(_time, "%A")
       | `drop_dm_object_name("All_Traffic")` | fit DensityFunction count by "HourOfDay,DayOfWeek"

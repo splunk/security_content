@@ -30,7 +30,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src
         All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev
         avg(count) AS avg p50(count) AS p50 | where count>(avg + stdev*2) | rename All_Traffic.src

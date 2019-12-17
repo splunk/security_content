@@ -30,12 +30,12 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats summariesonly=true allow_old_summaries=true latest(_time)
-        as latestTime from datamodel=Updates where Updates.status=Installed Updates.vendor_product="Microsoft
+      search: '| tstats `security_content_summariesonly` max(_time)
+        as lastTime from datamodel=Updates where Updates.status=Installed Updates.vendor_product="Microsoft
         Windows" by Updates.dest Updates.status Updates.vendor_product | rename Updates.dest
         as Host | rename Updates.status as "Update Status" | rename Updates.vendor_product
-        as Product | eval isOutlier=if(latestTime <= relative_time(now(), "-60d@d"),
-        1, 0)  | `ctime(latestTime)`  | search isOutlier=1 | rename latestTime as
+        as Product | eval isOutlier=if(lastTime <= relative_time(now(), "-60d@d"),
+        1, 0)  | `security_content_ctime(lastTime)`  | search isOutlier=1 | rename lastTime as
         "Last Update Time", | table Host, "Update Status", Product, "Last Update Time"'
       suppress:
         suppress_fields: dest

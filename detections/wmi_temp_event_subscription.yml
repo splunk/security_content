@@ -32,7 +32,7 @@ detect:
         'wsmprovhost.exe'" AND query!="SELECT * FROM __InstanceOperationEvent WHERE
         TargetInstance ISA 'AntiVirusProduct' OR TargetInstance ISA 'FirewallProduct'
         OR TargetInstance ISA 'AntiSpywareProduct'" | stats count min(_time) as firstTime
-        max(_time) as lastTime by ComputerName, query  | `ctime(firstTime)`| `ctime(lastTime)`
+        max(_time) as lastTime by ComputerName, query  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
       suppress:
         suppress_fields: dest,user
         suppress_period: 28800s

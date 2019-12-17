@@ -40,7 +40,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
+      search: '| tstats `security_content_summariesonly` earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
         as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run by
         Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup append=t
         previously_seen_cloud_compute_creations_by_user  | stats min(firstTime) as
@@ -48,7 +48,7 @@ detect:
         [| table src_user, firstTime, lastTime | outputlookup previously_seen_cloud_compute_creations_by_user
         | where fact=fiction][| eval new_user=if(firstTime >= relative_time(now(),
         `previously_seen_cloud_compute_creations_by_user_search_window_begin_offset`), 1, 0)
-        | where new_user=1 | convert ctime(firstTime) ctime(lastTime)]
+        | where new_user=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
         | table src_user, dest, firstTime, lastTime'
       suppress:
         suppress_fields: src_user, dest

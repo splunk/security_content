@@ -30,7 +30,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count, values(DNS.dest) AS dest dc(DNS.dest)
+      search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest dc(DNS.dest)
         as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
         by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count
         > 5'

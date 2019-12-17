@@ -14,6 +14,8 @@ args = {% for arg in macro.arguments %}{{ arg }}{{ ", " if not loop.last }}
 {% endif %}
 {% if macro.definition is defined %}
 definition = {{ macro.definition }}
+{% else %}
+definition =
 {% endif %}
 description = {{ macro.description }}
 

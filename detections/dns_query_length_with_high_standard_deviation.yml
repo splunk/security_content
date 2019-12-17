@@ -29,7 +29,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count from datamodel=Network_Resolution by
+      search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution by
         DNS.query DNS.record_type |  `drop_dm_object_name("DNS")` | eval query_length
         = len(query) | table query query_length record_type count | eventstats stdev(query_length)
         AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)

@@ -32,8 +32,8 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype=aws:cloudtrail `securityGroupAPIs` [search sourcetype=aws:cloudtrail
-        `securityGroupAPIs` | spath output=arn path=userIdentity.arn | stats count
+      search: sourcetype=aws:cloudtrail `security_group_api_calls` [search sourcetype=aws:cloudtrail
+        `security_group_api_calls` | spath output=arn path=userIdentity.arn | stats count
         as apiCalls by arn | inputlookup security_group_activity_baseline append=t
         | fields - latestCount | stats values(*) as * by arn | rename apiCalls as
         latestCount | eval newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720
@@ -99,7 +99,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   the mean that the value must be to be considered a spike.This search works best
   when you run the "Baseline of Security Group Activity by ARN" support search once
   to create a history of previously seen Security Group Activity. To add or remove
-  API event names for security groups, edit the macro `securityGroupAPIs`.
+  API event names for security groups, edit the macro `security_group_api_calls`.
 id: ada0f478-84a8-4641-a3f1-e32372d4bd53
 investigations:
   - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
