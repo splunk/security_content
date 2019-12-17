@@ -36,9 +36,9 @@ detect:
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
-eli5: dbgcore.dll is a specifc dll for windows core debugging. It is used to obatain a memory dumping of a process.
+eli5: dbgcore.dll is a specifc dll for windows core debugging. It is used to obtain a memory dump of a process.
   This search detects the usage of this dll for creating a memory dump of LSASS process. Memory dumps of the lsass process
-  through for example task manager or procdump is detected with this search.
+  can be created with tools such as task manager or procdump.
 entities:
   - dest
 how_to_implement: 'This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 10 for lsass.exe'

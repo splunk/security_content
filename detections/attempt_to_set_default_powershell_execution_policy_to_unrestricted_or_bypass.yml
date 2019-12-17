@@ -46,8 +46,7 @@ eli5: This search looks for changes of the ExecutionPolicy in the registry. The 
   is a safetly feature that controls the conditions under which PowerShell loads configuration
   files and runs scripts. Usually, the ExecutionPolicy is Restricted for Windows Clients and
   RemoteSigned for Windows Servers, allowing only certian scripts to run. This search detects,
-  when an attacker set the ExecutionPolicy to Unrestricted or Bypass, which allows to run any
-  Powershell script.
+  when an attacker set the ExecutionPolicy to Unrestricted or Bypass.
 entities:
   - dest
 how_to_implement: You must be ingesting data that records process activity from your

@@ -38,7 +38,7 @@ detect:
         suppress_period: 86400s
 eli5: This search detects unsigned images loaded by LSASS (Local Security Authrity Subsystem Service).
   Normally, LSASS only loads signed images. Therefore, it is a malicious indicator when unsigned images are loaded by LSASS.
-  This can be an indicator for credential dumping using tools like Windows Credentail Editor.
+  This can be an indicator for credential dumping using tools like Windows Credential Editor.
 entities:
   - dest
 how_to_implement: 'This search needs Sysmon Logs with a sysmon configuration, which includes EventCode 7 with lsass.exe'
