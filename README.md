@@ -87,7 +87,7 @@ Tools that help with testing CI jobs:
 2. To test a local change to CircleCI or build, make sure you are running Docker, then enter
 `circleci local execute -e GITHUB_TOKEN=$GITHUB_TOKEN --branch <your branch>`.
 
-#### Generate Docs from Schema 
+##### Generate Docs from Schema 
 To automatically generate docs from schema:
 
 1. Install https://github.com/adobe/jsonschema2md.
