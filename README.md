@@ -7,13 +7,11 @@
 | develop| [![develop status](https://circleci.com/gh/splunk/security-content/tree/develop.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/develop)|
 | master | [![master status](https://circleci.com/gh/splunk/security-content/tree/master.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/master)|
 
-The Splunk Security Content Exchange was designed to bring the community together to improve our collective defenses. By sharing research and analytics, we can help the entire industry craft more effective strategies. This project provides a mechanism to facilitate this exchange. 
+Welcome to the Splunk Security Research Team's Security Content Exchange! 
 
-The repo includes a collection of security guides called Analytic Stories that provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats. 
+This project gives you access to our repository of Analytic Stories--themed security guides that contain that provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats. 
 
-You can set this tool to run [detections and automatically](https://github.com/splunk/analytic_story_execution) funnel the results to investigations, reducing the need for manual intervention. When available, you can automatically trigger reponses, as well. The alerts you'll get include context (history, correlations, etc.), so they help you better understand their importance. The net effect is a more efficient workflow, as well as more comprehensive, effective defenses.
-
-Follow the instructions below to get started.
+While this content is available via Splunk Enterprise Security and Enterprise Security Content Updates (https://splunkbase.splunk.com/app/3449/), we have now made it available as an open-source project (which you just found--hi!). The Security Research Content Exchange was designed to bring the community together to improve our collective defenses. By sharing research and analytics, we can help the entire industry craft more effective strategies. This project provides a mechanism to facilitate this exchange. 
 
 
 # Usage
@@ -37,6 +35,11 @@ curl -s https://content.splunkresearch.com | jq
   ]
 }
 ```
+# How to Get Started
+
+While you you can configure each detection individually, the real power lies in running the Analytic Stories end-to-end. Using the Analytic Story Execution (ASX) app (https://github.com/splunk/analytic_story_execution), you can funnel the results to investigations, reducing the need for manual intervention. When available, you can automatically trigger reponses, as well. The alerts you'll get include context (history, correlations, etc.), so they help you better understand their importance. The net effect is a more efficient workflow, as well as more comprehensive, effective defenses.
+
+Follow the instructions below to get started.
 
 # What's in an Analytic Story?
 [Analytic Stories](https://github.com/splunk/security-content/blob/develop/docs/stories_categories.md) and their corresponding searches are composed of **.yml** files (manifests) and associated .conf files. The stories reside in [/stories](https://github.com/splunk/security-content/tree/develop/stories) and the searches live in [/detections](https://github.com/splunk/security-content/tree/develop/detections). 
@@ -44,11 +47,11 @@ curl -s https://content.splunkresearch.com | jq
 Manifests contain a number of mandatory and optional fields. You can see the full field list for each piece of content [here](https://github.com/splunk/security-content/tree/develop/docs#spec-documentation).
 
 # Writing Content
-First, make sure to follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing) before you begin. 
+Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing). 
 
 1. Select the content [piece](https://github.com/splunk/security-content#content-parts) you want to write. 
 2. Copy an example and edit it to suit your needs. At a minimum, you must write a [story](stories/), [a detection search](detections/), and an [investigative search](investigations/).
-3. Make a pull request. If Circle CI fails, refer to [troubleshooting](https://github.com/splunk/security-content#troubleshooting).
+3. Make a pull request. The pull request will trigger CircleCI, a continuous-integration app thatintegrates with a VCS and automatically runs a series of steps every time that it detects a change to your repository. A CircleCI build consists of a series of steps, usually Dependencies, Testing, and Deployment. If your tests pass, you're good to go! If the CircleCI check fails, refer to [troubleshooting](https://github.com/splunk/security-content#troubleshooting).  
 
 For a more detailed explanation on how to contribute to the project, please see ["Contributing"](#Contributing)
 
@@ -97,7 +100,7 @@ To automatically generate docs from schema:
 3. [CI](https://github.com/splunk/security-content/blob/44946063173f7bc9921f0da0aa62139c084d1c51/.circleci/config.yml#L107) builds a DA-ESS-ContentUpdate Splunk package using the [Splunk Packaging Toolkit](http://dev.splunk.com/view/packaging-toolkit/SP-CAAAE9V). 
 4. [CI](https://github.com/splunk/security-content/blob/44946063173f7bc9921f0da0aa62139c084d1c51/.circleci/config.yml#L145) tests the newly produced package using [Splunk Appinspect](http://dev.splunk.com/view/appinspect/SP-CAAAE9U).
 
-* note that [requirements.txt](https://github.com/splunk/security-content/blob/develop/requirements.txt) hardcodes the versions for packages we use [dependabot](https://dependabot.com/) to make sure we safely always upgrade to the latest versions. 
+* note that [requirements.txt](https://github.com/splunk/security-content/blob/develop/requirements.txt) hard codes the versions for packages we use [dependabot](https://dependabot.com/) to make sure we safely always upgrade to the latest versions. 
 
 ## Support
 Please use the [GitHub Issue Tracker](https://github.com/splunk/security-content/issues) to submit bugs or request features.
