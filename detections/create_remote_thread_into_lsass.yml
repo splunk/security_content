@@ -22,17 +22,17 @@ detect:
           - system
         risk_score: 70
       macros:
-        - create_remote_thread_into_lsass_input_filter
-        - create_remote_thread_into_lsass_output_filter
+        - wineventlog_sysmon
+        - create_remote_thread_into_lsass_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '`create_remote_thread_into_lsass_input_filter` source="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventID=8 TargetImage=*lsass.exe
+      search: '`wineventlog_sysmon` EventID=8 TargetImage=*lsass.exe
         | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventCode, TargetImage, TargetProcessId
         | rename Computer as dest
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-        | `create_remote_thread_into_lsass_output_filter`'
+        | `create_remote_thread_into_lsass_filter`'
       suppress:
         suppress_fields: dest, TargetProcessId
         suppress_period: 86400s

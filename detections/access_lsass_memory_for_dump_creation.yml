@@ -32,7 +32,7 @@ detect:
         | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage, TargetProcessId, SourceImage, SourceProcessId
         | rename Computer as dest
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-        | `access_lsass_memory_for_dump_creation_filter`'
+        | `access_lsass_memory_for_dump_creation_filter` '
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
