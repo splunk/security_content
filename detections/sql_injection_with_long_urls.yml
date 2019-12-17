@@ -27,7 +27,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count from datamodel=Web where Web.dest_category=web_server
+      search: '| tstats `security_content_summariesonly` count from datamodel=Web where Web.dest_category=web_server
         AND (Web.url_length > 1024 OR Web.http_user_agent_length > 200) by Web.src
         Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name("Web")`
         | eval num_sql_cmds=mvcount(split(url, "alter%20table")) + mvcount(split(url,

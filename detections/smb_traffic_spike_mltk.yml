@@ -31,7 +31,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(All_Traffic.dest_ip) as dest
+      search: '| tstats `security_content_summariesonly` count values(All_Traffic.dest_ip) as dest
         values(All_Traffic.dest_port) as port from datamodel=Network_Traffic where
         All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb
         by _time span=1h, All_Traffic.src | eval HourOfDay=strftime(_time, "%H") |

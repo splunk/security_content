@@ -4,7 +4,7 @@ baseline:
       cron_schedule: ''
       earliest_time: -30d@d
       latest_time: -10m@m
-    search: '| tstats `summariesonly` count from datamodel=Endpoint.Processes where
+    search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where
       Processes.process_name="*mstsc.exe*" by Processes.dest Processes.process_name
       | `drop_dm_object_name(Processes)` | sort - count'
 creation_date: '2017-04-18'

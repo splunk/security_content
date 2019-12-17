@@ -27,8 +27,8 @@ investigate:
       latest_time: '0'
     search: '| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com
       OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time)
-      as lastTime values(dest) values(src) by src_user recipient | `ctime(firstTime)`
-      | `ctime(lastTime)`'
+      as lastTime values(dest) values(src) by src_user recipient | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
 maintainers:
   - company: Splunk
     email: bpatel@splunk.com

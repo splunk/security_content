@@ -30,7 +30,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -7d@d
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count FROM datamodel=Endpoint.Filesystem where
+      search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where
         Filesystem.action=created by _time span=1h, Filesystem.dest | `drop_dm_object_name(Filesystem)`
         | eventstats max(_time) as maxtime | stats count as num_data_samples max(eval(if(_time
         >= relative_time(maxtime, "-1d@d"), count, null))) as "count" avg(eval(if(_time<relative_time(maxtime,

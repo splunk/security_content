@@ -29,10 +29,10 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count values(All_Email.recipient) as recipient_address
+      search: '| tstats `security_content_summariesonly` count values(All_Email.recipient) as recipient_address
         min(_time) as firstTime max(_time) as lastTime from datamodel=Email where
         All_Email.file_name="*" by All_Email.src_user, All_Email.file_name All_Email.message_id
-        | `ctime(firstTime)` | `ctime(lastTime)` | `drop_dm_object_name("All_Email")`
+        | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")`
         | eval space_ratio = (mvcount(split(file_name," "))-1)/len(file_name) | search
         space_ratio >= 0.1 |  rex field=recipient_address "(?<recipient_user>.*)@"'
       suppress:

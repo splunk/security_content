@@ -29,11 +29,11 @@ detect:
         cron_schedule: 0 0 * * *
         earliest_time: -30d@d
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count earliest(_time) as earliest latest(_time)
+      search: '| tstats `security_content_summariesonly` count earliest(_time) as earliest latest(_time)
         as latest from datamodel=Authentication where Authentication.dest_category=router
         by Authentication.dest Authentication.user| eval isOutlier=if(earliest >=
-        relative_time(now(), "-30d@d"), 1, 0) | where isOutlier=1| `ctime(earliest)`|
-        `ctime(latest)` | `drop_dm_object_name("Authentication")`'
+        relative_time(now(), "-30d@d"), 1, 0) | where isOutlier=1| `security_content_ctime(earliest)`|
+        `security_content_ctime(latest)` | `drop_dm_object_name("Authentication")`'
       suppress:
         suppress_fields: dest,user
         suppress_period: 86400s

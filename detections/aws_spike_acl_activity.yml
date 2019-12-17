@@ -31,8 +31,8 @@ detect:
         cron_schedule: 10 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype=aws:cloudtrail `NetworkACLEvents` [search sourcetype=aws:cloudtrail
-        `NetworkACLEvents` | spath output=arn path=userIdentity.arn | stats count
+      search: sourcetype=aws:cloudtrail `network_acl_events` [search sourcetype=aws:cloudtrail
+        `network_acl_events` | spath output=arn path=userIdentity.arn | stats count
         as apiCalls by arn | inputlookup network_acl_activity_baseline append=t |
         fields - latestCount | stats values(*) as * by arn | rename apiCalls as latestCount
         | eval newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720 | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls,
@@ -98,7 +98,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   the mean that the value must be to be considered a spike. This search works best
   when you run the "Baseline of Network ACL Activity by ARN" support search once to
   create a lookup file of previously seen Network ACL Activity. To add or remove API
-  event names related to network ACLs, edit the macro `NetworkACLEvents`.
+  event names related to network ACLs, edit the macro `network_acl_events`.
 id: ada0f478-84a8-4641-a1f1-e32372d4bd53
 investigations:
   - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71

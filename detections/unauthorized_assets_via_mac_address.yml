@@ -36,7 +36,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `summariesonly` count from datamodel=Network_Sessions where
+      search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions where
         nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip
         All_Sessions.src_mac | dedup All_Sessions.src_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
         | search NOT [| inputlookup asset_lookup_by_str |rename mac as src_mac | fields

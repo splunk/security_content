@@ -4,7 +4,7 @@ baseline:
       cron_schedule: ''
       earliest_time: -30d@d
       latest_time: -10m@m
-    search: '| tstats `summariesonly` dc(Updates.dest) as count FROM datamodel=Updates
+    search: '| tstats `security_content_summariesonly` dc(Updates.dest) as count FROM datamodel=Updates
       where Updates.vendor_product="Microsoft Windows" AND Updates.status=failure
       by _time span=1d'
 creation_date: '2017-08-24'
