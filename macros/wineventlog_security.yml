@@ -1,3 +1,2 @@
-definition: 
 description: customer specific splunk configurations(eg- index, source, sourcetype) for Windows Sysmon Logs
 name: wineventlog_security
