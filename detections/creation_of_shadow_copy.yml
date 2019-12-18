@@ -22,7 +22,7 @@ detect:
           - user
         risk_score: 60
       macros:
-        - creation_of_shadow_copy
+        - creation_of_shadow_copy_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
