@@ -54,9 +54,8 @@ investigations:
   - id: 990007ad-d798-4b29-ab2f-f0034144c937
     name: Investigate Pass the Ticket Attempts
     type: splunk
-known_false_positives: The activity may be legitimate. Other tools can access LSASS
-  for legitimate reasons and generate an event. In these cases, false positives should be fairly obvious and you
-  may need to tweak the search to eliminate noise.
+known_false_positives: Other tools can access LSASS for legitimate reasons and generate an event. In these cases, false positives should be fairly obvious and you
+  may require tweaking the search to eliminate noise.
 maintainers:
   - company: Splunk
     email: pbareiss@splunk.com
