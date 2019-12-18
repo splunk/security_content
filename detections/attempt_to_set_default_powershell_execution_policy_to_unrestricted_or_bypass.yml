@@ -12,8 +12,7 @@ data_metadata:
     - Sysmon
     - Tanium
     - Ziften
-description: This search looks for changes of the ExecutionPolicy in the registry to them
-  values "Unrestricted" or "Bypass", which allows the execution of malicious scripts.
+description: This search looks for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
 detect:
   splunk:
     correlation_rule:
@@ -43,19 +42,19 @@ detect:
         suppress_fields: process_name, dest
         suppress_period: 86400s
 eli5: This search looks for changes of the ExecutionPolicy in the registry. The ExecutionPolicy
-  is a safetly feature that controls the conditions under which PowerShell loads configuration
-  files and runs scripts. Usually, the ExecutionPolicy is Restricted for Windows Clients and
-  RemoteSigned for Windows Servers, allowing only certian scripts to run. This search detects,
-  when an attacker set the ExecutionPolicy to Unrestricted or Bypass.
+  is a safety feature that controls the conditions under which PowerShell loads configuration
+  files and runs scripts. Usually, the ExecutionPolicy is "Restricted" for Windows clients and
+  "RemoteSigned" for Windows Servers, allowing only certain scripts to run. This search detects
+  when an attacker sets the ExecutionPolicy to "Unrestricted" or "Bypass."
 entities:
   - dest
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Registry node. You must also be
-  ingesting logs with the fields registry_path, registry_key_name and registry_value_name from your endpoints.
+  ingesting logs with the fields registry_path, registry_key_name, and registry_value_name from your endpoints.
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
 known_false_positives: Administrators may attempt to change the default execution
   policy on a system for a variety of reasons. However, setting the policy to "Unrestricted" or "Bypass"
-  as this search is designed to identify would be unusual. Hits should be reviewed
+  as this search is designed to identify, would be unusual. Hits should be reviewed
   and investigated as appropriate.
 maintainers:
   - company: Splunk
