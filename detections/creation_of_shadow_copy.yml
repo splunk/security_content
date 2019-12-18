@@ -32,7 +32,7 @@ detect:
         OR (Processes.process_name=wmic.exe Processes.process=*shadowcopy* Processes.process=*create*)
         by Processes.dest Processes.user Processes.process_name Processes.process  Processes.parent_process Processes.process_id Processes.parent_process_id
         | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-        | `creation_of_shadow_copy`'
+        | `creation_of_shadow_copy_filter`'
       suppress:
         suppress_fields: process_name, dest
         suppress_period: 86400s
