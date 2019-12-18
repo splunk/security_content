@@ -8,7 +8,7 @@ data_metadata:
     - Windows Event Logs
   providing_technologies:
     - Microsoft Windows
-description: This search detects remote thread creation into LSASS consistent with credential dumping.
+description: Detect remote thread creation into LSASS consistent with credential dumping.
 detect:
   splunk:
     correlation_rule:
@@ -35,11 +35,11 @@ detect:
       suppress:
         suppress_fields: dest, TargetProcessId
         suppress_period: 86400s
-eli5: This search detects the creation of a remote thread into LSASS (Local Security Authrity Subsystem Service).
-  This technique is used by attacker to inject code into LSASS and dump the memory in order to obtain credentials.
+eli5: This search detects the creation of a remote thread into LSASS (Local Security Authority Subsystem Service).
+  This technique can be used by attackers to inject code into LSASS and dump the memory in order to obtain credentials.
 entities:
   - dest
-how_to_implement: 'This search needs Sysmon Logs with a sysmon configuration, which includes EventCode 8 with lsass.exe'
+how_to_implement: 'This search needs Sysmon Logs with a Sysmon configuration, which includes EventCode 8 with lsass.exe'
 id: 67d4dbef-9564-4699-8da8-03a151529edc
 investigations:
   - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
@@ -54,9 +54,8 @@ investigations:
   - id: 990007ad-d798-4b29-ab2f-f0034144c937
     name: Investigate Pass the Ticket Attempts
     type: splunk
-known_false_positives: The activity may be legitimate. Other tools can access lsass
-  for legitimate reasons, and it's possible this event could be generated
-  in those cases. In these cases, false positives should be fairly obvious and you
+known_false_positives: The activity may be legitimate. Other tools can access LSASS
+  for legitimate reasons and generate an event. In these cases, false positives should be fairly obvious and you
   may need to tweak the search to eliminate noise.
 maintainers:
   - company: Splunk
