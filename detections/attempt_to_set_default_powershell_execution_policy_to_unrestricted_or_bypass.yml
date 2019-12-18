@@ -12,7 +12,7 @@ data_metadata:
     - Sysmon
     - Tanium
     - Ziften
-description: This search looks for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
+description: Monitor for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
 detect:
   splunk:
     correlation_rule:
