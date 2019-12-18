@@ -2791,31 +2791,38 @@ Web
 ### Credential Dumping
 * id = `854d78bf-d0e2-4f4e-b05c-640905f86d7a`
 * creation_date = 2018-08-08
-* modification_date = 2018-08-08
-* version = 1.0
+* modification_date = 2019-12-11
+* version = 2.0
 * spec_version = 2
 
 ##### Description
-Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attmpts to dump credentials.
+Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
 
 ##### Narrative
 Credential dumping&#151;gathering credentials from a target system, often hashed or encrypted&#151;is a common attack technique. Even though the credentials may not be in plain text, an attacker can still exfiltrate the data and set to cracking it offline, on their own systems. The threat actors target a variety of sources to extract them, including the Security Accounts Manager (SAM), Local Security Authority (LSA), NTDS from Domain Controllers, or the Group Policy Preference (GPP) files.\
 Once attackers obtain valid credentials, they use them to move throughout a target network with ease, discovering new systems and identifying assets of interest. Credentials obtained in this manner typically include those of privileged users, which may provide access to more sensitive information and system operations.\
-The detection searches in this Analytic Story monitor for the process **reg.exe** with the "save" parameter, as well as for a target registry path that specifies a binary export of credentials from the registry. In addition, the analytics flag Windows events and activities associated with the use of Mimikatz functionality in Powershell Empire.
+The detection searches in this Analytic Story monitor access to the Local Security Authority Subsystem Service (LSASS) process, the usage of shadowcopies for credential dumping and some other techniques for credential dumping.
 
 ##### Detections
-* Attempt To Set Default PowerShell Execution Policy To Unrestricted
-* Attempted Credential Dump From Registry Via Reg.exe
-* Detect Mimikatz Via PowerShell And EventCode 4703
-* Detect Mimikatz Via PowerShell And EventCode 4663
+* Access LSASS Memory for Dump Creation
+* Create Remote Thread into LSASS
+* Detect Credential Dumping through LSASS access
+* Unsigned Image Loaded by LSASS
+* Attempted Credential Dump From Registry via Reg.exe
+* Detect Mimikatz Using Loaded Images
+* Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
+* Creation of Shadow Copy
+* Creation of Shadow Copy with wmic and powershell
+* Credential Dumping via Copy Command from Shadowcopy
+* Credential Dumping via Symlink to Shadowcopy
 
 ##### Providing Technologies
+* Microsoft Windows
 * Carbon Black Response
 * CrowdStrike Falcon
 * Sysmon
 * Tanium
 * Ziften
-* Microsoft Windows
 
 ##### Data Models
 Endpoint
@@ -2845,11 +2852,13 @@ Endpoint
 * name = Rico Valdez
 * email = Splunk
 * company = rvaldez@splunk.com
+* name = Patrick Bareiss
+* email = Splunk
+* company = pbareiss@splunk.com
 
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1003
-* https://www.powershellempire.com/?page_id=112
-* https://4iq.com/4iq-discovers-1-4-billion-clear-text-credentials-single-database/
+* https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
 
 ### DNS Hijacking
 * id = `8169f17b-ef68-4b59-aa28-586907301221`
@@ -3073,7 +3082,7 @@ In the event a system is suspected of having been compromised via a malicious we
 * Malicious PowerShell Process - Encoded Command
 * Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments
 * Malicious PowerShell Process With Obfuscation Techniques
-* Attempt To Set Default PowerShell Execution Policy To Unrestricted
+* Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 
 ##### Providing Technologies
 * Carbon Black Response
