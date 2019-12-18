@@ -8,13 +8,13 @@ data_metadata:
     - Windows Event Logs
   providing_technologies:
     - Microsoft Windows
-description: This search detects the use of wmic and powershell to create a shadow copy.
+description: This search detects the use of wmic and Powershell to create a shadow copy.
 detect:
   splunk:
     correlation_rule:
       notable:
         nes_fields: user, dest
-        rule_description: An attempt to create a shadow copy with wmic and powershell was detected on $dest$.
+        rule_description: An attempt to create a shadow copy with wmic and Powershell was detected on $dest$.
         rule_title: Attempted Credential Dump of ntds.dit on $dest$
       risk:
         risk_object: user
@@ -36,11 +36,11 @@ detect:
         suppress_fields: dest
         suppress_period: 86400s
 eli5: The ntds.dit file contains the Active Directory (AD) database. This file can't be copied directly.
-  That's why attacker create first a shadow copy and then exfiltrate the file. This search detects the creation
-  of a shadow copy using wmic, which is executed by powershell.
+  That's why attackers create a shadow copy before exfiltrating the file. This search detects the creation
+  of a shadow copy using wmic, which is executed by Powershell.
 entities:
   - dest
-how_to_implement: You must enable powershell scriptblock logging in order to detect this attack.
+how_to_implement: You must enable Powershell scriptblock logging in order to detect this attack.
 id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
 investigations:
   - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
@@ -55,7 +55,7 @@ investigations:
   - id: 990007ad-d798-4b29-ab2f-f0034144c937
     name: Investigate Pass the Ticket Attempts
     type: splunk
-known_false_positives: Legtimate administrator usage of wmic to create a shadowcopy
+known_false_positives: Legtimate administrator usage of wmic to create a shadow copy.
 maintainers:
   - company: Splunk
     email: pbareiss@splunk.com

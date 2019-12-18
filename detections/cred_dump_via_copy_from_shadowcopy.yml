@@ -35,8 +35,8 @@ detect:
       suppress:
         suppress_fields: user, dest, process
         suppress_period: 86400s
-eli5: The files system, security, sam and ntds.dit containing sensitive credentials. Normally, the files can't be easily copied.
-  But it is possible by creating first a shadowcopy and then copy it from the shadowcopy. This search will detect this attack of
+eli5: The file system, security, sam and ntds.dit containing sensitive credentials. Normally, the files can't be easily copied.
+  But it is possible by creating first a shadow copy and then copy it from the shadow copy. This search will detect this attack of
   credential dumping.
 entities:
   - dest
@@ -75,7 +75,7 @@ mappings:
   nist:
     - DE.CM
 modification_date: '2019-12-10'
-name: Credential Dumping via Copy Command from Shadowcopy
+name: Credential Dumping via Copy Command from Shadow Copy
 original_authors:
   - company: Splunk
     email: pbareiss@splunk.com
