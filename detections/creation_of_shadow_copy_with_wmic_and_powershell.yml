@@ -19,16 +19,16 @@ detect:
       risk:
         risk_object: user
         risk_object_type:
-          - system
+          - user
         risk_score: 30
       macros:
-        - wineventlog_sysmon
+        - sysmon
         - creation_of_shadow_copy_with_wmic_and_powershell_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '`wineventlog_sysmon` Message=*win32_shadowcopy* Message=*Create*
+      search: '`sysmon` Message=*win32_shadowcopy* Message=*Create*
         | stats count min(_time) as firstTime max(_time) as lastTime by dvc User EventCode Message
         | rename User as user, dvc as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
         | `creation_of_shadow_copy_with_wmic_and_powershell_filter` '

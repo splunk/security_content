@@ -22,13 +22,13 @@ detect:
           - system
         risk_score: 70
       macros:
-        - wineventlog_sysmon
+        - sysmon
         - access_lsass_memory_for_dump_creation_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '`wineventlog_sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll*
+      search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll*
         | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage, TargetProcessId, SourceImage, SourceProcessId
         | rename Computer as dest
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

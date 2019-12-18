@@ -15,11 +15,13 @@ investigate:
   splunk:
     fields_required:
       - dest
+    macros:
+      - wineventlog_security
     schedule:
       cron_schedule: ''
       earliest_time: '-24h'
       latest_time: 'now'
-    search: 'source=XmlWinEventLog:Security EventCode=4768 OR EventCode=4769
+    search: '`wineventlog_security` EventCode=4768 OR EventCode=4769
       | rex field=user "(?<new_user>[^\@]+)"
       | stats count BY new_user, dest, EventCode
       | stats max(count) AS max_count sum(count) AS sum_count BY new_user, dest

@@ -1,3 +1,0 @@
-definition: fillnull
-description: Use this macro to add additional filter for creation of shadow copy with wmic
-name: creation_of_shadow_copy_with_wmic_filter

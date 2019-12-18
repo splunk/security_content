@@ -22,13 +22,13 @@ detect:
           - system
         risk_score: 40
       macros:
-        - wineventlog_sysmon
+        - sysmon
         - detect_mimikatz_using_loaded_images_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '`wineventlog_sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId) as ProcessId by Computer, Image
+      search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId) as ProcessId by Computer, Image
         | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll
         | rename Computer as dest
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_mimikatz_using_loaded_images_filter`'

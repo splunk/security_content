@@ -19,7 +19,7 @@ detect:
       risk:
         risk_object: user
         risk_object_type:
-          - system
+          - user
         risk_score: 40
       macros:
         - cred_dump_via_copy_from_shadowcopy_filter

@@ -15,11 +15,13 @@ investigate:
   splunk:
     fields_required:
       - dest
+    macros:
+      - wineventlog_security
     schedule:
       cron_schedule: ''
       earliest_time: '-24h'
       latest_time: 'now'
-    search: 'source=XmlWinEventLog:Security EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate
+    search: '`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate
       | stats count earliest(_time) as first_login latest(_time) as last_login by src_user dest
       | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`'
 maintainers:
