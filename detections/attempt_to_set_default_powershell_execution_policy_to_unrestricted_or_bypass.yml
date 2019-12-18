@@ -53,7 +53,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   ingesting logs with the fields registry_path, registry_key_name, and registry_value_name from your endpoints.
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
 known_false_positives: Administrators may attempt to change the default execution
-  policy on a system for a variety of reasons. However, setting the policy to "Unrestricted" or "Bypass"
+  policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass"
   as this search is designed to identify, would be unusual. Hits should be reviewed
   and investigated as appropriate.
 maintainers:
