@@ -1,0 +1,39 @@
+creation_date: '2019-12-10'
+data_metadata:
+  data_eventtypes:
+    - wineventlog_security
+  data_source:
+    - Windows Event Logs
+  providing_technologies:
+    - Microsoft Windows
+description: This search hunts for dumped NTLM hashes used for pass the hash.
+entities:
+  - dest
+how_to_implement: To successfully implement this search you need be ingesting windows security logs.
+id: ed3fff45-cba6-4990-983f-6fac72bee659
+investigate:
+  splunk:
+    fields_required:
+      - dest
+    macros:
+      - wineventlog_security
+    schedule:
+      cron_schedule: ''
+      earliest_time: '-24h'
+      latest_time: 'now'
+    search: '`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate
+      | stats count earliest(_time) as first_login latest(_time) as last_login by src_user dest
+      | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`'
+maintainers:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+modification_date: '2019-12-10'
+name: Investigate Pass the Hash Attempts
+original_authors:
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
+spec_version: 2
+type: splunk
+version: '1.0'

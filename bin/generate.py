@@ -124,31 +124,32 @@ def identify_next_steps(detections, investigations):
                 investigations_output = ""
                 has_phantom = False
                 next_steps = ""
-                for i in detection['investigations']:
-                    if i['type'] == 'splunk':
-                        investigations_output += "ESCU - {0}\\n".format(i['name'])
-                        next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n"
-                        next_steps += "1.[[action|escu_investigate]]: Based on ESCU investigate \
-                                        recommendations:\\          n%s\"}" % investigations_output
-                    if i['type'] == 'phantom':
-                        has_phantom = True
+                if 'investigations' in detection:
+                    for i in detection['investigations']:
+                        if i['type'] == 'splunk':
+                            investigations_output += "ESCU - {0}\\n".format(i['name'])
+                            next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n"
+                            next_steps += "1.[[action|escu_investigate]]: Based on ESCU investigate \
+                                            recommendations:\\          n%s\"}" % investigations_output
+                        if i['type'] == 'phantom':
+                            has_phantom = True
 
-                        # lets pull the playbook URL out from investigation object
-                        playbook_url = ''
-                        for inv in investigations:
-                            if i['name'] == inv['name']:
-                                playbook_url = inv['investigate']['phantom']['playbook_url']
-                        # construct next steps with the playbook info
-                        playbook_next_steps_string = "Splunk>Phantom Response Playbook - Monitor enrichment of the \
-                            Splunk>Phantom Playbook called " + str(i['name']) + " and answer any \
-                            analyst prompt in Mission Control with a response decision. \
-                            Link to the playbook " + str(playbook_url)
-                        next_steps = "{\"version\": 1, \"data\": \"Recommended following"
-                        next_steps += ":\\n\\n1. [[action|runphantomplaybook]]: Phantom playbook "
-                        next_steps += "recommendations:\\n%s\\n2. [[action|escu_investigate]]: " % (playbook_next_steps_string)
-                        next_steps += "Based on ESCU investigate recommendations:\\n%s\"}" % (investigations_output)
-                if has_phantom:
-                    detection['recommended_actions'] = 'runphantomplaybook, escu_investigate'
+                            # lets pull the playbook URL out from investigation object
+                            playbook_url = ''
+                            for inv in investigations:
+                                if i['name'] == inv['name']:
+                                    playbook_url = inv['investigate']['phantom']['playbook_url']
+                            # construct next steps with the playbook info
+                            playbook_next_steps_string = "Splunk>Phantom Response Playbook - Monitor enrichment of the \
+                                Splunk>Phantom Playbook called " + str(i['name']) + " and answer any \
+                                analyst prompt in Mission Control with a response decision. \
+                                Link to the playbook " + str(playbook_url)
+                            next_steps = "{\"version\": 1, \"data\": \"Recommended following"
+                            next_steps += ":\\n\\n1. [[action|runphantomplaybook]]: Phantom playbook "
+                            next_steps += "recommendations:\\n%s\\n2. [[action|escu_investigate]]: " % (playbook_next_steps_string)
+                            next_steps += "Based on ESCU investigate recommendations:\\n%s\"}" % (investigations_output)
+                    if has_phantom:
+                        detection['recommended_actions'] = 'runphantomplaybook, escu_investigate'
         enriched_detections.append(detection)
 
     return enriched_detections

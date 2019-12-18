@@ -80,13 +80,13 @@ jobs:
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
       - run:
-          name: check for broken links using liche 
+          name: check for broken links using liche
           command: |
             echo 'export GOROOT=~/.go' >> $BASH_ENV
             echo 'export PATH=$GOROOT/bin:$PATH' >> $BASH_ENV
             echo 'export GOPATH=~/go' >> $BASH_ENV
             echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
-            echo 'export GO111MODULE="on"' >> $BASH_ENV 
+            echo 'export GO111MODULE="on"' >> $BASH_ENV
             source $BASH_ENV
             go get -u github.com/raviqqe/liche
             cd security-content

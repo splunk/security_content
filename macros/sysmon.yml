@@ -1,0 +1,3 @@
+definition: index=win source="WinEventLog:Microsoft-Windows-Sysmon/Operational"
+description: customer specific splunk configurations for Windows Sysmon Logs
+name: sysmon
