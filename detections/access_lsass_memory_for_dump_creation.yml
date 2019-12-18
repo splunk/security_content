@@ -8,7 +8,7 @@ data_metadata:
     - Windows Event Logs
   providing_technologies:
     - Microsoft Windows
-description: This search detects memory dumping of the LSASS process.
+description: Detect memory dumping of the LSASS process.
 detect:
   splunk:
     correlation_rule:
@@ -36,12 +36,12 @@ detect:
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
-eli5: dbgcore.dll is a specifc dll for windows core debugging. It is used to obtain a memory dump of a process.
-  This search detects the usage of this dll for creating a memory dump of LSASS process. Memory dumps of the lsass process
-  can be created with tools such as task manager or procdump.
+eli5: dbgcore.dll is a specifc DLL for Windows core debugging. It is used to obtain a memory dump of a process.
+  This search detects the usage of this DLL for creating a memory dump of LSASS process. Memory dumps of the LSASS process
+  can be created with tools such as Windows Task Manager or procdump.
 entities:
   - dest
-how_to_implement: 'This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 10 for lsass.exe'
+how_to_implement: 'This search needs Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe'
 id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 investigations:
   - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
@@ -56,8 +56,7 @@ investigations:
   - id: 990007ad-d798-4b29-ab2f-f0034144c937
     name: Investigate Pass the Ticket Attempts
     type: splunk
-known_false_positives: Administrator can create memory dumps for debugging purposes.
-  But creating a memory dump of the lsass process is not usual.
+known_false_positives: Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual.
 maintainers:
   - company: Splunk
     email: pbareiss@splunk.com
