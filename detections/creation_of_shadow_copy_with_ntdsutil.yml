@@ -8,13 +8,13 @@ data_metadata:
     - Endpoint Intel
   providing_technologies:
     - Sysmon
-description: This search detects the use of ntdsutil to create a shadow copy.
+description: This search detects the use of Ntdsutil to create a shadow copy.
 detect:
   splunk:
     correlation_rule:
       notable:
         nes_fields: user, dest, process_name, process
-        rule_description: An attempt to create a shadow copy with ntdsutil was detected on $dest$.
+        rule_description: An attempt to create a shadow copy with Ntdsutil was detected on $dest$.
         rule_title: Attempted Credential Dump of ntds.dit from $user$
       risk:
         risk_object: user
@@ -36,12 +36,12 @@ detect:
         suppress_fields: process_name, dest
         suppress_period: 86400s
 eli5: The ntds.dit file contains the Active Directory (AD) database. This file can't be copied directly.
-  That's why attacker create first a shadow copy and then exfiltrate the file. This search detects the creation
-  of a shadow copy using ntdsutil.
+  That's why attackers will first create a shadow copy and then exfiltrate the file. This search detects the creation
+  of a shadow copy using Ntdsutil.
 entities:
   - dest
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
+  including parent-child relationships from your endpoints, to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
   field in the Endpoint data model.
 id: 721a5ccf-a0e7-4eb0-a7b5-127c0f4cc6b3
@@ -58,7 +58,7 @@ investigations:
   - id: 990007ad-d798-4b29-ab2f-f0034144c937
     name: Investigate Pass the Ticket Attempts
     type: splunk
-known_false_positives: Legtimate administrator usage of ntdsutil
+known_false_positives: Legtimate administrator usage of Ntdsutil will create false positives.
 maintainers:
   - company: Splunk
     email: pbareiss@splunk.com
