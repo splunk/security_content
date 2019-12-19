@@ -1,2 +1,3 @@
-description: customer specific splunk configurations(eg- index, source, sourcetype) for Windows Sysmon Logs
+definition: source="WinEventLog:Microsoft-Windows-Sysmon/Operational"
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Windows Sysmon Logs. Replace the macro definition with configurations for your Splunk Environmnent.
 name: sysmon
