@@ -297,9 +297,15 @@ jobs:
       - aws-cli/setup:
           profile-name: default
       - run: 
-          name: list dir
+          name: update api sources
           command: |
-            aws s3 ls s3://security-content 
+            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp investigations s3://security-content/investigations --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
 workflows:
   version: 2.1
   validate-and-build:
