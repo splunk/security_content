@@ -281,7 +281,7 @@ jobs:
           root: ~/repo/updated
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
-  aws-cli-example:
+  update-api:
     executor: aws-cli/default
     steps:
       - checkout
@@ -296,9 +296,7 @@ jobs:
       - run: *apt-install
       - aws-cli/setup:
           profile-name: default
-      - run: echo "Run your code here"
-
-
+      - run: aws s3 ls s3://security-content 
 workflows:
   version: 2.1
   validate-and-build:
@@ -351,7 +349,13 @@ workflows:
             - build-package
             - run-appinspect
             - update-sources-github
-      - aws-cli-example:
+        # update package and docs in github if is a tag
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - update-api:
           requires:
             - validate-content
           filters:
