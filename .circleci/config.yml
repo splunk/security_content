@@ -296,7 +296,10 @@ jobs:
       - run: *apt-install
       - aws-cli/setup:
           profile-name: default
-      - run: aws s3 ls s3://security-content 
+      - run: 
+          name: list dir
+          command: |
+            aws s3 ls s3://security-content 
 workflows:
   version: 2.1
   validate-and-build:
