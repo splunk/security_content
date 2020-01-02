@@ -4,6 +4,8 @@
 #
 
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.19
 
 dependencies:
   cache_directories:
@@ -275,6 +277,28 @@ jobs:
           command: |
             mv ~/repo/updated/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+      - persist_to_workspace:
+          root: ~/repo/updated
+          paths:
+              - DA-ESS-ContentUpdate-latest.tar.gz
+  aws-cli-example:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - aws-cli/setup:
+          profile-name: default
+      - run: echo "Run your code here"
+
+
 workflows:
   version: 2.1
   validate-and-build:
@@ -327,9 +351,9 @@ workflows:
             - build-package
             - run-appinspect
             - update-sources-github
-        # only release when there is a tag
+      - aws-cli-example:
+          requires:
+            - validate-content
           filters:
             tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+              only: /.*/
