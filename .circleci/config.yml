@@ -281,7 +281,7 @@ jobs:
           root: ~/repo/updated
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
-  update-api:
+  master-api-update:
     executor: aws-cli/default
     steps:
       - checkout
@@ -364,7 +364,7 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-      - update-api:
+      - master-api-update:
           requires:
             - validate-content
           filters:
