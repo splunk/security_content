@@ -307,10 +307,6 @@ jobs:
           command: |
             mv ~/repo/updated/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
-      - persist_to_workspace:
-          root: ~/repo/updated
-          paths:
-              - DA-ESS-ContentUpdate-latest.tar.gz
   master-api-update:
     executor: aws-cli/default
     steps:
