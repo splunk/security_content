@@ -388,8 +388,6 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-            branches:
-              ignore: /.*/
       - publish-github-release:
         # publish release in github if is a tag
           requires:
@@ -401,8 +399,6 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-            branches:
-              ignore: /.*/
       - master-api-update:
         # update master API from develop if is a tag
           requires:
@@ -415,5 +411,3 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-            branches:
-              ignore: /.*/
