@@ -290,10 +290,8 @@ jobs:
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            mv package DA-ESS-ContentUpdate
-            tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate/*
       - persist_to_workspace:
-          root: security-content/
+          root: ~/
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
   publish-github-release:
