@@ -240,6 +240,7 @@ def enrich_stories(stories, detections, investigations, baselines):
         mappings["kill_chain_phases"] = set()
         mappings["mitre_attack"] = set()
         mappings["nist"] = set()
+        mappings["mitre_technique_id"] = set()
         searches = []
 
         for detection in story['detections']:

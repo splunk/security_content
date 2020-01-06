@@ -70,6 +70,9 @@ mappings:
   kill_chain_phases:
     - Installation
     - Actions on Objectives
+  mitre_technique_id:
+    - T1086
+    - T1064
   mitre_attack:
     - Execution
     - PowerShell

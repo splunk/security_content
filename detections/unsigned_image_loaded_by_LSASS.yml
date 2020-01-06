@@ -71,6 +71,8 @@ mappings:
   mitre_attack:
     - Credential Access
     - Credential Dumping
+  mitre_technique_id:
+    - T1003
   nist:
     - DE.CM
 modification_date: '2019-12-06'
