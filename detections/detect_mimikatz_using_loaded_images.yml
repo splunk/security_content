@@ -68,6 +68,8 @@ mappings:
   mitre_attack:
     - Credential Access
     - Credential Dumping
+  mitre_technique_id:
+    - T1003
   nist:
     - DE.AE
     - DE.CM

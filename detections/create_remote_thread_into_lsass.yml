@@ -65,6 +65,8 @@ mappings:
     - CIS 16
   kill_chain_phases:
     - Actions on Objectives
+  mitre_technique_id:
+    - T1003
   mitre_attack:
     - Credential Access
     - Credential Dumping
