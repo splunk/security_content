@@ -319,7 +319,7 @@ jobs:
       - run:
           name: sync latest ESCU to the Attack Range S3 bucket for apps
           command: |
-            aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
+            aws s3 cp ~/DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
   master-api-update:
     executor: aws-cli/default
     steps:
