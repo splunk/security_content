@@ -314,6 +314,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
+      - aws-cli/setup:
+          profile-name: default
       - run:
           name: sync latest ESCU to the Attack Range S3 bucket for apps
           command: |
