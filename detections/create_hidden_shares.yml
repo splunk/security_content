@@ -27,6 +27,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - create_hidden_shares_filter
       schedule:
         cron_schedule: 5 * * * *
         earliest_time: -70m@m
@@ -36,7 +38,7 @@ detect:
         where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by
         Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)`
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | search (process=*share* OR process=*delete*)|
-        regex process="\S+[$]"'
+        regex process="\S+[$]" | `create_hidden_shares_filter`'
       suppress:
         suppress_fields: dest,process_name
         suppress_period: 86400s
@@ -93,13 +95,11 @@ mappings:
   kill_chain_phases:
     - Actions on Objectives
   mitre_attack:
-    - Execution
-    - Command-Line Interface
-    - Persistence
+    - Lateral Movement
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-11-15'
+modification_date: '2020-01-09'
 name: Create or delete hidden shares using net.exe
 original_authors:
   - company: Splunk
@@ -109,4 +109,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '3.0'
+version: '4.0'

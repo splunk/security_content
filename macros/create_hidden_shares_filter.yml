@@ -1,0 +1,3 @@
+definition: search *
+description: Use this macro to add additional filter for create hidden shares
+name: create_hidden_shares_filter
