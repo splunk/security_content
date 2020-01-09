@@ -1,0 +1,80 @@
+asset_type: Network
+confidence: low
+creation_date: '2019-10-25'
+data_metadata:
+  data_source:
+    - Carbon Black
+    - Bro
+  data_sourcetypes:
+    - cb:response
+    - bro:ssl
+  providing_technologies:
+    - Carbon Black Response
+    - Bro
+description: This search will map Carbon Black Reponse process data to Bro SSL network data w/JA3 signatures, as well as the JA3s to fingerprint server response.
+detect: 
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, user, process
+        rule_description: This search will map Carbon Black Reponse process data to Bro SSL network data w/JA3 and J3S signatures.
+        rule_title: Process to JA3+JA3s Signature
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 10
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: ( index=carbonblack netconn ) OR ( index=bro ja3 )
+              | eval ja3_lookup = ja3+":"+ja3s, dst_server = coalesce(server_name, dest_ip)
+              | search NOT [| inputlookup "ja3-ja3s_dict.csv" | fields ja3_lookup | format]
+              | eval remote_ip = coalesce('id.resp_h', dest_ip, remote_ip, "null")
+              | stats values(md5) as md5 values(ja3_lookup) as ja3_lookup values(process_path) as process_path values(dst_server) as dst_server by remote_ip
+              | mvexpand md5
+              | stats values(remote_ip) as remote_ip values(md5) as md5 values(dst_server) as dst_server by ja3_lookup
+              | lookup md5_to_process_path md5 OUTPUTNEW process_path as process_path
+              | rex field=process_path "(?P<application>[^\\\^\\/]+)$"
+              | search NOT (md5="") AND ja3_lookup=* NOT (remote_ip=10.0.0.0/8 OR remote_ip=172.16.0.0/12 OR remote_ip=192.168.0.0/16)
+              | stats values(dst_server) as dst_server values(md5) as md5 values(application) as application values(remote_ip) as remote_ip by ja3_lookup
+      suppress:
+        suppress_fields: dest,user
+        suppress_period: 28800s
+eli5: It's difficult to get a handle on what's happening inside encrypted traffic, but it is possible to profile SSL/TLS connections. This query takes JA3 signatures and matches them up to process data, allowing insight into what apps are causing encrypted network traffic. It also matches that data with the JA3s and server information. By combining process + JA3 + JA3S + server information, analysts can effectivly discover new process server pairings, and have a way to track them via network based signatures.
+entities:
+  - dest
+how_to_implement: To successfully implement this search, you must be ingesting Bro SSL logs w/JA3 + JA3S signatures. Additionally you'll need Carbon Black 'netconn' logs to map the process to network traffic (destination IP). If you want to use this with OSX clients, you'll need to create a KV store of MD5 -> Process Path to work around a Carbon Black agent issue. 
+id: 3d6c3213-5fff-4a1e-667d-b24c262171e7
+investigations:
+   - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+     name: Get Parent Process Info
+     type: splunk
+known_false_positives: None as this is leveraged for discovery (hunting) and not detection.
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Execution
+    - Command and Control
+    - Exfiltration
+    - Persistence
+modification_date: '2019-10-25'
+name: Process to JA3 Mapping
+original_authors:
+  - company: Box
+    email: jweiss@box.com
+    name: Jayson Weiss
+  - company: Box
+    email: msconzo@box.com
+    name: Mike Sconzo  
+references: ['https://github.com/salesforce/ja3']
+security_domain: network
+spec_version: 2
+type: splunk
+version: '1.0'
