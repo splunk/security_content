@@ -1,5 +1,5 @@
 asset_type: Endpoint
-confidence: low
+confidence: high
 creation_date: '2016-09-13'
 data_metadata:
   data_eventtypes:
@@ -24,21 +24,24 @@ detect:
         risk_object_type:
           - system
         risk_score: 10
+      macros:
+        - wineventlog_security
+        - detect_activity_related_to_pass_the_hash_attacks_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: eventtype=wineventlog_security (signature_id = 4624 OR signature_id
-        = 4625) Logon_Process = NtLmSsp Logon_Type=3 Account_Name ! = "ANONYMOUS LOGON"
-        Key_Length = 0 | table _time src_ip user dest dest_nt_domain signature_id
-        signature
+      search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 LogonProcessName=NtLmSsp WorkstationName=WORKSTATION NOT AccountName="ANONYMOUS LOGON") OR
+        (EventCode=4624 Logon_Type=9 LogonProcessName=seclogo)
+        | stats count min(_time) as firstTime max(_time) as lastTime by EventCode, Logon_Type, WorkstationName, user, dest
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+        | `detect_activity_related_to_pass_the_hash_attacks_filter` '
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
 eli5: To detect pass the hash activity, we look at all events with event code 4624
-  or 4625 that specify a logon type 3 (network logons). We are looking for the NtLmSsP
-  account, with a key length set to 0. These indicate lower level protocols that are
-  typically used through Pass the Hash (WMI, SMB, etc.). The search also filters out
+  that specify a logon type 3 (network logons) for remote pass the hash attacks and
+  logon type 9 for local pass the hash attacks. The search also filters out
   events with an account name of 'Anonymous' to help reduce false positives.
 entities:
   - dest
@@ -73,6 +76,9 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
+  - company: Splunk
+    email: pbareiss@splunk.com
+    name: Patrick Bareiss
 mappings:
   cis20:
     - CIS 3
@@ -83,12 +89,14 @@ mappings:
   mitre_attack:
     - Lateral Movement
     - Pass the Hash
+  mitre_technique_id:
+    - T1075
   nist:
     - PR.PT
     - PR.AT
     - PR.AC
     - PR.IP
-modification_date: '2019-02-27'
+modification_date: '2020-01-09'
 name: Detect Activity Related to Pass the Hash Attacks
 original_authors:
   - company: Splunk
@@ -98,4 +106,4 @@ references: []
 security_domain: access
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

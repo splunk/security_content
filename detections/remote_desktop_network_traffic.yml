@@ -37,6 +37,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - remote_desktop_network_traffic_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -45,7 +47,8 @@ detect:
         lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND
         All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source
         by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
-        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+        | `remote_desktop_network_traffic_filter` '
       suppress:
         suppress_fields: dest,src
         suppress_period: 28800s
@@ -111,12 +114,13 @@ mappings:
   mitre_attack:
     - Lateral Movement
     - Remote Desktop Protocol
-    - Commonly Used Port
+  mitre_technique_id:
+    - T1076
   nist:
     - DE.AE
     - PR.AC
     - PR.IP
-modification_date: '2017-09-15'
+modification_date: '2020-01-10'
 name: Remote Desktop Network Traffic
 original_authors:
   - company: Splunk
@@ -126,4 +130,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
