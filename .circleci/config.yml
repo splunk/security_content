@@ -290,10 +290,8 @@ jobs:
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            mv package DA-ESS-ContentUpdate
-            tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate/*
       - persist_to_workspace:
-          root: security-content/
+          root: ~/
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
   publish-github-release:
@@ -301,14 +299,14 @@ jobs:
       - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
-          at: ~/repo/updated
+          at: ~/
       - run:
           name: publish release on github
           command: |
-            mv ~/repo/updated/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+            cp ~/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
       - persist_to_workspace:
-          root: ~/repo/updated
+          root: ~/
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
   attack-range-update:
@@ -316,10 +314,14 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
+      - aws-cli/setup:
+          profile-name: default
       - run:
           name: sync latest ESCU to the Attack Range S3 bucket for apps
           command: |
-            aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
+            aws s3 cp ~/DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
+            # make the file public since it is not by default
+            aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
   master-api-update:
     executor: aws-cli/default
     steps:
@@ -337,6 +339,7 @@ jobs:
       - run: 
           name: update api sources
           command: |
+            cd security-content
             aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
             aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
             aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
