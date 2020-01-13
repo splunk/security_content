@@ -18,10 +18,10 @@ detect:
   splunk:
     correlation_rule:
       notable:
-        nes_fields: serviceName
-        rule_description: The service $serviceName$ is running on $dest$. This is
+        nes_fields: service_name
+        rule_description: The service $service_name$ is running on $dest$. This is
           the first time this service has been run on any system.
-        rule_title: First Time Seen Windows Service $serviceName$
+        rule_title: First Time Seen Windows Service $service_name$
       risk:
         risk_object: dest
         risk_object_type:
@@ -31,18 +31,9 @@ detect:
         cron_schedule: 30 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: eventtype=wineventlog_system signature_id=7036 | rex field=Message "The
-        (?<serviceName>[\w\s-]*) service entered the (?<action>\w*) state" | where
-        action="running" | inputlookup append=t previously_seen_running_windows_services
-        | multireport [| stats earliest(eval(coalesce(_time, firstTime))) as firstTime,
-        latest(eval(coalesce(_time, lastTime))) as lastTime by serviceName | outputlookup
-        previously_seen_running_windows_services | where fact=fiction] [| eventstats
-        earliest(eval(coalesce(_time, firstTime))) as firstTime, latest(eval(coalesce(_time,
-        lastTime))) as lastTime by serviceName | where firstTime >= relative_time(now(),
-        "-60m@m") AND isnotnull(_time) | stats values(dest) as dest by _time, serviceName]
-        | table _time, serviceName, dest
+      search: eventtype=wineventlog_system signature_id=7036 | rename param1 as service_name | rename param2 as action | search action="running" [ search eventtype=wineventlog_system signature_id=7036 | rename param1 as service_name | rename param2 as action | search action="running" | stats earliest(_time) as firstTime, latest(_time) as lastTime by service_name | inputlookup append=t previously_seen_running_windows_services | stats min(firstTime) as firstTime max(lastTime) as lastTime by service_name | outputlookup previously_seen_running_windows_services| eval serviceStatus=if(firstTime >= relative_time(now(),"-60m@m"), "First time seen Windows service","Previously seen Windows service") | where serviceStatus="First time seen Windows service"| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | table service_name]| table _time dest service_name
       suppress:
-        suppress_fields: serviceName, dest
+        suppress_fields: service_name, dest
         suppress_period: 86400s
 eli5: 'This search looks for a change in the status of a Windows service and extracts
   the name of the service and the action taken by the service. Then the cache file
@@ -55,7 +46,7 @@ entities:
 how_to_implement: While this search does not require you to adhere to Splunk CIM,
   you must be ingesting your Windows security-event logs in order for this search
   to execute successfully. The support search, `Previously Seen Running Windows Services`,
-  should be run before this search to create the baseline of known Windows services.
+  should be run before this search to create the baseline of known Windows services. Please ensure that the Splunk Add-on for Microsoft Windows is version 5.0.0 or above.
 id: 823136f2-d755-4b6d-ae04-372b486a5808
 investigations:
   - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
@@ -80,8 +71,8 @@ known_false_positives: A previously unseen service is not necessarily malicious.
   that the service is legitimate and that was installed by a legitimate process.
 maintainers:
   - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
+    email: bpatel@splunk.com
+    name: Bhavin Patel
 mappings:
   cis20:
     - CIS 2
@@ -92,12 +83,14 @@ mappings:
   mitre_attack:
     - Execution
     - New Service
+  mitre_technique_id:
+    - T1050
   nist:
     - ID.AM
     - PR.DS
     - PR.AC
     - DE.AE
-modification_date: '2019-02-27'
+modification_date: '2020-01-13'
 name: First Time Seen Running Windows Service
 original_authors:
   - company: Splunk
@@ -107,4 +100,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
