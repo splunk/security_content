@@ -1,0 +1,70 @@
+asset_type: Network
+confidence: low
+creation_date: '2019-10-25'
+data_metadata:
+  data_source:
+    - Bro
+  data_sourcetypes:
+    - bro:ssl
+  providing_technologies:
+    - Bro
+description: This search will map Bro SSL network data w/JA3S signature to server name or IP address.
+detect: 
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, user, process
+        rule_description: This search will map Bro SSL network data w/JA3S signature to server name or IP address.
+        rule_title: Server to JA3S Signature
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 10
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: index=bro ja3s established="true" NOT (dest_ip=10.0.0.0/8 OR dest_ip=172.16.0.0/12 OR dest_ip=192.168.0.0/16)
+            | eval dst_server = coalesce(server_name, dest_ip)
+            | lookup ja3s_dict.csv ja3s as ja3s output remote_server
+            | where isnull(remote_server)
+            | stats values(dst_server) as remote_server by ja3s
+      suppress:
+        suppress_fields: dest,user
+        suppress_period: 28800s
+eli5: Mapping JA3S to server name or IP address can be useful in understanding infrastructure beyond your enterprise perimeter. Hunting through this kind of data will help you discover new destination infrastructure as well as if it (likely) relates to any existing discovered infrastructure based on server config (JA3S signature). This can be used to track known malicious server configurations as well.
+entities:
+  - dest
+how_to_implement: To successfully implement this search, you must be ingesting Bro SSL logs w/JA3S signature.
+id: 3d553213-5fff-4a1e-667d-b24c262171e7
+investigations:
+   - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+     name: Get Parent Process Info
+     type: splunk
+
+known_false_positives: None as this is leveraged for discovery (hunting) and not detection.
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Command and Control
+    - Exfiltration
+modification_date: '2019-10-25'
+name: Server to JA3S Mapping
+original_authors:
+  - company: Box
+    email: jweiss@box.com
+    name: Jayson Weiss
+  - company: Box
+    email: msconzo@box.com
+    name: Mike Sconzo  
+references: ['https://github.com/salesforce/ja3']
+security_domain: network
+spec_version: 2
+type: splunk
+version: '1.0'

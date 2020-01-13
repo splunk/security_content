@@ -311,10 +311,18 @@ jobs:
           root: ~/repo/updated
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
+  attack-range-update:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: sync latest ESCU to the Attack Range S3 bucket for apps
+          command: |
+            aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
   master-api-update:
     executor: aws-cli/default
     steps:
-      - checkout
       - run:
           name: checkout repo
           command: |
@@ -404,6 +412,20 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+      - attack-range-update:
+        # update the attack range with the latest build
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+            - publish-github-release
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - master-api-update:
         # update master API from develop if is a tag
           requires:
@@ -413,6 +435,7 @@ workflows:
             - run-appinspect
             - update-sources-github
             - publish-github-release
+            - attack-range-update
           filters:
             tags:
               only: /^v.*/

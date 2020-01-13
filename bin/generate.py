@@ -64,6 +64,7 @@ def generate_savedsearches_conf(detections, investigations, baselines):
     output_path = OUTPUT_PATH + "/default/savedsearches.conf"
     output = template.render(detections=detections, investigations=investigations, baselines=baselines, time=utc_time)
     with open(output_path, 'w') as f:
+        output = output.encode('ascii', 'ignore').decode('ascii')
         f.write(output)
 
     return output_path
@@ -240,6 +241,7 @@ def enrich_stories(stories, detections, investigations, baselines):
         mappings["kill_chain_phases"] = set()
         mappings["mitre_attack"] = set()
         mappings["nist"] = set()
+        mappings["mitre_technique_id"] = set()
         searches = []
 
         for detection in story['detections']:
