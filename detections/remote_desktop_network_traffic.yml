@@ -1,14 +1,4 @@
 asset_type: Endpoint
-baselines:
-  - id: 5cdda34f-4caf-4128-a713-0837fc48b67a
-    name: Identify Systems Creating Remote Desktop Traffic
-    type: splunk
-  - id: 063dfe9f-b1d7-4254-a16d-1e2e7eadd6a8
-    name: Identify Systems Using Remote Desktop
-    type: splunk
-  - id: baaeea15-fe8a-4090-92c2-5b60943bb608
-    name: Identify Systems Receiving Remote Desktop Traffic
-    type: splunk
 confidence: medium
 creation_date: '2016-09-13'
 data_metadata:

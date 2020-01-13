@@ -97,11 +97,13 @@ mappings:
   mitre_attack:
     - Lateral Movement
     - Remote Desktop Protocol
+  mitre_technique_id:
+    - T1076
   nist:
     - DE.AE
     - PR.AC
     - PR.IP
-modification_date: '2018-11-02'
+modification_date: '2020-01-13'
 name: Remote Desktop Process Running On System
 original_authors:
   - company: Splunk
@@ -111,4 +113,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '3.0'
+version: '4.0'
