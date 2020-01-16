@@ -1,0 +1,3 @@
+definition: search *
+description: Use this macro to add additional filters for schtasks scheduling job on remote system
+name: schtasks_scheduling_job_on_remote_system_filter
