@@ -1,3 +1,4 @@
+definition: search *
 description: Use this macro to add additional filters for investigating a specific
   user's cloud infrastructure activties in all cloud regions
 name: investigate_user_activities_in_all_cloud_region_output_filter
