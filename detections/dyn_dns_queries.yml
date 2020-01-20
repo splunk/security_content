@@ -44,8 +44,7 @@ eli5: The search leverages an accelerated `Network_Resolution` data model to cou
   against the list of Dynamic DNS providers in the lookup `dynamic_dns_providers`
   by each host (DNS.src).
 entities:
-  - dest
-  - query
+  - src
 how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This
   can be done by ingesting logs from your server or data, collected passively by Splunk
   Stream or a similar solution. Specifically, data that contains the domain that is
@@ -81,8 +80,8 @@ known_false_positives: Some users and applications may leverage Dynamic DNS to r
   however this activity must be verified.
 maintainers:
   - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
+    email: jhernandez@splunk.com
+    name: Jose Hernandez
 mappings:
   cis20:
     - CIS 8
@@ -93,15 +92,13 @@ mappings:
     - Actions on Objectives
   mitre_attack:
     - Exfiltration
-    - Exfiltration Over Command and Control Channel
     - Defense Evasion
-    - Commonly Used Port
   nist:
     - PR.DS
     - PR.PT
     - DE.AE
     - DE.CM
-modification_date: '2017-09-18'
+modification_date: '2020-01-16'
 name: Detect hosts connecting to dynamic domain providers
 original_authors:
   - company: Splunk
@@ -111,4 +108,4 @@ responses: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

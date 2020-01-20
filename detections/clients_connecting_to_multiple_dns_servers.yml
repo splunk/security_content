@@ -15,6 +15,8 @@ description: This search allows you to identify the endpoints that have connecte
 detect:
   splunk:
     correlation_rule:
+      macros:
+        - clients_connecting_to_multiple_dns_servers_filter
       notable:
         nes_fields: src, dest
         rule_description: This search allows you to identify the endpoints that have
@@ -33,7 +35,7 @@ detect:
       search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest dc(DNS.dest)
         as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
         by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count
-        > 5'
+        > 5 | `clients_connecting_to_multiple_dns_servers_filter`'
       suppress:
         suppress_fields: src
         suppress_period: 86400s
@@ -66,8 +68,8 @@ known_false_positives: It's possible that an enterprise has more than five DNS s
   that are configured in a round-robin rotation. Please customize the search, as appropriate.
 maintainers:
   - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
+    email: jhernandez@splunk.com
+    name: Jose Hernandez
 mappings:
   cis20:
     - CIS 9
@@ -79,13 +81,11 @@ mappings:
     - Command and Control
     - Exfiltration
     - Exfiltration Over Alternative Protocol
-    - Commonly Used Port
-    - Standard Application Layer Protocol
   nist:
     - PR.PT
     - DE.AE
     - PR.DS
-modification_date: '2017-09-18'
+modification_date: '2020-01-16'
 name: Clients Connecting to Multiple DNS Servers
 original_authors:
   - company: Splunk
@@ -95,4 +95,4 @@ responses: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

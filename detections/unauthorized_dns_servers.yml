@@ -16,6 +16,8 @@ description: This search will detect DNS requests resolved by unauthorized DNS s
 detect:
   splunk:
     correlation_rule:
+      macros:
+        - unauthorized_dns_servers_filter
       notable:
         nes_fields: dest, src
         rule_description: The table represents a list of unauthorized DNS servers
@@ -32,7 +34,7 @@ detect:
         latest_time: -10m@m
       search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where
         DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
-        DNS.dest | `drop_dm_object_name("DNS")`'
+        DNS.dest | `drop_dm_object_name("DNS")` | `unauthorized_dns_servers_filter`'
       suppress:
         suppress_fields: dest,src
         suppress_period: 28800s
@@ -67,16 +69,14 @@ mappings:
     - Command and Control
   mitre_attack:
     - Exfiltration
-    - Command and Control
     - Defense Evasion
-    - Commonly Used Port
   nist:
     - ID.AM
     - PR.DS
     - PR.IP
     - DE.AE
     - DE.CM
-modification_date: '2017-09-18'
+modification_date: '2020-01-17'
 name: DNS Query Requests Resolved by Unauthorized DNS Servers
 original_authors:
   - company: Splunk
@@ -86,4 +86,4 @@ responses: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
