@@ -28,7 +28,7 @@ detect:
           - system
         risk_score: 50
       macros:
-        - create_hidden_shares_filter
+        - create_or_delete_windows_shares_filter
       schedule:
         cron_schedule: 5 * * * *
         earliest_time: -70m@m
