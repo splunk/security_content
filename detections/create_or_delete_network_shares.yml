@@ -33,11 +33,10 @@ detect:
         cron_schedule: 5 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| `comment("GET WINDOWS EVENT LOGS THAT CAN CONTAIN NETWORK SHARE OPERATION INFO OVER DATE RANGE")`
-      tstats `security_content_summariesonly` count values(Processes.user) as user values(Processes.parent_process)
+      search: '| tstats `security_content_summariesonly` count values(Processes.user) as user values(Processes.parent_process)
         as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
         where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by
-        Processes.process Processes.process_name Processes.dest | `comment("CLEAN UP OUTPUT, SEARCH ON KEYWORDS RELATED TO CREATE/DELETE EVENTS")`
+        Processes.process Processes.process_name Processes.dest
         | `drop_dm_object_name(Processes)`
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | search (process=*share* OR process=*delete*)
         | `comment`("UNCOMMENT THIS REGEX TO SEARCH FOR ONLY EVENTS RELATED TO HIDDEN SHARES: regex process="\S+[$]")`
@@ -53,9 +52,8 @@ eli5: In this search, we are looking for the command-line execution of net.exe w
   attackers also leverage it to create and delete (hidden) file shares by appending
   "$" after the name of the share. Since the creation/deletion of hidden shares is a
   special case of detecting share creation/deletion we have commented out
-  the regex that adds the additional matching criteria that will return only events that
-  have creation/deletion associated to hidden shares. To look for hidden shares, use a
-  regular expression to look for a `(name_file_share)$`.
+  the regex that adds that additional matching criteria. If only hidden share detection is desired
+  add `| regex process="\S+[$]"` before the last pipe in the search.
 entities:
   - dest
 how_to_implement: You must be ingesting data that records process activity from your
