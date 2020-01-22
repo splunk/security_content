@@ -28,6 +28,10 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - is_windows_system_file
+      lookups:
+        - system32_executables.csv
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -41,8 +45,7 @@ detect:
         suppress_fields: dest,process_name
         suppress_period: 86400s
 eli5: This search returns all the processes that are not executing out of the C:\Windows\System32
-  or C:\Windows\SysWOW64 directories. It then uses a regular expression to extract
-  the file name of the running process. Next, it takes the filename and looks it up
+  or C:\Windows\SysWOW64 directories. Next, it takes the filename and looks it up
   in a table of files that should normally run out of the C:\Windows\System32 or C:\Windows\SysWOW64
   directory. Any matches are then returned.
 entities:
@@ -95,7 +98,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2019-02-28'
+modification_date: '2020-01-21'
 name: System Processes Run From Unexpected Locations
 original_authors:
   - company: Splunk
@@ -105,4 +108,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '3.0'
+version: '4.0'
