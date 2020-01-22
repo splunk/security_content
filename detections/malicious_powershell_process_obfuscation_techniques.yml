@@ -38,7 +38,7 @@ detect:
         by Processes.user Processes.process_name Processes.parent_process_name Processes.dest Processes.process |
         `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
         eval num_obfuscation = (mvcount(split(process, "`"))-1) + (mvcount(split(process,
-        "^"))-1) | search num_obfuscation > 0'
+        "^"))-1) | `malicious_powershell_process_obfuscation_techniques_output_filter` | search num_obfuscation > 0'
       suppress:
         suppress_fields: dest,process_name,process
         suppress_period: 14400s
