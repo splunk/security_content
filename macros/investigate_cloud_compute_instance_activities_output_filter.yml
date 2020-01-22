@@ -1,4 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters for investigating cloud compute
-  activties
-name: investigate_cloud_compute_instance_activities_output_filter

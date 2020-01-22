@@ -1,4 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters for investigating a specific
-  user's cloud infrastructure activties in a specific cloud regions
-name: investigate_user_activities_in_single_cloud_region_output_filter
