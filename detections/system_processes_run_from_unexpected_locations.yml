@@ -29,9 +29,9 @@ detect:
           - system
         risk_score: 50
       macros:
-        - is_windows_system_file
+        - system32_executables
       lookups:
-        - system32_executables.csv
+        - system32_executables
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
