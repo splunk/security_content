@@ -39,7 +39,6 @@ detect:
         Processes.process Processes.process_name Processes.dest
         | `drop_dm_object_name(Processes)`
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | search (process=*share* OR process=*delete*)
-        | `comment`("UNCOMMENT THIS REGEX TO SEARCH FOR ONLY EVENTS RELATED TO HIDDEN SHARES: regex process="\S+[$]")`
         | `create_or_delete_windows_shares_filter`'
       suppress:
         suppress_fields: dest,process_name
