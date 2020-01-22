@@ -20,7 +20,7 @@ detect:
   splunk:
     correlation_rule:
       lookups:
-        - discovered_dns_records.csv
+        - discovered_dns_records
       macros:
         - dns_record_changed_filter
       notable:
