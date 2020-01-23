@@ -16,7 +16,7 @@ detect:
   splunk:
     correlation_rule:
       macros:
-        - clients_connecting_to_multiple_dns_servers_filter
+        - clients_connecting_to_multiple_dns_servers_output_filter
       notable:
         nes_fields: src, dest
         rule_description: This search allows you to identify the endpoints that have
@@ -35,7 +35,7 @@ detect:
       search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest dc(DNS.dest)
         as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
         by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count
-        > 5 | `clients_connecting_to_multiple_dns_servers_filter`'
+        > 5 | `clients_connecting_to_multiple_dns_servers_output_filter`'
       suppress:
         suppress_fields: src
         suppress_period: 86400s
