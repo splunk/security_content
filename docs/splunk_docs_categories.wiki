@@ -1849,18 +1849,18 @@ In June of 2018, The Department of Homeland Security, together with the FBI and 
 Among other searches in this Analytic Story is a detection search that looks for the creation or deletion of hidden shares, such as, "adnim$," which the Hidden Cobra malware creates on the target system. Another looks for the creation of three malicious files associated with the malware. You can also use a search in this story to investigate activity that indicates that malware is sending email back to the attackers.
 
 ====Providing Technologies====
+* Splunk Stream
+* Bro
 * Carbon Black Response
 * CrowdStrike Falcon
 * Sysmon
 * Tanium
 * Ziften
-* Splunk Stream
-* Bro
 
 ====Data Models====
-* Endpoint
 * Network_Resolution
 * Network_Traffic
+* Endpoint
 
 ====Mappings====
 
@@ -3458,7 +3458,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * DE.CM
 
 ====References====
-* https://attack.mitre.org/wiki/Privilege_Escalation
+* https://attack.mitre.org/tactics/TA0004/
 
 creation_date = 2017-12-07
 

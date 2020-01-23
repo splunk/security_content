@@ -2102,18 +2102,18 @@ Among other searches in this Analytic Story is a detection search that looks for
 * DNS Query Length Outliers - MLTK
 
 ##### Providing Technologies
+* Splunk Stream
+* Bro
 * Carbon Black Response
 * CrowdStrike Falcon
 * Sysmon
 * Tanium
 * Ziften
-* Splunk Stream
-* Bro
 
 ##### Data Models
-Endpoint
 Network_Resolution
 Network_Traffic
+Endpoint
 
 ##### Mappings
 
@@ -2945,6 +2945,7 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 * Processes launching netsh
 * Attempt To Stop Security Service
 * Attempt To Add Certificate To Untrusted Store
+* Unload Sysmon Filter Driver
 
 ##### Providing Technologies
 * Carbon Black Response
@@ -3009,7 +3010,6 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * Remote Desktop Process Running On System
 * Remote Desktop Network Traffic
 * Detect Activity Related to Pass the Hash Attacks
-* Remote Registry Key modifications
 
 ##### Providing Technologies
 * Microsoft Windows
@@ -3956,4 +3956,4 @@ Endpoint
 * company = davidd@splunk.com
 
 ##### References
-* https://attack.mitre.org/wiki/Privilege_Escalation
+* https://attack.mitre.org/tactics/TA0004/
