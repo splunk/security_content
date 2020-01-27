@@ -33,7 +33,7 @@ detect:
         DNS.query DNS.record_type |  `drop_dm_object_name("DNS")` | eval query_length
         = len(query) | table query query_length record_type count | eventstats stdev(query_length)
         AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
-        | eval z_score=(query_length-avg)/stdev'
+        | eval z_score=(query_length-avg)/stdev | `dns_query_length_with_high_standard_deviation_filter` '
       suppress:
         suppress_fields: query
         suppress_period: 43200s
@@ -95,11 +95,14 @@ mappings:
     - Command and Control
     - Exfiltration
     - Commonly Used Port
+  mitre_technique_id:
+    - T1071
+    - T1320
   nist:
     - PR.PT
     - DE.AE
     - DE.CM
-modification_date: '2017-09-18'
+modification_date: '2020-01-22'
 name: DNS Query Length With High Standard Deviation
 original_authors:
   - company: Splunk
@@ -109,4 +112,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '1.0'
