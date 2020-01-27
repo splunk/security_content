@@ -20,7 +20,7 @@ detections:
     name: Malicious PowerShell Process With Obfuscation Techniques
     type: splunk
   - detection_id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-    name: Attempt To Set Default PowerShell Execution Policy To Unrestricted
+    name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
     type: splunk
 id: 2c8ff66e-0b57-42af-8ad7-912438a403fc
 maintainers:

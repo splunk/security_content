@@ -4,6 +4,8 @@
 #
 
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.19
 
 dependencies:
   cache_directories:
@@ -80,13 +82,13 @@ jobs:
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
       - run:
-          name: check for broken links using liche 
+          name: check for broken links using liche
           command: |
             echo 'export GOROOT=~/.go' >> $BASH_ENV
             echo 'export PATH=$GOROOT/bin:$PATH' >> $BASH_ENV
             echo 'export GOPATH=~/go' >> $BASH_ENV
             echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
-            echo 'export GO111MODULE="on"' >> $BASH_ENV 
+            echo 'export GO111MODULE="on"' >> $BASH_ENV
             source $BASH_ENV
             go get -u github.com/raviqqe/liche
             cd security-content
@@ -211,6 +213,37 @@ jobs:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
+  community-api-update:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone community https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - aws-cli/setup:
+          profile-name: default
+      - run: 
+          name: update community api sources
+          command: |
+            cd security-content
+            aws s3 cp stories s3://security-content-community/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content-community/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content-community/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp investigations s3://security-content-community/investigations --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content-community/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content-community/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp macros s3://security-content-community/macros --recursive --exclude "*" --include "*.yml"
+      - persist_to_workspace:
+          root: ~/
+          paths:
+             - DA-ESS-ContentUpdate-latest.tar.gz
   update-sources-github:
     executor: content-executor
     steps:
@@ -227,7 +260,6 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
-      - run: *apt-install
       - run:
           name: install python dependencies
           command: |
@@ -258,10 +290,8 @@ jobs:
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            mv package DA-ESS-ContentUpdate
-            tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate/*
       - persist_to_workspace:
-          root: security-content/
+          root: ~/
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
   publish-github-release:
@@ -269,12 +299,54 @@ jobs:
       - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
-          at: ~/repo/updated
+          at: ~/
       - run:
           name: publish release on github
           command: |
-            mv ~/repo/updated/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+            cp ~/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+      - persist_to_workspace:
+          root: ~/
+          paths:
+              - DA-ESS-ContentUpdate-latest.tar.gz
+  attack-range-update:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/
+      - aws-cli/setup:
+          profile-name: default
+      - run:
+          name: sync latest ESCU to the Attack Range S3 bucket for apps
+          command: |
+            aws s3 cp ~/DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
+            # make the file public since it is not by default
+            aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
+  master-api-update:
+    executor: aws-cli/default
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - aws-cli/setup:
+          profile-name: default
+      - run: 
+          name: update api sources
+          command: |
+            cd security-content
+            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp investigations s3://security-content/investigations --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
 workflows:
   version: 2.1
   validate-and-build:
@@ -285,49 +357,88 @@ workflows:
             tags:
               only: /.*/
       - build-sources:
+        # build always
           requires:
             - validate-content
-        # build always
           filters:
             tags:
               only: /.*/
       - build-package:
+        # build always
           requires:
             - validate-content
             - build-sources
-        # build always
           filters:
             tags:
               only: /.*/
       - run-appinspect:
+        # build always
           requires:
             - validate-content
             - build-sources
             - build-package
-        # build always
           filters:
             tags:
               only: /.*/
-      - update-sources-github:
+      - community-api-update:
+        # build only on community changes
           requires:
             - validate-content
             - build-sources
             - build-package
             - run-appinspect
+          filters:
+            branches:
+              only: community
+      - update-sources-github:
         # update package and docs in github if is a tag
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
           filters:
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
       - publish-github-release:
+        # publish release in github if is a tag
           requires:
             - validate-content
             - build-sources
             - build-package
             - run-appinspect
             - update-sources-github
-        # only release when there is a tag
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - attack-range-update:
+        # update the attack range with the latest build
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+            - publish-github-release
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - master-api-update:
+        # update master API from develop if is a tag
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+            - publish-github-release
+            - attack-range-update
           filters:
             tags:
               only: /^v.*/

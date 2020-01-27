@@ -19,6 +19,10 @@ description: The search takes the DNS records and their answers results of the d
 detect:
   splunk:
     correlation_rule:
+      lookups:
+        - discovered_dns_records
+      macros:
+        - dns_record_changed_output_filter
       notable:
         nes_fields: src
         rule_description: The table represents a list of DNS records and their responses
@@ -40,7 +44,7 @@ detect:
         | rename DNS.query as query | where query!="unknown" | rex field=query "(?<domain>\w+\.\w+?)(?:$|/)"]
         | makemv delim=" " answer |  makemv delim=" " type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer
         | makemv current_answer  | mvexpand current_answer | makemv discovered_answer
-        | eval n=mvfind(discovered_answer, current_answer) | where isnull(n)'
+        | eval n=mvfind(discovered_answer, current_answer) | where isnull(n) | `dns_record_changed_output_filter`'
       suppress:
         suppress_fields: src
         suppress_period: 28800s
@@ -90,14 +94,13 @@ mappings:
     - Exfiltration
     - Command and Control
     - Defense Evasion
-    - Commonly Used Port
   nist:
     - ID.AM
     - PR.DS
     - PR.IP
     - DE.AE
     - DE.CM
-modification_date: '2019-02-14'
+modification_date: '2020-01-16'
 name: DNS record changed
 original_authors:
   - company: Splunk
@@ -107,4 +110,4 @@ responses: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

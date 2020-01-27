@@ -21,6 +21,9 @@ detections:
   - detection_id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
     name: Attempt To Add Certificate To Untrusted Store
     type: splunk
+  - detection_id: c77162d3-f93c-45cc-80c8-22f665664g9f
+    name: Unload Sysmon Filter Driver
+    type: splunk
 id: fcc27099-46a0-46b0-a271-5c7dab56b6f1
 maintainers:
   - company: Splunk

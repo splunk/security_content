@@ -1,3 +1,4 @@
+definition: search *
 description: Use this macro to add additional filters for monitoring cloud compute
   instance types
 name: previously_seen_cloud_compute_instance_types_input_filter

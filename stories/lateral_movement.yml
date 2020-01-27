@@ -18,9 +18,6 @@ detections:
   - detection_id: f5939373-8054-40ad-8c64-cec478a22a4b
     name: Detect Activity Related to Pass the Hash Attacks
     type: splunk
-  - detection_id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
-    name: Remote Registry Key modifications
-    type: splunk
 id: 399d65dc-1f08-499b-a259-aad9051f38ad
 maintainers:
   - company: Splunk

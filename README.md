@@ -46,6 +46,16 @@ Follow the instructions below to get started.
 
 Manifests contain a number of mandatory and optional fields. You can see the full field list for each piece of content [here](https://github.com/splunk/security-content/tree/develop/docs#spec-documentation).
 
+# Customize to your Environment
+
+After release [1.0.46](https://github.com/splunk/security-content/releases) we introduced a concept of input(pre-filter) and output(post-filter) macros for each of our detection search. The intention behind introducing these macros is primarily to help our users to update the macro definition “once” and those changes will be applicable across all detections that leverage that macro and  local to your Splunk Environment.
+
+**input(pre-filter):** This macro is to  specify your environment-specific configurations (index, source, sourcetype, etc.) to get the specific data sources that you would like to bring in. Replace the macro definition with configurations for your Splunk environment.
+
+**output(post-filter):** This macro is to  specify your environment-specific values (eg: dest, user), to filter out known false positives.. Replace the macro definition with values that you’d like to exclude from detection results. Think of this as a whitelisting/blacklisting using macros.
+
+Note: we are currently working on coming up with a better naming convention and making this consistent across all our detections, investigations and baselines. Suggestions are welcomed :stuck_out_tongue:
+
 # Writing Content
 Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing). 
 
@@ -87,20 +97,28 @@ Tools that help with testing CI jobs:
 2. To test a local change to CircleCI or build, make sure you are running Docker, then enter
 `circleci local execute -e GITHUB_TOKEN=$GITHUB_TOKEN --branch <your branch>`.
 
-#### Generate Docs from Schema 
+##### Generate Docs from Schema 
 To automatically generate docs from schema:
 
 1. Install https://github.com/adobe/jsonschema2md.
 2. Enter `jsonschema2md -d spec/v2/detections.spec.json -o docs`.
 
 # Troubleshooting
-#### Our Automated Tests
+
+### Our Automated Tests
 1. [CI](https://github.com/splunk/security-content/blob/44946063173f7bc9921f0da0aa62139c084d1c51/.circleci/config.yml#L27) validates that the content was written to spec using [`validate.py`](https://github.com/splunk/security-content/blob/runstory/bin/generate.py). To run validation manually, run: `python bin/validate.py --path . --verbose`.
 2. [CI](https://github.com/splunk/security-content/blob/44946063173f7bc9921f0da0aa62139c084d1c51/.circleci/config.yml#L60) generates Splunk configuration files using [`generate.py`](https://github.com/splunk/security-content/blob/develop/bin/generate.py). If you want to export Splunk .conf files manually from the content, run `python bin/generate.py --path . --output package --verbose`.
 3. [CI](https://github.com/splunk/security-content/blob/44946063173f7bc9921f0da0aa62139c084d1c51/.circleci/config.yml#L107) builds a DA-ESS-ContentUpdate Splunk package using the [Splunk Packaging Toolkit](http://dev.splunk.com/view/packaging-toolkit/SP-CAAAE9V). 
 4. [CI](https://github.com/splunk/security-content/blob/44946063173f7bc9921f0da0aa62139c084d1c51/.circleci/config.yml#L145) tests the newly produced package using [Splunk Appinspect](http://dev.splunk.com/view/appinspect/SP-CAAAE9U).
 
 * note that [requirements.txt](https://github.com/splunk/security-content/blob/develop/requirements.txt) hard codes the versions for packages we use [dependabot](https://dependabot.com/) to make sure we safely always upgrade to the latest versions. 
+
+## Customize to Your Environment
+Release 1.0.46 introduced input(pre-filter) and output(post-filter) macros for each of our detection searches. These macros let you update a macro definition once and then apply the new definition across all detections that leverage that macro. These changes will be local to your Splunk environment.
+
+input(pre-filter): This macro specifies your environment-specific configurations (index, source, sourcetype, etc.) to get the specific data sources that you require. Replace the macro definition with configurations for your Splunk environment.
+output(post-filter): This macro specifies your environment-specific values (dest, user, etc,), to filter out known false positives. Replace the macro definition with values that you'd like to exclude from detection results. Think of this as whitelisting/blacklisting using macros.
+Note: Coming soon is an improved naming convention that will be consistent across all of our detections, investigations, and baselines.
 
 ## Support
 Please use the [GitHub Issue Tracker](https://github.com/splunk/security-content/issues) to submit bugs or request features.

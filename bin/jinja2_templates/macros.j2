@@ -5,6 +5,7 @@
 # Contact: research@splunk.com
 #############
 
+
 {% for macro in macros %}
 [{{ macro.name }}{% if macro.arguments is defined %}({{ macro.arguments|length }}){% endif %}]
 {% if macro.arguments is defined %}
@@ -14,7 +15,7 @@ args = {% for arg in macro.arguments %}{{ arg }}{{ ", " if not loop.last }}
 {% if macro.definition is defined %}
 definition = {{ macro.definition }}
 {% else %}
-definition = 
+definition =
 {% endif %}
 description = {{ macro.description }}
 

@@ -90,6 +90,9 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# IDEA Env
+.idea
+
 # Rope project settings
 .ropeproject
 

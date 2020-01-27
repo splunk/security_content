@@ -35,10 +35,10 @@ detect:
       search: '| tstats `security_content_summariesonly` count values(Processes.process) as process
         values(Processes.parent_process) as parent_process min(_time) as firstTime
         max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
-        by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
+        by Processes.user Processes.process_name Processes.parent_process_name Processes.dest Processes.process |
         `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
         eval num_obfuscation = (mvcount(split(process, "`"))-1) + (mvcount(split(process,
-        "^"))-1) | search num_obfuscation > 0'
+        "^"))-1) | `malicious_powershell_process_obfuscation_techniques_output_filter` | search num_obfuscation > 0'
       suppress:
         suppress_fields: dest,process_name,process
         suppress_period: 14400s
@@ -83,6 +83,9 @@ known_false_positives: These characters might be legitimately on the command-lin
   but it is not common.
 maintainers:
   - company: Splunk
+    email: jbrewer@splunk.com
+    name: Jason Brewer
+  - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
 mappings:
@@ -101,7 +104,7 @@ mappings:
     - PR.PT
     - DE.CM
     - PR.IP
-modification_date: '2018-12-03'
+modification_date: '2020-01-17'
 name: Malicious PowerShell Process With Obfuscation Techniques
 original_authors:
   - company: Splunk

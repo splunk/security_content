@@ -1,0 +1,5 @@
+default_match: 'false'
+description: A list of executable files in Windows\System32
+filename: system32_executables.csv
+min_matches: 1
+name: system32_executables
