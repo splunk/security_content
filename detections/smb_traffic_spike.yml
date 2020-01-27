@@ -35,7 +35,7 @@ detect:
         "-70m@m"), count, null))) as avg stdev(eval(if(_time<relative_time(maxtime,
         "-70m@m"), count, null))) as stdev by src | eval upperBound=(avg+stdev*2),
         isOutlier=if(count > upperBound AND num_data_samples >=50, 1, 0) | where isOutlier=1
-        | table src count'
+        | table src count | `smb_traffic_spike_filter` '
       suppress:
         suppress_fields: src
         suppress_period: 28800s
@@ -100,9 +100,13 @@ mappings:
     - Execution
     - Command and Control
     - Commonly Used Port
+  mitre_technique_id:
+    - T1110
+    - T1135
+    - T1210
   nist:
     - DE.CM
-modification_date: '2017-09-10'
+modification_date: '2020-01-22'
 name: SMB Traffic Spike
 original_authors:
   - company: Splunk
@@ -112,4 +116,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
