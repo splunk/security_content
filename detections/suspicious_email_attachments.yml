@@ -31,7 +31,7 @@ detect:
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
         All_Email.file_name All_Email.message_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-        | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments`'
+        | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments` | `suspicious_email_attachments_filter` '
       suppress:
         suppress_fields: src_user,message_id
         suppress_period: 86400s
@@ -73,10 +73,12 @@ mappings:
   mitre_attack:
     - Execution
     - Defense Evasion
+  mitre_technique_id:
+    - T1193
   nist:
     - DE.AE
     - PR.IP
-modification_date: '2019-05-13'
+modification_date: '2020-01-27'
 name: Suspicious Email Attachment Extensions
 original_authors:
   - company: Splunk
@@ -85,4 +87,4 @@ original_authors:
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
