@@ -25,4 +25,4 @@ update_configs:
           # - "all"
       - match:
           dependency_type: "production"
-          update_type: "semver:patch"
+          update_type: "all"
