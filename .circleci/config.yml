@@ -122,6 +122,16 @@ jobs:
             python bin/generate.py --path . --output package -v
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
+      - run: 
+          name: copy lookups .csv files
+          command: |
+            cd security-content
+            # clean up current lookups
+            rm -rf package/lookups
+            mkdir package/lookups
+            # copy over lookups
+            cd lookups
+            cp -rv *.csv ../package/lookups
       - run:
           name: update version and build number
           command: |
