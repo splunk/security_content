@@ -29,9 +29,9 @@ detect:
           - system
         risk_score: 50
       macros:
-        - system32_executables
+        - is_windows_system_file
       lookups:
-        - system32_executables
+        - is_windows_system_file
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -39,14 +39,14 @@ detect:
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*"
         Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.user Processes.dest
-        Processes.process_name Processes.process_path Processes.process_id | `drop_dm_object_name("Processes")`
+        Processes.process_name Processes.process_id Processes.process_path Processes.parent_process_name Processes.process_hash| `drop_dm_object_name("Processes")`
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `is_windows_system_file`'
       suppress:
         suppress_fields: dest,process_name
         suppress_period: 86400s
 eli5: This search returns all the processes that are not executing out of the C:\Windows\System32
   or C:\Windows\SysWOW64 directories. Next, it takes the filename and looks it up
-  in a table of files that should normally run out of the C:\Windows\System32 or C:\Windows\SysWOW64
+  in a table `is_windows_system_file` of files that should normally run out of the C:\Windows\System32 or C:\Windows\SysWOW64
   directory. Any matches are then returned.
 entities:
   - dest
@@ -98,7 +98,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2020-01-21'
+modification_date: '2020-02-04'
 name: System Processes Run From Unexpected Locations
 original_authors:
   - company: Splunk
@@ -108,4 +108,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '4.0'
+version: '5.0'
