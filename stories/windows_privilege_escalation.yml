@@ -23,7 +23,7 @@ maintainers:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-modification_date: '2017-12-07'
+modification_date: '2020-02-04'
 name: Windows Privilege Escalation
 narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an adversary
   gains an initial foothold on a host and then exploits its weaknesses to increase
