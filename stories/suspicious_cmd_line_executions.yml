@@ -30,7 +30,7 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
-modification_date: '2017-10-23'
+modification_date: '2020-02-04'
 name: Suspicious Command-Line Executions
 narrative: The ability to execute arbitrary commands via the Windows CLI is a primary
   goal for the adversary. With access to the shell, an attacker can easily run scripts
@@ -51,4 +51,4 @@ references:
   - https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
 spec_version: 2
 usecase: Advanced Threat Detection
-version: '2.0'
+version: '2.1'
