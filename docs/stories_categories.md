@@ -2211,8 +2211,8 @@ Endpoint
 ### Ransomware
 * id = `cf309d0d-d4aa-4fbb-963d-1e79febd3756`
 * creation_date = 2017-07-24
-* modification_date = 2017-09-10
-* version = 1.0
+* modification_date = 2020-02-04
+* version = 1.1
 * spec_version = 2
 
 ##### Description
@@ -2370,8 +2370,8 @@ Network_Traffic
 ### Unusual Processes
 * id = `f4368e3f-d59f-4192-84f6-748ac5a3ddb6`
 * creation_date = 2016-08-09
-* modification_date = 2018-11-20
-* version = 2.0
+* modification_date = 2020-02-04
+* version = 2.1
 * spec_version = 2
 
 ##### Description
@@ -3332,8 +3332,8 @@ Web
 ### Suspicious Command-Line Executions
 * id = `f4368ddf-d59f-4192-84f6-778ac5a3ffc7`
 * creation_date = 2017-10-09
-* modification_date = 2017-10-23
-* version = 2.0
+* modification_date = 2020-02-04
+* version = 2.1
 * spec_version = 2
 
 ##### Description
