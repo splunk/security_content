@@ -30,7 +30,7 @@ detect:
         latest_time: -10m@m
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name)
-        as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.filepath
+        as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path
         = "*$Recycle.Bin*" by Filesystem.process_id Filesystem.dest | `drop_dm_object_name("Filesystem")`|
         search [| tstats `security_content_summariesonly` values(Processes.user) as user values(Processes.process_name)
         as process_name values(Processes.parent_process_name) as parent_process_name
@@ -94,7 +94,7 @@ mappings:
     - Data Staged
   nist:
     - DE.CM
-modification_date: '2019-03-01'
+modification_date: '2020-02-03'
 name: Suspicious writes to windows Recycle Bin
 original_authors:
   - company: Splunk
@@ -104,4 +104,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'
