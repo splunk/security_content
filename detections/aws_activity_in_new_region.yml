@@ -32,13 +32,15 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype=aws:cloudtrail earliest=-1h StartInstances  | stats earliest(_time)
-        as earliest latest(_time) as latest by awsRegion| inputlookup append=t previously_seen_aws_regions.csv
-        | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup
-        previously_seen_aws_regions.csv | eval regionStatus=if(earliest >= relative_time(now(),
-        "-1d@d"), "Instance Started in a New Region","Previously Seen Region") | convert
-        security_content_ctime(earliest) security_content_ctime(latest) | where regionStatus="Instance Started in a
-        New Region"
+      search: sourcetype=aws:cloudtrail earliest=-1h StartInstances 
+        | stats earliest(_time) as earliest latest(_time) as latest by awsRegion
+        | inputlookup append=t previously_seen_aws_regions.csv
+        | stats min(earliest) as earliest max(latest) as latest by awsRegion 
+        | outputlookup previously_seen_aws_regions.csv
+        | eval regionStatus=if(earliest >= relative_time(now(),"-1d@d"), "Instance Started in a New Region","Previously Seen Region") 
+        | `security_content_ctime(earliest)` 
+        | `security_content_ctime(latest)` 
+        | where regionStatus="Instance Started in a New Region"
       suppress:
         suppress_fields: awsRegion
         suppress_period: 14400s

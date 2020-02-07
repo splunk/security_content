@@ -22,7 +22,7 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
-modification_date: '2018-09-06'
+modification_date: '2020-02-04'
 name: DNS Hijacking
 narrative: 'Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/threat-intelligence/dns-is-still-the-achilles-heel-of-the-internet-25613),
   DNS plays a critical role in routing web traffic but is notoriously vulnerable to

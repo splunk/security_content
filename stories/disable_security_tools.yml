@@ -29,7 +29,7 @@ maintainers:
   - company: Splunk
     email: rvaldez@splunk.com
     name: Rico Valdez
-modification_date: '2018-04-09'
+modification_date: '2020-02-04'
 name: Disabling Security Tools
 narrative: Attackers employ a variety of tactics in order to avoid detection and operate
   without barriers. This often involves modifying the configuration of security tools
@@ -51,4 +51,4 @@ references:
   - https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf
 spec_version: 2
 usecase: Security Monitoring
-version: '1.0'
+version: '2.0'
