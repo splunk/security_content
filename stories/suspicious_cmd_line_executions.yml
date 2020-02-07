@@ -30,7 +30,7 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
-modification_date: '2017-10-23'
+modification_date: '2020-01-22'
 name: Suspicious Command-Line Executions
 narrative: The ability to execute arbitrary commands via the Windows CLI is a primary
   goal for the adversary. With access to the shell, an attacker can easily run scripts
