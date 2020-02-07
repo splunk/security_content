@@ -38,7 +38,7 @@ detect:
         | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval query_length = len(query)
         | apply dns_query_pdfmodel threshold=0.01 | rename "IsOutlier(query_length)"
         as isOutlier | search isOutlier > 0 | sort -query_length | table start_time
-        end_time query record_type count src dest query_length'
+        end_time query record_type count src dest query_length | `dns_query_length_mltk_filter` '
       suppress:
         suppress_fields: query
         suppress_period: 43200s
@@ -132,11 +132,13 @@ mappings:
     - Command and Control
     - Exfiltration
     - Commonly Used Port
+  mitre_technique_id:
+    - T1071
   nist:
     - PR.PT
     - DE.AE
     - DE.CM
-modification_date: '2019-05-08'
+modification_date: '2020-01-22'
 name: DNS Query Length Outliers - MLTK
 original_authors:
   - company: Splunk
@@ -146,4 +148,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
