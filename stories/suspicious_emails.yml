@@ -23,7 +23,7 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
-modification_date: '2017-09-19'
+modification_date: '2020-01-27'
 name: Suspicious Emails
 narrative: 'It is a common practice for attackers of all types to leverage targeted
   spearphishing campaigns and mass mailers to deliver weaponized email messages and
