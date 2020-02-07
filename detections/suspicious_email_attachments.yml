@@ -24,6 +24,9 @@ detect:
         risk_object_type:
           - user
         risk_score: 60
+      macros:
+        - suspicious_email_attachments
+        - suspicious_email_attachments_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
