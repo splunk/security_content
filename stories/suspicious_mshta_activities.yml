@@ -19,7 +19,7 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
-modification_date: '2018-08-07'
+modification_date: '2020-02-03'
 name: Suspicious MSHTA Activity
 narrative: 'One common adversary tactic is to bypass application white-listing solutions
   via the mshta.exe process, which executes Microsoft HTML applications with the .hta
@@ -45,4 +45,4 @@ references:
   - https://attack.mitre.org/wiki/Technique/T1170
 spec_version: 2
 usecase: Advanced Threat Detection
-version: '1.0'
+version: '1.1'
