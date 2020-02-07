@@ -1590,7 +1590,6 @@ Another search detects incidents wherein a single password is used across multip
 ====References====
 * https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
 * https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
-* https://www.otalliance.org/news-events/press-releases/online-trust-alliance-reports-doubling-cyber-incidents-2017-0
 
 creation_date = 2018-07-12
 
@@ -1710,7 +1709,7 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 
 creation_date = 2018-03-19
 
-modification_date = 2018-03-19
+modification_date = 2020-01-22
 
 version = 2.0
 
@@ -1828,7 +1827,7 @@ The searches in this Analytic Story will help you find executables that are rare
 
 creation_date = 2018-09-11
 
-modification_date = 2018-09-11
+modification_date = 2020-01-27
 
 version = 1.0
 
@@ -1889,7 +1888,7 @@ Among other searches in this Analytic Story is a detection search that looks for
 
 creation_date = 2018-06-14
 
-modification_date = 2018-06-14
+modification_date = 2020-01-22
 
 version = 2.0
 
@@ -1948,7 +1947,7 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 
 creation_date = 2018-06-14
 
-modification_date = 2018-06-18
+modification_date = 2020-01-22
 
 version = 2.0
 
@@ -2306,9 +2305,9 @@ Use the searches to detect and monitor suspicious behavior related to these acti
 
 creation_date = 2018-01-08
 
-modification_date = 2018-01-08
+modification_date = 2020-02-03
 
-version = 1.0
+version = 1.1
 
 </div>
 </div>
@@ -2472,7 +2471,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 creation_date = 2018-08-08
 
-modification_date = 2019-12-11
+modification_date = 2020-02-04
 
 version = 2.0
 
@@ -2533,7 +2532,7 @@ The searches in this Analytic Story help you detect and investigate activities t
 
 creation_date = 2017-11-21
 
-modification_date = 2018-09-06
+modification_date = 2020-02-04
 
 version = 1.0
 
@@ -2588,9 +2587,9 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
 creation_date = 2018-04-09
 
-modification_date = 2018-04-09
+modification_date = 2020-02-04
 
-version = 1.0
+version = 2.0
 
 </div>
 </div>
@@ -2650,9 +2649,9 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 creation_date = 2016-09-13
 
-modification_date = 2018-05-31
+modification_date = 2020-02-04
 
-version = 1.0
+version = 2.0
 
 </div>
 </div>
@@ -2854,7 +2853,7 @@ If behavioral searches included in this story yield positive hits, iDefense reco
 
 creation_date = 2018-07-24
 
-modification_date = 2018-07-24
+modification_date = 2020-01-22
 
 version = 1.0
 
@@ -2962,7 +2961,7 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 creation_date = 2017-10-09
 
-modification_date = 2020-02-04
+modification_date = 2020-02-03
 
 version = 2.1
 
@@ -3070,7 +3069,7 @@ Once a phishing message has been detected, the next steps are to answer the foll
 
 creation_date = 2017-03-24
 
-modification_date = 2017-09-19
+modification_date = 2020-01-27
 
 version = 1.0
 
@@ -3127,9 +3126,9 @@ The searches in this story help you detect and investigate suspicious activity t
 
 creation_date = 2018-08-07
 
-modification_date = 2018-08-07
+modification_date = 2020-02-03
 
-version = 1.0
+version = 1.1
 
 </div>
 </div>
@@ -3462,7 +3461,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 creation_date = 2017-12-07
 
-modification_date = 2017-12-07
+modification_date = 2020-02-04
 
 version = 2.0
 
