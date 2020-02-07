@@ -39,7 +39,7 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
-modification_date: '2018-09-11'
+modification_date: '2020-01-27'
 name: Emotet Malware (DHS Report TA18-201A)
 narrative: 'The trojan downloader known as Emotet first surfaced in 2014, when it
   was discovered targeting the banking industry to steal credentials. However, according
