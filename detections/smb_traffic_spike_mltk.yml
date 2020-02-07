@@ -37,7 +37,7 @@ detect:
         by _time span=1h, All_Traffic.src | eval HourOfDay=strftime(_time, "%H") |
         eval DayOfWeek=strftime(_time, "%A") | `drop_dm_object_name(All_Traffic)`
         | apply smb_pdfmodel threshold=0.001 | rename "IsOutlier(count)" as isOutlier
-        | search isOutlier > 0 | sort -count | table _time src dest port count'
+        | search isOutlier > 0 | sort -count | table _time src dest port count | `smb_traffic_spike_mltk_filter` '
       suppress:
         suppress_fields: src
         suppress_period: 28800s
@@ -126,9 +126,13 @@ mappings:
     - Execution
     - Command and Control
     - Commonly Used Port
+  mitre_technique_id:
+    - T1110
+    - T1135
+    - T1210
   nist:
     - DE.CM
-modification_date: '2019-05-08'
+modification_date: '2020-01-22'
 name: SMB Traffic Spike - MLTK
 original_authors:
   - company: Splunk
@@ -138,4 +142,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

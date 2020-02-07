@@ -31,6 +31,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - first_time_seen_cmd_line_filter
       schedule:
         cron_schedule: 30 * * * *
         earliest_time: -70m@m
@@ -46,7 +48,7 @@ detect:
         as firstTime, max(lastTime) as lastTime by process | outputlookup previously_seen_cmd_line_arguments
         | eval newCmdLineArgument=if(firstTime >= relative_time(now(), "-70m@m"),
         1, 0) | where newCmdLineArgument=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-        | table process]'
+        | table process] | `first_time_seen_cmd_line_filter` '
       suppress:
         suppress_fields: dest, process
         suppress_period: 86400s
@@ -118,11 +120,15 @@ mappings:
     - Scripting
     - Persistence
     - Command-Line Interface
+  mitre_technique_id:
+    - T1059
+    - T1117
+    - T1202
   nist:
     - PR.PT
     - DE.CM
     - PR.IP
-modification_date: '2019-03-04'
+modification_date: '2020-01-22'
 name: First time seen command line argument
 original_authors:
   - company: Splunk
@@ -132,4 +138,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '3.0'
+version: '4.0'

@@ -53,7 +53,7 @@ maintainers:
   - company: Splunk
     email: rvaldez@splunk.com
     name: Rico Valdez
-modification_date: '2018-03-19'
+modification_date: '2020-01-22'
 name: DHS Report TA18-074A
 narrative: 'The frequency of nation-state cyber attacks has increased significantly
   over the last decade. Employing numerous tactics and techniques, these attacks continue

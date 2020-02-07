@@ -36,7 +36,7 @@ detect:
         OR All_Traffic.dest_port=445 OR All_Traffic.app=smb) by All_Traffic.src_ip
         All_Traffic.dest_ip | `drop_dm_object_name("All_Traffic")` | search ( dest_ip!=10.0.0.0/8
         AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) | `security_content_ctime(earliest)`|
-        `security_content_ctime(latest)`'
+        `security_content_ctime(latest)` | `outbound_smb_connections_filter` '
       suppress:
         suppress_fields: src_ip
         suppress_period: 28800s
@@ -104,9 +104,13 @@ mappings:
     - Commonly Used Port
     - Credential Access
     - Lateral Movement
+  mitre_technique_id:
+    - T1110
+    - T1135
+    - T1210
   nist:
     - DE.CM
-modification_date: '2018-03-20'
+modification_date: '2020-01-22'
 name: Detect Outbound SMB Traffic
 original_authors:
   - company: Splunk
@@ -116,4 +120,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
