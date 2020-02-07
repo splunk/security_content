@@ -1,0 +1,26 @@
+name: Detect Mimikatz Using Loaded Images
+id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
+version: 1
+data_metadata:
+  data_eventtypes:
+    - wineventlog_sysmon
+  data_source:
+    - Windows Event Logs
+  providing_technologies:
+    - Microsoft Windows
+date: '2019-12-03'
+description: This search looks for loaded images (dll) unique for Mimikatz using Sysmon EventCode 7 logs.
+references:
+  - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+author: Patrick Bareiss, Splunk
+search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId) as ProcessId by Computer, Image
+  | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll
+  | rename Computer as dest
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_mimikatz_using_loaded_images_filter`'
+known_false_positives: Other tools can import the same DLLs. These tools should be part of the whitelist.
+tags:
+  - T1003
+  - story_credential_dumping
+  - apt1
+  - mitre_top10
+  - mimikatz

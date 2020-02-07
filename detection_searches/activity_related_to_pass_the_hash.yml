@@ -1,0 +1,27 @@
+name: Detect Activity Related to Pass the Hash Attacks
+id: f5939373-8054-40ad-8c64-cec478a22a4b
+version: 3
+date: '2020-01-09'
+data_metadata:
+  data_eventtypes:
+    - wineventlog_security
+  data_source:
+    - Authentication
+  providing_technologies:
+    - Microsoft Windows
+description: To detect pass the hash activity, we look at all events with event code 4624
+  that specify a logon type 3 (network logons) for remote pass the hash attacks and
+  logon type 9 for local pass the hash attacks. The search also filters out
+  events with an account name of 'Anonymous' to help reduce false positives.
+references: []
+author: Bhavin Patel, Splunk
+search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 LogonProcessName=NtLmSsp WorkstationName=WORKSTATION NOT AccountName="ANONYMOUS LOGON") OR
+  (EventCode=4624 Logon_Type=9 LogonProcessName=seclogo)
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode, Logon_Type, WorkstationName, user, dest
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `detect_activity_related_to_pass_the_hash_attacks_filter` '
+known_false_positives: Legitimate logon activity by authorized NTLM systems may be
+  detected by this search. Please investigate as appropriate.
+tags:
+  - T1075
+  - story_lateral_movement

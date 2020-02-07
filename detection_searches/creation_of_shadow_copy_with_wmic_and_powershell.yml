@@ -1,0 +1,28 @@
+name: Creation of Shadow Copy with wmic and powershell
+id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
+version: 1
+data_metadata:
+  data_eventtypes:
+    - powershell scriptblock logging
+  data_source:
+    - Windows Event Logs
+  providing_technologies:
+    - Microsoft Windows
+date: '2019-12-10'
+description: The ntds.dit file contains the Active Directory (AD) database. This file can't be copied directly.
+  That's why attackers create a shadow copy before exfiltrating the file. This search detects the creation
+  of a shadow copy using wmic, which is executed by Powershell.
+references:
+  - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+author: Patrick Bareiss, Splunk
+search: '`sysmon` Message=*win32_shadowcopy* Message=*Create*
+  | stats count min(_time) as firstTime max(_time) as lastTime by dvc User EventCode Message
+  | rename User as user, dvc as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `creation_of_shadow_copy_with_wmic_and_powershell_filter` '
+known_false_positives: Legtimate administrator usage of wmic to create a shadow copy.
+tags:
+  - T1003
+  - story_credential_dumping
+  - story_malicious_powershell
+  - apt1
+  - mitre_top10
