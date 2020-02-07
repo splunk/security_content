@@ -1784,7 +1784,6 @@ Another search detects incidents wherein a single password is used across multip
 ##### References
 * https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
 * https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
-* https://www.otalliance.org/news-events/press-releases/online-trust-alliance-reports-doubling-cyber-incidents-2017-0
 
 
 ## Malware
@@ -1870,7 +1869,7 @@ Alerts
 ### DHS Report TA18-074A
 * id = `0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef`
 * creation_date = 2018-03-19
-* modification_date = 2018-03-19
+* modification_date = 2020-01-22
 * version = 2.0
 * spec_version = 2
 
@@ -2004,7 +2003,7 @@ Web
 ### Emotet Malware (DHS Report TA18-201A)
 * id = `bb9f5ed2-916e-4364-bb6d-91c310efcf52`
 * creation_date = 2018-09-11
-* modification_date = 2018-09-11
+* modification_date = 2020-01-27
 * version = 1.0
 * spec_version = 2
 
@@ -2076,7 +2075,7 @@ Network_Traffic
 ### Hidden Cobra Malware
 * id = `baf7580b-d4b4-4774-8173-7d198e9da335`
 * creation_date = 2018-06-14
-* modification_date = 2018-06-14
+* modification_date = 2020-01-22
 * version = 2.0
 * spec_version = 2
 
@@ -2148,7 +2147,7 @@ Endpoint
 ### Orangeworm Attack Group
 * id = `bb9f5ed2-916e-4364-bb6d-97c370efcf52`
 * creation_date = 2018-06-14
-* modification_date = 2018-06-18
+* modification_date = 2020-01-22
 * version = 2.0
 * spec_version = 2
 
@@ -2211,8 +2210,8 @@ Endpoint
 ### Ransomware
 * id = `cf309d0d-d4aa-4fbb-963d-1e79febd3756`
 * creation_date = 2017-07-24
-* modification_date = 2017-09-10
-* version = 1.0
+* modification_date = 2020-02-04
+* version = 1.1
 * spec_version = 2
 
 ##### Description
@@ -2370,8 +2369,8 @@ Network_Traffic
 ### Unusual Processes
 * id = `f4368e3f-d59f-4192-84f6-748ac5a3ddb6`
 * creation_date = 2016-08-09
-* modification_date = 2018-11-20
-* version = 2.0
+* modification_date = 2020-02-04
+* version = 2.1
 * spec_version = 2
 
 ##### Description
@@ -2601,8 +2600,8 @@ Endpoint
 ### Collection and Staging
 * id = `8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a`
 * creation_date = 2018-01-08
-* modification_date = 2018-01-08
-* version = 1.0
+* modification_date = 2020-02-03
+* version = 1.1
 * spec_version = 2
 
 ##### Description
@@ -2791,7 +2790,7 @@ Web
 ### Credential Dumping
 * id = `854d78bf-d0e2-4f4e-b05c-640905f86d7a`
 * creation_date = 2018-08-08
-* modification_date = 2019-12-11
+* modification_date = 2020-02-04
 * version = 2.0
 * spec_version = 2
 
@@ -2863,7 +2862,7 @@ Endpoint
 ### DNS Hijacking
 * id = `8169f17b-ef68-4b59-aa28-586907301221`
 * creation_date = 2017-11-21
-* modification_date = 2018-09-06
+* modification_date = 2020-02-04
 * version = 1.0
 * spec_version = 2
 
@@ -2929,8 +2928,8 @@ Network_Resolution
 ### Disabling Security Tools
 * id = `fcc27099-46a0-46b0-a271-5c7dab56b6f1`
 * creation_date = 2018-04-09
-* modification_date = 2018-04-09
-* version = 1.0
+* modification_date = 2020-02-04
+* version = 2.0
 * spec_version = 2
 
 ##### Description
@@ -2991,8 +2990,8 @@ Endpoint
 ### Lateral Movement
 * id = `399d65dc-1f08-499b-a259-aad9051f38ad`
 * creation_date = 2016-09-13
-* modification_date = 2018-05-31
-* version = 1.0
+* modification_date = 2020-02-04
+* version = 2.0
 * spec_version = 2
 
 ##### Description
@@ -3190,7 +3189,7 @@ Endpoint
 ### Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
 * id = `988C59C5-0A1C-45B6-A555-0C62276E327E`
 * creation_date = 2018-07-24
-* modification_date = 2018-07-24
+* modification_date = 2020-01-22
 * version = 1.0
 * spec_version = 2
 
@@ -3332,8 +3331,8 @@ Web
 ### Suspicious Command-Line Executions
 * id = `f4368ddf-d59f-4192-84f6-778ac5a3ffc7`
 * creation_date = 2017-10-09
-* modification_date = 2017-10-23
-* version = 2.0
+* modification_date = 2020-02-03
+* version = 2.1
 * spec_version = 2
 
 ##### Description
@@ -3455,7 +3454,7 @@ Network_Resolution
 ### Suspicious Emails
 * id = `2b1800dd-92f9-47ec-a981-fdf1351e5d55`
 * creation_date = 2017-03-24
-* modification_date = 2017-09-19
+* modification_date = 2020-01-27
 * version = 1.0
 * spec_version = 2
 
@@ -3516,8 +3515,8 @@ UEBA
 ### Suspicious MSHTA Activity
 * id = `2b1800dd-92f9-47dd-a981-fdf13w1q5d55`
 * creation_date = 2018-08-07
-* modification_date = 2018-08-07
-* version = 1.0
+* modification_date = 2020-02-03
+* version = 1.1
 * spec_version = 2
 
 ##### Description
@@ -3903,7 +3902,7 @@ Change_Analysis
 ### Windows Privilege Escalation
 * id = `644e22d3-598a-429c-a007-16fdb802cae5`
 * creation_date = 2017-12-07
-* modification_date = 2017-12-07
+* modification_date = 2020-02-04
 * version = 2.0
 * spec_version = 2
 

@@ -27,7 +27,7 @@ maintainers:
   - company: Splunk
     email: rvaldez@splunk.com
     name: Rico Valdez
-modification_date: '2018-01-08'
+modification_date: '2020-02-03'
 name: Collection and Staging
 narrative: "A common adversary goal is to identify and exfiltrate data of value from\
   \ a target organization. This data may include email conversations and addresses,\
@@ -49,4 +49,4 @@ references:
   - https://attack.mitre.org/wiki/Technique/T1074
 spec_version: 2
 usecase: Security Monitoring
-version: '1.0'
+version: '1.1'

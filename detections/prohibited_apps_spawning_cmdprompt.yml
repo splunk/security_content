@@ -28,7 +28,7 @@ detect:
         nes_fields: dest, process, parent_process
         rule_description: A prohibited application from prohibited_apps_launching_cmd.csv
           was leveraged to launch cmd.exe
-        rule_title: Prohibited application($parent_process$) used to launch cmd.exe
+        rule_title: Prohibited application($parent_process_name$) used to launch cmd.exe
           on $dest$
       risk:
         risk_object: dest
@@ -45,7 +45,7 @@ detect:
         Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
         |search [`prohibited_apps_launching_cmd`]'
       suppress:
-        suppress_fields: dest, parent_process
+        suppress_fields: dest, parent_process, user
         suppress_period: 86400s
 eli5: Obtaining access to the Command-Line Interface (CLI) is typically a primary
   attacker goal. Once an attacker has obtained the ability to execute code on a target
@@ -58,7 +58,7 @@ eli5: Obtaining access to the Command-Line Interface (CLI) is typically a primar
   that are being watched for execution of cmd.exe.
 entities:
   - dest
-  - process_name
+  - parent_process_name
   - user
 how_to_implement: You must be ingesting data that records process activity from your
   hosts and populates the Endpoint data model with the resultant dataset. This search
@@ -115,7 +115,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-11-15'
+modification_date: '2020-02-03'
 name: Detect Prohibited Applications Spawning cmd.exe
 original_authors:
   - company: Splunk
@@ -125,4 +125,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

@@ -25,7 +25,7 @@ maintainers:
   - company: iDefense
     email: iDefense.IntelOps@accenture.com
     name: iDefense Cyber Espionage Team
-modification_date: '2018-07-24'
+modification_date: '2020-01-22'
 name: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
 narrative: 'This story was created as a joint effort between iDefense and Splunk.\
 

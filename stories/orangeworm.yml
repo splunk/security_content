@@ -19,7 +19,7 @@ maintainers:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-modification_date: '2018-06-18'
+modification_date: '2020-01-22'
 name: Orangeworm Attack Group
 narrative: 'In May of 2018, the attack group Orangeworm was implicated for installing
   a custom backdoor called Trojan.Kwampirs within large international healthcare corporations

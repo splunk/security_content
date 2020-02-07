@@ -23,7 +23,7 @@ maintainers:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-modification_date: '2018-05-31'
+modification_date: '2020-02-04'
 name: Lateral Movement
 narrative: "Once attackers gain a foothold within an enterprise, they will seek to\
   \ expand their accesses and leverage techniques that facilitate lateral movement.\
@@ -58,4 +58,4 @@ references:
   - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 spec_version: 2
 usecase: Advanced Threat Detection
-version: '1.0'
+version: '2.0'
