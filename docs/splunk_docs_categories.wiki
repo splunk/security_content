@@ -2008,9 +2008,9 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 
 creation_date = 2017-07-24
 
-modification_date = 2017-09-10
+modification_date = 2020-02-04
 
-version = 1.0
+version = 1.1
 
 </div>
 </div>
@@ -2131,9 +2131,9 @@ In the event an unusual process is identified, it is imperative to better unders
 
 creation_date = 2016-08-09
 
-modification_date = 2018-11-20
+modification_date = 2020-02-04
 
-version = 2.0
+version = 2.1
 
 </div>
 </div>
@@ -2962,9 +2962,9 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 creation_date = 2017-10-09
 
-modification_date = 2017-10-23
+modification_date = 2020-02-04
 
-version = 2.0
+version = 2.1
 
 </div>
 </div>

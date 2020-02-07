@@ -1,5 +1,5 @@
-definition: lookup update=true system32_executables filename as process_name
+definition: lookup update=true is_windows_system_file filename as process_name
   OUTPUT systemFile | search systemFile=true
 description: This macro limits the output to process names that are in the Windows
   System directory
-name: system32_executables
+name: is_windows_system_file

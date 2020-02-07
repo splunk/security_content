@@ -51,4 +51,4 @@ references:
   - https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
 spec_version: 2
 usecase: Advanced Threat Detection
-version: '2.0'
+version: '2.1'

@@ -66,7 +66,7 @@ maintainers:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-modification_date: '2017-09-10'
+modification_date: '2020-02-04'
 name: Ransomware
 narrative: Ransomware is an ever-present risk to the enterprise, wherein an infected
   host encrypts business-critical data, holding it hostage until the victim pays the
@@ -87,4 +87,4 @@ references:
   - https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 spec_version: 2
 usecase: Advanced Threat Detection
-version: '1.0'
+version: '1.1'
