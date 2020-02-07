@@ -97,7 +97,6 @@ mappings:
     - Commonly Used Port
   mitre_technique_id:
     - T1071
-    - T1320
   nist:
     - PR.PT
     - DE.AE
