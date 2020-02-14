@@ -497,8 +497,8 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
                 output_file.write("\n##### Maintainers\n")
                 for m in story['maintainers']:
                     output_file.write("* name = {0}\n".format(m['name']))
-                    output_file.write("* email = {0}\n".format(m['company']))
-                    output_file.write("* company = {0}\n".format(m['email']))
+                    output_file.write("* email = {0}\n".format(m['email']))
+                    output_file.write("* company = {0}\n".format(m['company']))
 
                 # references
                 output_file.write("\n##### References\n")

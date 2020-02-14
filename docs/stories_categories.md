@@ -84,8 +84,8 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
@@ -141,8 +141,8 @@ This Analytic Story is focused on detecting suspicious new instances in your EC2
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
@@ -194,8 +194,8 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
@@ -249,8 +249,8 @@ This Analytic Story was designed to provide you with flexibility in the precisio
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
@@ -306,8 +306,8 @@ The detection searches in this Analytic Story are designed to help you uncover A
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
@@ -367,8 +367,8 @@ Cloud_Infrastructure
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
@@ -422,8 +422,8 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
@@ -475,11 +475,11 @@ It is important to monitor and control who has access to your AWS infrastructure
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 * name = Jason Brewer
-* email = Splunk
-* company = jbrewer@splunk.com
+* email = jbrewer@splunk.com
+* company = Splunk
 
 ##### References
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
@@ -532,8 +532,8 @@ Among things to look out for are S3 access from unfamiliar locations and by unfa
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
@@ -586,8 +586,8 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
@@ -637,8 +637,8 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
@@ -712,11 +712,11 @@ Identity_Management
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
@@ -767,8 +767,8 @@ Network_Sessions
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
@@ -818,8 +818,8 @@ Having backups is a standard best practice that helps ensure continuity of busin
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
@@ -874,8 +874,8 @@ Endpoint
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
@@ -927,8 +927,8 @@ Updates
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://learn.cisecurity.org/20-controls-download
@@ -984,8 +984,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
@@ -1037,8 +1037,8 @@ Authentication
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
@@ -1090,8 +1090,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.monkey.org/~dugsong/dsniff/
@@ -1177,8 +1177,8 @@ Endpoint
 
 ##### Maintainers
 * name = Jose Hernandez
-* email = Splunk
-* company = jhernandez@splunk.com
+* email = jhernandez@splunk.com
+* company = Splunk
 
 ##### References
 * http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html
@@ -1247,8 +1247,8 @@ Web
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
@@ -1299,8 +1299,8 @@ Vulnerabilities
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://meltdownattack.com/
@@ -1358,8 +1358,8 @@ It is important to ensure that your Splunk deployment is being kept up to date a
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * http://www.splunk.com/view/SP-CAAAPQ6#announce
@@ -1412,8 +1412,8 @@ A detection search within this Analytic Story looks for vulnerabilities describe
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://nvd.nist.gov/vuln/detail/CVE-2018-11409
@@ -1490,8 +1490,8 @@ Web
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.zerofox.com/blog/what-is-digital-risk-monitoring/
@@ -1545,8 +1545,8 @@ Network_Resolution
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
@@ -1602,8 +1602,8 @@ Network_Resolution
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.cisecurity.org/controls/data-protection/
@@ -1662,8 +1662,8 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
@@ -1719,8 +1719,8 @@ Endpoint
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://technet.microsoft.com/library/bb490939.aspx
@@ -1778,8 +1778,8 @@ Another search detects incidents wherein a single password is used across multip
 
 ##### Maintainers
 * name = Jim Apger
-* email = Splunk
-* company = Mayhem@splunk.com
+* email = Mayhem@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
@@ -1858,8 +1858,8 @@ Alerts
 
 ##### Maintainers
 * name = Jose Hernandez
-* email = Splunk
-* company = jhernandez@splunk.com
+* email = jhernandez@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/
@@ -1935,8 +1935,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA18-074A
@@ -1991,8 +1991,8 @@ Web
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
@@ -2064,8 +2064,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA18-201A
@@ -2137,8 +2137,8 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity
@@ -2200,8 +2200,8 @@ Endpoint
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia
@@ -2278,8 +2278,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.symantec.com/connect/blogs/what-you-need-know-about-wannacry-ransomware
@@ -2358,8 +2358,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/
@@ -2423,8 +2423,8 @@ Endpoint
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html
@@ -2486,8 +2486,8 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/
@@ -2545,8 +2545,8 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1050
@@ -2655,8 +2655,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/wiki/Collection
@@ -2724,8 +2724,8 @@ Network_Traffic
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/wiki/Command_and_Control
@@ -2779,8 +2779,8 @@ Web
 
 ##### Maintainers
 * name = Splunk Research Team
-* email = Splunk
-* company = research@splunk.com
+* email = research@splunk.com
+* company = Splunk
 
 ##### References
 * https://github.com/kgretzky/evilginx2
@@ -2849,11 +2849,11 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 * name = Patrick Bareiss
-* email = Splunk
-* company = pbareiss@splunk.com
+* email = pbareiss@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1003
@@ -2916,8 +2916,8 @@ Network_Resolution
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
@@ -2979,8 +2979,8 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1089
@@ -3047,8 +3047,8 @@ Endpoint
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
@@ -3116,8 +3116,8 @@ Endpoint
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
@@ -3180,8 +3180,8 @@ Endpoint
 
 ##### Maintainers
 * name = Splunk Research Team
-* email = Splunk
-* company = research@splunk.com
+* email = research@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
@@ -3266,8 +3266,8 @@ Endpoint
 
 ##### Maintainers
 * name = iDefense Cyber Espionage Team
-* email = iDefense
-* company = iDefense.IntelOps@accenture.com
+* email = iDefense.IntelOps@accenture.com
+* company = iDefense
 
 ##### References
 * https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
@@ -3320,8 +3320,8 @@ Web
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.owasp.org/index.php/SQL_Injection
@@ -3382,8 +3382,8 @@ Endpoint
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1059
@@ -3443,8 +3443,8 @@ Network_Resolution
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/
@@ -3506,8 +3506,8 @@ UEBA
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
@@ -3565,8 +3565,8 @@ Endpoint
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
@@ -3631,8 +3631,8 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
@@ -3697,8 +3697,8 @@ Change_Analysis
 
 ##### Maintainers
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
@@ -3757,8 +3757,8 @@ Endpoint
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/wiki/Defense_Evasion
@@ -3817,8 +3817,8 @@ Endpoint
 
 ##### Maintainers
 * name = Rico Valdez
-* email = Splunk
-* company = rvaldez@splunk.com
+* email = rvaldez@splunk.com
+* company = Splunk
 
 ##### References
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
@@ -3886,11 +3886,11 @@ Change_Analysis
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 * name = Bhavin Patel
-* email = Splunk
-* company = bpatel@splunk.com
+* email = bpatel@splunk.com
+* company = Splunk
 
 ##### References
 * http://www.fuzzysecurity.com/tutorials/19.html
@@ -3951,8 +3951,8 @@ Endpoint
 
 ##### Maintainers
 * name = David Dorsey
-* email = Splunk
-* company = davidd@splunk.com
+* email = davidd@splunk.com
+* company = Splunk
 
 ##### References
 * https://attack.mitre.org/tactics/TA0004/
