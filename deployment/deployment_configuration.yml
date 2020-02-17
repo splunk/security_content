@@ -1,0 +1,28 @@
+name: Deployment Configuration Example
+id: 23ef3179-7b31-424f-92f5-8152528dfb2d
+macros:
+  sysmon: 'index=win source=WinEventLog:Microsoft-Windows-Sysmon/Operational'
+  wineventlog_security: 'index=win source=XmlWinEventLog:Security'
+scheduling:
+  app: 'sigma_hunting_app'
+  cron_schedule: '*/10 * * * *'
+  earliest_time: '-10m'
+  latest_time: 'now'
+  schedule_window: auto
+  allow_skew: '50%'
+alert_action:
+  summary_index:
+    name: 'asx'
+    enrich_tags: true
+  email:
+    to: 'test@test.de'
+    subject: 'Splunk Alert: $name$'
+    message: 'Splunk Alert $name$ triggered |List of interesting fields:  %fields% |title: %title% status: %status% |description: %description% |references: %references% |tags: %tags% |author: %author% |date: %date% |falsepositives: %falsepositives% |level: %level%'
+  notable:
+    rule_description: %description%
+    rule_title: Notable %title%
+tags:
+  - all # same deployment configuration for all
+  - story_credential_dumping  # deployment per tag
+  - 14038953-e5f2-4daf-acff-5452062baf03  # deployment per detection
+  

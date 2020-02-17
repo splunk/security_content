@@ -1,0 +1,10 @@
+name: Detecting Mimikatz
+id: 16f16a29-4b8b-4735-a900-a21f358bbee2
+version: 1
+date: '2020-02-17'
+description: Mimikatz is a popular tool for hacker to perform credential dumping.
+  This analytics story contains multiple detection dedicated for detecting the usage of Mimikatz.
+author: Patrick Bareiss, Rico Valdez, Splunk
+search: 'index=asx tag=mimikatz | stats values(source) as detections values(process) as processes values(user) as users values(_time) as time count by dest'
+tags:
+  - mimikatz

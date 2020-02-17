@@ -1,0 +1,22 @@
+name: Previously Seen AWS Regions
+id: fc0edc95-ff2b-48b0-9f6f-63da3789fd63
+version: 1
+data_metadata:
+  data_source:
+    - AWS CloudTrail logs
+  data_sourcetypes:
+    - aws:cloudtrail
+  providing_technologies:
+    - AWS
+date: '2019-12-02'
+description: In this support search, we create a table of the first time (earliest) and most
+  recent time (latest) that this region has been seen in our dataset, grouped by the
+  value `awsRegion`. We only look for those events where an instance has been started.
+  All of these entries will be added to the `previously_seen_aws_regions.csv` lookup
+  file, which will act like a baseline for detections. Please validate the entries
+  of region names in the lookup file.
+references: []
+author: Bhavin Patel, Splunk
+search: 'sourcetype=aws:cloudtrail StartInstances | stats earliest(_time) as earliest
+  latest(_time) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv'
+known_false_positives: None identified.

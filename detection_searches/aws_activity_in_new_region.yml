@@ -1,0 +1,39 @@
+name: AWS activity in new region
+id: 44851281-4827-4337-87e8-d7c7f55ef89c
+version: 2
+data_metadata:
+  data_source:
+    - AWS CloudTrail logs
+  data_sourcetypes:
+    - aws:cloudtrail
+  providing_technologies:
+    - AWS
+date: '2018-02-23'
+description: In this search, we query CloudTrail logs to look for events that indicate that
+  an instance was started in a particular region. Using the `previously_seen_aws_regions.csv`
+  lookup file created using the support search, we compare the region where this instance
+  was started to all previously observed regions. The `eval` and `if` functions determine
+  that the earliest times seen for this region and instance were within the last day.
+  If a new region is detected, it will alert you with "Instance Started in a New Region".
+  However, this region will be added to the list of `previously_seen_aws_regions.csv`.
+  Please maintain `previously_seen_aws_regions.csv`
+references: []
+author: Bhavin Patel, Splunk
+search: 'sourcetype=aws:cloudtrail earliest=-1h StartInstances
+  | stats earliest(_time) as earliest latest(_time) as latest by awsRegion
+  | inputlookup append=t previously_seen_aws_regions.csv
+  | stats min(earliest) as earliest max(latest) as latest by awsRegion
+  | outputlookup previously_seen_aws_regions.csv
+  | eval regionStatus=if(earliest >= relative_time(now(),"-1d@d"), "Instance Started in a New Region","Previously Seen Region")
+  | `security_content_ctime(earliest)`
+  | `security_content_ctime(latest)`
+  | where regionStatus="Instance Started in a New Region"'
+baselines:
+  - Previously Seen AWS Regions / fc0edc95-ff2b-48b0-9f6f-63da3789fd63
+known_false_positives: It's possible that a user has unknowingly started an instance
+  in a new region. Please verify that this activity is legitimate.
+tags:
+  - cloud_detections
+  - aws_detections
+  - story_aws_ec2
+  - T1535
