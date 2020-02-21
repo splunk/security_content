@@ -1,60 +1,41 @@
 asset_type: GCP GCR container
- - id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
-   name: New container uploaded
-   type: splunk
 confidence: medium
-creation_data: '2020-02-20'
-data_metatada: 
-  - GCP Stackdriver pubsub subscription
-data_sourcetypes:
-  - google:gcp:pubsub:message
-providing_technologies:
-  - GCP
-  This searches show information on uploaded containers including source user, account, action, bucket name
-  event name, http user agent, message and destination path. 
-  detect: 
-   splunk:
-   correlation_rule:
-      notable:
-        nes_fields: Storage.action
-        rule_description: New container uploaded. 
-        rule_title: New container uploaded to GCP GCR
-     risk:
-        risk_object: Storage.action
-        risk_object_type:
-          - other
-        risk_core: 30
-     schedule:
-       cron_schedule: 0 * * * *
-       earliest_time: -70m@m
-       latest_time: -10m@m
-     search: 
-     '| datamodel Cloud_Infrastructure Storage search | search Storage.event_name=storage.objects.create | table Storage.src_user Storage.account Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg Storage.object_path '
- eli5: In this search we can detect if a new container has been uploaded to Google Container Registry,
+creation_date: '2020-02-20'
+data_metadata:
+  data_models:
+    - Cloud Data Infrastructure
+  data_source: 
+    - Stack driver
+  data_sourcetype:
+    - google:gcp:pubsub:messages
+  providing_technologies:
+    - GCP
+description: This search show information on uploaded containers including source user, account, action, bucket name event name, http user agent, message and destination path.
+id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
+detect:
+  splunk:
+  search: '| datamodel Cloud_Infrastructure Storage search | search Storage.event_name=storage.objects.create | table Storage.src_user Storage.account Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg Storage.object_path ' 
+eli5: In this search we can detect if a new container has been uploaded to Google Container Registry,
    operator can monitor users uploading containers, object paths of new uploaded containers.
- entities:
-   - Storage.action
- how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a subpub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.
- investigations: 
- known_false_positives: Uploading container is a normal behavior from developers or users with access to container registry. GCP GCR registers container upload as a Storage event, this search must be considered under
- the context of CONTAINER upload creation which automatically generates a bucket entry for destination path. 
- maintainers: 
+how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a subpub subscription to be imported to Splunk. You must also install Cloud Infrastructure Data Model
+known_false_positives: Uploading container is a normal behavior from developers or users with access to container registry. GCP GCR registers container upload as a Storage event, this search must be considered $
+ the context of CONTAINER upload creation which automatically generates a bucket entry for destination path.
+maintainers:
    - company: Splunk
      email: rsoto@splunk.com, rvaldez@splunk.com
-     name: Rod Soto, Rico Valdez
- mappings:
-   mitre_attack:
-    - Persistence
-   kill_chain_phases:
-    - weaponization
- modification_date:
- name: New container uploaded
- original_authors: 
+     name: Rod Soto
+mappings:
+     mitre_attack: 
+     - Persistence
+     kill_chain_phases:
+     - weaponization
+original_authors:
    - company: Splunk
      email: rsoto@splunk.com, rvaldez@splunk.com
-     name: Rod Soto, Rico Valdez
- references: https://github.com/splunk/cloud-datamodel-security-research
- security_domain: cloud
- spec_version: 1
- type: splunk
- version: '1.0'
+     name: Rod Soto
+modification_date: '2020-02-20'
+security_domain: threat
+type: splunk
+spec_version: 2
+version: '1.0'
+
