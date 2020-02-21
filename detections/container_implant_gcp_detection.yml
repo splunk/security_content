@@ -4,7 +4,7 @@ creation_date: '2020-02-20'
 data_metadata:
   data_models:
     - Cloud Data Infrastructure
-  data_source: 
+  data_source:
     - Stack driver
   data_sourcetype:
     - google:gcp:pubsub:messages
@@ -14,28 +14,28 @@ description: This search show information on uploaded containers including sourc
 id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
 detect:
   splunk:
-  search: '| datamodel Cloud_Infrastructure Storage search | search Storage.event_name=storage.objects.create | table Storage.src_user Storage.account Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg Storage.object_path ' 
+  search: '| datamodel Cloud_Infrastructure Storage search | search Storage.event_name=storage.objects.create | table Storage.src_user Storage.account Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg Storage.object_path'
 eli5: In this search we can detect if a new container has been uploaded to Google Container Registry,
    operator can monitor users uploading containers, object paths of new uploaded containers.
-how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a subpub subscription to be imported to Splunk. You must also install Cloud Infrastructure Data Model
-known_false_positives: Uploading container is a normal behavior from developers or users with access to container registry. GCP GCR registers container upload as a Storage event, this search must be considered $
+how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a subpub subscription to be imported to Splunk. You must also install Cloud Infrastr$
+known_false_positives: Uploading container is a normal behavior from developers or users with access to container registry. GCP GCR registers container upload as a Storage event, this search must be cons$
  the context of CONTAINER upload creation which automatically generates a bucket entry for destination path.
 maintainers:
    - company: Splunk
      email: rsoto@splunk.com, rvaldez@splunk.com
      name: Rod Soto
 mappings:
-     mitre_attack: 
+   mitre_attack:
      - Persistence
-     kill_chain_phases:
+    kill_chain_phases:
      - weaponization
+name: Container uploaded to GCP GCR
 original_authors:
    - company: Splunk
      email: rsoto@splunk.com, rvaldez@splunk.com
-     name: Rod Soto
+     name: Rod Soto, Rico Valdez
 modification_date: '2020-02-20'
 security_domain: threat
 type: splunk
 spec_version: 2
 version: '1.0'
-
