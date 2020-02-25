@@ -4,6 +4,8 @@ creation_date: '2020-02-20'
 data_metadata:
   data_models:
     - Vulnerabilities
+  data_source:
+    - AWS Cloud Trail logs 
   data_sourcetypes:
     - aws:cloudtrail
   providing_technologies:
