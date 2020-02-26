@@ -1,5 +1,7 @@
 creation_date: '2020-02-20'
 data_metadata:
+  data_models:
+    - Cloud_Infrastructure
   data_source:
     - AWS CloudTrail logs
   providing_technologies:
@@ -13,6 +15,10 @@ investigate:
   splunk:
     fields_required:
       - Compute.event_name
+    schedule:
+      cron_schedule: ''
+      earliest_time: '14400'
+      latest_time: '0'
     search: '|tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Cloud_Infrastructure.Compute where Compute.user_type!="AssumeRole" AND Compute.event_name="ListImages" by Compute.image_id Compute.src_user Compute.src Compute.http_user_agent Compute.user_type | rename "Compute.*" as * |stats values(http_user_agent) as http_user_agent distinct_count(http_user_agent) as unique_ua_count by src_user, image_id, src, user_type | where unique_ua_count > 1'
 maintainers:
   - company: Splunk

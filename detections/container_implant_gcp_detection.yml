@@ -11,6 +11,21 @@ data_metadata:
 description: This search show information on uploaded containers including source user, account, action, bucket name event name, http user agent, message and destination path.
 detect:
   splunk:
+    correlation_rule:
+      notable:
+        nes_fields: awsRegion
+        rule_description: An AWS instance is started in a new, previously unseen,
+          region
+        rule_title: AWS instance is started in a new region
+      risk:
+        risk_object: awsRegion
+        risk_object_type:
+          - other
+        risk_score: 30
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
       search: '| datamodel Cloud_Infrastructure Storage search | search Storage.event_name=storage.objects.create | table Storage.src_user Storage.account Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg Storage.object_path'
 eli5: In this search we can detect if a new container has been uploaded to Google Container Registry,
    operator can monitor users uploading containers, object paths of new uploaded containers.
