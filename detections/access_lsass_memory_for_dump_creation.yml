@@ -28,7 +28,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll*
+      search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll* 
         | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage, TargetProcessId, SourceImage, SourceProcessId
         | rename Computer as dest
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
