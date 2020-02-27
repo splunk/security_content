@@ -48,7 +48,7 @@ mappings:
   mitre_technique_id:
     - T1525
 modification_date: '2020-02-20'
-name: Container uploaded to GCP GCR
+name: GCP GCR container uploaded
 original_authors:
   - company: Splunk
     email: rsoto@splunk.com, rvaldez@splunk.com

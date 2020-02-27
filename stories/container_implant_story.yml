@@ -13,7 +13,7 @@ detections:
     name: AWS ECR container uploaded
     type: splunk
   - detection_id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
-    name: container uploaded to GCP GCR
+    name: GCP GCR container uploaded
     type: splunk
 id: aa0e28b1-0521-4b6f-9d2a-7b87e34af246
 maintainers:
@@ -30,6 +30,6 @@ original_authors:
   - company: Splunk
     email: rsoto@splunk.com, rvaldez@splunk.com
     name: Rod Soto, Rico Valdez
-spec_version: 1
+spec_version: 2
 usecase: Security Monitoring
 version: '1.0' 
