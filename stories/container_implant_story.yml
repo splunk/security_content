@@ -33,3 +33,5 @@ original_authors:
 spec_version: 2
 usecase: Security Monitoring
 version: '1.0' 
+references:
+  - https://github.com/splunk/cloud-datamodel-security-research

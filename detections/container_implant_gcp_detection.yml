@@ -53,8 +53,7 @@ original_authors:
   - company: Splunk
     email: rsoto@splunk.com, rvaldez@splunk.com
     name: Rod Soto, Rico Valdez
-references:
-  - https://github.com/splunk/cloud-datamodel-security-research
+references: []
 security_domain: threat
 spec_version: 2
 type: splunk
