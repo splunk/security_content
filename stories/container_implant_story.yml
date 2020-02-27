@@ -17,9 +17,9 @@ detections:
     type: splunk
 id: aa0e28b1-0521-4b6f-9d2a-7b87e34af246
 maintainers:
-     - company: Splunk
-       email: rsoto@splunk.com, rvaldez@splunk.com
-       name: Rod Soto, Rico Valdez
+  - company: Splunk
+    email: rsoto@splunk.com, rvaldez@splunk.com
+    name: Rod Soto, Rico Valdez
 name: Container Implantation Monitoring & Investigation
 narrative: Container Registry's provide a way for organizations to keep customized images of their
   development and infrastructure environment in private. However if these repositories are misconfigured
