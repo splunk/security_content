@@ -21,7 +21,7 @@ maintainers:
     email: rsoto@splunk.com, rvaldez@splunk.com
     name: Rod Soto, Rico Valdez
 name: Container Implantation Monitoring & Investigation
-narrative: Container Registry's provide a way for organizations to keep customized images of their
+narrative: Container Registrys provide a way for organizations to keep customized images of their
   development and infrastructure environment in private. However if these repositories are misconfigured
   or priviledge users credentials are compromise, attackers can potentially upload implanted containers
   which can be deployed across the organization. These searches allow operator to monitor who, when and what
@@ -31,6 +31,7 @@ original_authors:
     email: rsoto@splunk.com, rvaldez@splunk.com
     name: Rod Soto, Rico Valdez
 spec_version: 2
+references: []
 usecase: Security Monitoring
 version: '1.0' 
 references:

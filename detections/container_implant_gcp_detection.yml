@@ -23,12 +23,12 @@ detect:
           - other
         risk_score: 30
       macros:
-        - container_implant_gcp_detection_filter  
+        - container_implant_gcp_detection_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '|tstats count min(_time) as firstTime max(_time) as lastTime  FROM datamodel=Cloud_Infrastructure.Storage where Storage.event_name=storage.objects.create by Storage.src_user Storage.account Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg Storage.object_path | `drop_dm_object_name("Storage")`  | `container_implant_gcp_detection_filter`' 
+      search: '|tstats count min(_time) as firstTime max(_time) as lastTime  FROM datamodel=Cloud_Infrastructure.Storage where Storage.event_name=storage.objects.create by Storage.src_user Storage.account Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg Storage.object_path | `drop_dm_object_name("Storage")`  | `container_implant_gcp_detection_filter`'
 eli5: In this search we can detect if a new container has been uploaded to Google Container Registry,
    operator can monitor users uploading containers, object paths of new uploaded containers.
 entities:
