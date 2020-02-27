@@ -309,6 +309,55 @@ version = 1.0
 </div>
 </div>
 
+===Container Implantation Monitoring & Investigation===
+
+Use the searches in this story to monitor your Kubernetes registry repositories for upload, and deployment of potentially vulnerable, backdoor, or implanted containers. These searches provide information on source users, destination path, container names and repository names. The searches provide context to address Mitre T1525 which refers to container implantation upload to a company's repository either in Amazon Elastic Container Registry, Google Container Registry and Azure Container Registry.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Container Registrys provide a way for organizations to keep customized images of their development and infrastructure environment in private. However if these repositories are misconfigured or priviledge users credentials are compromise, attackers can potentially upload implanted containers which can be deployed across the organization. These searches allow operator to monitor who, when and what was uploaded to container registry.
+
+====Providing Technologies====
+* GCP
+
+====Data Models====
+* Vulnerabilities
+
+====Mappings====
+
+=====ATT&CK=====
+* Command and Control
+* Exfiltration
+
+=====Kill Chain Phases=====
+* Command and Control
+
+=====CIS=====
+* CIS 3
+* CIS 8
+* CIS 12
+
+=====NIST=====
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
+
+====References====
+* https://github.com/splunk/cloud-datamodel-security-research
+
+creation_date = 2020-02-20
+
+modification_date = 2020-02-20
+
+version = 1.0
+
+</div>
+</div>
+
 ===Suspicious AWS EC2 Activities===
 
 Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.

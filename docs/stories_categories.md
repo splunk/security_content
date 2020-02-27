@@ -28,6 +28,8 @@ Analytics stories organized by categories
 
 * [Cloud Cryptomining](#cloud-cryptomining)
 
+* [Container Implantation Monitoring & Investigation](#container-implantation-monitoring-&-investigation)
+
 * [Suspicious AWS EC2 Activities](#suspicious-aws-ec2-activities)
 
 * [Suspicious AWS Login Activities](#suspicious-aws-login-activities)
@@ -372,6 +374,58 @@ Cloud_Infrastructure
 
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+### Container Implantation Monitoring & Investigation
+* id = `aa0e28b1-0521-4b6f-9d2a-7b87e34af246`
+* creation_date = 2020-02-20
+* modification_date = 2020-02-20
+* version = 1.0
+* spec_version = 2
+
+##### Description
+Use the searches in this story to monitor your Kubernetes registry repositories for upload, and deployment of potentially vulnerable, backdoor, or implanted containers. These searches provide information on source users, destination path, container names and repository names. The searches provide context to address Mitre T1525 which refers to container implantation upload to a company's repository either in Amazon Elastic Container Registry, Google Container Registry and Azure Container Registry.
+
+##### Narrative
+Container Registrys provide a way for organizations to keep customized images of their development and infrastructure environment in private. However if these repositories are misconfigured or priviledge users credentials are compromise, attackers can potentially upload implanted containers which can be deployed across the organization. These searches allow operator to monitor who, when and what was uploaded to container registry.
+
+##### Detections
+* AWS ECR container uploaded
+* GCP GCR container uploaded
+
+##### Providing Technologies
+* GCP
+
+##### Data Models
+Vulnerabilities
+
+##### Mappings
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
+
+##### Maintainers
+* name = Rod Soto, Rico Valdez
+* email = rsoto@splunk.com, rvaldez@splunk.com
+* company = Splunk
+
+##### References
+* https://github.com/splunk/cloud-datamodel-security-research
 
 ### Suspicious AWS EC2 Activities
 * id = `2e8948a5-5239-406b-b56b-6c50f1268af3`
@@ -2814,6 +2868,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * Creation of Shadow Copy with wmic and powershell
 * Credential Dumping via Copy Command from Shadowcopy
 * Credential Dumping via Symlink to Shadowcopy
+* Dump LSASS via comsvcs DLL
 
 ##### Providing Technologies
 * Microsoft Windows
