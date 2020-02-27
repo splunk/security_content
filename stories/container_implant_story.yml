@@ -31,5 +31,6 @@ original_authors:
     email: rsoto@splunk.com, rvaldez@splunk.com
     name: Rod Soto, Rico Valdez
 spec_version: 2
+references: []
 usecase: Security Monitoring
 version: '1.0'
