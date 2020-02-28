@@ -85,4 +85,4 @@ references:
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: "1"
+version: "2"
