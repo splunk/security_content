@@ -103,7 +103,7 @@ investigations:
     type: splunk
 known_false_positives: Legitimate programs can also use command-line arguments to
   execute. Please verify the command-line arguments to check what command/program
-  is being executed.
+  is being executed. We recommend customizing the `first_time_seen_cmd_line_filter` macro to exclude legitimate parent_process_name
 maintainers:
   - company: Splunk
     email: bpatel@splunk.com
@@ -128,7 +128,7 @@ mappings:
     - PR.PT
     - DE.CM
     - PR.IP
-modification_date: '2020-01-22'
+modification_date: '2020-03-02'
 name: First time seen command line argument
 original_authors:
   - company: Splunk
