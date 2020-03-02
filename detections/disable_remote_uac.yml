@@ -35,7 +35,7 @@ detect:
         latest_time: -10m@m
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*Windows\\CurrentVersion\\Policies\\System\\LocalAccountTokenFilterPolicy"
-        by Registry.dest, Registry.registry_key_name Registry.status Registry.user
+        by Registry.dest, Registry.registry_key_name Registry.user
         Registry.registry_path Registry.action | `drop_dm_object_name(Registry)`'
       suppress:
         suppress_fields: dest, user, registry_path
