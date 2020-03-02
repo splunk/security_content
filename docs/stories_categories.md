@@ -389,14 +389,15 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 Container Registrys provide a way for organizations to keep customized images of their development and infrastructure environment in private. However if these repositories are misconfigured or priviledge users credentials are compromise, attackers can potentially upload implanted containers which can be deployed across the organization. These searches allow operator to monitor who, when and what was uploaded to container registry.
 
 ##### Detections
-* AWS ECR container uploaded
+* New container uploaded to AWS ECR
 * GCP GCR container uploaded
 
 ##### Providing Technologies
 * GCP
+* AWS
 
 ##### Data Models
-Vulnerabilities
+Cloud_Infrastructure
 
 ##### Mappings
 
@@ -2845,7 +2846,7 @@ Web
 * id = `854d78bf-d0e2-4f4e-b05c-640905f86d7a`
 * creation_date = 2018-08-08
 * modification_date = 2020-02-04
-* version = 2.0
+* version = 3.0
 * spec_version = 2
 
 ##### Description

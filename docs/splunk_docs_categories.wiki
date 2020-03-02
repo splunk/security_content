@@ -321,9 +321,10 @@ Container Registrys provide a way for organizations to keep customized images of
 
 ====Providing Technologies====
 * GCP
+* AWS
 
 ====Data Models====
-* Vulnerabilities
+* Cloud_Infrastructure
 
 ====Mappings====
 
@@ -2522,7 +2523,7 @@ creation_date = 2018-08-08
 
 modification_date = 2020-02-04
 
-version = 2.0
+version = 3.0
 
 </div>
 </div>
