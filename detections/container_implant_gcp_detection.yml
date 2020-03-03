@@ -32,7 +32,7 @@ eli5: In this search we can detect if a new container has been uploaded to Googl
    operator can monitor users uploading containers, object paths of new uploaded containers.
 entities:
   - src_user
-how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a subpub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.
+how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro container_implant_gcp_detection_filter to filter out FPs.
 id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
 known_false_positives: Uploading container is a normal behavior from developers or users with access to container registry. GCP GCR registers container upload as a Storage event, this search must be considered under the context of CONTAINER upload creation which automatically generates a bucket entry for destination path.
 maintainers:
@@ -43,7 +43,7 @@ mappings:
   mitre_attack:
     - Persistence
   kill_chain_phases:
-    - Weaponization
+    - N/A
   mitre_technique_id:
     - T1525
 modification_date: '2020-02-20'

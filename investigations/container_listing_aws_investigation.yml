@@ -9,7 +9,7 @@ data_metadata:
 description: This search lists all the users performing a list image operation on AWS Elastic Container Registry. Listing source user, image id, source IP, user type, http user agent. This search also gives counts of unique user agents per listing source.
 entities:
   - src_user
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.You must also install Cloud Infrastructure Data Model. 
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.You must also install Cloud Infrastructure Data Model.
 id: 6027623f-7d10-4847-af3b-8d7e87970451
 investigate:
   splunk:
