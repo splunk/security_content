@@ -35,7 +35,7 @@ detect:
       search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path
         min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
         where (Filesystem.file_name=*.dll OR Filesystem.file_name=*.ost) Filesystem.file_path
-        != "C:\\Users\\*\\My Documents\\Outlook Files\\*" by Filesystem.action Filesystem.process_id
+        != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*" by Filesystem.action Filesystem.process_id
         Filesystem.file_name Filesystem.dest | `drop_dm_object_name("Filesystem")`
         | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
       suppress:
