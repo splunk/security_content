@@ -94,7 +94,7 @@ mappings:
   mitre_attack:
     - Collection
     - Email Collection
-modification_date: '2018-11-02'
+modification_date: '2020-03-02'
 name: Email files written outside of the Outlook directory
 original_authors:
   - company: Splunk
