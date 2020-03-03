@@ -44,7 +44,7 @@ mappings:
   mitre_attack:
     - Persistence
   kill_chain_phases:
-    - Weaponization
+    - Command and Control
   mitre_technique_id:
     - T1525
 modification_date: '2020-02-20'
