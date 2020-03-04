@@ -27,6 +27,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - smb_traffic_spike_mltk_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -111,7 +113,7 @@ investigations:
     type: splunk
 known_false_positives: If you are seeing more results than desired, you may consider
   reducing the value of the threshold in the search. You should also periodically
-  re-run the support search to re-build the ML model on the latest data.
+  re-run the support search to re-build the ML model on the latest data. Please update the `smb_traffic_spike_mltk_filter` macro to filter out false positive results 
 maintainers:
   - company: Splunk
     email: rvaldez@splunk.com
