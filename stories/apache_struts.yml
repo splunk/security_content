@@ -119,7 +119,6 @@ original_authors:
     email: rvaldez@splunk.com
     name: Rico Valdez
 references:
-  - http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html
   - https://github.com/SpiderLabs/owasp-modsecurity-crs/blob/v3.2/dev/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
 spec_version: 2
 usecase: Advanced Threat Detection
