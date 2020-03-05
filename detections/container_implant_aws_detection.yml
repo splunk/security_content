@@ -36,7 +36,7 @@ eli5: In this search we can detect if a new container has been uploaded to Amazo
 entities:
   - src_user
 how_to_implement:  You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for
- AWS (version 4.4.0 or later), then configure your CloudTrail inputs. You must also install Cloud Infrastructure data model.
+ AWS (version 4.4.0 or later), then configure your CloudTrail inputs. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_aws_detection_filter` macro to filter out the false positives.
 id: f0f70b40-f7ad-489d-9905-23d149da8099
 known_false_positives: Uploading container is a normal behavior from developers or users with access to container registry.
 investigations:
@@ -50,8 +50,6 @@ maintainers:
 mappings:
   mitre_attack:
     - Persistence
-  kill_chain_phases:
-    - Weaponization
   mitre_technique_id:
     - T1525
 modification_date: '2020-02-20'
