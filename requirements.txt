@@ -20,5 +20,5 @@ semantic-version==2.8.4
 six==1.14.0
 toml==0.10.0
 typing==3.7.4.1
-virtualenv==20.0.8
+virtualenv==20.0.9
 zipp==3.1.0
