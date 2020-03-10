@@ -27,6 +27,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 20
+      macros:
+        - rare_executables_on_endpoint_filter
       schedule:
         cron_schedule: 10 * * * *
         earliest_time: -70m@m
@@ -38,7 +40,7 @@ detect:
         `security_content_ctime(lastTime)`| search [| tstats count from datamodel=Endpoint.Processes
         by Processes.process_name | rare Processes.process_name limit=30 | rename
         Processes.process_name as process| `filter_rare_process_whitelist`| table
-        process ]'
+        process ] | `rare_executables_on_endpoint_filter`'
       suppress:
         suppress_fields: dest, process
         suppress_period: 86400s

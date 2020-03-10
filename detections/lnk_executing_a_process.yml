@@ -28,6 +28,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 40
+      macros:
+        - lnk_executing_a_process_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -44,7 +46,7 @@ detect:
         | rename parent_process_id as lnk_pid | fields _time lnk_pid process_id dest
         process_name process_path process] | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | table firstTime, lastTime, lnk_pid, process_id, user, dest, file_name, file_path,
-        process_name, process, process_path, file_hash'
+        process_name, process, process_path, file_hash | `lnk_executing_a_process_filter`'
       suppress:
         suppress_fields: dest,file_name
         suppress_period: 86400s

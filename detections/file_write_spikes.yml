@@ -26,6 +26,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 30
+      macros:
+        - file_write_spikes_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -7d@d
@@ -37,7 +39,7 @@ detect:
         "-1d@d"), count,null))) as avg stdev(eval(if(_time<relative_time(maxtime,
         "-1d@d"), count, null))) as stdev by "dest" | eval upperBound=(avg+stdev*4),
         isOutlier=if((count > upperBound) AND num_data_samples >=20, 1, 0) | search
-        isOutlier=1'
+        isOutlier=1 | `file_write_spikes_filter`'
       suppress:
         suppress_fields: dest
         suppress_period: 7200s

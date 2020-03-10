@@ -27,6 +27,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - uncommon_processes_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -34,7 +36,7 @@ detect:
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user
         Processes.process Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-        | `drop_dm_object_name(Processes)` | `uncommon_processes`'
+        | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_filter`'
       suppress:
         suppress_fields: dest, user
         suppress_period: 86400s

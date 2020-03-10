@@ -27,6 +27,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 40
+      macros:
+        - change_file_association_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -39,7 +41,7 @@ detect:
         | join [| tstats `security_content_summariesonly` values(Registry.registry_path) as registry_path
         count  FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\Explorer\\FileExts*
         by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` |
-        table process_id dest registry_path]'
+        table process_id dest registry_path]| `change_file_association_filter`'
       suppress:
         suppress_fields: dest,user
         suppress_period: 28800s

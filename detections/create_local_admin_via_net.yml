@@ -27,6 +27,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - create_local_admin_via_net_filter
       schedule:
         cron_schedule: 0 8 * * *
         earliest_time: -1440m@m
@@ -36,7 +38,7 @@ detect:
         where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by
         Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)`
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`  | search (process=*localgroup* OR
-        process=*/add* OR process=*user*)'
+        process=*/add* OR process=*user*) |`create_local_admin_via_net_filter`'
       suppress:
         suppress_fields: dest
         suppress_period: 86400s

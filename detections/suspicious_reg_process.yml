@@ -28,6 +28,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 80
+      macros:
+        - suspicious_reg_process_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -41,7 +43,7 @@ detect:
         where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe
         by Processes.parent_process_id Processes.dest Processes.process_name | `drop_dm_object_name("Processes")`
         | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename parent_process_id as process_id
-        |dedup process_id| table process_id dest]'
+        |dedup process_id| table process_id dest] | `suspicious_reg_process_filter`'
       suppress:
         suppress_fields: dest, user
         suppress_period: 14400s
