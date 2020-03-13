@@ -4,10 +4,10 @@ baseline:
       cron_schedule: ''
       earliest_time: -90d@d
       latest_time: -10m@m
-    search: sourcetype=aws:cloudtrail eventType=AwsApiCall | spath output=arn path=userIdentity.arn
-      | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls)
+    search: sourcetype=aws:cloudtrail eventType=AwsApiCall 
+      | bucket _time span=1h | stats count as apiCalls by _time, src_user | stats count(apiCalls)
       as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls,
-      stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints,
+      stdev(apiCalls) as stdevApiCalls by src_user | table src_user, latestCount, numDataPoints,
       avgApiCalls, stdevApiCalls | outputlookup api_call_by_user_baseline | stats
       count
 creation_date: '2018-04-09'

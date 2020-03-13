@@ -23,9 +23,7 @@ investigate:
     schedule:
       earliest_time: "72000"
       latest_time: "36000"
-    search: '| search sourcetype=aws:cloudtrail userIdentity.arn={user} | table _time
-      userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src
-      awsRegion eventName eventType'
+    search: '| search sourcetype=aws:cloudtrail src_user={src_user} | stats count min(_time) as firstTime max(_time) as lastTime values(eventName) by account region src_user src  http_user_agent'
 maintainers:
   - company: Splunk
     email: bpatel@splunk.com
@@ -33,8 +31,8 @@ maintainers:
   - company: Splunk
     email: jbrewer@splunk.com
     name: Jason Brewer
-modification_date: '2019-04-30'
-name: AWS Investigate User Activities By ARN
+modification_date: '2020-03-13'
+name: AWS Activities By Source User(ARN)
 original_authors:
   - company: Splunk
     email: bpatel@splunk.com

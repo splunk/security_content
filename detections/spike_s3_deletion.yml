@@ -19,12 +19,12 @@ detect:
   splunk:
     correlation_rule:
       notable:
-        nes_fields: user
-        rule_description: A spike in the number of S3 buckets deleted by $user$ was
+        nes_fields: src_user
+        rule_description: A spike in the number of S3 buckets deleted by $src_user$ was
           detected.
-        rule_title: Spike detected in S3 bucket deletion activity by $user$.
+        rule_title: Spike detected in S3 bucket deletion activity by $src_user$.
       risk:
-        risk_object: user
+        risk_object: src_user
         risk_object_type:
           - user
         risk_score: 30
@@ -44,12 +44,12 @@ detect:
         s3_deletion_baseline | eval dataPointThreshold = 15, deviationThreshold =
         3 | eval isSpike=if((latestCount > avgApiCalls+deviationThreshold*stdevApiCalls)
         AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn
-        as userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn
+        as userIdentity.arn | table userIdentity.arn] | spath output=src_user userIdentity.arn
         | spath output=bucketName path=requestParameters.bucketName | stats values(bucketName)
         as bucketName, count as numberOfApiCalls, dc(eventName) as uniqueApisCalled
-        by user
+        by src_user
       suppress:
-        suppress_fields: user
+        suppress_fields: src_user
         suppress_period: 14400s
 eli5: 'This search and its corresponding subsearch run through the following series
   of steps: \
@@ -86,9 +86,9 @@ eli5: 'This search and its corresponding subsearch run through the following ser
   1. Filter out anything that it determines is not a spike and returns the list of
   ARNs to the main search. The main search subsequently gets the names of the deleted
   S3 buckets, the number of unique API calls, and the total number of API calls for
-  each of these user ARNs.'
+  each of these src_user ARNs.'
 entities:
-  - user
+  - src_user
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit
@@ -101,7 +101,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 id: ad12w478-84a8-4641-a3w1-e32372q4bd53
 investigations:
   - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-    name: AWS Investigate User Activities By ARN
+    name: AWS Activities By Source src_user(ARN)
     type: splunk
   - id: f3fb2q1c-5f33-4b01-b541-c2ah9534c242
     name: AWS S3 Bucket details via bucketName
@@ -116,7 +116,7 @@ investigations:
     name: Get All AWS Activity From IP Address
     type: splunk
   - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
-    name: Get User Information from Identity Table
+    name: Get src_user Information from Identity Table
     type: splunk
   - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd11
     name: Investigate AWS activities via region name

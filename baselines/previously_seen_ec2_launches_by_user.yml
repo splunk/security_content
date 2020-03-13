@@ -5,8 +5,8 @@ baseline:
       earliest_time: -90d@d
       latest_time: -10m@m
     search: sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success | rename
-      userIdentity.arn as arn | stats earliest(_time) as firstTime latest(_time) as
-      lastTime by arn | outputlookup previously_seen_ec2_launches_by_user.csv | stats
+      userIdentity.src_user as src_user | stats earliest(_time) as firstTime latest(_time) as
+      lastTime by src_user | outputlookup previously_seen_ec2_launches_by_user.csv | stats
       count
 creation_date: '2018-03-15'
 data_metadata:

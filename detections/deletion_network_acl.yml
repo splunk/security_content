@@ -17,11 +17,11 @@ detect:
   splunk:
     correlation_rule:
       notable:
-        nes_fields: arn, eventName
+        nes_fields: src_user, eventName
         rule_description: AWS network ACL has been deleted by $arn$.
         rule_title: AWS Network ACL deleted by $arn$
       risk:
-        risk_object: arn
+        risk_object: src_user
         risk_object_type:
           - user
         risk_score: 80
@@ -31,24 +31,24 @@ detect:
         latest_time: -10m@m
       search: sourcetype=aws:cloudtrail eventName=DeleteNetworkAcl|rename userIdentity.arn
         as arn  | stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage)
-        values(errorCode) values(userAgent) values(userIdentity.*) by src userName
+        values(errorCode) values(userAgent) values(userIdentity.*) by src src_user
         arn eventName | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
       suppress:
-        suppress_fields: arn
+        suppress_fields: src_user
         suppress_period: 14400s
 eli5: The search looks for CloudTrail events to detect whether any network ACLs have
   been deleted and gives you values of error messages and error codes (if any), user
   details, user source IP, the user who initiated this request, and the name of the
   event.
 entities:
-  - arn
+  - src_user
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
 id: ada0f478-84a8-4641-a3f1-d82362d6fd75
 investigations:
   - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-    name: AWS Investigate User Activities By ARN
+    name: AWS Activities By Source User(ARN)
     type: splunk
   - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
     name: Get Notable History

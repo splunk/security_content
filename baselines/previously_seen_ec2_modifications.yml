@@ -4,9 +4,8 @@ baseline:
       cron_schedule: ''
       earliest_time: -90d@d
       latest_time: -10m@m
-    search: sourcetype=aws:cloudtrail `ec2_modification_api_calls` errorCode=success | spath
-      output=arn userIdentity.arn | stats earliest(_time) as firstTime latest(_time)
-      as lastTime by arn | outputlookup previously_seen_ec2_modifications_by_user
+    search: sourcetype=aws:cloudtrail `ec2_modification_api_calls` errorCode=success | stats earliest(_time) as firstTime latest(_time)
+      as lastTime by src_user | outputlookup previously_seen_ec2_modifications_by_user
       | stats count
 creation_date: '2018-04-05'
 data_metadata:

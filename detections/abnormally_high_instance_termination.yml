@@ -14,12 +14,12 @@ detect:
   splunk:
     correlation_rule:
       notable:
-        nes_fields: userName
+        nes_fields: src_user
         rule_description: An abnormally high number of instances were terminated by
           a user in a 10-minute window
-        rule_title: High number of instances terminated by $userName$
+        rule_title: High number of instances terminated by $src_user$
       risk:
-        risk_object: userName
+        risk_object: src_user
         risk_object_type:
           - user
         risk_score: 30
@@ -28,16 +28,16 @@ detect:
         earliest_time: -30d@d
         latest_time: -10m@m
       search: sourcetype=aws:cloudtrail eventName=TerminateInstances errorCode=success
-        | bucket span=10m _time | stats count AS instances_terminated by _time userName
+        | bucket span=10m _time | stats count AS instances_terminated by _time src_user
         | eventstats avg(instances_terminated) as total_terminations_avg, stdev(instances_terminated)
         as total_terminations_stdev | eval threshold_value = 4 | eval isOutlier=if(instances_terminated
         > total_terminations_avg+(total_terminations_stdev * threshold_value), 1,
         0) | search isOutlier=1 AND _time >= relative_time(now(), "-10m@m")| eval
         num_standard_deviations_away = round(abs(instances_terminated - total_terminations_avg)
-        / total_terminations_stdev, 2) |table _time, userName, instances_terminated,
+        / total_terminations_stdev, 2) |table _time, src_user, instances_terminated,
         num_standard_deviations_away, total_terminations_avg, total_terminations_stdev
       suppress:
-        suppress_fields: userName
+        suppress_fields: src_user
         suppress_period: 3600s
 eli5: In this search, we query CloudTrail logs to look for events where an instance
   is successfully terminated by a particular user. Since we want to detect a high
@@ -51,14 +51,14 @@ eli5: In this search, we query CloudTrail logs to look for events where an insta
   out outliers with a value of 1 and show only those instance-termination events that
   happened within the previous 10 minutes.
 entities:
-  - userName
+  - src_user
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
 id: ada0f478-84a8-4641-s3f3-d82362dffd75
 investigations:
   - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-    name: AWS Investigate User Activities By ARN
+    name: AWS Activities By Source User(ARN)
     type: splunk
   - id: f3db4d1b-5f33-4b01-c541-c7ah9514c242
     name: Get EC2 Instance Details by instanceId
@@ -93,7 +93,7 @@ mappings:
   nist:
     - DE.DP
     - DE.AE
-modification_date: '2018-02-26'
+modification_date: '2020-03-13'
 name: Abnormally High AWS Instances Terminated by User
 original_authors:
   - company: Splunk

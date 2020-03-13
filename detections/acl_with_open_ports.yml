@@ -31,7 +31,7 @@ detect:
         requestParameters | mvexpand responseElements | search requestParameters.portRange.from=1024
         requestParameters.portRange.to=65535 requestParameters.ruleAction=allow |
         rename userIdentity.arn as arn | rename requestParameters.networkAclId as
-        networkAclId | table _time aws_account_id src userName arn networkAclId requestParameters.*
+        networkAclId | table _time aws_account_id src src_user arn networkAclId requestParameters.*
         responseElements.*
       suppress:
         suppress_fields: arn
@@ -51,7 +51,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 id: ada0f478-84a8-4641-a3f1-d82362d6bd75
 investigations:
   - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-    name: AWS Investigate User Activities By ARN
+    name: AWS Activities By Source User(ARN)
     type: splunk
   - id: f3fb4d1b-5f33-4b01-b541-c7ah9534c242
     name: AWS Network ACL Details from ID
@@ -82,7 +82,7 @@ mappings:
   nist:
     - DE.DP
     - DE.AE
-modification_date: '2017-01-10'
+modification_date: '2020-03-13'
 name: AWS Network Access Control List Created with All Open Ports
 original_authors:
   - company: Splunk
@@ -92,4 +92,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

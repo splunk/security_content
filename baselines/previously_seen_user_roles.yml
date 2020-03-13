@@ -5,7 +5,7 @@ baseline:
       earliest_time: -30d@d
       latest_time: -10m@m
     search: sourcetype=aws:cloudtrail eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole
-      | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
+      | stats earliest(_time) as earliest latest(_time) as latest by src_user eventName
       | outputlookup previously_seen_api_calls_from_user_roles | stats count
 creation_date: '2018-04-01'
 data_metadata:
@@ -25,7 +25,7 @@ eli5: In this support search, we are looking for successful API calls made by us
   cache of names of the API calls per security role for the previous 30 days--including
   the earliest and latest times seen in our dataset--grouped by the value of user
   role and the name of the API call. It is also worth noting that the role of a particular
-  user is parsed as "userName" in the CloudTrail logs.
+  user is parsed as "src_user" in the CloudTrail logs.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Please validate the user role entries in `previously_seen_api_calls_from_user_roles.csv`,

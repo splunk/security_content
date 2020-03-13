@@ -18,10 +18,10 @@ detect:
   splunk:
     correlation_rule:
       notable:
-        nes_fields: user, dest
-        rule_description: The EC2 instance $dest$ was modified by $user$. This user
+        nes_fields: src_user, dest
+        rule_description: The EC2 instance $dest$ was modified by $src_user$. This user
           has never modified an EC2 instance before.
-        rule_title: EC2 Instance Modified By Previously Unseen User $user$
+        rule_title: EC2 Instance Modified By Previously Unseen User $src_user$
       risk:
         risk_object: dest
         risk_object_type:
@@ -39,10 +39,10 @@ detect:
         previously_seen_ec2_modifications_by_user | eval newUser=if(firstTime >= relative_time(now(),
         "-70m@m"), 1, 0) | where newUser=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
         | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=dest
-        responseElements.instancesSet.items{}.instanceId | spath output=user userIdentity.arn
-        | table _time, user, dest
+        responseElements.instancesSet.items{}.instanceId | spath output=src_user userIdentity.arn
+        | table _time, src_user, dest
       suppress:
-        suppress_fields: user, dest
+        suppress_fields: src_user, dest
         suppress_period: 14400s
 eli5: The subsearch returns the ARNs of all successful EC2 instance modifications
   within the last hour and then appends the historical data in the lookup file to
@@ -66,7 +66,7 @@ investigations:
     name: Get EC2 Instance Details by instanceId
     type: splunk
   - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-    name: AWS Investigate User Activities By ARN
+    name: AWS Activities By Source User(ARN)
     type: splunk
 known_false_positives: It's possible that a new user will start to modify EC2 instances
   when they haven't before for any number of reasons. Verify with the user that is

@@ -94,8 +94,8 @@ investigations:
   - id: 703b65a4-a0ae-4171-965d-45507506c64f
     name: AWS Investigate User Activities By AccessKeyId
     type: splunk
-  - id: b0d2e6a8-75fa-4b1b-9486-3d32acadf891
-    name: AWS Investigate User Activities By Source User
+  - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
+    name: AWS Activities By Source User(ARN)
     type: splunk
 known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior.
   It's suspicious when an account requests privileges of an account it hasn't before.
