@@ -87,7 +87,7 @@ mappings:
   nist:
     - ID.AM
     - PR.DS
-modification_date: '2019-04-29'
+modification_date: '2020-03-02'
 name: Detect Oulook.exe writing a .zip file
 original_authors:
   - company: Splunk
