@@ -48,6 +48,7 @@ detect:
         fields malicious_id outlook_id dest file_path file_name file_hash count file_id]
         | table firstTime lastTime user malicious_id outlook_id process_name parent_process_name
         file_name  file_path | where file_name != "" | `outlook_writing_zip_filter`'
+
       suppress:
         suppress_fields: dest,file_name
         suppress_period: 86400s

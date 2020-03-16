@@ -34,7 +34,7 @@ detect:
         latest_time: -10m@m
       search: '| tstats `security_content_summariesonly` count values(Processes.process) min(_time)
         as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where
-        Processes.parent_process="*cmd.exe" (Processes.process_name=cscript.exe OR
+        Processes.parent_process_name="cmd.exe" (Processes.process_name=cscript.exe OR
         Processes.process_name =wscript.exe) by Processes.parent_process Processes.process_name
         Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`'
       suppress:
@@ -101,7 +101,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-11-02'
+modification_date: '2020-03-02'
 name: Detect Use of cmd.exe to Launch Script Interpreters
 original_authors:
   - company: Splunk
@@ -111,4 +111,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'
