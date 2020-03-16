@@ -35,7 +35,7 @@ detect:
         latest_time: -10m@m
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
         lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*Windows\\CurrentVersion\\Policies\\System\\LocalAccountTokenFilterPolicy"
-        by Registry.dest, Registry.registry_key_name Registry.status Registry.user
+        by Registry.dest, Registry.registry_key_name Registry.user
         Registry.registry_path Registry.action | `drop_dm_object_name(Registry)`'
       suppress:
         suppress_fields: dest, user, registry_path
@@ -93,7 +93,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-12-03'
+modification_date: '2020-03-02'
 name: Disabling Remote User Account Control
 original_authors:
   - company: Splunk
@@ -103,4 +103,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'
