@@ -25,6 +25,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 70
+      macros:
+        - wmi_script_execution_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -33,7 +35,7 @@ detect:
         min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
         where Processes.process_name = "scrcons.exe" by Processes.user Processes.dest
         Processes.process_name  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|
-        `security_content_ctime(lastTime)`'
+        `security_content_ctime(lastTime)`| `wmi_script_execution_filter`'
       suppress:
         suppress_fields: dest,process
         suppress_period: 28800s
@@ -94,7 +96,7 @@ mappings:
     - PR.AT
     - PR.AC
     - PR.IP
-modification_date: '2019-03-01'
+modification_date: '2020-03-16'
 name: Script Execution via WMI
 original_authors:
   - company: Splunk
@@ -104,4 +106,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'
