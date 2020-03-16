@@ -138,4 +138,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '4.0'
+version: '4.1'
