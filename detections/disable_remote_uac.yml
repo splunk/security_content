@@ -93,7 +93,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-12-03'
+modification_date: '2020-03-02'
 name: Disabling Remote User Account Control
 original_authors:
   - company: Splunk
