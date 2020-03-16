@@ -89,7 +89,7 @@ mappings:
   nist:
     - DE.DP
     - DE.AE
-modification_date: '2018-04-30'
+modification_date: '2020-03-16'
 name: Detect AWS Console Login by User from New City
 original_authors:
   - company: Splunk
@@ -102,4 +102,4 @@ responses: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

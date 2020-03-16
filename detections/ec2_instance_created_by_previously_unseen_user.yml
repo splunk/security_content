@@ -90,7 +90,7 @@ mappings:
     - CIS 1
   nist:
     - ID.AM
-modification_date: '2018-03-12'
+modification_date: '2020-03-16'
 name: EC2 Instance Started With Previously Unseen User
 original_authors:
   - company: Splunk
@@ -100,4 +100,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

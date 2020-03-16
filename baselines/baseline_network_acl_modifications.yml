@@ -38,7 +38,7 @@ maintainers:
   - company: Splunk
     email: bpatel@splunk.com
     name: Bhavin Patel
-modification_date: '2018-05-21'
+modification_date: '2020-03-16'
 name: Baseline of Network ACL Activity by ARN
 original_authors:
   - company: Splunk
@@ -46,4 +46,4 @@ original_authors:
     name: Bhavin Patel
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

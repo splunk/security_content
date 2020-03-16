@@ -102,7 +102,7 @@ mappings:
     - PR.DS
     - PR.AC
     - DE.CM
-modification_date: '2018-06-28'
+modification_date: '2020-03-16'
 name: Detect S3 access from a new IP
 original_authors:
   - company: Splunk
@@ -112,4 +112,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

@@ -97,7 +97,7 @@ mappings:
   nist:
     - DE.DP
     - DE.AE
-modification_date: '2018-02-23'
+modification_date: '2020-03-16'
 name: EC2 Instance Started In Previously Unseen Region
 original_authors:
   - company: Splunk
@@ -107,4 +107,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

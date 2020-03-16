@@ -139,7 +139,7 @@ mappings:
     - DE.DP
     - DE.CM
     - PR.AC
-modification_date: '2018-11-27'
+modification_date: '2020-03-16'
 name: Detect Spike in S3 Bucket deletion
 original_authors:
   - company: Splunk
@@ -149,4 +149,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

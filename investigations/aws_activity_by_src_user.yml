@@ -19,7 +19,7 @@ id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
 investigate:
   splunk:
     fields_required:
-      - user
+      - src_user
     schedule:
       earliest_time: "72000"
       latest_time: "36000"

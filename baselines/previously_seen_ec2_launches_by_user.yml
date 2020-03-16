@@ -29,7 +29,7 @@ maintainers:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-modification_date: '2018-03-15'
+modification_date: '2020-03-16'
 name: Previously Seen EC2 Launches By User
 original_authors:
   - company: Splunk
@@ -37,4 +37,4 @@ original_authors:
     name: David Dorsey
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

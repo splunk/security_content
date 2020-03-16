@@ -94,7 +94,7 @@ mappings:
   nist:
     - DE.DP
     - DE.AE
-modification_date: '2019-11-14'
+modification_date: '2020-03-16'
 name: Abnormally High AWS Instances Terminated by User - MLTK
 original_authors:
   - company: Splunk
@@ -104,4 +104,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

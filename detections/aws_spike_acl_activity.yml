@@ -138,7 +138,7 @@ mappings:
     - DE.DP
     - DE.CM
     - PR.AC
-modification_date: '2018-05-21'
+modification_date: '2020-03-16'
 name: Detect Spike in Network ACL Activity
 original_authors:
   - company: Splunk
@@ -148,4 +148,4 @@ references: []
 security_domain: network
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
