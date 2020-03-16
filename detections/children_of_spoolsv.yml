@@ -99,7 +99,7 @@ mappings:
     - PR.AC
     - PR.PT
     - DE.CM
-modification_date: '2020-07-03'
+modification_date: '2020-03-16'
 name: Child Processes of Spoolsv.exe
 original_authors:
   - company: Splunk
@@ -109,4 +109,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

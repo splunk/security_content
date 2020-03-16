@@ -99,7 +99,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2019-02-28'
+modification_date: '2020-03-16'
 name: Unusually Long Command Line
 original_authors:
   - company: Splunk
@@ -109,4 +109,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '3.0'
+version: '4.0'

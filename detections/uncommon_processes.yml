@@ -99,7 +99,7 @@ mappings:
   nist:
     - ID.AM
     - PR.DS
-modification_date: '2019-04-01'
+modification_date: '2020-03-16'
 name: Uncommon Processes On Endpoint
 original_authors:
   - company: Splunk
@@ -109,4 +109,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

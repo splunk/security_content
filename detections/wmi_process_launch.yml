@@ -96,7 +96,7 @@ mappings:
     - PR.AT
     - PR.AC
     - PR.IP
-modification_date: '2019-02-28'
+modification_date: '2020-03-16'
 name: Process Execution via WMI
 original_authors:
   - company: Splunk
@@ -106,4 +106,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

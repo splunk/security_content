@@ -95,7 +95,7 @@ mappings:
     - Persistence
   nist:
     - DE.CM
-modification_date: '2018-11-15'
+modification_date: '2020-03-16'
 name: Hiding Files And Directories With Attrib.exe
 original_authors:
   - company: Splunk
@@ -105,4 +105,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'
