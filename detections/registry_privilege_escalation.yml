@@ -32,12 +32,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as
-        registry_key_name values(Registry.registry_path) as registry_path min(_time)
-        as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where
-        (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
-        Execution Options*") by Registry.dest , Registry.status, Registry.user | `security_content_ctime(lastTime)`
-        | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`'
+      search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_key_name=GlobalFlag OR Registry.registry_key_name=Debugger) by Registry.dest  Registry.user | `security_content_ctime(lastTime)`  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`'
       suppress:
         suppress_fields: dest, user, registry_path
         suppress_period: 14400s
@@ -91,17 +86,20 @@ mappings:
     - Privilege Escalation
     - Persistence
     - Accessibility Features
+  mitre_technique_id:
+    - T1183
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-11-02'
+modification_date: '2020-03-02'
 name: Registry Keys Used For Privilege Escalation
 original_authors:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-references: []
+references: 
+  - https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options/
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'
