@@ -1236,7 +1236,6 @@ Endpoint
 * company = Splunk
 
 ##### References
-* http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html
 * https://github.com/SpiderLabs/owasp-modsecurity-crs/blob/v3.2/dev/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
 
 ### JBoss Vulnerability
@@ -2337,7 +2336,6 @@ Network_Traffic
 * company = Splunk
 
 ##### References
-* https://www.symantec.com/connect/blogs/what-you-need-know-about-wannacry-ransomware
 * https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 
