@@ -1,0 +1,26 @@
+category:
+  - Cloud Security
+channel: ESCU
+creation_date: '2020-03-24'
+description: This story addresses investigation against Kubernetes operations by providing information on items such as source ip, user agent, cluster names.
+detections:
+  - detection_id: 898c0f86-1f3e-49c8-bd9f-5f18657916af
+    name: Investigate Azure Kubernetes Cluster Suspicious Operations
+    type: splunk
+id: 746860b7-8417-4f72-8eee-b65c9b1f3fde
+maintainers:
+  - company: Splunk
+    email: rsoto@splunk.com
+    name: Rod Soto
+name: Investigate Azure Kubernetes Cluster Suspicious Operations
+narrative: Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitve information and management priviledges of production workloads, microservices and applications. These searches allow operator to detect suspicious operations and provisions of containers in Azure Kuberntes clusters
+original_authors:
+  - company: Splunk
+    email: rsoto@splunk.com
+    name: Rod Soto
+spec_version: 2
+references: []
+usecase: Security Monitoring
+version: '1.0'
+references:
+  - https://github.com/splunk/cloud-datamodel-security-research

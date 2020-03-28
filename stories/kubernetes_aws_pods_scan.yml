@@ -1,0 +1,26 @@
+category:
+  - Cloud Security
+channel: ESCU
+creation_date: '2020-03-24'
+description: This story addresses detection against Kubernetes cluster Pod fingerprint scan by providing information on items such as source ip, user agent, cluster names and pod API information
+detections:
+  - detection_id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
+    name: Amazon EKS Kubernetes Pod fingerprint scan detection
+    type: splunk
+id: 7fa59ea2-3719-4460-af35-55dadb304d57
+maintainers:
+  - company: Splunk
+    email: rsoto@splunk.com
+    name: Rod Soto
+name: Amazon EKS Kubernetes Pod fingerprint scan detection
+narrative: Pods within a Kubernetes cluster can be targeted for fingerpriting, as they can have services information potentially valuable for compromise. This search gives you information about requests against Pod API
+original_authors:
+  - company: Splunk
+    email: rsoto@splunk.com
+    name: Rod Soto
+spec_version: 2
+references: []
+usecase: Security Monitoring
+version: '1.0'
+references:
+  - https://github.com/splunk/cloud-datamodel-security-research
