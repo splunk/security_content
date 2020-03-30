@@ -746,7 +746,8 @@
           "userName",
           "dest_user",
           "url",
-          "domain"
+          "domain",
+          "k8s_cluster_name"
         ]
       },
       "minItems": 0,
