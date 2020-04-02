@@ -206,7 +206,8 @@
               "SMTP",
               "Cuckoo",
               "VirusTotal",
-              "DeepSight"
+              "DeepSight",
+              "Okta"
             ]
           },
           "minItems": 0,

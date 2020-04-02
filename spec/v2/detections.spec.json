@@ -646,7 +646,8 @@
               "Sysmon",
               "Tanium",
               "Ziften",
-              "OSquery"
+              "OSquery",
+              "Okta"
             ]
           },
           "minItems": 0,
@@ -714,6 +715,7 @@
       "items": {
         "enum": [
           "accessKeyId",
+          "app",
           "arn",
           "awsRegion",
           "bucketName",

@@ -1,5 +1,5 @@
 asset_type: Infrastructure
-confidence: High
+confidence: high
 creation_date: '2020-04-01'
 data_metadata:
   data_eventtypes:
@@ -22,13 +22,12 @@ detect:
           - user
         risk_score: 50
       macros:
-#        - sysmon - okta?
-#        - unsigned_image_loaded_by_LSASS_filter - okta_user_lockout_events_filter
+        - okta_user_lockouts_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: 'eventtype=okta_log displayMessage="Max sign in attempts exceeded" | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | table _time, user, country, state, city, src_ip'
+      search: 'eventtype=okta_log displayMessage="Max sign in attempts exceeded" | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | table _time, user, country, state, city, src_ip |`okta_user_lockouts_filter`'
       suppress:
         suppress_fields: user
         suppress_period: 86400s
@@ -37,7 +36,7 @@ entities:
   - user
 how_to_implement: 'This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.'
 id: 62b70968-a0a5-4724-8ac4-67871e6f544d
-#investigations:
+investigations:
   - id: 24ff145d-4d16-420a-b047-480f2a51c403
     name: Investigate User Activity In Okta
     type: splunk
@@ -50,7 +49,7 @@ mappings:
   cis20:
     - CIS 16
   mitre_attack:
-    - Valid Credentials
+    - Valid Accounts
   mitre_technique_id:
     - T1078
   nist:
