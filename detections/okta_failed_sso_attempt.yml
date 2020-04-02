@@ -37,18 +37,12 @@ entities:
   - user
 how_to_implement: 'This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.'
 id: 371a6545-2618-4032-ad84-93386b8698c5
-#investigations:
-  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
-    name: Investigate Previous Unseen User
+investigations:
+  - id: 24ff145d-4d16-420a-b047-480f2a51c403
+    name: Investigate User Activities In Okta
     type: splunk
-  - id: 097e8030-8662-4254-a735-bf0bdda696e3
-    name: Investigate Failed Logins for Multiple Destinations
-    type: splunk
-  - id: ed3fff45-cba6-4990-983f-6fac72bee659
-    name: Investigate Pass the Hash Attempts
-    type: splunk
-  - id: 990007ad-d798-4b29-ab2f-f0034144c937
-    name: Investigate Pass the Ticket Attempts
+  - id: 420eb1b8-2992-45d1-80cf-0b1b2759524d
+    name: Investigate Okta Activity by App
     type: splunk
 known_false_positives: There may be a faulty config preventing legitmate users from accessing apps they should have access to. 
 maintainers:

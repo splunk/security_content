@@ -24,7 +24,7 @@ maintainers:
     email: rvaldez@splunk.com
     name: Rico Valdez
 modification_date: '2020-04-02'
-name: Investigate Okta Activity by IP address
+name: Investigate Okta Activity by IP Address
 original_authors:
   - company: Splunk
     email: rvaldez@splunk.com
