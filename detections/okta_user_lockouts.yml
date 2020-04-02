@@ -36,7 +36,7 @@ eli5: This search detects when a user exceeds the maximum configured Okta login 
 entities:
   - user
 how_to_implement: 'This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.'
-id: 19cba45f-cad3-4032-8911-0c09e0444552
+id: 62b70968-a0a5-4724-8ac4-67871e6f544d
 #investigations:
   - id: 24ff145d-4d16-420a-b047-480f2a51c403
     name: Investigate User Activity In Okta
@@ -56,7 +56,7 @@ mappings:
   nist:
     - DE.CM
 modification_date: '2020-04-01'
-name: Okta account lockout events
+name: Okta Account Lockout Events
 original_authors:
   - company: Splunk
     email: rvaldez@splunk.com

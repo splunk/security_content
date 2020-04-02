@@ -56,7 +56,7 @@ mappings:
   nist:
     - DE.CM
 modification_date: '2020-04-01'
-name: Multiple Okta users with invalid credentails from the same IP
+name: Multiple Okta Users With Invalid Credentails From The Same IP
 original_authors:
   - company: Splunk
     email: rvaldez@splunk.com

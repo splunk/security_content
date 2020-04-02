@@ -59,7 +59,7 @@ mappings:
   nist:
     - DE.CM
 modification_date: '2020-04-01'
-name: Okta failed SSO attempts
+name: Okta Failed SSO Attempts
 original_authors:
   - company: Splunk
     email: rvaldez@splunk.com

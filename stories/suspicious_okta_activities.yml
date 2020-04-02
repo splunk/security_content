@@ -7,51 +7,24 @@ description: ###Need to update for okta####Uncover activity consistent with cred
   threat actors use these pilfered credentials to further escalate privileges and
   spread throughout a target environment. The included searches in this Analytic Story
   are designed to identify attempts to credential dumping.
-detections:  ## Update
-  - detection_id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
-    name: Access LSASS Memory for Dump Creation
+detections: 
+  - detection_id: 371a6545-2618-4032-ad84-93386b8698c5
+    name: Okta Failed SSO Attempts
     type: splunk
-  - detection_id: 67d4dbef-9564-4699-8da8-03a151529edc
-    name: Create Remote Thread into LSASS
+  - detection_id: 19cba45f-cad3-4032-8911-0c09e0444552
+    name: Multiple Okta Users With Invalid Credentails From The Same IP
     type: splunk
-  - detection_id: 2c365e57-4414-4540-8dc0-73ab10729996
-    name: Detect Credential Dumping through LSASS access
+  - detection_id: 62b70968-a0a5-4724-8ac4-67871e6f544d
+    name: Okta Account Lockout Events
     type: splunk
-  - detection_id: 56ef054c-76ef-45f9-af4a-a634695dcd65
-    name: Unsigned Image Loaded by LSASS
+  - detection_id: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
+    name: Okta User Logins From Multiple Cities
     type: splunk
-  - detection_id: 14038953-e5f2-4daf-acff-5452062baf03
-    name: Attempted Credential Dump From Registry via Reg.exe
-    type: splunk
-  - detection_id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
-    name: Detect Mimikatz Using Loaded Images
-    type: splunk
-  - detection_id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-    name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
-    type: splunk
-  - detection_id: eb120f5f-b879-4a63-97c1-93352b5df844
-    name: Creation of Shadow Copy
-    type: splunk
-  - detection_id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
-    name: Creation of Shadow Copy with wmic and powershell
-    type: splunk
-  - detection_id: d8c406fe-23d2-45f3-a983-1abe7b83ff3b
-    name: Credential Dumping via Copy Command from Shadowcopy
-    type: splunk
-  - detection_id: c5eac648-fae0-4263-91a6-773df1f4c903
-    name: Credential Dumping via Symlink to Shadowcopy
-    type: splunk
-  - detection_id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
-    name: Dump LSASS via comsvcs DLL
-    type: splunk
-id: 854d78bf-d0e2-4f4e-b05c-640905f86d7a
+id: 9cbd34af-8f39-4476-a423-bacd126c750b
 maintainers:
   - company: Splunk
     email: rvaldez@splunk.com
     name: Rico Valdez
-  - company: Splunk
-    email: pbareiss@splunk.com
-    name: Patrick Bareiss
 modification_date: '2020-04-02'
 name: Suspicious Okta Activity
 narrative: ###Needs Updating##'Credential dumping&#151;gathering credentials from a target system, often
