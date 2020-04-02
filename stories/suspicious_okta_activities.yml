@@ -2,11 +2,11 @@ category:
   - Adversary Tactics
 channel: ESCU
 creation_date: '2020-04-02'
-description: ###Need to update for okta####Uncover activity consistent with credential dumping, a technique wherein
-  attackers compromise systems and attempt to obtain and exfiltrate passwords. The
-  threat actors use these pilfered credentials to further escalate privileges and
-  spread throughout a target environment. The included searches in this Analytic Story
-  are designed to identify attempts to credential dumping.
+description: Monitor your Okta environment for suspicious activities. Due to the Covid 
+  outbreak, many users are migrating over to leverage cloud services more and more. 
+  Okta is a popular tool to manage multiple users and the web-based applications they need 
+  to stay productive. The searches in this story will help monitor your Okta environment for 
+  suspicious activities and associated user behaviors.
 detections: 
   - detection_id: 371a6545-2618-4032-ad84-93386b8698c5
     name: Okta Failed SSO Attempts
@@ -27,28 +27,30 @@ maintainers:
     name: Rico Valdez
 modification_date: '2020-04-02'
 name: Suspicious Okta Activity
-narrative: ###Needs Updating##'Credential dumping&#151;gathering credentials from a target system, often
-  hashed or encrypted&#151;is a common attack technique. Even though the credentials
-  may not be in plain text, an attacker can still exfiltrate the data and set to cracking
-  it offline, on their own systems. The threat actors target a variety of sources
-  to extract them, including the Security Accounts Manager (SAM), Local Security Authority
-  (LSA), NTDS from Domain Controllers, or the Group Policy Preference (GPP) files.\
+narrative: Okta is the leading single sign on (SSO) provider, allowing users to authenticate once 
+  to Okta, and from there access a variety of web-based applications. These applications are 
+  assigned to users and allow administrators to centrally manage which users are allowed to 
+  access which applications. It also provides centralized logging to help understand how the 
+  applications are used and by whom.
+ 
+  While SSO is a major convenience for users, it also provides attackers with an opportunity. 
+  If the attacker can gain access to Okta, they can access a variety of applications. 
+  As such monitoring the environment is important. 
 
-  Once attackers obtain valid credentials, they use them to move throughout a target
-  network with ease, discovering new systems and identifying assets of interest. Credentials
-  obtained in this manner typically include those of privileged users, which may provide
-  access to more sensitive information and system operations.\
-
-  The detection searches in this Analytic Story monitor access to the Local Security
-  Authority Subsystem Service (LSASS) process, the usage of shadowcopies for credential
-  dumping and some other techniques for credential dumping.'
+  With people moving quickly to adopt web-based applications and ways to manage them, many 
+  are still struggling to understand how best to monitor these environments. This analytic 
+  story provides searches to help monitor this environment, and identify events and activity 
+  that warrant further investigation such as credential stuffing or password spraying attacks, 
+  and users logging in from multiple locations when travel is disallowed.
+  
 original_authors:
   - company: Splunk
     email: rvaldez@splunk.com
     name: Rico Valdez
-references:####
-  - https://attack.mitre.org/wiki/Technique/T1003
-  - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+references:
+  - https://attack.mitre.org/wiki/Technique/T1078
+  - https://owasp.org/www-community/attacks/Credential_stuffing
+  - https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
 spec_version: 2
 usecase: Security Monitoring
 version: '1.0'
