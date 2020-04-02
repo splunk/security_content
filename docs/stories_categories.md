@@ -2638,6 +2638,8 @@ Endpoint
 
 * [Suspicious MSHTA Activity](#suspicious-mshta-activity)
 
+* [Suspicious Okta Activity](#suspicious-okta-activity)
+
 * [Suspicious WMI Use](#suspicious-wmi-use)
 
 * [Suspicious Windows Registry Activities](#suspicious-windows-registry-activities)
@@ -3626,6 +3628,63 @@ Endpoint
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 * https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
 * https://attack.mitre.org/wiki/Technique/T1170
+
+### Suspicious Okta Activity
+* id = `9cbd34af-8f39-4476-a423-bacd126c750b`
+* creation_date = 2020-04-02
+* modification_date = 2020-04-02
+* version = 1.0
+* spec_version = 2
+
+##### Description
+Monitor your Okta environment for suspicious activities. Due to the Covid outbreak, many users are migrating over to leverage cloud services more and more. Okta is a popular tool to manage multiple users and the web-based applications they need to stay productive. The searches in this story will help monitor your Okta environment for suspicious activities and associated user behaviors.
+
+##### Narrative
+Okta is the leading single sign on (SSO) provider, allowing users to authenticate once to Okta, and from there access a variety of web-based applications. These applications are assigned to users and allow administrators to centrally manage which users are allowed to access which applications. It also provides centralized logging to help understand how the applications are used and by whom. \
+While SSO is a major convenience for users, it also provides attackers with an opportunity. If the attacker can gain access to Okta, they can access a variety of applications. As such monitoring the environment is important. \
+With people moving quickly to adopt web-based applications and ways to manage them, many are still struggling to understand how best to monitor these environments. This analytic story provides searches to help monitor this environment, and identify events and activity that warrant further investigation such as credential stuffing or password spraying attacks, and users logging in from multiple locations when travel is disallowed.
+
+##### Detections
+* Okta Failed SSO Attempts
+* Multiple Okta Users With Invalid Credentails From The Same IP
+* Okta Account Lockout Events
+* Okta User Logins From Multiple Cities
+
+##### Providing Technologies
+* Okta
+
+##### Data Models
+
+##### Mappings
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
+
+##### Maintainers
+* name = Rico Valdez
+* email = rvaldez@splunk.com
+* company = Splunk
+
+##### References
+* https://attack.mitre.org/wiki/Technique/T1078
+* https://owasp.org/www-community/attacks/Credential_stuffing
+* https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
 
 ### Suspicious WMI Use
 * id = `c8ddc5be-69bc-4202-b3ab-4010b27d7ad5`
