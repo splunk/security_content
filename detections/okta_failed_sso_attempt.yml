@@ -1,0 +1,69 @@
+asset_type: Infrastructure
+confidence: high
+creation_date: '2020-04-01'
+data_metadata:
+  data_eventtypes:
+    - okta_log
+  data_source:
+    - Okta
+  providing_technologies:
+    - Okta
+description: Detect failed Okta SSO events
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: user
+        rule_description: Okta user $user$ attempted to access unauthorized app
+        rule_title: Okta user SSO attempt to unauthorized app
+      risk:
+        risk_object: user
+        risk_object_type:
+          - user
+        risk_score: 50
+      macros:
+        - okta_failed_sso_attempt_filter
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: 'eventtype=okta_log displayMessage="User attempted unauthorized access to app" | stats  min(_time) as firstTime max(_time) as lastTime values(app) as Apps count by user, result ,displayMessage, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`okta_failed_sso_attempt_filter`'
+      suppress:
+        suppress_fields: user
+        suppress_period: 86400s
+eli5: This search looks for events that indicate a user attempted to access an app they did not have permissions to access. This could indicate attempts to access prohibited applications. Please leverage the `okta_failed_sso_attempt_filter` macro to filter out false positives
+entities:
+  - user
+how_to_implement: 'This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.'
+id: 371a6545-2618-4032-ad84-93386b8698c5
+investigations:
+  - id: 24ff145d-4d16-420a-b047-480f2a51c403
+    name: Investigate User Activities In Okta
+    type: splunk
+  - id: 420eb1b8-2992-45d1-80cf-0b1b2759524d
+    name: Investigate Okta Activity by App
+    type: splunk
+known_false_positives: There may be a faulty config preventing legitmate users from accessing apps they should have access to. 
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+  cis20:
+    - CIS 16
+  mitre_attack:
+    - Valid Accounts
+  mitre_technique_id:
+    - T1078
+  nist:
+    - DE.CM
+modification_date: '2020-04-01'
+name: Okta Failed SSO Attempts
+original_authors:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+security_domain: access
+spec_version: 2
+type: splunk
+version: "1"
