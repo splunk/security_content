@@ -1,0 +1,84 @@
+asset_type: Infrastructure
+confidence: High
+creation_date: '2020-04-01'
+data_metadata:
+  data_eventtypes:
+    - okta_log
+  data_source:
+    - Okta
+  providing_technologies:
+    - Okta
+description: This search detects Okta login failures due to bad credentials for multiple users originating from the same ip address.
+detect:
+  splunk:
+    correlation_rule:
+#      notable:
+#        nes_fields: user
+#        rule_description: User $user$ logged into Okta from different states
+#        rule_title: Okta user login from different cities
+      risk:
+        risk_object: system
+        risk_object_type:
+          - system
+        risk_score: 50
+      macros:
+#        - sysmon - okta?
+#        - unsigned_image_loaded_by_LSASS_filter - okta_user_logins_from_multiple_cities_filter
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+#      search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false
+        | stats count min(_time) as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
+        | rename Computer as dest
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+        | `unsigned_image_loaded_by_LSASS_filter`'
+      search: 'eventtype=okta_log outcome.reason=INVALID_CREDENTIALS | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | stats min(_time) as firstTime max(_time) as lastTime dc(user) as distinct_users values(user) as users by src_ip, displayMessage, outcome.reason, country, state, city  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |  search distinct_users > 5'
+      suppress:
+        suppress_fields: src_ip
+        suppress_period: 86400s
+eli5: This search detects instances when there are more than 5 distinct users failing Okta logins due to invalid credentails from the same IP address. This may be indicative of attack techniques such as credential stuffing or password spraying, where an attacker attempts to login using common or found passwords and attempts to authenticate with them. 
+entities:
+  - src_ip
+how_to_implement: 'This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.'
+id: 19cba45f-cad3-4032-8911-0c09e0444552
+#investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
+known_false_positives: A single public IP address servicing multiple legitmate users may trigger this search. In addition, the threshold of 5 distinct users may be too low for your needs. You may modify the included filter macro XXXXXXXXXXXXX to raise the threshold or except specific IP adresses from triggering this search. 
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+#  cis20:
+    - CIS 8
+    - CIS 16
+  mitre_attack:
+    - Valid Credentials
+  mitre_technique_id:
+    - T1078
+#  nist:
+    - DE.CM
+modification_date: '2020-04-01'
+name: Multiple Okta users with invalid credentails from the same IP
+original_authors:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+#references:
+  - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+security_domain: access
+spec_version: 2
+type: splunk
+version: "1"

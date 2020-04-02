@@ -1,0 +1,84 @@
+asset_type: Infrastructure
+confidence: High
+creation_date: '2020-04-01'
+data_metadata:
+  data_eventtypes:
+    - okta_log
+  data_source:
+    - Okta
+  providing_technologies:
+    - Okta
+description: This search detects logins from the same user from different states in a 24 hour period.
+detect:
+  splunk:
+    correlation_rule:
+#      notable:
+#        nes_fields: user
+#        rule_description: User $user$ logged into Okta from different states
+#        rule_title: Okta user login from different cities
+      risk:
+        risk_object: user
+        risk_object_type:
+          - system
+        risk_score: 50
+      macros:
+#        - sysmon - okta?
+#        - unsigned_image_loaded_by_LSASS_filter - okta_user_logins_from_multiple_cities_filter
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -24h@h
+        latest_time: -5m@m
+#      search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false
+        | stats count min(_time) as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
+        | rename Computer as dest
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+        | `unsigned_image_loaded_by_LSASS_filter`'
+      search: 'eventtype=okta_log displayMessage="User login to Okta" client.geographicalContext.city!=null | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city) as locations values(client.geographicalContext.city) as cities values(client.geographicalContext.state) as states by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | search locations > 1'
+      suppress:
+        suppress_fields: user
+        suppress_period: 86400s
+eli5: This search detects users logging in from multiple states in the last 24 hours. This can be indicative of an attacker using compromised credentials to log in to Okta. The efficacy of this search is highly dependant on the mobility of the users using Okta. It is particularly useful in situations where users should explicitly *not* be travelling, such as during the COVID-19 pandemic. 
+entities:
+  - user
+how_to_implement: 'This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.'
+id: 56ef054c-76ef-45f9-af4a-a634695dcd65
+#investigations:
+  - id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
+    name: Investigate Previous Unseen User
+    type: splunk
+  - id: 097e8030-8662-4254-a735-bf0bdda696e3
+    name: Investigate Failed Logins for Multiple Destinations
+    type: splunk
+  - id: ed3fff45-cba6-4990-983f-6fac72bee659
+    name: Investigate Pass the Hash Attempts
+    type: splunk
+  - id: 990007ad-d798-4b29-ab2f-f0034144c937
+    name: Investigate Pass the Ticket Attempts
+    type: splunk
+known_false_positives: Users in your enviornment may legitmately be travelling and loggin in from different locations. This search is useful for those users that should *not* be travelling for some reason, such as the COVID-19 pandemic. The search also relies on the geographical information being populated in the Okta logs. It is also possible that a connection from another region may be attributed to a login from a remote VPN endpoint.
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+#  cis20:
+    - CIS 8
+    - CIS 16
+  mitre_attack:
+    - Valid Credentials
+  mitre_technique_id:
+    - T1078
+#  nist:
+    - DE.CM
+modification_date: '2020-04-01'
+name: Okta user logins from multiple cities
+original_authors:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+#references:
+  - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+security_domain: access
+spec_version: 2
+type: splunk
+version: "1"
