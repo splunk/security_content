@@ -10,6 +10,9 @@ detections:
   - detection_id: 294c4686-63dd-4fe6-93a2-ca807626704a
     name: Detect Amazon EKS cluster fingerprint scan
     type: splunk
+  - detection_id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
+    name: Amazon EKS Kubernetes Pod fingerprint scan detection
+    type: splunk
 id: a9ef59cf-e981-4e66-9eef-bb049f695c09
 maintainers:
   - company: Splunk

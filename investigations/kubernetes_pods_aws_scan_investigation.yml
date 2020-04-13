@@ -8,7 +8,7 @@ data_metadata:
     - aws:cloudwatchlogs:eks
   providing_technologies:
     - AWS
-description: This search provides detection information on unauthenticated requests against Kubernetes' Pods API
+description: This search provides investigation data on unauthenticated requests against Kubernetes' Pods API and resources
 detect:
   splunk:
     correlation_rule:
@@ -27,13 +27,13 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" verb=list objectRef.resource=pods requestURI="/api/v1/pods"   | table  user.username sourceIPs{} verb http_user_agent group_name requestURI k8s_cluster_name  | `kubernetes_pods_aws_scan_fingerprint_detection`
+      search: index=aws_k8s sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" verb=* objectRef.resource=pods requestURI="/api/v1/pods" | table src_ip user.username verb objectRef.resource requestURI userAgent status annotations.authorization.k8s.io/decision stage
 eli5: In this search we can detect unauthenticated web requests against an EKS cluster Pod, by looking at k8s authentication data, user agent and source IPs and API direct request.
 entities:
-  - k8s_cluster_name
+  - user.username
 how_to_implement:  You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection` macro to filter out the false positives.
-id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
-known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs and direct request to API provide context.
+id: 895558ca-ad87-44ae-94b7-5c659bdfc7a9
+known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs and direct request to API and POD resources provides context.
 maintainers:
   - company: Splunk
     email: rsoto@splunk.com
@@ -45,8 +45,8 @@ mappings:
     - Reconnaissance
   mitre_technique_id:
     - T1190
-modification_date: '2020-03-24'
-name: Amazon EKS Kubernetes Pod fingerprint scan detection
+modification_date: '2020-04-13'
+name: Amazon EKS Kubernetes Pod fingerprint scan investigation
 original_authors:
   - company: Splunk
     email: rsoto@splunk.com

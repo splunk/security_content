@@ -8,7 +8,7 @@ data_metadata:
     - aws:cloudwatchlogs:eks
   providing_technologies:
     - AWS
-description: This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster
+description: This search provides investigation data of unauthenticated requests via user agent, and authentication data against Kubernetes cluster
 detect:
   splunk:
     correlation_rule:
@@ -27,15 +27,15 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: 'sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" | table  user.username user.groups{} sourceIPs{} responseStatus.reason k8s_cluster_name responseStatus.code userAgent verb | `kubernetes_aws_scan_fingerprint_detection`'
-eli5: In this search we can detect unauthenticated web requests against an EKS cluster, by looking at k8s authentication data, user agent and source IPs.
+      search: sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous"| spath sourceIPs{}=* | search verb=* stage=* userAgent=* requestURI=* annotations.authorization.k8s.io/decision=* |table user.username sourceIPs{} verb stage userAgent requestURI annotations.authorization.k8s.io/decision _time
+eli5: In this search we can investigate web requests against an EKS cluster, by looking at k8s authentication data, user agent and source IPs.
 entities:
-  - k8s_cluster_name
+  - user.username
 how_to_implement:  You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. The threshold value should be tuned to your environment.
-id: 294c4686-63dd-4fe6-93a2-ca807626704a
-known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
+id: a636cca4-7434-4a15-a278-c70734938e38
+known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs, verbs will provide context.
 maintainers:
   - company: Splunk
     email: rsoto@splunk.com
@@ -47,8 +47,8 @@ mappings:
     - Reconnaissance
   mitre_technique_id:
     - T1190
-modification_date: '2020-03-24'
-name: Amazon EKS Kubernetes cluster fingerprint scan detection
+modification_date: '2020-04-13'
+name: Amazon EKS Kubernetes cluster fingerprint scan investigation
 original_authors:
   - company: Splunk
     email: rsoto@splunk.com
