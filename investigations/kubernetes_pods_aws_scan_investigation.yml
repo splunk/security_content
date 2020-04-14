@@ -8,13 +8,13 @@ data_metadata:
     - AWS
 description: "This search provides investigation data on unauthenticated requests against Kubernetes' Pods API and resources"
 entities:
-    - user.username
+    - src_user
 how_to_implement: "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection` macro to filter out the false positives"
 id: 895558ca-ad87-44ae-94b7-5c659bdfc7a9
 investigate:
   splunk:
     fields_required:
-    - user.username
+    - src_user
     schedule:
       cron_schedule: "0 * * * *"
       earliest_time: "-70m@m"
