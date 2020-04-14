@@ -20,7 +20,7 @@ investigate:
       cron_schedule: "0 * * * *"
       earliest_time: "-70m@m"
       latest_time: "-10m@m"
-    search: "sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous"| spath sourceIPs{}=* | search verb=* stage=* userAgent=* requestURI=* annotations.authorization.k8s.io/decision=* |table user.username sourceIPs{} verb stage userAgent requestURI annotations.authorization.k8s.io/decision _time"
+    search: sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous"| spath sourceIPs{}=* | search verb=* stage=* userAgent=* requestURI=* annotations.authorization.k8s.io/decision=* |table user.username sourceIPs{} verb stage userAgent requestURI annotations.authorization.k8s.io/decision _time"
 maintainers:
   -
     company: Splunk

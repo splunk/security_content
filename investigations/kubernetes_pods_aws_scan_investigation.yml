@@ -8,28 +8,28 @@ data_metadata:
     - AWS
 description: "This search provides investigation data on unauthenticated requests against Kubernetes' Pods API and resources"
 entities:
-  - user.username
+    - user.username
 how_to_implement: "You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection` macro to filter out the false positives"
 id: 895558ca-ad87-44ae-94b7-5c659bdfc7a9
 investigate:
   splunk:
     fields_required:
-      - user.username
+    - user.username
     schedule:
       cron_schedule: "0 * * * *"
       earliest_time: "-70m@m"
       latest_time: "-10m@m"
-    search: "sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" verb=* objectRef.resource=pods requestURI="/api/v1/pods" | table src_ip user.username verb objectRef.resource requestURI userAgent status annotations.authorization.k8s.io/decision stage"
+    search: sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" verb=* objectRef.resource=pods requestURI="/api/v1/pods" | table src_ip user.username verb objectRef.resource requestURI userAgent status annotations.authorization.k8s.io/decision stage"
 maintainers:
-  - company: Splunk
-    email: rsoto@splunk.com
-    name: "Rod Soto"
+    - company: Splunk
+      email: rsoto@splunk.com
+      name: "Rod Soto"
 modification_date: "2020-04-13"
 name: "Amazon EKS Kubernetes Pod fingerprint scan investigation"
 original_authors:
-  - company: Splunk
-    email: rsoto@splunk.com
-    name: "Rod Soto"
+    - company: Splunk
+      email: rsoto@splunk.com
+      name: "Rod Soto"
 spec_version: 2
 type: splunk
 version: "1.0"
