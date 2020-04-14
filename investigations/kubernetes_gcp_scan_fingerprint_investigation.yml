@@ -1,58 +1,35 @@
-asset_type: GCP Kubernetes cluster
-confidence: high
-creation_date: '2020-03-24'
+creation_date: "2020-03-24"
 data_metadata:
   data_source:
-    - GCP Stackdriver logs
+    - "GCP Stackdriver logs"
   data_sourcetypes:
-    - google:gcp:pubsub:message
+    - "google:gcp:pubsub:message"
   providing_technologies:
     - GCP
-description: This search provides investigation data about requests via user agent, authentication request URI, resource path and cluster name data against Kubernetes cluster
-detect:
-  splunk:
-    correlation_rule:
-      notable:
-        nes_fields: src_ip, http_user_agent, src_user, k8s_cluster_name, dest, data.protoPayload.status.message
-        rule_description: Detect GCP cluster fingerprint scan/attack
-        rule_title: GCP Kubernetes fingerprint/attack detection scan
-      risk:
-        risk_object: k8s_cluster_name
-        risk_object_type:
-          - other
-        risk_score: 70
-      macros:
-        - kubernetes_gcp_scan_fingerprint_detection
-      schedule:
-        cron_schedule: 0 * * * *
-        earliest_time: -70m@m
-        latest_time: -10m@m
-      search: sourcetype="google:gcp:pubsub:message" src_ip!=127.0.0.1 src_ip!=::1 "data.labels.authorization.k8s.io/decision"=forbid "data.protoPayload.status.message"=PERMISSION_DENIED src_user="system:anonymous"| spath "data.protoPayload.authorizationInfo{}.permission" | search "data.protoPayload.authorizationInfo{}.permission"=* | table src_ip src_user data.labels.authorization.k8s.io/decision data.protoPayload.status.message data.protoPayload.authorizationInfo{}.permission data.protoPayload.authorizationInfo{}.resource data.protoPayload.requestMetadata.callerSuppliedUserAgent data.resource.labels.cluster_name
-eli5: In this search we can detect unauthenticated web requests and possible attack against a GCP cluster, by looking at k8s authentication data, user agent, source IPs and destionation
+description: "This search provides investigation data about requests via user agent, authentication request URI, resource path and cluster name data against Kubernetes cluster"
 entities:
-  - k8s_cluster_name
-how_to_implement:  You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection to filter out FPs.
+  - src_user
+how_to_implement: "You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection to filter out FPs."
 id: c00e7626-92cc-4e06-9a51-b6db0a50bd9f
-known_false_positives: Not all unauthenticated requests are malicious, but frequency, User Agent, destination path, authorization and source IPs will provide context.
+investigate:
+  splunk:
+    fields_required:
+      - src_user
+    schedule:
+      cron_schedule: "0 * * * *"
+      earliest_time: "-70m@m"
+      latest_time: "-10m@m"
+    search: "sourcetype="google:gcp:pubsub:message" src_ip!=127.0.0.1 src_ip!=::1 "data.labels.authorization.k8s.io/decision"=forbid "data.protoPayload.status.message"=PERMISSION_DENIED src_user="system:anonymous"| spath "data.protoPayload.authorizationInfo{}.permission\" | search "data.protoPayload.authorizationInfo{}.permission"=* | table src_ip src_user data.labels.authorization.k8s.io/decision data.protoPayload.status.message data.protoPayload.authorizationInfo{}.permission data.protoPayload.authorizationInfo{}.resource data.protoPayload.requestMetadata.callerSuppliedUserAgent data.resource.labels.cluster_name"
 maintainers:
   - company: Splunk
     email: rsoto@splunk.com
-    name: Rod Soto
-mappings:
-  mitre_attack:
-    - Discovery
-  kill_chain_phases:
-    - Reconnaissance
-  mitre_technique_id:
-    - T1190
-modification_date: '2020-04-13'
-name: GCP Kubernetes cluster fingerprint scan/attack investigation
+    name: "Rod Soto"
+modification_date: "2020-04-13"
+name: "GCP Kubernetes cluster fingerprint scan/attack investigation"
 original_authors:
   - company: Splunk
     email: rsoto@splunk.com
-    name: Rod Soto
-references: []
-security_domain: threat
+    name: "Rod Soto"
 spec_version: 2
 type: splunk
-version: '1.0'
+version: "1.0"
