@@ -32,8 +32,8 @@ eli5: In this search we can detect unauthenticated web requests against an EKS c
 entities:
   - k8s_cluster_name
 how_to_implement:  You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. The threshold value should be tuned to your environment.
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch
+  inputs.
 id: 294c4686-63dd-4fe6-93a2-ca807626704a
 known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
 maintainers:
@@ -48,7 +48,7 @@ mappings:
   mitre_technique_id:
     - T1190
 modification_date: '2020-03-24'
-name: Amazon EKS Kubernetes cluster fingerprint scan detection
+name: Amazon EKS Kubernetes cluster scan detection
 original_authors:
   - company: Splunk
     email: rsoto@splunk.com

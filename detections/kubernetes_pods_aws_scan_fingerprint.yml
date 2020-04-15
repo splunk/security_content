@@ -46,7 +46,7 @@ mappings:
   mitre_technique_id:
     - T1190
 modification_date: '2020-03-24'
-name: Amazon EKS Kubernetes Pod fingerprint scan detection
+name: Amazon EKS Kubernetes Pod scan detection
 original_authors:
   - company: Splunk
     email: rsoto@splunk.com
