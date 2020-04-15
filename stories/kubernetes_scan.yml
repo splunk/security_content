@@ -18,6 +18,7 @@ maintainers:
   - company: Splunk
     email: rsoto@splunk.com
     name: Rod Soto
+modification_date: '2020-04-15'
 name: Kubernetes Scanning Activity
 narrative: Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitve information and management priviledges of production workloads, microservices and applications. These searches allow operator to detect suspicious unauthenticated requests from the internet to kubernetes cluster.
 original_authors:

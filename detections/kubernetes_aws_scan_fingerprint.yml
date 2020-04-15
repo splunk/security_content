@@ -8,14 +8,14 @@ data_metadata:
     - aws:cloudwatchlogs:eks
   providing_technologies:
     - AWS
-description: This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster
+description: This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
 detect:
   splunk:
     correlation_rule:
       notable:
-        nes_fields: user.username, user.groups, sourceIPs, k8s_cluster_name, userAgent
-        rule_description: Detect Amazon EKS cluster fingerprint scan
-        rule_title: Kubernetes fingerprint detection scan
+        nes_fields: src_ip, k8s_cluster_name, userAgent
+        rule_description: This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
+        rule_title: Amazon EKS Kubernetes cluster scan detection
       risk:
         risk_object: k8s_cluster_name
         risk_object_type:
@@ -27,12 +27,12 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: 'sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" | table  user.username user.groups{} sourceIPs{} responseStatus.reason k8s_cluster_name responseStatus.code userAgent verb | `kubernetes_aws_scan_fingerprint_detection`'
+      search: 'sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" userAgent!="AWS Security Scanner"| stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason) values(k8s_cluster_name) values(responseStatus.code) values(userAgent) values(verb) values(requestURI) by src_ip user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` |`kubernetes_aws_scan_fingerprint_detection`'
 eli5: In this search we can detect unauthenticated web requests against an EKS cluster, by looking at k8s authentication data, user agent and source IPs.
 entities:
   - k8s_cluster_name
 how_to_implement:  You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch EKS Logs
   inputs.
 id: 294c4686-63dd-4fe6-93a2-ca807626704a
 known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
@@ -47,7 +47,7 @@ mappings:
     - Reconnaissance
   mitre_technique_id:
     - T1190
-modification_date: '2020-03-24'
+modification_date: '2020-04-15'
 name: Amazon EKS Kubernetes cluster scan detection
 original_authors:
   - company: Splunk
