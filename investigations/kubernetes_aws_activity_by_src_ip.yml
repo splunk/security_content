@@ -19,7 +19,7 @@ investigate:
       cron_schedule: 0 * * * *
       earliest_time: -70m@m
       latest_time: -10m@m
-    search: sourcetype="aws:cloudwatchlogs:eks" src_ip={src_ip} | stats count min(_time) as firstTime max(_time) as lastTime values(src_user) values(requestURI) values(verb) values(http_user_agent) by k8s_cluster_name k8s_authorization_decision src_ip
+    search: sourcetype="aws:cloudwatchlogs:eks" sourceIPs{}={src_ip} | stats count min(_time) as firstTime max(_time) as lastTime values(user.username) values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision src_ip
 maintainers:
   - company: Splunk
     email: rsoto@splunk.com
