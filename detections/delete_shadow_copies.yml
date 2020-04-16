@@ -95,7 +95,9 @@ mappings:
   kill_chain_phases:
     - Actions on Objectives
   mitre_attack:
-    - Execution
+    - Impact
+  mitre_technique_id:
+    - T1490
   nist:
     - PR.PT
     - DE.CM
