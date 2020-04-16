@@ -27,7 +27,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" verb=list objectRef.resource=pods requestURI="/api/v1/pods" | stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason) values(responseStatus.code) values(userAgent) values(verb) values(requestURI) by src_ip k8s_cluster_name user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `kubernetes_pods_aws_scan_fingerprint_detection`
+      search: sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" verb=list objectRef.resource=pods requestURI="/api/v1/pods" | rename source as cluster_name | stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason) values(responseStatus.code) values(userAgent) values(verb) values(requestURI) by sourceIPs{} cluster_name user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `kubernetes_pods_aws_scan_fingerprint_detection`
 eli5: In this search we can detect unauthenticated web requests against an EKS cluster Pod, by looking at k8s authentication data, user agent and source IPs and API direct request.
 entities:
   - k8s_cluster_name
