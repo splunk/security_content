@@ -19,7 +19,7 @@ investigate:
       cron_schedule: "0 * * * *"
       earliest_time: "-70m@m"
       latest_time: "-10m@m"
-    search: sourcetype="google:gcp:pubsub:message" src_ip={src_ip} | stats count min(_time) as firstTime max(_time) as lastTime values(event_name) values(object_path) values(http_user_agent) values(src_user) values(data.protoPayload.status.message) values(data.protoPayload.methodName) by src_ip k8s_cluster_name dest
+    search: sourcetype="google:gcp:pubsub:message" data.protoPayload.requestMetadata.callerIp={src_ip} | rename data.protoPayload.requestMetadata.callerIp as src_ip | stats count min(_time) as firstTime max(_time) as lastTime values(data.protoPayload.methodName) as method_names values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent) as http_user_agent values(data.protoPayload.authenticationInfo.principalEmail) as user values(data.protoPayload.status.message) by src_ip data.resource.labels.cluster_name data.resource.type
 maintainers:
   - company: Splunk
     email: rsoto@splunk.com
