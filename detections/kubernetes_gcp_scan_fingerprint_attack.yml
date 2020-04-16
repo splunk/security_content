@@ -17,7 +17,7 @@ detect:
         rule_description: Detect scanning attempts against a GCP Kubernetes cluster
         rule_title: GCP Kubernetes cluster scan detection
       risk:
-        risk_object: k8s_cluster_name
+        risk_object: cluster_name
         risk_object_type:
           - other
         risk_score: 70
@@ -27,10 +27,10 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype="google:gcp:pubsub:message" data.protoPayload.requestMetadata.callerIp!=127.0.0.1 data.protoPayload.requestMetadata.callerIp!=::1 "data.labels.authorization.k8s.io/decision"=forbid "data.protoPayload.status.message"=PERMISSION_DENIED data.protoPayload.authenticationInfo.principalEmail="system:anonymous" | rename data.protoPayload.requestMetadata.callerIp as src_ip | stats count min(_time) as firstTime max(_time) as lastTime values(data.protoPayload.methodName) as method_name values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent) as http_user_agent by src_ip data.resource.labels.cluster_name | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`  | `kubernetes_gcp_scan_fingerprint_detection`
+      search: sourcetype="google:gcp:pubsub:message" data.protoPayload.requestMetadata.callerIp!=127.0.0.1 data.protoPayload.requestMetadata.callerIp!=::1 "data.labels.authorization.k8s.io/decision"=forbid "data.protoPayload.status.message"=PERMISSION_DENIED data.protoPayload.authenticationInfo.principalEmail="system:anonymous" | rename data.protoPayload.requestMetadata.callerIp as src_ip | stats count min(_time) as firstTime max(_time) as lastTime values(data.protoPayload.methodName) as method_name values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent) as http_user_agent by src_ip data.resource.labels.cluster_name | rename data.resource.labels.cluster_name as cluster_name| `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`  | `kubernetes_gcp_scan_fingerprint_detection`
 eli5: In this search we can detect unauthenticated web requests and possible attack against a GCP cluster, by looking at k8s authentication data, user agent, source IPs and destionation
 entities:
-  - k8s_cluster_name
+  - cluster_name
   - src_ip
 how_to_implement:  You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection to filter out FPs.
 id: db5957ec-0144-4c56-b512-9dccbe7a2d26

@@ -17,7 +17,7 @@ detect:
         rule_description: This search provides detection information on unauthenticated requests against Kubernetes' Pods API
         rule_title: Amazon EKS Kubernetes Pod scan detection
       risk:
-        risk_object: k8s_cluster_name
+        risk_object: cluster_name
         risk_object_type:
           - other
         risk_score: 70
@@ -30,7 +30,7 @@ detect:
       search: sourcetype="aws:cloudwatchlogs:eks" "user.username"="system:anonymous" verb=list objectRef.resource=pods requestURI="/api/v1/pods" | rename source as cluster_name sourceIPs{} as src_ip | stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason) values(responseStatus.code) values(userAgent) values(verb) values(requestURI) by src_ip cluster_name user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `kubernetes_pods_aws_scan_fingerprint_detection`
 eli5: In this search we can detect unauthenticated web requests against an EKS cluster Pod, by looking at k8s authentication data, user agent and source IPs and API direct request.
 entities:
-  - k8s_cluster_name
+  - cluster_name
   - src_ip
 how_to_implement:  You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection` macro to filter out the false positives.
 id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
