@@ -1,0 +1,35 @@
+creation_date: "2020-03-24"
+data_metadata:
+  data_source:
+    - "GCP Stackdriver logs"
+  data_sourcetypes:
+    - "google:gcp:pubsub:message"
+  providing_technologies:
+    - GCP
+description: This search provides investigation data about requests via user agent, authentication request URI, resource path and cluster name data against Kubernetes cluster from a specific IP address
+entities:
+  - src_user
+how_to_implement: "You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection to filter out FPs."
+id: c00e7626-92cc-4e06-9a51-b6db0a50bd1f
+investigate:
+  splunk:
+    fields_required:
+      - src_user
+    schedule:
+      cron_schedule: "0 * * * *"
+      earliest_time: "-70m@m"
+      latest_time: "-10m@m"
+    search: sourcetype="google:gcp:pubsub:message" src_ip={src_ip} | stats count min(_time) as firstTime max(_time) as lastTime values(event_name) values(object_path) values(http_user_agent) values(src_user) values(data.protoPayload.status.message) values(data.protoPayload.methodName) by src_ip k8s_cluster_name dest
+maintainers:
+  - company: Splunk
+    email: rsoto@splunk.com
+    name: Rod Soto
+modification_date: "2020-04-13"
+name: GCP Kubernetes activity by src_ip
+original_authors:
+  - company: Splunk
+    email: rsoto@splunk.com
+    name: "Rod Soto"
+spec_version: 2
+type: splunk
+version: "1.0"

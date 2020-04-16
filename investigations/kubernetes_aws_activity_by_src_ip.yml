@@ -6,7 +6,7 @@ data_metadata:
     - aws:cloudwatchlogs:eks
   providing_technologies:
     - AWS
-description: This search provides all the information about AWS Kubernetes activity performed from a specific source IP address
+description: This search provides investigation data about requests via user agent, authentication request URI, verb and cluster name data against Kubernetes cluster from a specific IP address
 entities:
   - src_ip
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Cloud Watch EKS inputs.
