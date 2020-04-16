@@ -28,7 +28,6 @@ original_authors:
     name: Bhavin Patel
 references:
   - https://capec.mitre.org/data/definitions/66.html
-  - https://www.owasp.org/index.php/Blind_SQL_Injection
   - https://www.incapsula.com/web-application-security/sql-injection.html
 spec_version: 2
 usecase: Advanced Threat Detection
