@@ -112,4 +112,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '3.0'
+version: '2.1'
