@@ -58,9 +58,9 @@ Note: we are currently working on coming up with a better naming convention and 
 
 # Execute an Analytic Story
 
-The team has recently written an app- Splunk Analytic Story Execution[Splunk_ASX](https://github.com/splunk/analytic_story_execution/releases/tag/v2.0) to be able to execute and/or schedule all the detections in an Analytic Story. 
+The team has recently written a tool [Splunk_ASX](https://github.com/splunk/analytic_story_execution/releases/tag/v2.0) to be able to execute and/or schedule all the detections in an Analytic Story. 
 
-Please download and install the application on a Splunk search head. More information and installation instructions can be found [here](https://github.com/splunk/analytic_story_execution/blob/v2.0/README.md#installation)
+This tool is developed as a Splunk App. Please download and install the application on a Splunk search head. More information and installation instructions can be found [here](https://github.com/splunk/analytic_story_execution/blob/v2.0/README.md#installation)
 
 # Writing Content
 Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing). 
