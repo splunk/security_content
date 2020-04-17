@@ -146,7 +146,7 @@ require([
         $('.run-story').unbind('click');
 
         $('.run-story').on('click', function(evt) {
-			window.open('/app/Splunk_Analytic_Story_Execution/analytic_story_execution?earliest=-24h%40h&latest=now&form.title=' + asName);
+			window.open('/app/Splunk_ASX/analytic_story_execution?earliest=-24h%40h&latest=now&form.title=' + asName);
         });
 
         let asSearch = splunkjs.mvc.Components.getInstance(epoch);
