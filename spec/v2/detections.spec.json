@@ -915,6 +915,7 @@
           "items": {
             "enum": [
               "Initial Access",
+              "Impact",
               "Execution",
               "Persistence",
               "Spearphishing Attachment",
