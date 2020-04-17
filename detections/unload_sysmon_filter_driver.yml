@@ -1,0 +1,103 @@
+asset_type: ''
+confidence: medium
+creation_date: '2017-10-23'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+    - Tanium
+    - Ziften
+description: Attackers often disable security tools to avoid detection. This search looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop sysmon from collecting the data.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, user, process
+        rule_description: Attackers often disable security tools to avoid detection. This search looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop sysmon from collecting the data.
+        rule_title: 'Unload Sysmon Filter Driver on $dest$ '
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 50
+      macros:
+        - unload_sysmon_filter_driver_filter
+        
+      schedule:
+        cron_schedule: 30 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
+        as process max(_time) as lastTime from datamodel=Endpoint.Processes where
+        Processes.process_name=fltMC.exe AND Processes.process=*unload* AND Processes.process=*SysmonDrv*  by  
+        Processes.process_name Processes.process_id Processes.parent_process_name Processes.process Processes.dest Processes.user | `drop_dm_object_name("Processes")`
+        | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` |`unload_sysmon_filter_driver_filter`| table firstTime lastTime dest user count process_name process_id parent_process_name process'
+      suppress:
+        suppress_fields: dest, process
+        suppress_period: 86400s
+eli5: This search is looking to detect execution of `fltMC.exe` that specifically used for unloading the Sysmon Filter Driver
+entities:
+  - dest
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro, update this macro to filter out false positives. 
+id: c77162d3-f93c-45cc-80c8-22f665664g9f
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+known_false_positives: ''
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+mappings:
+  cis20:
+    - CIS 8
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Disabling Security Tools
+  mitre_technique_id:
+    - T1089
+  nist:
+    - DE.CM
+modification_date: '2020-01-13'
+name: Unload Sysmon Filter Driver
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '2.0'

@@ -1,0 +1,115 @@
+asset_type: Endpoint
+confidence: medium
+creation_date: '2017-12-01'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+description: This search looks for registry activity associated with modifications
+  to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this
+  scenario, an attacker can load an arbitrary .dll into the print-monitor registry
+  by giving the full path name to the after.dll. The system will execute the .dll
+  with elevated (SYSTEM) permissions and will persist after reboot.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, user, registry_path
+        rule_description: A registry key associated with adding print monitors can
+          potentially be misused by giving it a path of a malicious .dll in the registry.
+        rule_title: Registry Key changes for Print Monitors detected on $dest$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 30
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
+        lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND
+        Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by
+        Registry.dest, Registry.registry_key_name Registry.status Registry.user Registry.registry_path
+        Registry.action | `drop_dm_object_name(Registry)`'
+      suppress:
+        suppress_fields: dest, registry_path
+        suppress_period: 86400s
+eli5: In this search, we look for modifications to registry keys used for adding print-monitor
+  entries on Microsoft platforms via the `registry_path` field in the endpoint data
+  model. It then provides the destination, command used to initiate the change, the
+  user who conducted this activity, the resource affected (registry_key_name), and
+  the entire path of the registry.
+entities:
+  - dest
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  products, such as Carbon Black, or via other endpoint data sources, such as Sysmon.
+  The data used for this search is typically generated via logs that report registry
+  modifications.
+id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
+investigations:
+  - id: fecf2918-670d-4f1c-872b-3d7317a41xf9
+    name: Get Registry Activities
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+known_false_positives: You will encounter noise from legitimate print-monitor registry
+  entries.
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+mappings:
+  cis20:
+    - CIS 8
+    - CIS 5
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Persistence
+    - Privilege Escalation
+    - Local Port Monitor
+  nist:
+    - PR.PT
+    - DE.CM
+    - PR.AC
+modification_date: '2018-11-02'
+name: Monitor Registry Keys for Print Monitors
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'

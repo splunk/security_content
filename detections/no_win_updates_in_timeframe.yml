@@ -1,0 +1,91 @@
+asset_type: Endpoint
+confidence: medium
+creation_date: '2017-08-15'
+data_metadata:
+  data_models:
+    - Updates
+  data_source:
+    - Windows Update Logs
+  providing_technologies:
+    - Microsoft Windows
+description: This search looks for Windows endpoints that have not generated an event
+  indicating a successful Windows update in the last 60 days. Windows updates are
+  typically released monthly and applied shortly thereafter. An endpoint that has
+  not successfully applied an update in this time frame indicates the endpoint is
+  not regularly being patched for some reason.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: src, user
+        rule_description: The system $src$ has not generated a successful Windows
+          Update event in 60 days or more.
+        rule_title: No Windows updates in last 60 days on $src$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 50
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `security_content_summariesonly` max(_time)
+        as lastTime from datamodel=Updates where Updates.status=Installed Updates.vendor_product="Microsoft
+        Windows" by Updates.dest Updates.status Updates.vendor_product | rename Updates.dest
+        as Host | rename Updates.status as "Update Status" | rename Updates.vendor_product
+        as Product | eval isOutlier=if(lastTime <= relative_time(now(), "-60d@d"),
+        1, 0)  | `security_content_ctime(lastTime)`  | search isOutlier=1 | rename lastTime as
+        "Last Update Time", | table Host, "Update Status", Product, "Last Update Time"'
+      suppress:
+        suppress_fields: dest
+        suppress_period: 86400s
+eli5: Keeping your systems up-to-date with the latest patches is an important step
+  in keeping your systems secured. For Windows endpoints, Microsoft typically releases
+  patches on the second Tuesday of every month. These patches contain fixes for vulnerabilities
+  in the system that could potentially be exploited by malicious actors. This search
+  checks for messages regarding Windows updates in the 'Update' data model. If a message
+  indicating a successful update has not been observed in 60 days, a notable event
+  will be generated. These systems should be checked to determine why it has not been
+  updated in that time frame.
+entities:
+  - dest
+how_to_implement: To successfully implement this search, it requires that the 'Update'
+  data model is being populated. This can be accomplished by ingesting Windows events
+  or the Windows Update log via a universal forwarder on the Windows endpoints you
+  wish to monitor. The Windows add-on should be also be installed and configured to
+  properly parse Windows events in Splunk. There may be other data sources which can
+  populate this data model, including vulnerability management systems.
+id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
+investigations:
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+known_false_positives: None identified
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+mappings:
+  cis20:
+    - CIS 18
+  nist:
+    - PR.PT
+    - PR.MA
+modification_date: '2017-09-15'
+name: No Windows Updates in a time frame
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'

@@ -1,0 +1,93 @@
+asset_type: AWS Instance
+baselines:
+  - id: 4d69091b-d975-4267-85df-888bd41034eb
+    name: Previously Seen EC2 Modifications By User
+    type: splunk
+confidence: medium
+creation_date: '2018-04-09'
+data_metadata:
+  data_source:
+    - AWS CloudTrail logs
+  data_sourcetypes:
+    - aws:cloudtrail
+  providing_technologies:
+    - AWS
+description: This search looks for EC2 instances being modified by users who have
+  not previously modified them.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: user, dest
+        rule_description: The EC2 instance $dest$ was modified by $user$. This user
+          has never modified an EC2 instance before.
+        rule_title: EC2 Instance Modified By Previously Unseen User $user$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 30
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: sourcetype=aws:cloudtrail `ec2_modification_api_calls` [search sourcetype=aws:cloudtrail
+        `ec2_modification_api_calls` errorCode=success | stats earliest(_time) as firstTime
+        latest(_time) as lastTime by userIdentity.arn | rename userIdentity.arn as
+        arn | inputlookup append=t previously_seen_ec2_modifications_by_user | stats
+        min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup
+        previously_seen_ec2_modifications_by_user | eval newUser=if(firstTime >= relative_time(now(),
+        "-70m@m"), 1, 0) | where newUser=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+        | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=dest
+        responseElements.instancesSet.items{}.instanceId | spath output=user userIdentity.arn
+        | table _time, user, dest
+      suppress:
+        suppress_fields: user, dest
+        suppress_period: 14400s
+eli5: The subsearch returns the ARNs of all successful EC2 instance modifications
+  within the last hour and then appends the historical data in the lookup file to
+  those results. EC2 modification APIs are defined by the macro `ec2_modification_api_calls`.
+  The search then recalculates the `firstTime` and `lastTime` field for each ARN and
+  returns only those ARNs that have first been seen in the past hour. This is combined
+  with the main search to return the time, user, and instance ID of those systems.
+entities:
+  - dest
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen EC2 Launches By
+  User" support search once to create a history of previously seen ARNs. To add or
+  remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
+id: 56f91724-cf3f-4666-84e1-e3712fb41e76
+investigations:
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3db4d1b-5f33-4b01-c541-c7ah9514c242
+    name: Get EC2 Instance Details by instanceId
+    type: splunk
+  - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
+    name: AWS Investigate User Activities By ARN
+    type: splunk
+known_false_positives: It's possible that a new user will start to modify EC2 instances
+  when they haven't before for any number of reasons. Verify with the user that is
+  modifying instances that this is the intended behavior.
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+mappings:
+  cis20:
+    - CIS 1
+  nist:
+    - ID.AM
+modification_date: '2018-04-09'
+name: EC2 Instance Modified With Previously Unseen User
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '2.0'

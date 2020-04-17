@@ -1,0 +1,5 @@
+definition: (eventName = CreateNetworkAcl OR eventName = CreateNetworkAclEntry OR
+  eventName = DeleteNetworkAcl OR eventName = DeleteNetworkAclEntry OR eventName =
+  ReplaceNetworkAclEntry OR eventName = ReplaceNetworkAclAssociation)
+description: This is a list of AWS event names that are associated with Network ACLs
+name: network_acl_events

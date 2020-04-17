@@ -1,0 +1,4 @@
+definition: search *
+description: Use this macro to add additional filters for monitoring cloud compute
+  images
+name: previously_seen_cloud_compute_image_input_filter

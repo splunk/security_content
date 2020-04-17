@@ -1,5 +1,5 @@
 import glob
-import json
+import yaml
 import argparse
 from os import path
 import sys
@@ -15,25 +15,6 @@ def unique(list1):
         if x not in unique_list:
             unique_list.append(x)
     return unique_list
-
-
-def markdown(x):
-    markdown = str(x)
-    markdown = markdown.replace("<code>", "`")
-    markdown = markdown.replace("</code>", "`")
-    markdown = markdown.replace("<b>", "**")
-    markdown = markdown.replace("</b>", "**")
-    # list tag replacements
-    markdown = markdown.replace("<ol><li>", "\\\n\\\n1. ")
-    markdown = markdown.replace("</li><li>", "\\\n\\\n1. ")
-    markdown = markdown.replace("</li></ol>", "")
-    markdown = markdown.replace("</li></ul>", "")
-    markdown = markdown.replace("<ul><li>", "\\\n\\\n1. ")
-    # break tags replacements
-    markdown = markdown.replace("<br></br>", "\\\n\\\n")
-    markdown = markdown.replace("<br/><br/>", "\\\n\\\n")
-    markdown = markdown.replace("<br/>", "\\\n\\\n")
-    return markdown
 
 
 def process_data_metadata(obj, complete_obj, name):
@@ -68,7 +49,7 @@ def process_metadata(detections, story_name):
     data_models = []
 
     # process the above for detections
-    for detection_name, detection in sorted(detections.iteritems()):
+    for detection_name, detection in sorted(detections.items()):
         for s in detection['stories']:
 
             # check if the detection is part of this story
@@ -93,14 +74,17 @@ def generate_detections(REPO_PATH, stories):
     # first we process detections
 
     detections = []
-    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.json")
+    detections_manifest_files = path.join(path.expanduser(REPO_PATH), "detections/*.yml")
     for detections_manifest_file in glob.glob(detections_manifest_files):
-        # read in each story
-        try:
-            detection = json.loads(
-                open(detections_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+
+        # read in each detection
+        with open(detections_manifest_file, 'r') as stream:
+            try:
+                detection = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(detections_manifest_file))
+
         detections.append(detection)
 
     complete_detections = dict()
@@ -108,7 +92,7 @@ def generate_detections(REPO_PATH, stories):
         # lets process v1 detections
         if detection['spec_version'] == 1:
             if verbose:
-                print "processing v1 detection: {0}".format(detection['search_name'])
+                print("processing v1 detection: {0}".format(detection['search_name']))
             name = detection['search_name']
             type = 'splunk'
             description = detection['search_description']
@@ -128,7 +112,7 @@ def generate_detections(REPO_PATH, stories):
             investigations = []
             baselines = []
             responses = []
-            for story_name, story in sorted(stories.iteritems()):
+            for story_name, story in sorted(stories.items()):
                 for d in story['detections']:
                     if d['name'] == name:
                         if 'investigations' in story:
@@ -139,7 +123,7 @@ def generate_detections(REPO_PATH, stories):
         # lets process v2 detections
         if detection['spec_version'] == 2:
             if verbose:
-                print "processing v2 detection: {0}".format(detection['name'])
+                print("processing v2 detection: {0}".format(detection['name']))
             name = detection['name']
             id = detection['id']
             entities = detection['entities']
@@ -177,13 +161,13 @@ def generate_detections(REPO_PATH, stories):
             responses = []
             if 'baselines' in detection:
                 for b in detection['baselines']:
-                    baselines.append({"type": b['product_type'], "name": b['name']})
+                    baselines.append({"type": b['type'], "name": b['name']})
             if 'investigations' in detection:
                 for i in detection['investigations']:
-                    investigations.append({"type": i['product_type'], "name": i['name']})
+                    investigations.append({"type": i['type'], "name": i['name']})
             if 'responses' in detection:
                 for r in detection['responses']:
-                    responses.append({"type": r['product_type'], "name": r['name']})
+                    responses.append({"type": r['type'], "name": r['name']})
 
         complete_detections[name] = {}
         complete_detections[name]['detection_name'] = name
@@ -236,7 +220,7 @@ def generate_detections(REPO_PATH, stories):
 
         # stories associated with the detection
         complete_detections[name]['stories'] = []
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             for d in story['detections']:
                 if d['name'] == name:
                     complete_detections[name]['stories'].append(story['story_name'])
@@ -249,15 +233,18 @@ def generate_detections(REPO_PATH, stories):
 
 def generate_stories(REPO_PATH, verbose):
     story_files = []
-    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.json")
+    story_manifest_files = path.join(path.expanduser(REPO_PATH), "stories/*.yml")
 
     for story_manifest_file in glob.glob(story_manifest_files):
+
         # read in each story
-        try:
-            story = json.loads(
-                open(story_manifest_file, 'r').read())
-        except IOError:
-            sys.exit("ERROR: reading {0}".format(story_manifest_file))
+        with open(story_manifest_file, 'r') as stream:
+            try:
+                story = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(story_manifest_file))
+
         story_files.append(story)
 
     # store an object with all stories and their data
@@ -265,7 +252,7 @@ def generate_stories(REPO_PATH, verbose):
     complete_stories = dict()
     for story in story_files:
         if verbose:
-            print "processing story: {0}".format(story['name'])
+            print("processing story: {0}".format(story['name']))
         # Start building the story for the use case
         name = story['name']
         complete_stories[name] = {}
@@ -339,7 +326,7 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
 
     # calculate categories
     categories = []
-    for story_name, story in sorted(stories.iteritems()):
+    for story_name, story in sorted(stories.items()):
         c = story['category']
         categories.append(c)
 
@@ -349,13 +336,14 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
         output_file.write("\n\n=={0}==\n".format(c[0]))
 
         # iterate through every story and print it out
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n==={0}===\n".format(story_name))
+                output_file.write("\n{0}\n".format(story['description']))
+                output_file.write(
+                    """\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
                 # header information
-                output_file.write("""\n<div class="toccolours mw-collapsible">\n<div class="mw-collapsible-content">\n""")
-                output_file.write("\n====Description====\n{0}\n".format(story['description']))
                 output_file.write("\n====Narrative====\n{0}\n".format(story['narrative']))
 
                 mappings, providing_technologies, data_models = process_metadata(detections, story_name)
@@ -398,7 +386,7 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
                 # references
                 output_file.write("\n====References====\n")
                 for r in story['references']:
-                    output_file.write("* {0}\n".format(markdown(r)))
+                    output_file.write("* {0}\n".format(r))
 
                 # story details
                 output_file.write("\ncreation_date = {0}\n\n".format(story['creation_date']))
@@ -425,7 +413,7 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
 
     # calculate categories
     categories = []
-    for story_name, story in sorted(stories.iteritems()):
+    for story_name, story in sorted(stories.items()):
         c = story['category']
         categories.append(c)
 
@@ -440,13 +428,13 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
         output_file.write("\n\n## {0}\n".format(c[0]))
 
         # build story TOC
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n* [{0}](#{1})\n".format(story_name, story_name.replace(' ', '-').lower()))
 
         # iterate through every story and print it out
-        for story_name, story in sorted(stories.iteritems()):
+        for story_name, story in sorted(stories.items()):
             # if the category matches
             if story['category'] == c:
                 output_file.write("\n### {0}\n".format(story_name))
@@ -458,8 +446,8 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
                 output_file.write("* spec_version = {0}\n".format(story['spec_version']))
 
                 # description and narrative
-                output_file.write("\n##### Description\n{0}\n".format(markdown(story['description'])))
-                output_file.write("\n##### Narrative\n{0}\n".format(markdown(story['narrative'])))
+                output_file.write("\n##### Description\n{0}\n".format(story['description']))
+                output_file.write("\n##### Narrative\n{0}\n".format(story['narrative']))
 
                 # process detections
                 output_file.write("\n##### Detections\n")
@@ -509,13 +497,13 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
                 output_file.write("\n##### Maintainers\n")
                 for m in story['maintainers']:
                     output_file.write("* name = {0}\n".format(m['name']))
-                    output_file.write("* email = {0}\n".format(m['company']))
-                    output_file.write("* company = {0}\n".format(m['email']))
+                    output_file.write("* email = {0}\n".format(m['email']))
+                    output_file.write("* company = {0}\n".format(m['company']))
 
                 # references
                 output_file.write("\n##### References\n")
                 for r in story['references']:
-                    output_file.write("* {0}\n".format(markdown(r)))
+                    output_file.write("* {0}\n".format(r))
 
     output_file.close()
     story_count = len(stories.keys())
@@ -549,15 +537,15 @@ if __name__ == "__main__":
     if gsd:
         story_count, paths = write_splunk_docs(complete_stories, complete_detections, OUTPUT_DIR)
         for p in paths:
-            print "{0} story documents have been successfully written to {1}".format(story_count, p)
+            print("{0} story documents have been successfully written to {1}".format(story_count, p))
     else:
-        print "--gen_splunk_docs  was set to false, not generating splunk documentation"
+        print("--gen_splunk_docs  was set to false, not generating splunk documentation")
 
     if gmd:
         story_count, paths = write_markdown_docs(complete_stories, complete_detections,  OUTPUT_DIR)
         for p in paths:
-            print "{0} story documents have been successfully written to {1}".format(story_count, p)
+            print("{0} story documents have been successfully written to {1}".format(story_count, p))
     else:
-        print "--gen_splunk_docs  was set to false, not generating splunk documentation"
+        print("--gen_splunk_docs  was set to false, not generating splunk documentation")
 
-    print "documentation generation for security content completed.."
+    print("documentation generation for security content completed..")

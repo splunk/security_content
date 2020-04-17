@@ -1,0 +1,99 @@
+asset_type: Windows
+confidence: medium
+creation_date: '2017-08-17'
+data_metadata:
+  data_models:
+    - Change
+  data_source:
+    - Windows Event Logs
+  providing_technologies:
+    - Microsoft Windows
+description: This search detects user accounts that have been locked out a relatively
+  high number of times in a short period.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: user
+        rule_description: The account $user$ has been locked out an excessive number
+          of times
+        rule_title: $user$ locked account an excessive number of times
+      risk:
+        risk_object: user
+        risk_object_type:
+          - system
+        risk_score: 40
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -4h@h
+        latest_time: -10m@m
+      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
+        lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
+        All_Changes.result="lockout" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
+        |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+        | search count > 5'
+      suppress:
+        suppress_fields: user
+        suppress_period: 86400s
+eli5: This search queries the `Change.All_Changes` datamodel under the nodename is
+  `Account_Management` , where the result is "lockout", which indicates that an account
+  has been locked out. It then counts the number of times a user  has caused an account
+  lockout within a four hour window and displays those users with a count greater
+  than or equal to five.
+entities:
+  - user
+how_to_implement: ou must ingest your Windows security event logs in the `Change`
+  datamodel under the nodename is `Account_Management`, for this search to execute
+  successfully. Please consider updating the cron schedule and the count of lockouts
+  you want to monitor, according to your environment.
+id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
+investigations:
+  - id: 552bc86c-f72c-4d44-b3f2-06ede13af7bb
+    name: Get Logon Rights Modifications For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: 03bffe94-ec7a-4cbe-b677-6af40d1c4505
+    name: Get Logon Rights Modifications For Endpoint
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+known_false_positives: It is possible that a legitimate user is experiencing an issue
+  causing multiple account login failures leading to lockouts.
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+mappings:
+  cis20:
+    - CIS 16
+  mitre_attack:
+    - Initial Access
+    - Valid Accounts
+  nist:
+    - PR.IP
+modification_date: '2019-03-01'
+name: Detect Excessive User Account Lockouts
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references: []
+security_domain: access
+spec_version: 2
+type: splunk
+version: '2.0'

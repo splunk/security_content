@@ -4,6 +4,8 @@
 #
 
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.19
 
 dependencies:
   cache_directories:
@@ -15,7 +17,19 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev -qq
+    sudo apt install -y python-dev python3-dev -qq
+    # install go for other testing tools
+    # but first lets clean up the env
+    if  [ -f goinstall.sh ]; then
+        rm goinstall.sh
+    fi
+    if [ -d ~/.go ]; then
+        rm -rf ~/.go
+    fi
+    wget https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh
+    sudo chown circleci goinstall.sh
+    chmod +x goinstall.sh
+    ./goinstall.sh
 
 executors:
   content-executor:
@@ -30,7 +44,12 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            if [ "${CIRCLE_BRANCH}" == "" ]; then
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                cd security-content
+                git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
+                git checkout ${CIRCLE_BRANCH}
+            elif [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
@@ -43,7 +62,7 @@ jobs:
           command: |
             cd security-content
             rm -rf venv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
       - save_cache:
@@ -56,14 +75,37 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/validate.py --path . --verbose
-
+      - run:
+          name: run doc-gen
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/doc-gen.py --path . --output docs -v
+      - run:
+          name: check for broken links using liche
+          command: |
+            echo 'export GOROOT=~/.go' >> $BASH_ENV
+            echo 'export PATH=$GOROOT/bin:$PATH' >> $BASH_ENV
+            echo 'export GOPATH=~/go' >> $BASH_ENV
+            echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
+            echo 'export GO111MODULE="on"' >> $BASH_ENV
+            source $BASH_ENV
+            go get -u github.com/raviqqe/liche
+            cd security-content
+            liche docs/stories_categories.md -v -t 30
+            liche README.md -v -t 30
   build-sources:
     executor: content-executor
     steps:
       - run:
           name: checkout repo
           command: |
-            if [ "${CIRCLE_BRANCH}" == "" ]; then
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                cd security-content
+                git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
+                git checkout ${CIRCLE_BRANCH}
+            elif [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
@@ -74,7 +116,7 @@ jobs:
           command: |
             cd security-content
             rm -rf venv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
       - run:
@@ -82,9 +124,19 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate.py --path . --output package --storiesv1 --use_case_lib -v
+            python bin/generate.py --path . --output package -v
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
+      - run: 
+          name: copy lookups .csv files
+          command: |
+            cd security-content
+            # clean up current lookups
+            rm -rf package/lookups
+            mkdir package/lookups
+            # copy over lookups
+            cd lookups
+            cp -rv *.csv ../package/lookups
       - run:
           name: update version and build number
           command: |
@@ -134,7 +186,6 @@ jobs:
               source ~/slim-latest/venv/bin/activate
               cd ~/dist
               tar -zxf content-pack-build.tar.gz
-              CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
               mv package DA-ESS-ContentUpdate
               slim package -o upload DA-ESS-ContentUpdate
               cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
@@ -154,7 +205,7 @@ jobs:
       - run:
           name: grab appinspect
           command: |
-            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
+            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-2.0.0.tar.gz -o appinspect-lastest.tar.gz
             mkdir appinspect-latest
             tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
       - run:
@@ -164,7 +215,7 @@ jobs:
             rm -rf venv
             sudo pip install --upgrade pip setuptools
             sudo pip install virtualenv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install .
       - run:
@@ -173,6 +224,37 @@ jobs:
             cd appinspect-latest
             source venv/bin/activate
             splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud --max-messages=all
+      - persist_to_workspace:
+          root: ~/
+          paths:
+             - DA-ESS-ContentUpdate-latest.tar.gz
+  community-api-update:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone community https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - aws-cli/setup:
+          profile-name: default
+      - run: 
+          name: update community api sources
+          command: |
+            cd security-content
+            aws s3 cp stories s3://security-content-community/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content-community/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content-community/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp investigations s3://security-content-community/investigations --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content-community/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content-community/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp macros s3://security-content-community/macros --recursive --exclude "*" --include "*.yml"
       - persist_to_workspace:
           root: ~/
           paths:
@@ -193,13 +275,12 @@ jobs:
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
-      - run: *apt-install
       - run:
           name: install python dependencies
           command: |
             cd security-content
             rm -rf venv
-            virtualenv --python=/usr/bin/python2.7 --clear venv
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
       - run:
@@ -224,11 +305,8 @@ jobs:
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
-            CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
-            mv package DA-ESS-ContentUpdate
-            tar -czf DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate/*
       - persist_to_workspace:
-          root: security-content/
+          root: ~/
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
   publish-github-release:
@@ -236,12 +314,54 @@ jobs:
       - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
-          at: ~/repo/updated
+          at: ~/
       - run:
           name: publish release on github
           command: |
-            mv ~/repo/updated/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+            cp ~/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+      - persist_to_workspace:
+          root: ~/
+          paths:
+              - DA-ESS-ContentUpdate-latest.tar.gz
+  attack-range-update:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/
+      - aws-cli/setup:
+          profile-name: default
+      - run:
+          name: sync latest ESCU to the Attack Range S3 bucket for apps
+          command: |
+            aws s3 cp ~/DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
+            # make the file public since it is not by default
+            aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
+  master-api-update:
+    executor: aws-cli/default
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - aws-cli/setup:
+          profile-name: default
+      - run: 
+          name: update api sources
+          command: |
+            cd security-content
+            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp investigations s3://security-content/investigations --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
 workflows:
   version: 2.1
   validate-and-build:
@@ -252,54 +372,90 @@ workflows:
             tags:
               only: /.*/
       - build-sources:
+        # build always
           requires:
             - validate-content
-        # build always
           filters:
             tags:
               only: /.*/
       - build-package:
+        # build always
           requires:
             - validate-content
             - build-sources
-        # build always
           filters:
             tags:
               only: /.*/
       - run-appinspect:
+        # build always
           requires:
             - validate-content
             - build-sources
             - build-package
-        # build always
           filters:
             tags:
               only: /.*/
-      - update-sources-github:
+      - community-api-update:
+        # build only on community changes
           requires:
             - validate-content
             - build-sources
             - build-package
             - run-appinspect
+          filters:
+            branches:
+              only: community
+      - update-sources-github:
         # update package and docs in github if is a tag
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
           filters:
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
       - publish-github-release:
+        # publish release in github if is a tag
           requires:
             - validate-content
             - build-sources
             - build-package
             - run-appinspect
             - update-sources-github
-        # only release when there is a tag
           filters:
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
-
-
-
+      - attack-range-update:
+        # update the attack range with the latest build
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+            - publish-github-release
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - master-api-update:
+        # update master API from develop if is a tag
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+            - publish-github-release
+            - attack-range-update
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

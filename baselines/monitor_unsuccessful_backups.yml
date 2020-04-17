@@ -1,0 +1,39 @@
+baseline:
+  splunk:
+    schedule:
+      cron_schedule: ''
+      earliest_time: -30d@d
+      latest_time: -10m@m
+    search: sourcetype="netbackup_logs" "An error occurred, failed to backup." | bucket
+      _time span=1d | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest
+      by _time, MESSAGE
+creation_date: '2017-08-24'
+data_metadata:
+  data_source:
+    - Backup Logs
+  data_sourcetypes:
+    - netbackup_logs
+  providing_technologies:
+    - Netbackup
+description: This search is intended to give you a feel for how often backup failures
+  happen in your environments.  Fluctuations in these numbers will allow you to determine
+  when you should investigate.
+eli5: This search gives you the count and hostname of all the systems that had a backup
+  failure each day
+how_to_implement: To successfully implement this search you must be ingesting your
+  backup logs.
+id: b2178fed-592f-492b-b851-74161678aa56
+known_false_positives: ''
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2017-09-12'
+name: Monitor Unsuccessful Backups
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+spec_version: 2
+type: splunk
+version: '1.0'

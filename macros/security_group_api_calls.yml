@@ -1,0 +1,7 @@
+definition: (eventName=AuthorizeSecurityGroupIngress OR eventName=CreateSecurityGroup
+  OR eventName=DeleteSecurityGroup OR eventName=DescribeClusterSecurityGroups OR eventName=DescribeDBSecurityGroups
+  OR eventName=DescribeSecurityGroupReferences OR eventName=DescribeSecurityGroups
+  OR eventName=DescribeStaleSecurityGroups OR eventName=RevokeSecurityGroupIngress
+  OR eventName=UpdateSecurityGroupRuleDescriptionsIngress)
+description: This macro is a list of AWS event names associated with security groups
+name: security_group_api_calls

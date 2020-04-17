@@ -1,0 +1,38 @@
+creation_date: '2019-10-02'
+data_metadata:
+  data_models:
+    - Cloud_Infrastructure
+  data_source:
+    - Cloud Infrastructure Logs
+  providing_technologies:
+    - AWS
+    - Azure
+    - GCP
+description: This search returns a logs of events that operated on the compute instance.
+entities:
+  - dest
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+id: 33a95cf2-900c-4636-8fca-5c5f71474720
+investigate:
+  splunk:
+    fields_required:
+      - dest
+    schedule:
+      cron_schedule: ''
+      earliest_time: '7200'
+      latest_time: '0'
+    search: '| from datamodel:Cloud_Infrastructure.Compute | search dest={dest} | fields - _*'
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2018-03-12'
+name: Investigate Cloud Compute Instance Activities
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+spec_version: 2
+type: splunk
+version: '1.0'

@@ -1,0 +1,39 @@
+baseline:
+  splunk:
+    schedule:
+      cron_schedule: ''
+      earliest_time: -30d@d
+      latest_time: -10m@m
+    search: sourcetype="netbackup_logs" "Disk/Partition backup completed successfully."
+      | bucket _time span=1d | stats dc(COMPUTERNAME) as count values(COMPUTERNAME)
+      as dest by _time, MESSAGE
+creation_date: '2017-08-24'
+data_metadata:
+  data_source:
+    - Backup Logs
+  data_sourcetypes:
+    - netbackup_logs
+  providing_technologies:
+    - Netbackup
+description: This search is intended to give you a feel for how often successful backups
+  are conducted in your environment. Fluctuations in these numbers will allow you
+  to determine when you should investigate.
+eli5: This search gives you the count and the hostname of all the systems that had
+  a successful backup each day.
+how_to_implement: To successfully implement this search you must be ingesting your
+  backup logs.
+id: b4d0dfb2-2195-4f6e-93a3-48468ed9734e
+known_false_positives: ''
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2017-09-12'
+name: Monitor Successful Backups
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+spec_version: 2
+type: splunk
+version: '1.0'

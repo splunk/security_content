@@ -1,0 +1,5 @@
+default_match: 'false'
+description: A place holder for a list of used cloud compute instance types
+filename: previously_seen_cloud_compute_instance_types.csv
+min_matches: 1
+name: previously_seen_cloud_compute_instance_types

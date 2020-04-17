@@ -21,7 +21,3 @@ access = read : [ * ], write : [ * ]
 [postprocess]
 access = read : [ * ], write : [ * ]
 
-
-## Exclude export of custom alert actions
-[alert_actions/email]
-export = none%

@@ -1,0 +1,4 @@
+description: A list of suspicious extensions for email attachments
+filename: is_suspicious_file_extension_lookup.csv
+match_type: WILDCARD(file_name)
+name: is_suspicious_file_extension_lookup

@@ -1,0 +1,118 @@
+asset_type: Endpoint
+confidence: medium
+creation_date: '2017-11-03'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+    - Tanium
+    - Ziften
+description: This search looks for arguments to sc.exe indicating the creation or
+  modification of a Windows service.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: dest, user, process
+        rule_description: This search looks for arguments to sc.exe indicating the
+          creation or modification of a Windows service.
+        rule_title: Sc.exe Manipulating Windows Services on $dest$
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 60
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time)
+        as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where
+        Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="*
+        config *") by Processes.process_name Processes.parent_process_name Processes.dest
+        Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      suppress:
+        suppress_fields: dest, process
+        suppress_period: 28800s
+eli5: This search looks for the execution of sc.exe with parameters that indicate
+  the utility is being used to create a new Windows service, or modify an existing
+  one. Attackers often create a new service to host their malicious code, or they
+  may take a non-critical service or one that is disabled, and modify it to point
+  to their malware and enable the service if necessary. It is unusual for a service
+  to be created or modified using the sc.exe utility.
+entities:
+  - dest
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
+  there may be legitimate instances of this behavior. It is important to validate
+  and investigate as appropriate.
+maintainers:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+mappings:
+  cis20:
+    - CIS 3
+    - CIS 5
+    - CIS 8
+  kill_chain_phases:
+    - Installation
+  mitre_attack:
+    - Persistence
+    - Privilege Escalation
+    - New Service
+    - Modify Existing Service
+    - Defense Evasion
+    - Disabling Security Tools
+  nist:
+    - PR.IP
+    - PR.PT
+    - PR.AC
+    - PR.AT
+    - DE.CM
+modification_date: '2019-02-27'
+name: Sc.exe Manipulating Windows Services
+original_authors:
+  - company: Splunk
+    email: rvaldez@splunk.com
+    name: Rico Valdez
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '2.0'

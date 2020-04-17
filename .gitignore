@@ -1,6 +1,7 @@
 # usual mac files
 .DS_Store
-
+#vim files
+*.swp
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -89,6 +90,9 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# IDEA Env
+.idea
+
 # Rope project settings
 .ropeproject
 
@@ -97,3 +101,5 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+package/bin/sftp-config.json
+package/default/sftp-config.json

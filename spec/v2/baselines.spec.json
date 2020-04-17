@@ -76,6 +76,26 @@
     },
     "splunk": {
       "properties": {
+        "lookups": {
+          "description": "A list of lookups in the search",
+          "examples": [
+            "detection_search_lookup"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "macros": {
+          "description": "A list of macros in the search",
+          "examples": [
+            "detection_search_output_filter"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "schedule": {
           "description": "Various fields to assist in scheduling the search",
           "properties": {
@@ -178,6 +198,7 @@
               "Certificates",
               "Change_Analysis",
               "Change",
+              "Cloud_Infrastructure",
               "Malware",
               "Email",
               "Identity_Management",
@@ -228,7 +249,9 @@
             "enum": [
               "Apache",
               "AWS",
+              "Azure",
               "Bro",
+              "GCP",
               "Microsoft Windows",
               "Linux",
               "macOS",
@@ -298,10 +321,13 @@
           "instanceId",
           "message_id",
           "networkAclId",
+          "parent_process_id",
+          "process_id",
           "process_name",
           "process",
           "recipient",
           "Region",
+          "region",
           "resourceId",
           "session_id",
           "src_ip",
@@ -310,7 +336,8 @@
           "src",
           "user",
           "query",
-          "answer"
+          "answer",
+          "domain"
         ]
       },
       "minItems": 0,

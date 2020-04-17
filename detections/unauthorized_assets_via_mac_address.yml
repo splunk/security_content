@@ -1,0 +1,100 @@
+asset_type: Infrastructure
+baselines:
+  - id: dcfd6b40-42f9-469d-a433-2e53f7489ff9
+    name: Count of assets by category
+    type: splunk
+confidence: medium
+creation_date: '2017-06-11'
+data_metadata:
+  data_models:
+    - Network_Sessions
+  data_source:
+    - Network Communication
+  providing_technologies:
+    - Splunk Stream
+    - Bro
+description: By populating the organization's assets within the assets_by_str.csv,
+  we will be able to detect unauthorized devices that are trying to connect with the
+  organization's network by inspecting DHCP request packets, which are issued by devices
+  when they attempt to obtain an IP address from the DHCP server. The MAC address
+  associated with the source of the DHCP request is checked against the list of known
+  devices, and reports on those that are not found.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: src, query
+        rule_description: The host $src$ issued a DHCP request to connect with your
+          network that does not belong to the list of authorized devices
+        rule_title: 'Unauthorized Asset found with mac address: $src_mac$'
+      risk:
+        risk_object: src
+        risk_object_type:
+          - system
+        risk_score: 20
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions where
+        nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip
+        All_Sessions.src_mac | dedup All_Sessions.src_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
+        | search NOT [| inputlookup asset_lookup_by_str |rename mac as src_mac | fields
+        + src_mac]'
+      suppress:
+        suppress_fields: src_mac,src_ip
+        suppress_period: 86400s
+eli5: 'This search requires you to leverage the Enterprise Security Assets and Identity
+  framework to populate assets_by_str.csv. Once the assets_by_str.csv is populated,
+  we then query your DHCP logs to detect unknown systems connecting to your network.
+  More documentation is available at: http://docs.splunk.com/Documentation/ES/4.7.1/Admin/Verifyassetandidentitydata.'
+entities:
+  - src
+how_to_implement: This search uses the Network_Sessions data model shipped with Enterprise
+  Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv
+  file located in SA-IdentityManagement, which will contain a list of known authorized
+  organizational assets including their MAC addresses. Ensure that all inventoried
+  systems have their MAC address populated.
+id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd33
+    name: Get First Occurrence and Last Occurrence of a MAC Address
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+known_false_positives: This search might be prone to high false positives. Please
+  consider this when conducting analysis or investigations. Authorized devices may
+  be detected as unauthorized. If this is the case, verify the MAC address of the
+  system responsible for the false positive and add it to the Assets and Identity
+  framework with the proper information.
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+mappings:
+  cis20:
+    - CIS 1
+  kill_chain_phases:
+    - Reconnaissance
+    - Delivery
+    - Actions on Objectives
+  mitre_attack:
+    - Defense Evasion
+  nist:
+    - ID.AM
+    - PR.DS
+modification_date: '2017-09-13'
+name: Detect Unauthorized Assets by MAC address
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references: []
+security_domain: network
+spec_version: 2
+type: splunk
+version: '1.0'

@@ -1,0 +1,88 @@
+asset_type: AWS Instance
+confidence: medium
+creation_date: '2017-01-08'
+data_metadata:
+  data_source:
+    - AWS CloudTrail logs
+  data_sourcetypes:
+    - aws:cloudtrail
+  providing_technologies:
+    - AWS
+description: Enforcing network-access controls is one of the defensive mechanisms
+  used by cloud administrators to restrict access to a cloud instance. After the attacker
+  has gained control of the AWS console by compromising an admin account, they can
+  delete a network ACL and gain access to the instance from anywhere. This search
+  will query the CloudTrail logs to detect users deleting network ACLs.
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: arn, eventName
+        rule_description: AWS network ACL has been deleted by $arn$.
+        rule_title: AWS Network ACL deleted by $arn$
+      risk:
+        risk_object: arn
+        risk_object_type:
+          - user
+        risk_score: 80
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -1d@d
+        latest_time: -10m@m
+      search: sourcetype=aws:cloudtrail eventName=DeleteNetworkAcl|rename userIdentity.arn
+        as arn  | stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage)
+        values(errorCode) values(userAgent) values(userIdentity.*) by src userName
+        arn eventName | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+      suppress:
+        suppress_fields: arn
+        suppress_period: 14400s
+eli5: The search looks for CloudTrail events to detect whether any network ACLs have
+  been deleted and gives you values of error messages and error codes (if any), user
+  details, user source IP, the user who initiated this request, and the name of the
+  event.
+entities:
+  - arn
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.
+id: ada0f478-84a8-4641-a3f1-d82362d6fd75
+investigations:
+  - id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
+    name: AWS Investigate User Activities By ARN
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+known_false_positives: It's possible that a user has legitimately deleted a network
+  ACL.
+maintainers:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+mappings:
+  cis20:
+    - CIS 11
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Persistence
+  nist:
+    - DE.DP
+    - DE.AE
+modification_date: '2017-01-10'
+name: AWS Network Access Control List Deleted
+original_authors:
+  - company: Splunk
+    email: bpatel@splunk.com
+    name: Bhavin Patel
+references: []
+security_domain: network
+spec_version: 2
+type: splunk
+version: '1.0'
