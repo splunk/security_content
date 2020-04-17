@@ -10,7 +10,7 @@ description: Use the searches in this story to monitor your Kubernetes registry 
   and Azure Container Registry.
 detections:
   - detection_id: f0f70b40-f7ad-489d-9905-23d149da8099
-    name: AWS ECR container uploaded
+    name: New container uploaded to AWS ECR
     type: splunk
   - detection_id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
     name: GCP GCR container uploaded

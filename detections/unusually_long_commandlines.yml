@@ -26,6 +26,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - unusually_long_commandlines_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -1d@d
@@ -36,7 +38,7 @@ detect:
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|  eval processlen=len(process) | eventstats
         stdev(processlen) as stdev, avg(processlen) as avg by dest | stats max(processlen)
         as maxlen, values(stdev) as stdevperhost, values(avg) as avgperhost by dest,
-        user, process_name, process| eval threshold = 10 | where maxlen > ((threshold*stdevperhost)
+        user, process_name, process| `unusually_long_commandlines_filter`| eval threshold = 10 | where maxlen > ((threshold*stdevperhost)
         + avgperhost)'
       suppress:
         suppress_fields: dest,user,process
@@ -97,7 +99,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2019-02-28'
+modification_date: '2020-03-16'
 name: Unusually Long Command Line
 original_authors:
   - company: Splunk
@@ -107,4 +109,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '3.0'
+version: '4.0'

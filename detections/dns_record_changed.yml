@@ -22,7 +22,7 @@ detect:
       lookups:
         - discovered_dns_records
       macros:
-        - dns_record_changed_output_filter
+        - dns_record_changed_filter
       notable:
         nes_fields: src
         rule_description: The table represents a list of DNS records and their responses
@@ -44,7 +44,7 @@ detect:
         | rename DNS.query as query | where query!="unknown" | rex field=query "(?<domain>\w+\.\w+?)(?:$|/)"]
         | makemv delim=" " answer |  makemv delim=" " type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer
         | makemv current_answer  | mvexpand current_answer | makemv discovered_answer
-        | eval n=mvfind(discovered_answer, current_answer) | where isnull(n) | `dns_record_changed_output_filter`'
+        | eval n=mvfind(discovered_answer, current_answer) | where isnull(n) | `dns_record_changed_filter`'
       suppress:
         suppress_fields: src
         suppress_period: 28800s

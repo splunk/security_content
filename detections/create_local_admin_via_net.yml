@@ -27,6 +27,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - create_local_admin_via_net_filter
       schedule:
         cron_schedule: 0 8 * * *
         earliest_time: -1440m@m
@@ -36,7 +38,7 @@ detect:
         where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by
         Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)`
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`  | search (process=*localgroup* OR
-        process=*/add* OR process=*user*)'
+        process=*/add* OR process=*user*) |`create_local_admin_via_net_filter`'
       suppress:
         suppress_fields: dest
         suppress_period: 86400s
@@ -96,7 +98,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-11-15'
+modification_date: '2020-03-16'
 name: Create local admin accounts using net.exe
 original_authors:
   - company: Splunk
@@ -106,4 +108,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

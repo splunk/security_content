@@ -28,16 +28,18 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
+      macros:
+        - email_files_not_in_outlook_directory_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
       search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path
         min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
-        where (Filesystem.file_name=*.dll OR Filesystem.file_name=*.ost) Filesystem.file_path
-        != "C:\\Users\\*\\My Documents\\Outlook Files\\*" by Filesystem.action Filesystem.process_id
+        where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path
+        != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*" by Filesystem.action Filesystem.process_id
         Filesystem.file_name Filesystem.dest | `drop_dm_object_name("Filesystem")`
-        | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+        | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `email_files_not_in_outlook_directory_filter`'
       suppress:
         suppress_fields: dest, file_path
         suppress_period: 86400s
@@ -94,7 +96,7 @@ mappings:
   mitre_attack:
     - Collection
     - Email Collection
-modification_date: '2018-11-02'
+modification_date: '2020-03-23'
 name: Email files written outside of the Outlook directory
 original_authors:
   - company: Splunk
@@ -104,4 +106,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '1.0'
+version: '2.0'

@@ -3,7 +3,7 @@ confidence: medium
 creation_date: '2020-02-20'
 data_metadata:
   data_models:
-    - Vulnerabilities
+    - Cloud_Infrastructure
   data_source:
     - google:gcp:pubsub:messages
   providing_technologies:
@@ -13,14 +13,13 @@ detect:
   splunk:
     correlation_rule:
       notable:
-        nes_fields: awsRegion
-        rule_description: An AWS instance is started in a new, previously unseen,
-          region
-        rule_title: AWS instance is started in a new region
+        nes_fields: src_user, account, bucket_name, event_name
+        rule_description: An GCP GCR container uploaded by $src_user$
+        rule_title: GCP GCR container uploaded
       risk:
-        risk_object: awsRegion
+        risk_object: src_user
         risk_object_type:
-          - other
+          - user
         risk_score: 30
       macros:
         - container_implant_gcp_detection_filter
@@ -33,7 +32,7 @@ eli5: In this search we can detect if a new container has been uploaded to Googl
    operator can monitor users uploading containers, object paths of new uploaded containers.
 entities:
   - src_user
-how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a subpub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.
+how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a subpub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_gcp_detection_filter` macro to filter out the false positives.
 id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
 known_false_positives: Uploading container is a normal behavior from developers or users with access to container registry. GCP GCR registers container upload as a Storage event, this search must be considered under the context of CONTAINER upload creation which automatically generates a bucket entry for destination path.
 maintainers:
@@ -43,8 +42,6 @@ maintainers:
 mappings:
   mitre_attack:
     - Persistence
-  kill_chain_phases:
-    - Weaponization
   mitre_technique_id:
     - T1525
 modification_date: '2020-02-20'

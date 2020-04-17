@@ -321,9 +321,10 @@ Container Registrys provide a way for organizations to keep customized images of
 
 ====Providing Technologies====
 * GCP
+* AWS
 
 ====Data Models====
-* Vulnerabilities
+* Cloud_Infrastructure
 
 ====Mappings====
 
@@ -1078,7 +1079,6 @@ It can also be very helpful to examine various behaviors of the process of inter
 * DE.CM
 
 ====References====
-* http://blog.talosintelligence.com/2017/03/apache-0-day-exploited.html
 * https://github.com/SpiderLabs/owasp-modsecurity-crs/blob/v3.2/dev/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
 
 creation_date = 2017-03-14
@@ -2050,7 +2050,6 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * DE.CM
 
 ====References====
-* https://www.symantec.com/connect/blogs/what-you-need-know-about-wannacry-ransomware
 * https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 
@@ -2522,7 +2521,7 @@ creation_date = 2018-08-08
 
 modification_date = 2020-02-04
 
-version = 2.0
+version = 3.0
 
 </div>
 </div>

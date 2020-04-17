@@ -29,6 +29,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 80
+      macros:
+        - dragonfly_schtasks_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -38,7 +40,7 @@ detect:
         max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe  by
         Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
         `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |
-        search (process=*delete* OR process=*create*) process=*reset*'
+        search (process=*delete* OR process=*create*) process=*reset* | `dragonfly_schtasks_filter`'
       suppress:
         suppress_fields: dest, process_name, process
         suppress_period: 28800s
@@ -94,7 +96,7 @@ mappings:
     - Scheduled Task
   nist:
     - PR.IP
-modification_date: '2018-12-03'
+modification_date: '2020-03-16'
 name: Scheduled Task Name Used by Dragonfly Threat Actors
 original_authors:
   - company: Splunk
@@ -104,4 +106,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

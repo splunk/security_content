@@ -33,13 +33,15 @@ detect:
         earliest_time: -70m@m
         latest_time: -10m@m
       search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
-        lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
-        as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\Windows\System32\sethc.exe*
-        OR Filesystem.file_path=*\Windows\System32\utilman.exe* OR Filesystem.file_path=*\Windows\System32\osk.exe*
-        OR Filesystem.file_path=*\Windows\System32\Magnify.exe* OR Filesystem.file_path=*\Windows\System32\Narrator.exe*
-        OR Filesystem.file_path=*\Windows\System32\DisplaySwitch.exe* OR Filesystem.file_path=*\Windows\System32\AtBroker.exe*)
-        by Filesystem.file_name Filesystem.dest | `drop_dm_object_name(Filesystem)`
-        | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`'
+    lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
+    as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe*
+    OR Filesystem.file_path=*\\Windows\\System32\\utilman.exe* OR Filesystem.file_path=*\\Windows\\System32\\osk.exe*
+    OR Filesystem.file_path=*\\Windows\\System32\\Magnify.exe* OR Filesystem.file_path=*\\Windows\\System32\\Narrator.exe*
+    OR Filesystem.file_path=*\\Windows\\System32\\DisplaySwitch.exe* OR Filesystem.file_path=*\\Windows\\System32\\AtBroker.exe*)
+    by Filesystem.file_name Filesystem.dest 
+| `drop_dm_object_name(Filesystem)` 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)`'
       suppress:
         suppress_fields: dest
         suppress_period: 14400s
@@ -94,7 +96,7 @@ mappings:
   nist:
     - PR.PT
     - DE.CM
-modification_date: '2018-11-15'
+modification_date: '2020-03-16'
 name: Overwriting Accessibility Binaries
 original_authors:
   - company: Splunk
@@ -104,4 +106,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'

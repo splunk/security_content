@@ -206,7 +206,8 @@
               "SMTP",
               "Cuckoo",
               "VirusTotal",
-              "DeepSight"
+              "DeepSight",
+              "Okta"
             ]
           },
           "minItems": 0,
@@ -234,6 +235,7 @@
         "enum": [
           "accessKeyId",
           "arn",
+          "app",
           "awsRegion",
           "bucketName",
           "City",

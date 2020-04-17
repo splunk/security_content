@@ -28,6 +28,8 @@ detect:
         risk_object_type:
           - system
         risk_score: 60
+      macros:
+        - children_of_spoolsv_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -36,7 +38,7 @@ detect:
         values(Processes.process) as process min(_time) as firstTime max(_time) as
         lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe
         AND Processes.process_name!=regsvr32.exe by Processes.dest Processes.parent_process
-        Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+        Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `children_of_spoolsv_filter`'
       suppress:
         suppress_fields: dest, parent_process_name
         suppress_period: 86400s
@@ -50,7 +52,7 @@ entities:
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
-  field in the Endpoint data model.
+  field in the Endpoint data model. Update the `children_of_spoolsv_filter` macro to filter out legitimate child processes spawned by spoolsv.exe.
 id: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
 investigations:
   - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
@@ -97,7 +99,7 @@ mappings:
     - PR.AC
     - PR.PT
     - DE.CM
-modification_date: '2018-12-03'
+modification_date: '2020-03-16'
 name: Child Processes of Spoolsv.exe
 original_authors:
   - company: Splunk
@@ -107,4 +109,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '3.0'
