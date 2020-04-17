@@ -359,6 +359,55 @@ version = 1.0
 </div>
 </div>
 
+===Kubernetes Scanning Activity===
+
+This story addresses detection against Kubernetes cluster fingerprint scan and attack by providing information on items such as source ip, user agent, cluster names.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitve information and management priviledges of production workloads, microservices and applications. These searches allow operator to detect suspicious unauthenticated requests from the internet to kubernetes cluster.
+
+====Providing Technologies====
+* AWS
+* GCP
+
+====Data Models====
+
+====Mappings====
+
+=====ATT&CK=====
+* Command and Control
+* Exfiltration
+
+=====Kill Chain Phases=====
+* Command and Control
+
+=====CIS=====
+* CIS 3
+* CIS 8
+* CIS 12
+
+=====NIST=====
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
+
+====References====
+* https://github.com/splunk/cloud-datamodel-security-research
+
+creation_date = 2020-03-24
+
+modification_date = 2020-04-15
+
+version = 1.0
+
+</div>
+</div>
+
 ===Suspicious AWS EC2 Activities===
 
 Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.
@@ -2948,8 +2997,7 @@ This Analytic Story contains a search designed to identify attempts by attackers
 * DE.CM
 
 ====References====
-* https://www.owasp.org/index.php/SQL_Injection
-* https://www.owasp.org/index.php/Blind_SQL_Injection
+* https://capec.mitre.org/data/definitions/66.html
 * https://www.incapsula.com/web-application-security/sql-injection.html
 
 creation_date = 2016-09-13

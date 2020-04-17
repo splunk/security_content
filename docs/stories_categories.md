@@ -30,6 +30,8 @@ Analytics stories organized by categories
 
 * [Container Implantation Monitoring & Investigation](#container-implantation-monitoring-&-investigation)
 
+* [Kubernetes Scanning Activity](#kubernetes-scanning-activity)
+
 * [Suspicious AWS EC2 Activities](#suspicious-aws-ec2-activities)
 
 * [Suspicious AWS Login Activities](#suspicious-aws-login-activities)
@@ -423,6 +425,59 @@ Cloud_Infrastructure
 ##### Maintainers
 * name = Rod Soto, Rico Valdez
 * email = rsoto@splunk.com, rvaldez@splunk.com
+* company = Splunk
+
+##### References
+* https://github.com/splunk/cloud-datamodel-security-research
+
+### Kubernetes Scanning Activity
+* id = `a9ef59cf-e981-4e66-9eef-bb049f695c09`
+* creation_date = 2020-03-24
+* modification_date = 2020-04-15
+* version = 1.0
+* spec_version = 2
+
+##### Description
+This story addresses detection against Kubernetes cluster fingerprint scan and attack by providing information on items such as source ip, user agent, cluster names.
+
+##### Narrative
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitve information and management priviledges of production workloads, microservices and applications. These searches allow operator to detect suspicious unauthenticated requests from the internet to kubernetes cluster.
+
+##### Detections
+* GCP Kubernetes cluster scan detection
+* Amazon EKS Kubernetes cluster scan detection
+* Amazon EKS Kubernetes Pod scan detection
+
+##### Providing Technologies
+* AWS
+* GCP
+
+##### Data Models
+
+##### Mappings
+
+###### ATT&CK
+* Command and Control
+* Exfiltration
+
+###### Kill Chain Phases
+* Command and Control
+
+###### CIS
+* CIS 3
+* CIS 8
+* CIS 12
+
+###### NIST
+* PR.IP
+* PR.PT
+* PR.AC
+* DE.AE
+* DE.CM
+
+##### Maintainers
+* name = Rod Soto
+* email = rsoto@splunk.com
 * company = Splunk
 
 ##### References
@@ -3380,8 +3435,7 @@ Web
 * company = Splunk
 
 ##### References
-* https://www.owasp.org/index.php/SQL_Injection
-* https://www.owasp.org/index.php/Blind_SQL_Injection
+* https://capec.mitre.org/data/definitions/66.html
 * https://www.incapsula.com/web-application-security/sql-injection.html
 
 ### Suspicious Command-Line Executions
