@@ -6,7 +6,7 @@ contextlib2==0.6.0.post1
 identify==1.4.15
 importlib-metadata==1.6.0
 importlib-resources==1.4.0
-Jinja2==2.11.1
+Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
 more-itertools==8.2.0
