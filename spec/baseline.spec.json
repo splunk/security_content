@@ -1,101 +1,101 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "http://example.com/example.json",
-    "type": "object",
-    "title": "Baseline Schema",
-    "description": "schema for baselines",
-    "default": {},
-    "additionalProperties": true,
-    "required": [
-        "name",
-        "id",
-        "version",
-        "date",
-        "description",
-        "author",
-        "search",
-        "tags"
-    ],
-    "properties": {
-        "name": {
-            "$id": "#/properties/name",
-            "type": "string",
-            "title": "Name of baseline",
-            "default": "",
-            "examples": [
-                "Previously Seen AWS Regions"
-            ]
-        },
-        "id": {
-            "$id": "#/properties/id",
-            "type": "string",
-            "description": "UUID as unique identifier",
-            "default": "",
-            "examples": [
-                "fc0edc95-ff2b-48b0-9f6f-63da3789fd63"
-            ]
-        },
-        "version": {
-            "$id": "#/properties/version",
-            "type": "integer",
-            "description": "version of baseline, e.g. 1 or 2 ...",
-            "default": 0,
-            "examples": [
-                1
-            ]
-        },
-        "date": {
-            "$id": "#/properties/date",
-            "type": "string",
-            "description": "date of creation or modification, format yyyy-mm-dd",
-            "default": "",
-            "examples": [
-                "2019-12-06"
-            ]
-        },
-        "description": {
-            "$id": "#/properties/description",
-            "type": "string",
-            "description": "A detailed description of the baseline ",
-            "default": "",
-            "examples": [
-                "This search looks for CloudTrail events where an AWS instance is started and creates a baseline of most recent time (latest) and the first time (earliest) we've seen this region in our dataset grouped by the value awsRegion for the last 30 days"
-            ]
-        },
-        "author": {
-            "$id": "#/properties/author",
-            "type": "string",
-            "description": "Author of the baseline",
-            "default": "",
-            "examples": [
-                "Bahvin Patel, Splunk"
-            ]
-        },
-        "search": {
-            "$id": "#/properties/search",
-            "type": "string",
-            "description": "The Splunk search for the baseline",
-            "default": "",
-            "examples": [
-                "sourcetype=aws:cloudtrail StartInstances | stats earliest(_time) as earliest latest(_time) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv"
-            ]
-        },
-        "tags": {
-            "$id": "#/properties/tags",
-            "type": "object",
-            "description": "An array of key value pairs for tagging",
-            "default": {},
-            "examples": [
-                {
-                    "custom_key": "custom_value",
-                    "analytics_story": "suspicious_aws_ec2_activities"
-                }
-            ],
-            "additionalProperties": true,
-            "required": [],
-            "properties": null,
-            "minItems": 1,
-            "uniqueItems": true
+  "$id": "http://example.com/example.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "additionalProperties": true,
+  "default": {},
+  "description": "schema for baselines",
+  "properties": {
+    "author": {
+      "$id": "#/properties/author",
+      "default": "",
+      "description": "Author of the baseline",
+      "examples": [
+        "Bahvin Patel, Splunk"
+      ],
+      "type": "string"
+    },
+    "date": {
+      "$id": "#/properties/date",
+      "default": "",
+      "description": "date of creation or modification, format yyyy-mm-dd",
+      "examples": [
+        "2019-12-06"
+      ],
+      "type": "string"
+    },
+    "description": {
+      "$id": "#/properties/description",
+      "default": "",
+      "description": "A detailed description of the baseline ",
+      "examples": [
+        "This search looks for CloudTrail events where an AWS instance is started and creates a baseline of most recent time (latest) and the first time (earliest) we've seen this region in our dataset grouped by the value awsRegion for the last 30 days"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "$id": "#/properties/id",
+      "default": "",
+      "description": "UUID as unique identifier",
+      "examples": [
+        "fc0edc95-ff2b-48b0-9f6f-63da3789fd63"
+      ],
+      "type": "string"
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "default": "",
+      "examples": [
+        "Previously Seen AWS Regions"
+      ],
+      "title": "Name of baseline",
+      "type": "string"
+    },
+    "search": {
+      "$id": "#/properties/search",
+      "default": "",
+      "description": "The Splunk search for the baseline",
+      "examples": [
+        "sourcetype=aws:cloudtrail StartInstances | stats earliest(_time) as earliest latest(_time) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv"
+      ],
+      "type": "string"
+    },
+    "tags": {
+      "$id": "#/properties/tags",
+      "additionalProperties": true,
+      "default": {},
+      "description": "An array of key value pairs for tagging",
+      "examples": [
+        {
+          "analytics_story": "suspicious_aws_ec2_activities",
+          "custom_key": "custom_value"
         }
+      ],
+      "minItems": 1,
+      "properties": null,
+      "required": [],
+      "type": "object",
+      "uniqueItems": true
+    },
+    "version": {
+      "$id": "#/properties/version",
+      "default": 0,
+      "description": "version of baseline, e.g. 1 or 2 ...",
+      "examples": [
+        1
+      ],
+      "type": "integer"
     }
+  },
+  "required": [
+    "name",
+    "id",
+    "version",
+    "date",
+    "description",
+    "author",
+    "search",
+    "tags"
+  ],
+  "title": "Baseline Schema",
+  "type": "object"
 }
