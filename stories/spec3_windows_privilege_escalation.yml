@@ -15,5 +15,5 @@ narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an ad
   in your environment.'
 search: <enter a story search>
 tags:
-  - analytics_story: windows_privilege_escalation
+  analytics_story: windows_privilege_escalation
 version: 2

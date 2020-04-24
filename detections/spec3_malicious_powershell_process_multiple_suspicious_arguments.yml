@@ -21,20 +21,20 @@ id: 2cdb91d2-542c-497f-b252-be495e71f38c
 known_false_positives: Legitimate process can have this combination of command-line
   options, but it's not common.
 tags:
-  - analytics_story: 
+  analytics_story: 
     - malicious_powershell
-  - cis20:
+  cis20:
     - CIS 3
     - CIS 7
     - CIS 8
-  - kill_chain_phases:
+  kill_chain_phases:
     - Command and Control
     - Actions on Objectives
-  - mitre_attack:
+  mitre_attack:
     - Execution
     - PowerShell
     - Scripting
-  - nist:
+  nist:
     - PR.PT
     - DE.CM
     - PR.IP

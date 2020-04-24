@@ -65,5 +65,5 @@ references:
   - https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
   - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 tags:
-  - analytics_story: malicious_powershell
+  analytics_story: malicious_powershell
 version: 4.0

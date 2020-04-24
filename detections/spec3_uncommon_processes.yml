@@ -21,15 +21,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
         | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_filter`'
 known_false_positives: None identified
 tags:
-  - analytics_story:
+  analytics_story:
     - windows_privilege_escalation
-  - cis20:
+  cis20:
     - CIS 2
-  - kill_chain_phases:
+  kill_chain_phases:
     - Actions on Objectives
-  - mitre_attack:
+  mitre_attack:
     - Execution
     - Accessibility Features
-  - nist:
+  nist:
     - ID.AM
     - PR.DS

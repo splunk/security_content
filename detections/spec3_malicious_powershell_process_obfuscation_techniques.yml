@@ -23,20 +23,20 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
 known_false_positives: These characters might be legitimately on the command-line,
   but it is not common.
 tags:
-  - analytics_story: 
+  analytics_story: 
     - malicious_powershell
-  - cis20:
+  cis20:
     - CIS 3
     - CIS 7
     - CIS 8
-  - kill_chain_phases:
+  kill_chain_phases:
     - Command and Control
     - Actions on Objectives
-  - mitre_attack:
+  mitre_attack:
     - Execution
     - PowerShell
     - Scripting
-  - nist:
+  nist:
     - PR.PT
     - DE.CM
     - PR.IP

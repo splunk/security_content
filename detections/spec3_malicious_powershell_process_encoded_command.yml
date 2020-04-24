@@ -19,20 +19,20 @@ id: c4db14d9-7909-48b4-a054-aa14d89dbb19
 
 known_false_positives: System administrators may use this option, but it's not common.
 tags:
-  - analytics_story: 
+  analytics_story: 
     - malicious_powershell
-  - cis20:
+  cis20:
     - CIS 3
     - CIS 7
     - CIS 8
-  - kill_chain_phases:
+  kill_chain_phases:
     - Command and Control
     - Actions on Objectives
-  - mitre_attack:
+  mitre_attack:
     - Execution
     - PowerShell
     - Scripting
-  - nist:
+  nist:
     - PR.PT
     - DE.CM
     - PR.IP

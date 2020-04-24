@@ -25,18 +25,17 @@ known_false_positives: Some legitimate printer-related processes may show up as 
   as exclusions in the search.
 
 tags:
-  - analytics_story:
+  analytics_story:
     - windows_privilege_escalation
-
-  - cis20:
+  cis20:
     - CIS 5
     - CIS 8
-  - kill_chain_phases:
+  kill_chain_phases:
     - Exploitation
-  - mitre_attack:
+  mitre_attack:
     - Privilege Escalation
     - Exploitation for Privilege Escalation
-  - nist:
+  nist:
     - PR.AC
     - PR.PT
     - DE.CM
