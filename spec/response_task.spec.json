@@ -1,0 +1,151 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "Response Task Schema",
+    "description": "schema for response tasks",
+    "default": {},
+    "additionalProperties": true,
+    "required": [
+        "name",
+        "id",
+        "version",
+        "date",
+        "description",
+        "author",
+        "inputs"
+    ],
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "description": "Namo fo response task",
+            "default": "",
+            "examples": [
+                "Response Tas Example"
+            ]
+        },
+        "id": {
+            "$id": "#/properties/id",
+            "type": "string",
+            "description": "UUID as unique identifier",
+            "default": "",
+            "examples": [
+                "fb4c31b0-13e8-4155-8aa5-24de4b8d6717"
+            ]
+        },
+        "version": {
+            "$id": "#/properties/version",
+            "type": "integer",
+            "description": "version of detection, e.g. 1 or 2 ...",
+            "default": 0,
+            "examples": [
+                3
+            ]
+        },
+        "date": {
+            "$id": "#/properties/date",
+            "type": "string",
+            "description": "date of creation or modification, format yyyy-mm-dd",
+            "default": "",
+            "examples": [
+                "2019-12-06"
+            ]
+        },
+        "description": {
+            "$id": "#/properties/description",
+            "type": "string",
+            "description": "Description of response task",
+            "default": "",
+            "examples": [
+                "Response Task example description"
+            ]
+        },
+        "author": {
+            "$id": "#/properties/author",
+            "type": "string",
+            "description": "Author of response task",
+            "default": "",
+            "examples": [
+                "Patrick Bareiß, Splunk"
+            ]
+        },
+        "inputs": {
+            "$id": "#/properties/inputs",
+            "type": "array",
+            "description": "Inputs used from the response task",
+            "default": [],
+            "examples": [
+                [
+                    "lookup_file"
+                ]
+            ]
+        },
+        "search": {
+            "$id": "#/properties/search",
+            "type": "string",
+            "description": "Search as response task",
+            "default": "",
+            "examples": [
+                "`sysmon` EventCode=1 | search [| inputlookup %lookup_file% ] | stats count by dest user process_name"
+            ]
+        },
+        "playbook": {
+            "$id": "#/properties/playbook",
+            "type": "object",
+            "description": "A phantom playbook as response task",
+            "default": {},
+            "examples": [
+                {
+                    "url_json": "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json",
+                    "url_python": "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py",
+                    "name": "lets_encrypt_domain_investigate.json"
+                }
+            ],
+            "additionalProperties": true,
+            "required": [
+                "name",
+                "url_json",
+                "url_python"
+            ],
+            "properties": {
+                "name": {
+                    "$id": "#/properties/playbook/properties/name",
+                    "type": "string",
+                    "description": "Name of Phantom Playbook",
+                    "default": "",
+                    "examples": [
+                        "lets_encrypt_domain_investigate.json"
+                    ]
+                },
+                "url_json": {
+                    "$id": "#/properties/playbook/properties/url_json",
+                    "type": "string",
+                    "description": "URL for phantom playbook json file",
+                    "default": "",
+                    "examples": [
+                        "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json"
+                    ]
+                },
+                "url_python": {
+                    "$id": "#/properties/playbook/properties/url_python",
+                    "type": "string",
+                    "description": "URL for phantom playbook python file",
+                    "default": "",
+                    "examples": [
+                        "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py"
+                    ]
+                }
+            }
+        },
+        "dashboard": {
+            "$id": "#/properties/dashboard",
+            "type": "string",
+            "description": "Name of dashboard used as response task",
+            "default": "",
+            "examples": [
+                "process_chain_analysis.json"
+            ]
+        }
+    }
+}

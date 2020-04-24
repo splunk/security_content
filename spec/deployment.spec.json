@@ -1,0 +1,268 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "Deployment Schema",
+    "description": "schema for deployment",
+    "default": {},
+    "additionalProperties": true,
+    "required": [
+        "name",
+        "id",
+        "date",
+        "description",
+        "scheduling",
+        "tags"
+    ],
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "description": "Name of deployment configuration",
+            "default": "",
+            "examples": [
+                "Deployment Configuration all Detections"
+            ]
+        },
+        "id": {
+            "$id": "#/properties/id",
+            "type": "string",
+            "description": "uuid as unique identifier",
+            "default": "",
+            "examples": [
+                "fb4c31b0-13e8-4155-8aa5-24de4b8d6717"
+            ]
+        },
+        "date": {
+            "$id": "#/properties/date",
+            "type": "string",
+            "description": "date of creation or modification, format yyyy-mm-dd",
+            "default": "",
+            "examples": [
+                "2019-12-06"
+            ]
+        },
+        "description": {
+            "$id": "#/properties/description",
+            "type": "string",
+            "description": "description of the deployment configuration",
+            "default": "",
+            "examples": [
+                "This deployment configuration provides a standard scheduling policy over all rules."
+            ]
+        },
+        "scheduling": {
+            "$id": "#/properties/scheduling",
+            "type": "object",
+            "description": "allows to set scheduling parameter",
+            "default": {},
+            "examples": [
+                {
+                    "latest_time": "now",
+                    "cron_schedule": "*/10 * * * *",
+                    "earliest_time": "-10m",
+                    "schedule_window": "auto"
+                }
+            ],
+            "additionalProperties": true,
+            "required": [
+                "cron_schedule",
+                "earliest_time",
+                "latest_time"
+            ],
+            "properties": {
+                "cron_schedule": {
+                    "$id": "#/properties/scheduling/properties/cron_schedule",
+                    "type": "string",
+                    "description": "Cron schedule to schedule the Splunk searches.",
+                    "default": "",
+                    "examples": [
+                        "*/10 * * * *"
+                    ]
+                },
+                "earliest_time": {
+                    "$id": "#/properties/scheduling/properties/earliest_time",
+                    "type": "string",
+                    "description": "earliest time of search",
+                    "default": "",
+                    "examples": [
+                        "-10m"
+                    ]
+                },
+                "latest_time": {
+                    "$id": "#/properties/scheduling/properties/latest_time",
+                    "type": "string",
+                    "description": "latest time of search",
+                    "default": "",
+                    "examples": [
+                        "now"
+                    ]
+                },
+                "schedule_window": {
+                    "$id": "#/properties/scheduling/properties/schedule_window",
+                    "type": "string",
+                    "description": "schedule window for search",
+                    "default": "",
+                    "examples": [
+                        "auto"
+                    ]
+                }
+            }
+        },
+        "alert_action": {
+            "$id": "#/properties/alert_action",
+            "type": "object",
+            "description": "Set alert action parameter for search",
+            "default": {},
+            "examples": [
+                {
+                    "email": {
+                        "to": "test@test.com",
+                        "subject": "Splunk Alert $name$",
+                        "message": "Splunk Alert $name$ triggered %fields%"
+                    },
+                    "index": {
+                        "name": "asx"
+                    },
+                    "notable": {
+                        "rule_description": "%description%",
+                        "rule_title": "%name%"
+                    }
+                }
+            ],
+            "additionalProperties": true,
+            "required": [
+                "index"
+            ],
+            "properties": {
+                "index": {
+                    "$id": "#/properties/alert_action/properties/index",
+                    "type": "object",
+                    "description": "By enabling it, the results are stored in another index",
+                    "default": {},
+                    "examples": [
+                        {
+                            "name": "asx"
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "name": {
+                            "$id": "#/properties/alert_action/properties/index/properties/name",
+                            "type": "string",
+                            "description": "Name of the index",
+                            "default": "",
+                            "examples": [
+                                "asx"
+                            ]
+                        }
+                    }
+                },
+                "notable": {
+                    "$id": "#/properties/alert_action/properties/notable",
+                    "type": "object",
+                    "description": "By enabling it, a notable is generated",
+                    "default": {},
+                    "examples": [
+                        {
+                            "rule_title": "%name%",
+                            "rule_description": "%description%"
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "required": [
+                        "rule_title",
+                        "rule_description"
+                    ],
+                    "properties": {
+                        "rule_title": {
+                            "$id": "#/properties/alert_action/properties/notable/properties/rule_title",
+                            "type": "string",
+                            "description": "Rule title of the notable event",
+                            "default": "",
+                            "examples": [
+                                "%name%"
+                            ]
+                        },
+                        "rule_description": {
+                            "$id": "#/properties/alert_action/properties/notable/properties/rule_description",
+                            "type": "string",
+                            "description": "Rule description of the notable event",
+                            "default": "",
+                            "examples": [
+                                "%description%"
+                            ]
+                        }
+                    }
+                },
+                "email": {
+                    "$id": "#/properties/alert_action/properties/email",
+                    "type": "object",
+                    "description": "By enabling it, an email is sent with the results",
+                    "default": {},
+                    "examples": [
+                        {
+                            "subject": "Splunk Alert $name$",
+                            "message": "Splunk Alert $name$ triggered %fields%",
+                            "to": "test@test.com"
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "required": [
+                        "to",
+                        "subject",
+                        "message"
+                    ],
+                    "properties": {
+                        "to": {
+                            "$id": "#/properties/alert_action/properties/email/properties/to",
+                            "type": "string",
+                            "description": "Recipient of email",
+                            "default": "",
+                            "examples": [
+                                "test@test.com"
+                            ]
+                        },
+                        "subject": {
+                            "$id": "#/properties/alert_action/properties/email/properties/subject",
+                            "type": "string",
+                            "description": "Subject of email",
+                            "default": "",
+                            "examples": [
+                                "Splunk Alert $name$"
+                            ]
+                        },
+                        "message": {
+                            "$id": "#/properties/alert_action/properties/email/properties/message",
+                            "type": "string",
+                            "description": "message of email",
+                            "default": "",
+                            "examples": [
+                                "Splunk Alert $name$ triggered %fields%"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "tags": {
+            "$id": "#/properties/tags",
+            "type": "object",
+            "description": "An array of key value pairs for tagging",
+            "default": {},
+            "examples": [
+                {
+                    "analytics_story": "credential_dumping"
+                }
+            ],
+            "additionalProperties": true,
+            "required": [],
+            "properties": null,
+            "minItems": 1,
+            "uniqueItems": true
+        }
+    }
+}
