@@ -1,0 +1,13 @@
+id: cc91a8cf-35e7-4bb2-8140-e756cc06fd74
+name: Quarantine host
+date: '2018-02-26'
+description: This is a phantom playbook that will quarantine the host
+author: Bhavin Patel, Splunk
+version: 1.0
+inputs: 
+  - dest
+playbook: 
+  name: malware_hunt_and_contain.json
+  url_json: https://github.com/phantomcyber/playbooks/blob/4.6/malware_hunt_and_contain.json
+  url_python: https://github.com/phantomcyber/playbooks/blob/4.6/malware_hunt_and_contain.py
+  

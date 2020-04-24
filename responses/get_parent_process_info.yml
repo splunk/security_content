@@ -1,0 +1,16 @@
+id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+version: 1.0
+date: '2018-02-26'
+name: Get Parent Process Info
+description: This search queries the Endpoint data model to give you details about
+  the parent process of a process running on a host which is under investigation.
+  Enter the values of the process name in question and the dest
+author: Bhavin Patel, Splunk
+inputs: 
+  - dest
+  - process_name
+search: '| tstats `summariesonly` count values(Processes.process) as process min(_time)
+      as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where
+      Processes.process_name = {process_name} Processes.dest = {dest} by Processes.user
+      Processes.parent_process_name  Processes.process_name  | `drop_dm_object_name("Processes")`
+      | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'

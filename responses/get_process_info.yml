@@ -1,0 +1,15 @@
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+name: Get Process Info
+date: '2018-02-26'
+version: 1.0
+description: This search queries the Endpoint data model to give you details about
+  the process running on a host which is under investigation. To gather the process
+  info, enter the values for the process name in question and the destination IP address.
+author: Bhavin Patel, Splunk
+inputs: 
+  - dest
+  - process_name
+search: '| tstats `security_content_summariesonly` count min(_time)  max(_time) as lastTime from
+      datamodel=Endpoint.Processes where Proceses.dest={dest} Proceses.process_name={process_name}
+      by Processes.parent_process Processes.process_name Processes.user Processes.dest
+      | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` '
