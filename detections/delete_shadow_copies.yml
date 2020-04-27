@@ -95,12 +95,14 @@ mappings:
   kill_chain_phases:
     - Actions on Objectives
   mitre_attack:
-    - Execution
+    - Impact
+  mitre_technique_id:
+    - T1490
   nist:
     - PR.PT
     - DE.CM
     - PR.IP
-modification_date: '2018-12-03'
+modification_date: '2020-04-17'
 name: Deleting Shadow Copies
 original_authors:
   - company: Splunk
@@ -110,4 +112,4 @@ references: []
 security_domain: endpoint
 spec_version: 2
 type: splunk
-version: '2.0'
+version: '2.1'

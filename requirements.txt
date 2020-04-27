@@ -3,7 +3,7 @@ attrs==19.3.0
 cfgv==3.1.0
 configparser==5.0.0
 contextlib2==0.6.0.post1
-identify==1.4.13
+identify==1.4.14
 importlib-metadata==1.6.0
 importlib-resources==1.4.0
 Jinja2==2.11.1
@@ -20,5 +20,5 @@ semantic-version==2.8.4
 six==1.14.0
 toml==0.10.0
 typing==3.7.4.1
-virtualenv==20.0.15
+virtualenv==20.0.16
 zipp==3.1.0
