@@ -1,3 +1,6 @@
+ 
+ 
+ 
 # Splunk Security Content
 ![security-content](docs/static/logo.png) 
 =====
@@ -58,9 +61,13 @@ Note: we are currently working on coming up with a better naming convention and 
 
 # Execute an Analytic Story
 
-The team has recently written a tool [Splunk_ASX](https://github.com/splunk/analytic_story_execution/releases/tag/v2.0) to be able to execute and/or schedule all the detections in an Analytic Story. 
+Download and install the latest version of [Splunk Analytic Story Execution] 
+(https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
 
-This tool is developed as a Splunk App. Please download and install the application on a Splunk search head. More information and installation instructions can be found [here](https://github.com/splunk/analytic_story_execution/blob/v2.0/README.md#installation)
+1. Execute an analytic story in an adhoc mode and view the results.
+2. Schedule all the detection searches in an analytic story.
+3. Update security-content via an API
+ 
 
 # Writing Content
 Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing). 
