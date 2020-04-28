@@ -61,8 +61,8 @@ Note: we are currently working on coming up with a better naming convention and 
 
 # Execute an Analytic Story
 
-Install the latest version of [Splunk Analytic Story Execution] 
-(https://github.com/splunk/analytic_story_execution/releases) on the same search head as ESCU. This Splunk application will help the analyst do the following:
+Download and install the latest version of [Splunk Analytic Story Execution] 
+(https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
 
 1. Execute an analytic story in an adhoc mode and view the results.
 2. Schedule all the detection searches in an analytic story.
