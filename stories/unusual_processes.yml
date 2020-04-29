@@ -1,40 +1,11 @@
-category:
-  - Malware
-channel: ESCU
-creation_date: '2016-08-09'
+name: Unusual Processes
+id: f4368e3f-d59f-4192-84f6-748ac5a3ddb6
+version: '2.1'
+date: '2020-02-04'
 description: Quickly identify systems running new or unusual processes in your environment
   that could be indicators of suspicious activity. Processes run from unusual locations,
   those with conspicuously long command lines, and rare executables are all examples
   of activities that may warrant deeper investigation.
-detections:
-  - detection_id: 29ccce64-a10c-4389-a45f-337cb29ba1f7
-    name: Uncommon Processes On Endpoint
-    type: splunk
-  - detection_id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-    name: Unusually Long Command Line
-    type: splunk
-  - detection_id: 57edaefa-a73b-45e5-bbae-f39c1473f941
-    name: Unusually Long Command Line - MLTK
-    type: splunk
-  - detection_id: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
-    name: Detect Rare Executables
-    type: splunk
-  - detection_id: a34aae96-ccf8-4aef-952c-3ea21444444d
-    name: System Processes Run From Unexpected Locations
-    type: splunk
-  - detection_id: 6c135f8d-5e60-454e-80b7-c56eed739833
-    name: RunDLL Loading DLL By Ordinal
-    type: splunk
-  - detection_id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
-    name: Detect processes used for System Network Configuration Discovery
-    type: splunk
-id: f4368e3f-d59f-4192-84f6-748ac5a3ddb6
-maintainers:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
-modification_date: '2020-02-04'
-name: Unusual Processes
 narrative: 'Being able to profile a host''s processes within your environment can
   help you more quickly identify processes that seem out of place when compared to
   the rest of the population of hosts or asset types.\
@@ -48,14 +19,14 @@ narrative: 'Being able to profile a host''s processes within your environment ca
   how that process was able to execute on the host, when it first executed, and whether
   other hosts are affected. This extra information may provide clues that can help
   the analyst further investigate any suspicious activity.'
-original_authors:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
+author: Bhavin Patel, Splunk
+type: ESCU
 references:
-  - https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html
-  - https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
-  - https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
-spec_version: 2
-usecase: Advanced Threat Detection
-version: '2.1'
+- https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html
+- https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
+- https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
+tags:
+  analytics_story: Unusual Processes
+  usecase: Advanced Threat Detection
+  category:
+  - Malware

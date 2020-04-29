@@ -1,0 +1,30 @@
+name: AWS Network Access Control List Created with All Open Ports
+id: ada0f478-84a8-4641-a3f1-d82362d6bd75
+version: '1.0'
+date: '2017-01-10'
+description: The search looks for CloudTrail events to detect if any network ACLs
+  were created with all the ports open to a specified CIDR.
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail
+  inputs.
+type: ESCU
+references: []
+author: Bhavin Patel, Splunk
+search: sourcetype=aws:cloudtrail eventName=CreateNetworkAclEntry | mvexpand requestParameters
+  | mvexpand responseElements | search requestParameters.portRange.from=1024 requestParameters.portRange.to=65535
+  requestParameters.ruleAction=allow | rename userIdentity.arn as arn | rename requestParameters.networkAclId
+  as networkAclId | table _time aws_account_id src userName arn networkAclId requestParameters.*
+  responseElements.*
+known_false_positives: It's possible that an admin has created this ACL with all ports
+  open for some legitimate purpose however, this should be scoped and not allowed
+  in production environment.
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 11
+  nist:
+  - DE.DP
+  - DE.AE

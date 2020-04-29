@@ -1,0 +1,31 @@
+name: AWS Network Access Control List Deleted
+id: ada0f478-84a8-4641-a3f1-d82362d6fd75
+version: '1.0'
+date: '2017-01-10'
+description: Enforcing network-access controls is one of the defensive mechanisms
+  used by cloud administrators to restrict access to a cloud instance. After the attacker
+  has gained control of the AWS console by compromising an admin account, they can
+  delete a network ACL and gain access to the instance from anywhere. This search
+  will query the CloudTrail logs to detect users deleting network ACLs.
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.
+type: ESCU
+references: []
+author: Bhavin Patel, Splunk
+search: sourcetype=aws:cloudtrail eventName=DeleteNetworkAcl|rename userIdentity.arn
+  as arn  | stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage)
+  values(errorCode) values(userAgent) values(userIdentity.*) by src userName arn eventName
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+known_false_positives: It's possible that a user has legitimately deleted a network
+  ACL.
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 11
+  nist:
+  - DE.DP
+  - DE.AE

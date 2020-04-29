@@ -1,30 +1,10 @@
-category:
-  - Adversary Tactics
-channel: ESCU
-creation_date: '2016-09-13'
+name: Lateral Movement
+id: 399d65dc-1f08-499b-a259-aad9051f38ad
+version: '2.0'
+date: '2020-02-04'
 description: Detect and investigate tactics, techniques, and procedures around how
   attackers move laterally within the enterprise. Because lateral movement can expose
   the adversary to detection, it should be an important focus for security analysts.
-detections:
-  - detection_id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
-    name: Schtasks scheduling job on remote system
-    type: splunk
-  - detection_id: f5939373-8054-40ad-8c64-cec478a22a4a
-    name: Remote Desktop Process Running On System
-    type: splunk
-  - detection_id: 272b8407-842d-4b3d-bead-a704584003d3
-    name: Remote Desktop Network Traffic
-    type: splunk
-  - detection_id: f5939373-8054-40ad-8c64-cec478a22a4b
-    name: Detect Activity Related to Pass the Hash Attacks
-    type: splunk
-id: 399d65dc-1f08-499b-a259-aad9051f38ad
-maintainers:
-  - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
-modification_date: '2020-02-04'
-name: Lateral Movement
 narrative: "Once attackers gain a foothold within an enterprise, they will seek to\
   \ expand their accesses and leverage techniques that facilitate lateral movement.\
   \ Attackers will often spend quite a bit of time and effort moving laterally. Because\
@@ -49,13 +29,13 @@ narrative: "Once attackers gain a foothold within an enterprise, they will seek 
   \ hosts. \\\n It is also important to collect authentication logs for each host,\
   \ to ensure that the offending accounts are well-documented. Analysts should account\
   \ for all processes to ensure that the attackers did not install unauthorized software."
-original_authors:
-  - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
+author: David Dorsey, Splunk
+type: ESCU
 references:
-  - https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
-  - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
-spec_version: 2
-usecase: Advanced Threat Detection
-version: '2.0'
+- https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
+- https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
+tags:
+  analytics_story: Lateral Movement
+  usecase: Advanced Threat Detection
+  category:
+  - Adversary Tactics

@@ -1,0 +1,32 @@
+name: Cloud Compute Instance Created With Previously Unseen Image
+id: bc24922d-987c-4645-b288-f8c73ec194c4
+version: '1.0'
+date: '2018-10-12'
+description: This search looks for cloud compute instances being created with previously
+  unseen image IDs.
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
+  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
+  installed. Run the "Previously Seen Cloud Compute Images" support search to create
+  a baseline of previously seen images.
+type: ESCU
+references: []
+author: David Dorsey, Splunk
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
+  as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run `previously_seen_cloud_compute_image_input_filter`
+  by Compute.image_id, Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup
+  append=t previously_seen_cloud_compute_images | stats min(firstTime) as firstTime
+  max(lastTime) as lastTime, values(dest) as dest by image_id, src_user | multireport
+  [| table image_id, firstTime, lastTime | outputlookup previously_seen_cloud_compute_images
+  | where fact=fiction][| eval new_image=if(firstTime >= relative_time(now(), `previously_seen_cloud_compute_image_search_window_begin_offset`),
+  1, 0) | where new_image=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
+  | table image_id, dest, src_user, firstTime, lastTime'
+known_false_positives: After a new image is created, the first systems created with
+  that image will cause this alert to fire.  Verify that the image being used was
+  created by a legitimate user.
+tags:
+  analytics_story:
+  - Cloud Cryptomining
+  cis20:
+  - CIS 1
+  nist:
+  - ID.AM
