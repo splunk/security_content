@@ -1,6 +1,6 @@
 name: Get Registry Activities
 id: fecf2918-670d-4f1c-872b-3d7317a41xf9
-version: '2.0'
+version: 2
 date: '2019-03-01'
 description: This search queries the Endpoint Datamodel to give you details of the
   latest registry values for a specific destination computer.

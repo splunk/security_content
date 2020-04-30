@@ -1,6 +1,6 @@
 name: Script Execution via WMI
 id: aa73f80d-d728-4077-b226-81ea0c8be589
-version: '3.0'
+version: 3
 date: '2020-03-16'
 description: This search looks for scripts launched via WMI.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,

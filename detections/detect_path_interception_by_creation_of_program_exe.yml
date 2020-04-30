@@ -1,6 +1,6 @@
 name: Detect Path Interception By Creation Of program.exe
 id: c77162d3-f93c-45cc-80c8-22f6v5264g9f
-version: '2.0'
+version: 2
 date: '2018-11-15'
 description: 'The search is looking for the creation of program.exe in the C: drive.  The
   creation of this file in that location may be driven by a motive to perform path

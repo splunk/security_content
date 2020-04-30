@@ -1,6 +1,6 @@
 name: Reg.exe used to hide files/directories via registry keys
 id: c77162d3-f93c-45cc-80c8-22f6b5264x9f
-version: '2.0'
+version: 2
 date: '2019-02-27'
 description: The search looks for command-line arguments used to hide a file or directory
   using the reg add command.
@@ -21,9 +21,9 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
 known_false_positives: None at the moment
 tags:
   analytics_story:
-  - Windows Persistence Techniques
   - Suspicious Windows Registry Activities
   - Windows Defense Evasion Tactics
+  - Windows Persistence Techniques
   kill_chain_phases:
   - Actions on Objectives
   cis20:

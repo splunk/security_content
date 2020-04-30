@@ -1,6 +1,6 @@
 name: Sc.exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: '2.0'
+version: 2
 date: '2019-02-27'
 description: This search looks for arguments to sc.exe indicating the creation or
   modification of a Windows service.
@@ -23,11 +23,11 @@ known_false_positives: Using sc.exe to manipulate Windows services is uncommon. 
   and investigate as appropriate.
 tags:
   analytics_story:
-  - Disabling Security Tools
-  - Windows Persistence Techniques
-  - Windows Service Abuse
-  - Orangeworm Attack Group
   - DHS Report TA18-074A
+  - Windows Service Abuse
+  - Windows Persistence Techniques
+  - Orangeworm Attack Group
+  - Disabling Security Tools
   mitre_attack_id:
   - T1050
   - T1031

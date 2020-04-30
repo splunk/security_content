@@ -1,6 +1,6 @@
 name: Get EC2 Instance Details by instanceId
 id: f3db4d1b-5f33-4b01-c541-c7ah9514c242
-version: '1.0'
+version: 1
 date: '2018-02-12'
 description: This search queries AWS description logs and returns all the information
   about a specific instance via the instanceId field

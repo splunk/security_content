@@ -1,6 +1,6 @@
 name: MacOS - Re-opened Applications
 id: 40bb64f9-f619-4e3d-8732-328d40377c4b
-version: '1.0'
+version: 1
 date: '2020-02-07'
 description: This search looks for processes referencing the plist files that determine
   which applications are re-opened when a user reboots their machine.

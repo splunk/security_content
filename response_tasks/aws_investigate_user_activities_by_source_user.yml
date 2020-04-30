@@ -1,6 +1,6 @@
 name: AWS Investigate User Activities By Source User
 id: b0d2e6a8-75fa-4b1b-9486-3d32acadf891
-version: '1.0'
+version: 1
 date: '2018-06-08'
 description: This search retrieves the times, ARN, source IPs, AWS regions, event
   names, and the result of the event for specific ARNs.

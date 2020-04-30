@@ -1,6 +1,6 @@
 name: Update previously seen users in CloudTrail
 id: 06c036e6-d6d7-4daa-bd76-411c3d356031
-version: '1.0'
+version: 1
 date: '2018-04-30'
 description: This search looks for CloudTrail events where a user logs into the console,
   then updates the baseline of the latest and earliest times, City, Region, and Country
@@ -20,7 +20,7 @@ tags:
   analytics_story:
   - Suspicious AWS Login Activities
   detections:
-  - Detect AWS Console Login by User from New Region
-  - Detect AWS Console Login by User from New Country
   - Detect new user AWS Console Login
+  - Detect AWS Console Login by User from New Region
   - Detect AWS Console Login by User from New City
+  - Detect AWS Console Login by User from New Country

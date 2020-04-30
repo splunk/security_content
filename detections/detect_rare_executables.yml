@@ -1,6 +1,6 @@
 name: Detect Rare Executables
 id: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
-version: '5.0'
+version: 5
 date: '2020-03-16'
 description: This search will return a table of rare processes, the names of the systems
   running them, and the users who initiated each process.
@@ -28,8 +28,8 @@ known_false_positives: Some legitimate processes may be only rarely executed in 
   to filter them out of your search results.
 tags:
   analytics_story:
-  - Emotet Malware (DHS Report TA18-201A)
   - Unusual Processes
+  - Emotet Malware (DHS Report TA18-201A)
   kill_chain_phases:
   - Installation
   - Command and Control

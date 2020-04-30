@@ -1,6 +1,6 @@
 name: DHS Report TA18-074A
 id: 0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef
-version: '2.0'
+version: 2
 date: '2020-01-22'
 description: Monitor for suspicious activities associated with DHS Technical Alert
   US-CERT TA18-074A. Some of the activities that adversaries used in these compromises

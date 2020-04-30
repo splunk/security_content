@@ -1,6 +1,6 @@
 name: DNSTwist Domain Names
 id: 19f7d2ec-6028-4d01-bcdb-bda9a034c17f
-version: '2.0'
+version: 2
 date: '2018-10-08'
 description: This search creates permutations of your existing domains, removes the
   valid domain names and stores them in a specified lookup file so they can be checked
@@ -17,5 +17,5 @@ tags:
   - Suspicious Emails
   detections:
   - Monitor Email For Brand Abuse
-  - Monitor DNS For Brand Abuse
   - Monitor Web Traffic For Brand Abuse
+  - Monitor DNS For Brand Abuse

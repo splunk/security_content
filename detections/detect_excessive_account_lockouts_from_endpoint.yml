@@ -1,6 +1,6 @@
 name: Detect Excessive Account Lockouts From Endpoint
 id: c026e3dd-7e18-4abb-8f41-929e836efe74
-version: '3.0'
+version: 3
 date: '2019-04-18'
 description: This search identifies endpoints that have caused a relatively high number
   of account lockouts in a short period.

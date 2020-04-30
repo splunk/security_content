@@ -1,6 +1,6 @@
 name: Investigate Okta Activity by IP Address
 id: 56aae066-d619-477c-93e3-3fb83b2d23c3
-version: '1.0'
+version: 1
 date: '2020-04-02'
 description: This search returns all okta events from a specific IP address.
 how_to_implement: You must be ingesting Okta logs

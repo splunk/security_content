@@ -1,6 +1,6 @@
 name: Abnormally High AWS Instances Terminated by User
 id: ada0f478-84a8-4641-s3f3-d82362dffd75
-version: '1.0'
+version: 1
 date: '2018-02-26'
 description: This search looks for CloudTrail events where an abnormally high number
   of instances were successfully terminated by a user in a 10-minute window

@@ -1,6 +1,6 @@
 name: Add Prohibited Processes to Enterprise Security
 id: 251930a5-1451-4428-bb13-eed5775be0ce
-version: '1.0'
+version: 1
 date: '2017-09-15'
 description: This search takes the existing interesting process table from ES, filters
   out any existing additions added by ESCU and then updates the table with processes

@@ -1,6 +1,6 @@
 name: All backup logs for host
 id: bc91a8cf-aaaa-4bb2-8140-e756cc06fd72
-version: '1.0'
+version: 1
 date: '2017-09-12'
 description: Retrieve the backup logs for the last 2 weeks for a specific host in
   order to investigate why backups are not completing successfully.

@@ -1,6 +1,6 @@
 name: Systems Ready for Spectre-Meltdown Windows Patch
 id: fc0edc95-ff2b-48b0-9f6f-63da3789fd61
-version: '1.0'
+version: 1
 date: '2018-01-08'
 description: Some AV applications can cause the Spectre/Meltdown patch for Windows
   not to install successfully. This registry key is supposed to be created by the

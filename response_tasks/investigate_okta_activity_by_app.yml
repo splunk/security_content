@@ -1,6 +1,6 @@
 name: Investigate Okta Activity by app
 id: 420eb1b8-2992-45d1-80cf-0b1b2759524d
-version: '1.0'
+version: 1
 date: '2020-04-02'
 description: This search returns all okta events associated with a specific app
 how_to_implement: You must be ingesting Okta logs

@@ -1,6 +1,6 @@
 name: Use of Cleartext Protocols
 id: 826e6431-aeef-41b4-9fc0-6d0985d65a21
-version: '1.0'
+version: 1
 date: '2017-09-15'
 description: Leverage searches that detect cleartext network protocols that may leak
   credentials or should otherwise be encrypted.

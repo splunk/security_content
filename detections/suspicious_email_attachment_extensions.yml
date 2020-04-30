@@ -1,6 +1,6 @@
 name: Suspicious Email Attachment Extensions
 id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
-version: '2.0'
+version: 2
 date: '2020-01-27'
 description: This search looks for emails that have attachments with suspicious file
   extensions.

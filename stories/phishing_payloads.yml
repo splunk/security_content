@@ -1,6 +1,6 @@
 name: Phishing Payloads
 id: 57226b40-94f3-4ce5-b101-a75f67759c27
-version: '1.0'
+version: 1
 date: '2019-04-29'
 description: Detect signs of malicious payloads that may indicate that your environment
   has been breached via a phishing attack.

@@ -1,6 +1,6 @@
 name: Okta User Logins From Multiple Cities
 id: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
-version: '1'
+version: 1
 date: '2020-04-01'
 description: This search detects logins from the same user from different states in
   a 24 hour period.

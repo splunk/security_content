@@ -1,6 +1,6 @@
 name: AWS Cloud Provisioning From Previously Unseen IP Address
 id: 42e15012-ac14-4801-94f4-f1acbe64880b
-version: '1.0'
+version: 1
 date: '2018-03-16'
 description: 'This search looks for AWS provisioning activities from previously unseen
   IP addresses. Provisioning activities are defined broadly as any event that begins

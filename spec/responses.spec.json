@@ -75,9 +75,8 @@
           ]
         }
       ],
-      "properties": null,
       "required": [],
-      "type": "object"
+      "type": "array"
     },
     "tags": {
       "$id": "#/properties/tags",
@@ -101,7 +100,7 @@
       "examples": [
         1
       ],
-      "type": "string"
+      "type": "integer"
     }
   },
   "required": [

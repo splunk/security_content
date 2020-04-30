@@ -1,6 +1,6 @@
 name: Identify Systems Creating Remote Desktop Traffic
 id: 5cdda34f-4caf-4128-a713-0837fc48b67a
-version: '1.0'
+version: 1
 date: '2017-09-15'
 description: This search counts the numbers of times the system has generated remote
   desktop traffic.

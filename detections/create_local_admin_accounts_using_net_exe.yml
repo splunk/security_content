@@ -1,6 +1,6 @@
 name: Create local admin accounts using net.exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
-version: '3.0'
+version: 3
 date: '2020-03-16'
 description: This search looks for the creation of local administrator accounts using
   net.exe.

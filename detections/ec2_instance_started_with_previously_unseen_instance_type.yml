@@ -1,6 +1,6 @@
 name: EC2 Instance Started With Previously Unseen Instance Type
 id: 65541c80-03c7-4e05-83c8-1dcd57a2e1ad
-version: '2.0'
+version: 2
 date: '2020-02-07'
 description: This search looks for EC2 instances being created with previously unseen
   instance types.

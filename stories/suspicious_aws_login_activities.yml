@@ -1,6 +1,6 @@
 name: Suspicious AWS Login Activities
 id: 2e8948a5-5239-406b-b56b-6c59f1268af3
-version: '1.0'
+version: 1
 date: '2019-05-01'
 description: 'Monitor your AWS authentication events using your CloudTrail logs. Searches
   within this Analytic Story will help you stay aware of and investigate suspicious

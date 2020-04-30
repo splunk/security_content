@@ -1,6 +1,6 @@
 name: Command and Control
 id: 943773c6-c4de-4f38-89a8-0b92f98804d8
-version: '1.0'
+version: 1
 date: '2018-06-01'
 description: Detect and investigate tactics, techniques, and procedures leveraged
   by attackers to establish and operate command and control channels. Implants installed

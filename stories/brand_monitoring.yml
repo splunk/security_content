@@ -1,6 +1,6 @@
 name: Brand Monitoring
 id: 91c676cf-0b23-438d-abee-f6335e1fce78
-version: '1.0'
+version: 1
 date: '2017-12-19'
 description: Detect and investigate activity that may indicate that an adversary is
   using faux domains to mislead users into interacting with malicious infrastructure.

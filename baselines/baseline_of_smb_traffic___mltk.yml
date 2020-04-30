@@ -1,6 +1,6 @@
 name: Baseline of SMB Traffic - MLTK
 id: df98763b-0b08-4281-8ef9-08db7ac572a9
-version: '1.0'
+version: 1
 date: '2019-05-08'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the number of SMB connections observed each hour for every day of
@@ -36,5 +36,5 @@ tags:
   - Netsh Abuse
   - Ransomware
   detections:
-  - SMB Traffic Spike - MLTK
   - Processes launching netsh
+  - SMB Traffic Spike - MLTK

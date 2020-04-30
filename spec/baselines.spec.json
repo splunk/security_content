@@ -90,7 +90,7 @@
       "examples": [
         1
       ],
-      "type": "string"
+      "type": "integer"
     }
   },
   "required": [

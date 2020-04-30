@@ -1,6 +1,6 @@
 name: Suspicious writes to windows Recycle Bin
 id: b5541828-8ffd-4070-9d95-b3da4de924cb
-version: '3.0'
+version: 3
 date: '2020-02-03'
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.

@@ -1,6 +1,6 @@
 name: AWS S3 Bucket details via bucketName
 id: f3fb2q1c-5f33-4b01-b541-c2ah9534c242
-version: '1.0'
+version: 1
 date: '2018-06-26'
 description: This search queries AWS configuration logs and returns the information
   about a specific S3 bucket. The information returned includes the time the S3 bucket

@@ -1,6 +1,6 @@
 name: Suspicious AWS Traffic
 id: 2e8948a5-5239-406b-b56b-6c50f2168af3
-version: '1.0'
+version: 1
 date: '2018-05-07'
 description: Leverage these searches to monitor your AWS network traffic for evidence
   of anomalous activity and suspicious behaviors, such as a spike in blocked outbound

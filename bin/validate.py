@@ -177,7 +177,6 @@ if __name__ == "__main__":
         objects, error = validate_schema(REPO_PATH, validation_object, objects)
         schema_error = schema_error or error
 
-    print(objects)
 
     if schema_error:
         sys.exit("Errors found")

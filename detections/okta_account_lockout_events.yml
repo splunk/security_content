@@ -1,6 +1,6 @@
 name: Okta Account Lockout Events
 id: 62b70968-a0a5-4724-8ac4-67871e6f544d
-version: '1'
+version: 1
 date: '2020-04-01'
 description: Detect Okta user lockout events
 how_to_implement: This search is specific to Okta and requires Okta logs are being

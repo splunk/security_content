@@ -1,6 +1,6 @@
 name: AWS Cloud Provisioning From Previously Unseen City
 id: 344a1778-0b25-490c-adb1-de8beddf59cd
-version: '1.0'
+version: 1
 date: '2018-03-16'
 description: 'This search looks for AWS provisioning activities from previously unseen
   cities.  Provisioning activities are defined broadly as any event that begins with

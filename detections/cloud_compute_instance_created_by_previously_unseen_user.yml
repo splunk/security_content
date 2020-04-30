@@ -1,6 +1,6 @@
 name: Cloud Compute Instance Created By Previously Unseen User
 id: 76988f6a-3935-48f6-a9e5-6fca8b3ed843
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: This search looks for cloud compute instances created by users who have
   not created them before.

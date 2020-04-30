@@ -1,6 +1,6 @@
 name: AWS User Monitoring
 id: 2e8948a5-5239-406b-b56b-6c50f1269af3
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: Detect and investigate dormant user accounts for your AWS environment
   that have become active again. Because inactive and ad-hoc accounts are common attack

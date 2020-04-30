@@ -1,6 +1,6 @@
 name: Detect New Login Attempts to Routers
 id: 104658f4-afdc-499e-9719-17243rr826f1
-version: '1.0'
+version: 1
 date: '2017-09-12'
 description: The search queries the authentication logs for assets that are categorized
   as routers in the ES Assets and Identity Framework, to identify connections that

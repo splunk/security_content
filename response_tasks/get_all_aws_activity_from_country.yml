@@ -1,6 +1,6 @@
 name: Get All AWS Activity From Country
 id: e763cdb9-00da-41e0-9bda-444debc9501a
-version: '1.0'
+version: 1
 date: '2018-03-19'
 description: This search retrieves all the activity from a specific country and will
   create a table containing the time, country, ARN, username, the type of user, the

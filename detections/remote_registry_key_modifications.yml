@@ -1,6 +1,6 @@
 name: Remote Registry Key modifications
 id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
-version: '3.0'
+version: 3
 date: '2020-03-02'
 description: This search monitors for remote modifications to registry keys.
 how_to_implement: To successfully implement this search, you must populate the `Endpoint`
@@ -20,9 +20,9 @@ known_false_positives: This technique may be legitimately used by administrators
   modify remote registries, so it's important to filter these events out.
 tags:
   analytics_story:
-  - Windows Persistence Techniques
   - Suspicious Windows Registry Activities
   - Windows Defense Evasion Tactics
+  - Windows Persistence Techniques
   kill_chain_phases:
   - Actions on Objectives
   cis20:

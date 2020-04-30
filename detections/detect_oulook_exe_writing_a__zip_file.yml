@@ -1,6 +1,6 @@
 name: Detect Oulook.exe writing a .zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
-version: '2.0'
+version: 2
 date: '2020-03-16'
 description: This search looks for execution of process `outlook.exe` where the process
   is writing a `.zip` file to the disk.

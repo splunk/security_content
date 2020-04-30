@@ -1,6 +1,6 @@
 name: Execution of File With Spaces Before Extension
 id: ab0353e6-a956-420b-b724-a8b4846d5d5a
-version: '1.0'
+version: 1
 date: '2018-01-26'
 description: This search looks for processes launched from files with at least five
   spaces in the name before the extension. This is typically done to obfuscate the

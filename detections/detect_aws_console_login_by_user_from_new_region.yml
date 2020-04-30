@@ -1,6 +1,6 @@
 name: Detect AWS Console Login by User from New Region
 id: 9f31aa8e-e37c-46bc-bce1-8b3be646d026
-version: '1.0'
+version: 1
 date: '2018-04-30'
 description: This search looks for CloudTrail events wherein a console login event
   by a user was recorded within the last hour, then compares the event to a lookup

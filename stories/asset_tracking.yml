@@ -1,6 +1,6 @@
 name: Asset Tracking
 id: 91c676cf-0b23-438d-abee-f6335e1fce77
-version: '1.0'
+version: 1
 date: '2017-09-13'
 description: Keep a careful inventory of every asset on your network to make it easier
   to detect rogue devices. Unauthorized/unmanaged devices could be an indication of

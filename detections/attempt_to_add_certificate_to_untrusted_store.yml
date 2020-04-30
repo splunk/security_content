@@ -1,6 +1,6 @@
 name: Attempt To Add Certificate To Untrusted Store
 id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
-version: '4.0'
+version: 4
 date: '2018-11-15'
 description: Attempt to add a certificate to the untrusted certificate store
 how_to_implement: You must be ingesting data that records process activity from your

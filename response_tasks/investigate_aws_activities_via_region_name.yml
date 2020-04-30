@@ -1,6 +1,6 @@
 name: Investigate AWS activities via region name
 id: bc91a8cd-35e7-4bb2-6140-e756cc46fd11
-version: '1.0'
+version: 1
 date: '2018-02-09'
 description: This search lists all the user activities logged by CloudTrail for a
   specific region in question and will create a table of the values of parameters

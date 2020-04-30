@@ -1,6 +1,6 @@
 name: SMB Traffic Spike
 id: 7f5fb3e1-4209-4914-90db-0ec21b936378
-version: '2.0'
+version: 2
 date: '2020-01-22'
 description: This search looks for spikes in the number of Server Message Block (SMB)
   traffic connections.
@@ -21,10 +21,10 @@ known_false_positives: A file server may experience high-demand loads that could
   this analytic to trigger.
 tags:
   analytics_story:
-  - Emotet Malware (DHS Report TA18-201A)
-  - Ransomware
   - DHS Report TA18-074A
   - Hidden Cobra Malware
+  - Emotet Malware (DHS Report TA18-201A)
+  - Ransomware
   mitre_attack_id:
   - T1043
   kill_chain_phases:

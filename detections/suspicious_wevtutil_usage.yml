@@ -1,6 +1,6 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
-version: '2.0'
+version: 2
 date: '2019-02-28'
 description: The wevtutil.exe application is the windows event log utility. This searches
   for wevtutil.exe with parameters for clearing the application, security, setup,
@@ -23,8 +23,8 @@ known_false_positives: The wevtutil.exe application is a legitimate Windows even
   log utility. Administrators may use it to manage Windows event logs.
 tags:
   analytics_story:
-  - Ransomware
   - Windows Log Manipulation
+  - Ransomware
   mitre_attack_id:
   - T1070
   kill_chain_phases:

@@ -1,6 +1,6 @@
 name: Get Process Information For Port Activity
 id: 9925d08f-561e-4faa-8912-e3888a842341
-version: '2.0'
+version: 2
 date: '2019-04-01'
 description: This search will return information about the process associated with
   observed network traffic to a specific destination port from a specific host.

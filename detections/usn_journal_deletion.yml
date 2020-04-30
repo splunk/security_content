@@ -1,6 +1,6 @@
 name: USN Journal Deletion
 id: b6e0ff70-b122-4227-9368-4cf322ab43c3
-version: '2.0'
+version: 2
 date: '2018-12-03'
 description: The fsutil.exe application is a legitimate Windows utility used to perform
   tasks related to the file allocation table (FAT) and NTFS file systems. The update
@@ -23,8 +23,8 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Ransomware
   - Windows Log Manipulation
+  - Ransomware
   mitre_attack_id:
   - T1070
   kill_chain_phases:

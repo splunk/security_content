@@ -1,6 +1,6 @@
 name: Process Execution via WMI
 id: 24869767-8579-485d-9a4f-d9ddfd8f0cac
-version: '3.0'
+version: 3
 date: '2020-03-16'
 description: This search looks for processes launched via WMI.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,

@@ -1,6 +1,6 @@
 name: Investigate Web Activity From Host
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd22
-version: '1.0'
+version: 1
 date: '2017-11-09'
 description: This search allows you to find all the web activity from a specific host.
   During an investigation, it is important to profile web activity to characterize

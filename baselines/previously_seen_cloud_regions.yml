@@ -1,6 +1,6 @@
 name: Previously Seen Cloud Regions
 id: b5e232db-dec6-4db8-aaa1-dd5474521e40
-version: '1.0'
+version: 1
 date: '2019-10-02'
 description: This search looks for cloud compute events where a compute instance is
   started and creates a baseline of most recent time, `lastTime` and the first time

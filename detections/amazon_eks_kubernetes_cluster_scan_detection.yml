@@ -1,6 +1,6 @@
 name: Amazon EKS Kubernetes cluster scan detection
 id: 294c4686-63dd-4fe6-93a2-ca807626704a
-version: '1.0'
+version: 1
 date: '2020-04-15'
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster in AWS

@@ -1,6 +1,6 @@
 name: Excessive DNS Failures
 id: 104658f4-afdc-499e-9719-17243f9826f1
-version: '1.0'
+version: 1
 date: '2017-09-18'
 description: This search identifies DNS query failures by counting the number of DNS
   responses that do not indicate success, and trigger on more than 50 occurrences.
@@ -21,8 +21,8 @@ known_false_positives: It is possible legitimate traffic can trigger this rule. 
   to better suit your environment.
 tags:
   analytics_story:
-  - Suspicious DNS Traffic
   - Command and Control
+  - Suspicious DNS Traffic
   mitre_attack_id:
   - T1048
   - T1043

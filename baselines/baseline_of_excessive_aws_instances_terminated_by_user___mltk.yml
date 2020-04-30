@@ -1,6 +1,6 @@
 name: Baseline of Excessive AWS Instances Terminated by User - MLTK
 id: b28ed6de-e4ba-40f7-ae0a-93a088c774ab
-version: '1.0'
+version: 1
 date: '2019-11-14'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   for how many TerminateInstances users do in the environment. By default, the search

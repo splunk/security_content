@@ -1,6 +1,6 @@
 name: GCP Kubernetes activity by src_ip
 id: c00e7626-92cc-4e06-9a51-b6db0a50bd1f
-version: '1.0'
+version: 1
 date: '2020-04-13'
 description: This search provides investigation data about requests via user agent,
   authentication request URI, resource path and cluster name data against Kubernetes

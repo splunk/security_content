@@ -1,6 +1,6 @@
 name: Baseline of Excessive AWS Instances Launched by User - MLTK
 id: fa5634df-fb05-4b4b-aba0-6115138bb1ba
-version: '1.0'
+version: 1
 date: '2019-11-14'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   for how many RunInstances users do in the environment. By default, the search uses

@@ -1,6 +1,6 @@
 name: Malicious PowerShell Process With Obfuscation Techniques
 id: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
-version: '2.0'
+version: 2
 date: '2020-01-17'
 description: This search looks for PowerShell processes launched with arguments that
   have characters indicative of obfuscation on the command-line.

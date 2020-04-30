@@ -1,6 +1,6 @@
 name: Create Remote Thread into LSASS
 id: 67d4dbef-9564-4699-8da8-03a151529edc
-version: '1'
+version: 1
 date: '2019-12-06'
 description: Detect remote thread creation into LSASS consistent with credential dumping.
 how_to_implement: This search needs Sysmon Logs with a Sysmon configuration, which

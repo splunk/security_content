@@ -1,6 +1,6 @@
 name: Spike in File Writes
 id: fdb0f805-74e4-4539-8c00-618927333aae
-version: '3.0'
+version: 3
 date: '2020-03-16'
 description: The search looks for a sharp increase in the number of files written
   to a particular host
@@ -24,8 +24,8 @@ known_false_positives: It is important to understand that if you happen to insta
   expect to see a large increase of file modifications.
 tags:
   analytics_story:
-  - SamSam Ransomware
   - Ransomware
+  - SamSam Ransomware
   kill_chain_phases:
   - Actions on Objectives
   cis20:

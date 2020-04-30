@@ -1,6 +1,6 @@
 name: Suspicious DNS Traffic
 id: 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
-version: '1.0'
+version: 1
 date: '2017-09-18'
 description: Attackers often attempt to hide within or otherwise abuse the domain
   name system (DNS). You can thwart attempts to manipulate this omnipresent protocol

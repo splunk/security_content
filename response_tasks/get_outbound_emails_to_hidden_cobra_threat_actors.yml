@@ -1,6 +1,6 @@
 name: Get Outbound Emails to Hidden Cobra Threat Actors
 id: 5df39b3f-347d-4869-b673-8r45ad4616fe
-version: '1.0'
+version: 1
 date: '2018-06-14'
 description: 'This search returns the information of the users that sent emails to
   the accounts controlled by the Hidden Cobra Threat Actors: specifically to `misswang8107@gmail.com`,

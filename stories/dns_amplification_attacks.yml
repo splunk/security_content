@@ -1,6 +1,6 @@
 name: DNS Amplification Attacks
 id: e8afd39e-3294-11e6-b39d-a45e60c6700
-version: '1.0'
+version: 1
 date: '2016-09-13'
 description: DNS poses a serious threat as a Denial of Service (DOS) amplifier, if
   it responds to `ANY` queries. This Analytic Story can help you detect attackers

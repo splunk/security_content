@@ -1,6 +1,6 @@
 name: Get Email Info
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd75
-version: '1.0'
+version: 1
 date: '2017-11-09'
 description: This search returns all the information Splunk might have collected a
   specific email message over the last 2 hours.

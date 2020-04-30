@@ -1,6 +1,6 @@
 name: AWS Network ACL Activity
 id: 2e8948a5-5239-406b-b56b-6c50ff268af4
-version: '2.0'
+version: 2
 date: '2018-05-21'
 description: Monitor your AWS network infrastructure for bad configurations and malicious
   activity. Investigative searches help you probe deeper, when the facts warrant it.

@@ -1,6 +1,6 @@
 name: Prohibited Software On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-b6ae50145893
-version: '2.0'
+version: 2
 date: '2019-10-11'
 description: This search looks for applications on the endpoint that you have marked
   as prohibited.
@@ -24,9 +24,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None identified
 tags:
   analytics_story:
+  - Monitor for Unauthorized Software
   - Emotet Malware (DHS Report TA18-201A)
   - SamSam Ransomware
-  - Monitor for Unauthorized Software
   kill_chain_phases:
   - Installation
   - Command and Control

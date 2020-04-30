@@ -1,6 +1,6 @@
 name: Previously Seen Running Windows Services
 id: 64ce0ade-cb01-4678-bddd-d31c0b175394
-version: '2.0'
+version: 2
 date: '2020-01-13'
 description: This collects the services that have been started across your entire
   enterprise.

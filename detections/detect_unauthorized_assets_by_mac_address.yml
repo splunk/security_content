@@ -1,6 +1,6 @@
 name: Detect Unauthorized Assets by MAC address
 id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
-version: '1.0'
+version: 1
 date: '2017-09-13'
 description: By populating the organization's assets within the assets_by_str.csv,
   we will be able to detect unauthorized devices that are trying to connect with the

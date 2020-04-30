@@ -1,6 +1,6 @@
 name: AWS Network Interface details via resourceId
 id: f3fb4d1c-5f33-4b01-b541-c3ah9534c241
-version: '1.0'
+version: 1
 date: '2018-05-07'
 description: This search queries AWS configuration logs and returns the information
   about a specific network interface via network interface ID. The information will

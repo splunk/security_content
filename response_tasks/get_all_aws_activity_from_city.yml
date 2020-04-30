@@ -1,6 +1,6 @@
 name: Get All AWS Activity From City
 id: 0abeeb40-1255-4b68-91d1-7a7eb410c4b8
-version: '1.0'
+version: 1
 date: '2018-03-19'
 description: This search retrieves all the activity from a specific city and will
   create a table containing the time, city, ARN, username, the type of user, the source

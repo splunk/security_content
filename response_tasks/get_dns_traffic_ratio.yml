@@ -1,6 +1,6 @@
 name: Get DNS traffic ratio
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd73
-version: '1.0'
+version: 1
 date: '2017-11-09'
 description: 'This search calculates the ratio of DNS traffic originating and coming
   from a host to a list of DNS servers over the last 24 hours. A high value of this

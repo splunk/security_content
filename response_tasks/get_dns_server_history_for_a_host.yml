@@ -1,6 +1,6 @@
 name: Get DNS Server History for a host
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd72
-version: '1.0'
+version: 1
 date: '2017-11-09'
 description: While investigating any detections it is important to understand which
   and how many DNS servers a host has connected to in the past. This search uses data

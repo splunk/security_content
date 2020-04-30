@@ -1,6 +1,6 @@
 name: AWS Cross Account Activity From Previously Unseen Account
 id: 64fbbddf-fabf-4edf-80b3-0cc36ef37727
-version: '2.0'
+version: 2
 date: '2018-11-02'
 description: This search looks for AssumeRole events where an IAM role in a different
   account is requested for the first time.

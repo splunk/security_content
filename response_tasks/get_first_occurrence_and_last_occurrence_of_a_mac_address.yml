@@ -1,6 +1,6 @@
 name: Get First Occurrence and Last Occurrence of a MAC Address
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd33
-version: '1.0'
+version: 1
 date: '2017-09-13'
 description: This search allows you to gather more context around a notable which
   has detected a new device connecting to your network. Use this search to determine

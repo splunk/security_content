@@ -1,6 +1,6 @@
 name: Detect hosts connecting to dynamic domain providers
 id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
-version: '2.0'
+version: 2
 date: '2020-01-16'
 description: Malicious actors often abuse legitimate Dynamic DNS services to host
   malicious payloads or interactive command and control nodes. Attackers will automate
@@ -45,9 +45,9 @@ tags:
   analytics_story:
   - Data Protection
   - DNS Hijacking
-  - Prohibited Traffic Allowed or Protocol Mismatch
-  - Command and Control
   - Dynamic DNS
+  - Command and Control
+  - Prohibited Traffic Allowed or Protocol Mismatch
   - Suspicious DNS Traffic
   kill_chain_phases:
   - Command and Control

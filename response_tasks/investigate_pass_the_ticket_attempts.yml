@@ -1,6 +1,6 @@
 name: Investigate Pass the Ticket Attempts
 id: 990007ad-d798-4b29-ab2f-f0034144c937
-version: '1.0'
+version: 1
 date: '2019-12-10'
 description: This search hunts for dumped kerberos ticket from LSASS memory.
 how_to_implement: To successfully implement this search you need to be ingesting windows

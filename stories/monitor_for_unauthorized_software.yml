@@ -1,6 +1,6 @@
 name: Monitor for Unauthorized Software
 id: 8892a655-6205-43f7-abba-06460e38c8ae
-version: '1.0'
+version: 1
 date: '2017-09-15'
 description: 'Identify and investigate prohibited/unauthorized software or processes
   that may be concealing malicious behavior within your environment. '

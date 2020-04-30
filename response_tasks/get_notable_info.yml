@@ -1,6 +1,6 @@
 name: Get Notable Info
 id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
-version: '1.0'
+version: 1
 date: '2017-09-20'
 description: This search queries the notable index to retrieve detailed information
   captured within the notable. Every notable has a unique ID associated with it, which

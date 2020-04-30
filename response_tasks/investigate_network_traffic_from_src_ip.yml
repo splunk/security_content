@@ -1,6 +1,6 @@
 name: Investigate Network Traffic From src_ip
 id: 9df9ca9c-a02b-4f48-9eba-0bac55179050
-version: '1.0'
+version: 1
 date: '2018-06-15'
 description: This search allows you to find all the network traffic from a specific
   IP address.

@@ -1,6 +1,6 @@
 name: Detect New Local Admin account
 id: b25f6f62-0712-43c1-b203-083231ffd97d
-version: '1.0'
+version: 1
 date: '2019-02-28'
 description: This search looks for newly created accounts that have been elevated
   to local administrators.

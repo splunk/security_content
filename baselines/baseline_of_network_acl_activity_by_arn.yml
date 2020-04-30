@@ -1,6 +1,6 @@
 name: Baseline of Network ACL Activity by ARN
 id: fc0edd96-ff2b-4810-9f1f-63da3783fd63
-version: '1.0'
+version: 1
 date: '2018-05-21'
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation of the number of API calls that were related to network ACLs made by each

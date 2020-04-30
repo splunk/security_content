@@ -1,6 +1,6 @@
 name: Previously Seen Cloud Compute Creations By User
 id: 9fa1c205-4e08-4681-bb1b-d0943e734b85
-version: '1.0'
+version: 1
 date: '2018-03-15'
 description: This search builds a table of previously seen users that have launched
   a cloud compute instance.

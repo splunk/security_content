@@ -1,6 +1,6 @@
 name: Investigate Web Activity From src_ip
 id: 2f5b960b-71df-49c0-affc-74992ce60e45
-version: '1.0'
+version: 1
 date: '2018-06-15'
 description: This search searches for all web activity from a specific host. During
   an investigation, it is important to profile web activity to characterize user or

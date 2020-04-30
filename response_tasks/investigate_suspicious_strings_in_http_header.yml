@@ -1,6 +1,6 @@
 name: Investigate Suspicious Strings in HTTP Header
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd89
-version: '1.0'
+version: 1
 date: '2017-10-20'
 description: This search helps an analyst investigate a notable event related to a
   potential Apache Struts exploitation. To investigate, we will want to isolate and

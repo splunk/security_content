@@ -1,6 +1,6 @@
 name: Previously Seen AWS Cross Account Activity
 id: 1cc22b09-c867-416e-a511-cb36ac44aee2
-version: '1.0'
+version: 1
 date: '2018-06-04'
 description: This search looks for **AssumeRole** events where the requesting account
   differs from the requested account, then writes these relationships to a lookup

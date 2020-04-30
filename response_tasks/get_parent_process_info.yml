@@ -1,6 +1,6 @@
 name: Get Parent Process Info
 id: fecf2918-670d-4f1c-872b-3d7317a41bf9
-version: '2.0'
+version: 2
 date: '2019-02-28'
 description: This search queries the Endpoint data model to give you details about
   the parent process of a process running on a host which is under investigation.

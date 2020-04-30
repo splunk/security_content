@@ -1,6 +1,6 @@
 name: AWS Investigate User Activities By AccessKeyId
 id: 703b65a4-a0ae-4171-965d-45507506c64f
-version: '1.0'
+version: 1
 date: '2018-06-08'
 description: This search retrieves the times, ARN, source IPs, AWS regions, event
   names, and the result of the event for specific credentials.

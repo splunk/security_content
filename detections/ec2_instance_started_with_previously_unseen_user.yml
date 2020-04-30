@@ -1,6 +1,6 @@
 name: EC2 Instance Started With Previously Unseen User
 id: 22773e84-bac0-4595-b086-20d3f735b4f1
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: This search looks for EC2 instances being created by users who have not
   created them before.

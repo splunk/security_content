@@ -1,6 +1,6 @@
 name: Spectre And Meltdown Vulnerabilities
 id: 6d3306f6-bb2b-4219-8609-8efad64032f2
-version: '1.0'
+version: 1
 date: '2018-01-08'
 description: Assess and mitigate your systems' vulnerability to Spectre and Meltdown
   exploitation with the searches in this Analytic Story.

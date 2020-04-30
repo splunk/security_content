@@ -1,6 +1,6 @@
 name: RunDLL Loading DLL By Ordinal
 id: 6c135f8d-5e60-454e-80b7-c56eed739833
-version: '2.0'
+version: 2
 date: '2019-02-27'
 description: This search looks for DLLs under %AppData% being loaded by rundll32.exe
   that are calling the exported function at ordinal 2. Calling exported functions

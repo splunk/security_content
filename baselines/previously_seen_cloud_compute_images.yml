@@ -1,6 +1,6 @@
 name: Previously Seen Cloud Compute Images
 id: 3782ad10-5ce2-46e2-b9c4-1de9ecd3aecc
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: This search builds a table of previously seen images used to launch cloud
   compute instances

@@ -1,6 +1,6 @@
 name: WMI Permanent Event Subscription - Sysmon
 id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
-version: '1.0'
+version: 1
 date: '2018-10-23'
 description: This search looks for the creation of WMI permanent event subscriptions.
 how_to_implement: To successfully implement this search, you must be collecting Sysmon

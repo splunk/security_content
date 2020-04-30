@@ -1,6 +1,6 @@
 name: Get Certificate logs for a domain
 id: bc91a8cf-35e7-4bb2-2240-e756cc06fd73
-version: '2.0'
+version: 2
 date: '2019-04-29'
 description: This search queries the Certificates datamodel and give you all the information
   for a specific domain. Please note that the certificates issued by "Let's Encrypt"

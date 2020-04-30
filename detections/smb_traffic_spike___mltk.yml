@@ -1,6 +1,6 @@
 name: SMB Traffic Spike - MLTK
 id: d25773ba-9ad8-48d1-858e-07ad0bbeb828
-version: '2.0'
+version: 2
 date: '2020-01-22'
 description: This search uses the Machine Learning Toolkit (MLTK) to identify spikes
   in the number of Server Message Block (SMB) connections.
@@ -42,10 +42,10 @@ known_false_positives: If you are seeing more results than desired, you may cons
   the `smb_traffic_spike_mltk_filter` macro to filter out false positive results
 tags:
   analytics_story:
-  - Emotet Malware (DHS Report TA18-201A)
-  - Ransomware
   - DHS Report TA18-074A
   - Hidden Cobra Malware
+  - Emotet Malware (DHS Report TA18-201A)
+  - Ransomware
   mitre_attack_id:
   - T1043
   kill_chain_phases:

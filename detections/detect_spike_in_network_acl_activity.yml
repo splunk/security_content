@@ -1,6 +1,6 @@
 name: Detect Spike in Network ACL Activity
 id: ada0f478-84a8-4641-a1f1-e32372d4bd53
-version: '1.0'
+version: 1
 date: '2018-05-21'
 description: This search will detect users creating spikes in API activity related
   to network access-control lists (ACLs)in your AWS environment.

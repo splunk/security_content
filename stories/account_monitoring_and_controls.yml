@@ -1,6 +1,6 @@
 name: Account Monitoring and Controls
 id: 8892a655-6205-55f7-abba-06460e38c8ae
-version: '1.0'
+version: 1
 date: '2017-09-06'
 description: A common attack technique is to leverage user accounts to gain unauthorized
   access to the target's network. This Analytic Story minimizes opportunities for

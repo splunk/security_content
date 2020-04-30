@@ -1,6 +1,6 @@
 name: Baseline of blocked outbound traffic from AWS
 id: fc0edd96-ff2b-48b0-9f1f-63da3782fd63
-version: '1.0'
+version: 1
 date: '2018-05-07'
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation of the number of outbound connections blocked in your VPC flow logs by

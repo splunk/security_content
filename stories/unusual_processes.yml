@@ -1,6 +1,6 @@
 name: Unusual Processes
 id: f4368e3f-d59f-4192-84f6-748ac5a3ddb6
-version: '2.1'
+version: 2
 date: '2020-02-04'
 description: Quickly identify systems running new or unusual processes in your environment
   that could be indicators of suspicious activity. Processes run from unusual locations,

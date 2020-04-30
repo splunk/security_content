@@ -1,6 +1,6 @@
 name: Get Process Registry Activity
 id: d8362a34-b78a-4364-9733-59b505f5b8d5
-version: '2.0'
+version: 2
 date: '2019-11-06'
 description: This search returns the registry activity for a specific process on a
   specific endpoint

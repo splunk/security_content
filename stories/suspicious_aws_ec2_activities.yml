@@ -1,6 +1,6 @@
 name: Suspicious AWS EC2 Activities
 id: 2e8948a5-5239-406b-b56b-6c50f1268af3
-version: '1.0'
+version: 1
 date: '2018-02-09'
 description: Use the searches in this Analytic Story to monitor your AWS EC2 instances
   for evidence of anomalous activity and suspicious behaviors, such as EC2 instances

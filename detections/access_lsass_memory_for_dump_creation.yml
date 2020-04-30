@@ -1,6 +1,6 @@
 name: Access LSASS Memory for Dump Creation
 id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
-version: '2'
+version: 2
 date: '2019-12-06'
 description: Detect memory dumping of the LSASS process.
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which

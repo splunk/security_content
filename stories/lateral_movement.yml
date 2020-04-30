@@ -1,6 +1,6 @@
 name: Lateral Movement
 id: 399d65dc-1f08-499b-a259-aad9051f38ad
-version: '2.0'
+version: 2
 date: '2020-02-04'
 description: Detect and investigate tactics, techniques, and procedures around how
   attackers move laterally within the enterprise. Because lateral movement can expose

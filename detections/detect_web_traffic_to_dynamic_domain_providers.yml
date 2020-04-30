@@ -1,6 +1,6 @@
 name: Detect web traffic to dynamic domain providers
 id: 134da869-e264-4a8f-8d7e-fcd01c18f301
-version: '1.0'
+version: 1
 date: '2018-09-06'
 description: This search looks for web connections to dynamic DNS providers.
 how_to_implement: 'This search requires you to be ingesting web-traffic logs. You

@@ -1,6 +1,6 @@
 name: Spectre and Meltdown Vulnerable Systems
 id: 354be8e0-32cd-4da0-8c47-796de13b60ea
-version: '1.0'
+version: 1
 date: '2017-01-07'
 description: The search is used to detect systems that are still vulnerable to the
   Spectre and Meltdown vulnerabilities.

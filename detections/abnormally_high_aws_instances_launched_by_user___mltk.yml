@@ -1,6 +1,6 @@
 name: Abnormally High AWS Instances Launched by User - MLTK
 id: dec41ad5-d579-42cb-b4c6-f5dbb778bbe5
-version: '1.0'
+version: 1
 date: '2019-11-14'
 description: This search looks for CloudTrail events where a user successfully launches
   an abnormally high number of instances.

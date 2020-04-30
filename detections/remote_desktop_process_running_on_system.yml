@@ -1,6 +1,6 @@
 name: Remote Desktop Process Running On System
 id: f5939373-8054-40ad-8c64-cec478a22a4a
-version: '4.0'
+version: 4
 date: '2020-01-13'
 description: This search looks for the remote desktop process mstsc.exe running on
   systems upon which it doesn't typically run. This is accomplished by filtering out

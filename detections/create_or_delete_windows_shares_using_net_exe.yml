@@ -1,6 +1,6 @@
 name: Create or delete windows shares using net.exe
 id: qw9919ed-fe5f-492c-b139-151bb162140e
-version: '4.0'
+version: 4
 date: '2020-01-20'
 description: This search looks for the creation or deletion of hidden shares using
   net.exe.

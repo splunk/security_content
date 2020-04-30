@@ -1,6 +1,6 @@
 name: Container Implantation Monitoring & Investigation
 id: aa0e28b1-0521-4b6f-9d2a-7b87e34af246
-version: '1.0'
+version: 1
 date: '2020-02-20'
 description: Use the searches in this story to monitor your Kubernetes registry repositories
   for upload, and deployment of potentially vulnerable, backdoor, or implanted containers.

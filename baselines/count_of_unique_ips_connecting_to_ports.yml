@@ -1,6 +1,6 @@
 name: Count of Unique IPs Connecting to Ports
 id: 9f3bae5a-9fe3-49df-8c84-5edc51d84b7f
-version: '1.0'
+version: 1
 date: '2017-09-13'
 description: The search counts the number of times a connection was observed to each
   destination port, and the number of unique source IPs connecting to them.

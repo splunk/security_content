@@ -1,6 +1,6 @@
 name: Previously Seen AWS Provisioning Activity Sources
 id: ac88e6a0-4fba-4dfd-b7b9-8964df7d1aee
-version: '1.0'
+version: 1
 date: '2018-03-16'
 description: This search builds a table of the first and last times seen for every
   IP address (along with its physical location) previously associated with cloud-provisioning
@@ -18,6 +18,6 @@ tags:
   - AWS Suspicious Provisioning Activities
   detections:
   - AWS Cloud Provisioning From Previously Unseen City
-  - AWS Cloud Provisioning From Previously Unseen Region
   - AWS Cloud Provisioning From Previously Unseen Country
   - AWS Cloud Provisioning From Previously Unseen IP Address
+  - AWS Cloud Provisioning From Previously Unseen Region

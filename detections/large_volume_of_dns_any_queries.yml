@@ -1,6 +1,6 @@
 name: Large Volume of DNS ANY Queries
 id: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
-version: '1.0'
+version: 1
 date: '2017-09-20'
 description: The search is used to identify attempts to use your DNS Infrastructure
   for DDoS purposes via a DNS amplification attack leveraging ANY queries.

@@ -1,6 +1,6 @@
 name: Get EC2 Launch Details
 id: 0e40fe83-3edb-4d86-8206-8fed36529ca6
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: This search returns some of the launch details for a EC2 instance.
 how_to_implement: In order to implement this search, you must install the AWS App

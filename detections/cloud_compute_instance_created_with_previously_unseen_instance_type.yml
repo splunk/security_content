@@ -1,6 +1,6 @@
 name: Cloud Compute Instance Created With Previously Unseen Instance Type
 id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: Find EC2 instances being created with previously unseen instance types.
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs

@@ -1,6 +1,6 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: '1.0'
+version: 1
 date: '2017-09-11'
 description: This search looks for network traffic defined by port and transport layer
   protocol in the Enterprise Security lookup table "lookup_interesting_ports", that
@@ -23,9 +23,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None identified
 tags:
   analytics_story:
+  - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
   - Command and Control
-  - Prohibited Traffic Allowed or Protocol Mismatch
   mitre_attack_id:
   - T1043
   - T1048

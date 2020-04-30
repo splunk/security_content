@@ -1,6 +1,6 @@
 name: New container uploaded to AWS ECR
 id: f0f70b40-f7ad-489d-9905-23d149da8099
-version: '1.0'
+version: 1
 date: '2020-02-20'
 description: This searches show information on uploaded containers including source
   user, image id, source IP user type, http user agent, region, first time, last time

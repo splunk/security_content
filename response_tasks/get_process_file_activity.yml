@@ -1,6 +1,6 @@
 name: Get Process File Activity
 id: 6a9ad4d9-6ef2-4b85-953f-a37ab256acd5
-version: '2.0'
+version: 2
 date: '2019-11-06'
 description: This search returns the file activity for a specific process on a specific
   endpoint

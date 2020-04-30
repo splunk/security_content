@@ -1,6 +1,6 @@
 name: Baseline of API Calls per User ARN
 id: fc0edc96-ff2b-48b0-9f6f-63da3783fd63
-version: '1.0'
+version: 1
 date: '2018-04-09'
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation of the number of API calls made by each user. Also recorded is the number

@@ -1,6 +1,6 @@
 name: Investigate User Activities In All Cloud Regions
 id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a
-version: '2.0'
+version: 2
 date: '2019-04-30'
 description: This search lists all the logged cloud infrastructure activities by a
   specific cloud user

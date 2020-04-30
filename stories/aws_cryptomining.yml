@@ -1,6 +1,6 @@
 name: AWS Cryptomining
 id: ced74200-8465-4bc3-bd2c-9a782eec6750
-version: '1.0'
+version: 1
 date: '2018-03-08'
 description: Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining.
   New instances that originate from previously unseen regions, users who launch abnormally

@@ -1,6 +1,6 @@
 name: Prohibited Traffic Allowed or Protocol Mismatch
 id: 6d13121c-90f3-446d-8ac3-27efbbc65218
-version: '1.0'
+version: 1
 date: '2017-09-11'
 description: Detect instances of prohibited network traffic allowed in the environment,
   as well as protocols running on non-standard ports. Both of these types of behaviors

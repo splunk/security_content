@@ -1,6 +1,6 @@
 name: Remote WMI Command Attempt
 id: 272df6de-61f1-4784-877c-1fbc3e2d0838
-version: '2.0'
+version: 2
 date: '2018-12-03'
 description: This search looks for wmic.exe being launched with parameters to operate
   on remote systems.

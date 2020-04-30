@@ -1,6 +1,6 @@
 name: Processes Tapping Keyboard Events
 id: 2a371608-331d-4034-ae2c-21dda8f1d0ec
-version: '1.0'
+version: 1
 date: '2019-01-25'
 description: This search looks for processes in an MacOS system that is tapping keyboard
   events in MacOS, and essentially monitoring all keystrokes made by a user. This

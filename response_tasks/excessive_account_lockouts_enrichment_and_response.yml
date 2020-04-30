@@ -1,6 +1,6 @@
 name: Excessive Account Lockouts Enrichment And Response
 id: ab62b5c1-95d4-4e71-8fd7-53a55db33da4
-version: '2.0'
+version: 2
 date: '2019-02-14'
 description: This Playbook is part of the Splunk Analytic Story called Account Monitoring
   and Controls. It is made to be run when the Detection Search within that story called
@@ -17,4 +17,4 @@ author: Bhavin Patel, Splunk
 playbook:
   name: excessive_account_lockouts_enrichment_and_response
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/excessive_account_lockouts_enrichment_and_response.json
-  url_py: https://github.com/phantomcyber/playbooks/blob/4.6/excessive_account_lockouts_enrichment_and_response.py
+  url_python: https://github.com/phantomcyber/playbooks/blob/4.6/excessive_account_lockouts_enrichment_and_response.py

@@ -1,6 +1,6 @@
 name: Suspicious writes to System Volume Information
 id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
-version: '1.0'
+version: 1
 date: '2018-01-08'
 description: This search detects writes to the 'System Volume Information' folder
   by something other than the System process.

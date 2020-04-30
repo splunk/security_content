@@ -1,6 +1,6 @@
 name: Disabling Remote User Account Control
 id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
-version: '3.0'
+version: 3
 date: '2020-03-02'
 description: The search looks for modifications to registry keys that control the
   enforcement of Windows User Account Control (UAC).

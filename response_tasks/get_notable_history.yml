@@ -1,6 +1,6 @@
 name: Get Notable History
 id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
-version: '2.0'
+version: 2
 date: '2017-09-20'
 description: This search queries the notable index and returns all the Notable Events
   for the particular destination host, giving the analyst an overview of the incidents

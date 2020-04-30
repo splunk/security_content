@@ -1,6 +1,6 @@
 name: DNS record changed
 id: 44d3a43e-dcd5-49f7-8356-5209bb369065
-version: '2.0'
+version: 2
 date: '2020-01-16'
 description: The search takes the DNS records and their answers results of the discovered_dns_records
   lookup and finds if any records have changed by searching DNS response from the

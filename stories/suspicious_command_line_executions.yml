@@ -1,6 +1,6 @@
 name: Suspicious Command-Line Executions
 id: f4368ddf-d59f-4192-84f6-778ac5a3ffc7
-version: '2.1'
+version: 2
 date: '2020-02-03'
 description: Leveraging the Windows command-line interface (CLI) is one of the most
   common attack techniques--one that is also detailed in the MITRE ATT&CK framework.

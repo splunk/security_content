@@ -1,6 +1,6 @@
 name: AWS Network Access Control List Deleted
 id: ada0f478-84a8-4641-a3f1-d82362d6fd75
-version: '1.0'
+version: 1
 date: '2017-01-10'
 description: Enforcing network-access controls is one of the defensive mechanisms
   used by cloud administrators to restrict access to a cloud instance. After the attacker

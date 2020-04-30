@@ -1,6 +1,6 @@
 name: Identify Systems Receiving Remote Desktop Traffic
 id: baaeea15-fe8a-4090-92c2-5b60943bb608
-version: '1.0'
+version: 1
 date: '2017-09-15'
 description: This search counts the numbers of times the system has created remote
   desktop traffic

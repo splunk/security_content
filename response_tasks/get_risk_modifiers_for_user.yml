@@ -1,6 +1,6 @@
 name: Get Risk Modifiers For User
 id: fdcfb369-1725-4c24-824a-22972d7f0d55
-version: '1.0'
+version: 1
 date: '2017-10-19'
 description: 'For the last 7 days, the search will query the Risk data model in Splunk
   Enterprise Security and calculate the count, sum of the risk_scores, names of the

@@ -1,6 +1,6 @@
 name: Previously Seen AWS Regions
 id: fc0edc95-ff2b-48b0-9f6f-63da3789fd63
-version: '1.0'
+version: 1
 date: '2018-01-08'
 description: This search looks for CloudTrail events where an AWS instance is started
   and creates a baseline of most recent time (latest) and the first time (earliest)

@@ -1,6 +1,6 @@
 name: Monitor Registry Keys for Print Monitors
 id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
-version: '1.0'
+version: 1
 date: '2018-11-02'
 description: This search looks for registry activity associated with modifications
   to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this
@@ -25,8 +25,8 @@ known_false_positives: You will encounter noise from legitimate print-monitor re
   entries.
 tags:
   analytics_story:
-  - Windows Persistence Techniques
   - Suspicious Windows Registry Activities
+  - Windows Persistence Techniques
   kill_chain_phases:
   - Actions on Objectives
   cis20:

@@ -1,6 +1,6 @@
 name: Investigate Pass the Hash Attempts
 id: ed3fff45-cba6-4990-983f-6fac72bee659
-version: '1.0'
+version: 1
 date: '2019-12-10'
 description: This search hunts for dumped NTLM hashes used for pass the hash.
 how_to_implement: To successfully implement this search you need be ingesting windows

@@ -1,6 +1,6 @@
 name: AWS Network Access Control List Created with All Open Ports
 id: ada0f478-84a8-4641-a3f1-d82362d6bd75
-version: '1.0'
+version: 1
 date: '2017-01-10'
 description: The search looks for CloudTrail events to detect if any network ACLs
   were created with all the ports open to a specified CIDR.

@@ -139,9 +139,6 @@
           "type": "object"
         }
       },
-      "required": [
-        "index"
-      ],
       "type": "object"
     },
     "date": {
@@ -249,7 +246,6 @@
         }
       ],
       "minItems": 1,
-      "properties": null,
       "required": [],
       "type": "object",
       "uniqueItems": true

@@ -1,6 +1,6 @@
 name: Detect DNS requests to Phishing Sites leveraging EvilGinx2
 id: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
-version: '1.0'
+version: 1
 date: '2019-04-29'
 description: This search looks for DNS requests for phishing domains that are leveraging
   EvilGinx tools to mimic websites.

@@ -1,6 +1,6 @@
 name: Detect Spike in AWS API Activity
 id: ada0f478-84a8-4641-a3f1-d32362d4bd55
-version: '1.0'
+version: 1
 date: '2018-04-09'
 description: This search will detect users creating spikes of API activity in your
   AWS environment.  It will also update the cache file that factors in the latest

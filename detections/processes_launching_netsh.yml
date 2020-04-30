@@ -1,6 +1,6 @@
 name: Processes launching netsh
 id: b89919ed-fe5f-492c-b139-95dbb162040e
-version: '2.0'
+version: 2
 date: '2018-11-02'
 description: This search looks for processes launching netsh.exe. Netsh is a command-line
   scripting utility that allows you to, either locally or remotely, display or modify
@@ -22,9 +22,9 @@ known_false_positives: Some VPN applications are known to launch netsh.exe. Outs
   commands.
 tags:
   analytics_story:
+  - DHS Report TA18-074A
   - Disabling Security Tools
   - Netsh Abuse
-  - DHS Report TA18-074A
   mitre_attack_id:
   - T1059
   - T1089

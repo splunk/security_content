@@ -1,6 +1,6 @@
 name: Previously Seen EC2 Instance Types
 id: b8f029f2-65a6-4d76-be98-dad1c9d59c45
-version: '1.0'
+version: 1
 date: '2018-03-08'
 description: This search builds a table of previously seen EC2 instance types
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)

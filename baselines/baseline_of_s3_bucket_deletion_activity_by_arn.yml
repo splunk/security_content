@@ -1,6 +1,6 @@
 name: Baseline of S3 Bucket deletion activity by ARN
 id: fc0edd96-ff2b-48b0-9f1f-63eq3783fd63
-version: '1.0'
+version: 1
 date: '2018-07-17'
 description: This search establishes, on a per-hour basis, the average and standard
   deviation for the number of API calls related to deleting an S3 bucket by each user.

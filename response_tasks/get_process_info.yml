@@ -1,6 +1,6 @@
 name: Get Process Info
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
-version: '2.0'
+version: 2
 date: '2019-04-01'
 description: This search queries the Endpoint data model to give you details about
   the process running on a host which is under investigation. To gather the process

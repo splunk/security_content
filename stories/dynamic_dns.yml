@@ -1,6 +1,6 @@
 name: Dynamic DNS
 id: 8169f17b-ef68-4b59-aae8-586907301221
-version: '2.0'
+version: 2
 date: '2018-09-06'
 description: Detect and investigate hosts in your environment that may be communicating
   with dynamic domain providers. Attackers may leverage these services to help them

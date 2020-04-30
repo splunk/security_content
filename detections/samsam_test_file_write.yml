@@ -1,6 +1,6 @@
 name: Samsam Test File Write
 id: 69c12d59-d951-431e-ab77-ec426b8d65e6
-version: '1.0'
+version: 1
 date: '2018-12-14'
 description: The search looks for a file named "test.txt" written to the windows system
   directory tree, which is consistent with Samsam propagation.

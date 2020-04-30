@@ -1,6 +1,6 @@
 name: Detect mshta.exe running scripts in command-line arguments
 id: b89919ed-fe5f-492c-b139-95dqb161039e
-version: '2.0'
+version: 2
 date: '2018-12-03'
 description: This search looks for the execution of "mshta.exe" with command-line
   arguments that launch a script. The search will return the first time and last time

@@ -1,6 +1,6 @@
 name: Domain Certificate Investigation
 id: c096f721-8842-42ce-2fc7-742d8272b712
-version: '1.0'
+version: 1
 date: '2019-04-29'
 description: Investigate domain names and URLs of a potentially malicious website.
   These domain names and URLs could come from anywhere, but this Playbook was designed
@@ -20,4 +20,4 @@ author: Philip Royer, Splunk
 playbook:
   name: lets_encrypt_domain_investigate
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json
-  url_py: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py
+  url_python: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py

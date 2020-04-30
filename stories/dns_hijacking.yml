@@ -1,6 +1,6 @@
 name: DNS Hijacking
 id: 8169f17b-ef68-4b59-aa28-586907301221
-version: '1.0'
+version: 1
 date: '2020-02-04'
 description: Secure your environment against DNS hijacks with searches that help you
   detect and investigate unauthorized changes to DNS records.

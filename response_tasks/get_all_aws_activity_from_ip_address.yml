@@ -1,6 +1,6 @@
 name: Get All AWS Activity From IP Address
 id: 446ec87a-85c6-40d4-b060-bea4498281d6
-version: '1.0'
+version: 1
 date: '2018-03-19'
 description: This search retrieves all the activity from a specific IP address and
   will create a table containing the time, ARN, username, the type of user, the IP

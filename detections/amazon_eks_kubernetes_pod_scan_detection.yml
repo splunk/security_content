@@ -1,6 +1,6 @@
 name: Amazon EKS Kubernetes Pod scan detection
 id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
-version: '1.0'
+version: 1
 date: '2020-04-15'
 description: This search provides detection information on unauthenticated requests
   against Kubernetes' Pods API

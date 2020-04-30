@@ -1,6 +1,6 @@
 name: Get Process Responsible For The DNS Traffic
 id: 910e6512-edc9-4f93-ba24-5b786f47a672
-version: '2.0'
+version: 2
 date: '2019-04-01'
 description: While investigating, an analyst will want to know what process and parent_process
   is responsible for generating suspicious DNS traffic. Use the following search and

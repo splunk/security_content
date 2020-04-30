@@ -1,6 +1,6 @@
 name: Investigate User Activities In Okta
 id: 24ff145d-4d16-420a-b047-480f2a51c403
-version: '1.0'
+version: 1
 date: '2020-04-02'
 description: This search returns all okta events by a specific user
 how_to_implement: You must be ingesting Okta logs

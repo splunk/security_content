@@ -1,6 +1,6 @@
 name: Discover DNS records
 id: c096f721-8842-42ce-bfc7-74bd8c72b7c3
-version: '1.0'
+version: 1
 date: '2019-02-14'
 description: The search takes corporate and common cloud provider domains configured
   under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv`

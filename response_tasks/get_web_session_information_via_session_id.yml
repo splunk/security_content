@@ -1,6 +1,6 @@
 name: Get Web Session Information via session_id
 id: bc91a8cf-35e7-4bb2-1120-e756cc06fd89
-version: '1.0'
+version: 1
 date: '2018-10-08'
 description: This search helps an analyst investigate a notable event to find out
   more about a specific web session. The search looks for a specific web session ID

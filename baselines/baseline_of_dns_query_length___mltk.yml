@@ -1,6 +1,6 @@
 name: Baseline of DNS Query Length - MLTK
 id: c914844c-0ff5-4efc-8d44-c063443129ba
-version: '1.0'
+version: 1
 date: '2019-05-08'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the length of the DNS queries for each DNS record type observed

@@ -1,6 +1,6 @@
 name: Previously seen S3 bucket access by remote IP
 id: fc0edc15-fq2c-48b0-9f6f-63qa1281fd03
-version: '1.0'
+version: 1
 date: '2018-06-28'
 description: This search looks for successful access to S3 buckets from remote IP
   addresses, then creates a baseline of the earliest and latest times we have encountered

@@ -38,7 +38,7 @@
         },
         "version": {
             "$id": "#/properties/version",
-            "type": "string",
+            "type": "integer",
             "description": "version of detection, e.g. 1 or 2 ...",
             "default": 0,
             "examples": [

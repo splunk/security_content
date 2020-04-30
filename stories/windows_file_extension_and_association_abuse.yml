@@ -1,6 +1,6 @@
 name: Windows File Extension and Association Abuse
 id: 30552a76-ac78-48e4-b3c0-de4e34e9563d
-version: '1.0'
+version: 1
 date: '2018-01-26'
 description: Detect and investigate suspected abuse of file extensions and Windows
   file associations. Some of the malicious behaviors involved may include inserting

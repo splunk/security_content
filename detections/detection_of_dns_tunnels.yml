@@ -1,6 +1,6 @@
 name: Detection of DNS Tunnels
 id: 104658f4-afdc-499f-9719-17a43f9826f4
-version: '1.0'
+version: 1
 date: '2017-09-18'
 description: This search is used to detect DNS tunneling, by calculating the sum of
   the length of DNS queries and DNS answers. The search also filters out potential
@@ -39,9 +39,9 @@ known_false_positives: It's possible that normal DNS traffic will exhibit this b
   can also be modified to better suit your environment.
 tags:
   analytics_story:
-  - Suspicious DNS Traffic
   - Data Protection
   - Command and Control
+  - Suspicious DNS Traffic
   mitre_attack_id:
   - T1043
   kill_chain_phases:

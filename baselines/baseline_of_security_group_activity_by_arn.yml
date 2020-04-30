@@ -1,6 +1,6 @@
 name: Baseline of Security Group Activity by ARN
 id: fc0edd96-ff2b-48b0-9f1f-63da3783fd63
-version: '1.0'
+version: 1
 date: '2018-04-17'
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation for the number of API calls related to security groups made by each user.

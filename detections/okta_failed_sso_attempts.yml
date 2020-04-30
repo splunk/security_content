@@ -1,6 +1,6 @@
 name: Okta Failed SSO Attempts
 id: 371a6545-2618-4032-ad84-93386b8698c5
-version: '1'
+version: 1
 date: '2020-04-01'
 description: Detect failed Okta SSO events
 how_to_implement: This search is specific to Okta and requires Okta logs are being

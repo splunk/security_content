@@ -1,6 +1,6 @@
 name: Remote Process Instantiation via WMI
 id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
-version: '3.0'
+version: 3
 date: '2019-02-27'
 description: This search looks for wmic.exe being launched with parameters to spawn
   a process on a remote system.

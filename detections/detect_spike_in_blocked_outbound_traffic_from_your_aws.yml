@@ -1,6 +1,6 @@
 name: Detect Spike in blocked Outbound Traffic from your AWS
 id: ada0f278-84a8-46w1-a3f1-w32372d4bd53
-version: '1.0'
+version: 1
 date: '2018-05-07'
 description: This search will detect spike in blocked outbound network connections
   originating from within your AWS environment.  It will also update the cache file
@@ -41,9 +41,9 @@ known_false_positives: The false-positive rate may vary based on the values of`d
   of blocked outbound connections.
 tags:
   analytics_story:
-  - Command and Control
   - Suspicious AWS Traffic
   - AWS Network ACL Activity
+  - Command and Control
   kill_chain_phases:
   - Actions on Objectives
   - Command and Control

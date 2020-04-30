@@ -1,6 +1,6 @@
 name: Previously Seen EC2 AMIs
 id: bb1bd99d-1e93-45f1-9571-cfed42d372b9
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: This search builds a table of previously seen AMIs used to launch EC2
   instances

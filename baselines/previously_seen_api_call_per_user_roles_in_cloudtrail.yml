@@ -1,6 +1,6 @@
 name: Previously seen API call per user roles in CloudTrail
 id: fc0edc95-fq2c-48b0-9f6f-63da3289fd03
-version: '1.0'
+version: 1
 date: '2018-04-16'
 description: This search looks for successful API calls made by different user roles,
   then creates a baseline of the earliest and latest times we have encountered this

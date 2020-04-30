@@ -1,6 +1,6 @@
 name: Reg.exe Manipulating Windows Services Registry Keys
 id: 8470d755-0c13-45b3-bd63-387a373c10cf
-version: '2.0'
+version: 2
 date: '2019-03-01'
 description: The search looks for reg.exe modifying registry keys that define Windows
   services and their configurations.
@@ -25,8 +25,8 @@ known_false_positives: It is unusual for a service to be created or modified by 
   It is important to validate and investigate, as appropriate.
 tags:
   analytics_story:
-  - Windows Persistence Techniques
   - Windows Service Abuse
+  - Windows Persistence Techniques
   mitre_attack_id:
   - T1050
   - T1031

@@ -1,6 +1,6 @@
 name: Get Update Logs For Endpoint
 id: d98675ed-da43-4a7e-96a7-eeca3232ba8e
-version: '1.0'
+version: 1
 date: '2017-08-24'
 description: This search will tell you give you the update logs for a specific endpoint
   for the last week.

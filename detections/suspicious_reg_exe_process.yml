@@ -1,6 +1,6 @@
 name: Suspicious Reg.exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
-version: '3.0'
+version: 3
 date: '2020-03-16'
 description: This search looks for reg.exe being launched from a command prompt not
   started by the user. When a user launches cmd.exe, the parent process is usually
@@ -29,9 +29,9 @@ known_false_positives: It's possible for system administrators to write scripts 
   to filter them out.
 tags:
   analytics_story:
-  - Disabling Security Tools
   - DHS Report TA18-074A
   - Windows Defense Evasion Tactics
+  - Disabling Security Tools
   mitre_attack_id:
   - T1112
   - T1089

@@ -1,6 +1,6 @@
 name: Windows Defense Evasion Tactics
 id: 56e24a28-5003-4047-b2db-e8f3c4618064
-version: '1.0'
+version: 1
 date: '2018-05-31'
 description: 'Detect tactics used by malware to evade defenses on Windows endpoints.
   A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe`

@@ -1,6 +1,6 @@
 name: Unsuccessful Netbackup backups
 id: a34aae96-ccf8-4aaa-952c-3ea21444444f
-version: '1.0'
+version: 1
 date: '2017-09-12'
 description: This search gives you the hosts where a backup was attempted and then
   failed.

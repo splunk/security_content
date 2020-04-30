@@ -1,6 +1,6 @@
 name: Investigate AWS ECR container listing activity
 id: 6027623f-7d10-4847-af3b-8d7e87970451
-version: '1.0'
+version: 1
 date: '2020-02-20'
 description: This search lists all the users performing a list image operation on
   AWS Elastic Container Registry. Listing source user, image id, source IP, user type,

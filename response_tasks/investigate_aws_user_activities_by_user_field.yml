@@ -1,6 +1,6 @@
 name: Investigate AWS User Activities by user field
 id: bc91a8cd-35e7-4bb2-6140-e756cc46fd76
-version: '1.0'
+version: 1
 date: '2018-03-12'
 description: This search lists all the logged CloudTrail activities by a specific
   user and will create a table containing the source of the user, the region of the
