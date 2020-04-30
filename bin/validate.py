@@ -134,7 +134,7 @@ def validate_detection_search(object, macros):
     macros_found = re.findall('\`([^\s]+)`',object['search'])
     macros_filtered = []
     for macro in macros_found:
-        if not '_filter' in macro and not 'security_content_ctime' in macro and not 'drop_dm_object_name' in macro:
+        if not '_filter' in macro and not 'security_content_ctime' in macro and not 'drop_dm_object_name' in macro and not 'cim_' in macro and not 'get_' in macro:
             macros_filtered.append(macro)
 
     for macro in macros_filtered:
