@@ -1,4 +1,4 @@
-name: Detect Prohibited Applications Spawning cmd.exe
+name: Detect Prohibited Applications Spawning cmd
 id: dcfd6b40-42f9-469d-a433-2e53f7486664
 version: 3
 date: '2020-02-03'

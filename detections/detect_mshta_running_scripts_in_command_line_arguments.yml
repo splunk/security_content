@@ -1,4 +1,4 @@
-name: Detect mshta.exe running scripts in command-line arguments
+name: Detect mshta running scripts in command-line arguments
 id: b89919ed-fe5f-492c-b139-95dqb161039e
 version: 2
 date: '2018-12-03'

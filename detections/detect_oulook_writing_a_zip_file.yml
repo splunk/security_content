@@ -1,4 +1,4 @@
-name: Detect Oulook.exe writing a .zip file
+name: Detect Oulook writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
 version: 2
 date: '2020-03-16'

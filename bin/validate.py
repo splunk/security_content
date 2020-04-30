@@ -10,12 +10,15 @@ import jsonschema
 import yaml
 import sys
 import argparse
+import datetime
+import string
 from os import path
 
 
 def validate_schema(REPO_PATH, type, objects):
 
     error = False
+    errors = []
 
     schema_file = path.join(path.expanduser(REPO_PATH), 'spec/' + type + '.spec.json')
 
@@ -42,73 +45,39 @@ def validate_schema(REPO_PATH, type, objects):
         try:
             jsonschema.validate(instance=object, schema=schema)
         except jsonschema.exceptions.ValidationError as json_ve:
-            print("ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file))
-            print("\tAffected Object: {}".format(json.dumps(json_ve.instance)))
+            errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file))
             error = True
 
         if type in objects:
             objects[type].append(object)
         else:
-            objects[type] = [object]
+            arr = []
+            arr.append(object)
+            objects[type] = arr
 
-    return objects, error
+    return objects, error, errors
 
 
-
-
-def validate_object(REPO_PATH, schema_path, manifest_path, verbose, lookups=None, macros=None):
-    ''' Validate scheme '''
+def validate_objects(REPO_PATH, objects):
 
     # uuids
     uuids = []
+    errors = []
 
-    schema_file = path.join(path.expanduser(REPO_PATH), schema_path)
+    for lookup in objects['lookups']:
+        lookup_errors = validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
-    try:
-        schema = json.loads(open(schema_file, 'rb').read())
-    except IOError:
-        print("ERROR: reading schema file {0}".format(schema_file))
+    objects_array = objects['stories'] + objects['detections'] + objects['baselines'] + objects['response_tasks'] + objects['responses']
+    for object in objects_array:
+        validation_errors, uuids = validate_standard_fields(object, uuids)
+        errors = errors + validation_errors
 
-    objects = {}
-    manifest_files = path.join(path.expanduser(REPO_PATH), manifest_path)
+    for object in objects['detections']:
+        errors = errors + validate_detection_search(object)
 
-    for manifest_file in glob.glob(manifest_files):
-        if verbose:
-            print("processing manifest {0}".format(manifest_file))
+    errors = lookup_errors + errors
 
-        with open(manifest_file, 'r') as stream:
-            try:
-                object = list(yaml.safe_load_all(stream))[0]
-            except yaml.YAMLError as exc:
-                print(exc)
-                print("Error reading {0}".format(manifest_file))
-                error = True
-                continue
-
-        try:
-            jsonschema.validate(instance=object, schema=schema)
-        except jsonschema.exceptions.ValidationError as json_ve:
-            print("ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file))
-            print("\tAffected Object: {}".format(json.dumps(json_ve.instance)))
-            error = True
-
-
-
-        # validate content
-        if schema_path == 'spec/lookups.spec.json':
-            lookup_errors = validate_lookups_content(REPO_PATH, "lookups/%s", object, manifest_file)
-        elif schema_path == 'spec/baselines.spec.json' or schema_path == 'spec/stories.spec.json' or schema_path == 'spec/detections.spec.json':
-            errors, uuids = validate_standard_fields(object, uuids)
-
-
-        #check for duplicate uuids
-
-
-        #list errors
-        for err in baselines_errors:
-            print("{0} at:\n\t {1}".format(err, baselines_manifest_file))
-
-        return error
+    return errors
 
 
 def validate_standard_fields(object, uuids):
@@ -116,10 +85,10 @@ def validate_standard_fields(object, uuids):
     errors = []
 
     if object['id'] == '':
-        errors.append('ERROR: Blank ID')
+        errors.append('ERROR: Blank ID for object: %s' % object['name'])
 
     if object['id'] in uuids:
-        errors.append('ERROR: Duplicate UUID found: %s' % object['id'])
+        errors.append('ERROR: Duplicate UUID found for object: %s' % object['name'])
     else:
         uuids.append(object['id'])
 
@@ -128,25 +97,40 @@ def validate_standard_fields(object, uuids):
             "ERROR: name has trailing spaces: '%s'" %
             object['name'])
 
+    invalidChars = set(string.punctuation.replace("-", ""))
+    if any(char in invalidChars for char in object['name']):
+        errors.append('ERROR: No special characters allowed in name for object: %s' % object['name'])
+
     try:
         object['description'].encode('ascii')
     except UnicodeEncodeError:
-        errors.append("ERROR: description not ascii")
+        errors.append("ERROR: description not ascii for object: %s" % object['name'])
 
     if 'how_to_implement' in object:
         try:
             object['how_to_implement'].encode('ascii')
         except UnicodeEncodeError:
-            errors.append("ERROR: how_to_implement not ascii")
+            errors.append('ERROR: how_to_implement not ascii for object: %s' % object['name'])
+
+    try:
+        datetime.datetime.strptime(object['date'], '%Y-%m-%d')
+    except ValueError:
+        errors.append("ERROR: Incorrect date format, should be YYYY-MM-DD for object: %s" % object['name'])
 
     return errors, uuids
 
 
-def validate_search():
-    pass
+def validate_detection_search(object):
+    errors = []
+
+    if 'search' in object:
+        if not str(object['name'].replace('-','_').lower()) in object['search']:
+            errors.append("ERROR: Missing filter for detection: " + object['name'])
+
+    return errors
 
 
-def validate_lookups_content(REPO_PATH, lookup_path, lookup, manifest_file):
+def validate_lookups_content(REPO_PATH, lookup_path, lookup):
     errors = []
     if 'filename' in lookup:
         lookup_csv_file = path.join(path.expanduser(REPO_PATH), lookup_path % lookup['filename'])
@@ -168,17 +152,26 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     verbose = args.verbose
 
-    validate_objects = ['macros','lookups','stories','detections','response_tasks','responses','deployments']
+    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments']
 
     objects = {}
     schema_error = False
+    schema_errors = []
 
-    for validation_object in validate_objects:
-        objects, error = validate_schema(REPO_PATH, validation_object, objects)
+    for validation_object in validation_objects:
+        objects, error, errors = validate_schema(REPO_PATH, validation_object, objects)
         schema_error = schema_error or error
+        if len(errors) > 0:
+            schema_errors = schema_errors + errors
 
+    validation_errors = validate_objects(REPO_PATH, objects)
 
-    if schema_error:
+    schema_errors = schema_errors + validation_errors
+
+    for schema_error in schema_errors:
+        print(schema_error)
+
+    if schema_error or len(schema_errors) > 0:
         sys.exit("Errors found")
     else:
         print("No Errors found")
