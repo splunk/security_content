@@ -7,10 +7,10 @@ how_to_implement: This search is specific to Okta and requires Okta logs are bei
   ingested in your Splunk deployment.
 type: ESCU
 author: Rico Valdez, Splunk
-search: eventtype=okta_log displayMessage="Max sign in attempts exceeded" | rename
+search: '`okta` displayMessage="Max sign in attempts exceeded" | rename
   client.geographicalContext.country as country, client.geographicalContext.state
   as state, client.geographicalContext.city as city | table _time, user, country,
-  state, city, src_ip |`okta_user_lockouts_filter`
+  state, city, src_ip |`okta_user_lockouts_filter`'
 known_false_positives: None. Account lockouts should be followed up on to determine
   if the actual user was the one who caused the lockout, or if it was an unauthorized
   actor.

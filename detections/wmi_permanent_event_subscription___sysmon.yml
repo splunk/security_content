@@ -10,9 +10,9 @@ how_to_implement: To successfully implement this search, you must be collecting 
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=21
+search: '`sysmon` EventCode=21
   | rename host as dest | table _time, dest, user, Operation, EventType, Query, Consumer,
-  Filter | `wmi_permanent_event_subscription___sysmon_filter`
+  Filter | `wmi_permanent_event_subscription___sysmon_filter`'
 known_false_positives: Although unlikely, administrators may use event subscriptions
   for legitimate purposes.
 tags:

@@ -1,0 +1,3 @@
+definition: sourcetype="google:gcp:pubsub:message"
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Google GCP. Replace the macro definition with configurations for your Splunk Environmnent.
+name: google_gcp_pubnet_message

@@ -11,10 +11,10 @@ how_to_implement: To successfully implement this search you need to obtain data 
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: sourcetype="netbackup_logs" | stats latest(_time) as latestTime by COMPUTERNAME,
+search: '`netbackup` | stats latest(_time) as latestTime by COMPUTERNAME,
   MESSAGE | search MESSAGE="An error occurred, failed to backup." | `security_content_ctime(latestTime)`
   | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest, signature
-  | `unsuccessful_netbackup_backups_filter`
+  | `unsuccessful_netbackup_backups_filter`'
 known_false_positives: None identified
 tags:
   analytics_story:

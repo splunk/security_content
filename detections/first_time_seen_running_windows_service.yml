@@ -12,8 +12,8 @@ how_to_implement: While this search does not require you to adhere to Splunk CIM
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: eventtype=wineventlog_system signature_id=7036 | rename param1 as service_name
-  | rename param2 as action | search action="running" [ search eventtype=wineventlog_system
+search: '`wineventlog_system` signature_id=7036 | rename param1 as service_name
+  | rename param2 as action | search action="running" [ search `wineventlog_system`
   signature_id=7036 | rename param1 as service_name | rename param2 as action | search
   action="running" | stats earliest(_time) as firstTime, latest(_time) as lastTime
   by service_name | inputlookup append=t previously_seen_running_windows_services
@@ -22,7 +22,7 @@ search: eventtype=wineventlog_system signature_id=7036 | rename param1 as servic
   >= relative_time(now(),"-60m@m"), "First time seen Windows service","Previously
   seen Windows service") | where serviceStatus="First time seen Windows service"|
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | table
-  service_name]| table _time dest service_name | `first_time_seen_running_windows_service_filter`
+  service_name]| table _time dest service_name | `first_time_seen_running_windows_service_filter`'
 known_false_positives: A previously unseen service is not necessarily malicious. Verify
   that the service is legitimate and that was installed by a legitimate process.
 tags:

@@ -7,10 +7,10 @@ how_to_implement: This search is specific to Okta and requires Okta logs are bei
   ingested in your Splunk deployment.
 type: ESCU
 author: Rico Valdez, Splunk
-search: eventtype=okta_log displayMessage="User attempted unauthorized access to app"
+search: '`okta` displayMessage="User attempted unauthorized access to app"
   | stats  min(_time) as firstTime max(_time) as lastTime values(app) as Apps count
   by user, result ,displayMessage, src_ip | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)`|`okta_failed_sso_attempt_filter`
+  `security_content_ctime(lastTime)`|`okta_failed_sso_attempt_filter`'
 known_false_positives: There may be a faulty config preventing legitmate users from
   accessing apps they should have access to.
 tags:

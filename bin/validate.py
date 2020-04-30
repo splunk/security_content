@@ -12,6 +12,7 @@ import sys
 import argparse
 import datetime
 import string
+import re
 from os import path
 
 
@@ -73,7 +74,7 @@ def validate_objects(REPO_PATH, objects):
         errors = errors + validation_errors
 
     for object in objects['detections']:
-        errors = errors + validate_detection_search(object)
+        errors = errors + validate_detection_search(object, objects['macros'])
 
     errors = lookup_errors + errors
 
@@ -120,14 +121,30 @@ def validate_standard_fields(object, uuids):
     return errors, uuids
 
 
-def validate_detection_search(object):
+def validate_detection_search(object, macros):
     errors = []
 
     if not '_filter' in object['search']:
         errors.append("ERROR: Missing filter for detection: " + object['name'])
 
-    if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', 'source=', 'index=']):
-        errors.append("ERROR: Use source macro instead of eventtype, sourcetype, source or index in detection: " + object['name'])
+    if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
+        if not 'index=_internal' in object['search']:
+            errors.append("ERROR: Use source macro instead of eventtype, sourcetype, source or index in detection: " + object['name'])
+
+    macros_found = re.findall('\`([^\s]+)`',object['search'])
+    macros_filtered = []
+    for macro in macros_found:
+        if not '_filter' in macro and not 'security_content_ctime' in macro and not 'drop_dm_object_name' in macro:
+            macros_filtered.append(macro)
+
+    for macro in macros_filtered:
+        found_macro = False
+        for macro_obj in macros:
+            if macro_obj['name'] == macro:
+                found_macro = True
+
+        if not found_macro:
+            errors.append("ERROR: macro definition for " + macro + " can't be found for detection " + object['name'])
 
     return errors
 

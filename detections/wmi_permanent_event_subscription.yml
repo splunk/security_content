@@ -9,11 +9,11 @@ how_to_implement: To successfully implement this search, you must be ingesting t
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: sourcetype="wineventlog:microsoft-windows-wmi-activity/operational" EventCode=5861
+search: '`wmi` EventCode=5861
   Binding | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)" | search consumer!="NTEventLogEventConsumer=\"SCM
   Event Log Consumer\"" | stats count min(_time) as firstTime max(_time) as lastTime
   by ComputerName, consumer, Message | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | rename ComputerName as dest | `wmi_permanent_event_subscription_filter`
+  | rename ComputerName as dest | `wmi_permanent_event_subscription_filter`'
 known_false_positives: Although unlikely, administrators may use event subscriptions
   for legitimate purposes.
 tags:
