@@ -1,0 +1,3 @@
+definition: sourcetype=stream:http
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Stream HTTP logs. Replace the macro definition with configurations for your Splunk Environmnent.
+name: stream_http

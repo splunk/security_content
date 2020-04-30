@@ -1,0 +1,45 @@
+name: Reg Manipulating Windows Services Registry Keys
+id: 8470d755-0c13-45b3-bd63-387a373c10cf
+version: 2
+date: '2019-03-01'
+description: The search looks for reg.exe modifying registry keys that define Windows
+  services and their configurations.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on registry changes that include the name of the process responsible for the changes
+  from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry`
+  nodes.
+type: ESCU
+references: []
+author: Rico Valdez, Splunk
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
+  as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name
+  = reg.exe by Processes.process_id Processes.dest | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join
+  [| tstats `security_content_summariesonly` values(Registry.registry_path) as registry_path
+  count  FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\services\\*"
+  by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | table
+  process_id dest registry_path] | `reg_manipulating_windows_services_registry_keys_filter`'
+known_false_positives: It is unusual for a service to be created or modified by directly
+  manipulating the registry. However, there may be legitimate instances of this behavior.
+  It is important to validate and investigate, as appropriate.
+tags:
+  analytics_story:
+  - Windows Service Abuse
+  - Windows Persistence Techniques
+  mitre_attack_id:
+  - T1050
+  - T1031
+  - T1089
+  kill_chain_phases:
+  - Installation
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 8
+  nist:
+  - PR.IP
+  - PR.PT
+  - PR.AC
+  - PR.AT
+  - DE.CM

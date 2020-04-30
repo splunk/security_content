@@ -1,0 +1,3 @@
+definition: sourcetype="wineventlog:microsoft-windows-wmi-activity/operational"
+description: customer specific splunk configurations(eg- index, source, sourcetype) for WMI logs. Replace the macro definition with configurations for your Splunk Environmnent.
+name: wmi

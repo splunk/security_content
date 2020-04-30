@@ -1,0 +1,3 @@
+definition: sourcetype="netbackup_logs"
+description: customer specific splunk configurations(eg- index, source, sourcetype) for netbackup logs. Replace the macro definition with configurations for your Splunk Environmnent.
+name: netbackup

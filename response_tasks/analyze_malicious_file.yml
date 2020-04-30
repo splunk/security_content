@@ -1,0 +1,6 @@
+name: Analyze Malicious File
+id: 6ee5c067-8228-4926-abb2-54f2c59d726e
+version: 1
+date: '2020-04-29'
+description: Perform a static and dynamic malware analysis for the malicious file. Use the findings for further response tasks.
+author: Patrick Bareiss, Splunk

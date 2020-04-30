@@ -1,82 +1,28 @@
-asset_type: Splunk Server
-confidence: medium
-creation_date: '2016-09-13'
-data_metadata:
-  data_models: []
-  data_source:
-    - Splunk
-  data_sourcetypes:
-    - splunk_web_access
-  providing_technologies:
-    - Splunk Enterprise
+name: Open Redirect in Splunk Web
+id: d199fb99-2312-451a-9daa-e5efa6ed76a7
+version: 1
+date: '2017-09-19'
 description: This search allows you to look for evidence of exploitation for CVE-2016-4859,
   the Splunk Open Redirect Vulnerability.
-detect:
-  splunk:
-    correlation_rule:
-      notable:
-        nes_fields: host
-        rule_description: Search for exploitation of the Splunk Open Redirect Vulnerability
-        rule_title: Open Redirect in Splunk Web
-      risk:
-        risk_object: host
-        risk_object_type:
-          - system
-        risk_score: 40
-      schedule:
-        cron_schedule: 0 * * * *
-        earliest_time: -70m@m
-        latest_time: -10m@m
-      search: index=_internal sourcetype=splunk_web_access return_to="/%09/*"
-      suppress:
-        suppress_fields: host
-        suppress_period: 14400s
-eli5: This search looks within Splunk's internal logs for evidence of CVE-2016-4859
-  open redirect exploitation attempts.
-entities:
-  - host
 how_to_implement: No extra steps needed to implement this search.
-id: d199fb99-2312-451a-9daa-e5efa6ed76a7
-investigations:
-  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
-    name: Get Notable History
-    type: splunk
-  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
-    name: Get Notable Info
-    type: splunk
-  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
-    name: Get Risk Modifiers For Endpoint
-    type: splunk
-known_false_positives: None identified
-maintainers:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
-mappings:
-  cis20:
-    - CIS 3
-    - CIS 4
-    - CIS 18
-  kill_chain_phases:
-    - Delivery
-  mitre_attack:
-    - Defense Evasion
-    - Exploitation of Vulnerability
-  nist:
-    - ID.RA
-    - RS.MI
-    - PR.PT
-    - PR.AC
-    - PR.IP
-    - DE.CM
-modification_date: '2017-09-19'
-name: Open Redirect in Splunk Web
-original_authors:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
+type: ESCU
 references: []
-security_domain: network
-spec_version: 2
-type: splunk
-version: '1.0'
+author: Bhavin Patel, Splunk
+search: index=_internal sourcetype=splunk_web_access return_to="/%09/*" | `open_redirect_in_splunk_web_filter`
+known_false_positives: None identified
+tags:
+  analytics_story:
+  - Splunk Enterprise Vulnerability
+  kill_chain_phases:
+  - Delivery
+  cis20:
+  - CIS 3
+  - CIS 4
+  - CIS 18
+  nist:
+  - ID.RA
+  - RS.MI
+  - PR.PT
+  - PR.AC
+  - PR.IP
+  - DE.CM

@@ -1,45 +1,23 @@
-baseline:
-  splunk:
-    schedule:
-      cron_schedule: ''
-      earliest_time: -30d@d
-      latest_time: -10m@m
-    search: sourcetype=aws:cloudtrail eventName=AssumeRole | spath output=requestingAccountId
-      path=userIdentity.accountId | spath output=requestedAccountId path=resources{}.accountId
-      | search requestingAccountId=* | where requestingAccountId!=requestedAccountId
-      | stats earliest(_time) as firstTime latest(_time) as lastTime by requestingAccountId,
-      requestedAccountId | outputlookup previously_seen_aws_cross_account_activity
-      | stats count
-creation_date: '2018-06-04'
-data_metadata:
-  data_source:
-    - AWS CloudTrail logs
-  data_sourcetypes:
-    - aws:cloudtrail
-  providing_technologies:
-    - AWS
+name: Previously Seen AWS Cross Account Activity
+id: 1cc22b09-c867-416e-a511-cb36ac44aee2
+version: 1
+date: '2018-06-04'
 description: This search looks for **AssumeRole** events where the requesting account
   differs from the requested account, then writes these relationships to a lookup
   file.
-eli5: In this support search, we look for **AssumeRole** events where the requesting
-  account is different from the requested account. The first and last times these
-  events are seen are written to a lookup file.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`,
   a lookup file created by this support search.
-id: 1cc22b09-c867-416e-a511-cb36ac44aee2
-known_false_positives: ''
-maintainers:
-  - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
-modification_date: '2018-06-04'
-name: Previously Seen AWS Cross Account Activity
-original_authors:
-  - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
-spec_version: 2
-type: splunk
-version: '1.0'
+author: David Dorsey, Splunk
+search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId
+  path=userIdentity.accountId | spath output=requestedAccountId path=resources{}.accountId
+  | search requestingAccountId=* | where requestingAccountId!=requestedAccountId |
+  stats earliest(_time) as firstTime latest(_time) as lastTime by requestingAccountId,
+  requestedAccountId | outputlookup previously_seen_aws_cross_account_activity | stats
+  count'
+tags:
+  analytics_story:
+  - AWS Cross Account Activity
+  detections:
+  - AWS Cross Account Activity From Previously Unseen Account

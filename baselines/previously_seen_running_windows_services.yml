@@ -1,0 +1,20 @@
+name: Previously Seen Running Windows Services
+id: 64ce0ade-cb01-4678-bddd-d31c0b175394
+version: 2
+date: '2020-01-13'
+description: This collects the services that have been started across your entire
+  enterprise.
+how_to_implement: While this search does not require you to adhere to Splunk CIM,
+  you must be ingesting your Windows security-event logs for it to execute successfully.
+  Please ensure that the Splunk Add-on for Microsoft Windows is version 5.0.0 or above.
+author: David Dorsey, Splunk
+search: eventtype=wineventlog_system signature_id=7036 | rename param1 as service_name
+  | rename param2 as action | search action="running" | stats earliest(_time) as firstTime,
+  latest(_time) as lastTime by service_name | outputlookup previously_seen_running_windows_services
+  | stats count
+tags:
+  analytics_story:
+  - Orangeworm Attack Group
+  - Windows Service Abuse
+  detections:
+  - First Time Seen Running Windows Service
