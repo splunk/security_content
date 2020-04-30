@@ -33,7 +33,7 @@ search: '| tstats `security_content_summariesonly` dc("DNS.query") as count  fro
   OR "DNS.src_category"="svc_infra_email*"   ) by "DNS.src","DNS.answer" | rename
   "DNS.src" as src  "DNS.answer" as message | eval message=if(message=="unknown","",
   message) | eval length=len(message) | stats sum(length) as length by src ] | stats
-  sum(length) as length by src | where length > 10000'
+  sum(length) as length by src | where length > 10000 | `detection_of_dns_tunnels_filter`'
 known_false_positives: It's possible that normal DNS traffic will exhibit this behavior.
   If an alert is generated, please investigate and validate as appropriate. The threshold
   can also be modified to better suit your environment.

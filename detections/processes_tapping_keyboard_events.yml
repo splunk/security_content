@@ -16,7 +16,7 @@ references: []
 author: Jose Hernandez, Splunk
 search: '| from datamodel Alerts.Alerts | search app=osquery:results name=pack_osx-attacks_Keyboard_Event_Taps
   | rename columns.cmdline as cmd, columns.name as process_name, columns.pid as process_id|
-  dedup host,process_name | table host,process_name, cmd, process_id'
+  dedup host,process_name | table host,process_name, cmd, process_id | `processes_tapping_keyboard_events_filter`'
 known_false_positives: There might be some false positives as keyboard event taps
   are used by processes like Siri and Zoom video chat, for some good examples of processes
   to exclude please see [this](https://github.com/facebook/osquery/pull/5345#issuecomment-454639161)

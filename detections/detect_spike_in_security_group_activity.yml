@@ -18,7 +18,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:cloudtrail `security_group_api_calls` [search sourcetype=aws:cloudtrail
+search: '`cloudtrail` `security_group_api_calls` [search `cloudtrail`
   `security_group_api_calls` | spath output=arn path=userIdentity.arn | stats count
   as apiCalls by arn | inputlookup security_group_activity_baseline append=t | fields
   - latestCount | stats values(*) as * by arn | rename apiCalls as latestCount | eval
@@ -31,7 +31,7 @@ search: sourcetype=aws:cloudtrail `security_group_api_calls` [search sourcetype=
   AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn as
   userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn
   | stats values(eventName) as eventNames, count as numberOfApiCalls, dc(eventName)
-  as uniqueApisCalled by user
+  as uniqueApisCalled by user | `detect_spike_in_security_group_activity_filter`'
 known_false_positives: Based on the values of`dataPointThreshold` and `deviationThreshold`,
   the false positive rate may vary. Please modify this according the your environment.
 tags:

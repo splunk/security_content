@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   AND (Processes.process="*whoami*" OR Processes.process="*ping*" OR Processes.process="*iptables*"
   OR Processes.process="*wget*" OR Processes.process="*service*" OR Processes.process="*curl*")
   by Processes.process Processes.process_name, Processes.dest Processes.user| `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `web_servers_executing_suspicious_processes_filter`'
 known_false_positives: Some of these processes may be used legitimately on web servers
   during maintenance or other administrative tasks.
 tags:

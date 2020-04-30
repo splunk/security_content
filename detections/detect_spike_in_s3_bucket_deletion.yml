@@ -17,7 +17,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:cloudtrail eventName=DeleteBucket [search sourcetype=aws:cloudtrail
+search: '`cloudtrail` eventName=DeleteBucket [search `cloudtrail`
   eventName=DeleteBucket | spath output=arn path=userIdentity.arn | stats count as
   apiCalls by arn | inputlookup s3_deletion_baseline append=t | fields - latestCount
   | stats values(*) as * by arn | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls
@@ -31,6 +31,7 @@ search: sourcetype=aws:cloudtrail eventName=DeleteBucket [search sourcetype=aws:
   userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn
   | spath output=bucketName path=requestParameters.bucketName | stats values(bucketName)
   as bucketName, count as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user
+  | `detect_spike_in_s3_bucket_deletion_filter`'
 known_false_positives: Based on the values of`dataPointThreshold` and `deviationThreshold`,
   the false positive rate may vary. Please modify this according the your environment.
 tags:

@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   where Processes.process_name = wmic.exe Processes.process="*/node*" Processes.process="*process*"
   Processes.process="*call*" Processes.process="*create*"   by Processes.process_name
   Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`'
+  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `remote_process_instantiation_via_wmi_filter`'
 known_false_positives: The wmic.exe utility is a benign Windows application. It may
   be used legitimately by Administrators with these parameters for remote system administration,
   but it's relatively uncommon.

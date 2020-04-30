@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` max(_time) as lastTime from d
   as "Update Status" | rename Updates.vendor_product as Product | eval isOutlier=if(lastTime
   <= relative_time(now(), "-60d@d"), 1, 0)  | `security_content_ctime(lastTime)`  |
   search isOutlier=1 | rename lastTime as "Last Update Time", | table Host, "Update
-  Status", Product, "Last Update Time"'
+  Status", Product, "Last Update Time" | `no_windows_updates_in_a_time_frame_filter`'
 known_false_positives: None identified
 tags:
   analytics_story:

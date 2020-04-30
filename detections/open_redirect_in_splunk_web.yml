@@ -8,7 +8,7 @@ how_to_implement: No extra steps needed to implement this search.
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: index=_internal sourcetype=splunk_web_access return_to="/%09/*"
+search: index=_internal sourcetype=splunk_web_access return_to="/%09/*" | `open_redirect_in_splunk_web_filter`
 known_false_positives: None identified
 tags:
   analytics_story:

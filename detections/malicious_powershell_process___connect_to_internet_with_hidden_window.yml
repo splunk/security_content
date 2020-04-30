@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | search process="*-Exec*" process="*-WindowStyle*" process="*hidden*" process="*New-Object*"
-  process="*System.Net.WebClient*"'
+  process="*System.Net.WebClient*" | `malicious_powershell_process___connect_to_internet_with_hidden_window_filter`'
 known_false_positives: Legitimate process can have this combination of command-line
   options, but it's not common.
 tags:

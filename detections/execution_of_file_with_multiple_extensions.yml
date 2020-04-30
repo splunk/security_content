@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Processes.process = *.htm.exe OR Processes.process = *.html.exe OR Processes.process
   = *.txt.exe OR Processes.process = *.pdf.exe OR Processes.process = *.doc.exe by
   Processes.dest Processes.user Processes.process Processes.parent_process | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`'
+  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | `execution_of_file_with_multiple_extensions_filter`'
 known_false_positives: None identified.
 tags:
   analytics_story:

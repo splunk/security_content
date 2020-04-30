@@ -12,13 +12,13 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:cloudtrail earliest=-1h StartInstances | stats earliest(_time)
+search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time)
   as earliest latest(_time) as latest by awsRegion | inputlookup append=t previously_seen_aws_regions.csv
   | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup
   previously_seen_aws_regions.csv | eval regionStatus=if(earliest >= relative_time(now(),"-1d@d"),
   "Instance Started in a New Region","Previously Seen Region") | `security_content_ctime(earliest)`
   | `security_content_ctime(latest)` | where regionStatus="Instance Started in a New
-  Region"
+  Region" | `ec2_instance_started_in_previously_unseen_region_filter`'
 known_false_positives: It's possible that a user has unknowingly started an instance
   in a new region. Please verify that this activity is legitimate.
 tags:

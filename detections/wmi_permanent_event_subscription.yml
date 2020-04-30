@@ -13,7 +13,7 @@ search: sourcetype="wineventlog:microsoft-windows-wmi-activity/operational" Even
   Binding | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)" | search consumer!="NTEventLogEventConsumer=\"SCM
   Event Log Consumer\"" | stats count min(_time) as firstTime max(_time) as lastTime
   by ComputerName, consumer, Message | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | rename ComputerName as dest
+  | rename ComputerName as dest | `wmi_permanent_event_subscription_filter`
 known_false_positives: Although unlikely, administrators may use event subscriptions
   for legitimate purposes.
 tags:

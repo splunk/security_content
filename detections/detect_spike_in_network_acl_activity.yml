@@ -17,7 +17,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:cloudtrail `network_acl_events` [search sourcetype=aws:cloudtrail
+search: '`cloudtrail` `network_acl_events` [search `cloudtrail`
   `network_acl_events` | spath output=arn path=userIdentity.arn | stats count as apiCalls
   by arn | inputlookup network_acl_activity_baseline append=t | fields - latestCount
   | stats values(*) as * by arn | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls
@@ -30,7 +30,7 @@ search: sourcetype=aws:cloudtrail `network_acl_events` [search sourcetype=aws:cl
   AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn as
   userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn
   | stats values(eventName) as eventNames, count as numberOfApiCalls, dc(eventName)
-  as uniqueApisCalled by user
+  as uniqueApisCalled by user | `detect_spike_in_network_acl_activity_filter`'
 known_false_positives: The false-positive rate may vary based on the values of`dataPointThreshold`
   and `deviationThreshold`. Please modify this according the your environment.
 tags:

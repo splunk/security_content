@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND
   Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by Registry.dest,
   Registry.registry_key_name Registry.status Registry.user Registry.registry_path
-  Registry.action | `drop_dm_object_name(Registry)`'
+  Registry.action | `drop_dm_object_name(Registry)` | `monitor_registry_keys_for_print_monitors_filter`'
 known_false_positives: You will encounter noise from legitimate print-monitor registry
   entries.
 tags:

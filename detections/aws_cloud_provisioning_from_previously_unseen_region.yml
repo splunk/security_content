@@ -13,8 +13,8 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iplocation
-  sourceIPAddress | search Region=* [search sourcetype=aws:cloudtrail (eventName=Run*
+search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
+  sourceIPAddress | search Region=* [search `cloudtrail` (eventName=Run*
   OR eventName=Create*) | iplocation sourceIPAddress | search Region=* | stats earliest(_time)
   as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country
   | inputlookup append=t previously_seen_provisioning_activity_src.csv | stats min(firstTime)
@@ -23,7 +23,7 @@ search: sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iploca
   as firstTime max(lastTime) as lastTime by Region | eval newRegion=if(firstTime >=
   relative_time(now(), "-70m@m"), 1, 0) | where newRegion=1 | table Region] | spath
   output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user,
-  src_ip, Region, eventName, errorCode
+  src_ip, Region, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_region_filter`'
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\

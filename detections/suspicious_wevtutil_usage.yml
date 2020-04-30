@@ -18,7 +18,8 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   where Processes.process_name = wevtutil.exe Processes.process="*cl*" (Processes.process="*System*"
   OR Processes.process="*Security*" OR Processes.process="*Setup*" OR Processes.process="*Application*")
   by Processes.process_name Processes.parent_process_name Processes.dest Processes.user|
-  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`'
+  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
+  | `suspicious_wevtutil_usage_filter`'
 known_false_positives: The wevtutil.exe application is a legitimate Windows event
   log utility. Administrators may use it to manage Windows event logs.
 tags:

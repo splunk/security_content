@@ -11,7 +11,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail
+search: '`cloudtrail` eventName=RunInstances [search `cloudtrail`
   eventName=RunInstances errorCode=success | fillnull value="m1.small" requestParameters.instanceType
   | stats earliest(_time) as earliest latest(_time) as latest by requestParameters.instanceType
   | rename requestParameters.instanceType as instanceType | inputlookup append=t previously_seen_ec2_instance_types.csv
@@ -21,7 +21,7 @@ search: sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:
   | where newType=1 | rename instanceType as requestParameters.instanceType | table
   requestParameters.instanceType] | spath output=user userIdentity.arn | rename requestParameters.instanceType
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest | table
-  _time, user, dest, instanceType
+  _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_instance_type_filter`'
 known_false_positives: It is possible that an admin will create a new system using
   a new instance type never used before. Verify with the creator that they intended
   to create the system with the new instance type.

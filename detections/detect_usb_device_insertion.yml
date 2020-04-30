@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) AS earl
   latest(_time) AS latest from datamodel=Change_Analysis where (nodename = All_Changes)
   All_Changes.result="Removable Storage device" (All_Changes.result_id=4663 OR All_Changes.result_id=4656)
   (All_Changes.src_priority=high) by All_Changes.dest | `drop_dm_object_name("All_Changes")`|
-  `security_content_ctime(earliest)`| `security_content_ctime(latest)` '
+  `security_content_ctime(earliest)`| `security_content_ctime(latest)`  | `detect_usb_device_insertion_filter`'
 known_false_positives: Legitimate USB activity will also be detected. Please verify
   and investigate as appropriate.
 tags:

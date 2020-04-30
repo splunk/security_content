@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   where Processes.process_name=schtasks.exe (Processes.process= "*create*"  OR Processes.process=
   "*delete*") by Processes.parent_process Processes.process_name Processes.user |
   `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
-  | search (process=*rhaegal* OR process=*drogon* OR *viserion_*)'
+  | search (process=*rhaegal* OR process=*drogon* OR *viserion_*) | `scheduled_tasks_used_in_badrabbit_ransomware_filter`'
 known_false_positives: No known false positives
 tags:
   analytics_story:

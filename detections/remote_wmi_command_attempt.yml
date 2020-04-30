@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wmic.exe  AND
   Processes.process= */node* by Processes.user Processes.process_name Processes.parent_process_name
   Processes.dest  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`'
+  `security_content_ctime(lastTime)` | `remote_wmi_command_attempt_filter`'
 known_false_positives: Administrators may use this legitimately to gather info from
   remote systems.
 tags:

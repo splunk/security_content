@@ -16,7 +16,8 @@ author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where All_Traffic.app=tor AND All_Traffic.action=allowed
   by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")`'
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")`
+  | `tor_traffic_filter`'
 known_false_positives: None at this time
 tags:
   analytics_story:

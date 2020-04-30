@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   `security_content_ctime(lastTime)`| eval processlen=len(process) | search user!=unknown
   | apply cmdline_pdfmodel threshold=0.01 | rename "IsOutlier(processlen)" as isOutlier
   | search isOutlier > 0 | table firstTime lastTime user dest process_name process
-  processlen count'
+  processlen count | `unusually_long_command_line___mltk_filter`'
 known_false_positives: Some legitimate applications use long command lines for installs
   or updates. You should review identified command lines for legitimacy. You may modify
   the first part of the search to omit legitimate command lines from consideration.

@@ -11,7 +11,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:cloudtrail
+search: '`cloudtrail` eventName=RunInstances [search `cloudtrail`
   eventName=RunInstances errorCode=success | stats earliest(_time) as firstTime latest(_time)
   as lastTime by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId
   as amiID | inputlookup append=t previously_seen_ec2_amis.csv | stats min(firstTime)
@@ -21,7 +21,7 @@ search: sourcetype=aws:cloudtrail eventName=RunInstances [search sourcetype=aws:
   | table requestParameters.instancesSet.items{}.imageId] | rename requestParameters.instanceType
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn
   as arn, requestParameters.instancesSet.items{}.imageId as amiID | table firstTime,
-  lastTime, arn, amiID, dest, instanceType
+  lastTime, arn, amiID, dest, instanceType | `ec2_instance_started_with_previously_unseen_ami_filter`'
 known_false_positives: After a new AMI is created, the first systems created with
   that AMI will cause this alert to fire.  Verify that the AMI being used was created
   by a legitimate user.

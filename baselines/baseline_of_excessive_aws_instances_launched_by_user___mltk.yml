@@ -22,9 +22,9 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
 
   More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.'
 author: Jason Brewer, Splunk
-search: sourcetype=aws:cloudtrail eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
+search: '`cloudtrail` eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
   | bucket span=10m _time | stats count as instances_launched by _time src_user |
-  fit DensityFunction instances_launched threshold=0.0005 into ec2_excessive_runinstances_v1
+  fit DensityFunction instances_launched threshold=0.0005 into ec2_excessive_runinstances_v1'
 tags:
   analytics_story:
   - Cloud Cryptomining

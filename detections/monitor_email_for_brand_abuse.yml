@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` values(All_Email.recipient) a
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
   temp=split(src_user, "@") | eval email_domain=mvindex(temp, 1) | lookup update=true
   brandMonitoring_lookup domain as email_domain OUTPUT domain_abuse | search domain_abuse=true
-  | table message_id, src_user, email_domain, recipients, firstTime, lastTime'
+  | table message_id, src_user, email_domain, recipients, firstTime, lastTime | `monitor_email_for_brand_abuse_filter`'
 known_false_positives: None at this time
 tags:
   analytics_story:

@@ -16,7 +16,7 @@ references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)
   as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name("DNS")`
-  | `security_content_ctime(firstTime)`| `brand_abuse_dns`'
+  | `security_content_ctime(firstTime)`| `brand_abuse_dns` | `monitor_dns_for_brand_abuse_filter`'
 known_false_positives: None at this time
 tags:
   analytics_story:

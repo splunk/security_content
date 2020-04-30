@@ -21,10 +21,11 @@ references:
 - https://en.wikipedia.org/wiki/HTTP_cookie
 - https://splunkbase.splunk.com/app/1809/
 author: Jim Apger, Splunk
-search: sourcetype=stream:http http_content_type=text* | rex field=cookie "form_key=(?<session_id>\w+)"
+search: '`stream_http` http_content_type=text* | rex field=cookie "form_key=(?<session_id>\w+)"
   | streamstats window=2 current=1 range(_time) as TimeDelta by session_id | where
   TimeDelta>0 |stats count stdev(TimeDelta) as ClickSpeedStdDev avg(TimeDelta) as
   ClickSpeedAvg by session_id | where count>5 AND (ClickSpeedStdDev<.5 OR ClickSpeedAvg<.5)
+  | `web_fraud___anomalous_user_clickspeed_filter`'
 known_false_positives: As is common with many fraud-related searches, we are usually
   looking to attribute risk or synthesize relevant context with loosly written detections
   that simply detect anamoluous behavior.

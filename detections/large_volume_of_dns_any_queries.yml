@@ -11,7 +11,7 @@ references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest"
-  | `drop_dm_object_name("DNS")` | where count>200'
+  | `drop_dm_object_name("DNS")` | where count>200 | `large_volume_of_dns_any_queries_filter`'
 known_false_positives: Legitimate ANY requests may trigger this search, however it
   is unusual to see a large volume of them under typical circumstances. You may modify
   the threshold in the search to better suit your environment.

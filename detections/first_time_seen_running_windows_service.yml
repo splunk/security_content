@@ -22,7 +22,7 @@ search: eventtype=wineventlog_system signature_id=7036 | rename param1 as servic
   >= relative_time(now(),"-60m@m"), "First time seen Windows service","Previously
   seen Windows service") | where serviceStatus="First time seen Windows service"|
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | table
-  service_name]| table _time dest service_name
+  service_name]| table _time dest service_name | `first_time_seen_running_windows_service_filter`
 known_false_positives: A previously unseen service is not necessarily malicious. Verify
   that the service is legitimate and that was installed by a legitimate process.
 tags:

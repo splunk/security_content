@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry
   AND (All_Changes.object_path="*CurrentVersion\\AppCompatFlags\\Custom*" OR All_Changes.object_path="*CurrentVersion\\AppCompatFlags\\InstalledSDB*")
   by All_Changes.dest, All_Changes.command, All_Changes.user, All_Changes.object,
-  All_Changes.object_path | `drop_dm_object_name("All_Changes")`'
+  All_Changes.object_path | `drop_dm_object_name("All_Changes")` | `registry_keys_for_creating_shim_databases_filter`'
 known_false_positives: There are many legitimate applications that leverage shim databases
   for compatibility purposes for legacy applications
 tags:

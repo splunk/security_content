@@ -17,11 +17,11 @@ references:
 - https://splunkbase.splunk.com/app/2734/
 - https://splunkbase.splunk.com/app/1809/
 author: Jim Apger, Splunk
-search: sourcetype=stream:http http_content_type=text* uri="/magento2/customer/account/loginPost/"
+search: '`stream_http` http_content_type=text* uri="/magento2/customer/account/loginPost/"
   | rex field=cookie "form_key=(?<SessionID>\w+)" | rex field=form_data "login\[username\]=(?<Username>[^&|^$]+)"
   | search Username=* | rex field=Username "@(?<email_domain>.*)"|stats dc(Username)
   as UniqueUsernames list(Username) as src_user by email_domain|where UniqueUsernames>
-  25
+  25 | `web_fraud___account_harvesting_filter`'
 known_false_positives: As is common with many fraud-related searches, we are usually
   looking to attribute risk or synthesize relevant context with loosely written detections
   that simply detect anamolous behavior. This search will need to be customized to

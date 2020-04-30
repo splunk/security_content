@@ -16,7 +16,8 @@ search: '|tstats `security_content_summariesonly` count min(_time) as firstTime 
   = "SuspiciousEmailDetectionModel" by All_UEBA_Events.description All_UEBA_Events.severity
   All_UEBA_Events.user All_UEBA_Events.uba_event_type All_UEBA_Events.link All_UEBA_Events.signature
   All_UEBA_Events.url All_UEBA_Events.UEBA_Anomalies.uba_model | `drop_dm_object_name(All_UEBA_Events)`
-  | `drop_dm_object_name(UEBA_Anomalies)`| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
+  | `drop_dm_object_name(UEBA_Anomalies)`| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `suspicious_email___uba_anomaly_filter`'
 known_false_positives: This detection model will alert on any sender domain that is
   seen for the first time. This could be a potential false positive. The next step
   is to investigate and whitelist the URL if you determine that it is a legitimate

@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` earliest(_time) as firstTime,
   | multireport [| table src_user, firstTime, lastTime | outputlookup previously_seen_cloud_compute_creations_by_user
   | where fact=fiction][| eval new_user=if(firstTime >= relative_time(now(), `previously_seen_cloud_compute_creations_by_user_search_window_begin_offset`),
   1, 0) | where new_user=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
-  | table src_user, dest, firstTime, lastTime'
+  | table src_user, dest, firstTime, lastTime | `cloud_compute_instance_created_by_previously_unseen_user_filter`'
 known_false_positives: It's possible that a user will start to create compute instances
   for the first time, for any number of reasons. Verify with the user launching instances
   that this is the intended behavior.

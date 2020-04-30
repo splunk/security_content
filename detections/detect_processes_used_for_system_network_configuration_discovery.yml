@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.user _time | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | search `system_network_configuration_discovery_tools`
   | transaction dest connected=false maxpause=5m |where eventcount>=5 | table firstTime
-  lastTime dest user process_name process parent_process eventcount'
+  lastTime dest user process_name process parent_process eventcount | `detect_processes_used_for_system_network_configuration_discovery_filter`'
 known_false_positives: It is uncommon for normal users to execute a series of commands
   used for network discovery. System administrators often use scripts to execute these
   commands. These can generate false positives.

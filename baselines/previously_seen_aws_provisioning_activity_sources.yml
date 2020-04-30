@@ -9,10 +9,10 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
 author: David Dorsey, Splunk
-search: sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iplocation
+search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
   sourceIPAddress | stats earliest(_time) as firstTime, latest(_time) as lastTime
   by sourceIPAddress, City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
-  | stats count
+  | stats count'
 tags:
   analytics_story:
   - AWS Suspicious Provisioning Activities

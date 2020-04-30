@@ -25,7 +25,8 @@ references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Web.url) as url min(_time)
   as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status
-  | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `dynamic_dns_web_traffic`'
+  | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `dynamic_dns_web_traffic`
+  | `detect_web_traffic_to_dynamic_domain_providers_filter`'
 known_false_positives: It is possible that list of dynamic DNS providers is outdated
   and/or that the URL being requested is legitimate.
 tags:

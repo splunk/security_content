@@ -14,7 +14,7 @@ author: Bhavin Patel, Splunk
 search: '| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800,
   "Accounts created in last week") | search empStatus="Accounts created in last week"|
   `security_content_ctime(endDate)` | `security_content_ctime(startDate)`| table identity
-  empStatus endDate startDate'
+  empStatus endDate startDate | `identify_new_user_accounts_filter`'
 known_false_positives: If the Identity_Management data model is not updated regularly,
   this search could give you false positive alerts. Please consider this and investigate
   appropriately.

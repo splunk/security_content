@@ -12,9 +12,9 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. Please validate the user role entries in `previously_seen_api_calls_from_user_roles.csv`,
   which is a lookup file created as a result of running this support search.
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:cloudtrail eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole
+search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole
   | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
-  | outputlookup previously_seen_api_calls_from_user_roles | stats count
+  | outputlookup previously_seen_api_calls_from_user_roles | stats count'
 tags:
   analytics_story:
   - AWS User Monitoring

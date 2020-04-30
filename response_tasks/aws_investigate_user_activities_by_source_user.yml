@@ -10,6 +10,6 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 author: Bhavin Patel, Splunk
 inputs:
 - src_user
-search: '| search sourcetype=aws:cloudtrail userIdentity.arn={src_user} | spath output=user
+search: '| search `cloudtrail` userIdentity.arn={src_user} | spath output=user
   path=userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user, src_ip,
   awsRegion, eventName, errorCode, errorMessage'

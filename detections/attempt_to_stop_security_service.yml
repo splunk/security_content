@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   stop *" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   |lookup security_services_lookup service as process OUTPUTNEW category, description
-  | search category=security'
+  | search category=security | `attempt_to_stop_security_service_filter`'
 known_false_positives: None identified. Attempts to disable security-related services
   should be identified and understood.
 tags:

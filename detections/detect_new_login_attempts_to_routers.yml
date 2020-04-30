@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) as earl
   latest(_time) as latest from datamodel=Authentication where Authentication.dest_category=router
   by Authentication.dest Authentication.user| eval isOutlier=if(earliest >= relative_time(now(),
   "-30d@d"), 1, 0) | where isOutlier=1| `security_content_ctime(earliest)`| `security_content_ctime(latest)`
-  | `drop_dm_object_name("Authentication")`'
+  | `drop_dm_object_name("Authentication")` | `detect_new_login_attempts_to_routers_filter`'
 known_false_positives: Legitimate router connections may appear as new connections
 tags:
   analytics_story:

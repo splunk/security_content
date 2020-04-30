@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action
   | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port
   OUTPUT app is_prohibited note transport | search is_prohibited=true | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")`'
+  | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `prohibited_network_traffic_allowed_filter`'
 known_false_positives: None identified
 tags:
   analytics_story:

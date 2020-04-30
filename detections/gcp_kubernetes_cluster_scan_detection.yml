@@ -19,7 +19,7 @@ search: sourcetype="google:gcp:pubsub:message" data.protoPayload.requestMetadata
   values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent)
   as http_user_agent by src_ip data.resource.labels.cluster_name | rename data.resource.labels.cluster_name
   as cluster_name| `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`  |
-  `kubernetes_gcp_scan_fingerprint_detection`
+  `kubernetes_gcp_scan_fingerprint_detection` | `gcp_kubernetes_cluster_scan_detection_filter`
 known_false_positives: Not all unauthenticated requests are malicious, but frequency,
   User Agent and source IPs will provide context.
 tags:

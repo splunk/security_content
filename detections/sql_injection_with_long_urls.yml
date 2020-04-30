@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Web wher
   + mvcount(split(url, "left%20join")) + mvcount(split(url, "right%20join")) + mvcount(split(url,
   "full%20join")) + mvcount(split(url, "select")) + mvcount(split(url, "distinct"))
   + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url,
-  "xp_cmdshell")) - 24 | where num_sql_cmds > 3'
+  "xp_cmdshell")) - 24 | where num_sql_cmds > 3 | `sql_injection_with_long_urls_filter`'
 known_false_positives: It's possible that legitimate traffic will have long URLs or
   long user agent strings and that common SQL commands may be found within the URL.
   Please investigate as appropriate.

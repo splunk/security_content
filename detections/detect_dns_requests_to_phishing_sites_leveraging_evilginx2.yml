@@ -29,7 +29,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | search NOT [ inputlookup legit_domains.csv | fields domain]| join domain type=outer
   [| tstats count `security_content_summariesonly` values(Web.url) as url from datamodel=Web.Web
   by Web.dest Web.site | rename "Web.*" as * | rex field=site ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
-  | table dest domain url] | table count src dest query answer domain url'
+  | table dest domain url] | table count src dest query answer domain url | `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter`'
 known_false_positives: If a known good domain is not listed in the legit_domains.csv
   file, then the search could give you false postives. Please update that lookup file
   to filter out DNS requests to legitimate domains.

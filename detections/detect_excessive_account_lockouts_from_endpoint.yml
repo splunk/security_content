@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
   All_Changes.result="lockout" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | search count > 5'
+  | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
 known_false_positives: It's possible that a widely used system, such as a kiosk, could
   cause a large number of account lockouts.
 tags:

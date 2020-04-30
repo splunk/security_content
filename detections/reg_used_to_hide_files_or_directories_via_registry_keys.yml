@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   where Processes.process_name = reg.exe Processes.process="*add*" Processes.process="*Hidden*"
   Processes.process="*REG_DWORD*" by Processes.process_name Processes.parent_process_name
   Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)`| regex process = "(/d\s+2)"'
+  |`security_content_ctime(lastTime)`| regex process = "(/d\s+2)" | `reg_used_to_hide_files_or_directories_via_registry_keys_filter`'
 known_false_positives: None at the moment
 tags:
   analytics_story:

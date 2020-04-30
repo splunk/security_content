@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   NOT (All_Traffic.dest_port=443 OR All_Traffic.dest_port=8443)) OR (All_Traffic.app=smtp
   NOT All_Traffic.dest_port=25) by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.app,
   All_Traffic.dest_port |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `drop_dm_object_name("All_Traffic")`'
+  | `drop_dm_object_name("All_Traffic")` | `protocol_or_port_mismatch_filter`'
 known_false_positives: None identified
 tags:
   analytics_story:

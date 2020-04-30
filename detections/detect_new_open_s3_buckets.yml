@@ -10,12 +10,12 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:cloudtrail AllUsers eventName=PutBucketAcl | spath output=userIdentityArn
+search: '`cloudtrail` AllUsers eventName=PutBucketAcl | spath output=userIdentityArn
   path=userIdentity.arn | spath output=bucketName path=requestParameters.bucketName
   | spath output=aclControlList path=requestParameters.AccessControlPolicy.AccessControlList
   | spath input=aclControlList output=grantee path=Grant{} | mvexpand grantee | spath
   input=grantee | search Grantee.URI=*AllUsers | rename userIdentityArn as user| table
-  _time, src,awsRegion Permission, Grantee.URI, bucketName, user
+  _time, src,awsRegion Permission, Grantee.URI, bucketName, user | `detect_new_open_s3_buckets_filter`'
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has legitimately created a public bucket for a specific purpose.
   That said, AWS strongly advises against granting full control to the "All Users"

@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   values(Filesystem.user) as user from datamodel=Endpoint.Filesystem by Filesystem.file_path
   | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`|
   rex field=file_name "(?<file_extension>\.[^\.]+)$" | search file_path=*system32*
-  AND file_extension=.bat'
+  AND file_extension=.bat | `batch_file_write_to_system32_filter`'
 known_false_positives: It is possible for this search to generate a notable event
   for a batch file write to a path that includes the string "system32", but is not
   the actual Windows system directory. As such, you should confirm the path of the

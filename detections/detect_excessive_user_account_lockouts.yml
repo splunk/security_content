@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
   All_Changes.result="lockout" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | search count > 5'
+  | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
 known_false_positives: It is possible that a legitimate user is experiencing an issue
   causing multiple account login failures leading to lockouts.
 tags:

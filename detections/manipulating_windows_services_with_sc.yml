@@ -1,4 +1,4 @@
-name: Manipulating Windows Services eith sc
+name: Manipulating Windows Services with sc
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 version: 2
 date: '2019-02-27'
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   where Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="*
   config *") by Processes.process_name Processes.parent_process_name Processes.dest
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`'
+  | `security_content_ctime(lastTime)` | `manipulating_windows_services_with_sc_filter`'
 known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
   there may be legitimate instances of this behavior. It is important to validate
   and investigate as appropriate.

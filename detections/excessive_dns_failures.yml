@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count values("DNS.query") as 
   by "DNS.src","DNS.query"| `drop_dm_object_name("DNS")`| lookup cim_corporate_web_domain_lookup
   domain as query OUTPUT domain| where isnull(domain)| lookup update=true alexa_lookup_by_str
   domain as query OUTPUT rank| where isnull(rank)| stats sum(count) as count mode(queries)
-  as queries by src| `get_asset(src)`| where count>50'
+  as queries by src| `get_asset(src)`| where count>50 | `excessive_dns_failures_filter`'
 known_false_positives: It is possible legitimate traffic can trigger this rule. Please
   investigate as appropriate. The threshold for generating an event can also be customized
   to better suit your environment.

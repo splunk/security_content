@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime from datamodel=Web where (Web.http_method="GET" OR Web.http_method="HEAD")
   AND (Web.url="*/web-console/ServerInfo.jsp*" OR Web.url="*web-console*" OR Web.url="*jmx-console*"
   OR Web.url = "*invoker*") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`'
 known_false_positives: It's possible for legitimate HTTP requests to be made to URLs
   containing the suspicious paths.
 tags:

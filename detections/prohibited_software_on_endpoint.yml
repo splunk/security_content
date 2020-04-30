@@ -20,7 +20,7 @@ author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process_name
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`
-  | `prohibited_softwares`'
+  | `prohibited_softwares` | `prohibited_software_on_endpoint_filter`'
 known_false_positives: None identified
 tags:
   analytics_story:

@@ -37,7 +37,8 @@ type: ESCU
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
   min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query
-  | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `dynamic_dns_providers`'
+  | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `dynamic_dns_providers`
+  | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
 known_false_positives: Some users and applications may leverage Dynamic DNS to reach
   out to some domains on the Internet since dynamic DNS by itself is not malicious,
   however this activity must be verified.

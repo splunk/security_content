@@ -12,7 +12,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: sourcetype=aws:cloudtrail eventName=AssumeRole | spath output=requestingAccountId
+search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId
   path=userIdentity.accountId | spath output=requestedAccountId path=resources{}.accountId
   | search requestingAccountId=* | where requestingAccountId != requestedAccountId
   | inputlookup append=t previously_seen_aws_cross_account_activity | multireport
@@ -28,7 +28,7 @@ search: sourcetype=aws:cloudtrail eventName=AssumeRole | spath output=requesting
   as lastTime values(sharedEventID) as sharedEventID, values(requestingARN) as src_user,
   values(responseElements.assumedRoleUser.arn) as dest_user by _time, requestingAccountId,
   requestedAccountId, accessKeyId] | table _time, firstTime, lastTime, src_user, requestingAccountId,
-  dest_user, requestedAccountId, awsRegion, accessKeyId, sharedEventID
+  dest_user, requestedAccountId, awsRegion, accessKeyId, sharedEventID | `aws_cross_account_activity_from_previously_unseen_account_filter`'
 known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior.
   It's suspicious when an account requests privileges of an account it hasn't before.
   You should validate with the account owner that this is a legitimate request.

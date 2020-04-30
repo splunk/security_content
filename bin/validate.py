@@ -123,9 +123,11 @@ def validate_standard_fields(object, uuids):
 def validate_detection_search(object):
     errors = []
 
-    if 'search' in object:
-        if not str(object['name'].replace('-','_').lower()) in object['search']:
-            errors.append("ERROR: Missing filter for detection: " + object['name'])
+    if not '_filter' in object['search']:
+        errors.append("ERROR: Missing filter for detection: " + object['name'])
+
+    if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', 'source=', 'index=']):
+        errors.append("ERROR: Use source macro instead of eventtype, sourcetype, source or index in detection: " + object['name'])
 
     return errors
 

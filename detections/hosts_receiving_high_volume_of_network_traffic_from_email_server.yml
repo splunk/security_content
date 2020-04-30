@@ -28,7 +28,7 @@ search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_in) as 
   = round(abs(bytes_in - avg_bytes_in) / stdev_bytes_in, 2), num_standard_deviations_away_from_client_average
   = round(abs(bytes_in - per_source_avg_bytes_in) / per_source_stdev_bytes_in, 2)
   | table src_ip, _time, bytes_in, avg_bytes_in, per_source_avg_bytes_in, num_standard_deviations_away_from_server_average,
-  num_standard_deviations_away_from_client_average'
+  num_standard_deviations_away_from_client_average | `hosts_receiving_high_volume_of_network_traffic_from_email_server_filter`'
 known_false_positives: The false-positive rate will vary based on how you set the
   deviation_threshold and data_samples values. Our recommendation is to adjust these
   values based on your network traffic to and from your email servers.

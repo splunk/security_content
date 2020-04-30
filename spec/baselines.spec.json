@@ -63,7 +63,7 @@
       "default": "",
       "description": "The Splunk search for the baseline",
       "examples": [
-        "sourcetype=aws:cloudtrail StartInstances | stats earliest(_time) as earliest latest(_time) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv"
+        "cloudtrail StartInstances | stats earliest(_time) as earliest latest(_time) as latest by awsRegion | outputlookup previously_seen_aws_regions.csv"
       ],
       "type": "string"
     },

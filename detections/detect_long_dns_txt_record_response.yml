@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   IP", answer as "DNS Answer" anslen as "Answer Length" record_type as "DNS Record
   Type" firstTime as "First Time" lastTime as "Last Time" count as Count | table "Source
   IP" "Destination IP" "DNS Answer" "DNS Record Type"  "Answer Length" Count "First
-  Time" "Last Time"'
+  Time" "Last Time" | `detect_long_dns_txt_record_response_filter`'
 known_false_positives: It's possible that legitimate TXT record responses can be long
   enough to trigger this search. You can modify the packet threshold for this search
   to help mitigate false positives.
