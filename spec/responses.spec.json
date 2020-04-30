@@ -75,7 +75,7 @@
           ]
         }
       ],
-      "required": [],
+      "minItems": 1,
       "type": "array"
     },
     "tags": {
