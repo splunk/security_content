@@ -79,7 +79,9 @@
         }
       ],
       "minItems": 1,
-      "required": [],
+      "required": [
+        "analytics_story"
+      ],
       "type": "object"
     },
     "version": {
