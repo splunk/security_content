@@ -2,7 +2,6 @@
   "$id": "http://example.com/example.json",
   "$schema": "http://json-schema.org/draft-07/schema",
   "additionalProperties": true,
-  "default": {},
   "description": "schema for baselines",
   "properties": {
     "author": {
@@ -80,7 +79,6 @@
         }
       ],
       "minItems": 1,
-      "properties": null,
       "required": [],
       "type": "object",
       "uniqueItems": true
@@ -92,7 +90,7 @@
       "examples": [
         1
       ],
-      "type": "integer"
+      "type": "string"
     }
   },
   "required": [

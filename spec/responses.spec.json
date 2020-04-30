@@ -90,7 +90,6 @@
         }
       ],
       "minItems": 1,
-      "properties": null,
       "required": [],
       "type": "object",
       "uniqueItems": true
@@ -102,7 +101,7 @@
       "examples": [
         1
       ],
-      "type": "integer"
+      "type": "string"
     }
   },
   "required": [

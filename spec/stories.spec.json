@@ -78,9 +78,7 @@
           "analytics_story": "credential_dumping"
         }
       ],
-      "maxItems": 1,
       "minItems": 1,
-      "properties": null,
       "required": [],
       "type": "object"
     },
@@ -91,7 +89,7 @@
       "examples": [
         1
       ],
-      "type": "integer"
+      "type": "string"
     }
   },
   "required": [
