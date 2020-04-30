@@ -246,7 +246,6 @@
         }
       ],
       "minItems": 1,
-      "required": [],
       "type": "object",
       "uniqueItems": true
     }
