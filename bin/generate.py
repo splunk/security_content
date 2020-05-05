@@ -56,6 +56,9 @@ def generate_transforms_conf(lookups):
 
 def generate_savedsearches_conf(detections, investigations, baselines):
 
+    # mapping from source macro or datamodel to providing_technologies
+    # parse out entities dest, user
+
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
@@ -323,40 +326,42 @@ if __name__ == "__main__":
     stories = load_objects("stories/*.yml")
     macros = load_objects("macros/*.yml")
     lookups = load_objects("lookups/*.yml")
-    detections = load_objects("detections/*.yml")
-    investigations = load_objects("investigations/*.yml")
     baselines = load_objects("baselines/*.yml")
+    detections = load_objects("detections/*.yml")
+    responses = load_objects("responses/*.yml")
+    response_tasks = load_objects("response_tasks/*.yml")
+    investigations = load_objects("investigations/*.yml")
 
-    detections = identify_next_steps(detections, investigations)
-
-    map_inv_det = map_investigations_to_detection(detections)
-    map_det_sto = map_detection_to_stories(stories)
-    map_bas_det = map_baselines_to_detection(detections)
-    detections = enrich_detections_with_stories(detections, map_det_sto)
-    investigations = enrich_investigations_with_stories(investigations, map_inv_det, map_det_sto)
-    baselines = enrich_baselines_with_stories(baselines, map_bas_det, map_det_sto)
-    stories = enrich_stories(stories, detections, investigations, baselines)
+    # detections = identify_next_steps(detections, investigations)
+    #
+    # map_inv_det = map_investigations_to_detection(detections)
+    # map_det_sto = map_detection_to_stories(stories)
+    # map_bas_det = map_baselines_to_detection(detections)
+    # detections = enrich_detections_with_stories(detections, map_det_sto)
+    # investigations = enrich_investigations_with_stories(investigations, map_inv_det, map_det_sto)
+    # baselines = enrich_baselines_with_stories(baselines, map_bas_det, map_det_sto)
+    # stories = enrich_stories(stories, detections, investigations, baselines)
 
     lookups_path = generate_transforms_conf(lookups)
 
     detections = sorted(detections, key=lambda d: d['name'])
-    investigations = sorted(investigations, key=lambda i: i['name'])
-    baselines = sorted(baselines, key=lambda b: b['name'])
-    detection_path = generate_savedsearches_conf(detections, investigations, baselines)
-
-    stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories)
-
-    use_case_lib_path = generate_use_case_library_conf(stories, detections, investigations, baselines)
-
-    macros = sorted(macros, key=lambda m: m['name'])
-    macros_path = generate_macros_conf(macros)
-
-    if VERBOSE:
-        print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
-        print("{0} stories have been successfully written to {1}".format(len(stories), use_case_lib_path))
-        print("{0} detections have been successfully written to {1}".format(len(detections), detection_path))
-        print("{0} investigations have been successfully written to {1}".format(len(investigations), detection_path))
-        print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
-        print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
-        print("security content generation completed..")
+    # investigations = sorted(investigations, key=lambda i: i['name'])
+    # baselines = sorted(baselines, key=lambda b: b['name'])
+    # detection_path = generate_savedsearches_conf(detections, investigations, baselines)
+    #
+    # stories = sorted(stories, key=lambda s: s['name'])
+    # story_path = generate_analytics_story_conf(stories)
+    #
+    # use_case_lib_path = generate_use_case_library_conf(stories, detections, investigations, baselines)
+    #
+    # macros = sorted(macros, key=lambda m: m['name'])
+    # macros_path = generate_macros_conf(macros)
+    #
+    # if VERBOSE:
+    #     print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
+    #     print("{0} stories have been successfully written to {1}".format(len(stories), use_case_lib_path))
+    #     print("{0} detections have been successfully written to {1}".format(len(detections), detection_path))
+    #     print("{0} investigations have been successfully written to {1}".format(len(investigations), detection_path))
+    #     print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
+    #     print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
+    #     print("security content generation completed..")
