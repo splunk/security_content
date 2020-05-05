@@ -33,3 +33,4 @@ tags:
   - PR.AC
   - PR.IP
   - DE.CM
+  security_domain: network

@@ -9,7 +9,7 @@ how_to_implement: In order to implement this search, you must install the AWS Ap
 author: Bhavin Patel, Splunk
 inputs:
 - dest
-search: '| search `cloudtrail` responseElements.instancesSet.items{}.instanceId={dest}
+search: '| search sourcetype=aws:cloudtrail responseElements.instancesSet.items{}.instanceId={dest}
   |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId
   as instanceId, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress,
   responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture

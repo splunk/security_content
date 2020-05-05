@@ -10,10 +10,10 @@ how_to_implement: You need to be ingesting logs with both the process name and c
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '(`sysmon` OR tag=process)
-  EventCode=11 process_id!=4 file_path=*System\ Volume\ Information* | stats count
-  min(_time) as firstTime max(_time) as lastTime by dest, Image, file_path | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `suspicious_writes_to_system_volume_information_filter`'
+search: (`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume\
+  Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest,
+  Image, file_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `suspicious_writes_to_system_volume_information_filter`
 known_false_positives: It is possible that other utilities or system processes may
   legitimately write to this folder. Investigate and modify the search to include
   exceptions as appropriate.
@@ -26,3 +26,4 @@ tags:
   - CIS 8
   nist:
   - DE.CM
+  security_domain: endpoint

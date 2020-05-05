@@ -10,12 +10,11 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`,
   a lookup file created by this support search.
 author: David Dorsey, Splunk
-search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId
-  path=userIdentity.accountId | spath output=requestedAccountId path=resources{}.accountId
-  | search requestingAccountId=* | where requestingAccountId!=requestedAccountId |
-  stats earliest(_time) as firstTime latest(_time) as lastTime by requestingAccountId,
-  requestedAccountId | outputlookup previously_seen_aws_cross_account_activity | stats
-  count'
+search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId path=userIdentity.accountId
+  | spath output=requestedAccountId path=resources{}.accountId | search requestingAccountId=*
+  | where requestingAccountId!=requestedAccountId | stats earliest(_time) as firstTime
+  latest(_time) as lastTime by requestingAccountId, requestedAccountId | outputlookup
+  previously_seen_aws_cross_account_activity | stats count'
 tags:
   analytics_story:
   - AWS Cross Account Activity

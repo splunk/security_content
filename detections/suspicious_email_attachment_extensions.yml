@@ -37,3 +37,4 @@ tags:
   nist:
   - DE.AE
   - PR.IP
+  security_domain: network

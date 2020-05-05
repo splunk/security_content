@@ -34,11 +34,11 @@ known_false_positives: Legitimate programs can also use command-line arguments t
   macro to exclude legitimate parent_process_name
 tags:
   analytics_story:
-  - Suspicious Command-Line Executions
-  - DHS Report TA18-074A
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - Hidden Cobra Malware
+  - DHS Report TA18-074A
   - Orangeworm Attack Group
+  - Suspicious Command-Line Executions
+  - Hidden Cobra Malware
   mitre_attack_id:
   - T1064
   - T1059
@@ -52,3 +52,4 @@ tags:
   - PR.PT
   - DE.CM
   - PR.IP
+  security_domain: endpoint

@@ -12,7 +12,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 author: David Dorsey, Splunk
 inputs:
 - src_ip
-search: '| search `cloudtrail` | iplocation sourceIPAddress | search
+search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search
   sourceIPAddress={src_ip} | spath output=user path=userIdentity.arn | spath output=awsUserName
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
   sourceIPAddress as src_ip | table _time, user, userName, userType, src_ip, awsRegion,

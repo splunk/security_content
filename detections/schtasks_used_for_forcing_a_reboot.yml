@@ -20,8 +20,8 @@ known_false_positives: Administrators may create jobs on systems forcing reboots
   perform updates, maintenance, etc.
 tags:
   analytics_story:
-  - Windows Persistence Techniques
   - Ransomware
+  - Windows Persistence Techniques
   mitre_attack_id:
   - T1053
   kill_chain_phases:
@@ -30,3 +30,4 @@ tags:
   - CIS 3
   nist:
   - PR.IP
+  security_domain: endpoint

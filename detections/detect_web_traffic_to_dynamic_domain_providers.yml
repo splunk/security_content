@@ -44,3 +44,4 @@ tags:
   nist:
   - PR.IP
   - DE.DP
+  security_domain: network

@@ -18,10 +18,10 @@ known_false_positives: Legitimate DNS activity can be detected in this search. I
   verify and update the list of authorized DNS servers as appropriate.
 tags:
   analytics_story:
-  - DNS Hijacking
   - Command and Control
   - Host Redirection
   - Suspicious DNS Traffic
+  - DNS Hijacking
   kill_chain_phases:
   - Command and Control
   cis20:
@@ -35,3 +35,4 @@ tags:
   - PR.IP
   - DE.AE
   - DE.CM
+  security_domain: network

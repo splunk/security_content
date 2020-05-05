@@ -45,3 +45,4 @@ tags:
   nist:
   - DE.CM
   - DE.DP
+  security_domain: threat

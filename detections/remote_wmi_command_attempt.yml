@@ -35,3 +35,4 @@ tags:
   - PR.AT
   - PR.AC
   - PR.IP
+  security_domain: endpoint

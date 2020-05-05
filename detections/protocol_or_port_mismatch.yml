@@ -38,3 +38,4 @@ tags:
   nist:
   - DE.AE
   - PR.AC
+  security_domain: network

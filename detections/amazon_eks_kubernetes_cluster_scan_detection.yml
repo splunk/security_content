@@ -10,12 +10,12 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Rod Soto, Splunk
-search: '`cloudwatch_eks` "user.username"="system:anonymous" userAgent!="AWS
+search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" userAgent!="AWS
   Security Scanner" | rename sourceIPs{} as src_ip | stats count min(_time) as firstTime
   max(_time) as lastTime values(responseStatus.reason) values(source) as cluster_name
   values(responseStatus.code) values(userAgent) as http_user_agent values(verb) values(requestURI)
   by src_ip user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `amazon_eks_kubernetes_cluster_scan_detection_filter`'
+  |`kubernetes_aws_scan_fingerprint_detection` | `amazon_eks_kubernetes_cluster_scan_detection_filter`'
 known_false_positives: Not all unauthenticated requests are malicious, but frequency,
   UA and source IPs will provide context.
 tags:
@@ -23,3 +23,4 @@ tags:
   - Kubernetes Scanning Activity
   kill_chain_phases:
   - Reconnaissance
+  security_domain: threat

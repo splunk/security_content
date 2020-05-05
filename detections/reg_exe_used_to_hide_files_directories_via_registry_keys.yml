@@ -1,4 +1,4 @@
-name: Reg used to hide files or directories via registry keys
+name: Reg exe used to hide files directories via registry keys
 id: c77162d3-f93c-45cc-80c8-22f6b5264x9f
 version: 2
 date: '2019-02-27'
@@ -17,12 +17,12 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   where Processes.process_name = reg.exe Processes.process="*add*" Processes.process="*Hidden*"
   Processes.process="*REG_DWORD*" by Processes.process_name Processes.parent_process_name
   Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)`| regex process = "(/d\s+2)" | `reg_used_to_hide_files_or_directories_via_registry_keys_filter`'
+  |`security_content_ctime(lastTime)`| regex process = "(/d\s+2)" | `reg_exe_used_to_hide_files_directories_via_registry_keys_filter`'
 known_false_positives: None at the moment
 tags:
   analytics_story:
-  - Suspicious Windows Registry Activities
   - Windows Defense Evasion Tactics
+  - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
   kill_chain_phases:
   - Actions on Objectives
@@ -30,3 +30,4 @@ tags:
   - CIS 8
   nist:
   - DE.CM
+  security_domain: endpoint

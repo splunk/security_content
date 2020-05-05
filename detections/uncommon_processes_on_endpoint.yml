@@ -22,8 +22,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Windows Privilege Escalation
   - Unusual Processes
+  - Windows Privilege Escalation
   mitre_attack_id:
   - T1015
   kill_chain_phases:
@@ -33,3 +33,4 @@ tags:
   nist:
   - ID.AM
   - PR.DS
+  security_domain: endpoint

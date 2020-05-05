@@ -1,4 +1,4 @@
-name: Reg Manipulating Windows Services Registry Keys
+name: Reg exe Manipulating Windows Services Registry Keys
 id: 8470d755-0c13-45b3-bd63-387a373c10cf
 version: 2
 date: '2019-03-01'
@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   [| tstats `security_content_summariesonly` values(Registry.registry_path) as registry_path
   count  FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\services\\*"
   by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | table
-  process_id dest registry_path] | `reg_manipulating_windows_services_registry_keys_filter`'
+  process_id dest registry_path] | `reg_exe_manipulating_windows_services_registry_keys_filter`'
 known_false_positives: It is unusual for a service to be created or modified by directly
   manipulating the registry. However, there may be legitimate instances of this behavior.
   It is important to validate and investigate, as appropriate.
@@ -43,3 +43,4 @@ tags:
   - PR.AC
   - PR.AT
   - DE.CM
+  security_domain: endpoint

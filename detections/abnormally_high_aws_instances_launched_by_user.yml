@@ -10,10 +10,10 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: '`cloudtrail` eventName=RunInstances errorCode=success | bucket
-  span=10m _time | stats count AS instances_launched by _time userName | eventstats
-  avg(instances_launched) as total_launched_avg, stdev(instances_launched) as total_launched_stdev
-  | eval threshold_value = 4 | eval isOutlier=if(instances_launched > total_launched_avg+(total_launched_stdev
+search: '`cloudtrail` eventName=RunInstances errorCode=success | bucket span=10m _time
+  | stats count AS instances_launched by _time userName | eventstats avg(instances_launched)
+  as total_launched_avg, stdev(instances_launched) as total_launched_stdev | eval
+  threshold_value = 4 | eval isOutlier=if(instances_launched > total_launched_avg+(total_launched_stdev
   * threshold_value), 1, 0) | search isOutlier=1 AND _time >= relative_time(now(),
   "-10m@m") | eval num_standard_deviations_away = round(abs(instances_launched - total_launched_avg)
   / total_launched_stdev, 2) | table _time, userName, instances_launched, num_standard_deviations_away,
@@ -33,3 +33,4 @@ tags:
   nist:
   - DE.DP
   - DE.AE
+  security_domain: network

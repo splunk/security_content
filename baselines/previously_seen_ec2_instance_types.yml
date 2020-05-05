@@ -7,10 +7,10 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs.
 author: David Dorsey, Splunk
-search: '`cloudtrail` eventName=RunInstances errorCode=success | rename
-  requestParameters.instanceType as instanceType | fillnull value="m1.small" instanceType
-  | stats earliest(_time) as earliest latest(_time) as latest by instanceType | outputlookup
-  previously_seen_ec2_instance_types.csv | stats count'
+search: '`cloudtrail` eventName=RunInstances errorCode=success | rename requestParameters.instanceType
+  as instanceType | fillnull value="m1.small" instanceType | stats earliest(_time)
+  as earliest latest(_time) as latest by instanceType | outputlookup previously_seen_ec2_instance_types.csv
+  | stats count'
 tags:
   analytics_story:
   - AWS Cryptomining

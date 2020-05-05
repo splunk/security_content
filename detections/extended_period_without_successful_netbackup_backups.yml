@@ -13,8 +13,8 @@ how_to_implement: To successfully implement this search you need to first obtain
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '`netbackup` MESSAGE="Disk/Partition backup completed successfully."
-  | stats latest(_time) as latestTime by COMPUTERNAME | `security_content_ctime(latestTime)`
+search: '`netbackup` MESSAGE="Disk/Partition backup completed successfully." | stats
+  latest(_time) as latestTime by COMPUTERNAME | `security_content_ctime(latestTime)`
   | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(),
   "-7d@d"), 1, 0) | search isOutlier=1 | table latestTime, dest | `extended_period_without_successful_netbackup_backups_filter`'
 known_false_positives: None identified
@@ -25,3 +25,4 @@ tags:
   - CIS 10
   nist:
   - PR.IP
+  security_domain: endpoint

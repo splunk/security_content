@@ -14,12 +14,12 @@ how_to_implement: 'You must be ingesting Windows Security logs. You must also en
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe
-  | rex field=Message "Enabled Privileges:\s+(?<privs>\w+)\s+Disabled Privileges:"
-  | where privs="SeDebugPrivilege" | stats count min(_time) as firstTime max(_time)
-  as lastTime by dest, Process_Name, privs, Process_ID, Message | rename privs as
-  "Enabled Privilege" | rename Process_Name as process |  `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `detect_mimikatz_via_powershell_and_eventcode_4703_filter`'
+search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe | rex
+  field=Message "Enabled Privileges:\s+(?<privs>\w+)\s+Disabled Privileges:" | where
+  privs="SeDebugPrivilege" | stats count min(_time) as firstTime max(_time) as lastTime
+  by dest, Process_Name, privs, Process_ID, Message | rename privs as "Enabled Privilege"
+  | rename Process_Name as process |  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `detect_mimikatz_via_powershell_and_eventcode_4703_filter`'
 known_false_positives: The activity may be legitimate. PowerShell is often used by
   administrators to perform various tasks, and it's possible this event could be generated
   in those cases. In these cases, false positives should be fairly obvious and you
@@ -37,3 +37,4 @@ tags:
   - PR.IP
   - PR.AC
   - DE.CM
+  security_domain: access

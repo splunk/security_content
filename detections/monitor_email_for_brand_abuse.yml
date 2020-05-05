@@ -29,3 +29,4 @@ tags:
   - CIS 7
   nist:
   - PR.IP
+  security_domain: network

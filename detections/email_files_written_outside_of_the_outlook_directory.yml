@@ -32,3 +32,4 @@ tags:
   - Actions on Objectives
   cis20:
   - CIS 8
+  security_domain: endpoint

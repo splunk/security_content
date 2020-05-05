@@ -28,3 +28,4 @@ tags:
   - CIS 16
   nist:
   - PR.IP
+  security_domain: access

@@ -35,10 +35,10 @@ known_false_positives: Some legitimate applications use long command lines for i
   build the associated model.
 tags:
   analytics_story:
-  - Suspicious Command-Line Executions
   - Unusual Processes
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
+  - Suspicious Command-Line Executions
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -46,3 +46,4 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  security_domain: endpoint

@@ -13,8 +13,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
-  sourceIPAddress | search Country=* [search `cloudtrail` (eventName=Run*
+search: '`cloudtrail` (eventName=Run* OR eventName=Create*) [search `cloudtrail` (eventName=Run*
   OR eventName=Create*) | iplocation sourceIPAddress | search Country=* | stats earliest(_time)
   as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country
   | inputlookup append=t previously_seen_provisioning_activity_src.csv | stats min(firstTime)
@@ -42,3 +41,4 @@ tags:
   - CIS 1
   nist:
   - ID.AM
+  security_domain: endpoint

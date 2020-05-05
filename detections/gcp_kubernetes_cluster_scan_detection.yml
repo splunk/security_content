@@ -11,7 +11,7 @@ how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or late
 type: ESCU
 references: []
 author: Rod Soto, Splunk
-search: '`google_gcp_pubnet_message` data.protoPayload.requestMetadata.callerIp!=127.0.0.1
+search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerIp!=127.0.0.1
   data.protoPayload.requestMetadata.callerIp!=::1 "data.labels.authorization.k8s.io/decision"=forbid
   "data.protoPayload.status.message"=PERMISSION_DENIED data.protoPayload.authenticationInfo.principalEmail="system:anonymous"
   | rename data.protoPayload.requestMetadata.callerIp as src_ip | stats count min(_time)
@@ -27,3 +27,4 @@ tags:
   - Kubernetes Scanning Activity
   kill_chain_phases:
   - Reconnaissance
+  security_domain: threat

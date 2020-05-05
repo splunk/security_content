@@ -1,4 +1,4 @@
-name: Manipulating Windows Services with sc
+name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 version: 2
 date: '2019-02-27'
@@ -17,17 +17,17 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   where Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="*
   config *") by Processes.process_name Processes.parent_process_name Processes.dest
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `manipulating_windows_services_with_sc_filter`'
+  | `security_content_ctime(lastTime)` | `sc_exe_manipulating_windows_services_filter`'
 known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
   there may be legitimate instances of this behavior. It is important to validate
   and investigate as appropriate.
 tags:
   analytics_story:
-  - DHS Report TA18-074A
-  - Windows Service Abuse
-  - Windows Persistence Techniques
-  - Orangeworm Attack Group
   - Disabling Security Tools
+  - Windows Service Abuse
+  - DHS Report TA18-074A
+  - Orangeworm Attack Group
+  - Windows Persistence Techniques
   mitre_attack_id:
   - T1050
   - T1031
@@ -44,3 +44,4 @@ tags:
   - PR.AC
   - PR.AT
   - DE.CM
+  security_domain: endpoint

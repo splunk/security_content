@@ -11,9 +11,9 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. You must validate the remote IP and bucket name entries in `previously_seen_S3_access_from_remote_ip.csv`,
   which is a lookup file created as a result of running this support search.
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:s3:accesslogs http_status=200  | stats  earliest(_time) as
-  earliest latest(_time) as latest by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip
-  | stats count
+search: '`aws_s3_accesslogs` http_status=200  | stats  earliest(_time) as earliest
+  latest(_time) as latest by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip
+  | stats count'
 tags:
   analytics_story:
   - Suspicious AWS S3 Activities

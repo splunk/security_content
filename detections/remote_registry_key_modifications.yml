@@ -20,8 +20,8 @@ known_false_positives: This technique may be legitimately used by administrators
   modify remote registries, so it's important to filter these events out.
 tags:
   analytics_story:
-  - Suspicious Windows Registry Activities
   - Windows Defense Evasion Tactics
+  - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
   kill_chain_phases:
   - Actions on Objectives
@@ -30,3 +30,4 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  security_domain: endpoint

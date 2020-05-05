@@ -18,11 +18,11 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: '`cloudtrail` `security_group_api_calls` [search `cloudtrail`
-  `security_group_api_calls` | spath output=arn path=userIdentity.arn | stats count
-  as apiCalls by arn | inputlookup security_group_activity_baseline append=t | fields
-  - latestCount | stats values(*) as * by arn | rename apiCalls as latestCount | eval
-  newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720 | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls,
+search: '`cloudtrail` `security_group_api_calls` [search `cloudtrail` `security_group_api_calls`
+  | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup
+  security_group_activity_baseline append=t | fields - latestCount | stats values(*)
+  as * by arn | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls +
+  (latestCount-avgApiCalls)/720 | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls,
   2)*719 + (latestCount-newAvgApiCalls)*(latestCount-avgApiCalls))/720)) | eval avgApiCalls=coalesce(newAvgApiCalls,
   avgApiCalls), stdevApiCalls=coalesce(newStdevApiCalls, stdevApiCalls), numDataPoints=if(isnull(latestCount),
   numDataPoints, numDataPoints+1) | table arn, latestCount, numDataPoints, avgApiCalls,
@@ -45,3 +45,4 @@ tags:
   - DE.DP
   - DE.CM
   - PR.AC
+  security_domain: network

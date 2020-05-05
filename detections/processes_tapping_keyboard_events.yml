@@ -31,3 +31,4 @@ tags:
   - CIS 8
   nist:
   - DE.DP
+  security_domain: threat

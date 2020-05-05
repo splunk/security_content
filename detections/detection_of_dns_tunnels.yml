@@ -52,3 +52,4 @@ tags:
   nist:
   - PR.PT
   - PR.DS
+  security_domain: network

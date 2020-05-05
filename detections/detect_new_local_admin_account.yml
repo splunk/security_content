@@ -32,10 +32,10 @@ how_to_implement: 'You must be ingesting Windows Security logs. You must also en
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: eventtype = wineventlog_security signature_id=4720 OR (signature_id=4732 Group_Name=
+search: '`wineventlog_security` signature_id=4720 OR (signature_id=4732 Group_Name=
   Administrators) | transaction Security_ID connected=false maxspan=180m | search
   signature_id=4720 signature_id=4732 | table _time user dest signature_id Security_ID
-  Group_Name src_user Message | `detect_new_local_admin_account_filter`
+  Group_Name src_user Message | `detect_new_local_admin_account_filter`'
 known_false_positives: The activity may be legitimate. For this reason, it's best
   to verify the account with an administrator and ask whether there was a valid service
   request for the account creation. If your local administrator group name is not
@@ -53,3 +53,4 @@ tags:
   nist:
   - PR.AC
   - DE.CM
+  security_domain: access

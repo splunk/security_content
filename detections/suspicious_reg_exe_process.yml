@@ -1,4 +1,4 @@
-name: Suspicious Reg Process
+name: Suspicious Reg exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 version: 3
 date: '2020-03-16'
@@ -29,9 +29,9 @@ known_false_positives: It's possible for system administrators to write scripts 
   to filter them out.
 tags:
   analytics_story:
-  - DHS Report TA18-074A
-  - Windows Defense Evasion Tactics
   - Disabling Security Tools
+  - Windows Defense Evasion Tactics
+  - DHS Report TA18-074A
   mitre_attack_id:
   - T1112
   - T1089
@@ -41,3 +41,4 @@ tags:
   - CIS 8
   nist:
   - DE.CM
+  security_domain: endpoint

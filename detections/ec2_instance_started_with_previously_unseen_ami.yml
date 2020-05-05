@@ -11,9 +11,9 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '`cloudtrail` eventName=RunInstances [search `cloudtrail`
-  eventName=RunInstances errorCode=success | stats earliest(_time) as firstTime latest(_time)
-  as lastTime by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId
+search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
+  errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
+  by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId
   as amiID | inputlookup append=t previously_seen_ec2_amis.csv | stats min(firstTime)
   as firstTime max(lastTime) as lastTime by amiID | outputlookup previously_seen_ec2_amis.csv
   | eval newAMI=if(firstTime >= relative_time(now(), "-70m@m"), 1, 0) | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
@@ -32,3 +32,4 @@ tags:
   - CIS 1
   nist:
   - ID.AM
+  security_domain: endpoint

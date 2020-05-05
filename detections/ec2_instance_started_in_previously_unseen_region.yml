@@ -12,8 +12,8 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time)
-  as earliest latest(_time) as latest by awsRegion | inputlookup append=t previously_seen_aws_regions.csv
+search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as earliest
+  latest(_time) as latest by awsRegion | inputlookup append=t previously_seen_aws_regions.csv
   | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup
   previously_seen_aws_regions.csv | eval regionStatus=if(earliest >= relative_time(now(),"-1d@d"),
   "Instance Started in a New Region","Previously Seen Region") | `security_content_ctime(earliest)`
@@ -32,3 +32,4 @@ tags:
   nist:
   - DE.DP
   - DE.AE
+  security_domain: network

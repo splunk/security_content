@@ -8,9 +8,8 @@ description: This search is intended to give you a feel for how often backup fai
 how_to_implement: To successfully implement this search you must be ingesting your
   backup logs.
 author: David Dorsey, Splunk
-search: sourcetype="netbackup_logs" "An error occurred, failed to backup." | bucket
-  _time span=1d | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by
-  _time, MESSAGE
+search: '`netbackup` "An error occurred, failed to backup." | bucket _time span=1d
+  | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time, MESSAGE'
 tags:
   analytics_story:
   - Monitor Backup Solution

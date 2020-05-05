@@ -12,8 +12,8 @@ how_to_implement: While this search does not require you to adhere to Splunk CIM
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '`wineventlog_system` signature_id=7036 | rename param1 as service_name
-  | rename param2 as action | search action="running" [ search `wineventlog_system`
+search: '`wineventlog_system` signature_id=7036 | rename param1 as service_name |
+  rename param2 as action | search action="running" [ search `wineventlog_system`
   signature_id=7036 | rename param1 as service_name | rename param2 as action | search
   action="running" | stats earliest(_time) as firstTime, latest(_time) as lastTime
   by service_name | inputlookup append=t previously_seen_running_windows_services
@@ -42,3 +42,4 @@ tags:
   - PR.DS
   - PR.AC
   - DE.AE
+  security_domain: endpoint

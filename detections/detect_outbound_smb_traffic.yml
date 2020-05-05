@@ -46,3 +46,4 @@ tags:
   - CIS 12
   nist:
   - DE.CM
+  security_domain: network

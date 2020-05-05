@@ -28,3 +28,4 @@ tags:
   nist:
   - DE.DP
   - DE.AE
+  security_domain: network
