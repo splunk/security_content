@@ -10,3 +10,6 @@ inputs:
 search: eventtype=okta_log user={user} | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
+tags:
+  analytics_story:
+  - Suspicious Okta Activity

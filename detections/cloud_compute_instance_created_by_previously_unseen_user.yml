@@ -31,3 +31,4 @@ tags:
   nist:
   - ID.AM
   security_domain: endpoint
+  asset_type: Cloud Compute Instance

@@ -21,8 +21,8 @@ known_false_positives: It is possible legitimate traffic can trigger this rule. 
   to better suit your environment.
 tags:
   analytics_story:
-  - Command and Control
   - Suspicious DNS Traffic
+  - Command and Control
   mitre_attack_id:
   - T1048
   - T1043
@@ -37,3 +37,4 @@ tags:
   - DE.AE
   - DE.CM
   security_domain: network
+  asset_type: Endpoint

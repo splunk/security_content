@@ -43,3 +43,4 @@ tags:
   - PR.DS
   - DE.AE
   security_domain: network
+  asset_type: AWS Instance

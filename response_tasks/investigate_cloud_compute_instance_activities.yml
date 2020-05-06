@@ -10,3 +10,6 @@ inputs:
 - dest
 search: '| from datamodel:Cloud_Infrastructure.Compute | search dest={dest} | fields
   - _*'
+tags:
+  analytics_story:
+  - Cloud Cryptomining

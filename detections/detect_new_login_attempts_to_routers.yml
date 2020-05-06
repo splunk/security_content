@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) as earl
 known_false_positives: Legitimate router connections may appear as new connections
 tags:
   analytics_story:
-  - Router & Infrastructure Security
+  - Router and Infrastructure Security
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -30,3 +30,4 @@ tags:
   - PR.AC
   - PR.IP
   security_domain: network
+  asset_type: Endpoint

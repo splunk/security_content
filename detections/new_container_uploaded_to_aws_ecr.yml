@@ -21,5 +21,6 @@ known_false_positives: Uploading container is a normal behavior from developers 
   users with access to container registry.
 tags:
   analytics_story:
-  - Container Implantation Monitoring & Investigation
+  - Container Implantation Monitoring and Investigation
   security_domain: threat
+  asset_type: AWS ECR container

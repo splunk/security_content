@@ -24,8 +24,8 @@ known_false_positives: It is important to understand that if you happen to insta
   expect to see a large increase of file modifications.
 tags:
   analytics_story:
-  - Ransomware
   - SamSam Ransomware
+  - Ransomware
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -33,3 +33,4 @@ tags:
   nist:
   - DE.CM
   security_domain: endpoint
+  asset_type: Endpoint

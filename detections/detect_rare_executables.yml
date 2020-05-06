@@ -28,8 +28,8 @@ known_false_positives: Some legitimate processes may be only rarely executed in 
   to filter them out of your search results.
 tags:
   analytics_story:
+  - 'Emotet Malware  DHS Report TA18-201A '
   - Unusual Processes
-  - Emotet Malware (DHS Report TA18-201A)
   kill_chain_phases:
   - Installation
   - Command and Control
@@ -43,3 +43,4 @@ tags:
   - PR.DS
   - DE.CM
   security_domain: endpoint
+  asset_type: Endpoint

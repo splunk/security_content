@@ -28,3 +28,4 @@ tags:
   nist:
   - PR.IP
   security_domain: access
+  asset_type: Domain Server

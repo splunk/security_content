@@ -23,8 +23,8 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Ransomware
   - Windows Log Manipulation
+  - Ransomware
   mitre_attack_id:
   - T1070
   kill_chain_phases:
@@ -40,3 +40,4 @@ tags:
   - DE.DP
   - PR.IP
   security_domain: endpoint
+  asset_type: Endpoint

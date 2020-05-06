@@ -42,8 +42,8 @@ known_false_positives: The false-positive rate may vary based on the values of`d
 tags:
   analytics_story:
   - Suspicious AWS Traffic
-  - Command and Control
   - AWS Network ACL Activity
+  - Command and Control
   kill_chain_phases:
   - Actions on Objectives
   - Command and Control
@@ -54,3 +54,4 @@ tags:
   - DE.CM
   - PR.AC
   security_domain: network
+  asset_type: AWS Instance

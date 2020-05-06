@@ -14,3 +14,6 @@ inputs:
 - session_id
 search: '| search sourcetype=stream:http {session_id} | stats values(url) values(http_user_agent)
   by src_ip status'
+tags:
+  analytics_story:
+  - Web Fraud Detection

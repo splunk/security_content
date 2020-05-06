@@ -22,10 +22,10 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: Some legitimate applications start with long command lines.
 tags:
   analytics_story:
-  - Unusual Processes
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - Ransomware
   - Suspicious Command-Line Executions
+  - Ransomware
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Unusual Processes
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -34,3 +34,4 @@ tags:
   - PR.PT
   - DE.CM
   security_domain: endpoint
+  asset_type: ''

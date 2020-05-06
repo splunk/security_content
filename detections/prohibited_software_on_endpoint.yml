@@ -24,9 +24,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Monitor for Unauthorized Software
-  - Emotet Malware (DHS Report TA18-201A)
   - SamSam Ransomware
+  - Monitor for Unauthorized Software
+  - 'Emotet Malware  DHS Report TA18-201A '
   kill_chain_phases:
   - Installation
   - Command and Control
@@ -37,3 +37,4 @@ tags:
   - ID.AM
   - PR.DS
   security_domain: endpoint
+  asset_type: Endpoint

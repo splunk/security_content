@@ -37,3 +37,4 @@ tags:
   - DE.CM
   - PR.AC
   security_domain: endpoint
+  asset_type: Endpoint

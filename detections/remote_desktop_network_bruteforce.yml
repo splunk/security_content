@@ -35,3 +35,4 @@ tags:
   - PR.AC
   - PR.IP
   security_domain: network
+  asset_type: Endpoint

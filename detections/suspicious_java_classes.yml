@@ -28,3 +28,4 @@ tags:
   nist:
   - DE.AE
   security_domain: threat
+  asset_type: Endpoint

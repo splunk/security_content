@@ -46,3 +46,4 @@ tags:
   - DE.CM
   - PR.AC
   security_domain: network
+  asset_type: AWS Instance

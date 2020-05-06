@@ -44,3 +44,4 @@ tags:
   - PR.AT
   - DE.CM
   security_domain: endpoint
+  asset_type: Endpoint

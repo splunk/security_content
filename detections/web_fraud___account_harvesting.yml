@@ -46,3 +46,4 @@ tags:
   - DE.CM
   - DE.DP
   security_domain: threat
+  asset_type: Account

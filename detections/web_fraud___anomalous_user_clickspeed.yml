@@ -42,3 +42,4 @@ tags:
   - DE.AE
   - DE.CM
   security_domain: threat
+  asset_type: account

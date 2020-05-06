@@ -18,3 +18,9 @@ search: '| search sourcetype="aws:description" source="*:ec2_instances"| dedup i
   instance_type as Type, ip_address as "IP Address", key_name as "Key Pair", launch_time
   as "Launch Time", placement as "Availability Zone", state as State, subnet_id as
   Subnet, "tags.Name" as Name, vpc_id as VPC'
+tags:
+  analytics_story:
+  - AWS Cryptomining
+  - Cloud Cryptomining
+  - Suspicious AWS EC2 Activities
+  - Unusual AWS EC2 Modifications

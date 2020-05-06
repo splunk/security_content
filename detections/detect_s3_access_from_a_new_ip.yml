@@ -36,3 +36,4 @@ tags:
   - PR.AC
   - DE.CM
   security_domain: network
+  asset_type: S3 Bucket

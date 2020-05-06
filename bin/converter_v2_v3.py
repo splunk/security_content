@@ -33,6 +33,10 @@ def attack_lookup_id(inputs_array):
     return outputs
 
 
+def remove_special_characters(input_str):
+    output_str = input_str.replace('.',' ').replace('/',' ').replace('(',' ').replace(')',' ').replace('&','and').replace('_',' ')
+    return output_str
+
 def generate_content():
     ## detections ##
     detection_files = glob.glob("../security-content-tmp/detections/*.yml")
@@ -51,7 +55,7 @@ def generate_content():
     for orig_dict in old_detections:
         print(orig_dict['name'])
         new_dict = {}
-        new_dict['name'] = orig_dict['name'].replace('.',' ').replace('/',' ').replace('(',' ').replace(')',' ').replace('&',' ').replace('_',' ')
+        new_dict['name'] = remove_special_characters(orig_dict['name'])
         new_dict['id'] = orig_dict['id']
         new_dict['version'] = int(float(orig_dict['version']))
         if 'modification_date' in orig_dict:
@@ -92,6 +96,8 @@ def generate_content():
             tag_dict['nist'] = orig_dict['mappings']['nist']
         if 'security_domain' in orig_dict:
             tag_dict['security_domain'] = orig_dict['security_domain']
+        if 'asset_type' in orig_dict:
+            tag_dict['asset_type'] = orig_dict['asset_type']
         new_dict['tags'] = tag_dict
         ordered_new_dict = OrderedDict(new_dict.items())
         new_file_name = new_dict['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
@@ -114,7 +120,7 @@ def generate_content():
     for orig_dict in old_baselines:
         print(orig_dict['name'])
         new_dict = {}
-        new_dict['name'] = orig_dict['name'].replace('.',' ').replace('/',' ').replace('(',' ').replace(')',' ').replace('&',' ').replace('_',' ')
+        new_dict['name'] = remove_special_characters(orig_dict['name'])
         new_dict['id'] = orig_dict['id']
         new_dict['version'] = int(float(orig_dict['version']))
         if 'modification_date' in orig_dict:
@@ -153,7 +159,7 @@ def generate_content():
     for orig_dict in old_stories:
         print(orig_dict['name'])
         new_dict = {}
-        new_dict['name'] = orig_dict['name'].replace('.',' ').replace('/',' ').replace('(',' ').replace(')',' ').replace('&','and').replace('_',' ')
+        new_dict['name'] = remove_special_characters(orig_dict['name'])
         new_dict['id'] = orig_dict['id']
         new_dict['version'] = int(float(orig_dict['version']))
         if 'modification_date' in orig_dict:
@@ -169,7 +175,7 @@ def generate_content():
         if 'references' in orig_dict:
             new_dict['references'] = orig_dict['references']
         tag_dict = {}
-        tag_dict['analytics_story'] = orig_dict['name']
+        tag_dict['analytics_story'] = remove_special_characters(orig_dict['name'])
         tag_dict['usecase'] = orig_dict['usecase']
         tag_dict['category'] = orig_dict['category']
         new_dict['tags'] = tag_dict
@@ -185,12 +191,14 @@ def generate_content():
     for investigation_file in investigation_files:
         old_investigations.append(load_file(investigation_file))
 
+    map_inv_det = map_investigations_to_detection(old_detections)
+
     print()
     print('## Response Tasks ##')
     for orig_dict in old_investigations:
         print(orig_dict['name'])
         new_dict = {}
-        new_dict['name'] = orig_dict['name'].replace('.',' ').replace('/',' ').replace('(',' ').replace(')',' ').replace('&',' ').replace('_',' ')
+        new_dict['name'] = remove_special_characters(orig_dict['name'])
         new_dict['id'] = orig_dict['id']
         new_dict['version'] = int(float(orig_dict['version']))
         if 'modification_date' in orig_dict:
@@ -213,6 +221,11 @@ def generate_content():
         #     new_dict['playbook'] = phantom_dict
         else:
             continue
+        stories = get_stories_for_investigations(map_inv_det, det_sto, orig_dict)
+        if len(stories) > 0:
+            tag_dict = {}
+            tag_dict['analytics_story'] = stories
+            new_dict['tags'] = tag_dict
         ordered_new_dict = OrderedDict(new_dict.items())
         new_file_name = new_dict['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
         with open('response_tasks/' + new_file_name + '.yml', 'w+' ) as outfile:
@@ -229,15 +242,26 @@ def load_file(file_path):
             sys.exit("ERROR: reading {0}".format(file_path))
     return file
 
+def map_investigations_to_detection(detections):
+    inv_det = {}
+    for detection in detections:
+        if 'investigations' in detection:
+            for investigation in detection['investigations']:
+                if not (investigation['id'] in inv_det):
+                    inv_det[investigation['id']] = {detection['id']}
+                else:
+                    inv_det[investigation['id']].add(detection['id'])
+    return inv_det
+
 def map_detection_to_stories(stories):
     det_sto = {}
     for story in stories:
         if 'detections' in story:
             for detection in story['detections']:
                 if not (detection['detection_id'] in det_sto):
-                    det_sto[detection['detection_id']] = {story['name']}
+                    det_sto[detection['detection_id']] = {remove_special_characters(story['name'])}
                 else:
-                    det_sto[detection['detection_id']].add(story['name'])
+                    det_sto[detection['detection_id']].add(remove_special_characters(story['name']))
     return det_sto
 
 def map_baselines_to_detection(detections):
@@ -276,6 +300,18 @@ def enrich_baselines_with_stories(baselines, map_bas_det, map_det_sto):
     return enriched_baselines
 
 
+def get_stories_for_investigations(map_inv_det, map_det_sto, investigation):
+    story_names = set()
+    if investigation['id'] in map_inv_det:
+        detections = map_inv_det[investigation['id']]
+        for detection in detections:
+            if detection in map_det_sto:
+                stories = map_det_sto[detection]
+                story_names = story_names | stories
+
+    return sorted(list(story_names))
+
+
 def check_source_macro(search):
     new_search = search
 
@@ -308,7 +344,7 @@ def check_source_macro(search):
             #generate macro configuration
 
             new_dict = {}
-            new_dict['definiton'] = match.group()
+            new_dict['definition'] = match.group()
             new_dict['description'] = 'customer specific splunk configurations(eg- index, source, sourcetype). Replace the macro definition with configurations for your Splunk Environmnent.'
             new_dict['name'] = mappings[content_match]
             ordered_new_dict = OrderedDict(new_dict.items())

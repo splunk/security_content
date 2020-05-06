@@ -24,8 +24,8 @@ known_false_positives: Administrators may attempt to change the default executio
   be reviewed and investigated as appropriate.
 tags:
   analytics_story:
-  - Malicious PowerShell
   - Credential Dumping
+  - Malicious PowerShell
   mitre_attack_id:
   - T1086
   - T1064
@@ -38,3 +38,4 @@ tags:
   nist:
   - DE.CM
   security_domain: endpoint
+  asset_type: Endpoint

@@ -4,14 +4,17 @@ date: '2020-04-27'
 description: This configuration file applies to all correlation searches that are used for detection
 author: Bhavin Patel
 scheduling:
-  cron_schedule: '*/10 * * * *'
-  earliest_time: -10m
+  cron_schedule: '*/30 * * * *'
+  earliest_time: -30m
   latest_time: now
   schedule_window: auto
 alert_action:
   notable:
     rule_description: '%description%'
     rule_title: '%name%'
+    nes_fields:
+      - user
+      - dest
+      - src
 tags:
-  analytics_story:
-    - all
+  analytics_story: all

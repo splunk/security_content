@@ -27,8 +27,8 @@ known_false_positives: A previously unseen service is not necessarily malicious.
   that the service is legitimate and that was installed by a legitimate process.
 tags:
   analytics_story:
-  - Orangeworm Attack Group
   - Windows Service Abuse
+  - Orangeworm Attack Group
   mitre_attack_id:
   - T1050
   kill_chain_phases:
@@ -43,3 +43,4 @@ tags:
   - PR.AC
   - DE.AE
   security_domain: endpoint
+  asset_type: Endpoint

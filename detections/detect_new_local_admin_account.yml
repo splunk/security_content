@@ -54,3 +54,4 @@ tags:
   - PR.AC
   - DE.CM
   security_domain: access
+  asset_type: Windows

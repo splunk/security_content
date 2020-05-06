@@ -25,10 +25,11 @@ known_false_positives: It's possible that a user will start to create EC2 instan
   launching instances that this is the intended behavior.
 tags:
   analytics_story:
-  - AWS Cryptomining
   - Suspicious AWS EC2 Activities
+  - AWS Cryptomining
   cis20:
   - CIS 1
   nist:
   - ID.AM
   security_domain: endpoint
+  asset_type: AWS Instance

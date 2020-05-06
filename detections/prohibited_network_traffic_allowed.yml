@@ -23,9 +23,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Ransomware
-  - Command and Control
   - Prohibited Traffic Allowed or Protocol Mismatch
+  - Command and Control
+  - Ransomware
   mitre_attack_id:
   - T1043
   - T1048
@@ -39,3 +39,4 @@ tags:
   - DE.AE
   - PR.AC
   security_domain: network
+  asset_type: Endpoint

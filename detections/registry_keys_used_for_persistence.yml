@@ -29,11 +29,11 @@ tags:
   analytics_story:
   - Suspicious Windows Registry Activities
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - Suspicious MSHTA Activity
-  - Emotet Malware (DHS Report TA18-201A)
-  - Ransomware
   - DHS Report TA18-074A
+  - Suspicious MSHTA Activity
   - Windows Persistence Techniques
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Ransomware
   mitre_attack_id:
   - T1103
   - T1131
@@ -46,3 +46,4 @@ tags:
   - DE.CM
   - DE.AE
   security_domain: endpoint
+  asset_type: Endpoint

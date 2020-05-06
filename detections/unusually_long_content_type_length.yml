@@ -34,3 +34,4 @@ tags:
   - PR.MA
   - DE.CM
   security_domain: network
+  asset_type: Web Server

@@ -39,3 +39,4 @@ tags:
   - DE.AE
   - PR.AC
   security_domain: network
+  asset_type: Endpoint

@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filter for creation of shadow copy with wmic and powershell
-name: creation_of_shadow_copy_with_wmic_and_powershell_filter

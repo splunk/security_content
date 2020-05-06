@@ -36,3 +36,4 @@ tags:
   - PR.PT
   - PR.DS
   security_domain: endpoint
+  asset_type: Endpoint

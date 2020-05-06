@@ -17,3 +17,6 @@ search: '| tstats count `security_content_summariesonly` earliest(_time) as firs
   as last_login values(Authentication.dest) AS Authentication.dest by Authentication.user
   | where count=1 | where first_login >= relative_time(now(), "-30d") | `security_content_ctime(first_login)`
   | `security_content_ctime(last_login)` | `drop_dm_object_name("Authentication")`'
+tags:
+  analytics_story:
+  - Credential Dumping

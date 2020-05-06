@@ -13,3 +13,6 @@ inputs:
 search: '| search sourcetype=aws:cloudtrail userIdentity.accessKeyId={accessKeyId}
   | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip |
   table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage'
+tags:
+  analytics_story:
+  - AWS Cross Account Activity

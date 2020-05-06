@@ -29,9 +29,9 @@ known_false_positives: It's possible for system administrators to write scripts 
   to filter them out.
 tags:
   analytics_story:
-  - Disabling Security Tools
-  - Windows Defense Evasion Tactics
   - DHS Report TA18-074A
+  - Windows Defense Evasion Tactics
+  - Disabling Security Tools
   mitre_attack_id:
   - T1112
   - T1089
@@ -42,3 +42,4 @@ tags:
   nist:
   - DE.CM
   security_domain: endpoint
+  asset_type: Endpoint

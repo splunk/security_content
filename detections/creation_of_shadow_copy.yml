@@ -35,3 +35,4 @@ tags:
   nist:
   - DE.CM
   security_domain: endpoint
+  asset_type: Endpoint

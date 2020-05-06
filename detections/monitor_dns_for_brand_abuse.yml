@@ -25,3 +25,4 @@ tags:
   - Delivery
   - Actions on Objectives
   security_domain: network
+  asset_type: Endpoint

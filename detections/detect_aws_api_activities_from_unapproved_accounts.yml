@@ -57,3 +57,4 @@ tags:
   - PR.AC
   - ID.AM
   security_domain: access
+  asset_type: AWS Instance

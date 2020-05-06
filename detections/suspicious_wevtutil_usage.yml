@@ -24,8 +24,8 @@ known_false_positives: The wevtutil.exe application is a legitimate Windows even
   log utility. Administrators may use it to manage Windows event logs.
 tags:
   analytics_story:
-  - Ransomware
   - Windows Log Manipulation
+  - Ransomware
   mitre_attack_id:
   - T1070
   kill_chain_phases:
@@ -42,3 +42,4 @@ tags:
   - PR.AT
   - DE.AE
   security_domain: endpoint
+  asset_type: ''

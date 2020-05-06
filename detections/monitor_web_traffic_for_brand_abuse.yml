@@ -25,3 +25,4 @@ tags:
   nist:
   - PR.IP
   security_domain: network
+  asset_type: Endpoint

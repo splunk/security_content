@@ -46,8 +46,8 @@ tags:
   analytics_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Command and Control
-  - Dynamic DNS
   - Data Protection
+  - Dynamic DNS
   - Suspicious DNS Traffic
   - DNS Hijacking
   kill_chain_phases:
@@ -63,3 +63,4 @@ tags:
   - DE.AE
   - DE.CM
   security_domain: network
+  asset_type: Endpoint

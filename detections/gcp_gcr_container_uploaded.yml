@@ -22,5 +22,6 @@ known_false_positives: Uploading container is a normal behavior from developers 
   creation which automatically generates a bucket entry for destination path.
 tags:
   analytics_story:
-  - Container Implantation Monitoring & Investigation
+  - Container Implantation Monitoring and Investigation
   security_domain: threat
+  asset_type: GCP GCR Container

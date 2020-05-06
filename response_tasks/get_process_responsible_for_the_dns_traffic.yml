@@ -19,3 +19,13 @@ search: '| tstats `security_content_summariesonly` count min(_time)  max(_time) 
   [| tstats `security_content_summariesonly` count from datamodel=Endpoint.Ports where
   Ports.dest_port=53 by Ports.process_id Ports.src | `drop_dm_object_name(Ports)`
   | rename src as dest]'
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  - Brand Monitoring
+  - Command and Control
+  - Data Protection
+  - Dynamic DNS
+  - Hidden Cobra Malware
+  - Suspicious AWS Traffic
+  - Suspicious DNS Traffic

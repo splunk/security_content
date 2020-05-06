@@ -45,3 +45,4 @@ tags:
   - DE.CM
   - PR.AC
   security_domain: network
+  asset_type: S3 Bucket

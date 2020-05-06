@@ -35,3 +35,4 @@ tags:
   - DE.DP
   - DE.AE
   security_domain: network
+  asset_type: Cloud Compute Instance

@@ -14,3 +14,6 @@ search: '| tstats count `security_content_summariesonly` earliest(_time) as firs
   where Authentication.action=failure by Authentication.user | where distinct_count_dest
   > 1 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
   | `drop_dm_object_name("Authentication")`'
+tags:
+  analytics_story:
+  - Credential Dumping

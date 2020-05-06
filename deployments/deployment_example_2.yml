@@ -1,0 +1,17 @@
+name: Enterprise Security deployment configuration
+id: bc91a8cd-35e7-4bb2-6140-e756cc46f212
+date: '2020-04-27'
+description: This configuration file applies to all correlation searches that are used for detection
+author: Bhavin Patel
+scheduling:
+  cron_schedule: '*/60 * * * *'
+  earliest_time: -60m
+  latest_time: now
+  schedule_window: auto
+alert_action:
+  email:
+    to: 'test@test.de'
+    subject: 'Splunk Alert: $name$'
+    message: 'Splunk Alert $name$ triggered'
+tags:
+  mitre_attack_id: T1003

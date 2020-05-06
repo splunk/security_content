@@ -28,3 +28,4 @@ tags:
   - DE.AE
   - PR.IP
   security_domain: network
+  asset_type: DNS Servers

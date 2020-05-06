@@ -23,8 +23,8 @@ known_false_positives: It's possible that a user has unknowingly started an inst
   in a new region. Please verify that this activity is legitimate.
 tags:
   analytics_story:
-  - AWS Cryptomining
   - Suspicious AWS EC2 Activities
+  - AWS Cryptomining
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -33,3 +33,4 @@ tags:
   - DE.DP
   - DE.AE
   security_domain: network
+  asset_type: AWS Instance

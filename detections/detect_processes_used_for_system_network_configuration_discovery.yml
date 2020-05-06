@@ -36,3 +36,4 @@ tags:
   - ID.AM
   - PR.DS
   security_domain: endpoint
+  asset_type: Endpoint

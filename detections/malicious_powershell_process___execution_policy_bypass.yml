@@ -41,3 +41,4 @@ tags:
   - DE.CM
   - PR.IP
   security_domain: endpoint
+  asset_type: Endpoint

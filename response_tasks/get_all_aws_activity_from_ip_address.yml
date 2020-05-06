@@ -17,3 +17,10 @@ search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | searc
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
   sourceIPAddress as src_ip | table _time, user, userName, userType, src_ip, awsRegion,
   eventName, errorCode'
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  - AWS Suspicious Provisioning Activities
+  - Command and Control
+  - Suspicious AWS S3 Activities
+  - Suspicious AWS Traffic

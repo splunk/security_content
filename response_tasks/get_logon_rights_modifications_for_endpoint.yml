@@ -12,3 +12,6 @@ inputs:
 search: '| search eventtype=wineventlog_security (signature_id=4718 OR signature_id=4717)
   dest={dest} | rename user as "Account Modified" | table _time, dest, "Account Modified",
   Access_Right, signature'
+tags:
+  analytics_story:
+  - Account Monitoring and Controls

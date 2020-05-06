@@ -29,3 +29,4 @@ tags:
   nist:
   - DE.CM
   security_domain: access
+  asset_type: Infrastructure

@@ -21,3 +21,6 @@ search: '| search sourcetype=stream:http src_ip="{src_ip}" dest_ip="{dest_ip}" |
   "application"), "True", "False")  | rename suspicious_strings_found AS "Suspicious
   Content-Type Found" | fields "Suspicious Content-Type Found", dest_ip, src_ip, suspicious_strings,
   cs_content_type, cs_content_type_length, url'
+tags:
+  analytics_story:
+  - Apache Struts Vulnerability

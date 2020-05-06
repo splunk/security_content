@@ -10,3 +10,6 @@ author: Rico Valdez, Splunk
 inputs:
 - dest
 search: '| search sourcetype="netbackup_logs" dest={dest}'
+tags:
+  analytics_story:
+  - Monitor Backup Solution

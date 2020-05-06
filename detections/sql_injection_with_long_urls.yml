@@ -46,3 +46,4 @@ tags:
   - PR.IP
   - DE.CM
   security_domain: network
+  asset_type: Database Server

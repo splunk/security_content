@@ -15,3 +15,6 @@ inputs:
 - bucketName
 search: '| search sourcetype=aws:config resourceId={bucketName} | table resourceCreationTime
   resourceId awsRegion action aws_account_id supplementaryConfiguration.AccessControlList'
+tags:
+  analytics_story:
+  - Suspicious AWS S3 Activities

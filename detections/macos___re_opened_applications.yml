@@ -34,3 +34,4 @@ tags:
   - DE.DP
   - DE.CM
   security_domain: threat
+  asset_type: Endpoint

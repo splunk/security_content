@@ -20,7 +20,7 @@ type: ESCU
 references:
 - https://github.com/splunk/cloud-datamodel-security-research
 tags:
-  analytics_story: Container Implantation Monitoring & Investigation
+  analytics_story: Container Implantation Monitoring and Investigation
   usecase: Security Monitoring
   category:
   - Cloud Security

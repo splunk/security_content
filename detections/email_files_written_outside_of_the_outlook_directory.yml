@@ -33,3 +33,4 @@ tags:
   cis20:
   - CIS 8
   security_domain: endpoint
+  asset_type: Endpoint

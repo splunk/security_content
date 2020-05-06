@@ -34,3 +34,4 @@ tags:
   - DE.DP
   - DE.AE
   security_domain: network
+  asset_type: AWS Instance

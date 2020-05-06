@@ -48,3 +48,4 @@ tags:
   - DE.AE
   - DE.CM
   security_domain: network
+  asset_type: Endpoint

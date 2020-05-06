@@ -53,3 +53,4 @@ tags:
   - DE.DP
   - PR.AC
   security_domain: network
+  asset_type: AWS Instance

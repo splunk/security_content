@@ -11,3 +11,8 @@ author: David Dorsey, Splunk
 inputs:
 - src_ip
 search: '| from datamodel Web.Web | search src={src_ip}'
+tags:
+  analytics_story:
+  - ColdRoot MacOS RAT
+  - Dynamic DNS
+  - Splunk Enterprise Vulnerability CVE-2018-11409

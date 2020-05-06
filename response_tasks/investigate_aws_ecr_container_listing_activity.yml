@@ -18,3 +18,6 @@ search: '|tstats count min(_time) as firstTime max(_time) as lastTime FROM datam
   "Compute.*" as * |stats values(http_user_agent) as http_user_agent distinct_count(http_user_agent)
   as unique_ua_count by src_user, image_id, src, user_type | where unique_ua_count
   > 1'
+tags:
+  analytics_story:
+  - Container Implantation Monitoring and Investigation

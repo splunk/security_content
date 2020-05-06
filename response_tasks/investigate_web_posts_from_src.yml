@@ -13,3 +13,6 @@ inputs:
 search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web
   by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`| where
   like(src, "{src}") and like(http_method, "POST")'
+tags:
+  analytics_story:
+  - Apache Struts Vulnerability

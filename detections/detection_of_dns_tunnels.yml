@@ -40,8 +40,8 @@ known_false_positives: It's possible that normal DNS traffic will exhibit this b
 tags:
   analytics_story:
   - Data Protection
-  - Command and Control
   - Suspicious DNS Traffic
+  - Command and Control
   mitre_attack_id:
   - T1043
   kill_chain_phases:
@@ -53,3 +53,4 @@ tags:
   - PR.PT
   - PR.DS
   security_domain: network
+  asset_type: Endpoint
