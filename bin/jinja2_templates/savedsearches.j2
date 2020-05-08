@@ -14,7 +14,7 @@ action.escu.enabled = 1
 description = {{ detection.description }}
 action.escu.mappings = {{ detection.tags | tojson }}
 {% if detection.data_model is defined %}
-action.escu.data_models = {{ detection.data_model }}
+action.escu.data_models = [{{ detection.data_model }}]
 {% endif %}
 action.escu.eli5 = {{ detection.description }}
 {% if detection.how_to_implement is defined %}

@@ -23,7 +23,11 @@ mappings = {{ story.mappings | tojson }}
 investigative_searches = {{ story.response_tasks | tojson }}
 {% endif %}
 support_searches = none
+{% if story.data_models is defined %}
+data_models = {{ story.data_models | tojson }}
+{% else %}
 data_models = none
+{% endif %}
 providing_technologies = none
 description = {{ story.description }}
 {% if story.narrative is defined %}

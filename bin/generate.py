@@ -70,6 +70,14 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             if len(nes_fields) > 0:
                 detection['nes_fields'] = nes_fields
 
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key in detection:
+                mappings[key] = detection[key]
+
+        detection['mappings'] = mappings
+
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
