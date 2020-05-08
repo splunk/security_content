@@ -253,9 +253,9 @@ def map_detection_to_stories(detections):
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
                 if not (story in sto_det):
-                    sto_det[story] = {str('ESCU - ' + detection['name'] + '- Rule')}
+                    sto_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
                 else:
-                    sto_det[story].add(str('ESCU - ' + detection['name'] + '- Rule'))
+                    sto_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
     return sto_det
 
 def map_response_tasks_to_stories(response_tasks):
