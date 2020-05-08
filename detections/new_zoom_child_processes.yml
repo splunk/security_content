@@ -69,29 +69,11 @@ investigations:
   - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
     name: Get Authentication Logs For Endpoint
     type: splunk
-  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
-    name: Get Parent Process Info
+  - id: d8362a34-b78a-4364-9733-59b505f5b8d5
+    name: Get Process Registry Activity
     type: splunk
-  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
-    name: Get Risk Modifiers For User
-    type: splunk
-  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
-    name: Get Process Info
-    type: splunk
-  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
-    name: Get Notable History
-    type: splunk
-  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
-    name: Get Notable Info
-    type: splunk
-  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
-    name: Get Risk Modifiers For Endpoint
-    type: splunk
-  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
-    name: Get User Information from Identity Table
-    type: splunk
-  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd22
-    name: Investigate Web Activity From Host
+  - id: 6a9ad4d9-6ef2-4b85-953f-a37ab256acd5
+    name: Get Process File Activity
     type: splunk
 known_false_positives: A new child process of zoom isn't malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
 maintainers:
@@ -113,8 +95,8 @@ mappings:
     - PR.PT
     - DE.CM
     - PR.IP
-modification_date: '2020-03-02'
-name: First time seen child process of zoom
+modification_date: '2020-04-09'
+name: First Time Seen Child Process of Zoom
 original_authors:
   - company: Splunk
     email: davidd@splunk.com
