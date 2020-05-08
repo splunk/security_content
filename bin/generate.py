@@ -75,10 +75,10 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         for key in keys:
             if key == 'mitre_attack':
                 if 'mitre_attack_id' in detection:
-                    mappings[key] = detection['mitre_attack_id']
+                    mappings[key] = detection['tags']['mitre_attack_id']
             else:
                 if key in detection:
-                    mappings[key] = detection[key]
+                    mappings[key] = detection['tags'][key]
 
 
         detection['mappings'] = mappings
