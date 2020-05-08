@@ -149,6 +149,8 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
 
     for story in stories:
         if story['name'] in sto_det:
+            detetions_new = []
+            for detection in
             story['detections'] = list(sto_det[story['name']])
         if story['name'] in sto_res:
             story['response_tasks'] = list(sto_res[story['name']])
@@ -253,9 +255,9 @@ def map_detection_to_stories(detections):
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
                 if not (story in sto_det):
-                    sto_det[story] = {detection['name']}
+                    sto_det[story] = {str('ESCU - ' + detection['name'] + '- Rule')}
                 else:
-                    sto_det[story].add(detection['name'])
+                    sto_det[story].add(str('ESCU - ' + detection['name'] + '- Rule'))
     return sto_det
 
 def map_response_tasks_to_stories(response_tasks):
@@ -265,9 +267,9 @@ def map_response_tasks_to_stories(response_tasks):
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
                     if not (story in sto_res):
-                        sto_res[story] = {response_task['name']}
+                        sto_res[story] = {str('ESCU - ' + response_task['name'])}
                     else:
-                        sto_res[story].add(response_task['name'])
+                        sto_res[story].add(str('ESCU - ' + response_task['name']))
     return sto_res
 
 
