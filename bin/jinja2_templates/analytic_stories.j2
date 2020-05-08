@@ -16,7 +16,9 @@ id = {{ story.id }}
 version = {{ story.version }}
 reference = {{ story.references | tojson }}
 detection_searches = {{ story.detections | tojson }}
-mappings = {{ story.tags | tojson }}
+{% if story.mappings is defined %}
+mappings = {{ story.mappings | tojson }}
+{% endif %}
 {% if story.response_tasks is defined %}
 investigative_searches = {{ story.response_tasks | tojson }}
 {% endif %}

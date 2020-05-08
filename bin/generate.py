@@ -113,6 +113,8 @@ def generate_analytics_story_conf(stories, detections, response_tasks):
         if story['name'] in sto_res:
             story['response_tasks'] = list(sto_res[story['name']])
 
+    stories = prepare_stories(stories, detections)
+
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
@@ -265,6 +267,87 @@ def custom_jinja2_enrichment_filter(string, object):
         customized_string = customized_string.replace("%" + key + "%", str(object['tags'][key]))
 
     return customized_string
+
+
+def prepare_stories(stories, detections):
+
+    # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases, nists
+    sto_to_data_models = {}
+    sto_to_mitre_attack_ids = {}
+    sto_to_kill_chain_phases = {}
+    sto_to_ciss = {}
+    sto_to_nists = {}
+    sto_to_det = {}
+    for detection in detections:
+        if 'analytics_story' in detection['tags']:
+            for story in detection['tags']['analytics_story']:
+                if story in sto_to_det.keys():
+                    sto_to_det[story].add(detection['name'])
+                else:
+                    sto_to_det[story] = {detection['name']}
+
+                data_model = parse_data_models_from_search(detection['search'])
+                if data_model:
+                    if story in sto_to_data_models.keys():
+                        sto_to_data_models[story].add(data_model)
+                    else:
+                        sto_to_data_models[story] = {data_model}
+
+                if 'mitre_attack_id' in detection['tags']:
+                    if story in sto_to_mitre_attack_ids.keys():
+                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
+                            sto_to_mitre_attack_ids[story].add(mitre_attack_id)
+                    else:
+                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
+                            sto_to_mitre_attack_ids[story] = {mitre_attack_id}
+
+                if 'kill_chain_phases' in detection['tags']:
+                    if story in sto_to_kill_chain_phases.keys():
+                        for kill_chain in detection['tags']['kill_chain_phases']:
+                            sto_to_kill_chain_phases[story].add(kill_chain)
+                    else:
+                        for kill_chain in detection['tags']['kill_chain_phases']:
+                            sto_to_kill_chain_phases[story] = {kill_chain}
+
+                if 'cis20' in detection['tags']:
+                    if story in sto_to_ciss.keys():
+                        for cis in detection['tags']['cis20']:
+                            sto_to_ciss[story].add(cis)
+                    else:
+                        for cis in detection['tags']['cis20']:
+                            sto_to_ciss[story] = {cis}
+
+                if 'nist' in detection['tags']:
+                    if story in sto_to_nists.keys():
+                        for nist in detection['tags']['nist']:
+                            sto_to_nists[story].add(nist)
+                    else:
+                        for nist in detection['tags']['nist']:
+                            sto_to_nists[story] = {nist}
+
+    for story in stories:
+        story['detections'] = sorted(sto_to_det[story['name']])
+        if story['name'] in sto_to_data_models:
+            story['data_models'] = sorted(sto_to_data_models[story['name']])
+        if story['name'] in sto_to_mitre_attack_ids:
+            story['mitre_attack'] = sorted(sto_to_mitre_attack_ids[story['name']])
+        if story['name'] in sto_to_kill_chain_phases:
+            story['kill_chain_phases'] = sorted(sto_to_kill_chain_phases[story['name']])
+        if story['name'] in sto_to_ciss:
+            story['cis20'] = sorted(sto_to_ciss[story['name']])
+        if story['name'] in sto_to_nists:
+            story['nist'] = sorted(sto_to_nists[story['name']])
+
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key in story:
+                mappings[key] = story[key]
+
+        story['mappings'] = mappings
+
+    return stories
+
 
 if __name__ == "__main__":
 
