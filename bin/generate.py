@@ -73,8 +73,13 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
         mappings = {}
         for key in keys:
-            if key in detection:
-                mappings[key] = detection[key]
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection:
+                    mappings[key] = detection['mitre_attack_id']
+            else:
+                if key in detection:
+                    mappings[key] = detection[key]
+
 
         detection['mappings'] = mappings
 
@@ -256,9 +261,9 @@ def map_detection_to_stories(detections):
 def map_response_tasks_to_stories(response_tasks):
     sto_res = {}
     for response_task in response_tasks:
-        if 'tags' in response_tasks:
-            if 'analytics_story' in response_tasks['tags']:
-                for story in response_tasks['tags']['analytics_story']:
+        if 'tags' in response_task:
+            if 'analytics_story' in response_task['tags']:
+                for story in response_task['tags']['analytics_story']:
                     if not (story in sto_res):
                         sto_res[story] = {response_task['name']}
                     else:
