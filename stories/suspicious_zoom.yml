@@ -1,0 +1,38 @@
+category:
+  - Adversary Tactics
+channel: ESCU
+creation_date: '2020-04-02'
+description: Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new
+    child processes of zoom and provides investigative actions for this detection.
+detections:
+  - detection_id: 272df6de-61f1-4784-877c-1fbc3e2d0838
+    name: Suspicious Zoom Processes
+    type: splunk
+  - detection_id: dcfd6b40-42f9-469d-a433-2e53f7486664
+    name: Detect Prohibited Applications Spawning cmd.exe
+    type: splunk
+id: aa3749a6-49c7-491e-a03f-4eaee5fe0258
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+modification_date: '2020-04-13'
+name: Suspicious Zoom Child Processes
+narrative: 'Zoom is a leader in modern enterprise video communications and its usage has
+    increased dramatically with a large amount of the population under stay-at-home orders
+    due to the COVID-19 pandemic. With increased usage has come increased scrutiny and 
+    several security flaws have been found with this application on both Windows and macOS
+    systems.
+
+    Current detections focus on finding new child processes of this application on a per host
+    basis. Investigative searches are included to gather information needed during an investigation.'
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references:
+  - https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
+  - https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
+spec_version: 2
+usecase: Advanced Threat Detection
+version: '1.0'

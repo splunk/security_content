@@ -1,0 +1,126 @@
+asset_type: Endpoint
+baselines:
+  - id: 60b9c00f-a9d6-4e51-803c-5d63ea21b95b
+    name: Previously Seen Zoom Child Processes - Initial
+    type: splunk
+  - id: 80aea7fd-5da2-4533-b3c2-560533bfbaee
+    name: Previously Seen Zoom Child Processes - Update
+    type: splunk
+confidence: medium
+creation_date: '2018-04-09'
+data_metadata:
+  data_models:
+    - Endpoint
+  data_source:
+    - Endpoint Intel
+  providing_technologies:
+    - Carbon Black Response
+    - CrowdStrike Falcon
+    - Sysmon
+    - Tanium
+    - Ziften
+description: This search looks for command-line arguments that use a `/c` parameter
+  to execute a command that has not previously been seen.
+detect:
+  splunk:
+    lookups:
+      - zoom_first_time_child_process
+    macros:
+      - previously_seen_zoom_child_processes_window
+    correlation_rule:
+      notable:
+        nes_fields: dest, user, process
+        rule_description: The system $dest$ executed a command-line argument, $process$,
+          that has not previously been seen.
+        rule_title: First-time seen command-line argument was detected on $dest$.
+      risk:
+        risk_object: dest
+        risk_object_type:
+          - system
+        risk_score: 50
+      macros:
+        - first_time_seen_cmd_line_filter
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: '| tstats `security_content_summariesonly` min(_time) as firstTime
+        values(Processes.parent_process_name) as parent_process_name
+        values(Processes.parent_process_id) as parent_process_id
+        values(Processes.process_name) as process_name values(Processes.process) as process
+        from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe OR Processes.parent_process_name=zoom.us)
+        by Processes.process_id Processes.dest 
+        | `drop_dm_object_name(Processes)` 
+        | lookup zoom_first_time_child_process dest as dest process_name as process_name OUTPUT firstTimeSeen 
+        | where isnull(firstTimeSeen) OR firstTimeSeen > relative_time(now(), `previously_seen_zoom_child_processes_forget_window`")
+        | `security_content_ctime(firstTime)`
+        | table dest, process_id, process_name, parent_process_id, parent_process_name, firstTime'
+      suppress:
+        suppress_fields: dest, proces_id
+        suppress_period: 86400s
+eli5: things
+entities:
+  - dest
+  - process_id
+  - src_user
+how_to_implement: Endpoint DM compliant EDR data needs to be ingested.
+id: e91bd102-d630-4e76-ab73-7e3ba7dc5961
+investigations:
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+    name: Get Authentication Logs For Endpoint
+    type: splunk
+  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
+    name: Get Parent Process Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
+    name: Get Risk Modifiers For User
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+    name: Get Process Info
+    type: splunk
+  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+    name: Get Notable History
+    type: splunk
+  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+    name: Get Notable Info
+    type: splunk
+  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
+    name: Get Risk Modifiers For Endpoint
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+    name: Get User Information from Identity Table
+    type: splunk
+  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd22
+    name: Investigate Web Activity From Host
+    type: splunk
+known_false_positives: A new child process of zoom isn't malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
+maintainers:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+mappings:
+  cis20:
+    - CIS 3
+    - CIS 8
+  kill_chain_phases:
+    - Actions on Objectives
+  mitre_attack:
+    - Privilege Escalation
+    - Exploitation for Privilege Escalation
+  mitre_technique_id:
+    - T1068
+  nist:
+    - PR.PT
+    - DE.CM
+    - PR.IP
+modification_date: '2020-03-02'
+name: First time seen child process of zoom
+original_authors:
+  - company: Splunk
+    email: davidd@splunk.com
+    name: David Dorsey
+references: []
+security_domain: endpoint
+spec_version: 2
+type: splunk
+version: '1.0'
