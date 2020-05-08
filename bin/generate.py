@@ -149,8 +149,6 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
 
     for story in stories:
         if story['name'] in sto_det:
-            detetions_new = []
-            for detection in
             story['detections'] = list(sto_det[story['name']])
         if story['name'] in sto_res:
             story['response_tasks'] = list(sto_res[story['name']])
