@@ -156,6 +156,21 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
         else:
             story['searches'] = story['detections']
 
+    for detection in detections:
+
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection['tags']:
+                    mappings[key] = detection['tags']['mitre_attack_id']
+            else:
+                if key in detection['tags']:
+                    mappings[key] = detection['tags'][key]
+
+
+        detection['mappings'] = mappings
+
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
