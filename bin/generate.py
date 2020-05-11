@@ -13,6 +13,7 @@ import datetime
 from jinja2 import Environment, FileSystemLoader
 import re
 
+
 # global variables
 REPO_PATH = ''
 VERBOSE = False
