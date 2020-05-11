@@ -41,6 +41,8 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytics_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytics_story | tojson }}
+{% else %}
+action.escu.analytic_story = []
 {% endif %}
 cron_schedule = {{ detection.deployment.scheduling.cron_schedule }}
 dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
@@ -68,11 +70,12 @@ action.email.useNSSubject = 1
 {% endif %}
 {% if detection.deployment.alert_action.risk is defined %}
 action.risk = 1
-action.risk.param._risk_object =
-action.risk.param._risk_object_type =
-action.risk.param._risk_score =
+action.risk.param._risk_object = dest
+action.risk.param._risk_object_type = system
+action.risk.param._risk_score = 30
 action.risk.param.verbose = 0
 {% endif %}
+alert.digest_mode = 1
 action.escu.earliest_time_offset = 3600
 action.escu.latest_time_offset = 86400
 disabled = true
