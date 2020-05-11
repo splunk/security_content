@@ -295,9 +295,9 @@ def prepare_stories(stories, detections):
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
                 if story in sto_to_det.keys():
-                    sto_to_det[story].add(detection['name'])
+                    sto_to_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
                 else:
-                    sto_to_det[story] = {detection['name']}
+                    sto_to_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
 
                 data_model = parse_data_models_from_search(detection['search'])
                 if data_model:

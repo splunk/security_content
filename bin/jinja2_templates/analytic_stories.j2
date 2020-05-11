@@ -28,7 +28,7 @@ support_searches = []
 {% if story.data_models is defined %}
 data_models = {{ story.data_models | tojson }}
 {% else %}
-data_models = none
+data_models = []
 {% endif %}
 providing_technologies = none
 description = {{ story.description }}
