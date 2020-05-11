@@ -35,7 +35,7 @@ action.escu.search_type = detection
 {% if detection.providing_technologies is defined %}
 action.escu.providing_technologies = {{ detection.providing_technologies | tojson }}
 {% else %}
-action.escu.providing_technologies = none
+action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytics_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytics_story | tojson }}
@@ -55,7 +55,7 @@ action.notable.param.nes_fields = {{ detection.nes_fields }}
 {% endif %}
 action.notable.param.rule_description = {{ detection.deployment.alert_action.notable.rule_description | custom_jinja2_enrichment_filter(detection) }}
 action.notable.param.rule_title = {{ detection.deployment.alert_action.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}
-action.notable.param.security_domain = {{ detection.security_domain }}
+action.notable.param.security_domain = {{ detection.tags.security_domain }}
 action.notable.param.severity = medium
 {% endif %}
 {% if detection.deployment.alert_action.email is defined %}
