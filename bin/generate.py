@@ -389,9 +389,6 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
-    reload(sys)
-    sys.setdefaultencoding('utf8')
-
     stories = load_objects("stories/*.yml")
     macros = load_objects("macros/*.yml")
     lookups = load_objects("lookups/*.yml")
