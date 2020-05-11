@@ -14,7 +14,7 @@ action.escu.enabled = 1
 description = {{ detection.description }}
 action.escu.mappings = {{ detection.mappings | tojson }}
 {% if detection.data_model is defined %}
-action.escu.data_models = [{{ detection.data_model }}]
+action.escu.data_models = [{{ detection.data_model | tojson }}]
 {% else %}
 action.escu.data_models = []
 {% endif %}
@@ -108,7 +108,7 @@ action.escu.analytic_story = {{ baseline.tags.analytics_story | tojson }}
 action.escu.analytic_story = []
 {% endif %}
 {% if baseline.data_model is defined %}
-action.escu.data_models = [{{ baseline.data_model }}]
+action.escu.data_models = [{{ baseline.data_model | tojson }}]
 {% else %}
 action.escu.data_models = []
 {% endif %}
@@ -156,7 +156,7 @@ action.escu.earliest_time_offset = 3600
 action.escu.latest_time_offset = 86400
 action.escu.providing_technologies = []
 {% if response_task.data_model is defined %}
-action.escu.data_models = [{{ response_task.data_model }}]
+action.escu.data_models = [{{ response_task.data_model | tojson}}]
 {% else %}
 action.escu.data_models = []
 {% endif %}

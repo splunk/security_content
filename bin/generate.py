@@ -79,10 +79,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             else:
                 if key in detection['tags']:
                     mappings[key] = detection['tags'][key]
-
-
         detection['mappings'] = mappings
-
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
@@ -167,8 +164,6 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
             else:
                 if key in detection['tags']:
                     mappings[key] = detection['tags'][key]
-
-
         detection['mappings'] = mappings
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
@@ -192,7 +187,8 @@ def generate_macros_conf(macros, detections):
         new_dict = {}
         new_dict['definition'] = 'search *'
         new_dict['description'] = 'Update this macro to limit the output results to filter out false positives. '
-        new_dict['name'] = detection['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower() + '_filter'
+        new_dict['name'] = detection['name']. \
+            replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'
         filter_macros.append(new_dict)
 
     all_macros = macros + filter_macros
@@ -211,7 +207,7 @@ def generate_macros_conf(macros, detections):
 
 
 def parse_data_models_from_search(search):
-    match = re.search('from\sdatamodel\s?=\s?([^\s.]*)',search)
+    match = re.search(r'from\sdatamodel\s?=\s?([^\s.]*)', search)
     if match is not None:
         return match.group(1)
     return False
@@ -272,6 +268,7 @@ def map_detection_to_stories(detections):
                 else:
                     sto_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
     return sto_det
+
 
 def map_response_tasks_to_stories(response_tasks):
     sto_res = {}
@@ -391,6 +388,8 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
+    reload(sys)
+    sys.setdefaultencoding('utf8')
 
     stories = load_objects("stories/*.yml")
     macros = load_objects("macros/*.yml")
