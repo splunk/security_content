@@ -24,8 +24,8 @@ known_false_positives: Administrators may attempt to change the default executio
   be reviewed and investigated as appropriate.
 tags:
   analytics_story:
-  - Credential Dumping
   - Malicious PowerShell
+  - Credential Dumping
   mitre_attack_id:
   - T1086
   - T1064

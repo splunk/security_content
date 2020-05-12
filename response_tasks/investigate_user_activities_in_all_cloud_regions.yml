@@ -10,7 +10,7 @@ author: David Dorsey, Splunk
 inputs:
 - region
 - src_user
-search: '| from datamodel:Cloud_Infrastructure.Compute | search user={src_user} |
+search: '| from datamodel:Cloud_Infrastructure.Compute | search user=$src_user$ |
   fields - _*'
 tags:
   analytics_story:

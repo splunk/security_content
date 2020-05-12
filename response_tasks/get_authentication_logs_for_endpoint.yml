@@ -9,7 +9,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 author: Bhavin Patel, Splunk
 inputs:
 - dest
-search: '| tstats count from datamodel=Authentication where Authentication.dest={dest}
+search: '| tstats count from datamodel=Authentication where Authentication.dest=$dest$
   by _time, Authentication.dest, Authentication.user, Authentication.app, Authentication.action
   | `drop_dm_object_name("Authentication")`'
 tags:

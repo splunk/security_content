@@ -35,8 +35,8 @@ known_false_positives: It is likely that the outbound Server Message Block (SMB)
   of all SMB versions and related protocols at the network boundary.
 tags:
   analytics_story:
-  - DHS Report TA18-074A
   - Hidden Cobra Malware
+  - DHS Report TA18-074A
   mitre_attack_id:
   - T1043
   kill_chain_phases:

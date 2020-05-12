@@ -7,7 +7,7 @@ how_to_implement: You must be ingesting Okta logs
 author: Rico Valdez, Splunk
 inputs:
 - user
-search: eventtype=okta_log user={user} | rename client.geographicalContext.country
+search: eventtype=okta_log user=$user$ | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
 tags:

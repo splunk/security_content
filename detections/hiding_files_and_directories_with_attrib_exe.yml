@@ -23,8 +23,8 @@ known_false_positives: 'Some applications and users may legitimately use attrib.
   to interact with the files. '
 tags:
   analytics_story:
-  - Windows Defense Evasion Tactics
   - Windows Persistence Techniques
+  - Windows Defense Evasion Tactics
   kill_chain_phases:
   - Actions on Objectives
   cis20:

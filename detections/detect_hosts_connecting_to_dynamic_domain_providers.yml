@@ -44,11 +44,11 @@ known_false_positives: Some users and applications may leverage Dynamic DNS to r
   however this activity must be verified.
 tags:
   analytics_story:
-  - Prohibited Traffic Allowed or Protocol Mismatch
-  - Command and Control
   - Data Protection
-  - Dynamic DNS
+  - Command and Control
   - Suspicious DNS Traffic
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Dynamic DNS
   - DNS Hijacking
   kill_chain_phases:
   - Command and Control

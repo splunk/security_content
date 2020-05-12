@@ -1,0 +1,30 @@
+{% for response_task in response_tasks %}
+[panel://workbench_panel_{{ response_task.lowercase_name }}]
+label = {{ response_task.name }}
+description = {{ response_task.description }}
+disabled = 0
+tokens = {\
+{% for token in response_task.inputs %}
+{% if token == 'user' %}
+  "inventory_identity_user_filter": {\
+      "valuePrefix": "",\
+      "valueSuffix": "",\
+      "delimiter": " OR ",\
+      "valueType": "primitive",\
+      "value": "identity",\
+      "default": "_1!=1"\
+    }\
+{% else %}
+  "inventory_asset_{{ token }}_filter": {\
+      "valuePrefix": "",\
+      "valueSuffix": "",\
+      "delimiter": " OR ",\
+      "valueType": "primitive",\
+      "value": "asset",\
+      "default": "_1!=1"\
+    }\{% endif %}{{ "," if not loop.last }}
+{% endfor %}
+}\
+
+
+{% endfor %}

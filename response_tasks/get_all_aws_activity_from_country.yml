@@ -13,7 +13,7 @@ author: David Dorsey, Splunk
 inputs:
 - Country
 search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search
-  Country={Country} | spath output=user path=userIdentity.arn | spath output=awsUserName
+  Country=$Country$ | spath output=user path=userIdentity.arn | spath output=awsUserName
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
   sourceIPAddress as src_ip | table _time, Country, user, userName, userType, src_ip,
   awsRegion, eventName, errorCode'

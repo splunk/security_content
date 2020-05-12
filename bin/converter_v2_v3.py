@@ -213,6 +213,7 @@ def generate_content():
         if 'splunk' in orig_dict['investigate']:
             new_dict['inputs'] = orig_dict['investigate']['splunk']['fields_required']
             new_dict['search'] = orig_dict['investigate']['splunk']['search']
+            new_dict = change_response_task_variable(new_dict)
         # elif 'phantom' in orig_dict['investigate']:
         #     phantom_dict = {}
         #     phantom_dict['name'] = orig_dict['investigate']['phantom']['playbook_name']
@@ -354,6 +355,14 @@ def check_source_macro(search):
 
     return new_search
 
+
+def change_response_task_variable(object):
+    if 'inputs' in object:
+        for input in object['inputs']:
+            if 'search' in object:
+                new_search = object['search'].replace("{" + input + "}", "$" + input + "$")
+                object['search'] = new_search
+    return object
 
 
 if __name__ == "__main__":

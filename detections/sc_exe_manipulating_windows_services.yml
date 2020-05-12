@@ -23,11 +23,11 @@ known_false_positives: Using sc.exe to manipulate Windows services is uncommon. 
   and investigate as appropriate.
 tags:
   analytics_story:
+  - Windows Persistence Techniques
+  - Disabling Security Tools
   - Windows Service Abuse
   - Orangeworm Attack Group
   - DHS Report TA18-074A
-  - Windows Persistence Techniques
-  - Disabling Security Tools
   mitre_attack_id:
   - T1050
   - T1031

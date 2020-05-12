@@ -9,7 +9,7 @@ how_to_implement: The successfully implement this search you must first send you
 author: Rico Valdez, Splunk
 inputs:
 - dest
-search: '| search sourcetype="netbackup_logs" dest={dest}'
+search: '| search sourcetype="netbackup_logs" dest=$dest$'
 tags:
   analytics_story:
   - Monitor Backup Solution

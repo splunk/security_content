@@ -26,8 +26,8 @@ known_false_positives: There may be other processes in your environment that use
   finding false positives, you can modify the search to add those processes as exceptions.
 tags:
   analytics_story:
-  - Windows File Extension and Association Abuse
   - Suspicious Windows Registry Activities
+  - Windows File Extension and Association Abuse
   mitre_attack_id:
   - T1042
   kill_chain_phases:

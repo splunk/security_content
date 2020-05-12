@@ -32,6 +32,7 @@ narrative: "Once attackers gain a foothold within an enterprise, they will seek 
 author: David Dorsey, Splunk
 type: ESCU
 references:
+- https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
 - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 tags:
   analytics_story: Lateral Movement

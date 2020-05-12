@@ -17,7 +17,7 @@ tags:
   analytics_story:
   - AWS Suspicious Provisioning Activities
   detections:
-  - AWS Cloud Provisioning From Previously Unseen Country
+  - AWS Cloud Provisioning From Previously Unseen City
   - AWS Cloud Provisioning From Previously Unseen Region
   - AWS Cloud Provisioning From Previously Unseen IP Address
-  - AWS Cloud Provisioning From Previously Unseen City
+  - AWS Cloud Provisioning From Previously Unseen Country

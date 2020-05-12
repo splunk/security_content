@@ -18,8 +18,8 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
 known_false_positives: It's possible there can be long domain names that are legitimate.
 tags:
   analytics_story:
-  - Hidden Cobra Malware
   - Suspicious DNS Traffic
+  - Hidden Cobra Malware
   - Command and Control
   mitre_attack_id:
   - T1043

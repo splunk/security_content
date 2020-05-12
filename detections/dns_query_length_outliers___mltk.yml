@@ -47,8 +47,8 @@ known_false_positives: If you are seeing more results than desired, you may cons
   the support search to re-build the ML model on the latest data.
 tags:
   analytics_story:
-  - Hidden Cobra Malware
   - Suspicious DNS Traffic
+  - Hidden Cobra Malware
   - Command and Control
   mitre_attack_id:
   - T1043

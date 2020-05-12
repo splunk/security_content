@@ -10,7 +10,7 @@ author: David Dorsey, Splunk
 inputs:
 - user
 search: '| search eventtype=wineventlog_security (signature_id=4718 OR signature_id=4717)
-  user={user} | rename user as "Account Modified" | table _time, dest, "Account Modified",
+  user=$user$ | rename user as "Account Modified" | table _time, dest, "Account Modified",
   Access_Right, signature'
 tags:
   analytics_story:

@@ -8,7 +8,7 @@ how_to_implement: To successfully implement this search you must have populated 
 author: Bhavin Patel, Splunk
 inputs:
 - user
-search: '| `identities` | search identity={user} | table _time, identity, first, last,
+search: '| `identities` | search identity=$user$ | table _time, identity, first, last,
   email, category, watchlist'
 tags:
   analytics_story:

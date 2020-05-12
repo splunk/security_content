@@ -13,7 +13,7 @@ author: David Dorsey, Splunk
 inputs:
 - Region
 search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search
-  Region={Region} | spath output=user path=userIdentity.arn | spath output=awsUserName
+  Region=$Region$ | spath output=user path=userIdentity.arn | spath output=awsUserName
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
   sourceIPAddress as src_ip | table _time, Region, user, userName, userType, src_ip,
   awsRegion, eventName, errorCode'

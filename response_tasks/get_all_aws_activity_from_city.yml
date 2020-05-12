@@ -13,7 +13,7 @@ author: David Dorsey, Splunk
 inputs:
 - City
 search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search
-  City={City} | spath output=user path=userIdentity.arn | spath output=awsUserName
+  City=$City$ | spath output=user path=userIdentity.arn | spath output=awsUserName
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
   sourceIPAddress as src_ip | table _time, City, user, userName, userType, src_ip,
   awsRegion, eventName, errorCode'

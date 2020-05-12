@@ -207,6 +207,31 @@ def generate_macros_conf(macros, detections):
     return output_path
 
 
+def generate_workbench_panels(response_tasks):
+    workbench_panel_objects = []
+    for response_task in response_tasks:
+        if 'search' in response_task:
+            if 'inputs' in response_task:
+                response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                response_task['lowercase_name'] = response_file_name
+                workbench_panel_objects.append(response_task)
+                j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                                     trim_blocks=True)
+                template = j2_env.get_template('panel.j2')
+                output_path = OUTPUT_PATH + "/default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                output = template.render(search=response_task['search'])
+                with open(output_path, 'w') as f:
+                    f.write(output)
+
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('es_investigations.j2')
+    output_path = OUTPUT_PATH + "/default/es_investigations.conf"
+    output = template.render(response_tasks=workbench_panel_objects)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
+
 def parse_data_models_from_search(search):
     match = re.search(r'from\sdatamodel\s?=\s?([^\s.]*)', search)
     if match is not None:
@@ -412,6 +437,8 @@ if __name__ == "__main__":
 
     macros = sorted(macros, key=lambda m: m['name'])
     macros_path = generate_macros_conf(macros, detections)
+
+    generate_workbench_panels(response_tasks)
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(stories), story_path))

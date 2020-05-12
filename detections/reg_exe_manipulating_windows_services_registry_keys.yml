@@ -25,8 +25,8 @@ known_false_positives: It is unusual for a service to be created or modified by 
   It is important to validate and investigate, as appropriate.
 tags:
   analytics_story:
-  - Windows Service Abuse
   - Windows Persistence Techniques
+  - Windows Service Abuse
   mitre_attack_id:
   - T1050
   - T1031

@@ -20,9 +20,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Suspicious Command-Line Executions
-  - Ransomware
   - Unusual Processes
+  - Ransomware
+  - Suspicious Command-Line Executions
   mitre_attack_id:
   - T1036
   kill_chain_phases:
