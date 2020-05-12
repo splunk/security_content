@@ -7,13 +7,13 @@ tokens = {\
 {% for token in response_task.inputs %}
 {% if token == 'user' %}
   "inventory_identity_user_filter": {\
-    "valueType": "primitive",\
-    "value": "identity"\
-  }\{% else %}
+      "valueType": "primitive",\
+      "value": "identity"\
+    }\{% else %}
   "inventory_asset_{{ token }}_filter": {\
-    "valueType": "primitive",\
-    "value": "asset"\
-  }\{% endif %}{{ "," if not loop.last }}
+      "valueType": "primitive",\
+      "value": "asset"\
+    }\{% endif %}{{ "," if not loop.last }}
 {% endfor %}
 }\
 
