@@ -60,7 +60,7 @@ action.notable.param.nes_fields = {{ detection.nes_fields }}
 action.notable.param.rule_description = {{ detection.deployment.alert_action.notable.rule_description | custom_jinja2_enrichment_filter(detection) }}
 action.notable.param.rule_title = {{ detection.deployment.alert_action.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}
 action.notable.param.security_domain = {{ detection.tags.security_domain }}
-action.notable.param.severity = medium
+action.notable.param.severity = high
 {% endif %}
 {% if detection.deployment.alert_action.email is defined %}
 action.email.subject.alert = {{ detection.deployment.alert_action.email.subject | custom_jinja2_enrichment_filter(detection) }}

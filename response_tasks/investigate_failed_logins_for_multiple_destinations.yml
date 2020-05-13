@@ -12,7 +12,7 @@ search: '| tstats count `security_content_summariesonly` earliest(_time) as firs
   latest(_time) as last_login dc(Authentication.dest) AS distinct_count_dest values(Authentication.dest)
   AS Authentication.dest values(Authentication.app) AS Authentication.app  from datamodel=Authentication
   where Authentication.action=failure by Authentication.user | where distinct_count_dest
-  > 1 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
+  > 0 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
   | `drop_dm_object_name("Authentication")`'
 tags:
   analytics_story:
