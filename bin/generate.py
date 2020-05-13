@@ -243,6 +243,14 @@ def generate_workbench_panels(response_tasks, stories):
     with open(output_path, 'w') as f:
         f.write(output)
 
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('workflow_actions.j2')
+    output_path = OUTPUT_PATH + "/default/workflow_actions.conf"
+    output = template.render(response_tasks=workbench_panel_objects)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
 
 def parse_data_models_from_search(search):
     match = re.search(r'from\sdatamodel\s?=\s?([^\s.]*)', search)
