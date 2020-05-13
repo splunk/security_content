@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| search sourcetype=aws:description id=$networkAclId$ | table id account_id vpc_id network_acl_entries{}.*</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

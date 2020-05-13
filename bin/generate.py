@@ -207,7 +207,19 @@ def generate_macros_conf(macros, detections):
     return output_path
 
 
-def generate_workbench_panels(response_tasks):
+def generate_workbench_panels(response_tasks, stories):
+
+    sto_res = map_response_tasks_to_stories(response_tasks)
+
+    for story in stories:
+        if story['name'] in sto_res:
+            response_task_names = list(sto_res[story['name']])
+            story['workbench_panels'] = []
+            for response_task_name in response_task_names:
+                str = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                story['workbench_panels'].append(str)
+            story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+
     workbench_panel_objects = []
     for response_task in response_tasks:
         if 'search' in response_task:
@@ -227,7 +239,7 @@ def generate_workbench_panels(response_tasks):
                          trim_blocks=True)
     template = j2_env.get_template('es_investigations.j2')
     output_path = OUTPUT_PATH + "/default/es_investigations.conf"
-    output = template.render(response_tasks=workbench_panel_objects)
+    output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w') as f:
         f.write(output)
 
@@ -438,7 +450,7 @@ if __name__ == "__main__":
     macros = sorted(macros, key=lambda m: m['name'])
     macros_path = generate_macros_conf(macros, detections)
 
-    generate_workbench_panels(response_tasks)
+    generate_workbench_panels(response_tasks, stories)
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
