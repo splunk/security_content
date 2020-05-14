@@ -16,7 +16,7 @@ search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" verb=list o
   | stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason)
   values(responseStatus.code) values(userAgent) values(verb) values(requestURI) by
   src_ip cluster_name user.username user.groups{} | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `kubernetes_pods_aws_scan_fingerprint_filter`'
+  | `security_content_ctime(firstTime)` | `amazon_eks_kubernetes_pod_scan_detection_filter` '
 known_false_positives: Not all unauthenticated requests are malicious, but frequency,
   UA and source IPs and direct request to API provide context.
 tags:

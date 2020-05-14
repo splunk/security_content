@@ -19,7 +19,7 @@ tags:
   analytics_story:
   - Suspicious AWS Login Activities
   detections:
-  - Detect AWS Console Login by User from New City
   - Detect AWS Console Login by User from New Country
-  - Detect new user AWS Console Login
+  - Detect AWS Console Login by User from New City
   - Detect AWS Console Login by User from New Region
+  - Detect new user AWS Console Login

@@ -36,5 +36,5 @@ tags:
   - Netsh Abuse
   - Ransomware
   detections:
-  - Processes launching netsh
   - SMB Traffic Spike - MLTK
+  - Processes launching netsh

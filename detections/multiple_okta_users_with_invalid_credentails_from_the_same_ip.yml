@@ -13,7 +13,7 @@ search: '`okta` outcome.reason=INVALID_CREDENTIALS | rename client.geographicalC
   as city | stats min(_time) as firstTime max(_time) as lastTime dc(user) as distinct_users
   values(user) as users by src_ip, displayMessage, outcome.reason, country, state,
   city  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  |  search distinct_users > 5| `okta_multiple_users_with_auth_failures_from_ip_filter`'
+  |  search distinct_users > 5| `multiple_okta_users_with_invalid_credentails_from_the_same_ip_filter` '
 known_false_positives: A single public IP address servicing multiple legitmate users
   may trigger this search. In addition, the threshold of 5 distinct users may be too
   low for your needs. You may modify the included filter macro XXXXXXXXXXXXX to raise

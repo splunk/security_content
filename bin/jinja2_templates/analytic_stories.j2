@@ -24,7 +24,11 @@ investigative_searches = {{ story.response_tasks | tojson }}
 {% else %}
 investigative_searches = []
 {% endif %}
+{% if story.baselines is defined %}
+support_searches = {{ story.baselines | tojson }}
+{% else %}
 support_searches = []
+{% endif %}
 {% if story.data_models is defined %}
 data_models = {{ story.data_models | tojson }}
 {% else %}

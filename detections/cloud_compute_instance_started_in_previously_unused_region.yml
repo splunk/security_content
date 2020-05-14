@@ -14,8 +14,8 @@ references: []
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
   as dest from datamodel=Cloud_Infrastructure.Compute where Compute.event_name=RunInstances
-  `previously_seen_cloud_regions_input_filter` by Compute.region, Compute.src_user
-  | `drop_dm_object_name("Compute")` | inputlookup append=t previously_seen_cloud_regions
+  `cloud_compute_instance_started_in_previously_unused_region_filter` by Compute.region,
+  Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup append=t previously_seen_cloud_regions
   | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest
   by region, src_user | multireport [| table region, firstTime, lastTime | outputlookup
   previously_seen_cloud_regions | where fact=fiction][| eval new_region=if(firstTime

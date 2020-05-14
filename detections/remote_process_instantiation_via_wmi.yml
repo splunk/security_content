@@ -23,8 +23,8 @@ known_false_positives: The wmic.exe utility is a benign Windows application. It 
   but it's relatively uncommon.
 tags:
   analytics_story:
-  - Suspicious WMI Use
   - Ransomware
+  - Suspicious WMI Use
   mitre_attack_id:
   - T1047
   kill_chain_phases:

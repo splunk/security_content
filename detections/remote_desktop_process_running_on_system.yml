@@ -25,8 +25,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: Remote Desktop may be used legitimately by users on the network.
 tags:
   analytics_story:
-  - Lateral Movement
   - Hidden Cobra Malware
+  - Lateral Movement
   mitre_attack_id:
   - T1076
   kill_chain_phases:

@@ -24,9 +24,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Monitor for Unauthorized Software
-  - 'Emotet Malware  DHS Report TA18-201A '
   - SamSam Ransomware
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Monitor for Unauthorized Software
   kill_chain_phases:
   - Installation
   - Command and Control

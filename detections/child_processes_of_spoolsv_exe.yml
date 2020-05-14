@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe
   AND Processes.process_name!=regsvr32.exe by Processes.dest Processes.parent_process
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `children_of_spoolsv_filter`'
+  | `security_content_ctime(lastTime)` | `child_processes_of_spoolsv_exe_filter` '
 known_false_positives: Some legitimate printer-related processes may show up as children
   of spoolsv.exe. You should confirm that any activity as legitimate and may be added
   as exclusions in the search.

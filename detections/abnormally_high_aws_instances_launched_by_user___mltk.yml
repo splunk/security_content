@@ -10,7 +10,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Jason Brewer, Splunk
-search: '`cloudtrail` eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
+search: '`cloudtrail` eventName=RunInstances errorCode=success `abnormally_high_aws_instances_launched_by_user___mltk_filter`
   | bucket span=10m _time  | stats count as instances_launched by _time src_user  |
   apply ec2_excessive_runinstances_v1  | rename "IsOutlier(instances_launched)" as
   isOutlier  | where isOutlier=1'
@@ -20,8 +20,8 @@ known_false_positives: Many service accounts configured within an AWS infrastruc
   human user.
 tags:
   analytics_story:
-  - Suspicious AWS EC2 Activities
   - Cloud Cryptomining
+  - Suspicious AWS EC2 Activities
   kill_chain_phases:
   - Actions on Objectives
   cis20:

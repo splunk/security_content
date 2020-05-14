@@ -21,8 +21,8 @@ known_false_positives: This registry key may be modified via administrators to i
   a change in system policy. This type of change should be a very rare occurrence.
 tags:
   analytics_story:
-  - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
+  - Windows Defense Evasion Tactics
   mitre_attack_id:
   - T1112
   kill_chain_phases:

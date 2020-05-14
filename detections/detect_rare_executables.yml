@@ -22,14 +22,14 @@ search: '| tstats `security_content_summariesonly` count values(Processes.dest) 
   as process | rex field=user "(?<user_domain>.*)\\\\(?<user_name>.*)" | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| search [| tstats count from datamodel=Endpoint.Processes
   by Processes.process_name | rare Processes.process_name limit=30 | rename Processes.process_name
-  as process| `filter_rare_process_whitelist`| table process ] | `rare_executables_on_endpoint_filter`'
+  as process| `filter_rare_process_whitelist`| table process ] | `detect_rare_executables_filter` '
 known_false_positives: Some legitimate processes may be only rarely executed in your
   environment. As these are identified, update `rare_process_whitelist_local.csv`
   to filter them out of your search results.
 tags:
   analytics_story:
-  - Unusual Processes
   - 'Emotet Malware  DHS Report TA18-201A '
+  - Unusual Processes
   kill_chain_phases:
   - Installation
   - Command and Control

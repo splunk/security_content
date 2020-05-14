@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   _time lnk_pid process_id dest process_name process_path process] | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | table firstTime, lastTime, lnk_pid, process_id,
   user, dest, file_name, file_path, process_name, process, process_path, file_hash
-  | `lnk_executing_a_process_filter`'
+  | `suspicious_lnk_file_launching_a_process_filter` '
 known_false_positives: This detection should yield little or no false positive results.
   It is uncommon for LNK files to execute process from temporary or user directories.
 tags:

@@ -28,8 +28,8 @@ known_false_positives: It's possible that legitimate TXT record responses can be
   to help mitigate false positives.
 tags:
   analytics_story:
-  - Suspicious DNS Traffic
   - Command and Control
+  - Suspicious DNS Traffic
   mitre_attack_id:
   - T1043
   kill_chain_phases:

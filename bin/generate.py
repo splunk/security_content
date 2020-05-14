@@ -112,17 +112,21 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     return output_path
 
 
-def generate_analytics_story_conf(stories, detections, response_tasks):
+def generate_analytics_story_conf(stories, detections, response_tasks, baselines):
 
     sto_det = map_detection_to_stories(detections)
 
     sto_res = map_response_tasks_to_stories(response_tasks)
+
+    sto_bas = map_baselines_to_stories(baselines)
 
     for story in stories:
         if story['name'] in sto_det:
             story['detections'] = list(sto_det[story['name']])
         if story['name'] in sto_res:
             story['response_tasks'] = list(sto_res[story['name']])
+        if story['name'] in sto_bas:
+            story['baselines'] = list(sto_bas[story['name']])
 
     stories = prepare_stories(stories, detections)
 
@@ -329,6 +333,18 @@ def map_response_tasks_to_stories(response_tasks):
     return sto_res
 
 
+def map_baselines_to_stories(baselines):
+    sto_bas = {}
+    for baseline in baselines:
+        if 'tags' in baseline:
+            if 'analytics_story' in baseline['tags']:
+                for story in baseline['tags']['analytics_story']:
+                    if not (story in sto_bas):
+                        sto_bas[story] = {str('ESCU - ' + baseline['name'])}
+                    else:
+                        sto_bas[story].add(str('ESCU - ' + baseline['name']))
+    return sto_bas
+
 def custom_jinja2_enrichment_filter(string, object):
     customized_string = string
     for key in object.keys():
@@ -451,7 +467,7 @@ if __name__ == "__main__":
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
 
     stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories, detections, response_tasks)
+    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines)
 
     use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines)
 

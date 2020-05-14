@@ -23,15 +23,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe by Processes.parent_process_id
   Processes.dest Processes.process_name | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | rename parent_process_id as process_id |dedup
-  process_id| table process_id dest] | `suspicious_reg_process_filter`'
+  process_id| table process_id dest] | `suspicious_reg_exe_process_filter` '
 known_false_positives: It's possible for system administrators to write scripts that
   exhibit this behavior. If this is the case, the search will need to be modified
   to filter them out.
 tags:
   analytics_story:
   - Disabling Security Tools
-  - DHS Report TA18-074A
   - Windows Defense Evasion Tactics
+  - DHS Report TA18-074A
   mitre_attack_id:
   - T1112
   - T1089

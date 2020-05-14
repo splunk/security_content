@@ -78,7 +78,9 @@ def generate_content():
         if not str('_filter') in new_dict['search']:
             new_dict['search'] = new_dict['search'] + ' | `' + new_dict['name'].replace('-','_').replace(' ','_').lower() + '_filter`'
 
-        new_dict['search'] = check_source_macro(new_dict['search'])
+        if 'search' in new_dict:
+            new_dict['search'] = check_source_macro(new_dict['search'])
+            new_dict['search'] = change_filter_macro(new_dict)
 
         new_dict['known_false_positives'] = orig_dict['known_false_positives']
         tag_dict = {}
@@ -352,6 +354,17 @@ def check_source_macro(search):
             new_file_name = mappings[content_match]
             with open('macros/' + new_file_name + '.yml', 'w+' ) as outfile:
     	           yaml.dump( new_dict , outfile , default_flow_style=False, sort_keys=False)
+
+    return new_search
+
+
+def change_filter_macro(object):
+    new_search = object['search']
+    filter_macro = re.search("([a-z0-9_]*_filter)", new_search)
+    if filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'):
+        for match in re.finditer("([a-z0-9_]*_filter)", new_search):
+            new_search = new_search[0: match.start() - 1:] + new_search[match.end() + 1::]
+            new_search = new_search[:match.start() - 1] + '`' + object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter' + '` ' + new_search[match.start():]
 
     return new_search
 

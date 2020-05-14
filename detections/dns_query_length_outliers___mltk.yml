@@ -41,15 +41,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as start_tim
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
   query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename "IsOutlier(query_length)"
   as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time
-  query record_type count src dest query_length | `dns_query_length_mltk_filter` '
+  query record_type count src dest query_length | `dns_query_length_outliers___mltk_filter` '
 known_false_positives: If you are seeing more results than desired, you may consider
   reducing the value for threshold in the search. You should also periodically re-run
   the support search to re-build the ML model on the latest data.
 tags:
   analytics_story:
-  - Suspicious DNS Traffic
-  - Hidden Cobra Malware
   - Command and Control
+  - Hidden Cobra Malware
+  - Suspicious DNS Traffic
   mitre_attack_id:
   - T1043
   kill_chain_phases:

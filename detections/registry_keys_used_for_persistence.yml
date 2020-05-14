@@ -27,13 +27,13 @@ known_false_positives: There are many legitimate applications that must execute 
   system startup and will use these registry keys to accomplish that task.
 tags:
   analytics_story:
-  - Windows Persistence Techniques
   - Suspicious Windows Registry Activities
-  - Suspicious MSHTA Activity
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Windows Persistence Techniques
   - 'Emotet Malware  DHS Report TA18-201A '
-  - DHS Report TA18-074A
   - Ransomware
+  - DHS Report TA18-074A
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Suspicious MSHTA Activity
   mitre_attack_id:
   - T1103
   - T1131
