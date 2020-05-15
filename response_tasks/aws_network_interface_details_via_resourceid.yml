@@ -12,6 +12,11 @@ how_to_implement: In order to implement this search, you must install the AWS Ap
 author: Bhavin Patel, Splunk
 inputs:
 - resourceId
-search: '| search sourcetype=aws:config resourceId={resourceId} | table _time ARN
+search: '| search sourcetype=aws:config resourceId=$resourceId$ | table _time ARN
   relationships{}.resourceType relationships{}.name relationships{}.resourceId  configuration.privateIpAddresses{}.privateIpAddress
   configuration.privateIpAddresses{}.association.publicIp'
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  - Command and Control
+  - Suspicious AWS Traffic

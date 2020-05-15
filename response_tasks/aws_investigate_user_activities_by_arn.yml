@@ -12,6 +12,17 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 author: Bhavin Patel, Splunk
 inputs:
 - user
-search: '| search `cloudtrail` userIdentity.arn={user} | table _time
+search: '| search sourcetype=aws:cloudtrail userIdentity.arn=$user$ | table _time
   userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion
   eventName eventType'
+tags:
+  analytics_story:
+  - AWS Cryptomining
+  - AWS Network ACL Activity
+  - Cloud Cryptomining
+  - Command and Control
+  - Suspicious AWS EC2 Activities
+  - Suspicious AWS Login Activities
+  - Suspicious AWS S3 Activities
+  - Suspicious AWS Traffic
+  - Unusual AWS EC2 Modifications

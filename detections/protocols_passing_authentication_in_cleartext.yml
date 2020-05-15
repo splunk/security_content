@@ -33,3 +33,5 @@ tags:
   - DE.AE
   - PR.AC
   - PR.DS
+  security_domain: network
+  asset_type: Endpoint

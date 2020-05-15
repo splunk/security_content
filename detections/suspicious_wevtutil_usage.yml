@@ -41,3 +41,5 @@ tags:
   - PR.AC
   - PR.AT
   - DE.AE
+  security_domain: endpoint
+  asset_type: ''

@@ -18,7 +18,7 @@ author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process
   Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_filter`'
+  | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_on_endpoint_filter` '
 known_false_positives: None identified
 tags:
   analytics_story:
@@ -33,3 +33,5 @@ tags:
   nist:
   - ID.AM
   - PR.DS
+  security_domain: endpoint
+  asset_type: Endpoint

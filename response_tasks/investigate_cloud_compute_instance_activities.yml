@@ -8,5 +8,8 @@ how_to_implement: You must be ingesting the approrpiate cloud infrastructure log
 author: David Dorsey, Splunk
 inputs:
 - dest
-search: '| from datamodel:Cloud_Infrastructure.Compute | search dest={dest} | fields
+search: '| from datamodel:Cloud_Infrastructure.Compute | search dest=$dest$ | fields
   - _*'
+tags:
+  analytics_story:
+  - Cloud Cryptomining

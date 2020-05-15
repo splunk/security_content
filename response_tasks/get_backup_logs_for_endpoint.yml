@@ -8,5 +8,9 @@ how_to_implement: You must be ingesting your backup logs.
 author: David Dorsey, Splunk
 inputs:
 - dest
-search: '| search sourcetype="netbackup_logs" COMPUTERNAME={dest} | rename COMPUTERNAME
+search: '| search sourcetype="netbackup_logs" COMPUTERNAME=$dest$ | rename COMPUTERNAME
   as dest, MESSAGE as signature | table _time, dest, signature'
+tags:
+  analytics_story:
+  - Ransomware
+  - SamSam Ransomware

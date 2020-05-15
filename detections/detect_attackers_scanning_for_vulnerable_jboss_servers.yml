@@ -19,9 +19,11 @@ known_false_positives: It's possible for legitimate HTTP requests to be made to 
   containing the suspicious paths.
 tags:
   analytics_story:
-  - JBoss Vulnerability
   - SamSam Ransomware
+  - JBoss Vulnerability
   mitre_attack_id:
   - T1082
   kill_chain_phases:
   - Reconnaissance
+  security_domain: network
+  asset_type: Web Server

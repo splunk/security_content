@@ -21,9 +21,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: None at this time
 tags:
   analytics_story:
-  - Prohibited Traffic Allowed or Protocol Mismatch
-  - Ransomware
   - Command and Control
+  - Ransomware
+  - Prohibited Traffic Allowed or Protocol Mismatch
   mitre_attack_id:
   - T1043
   kill_chain_phases:
@@ -33,3 +33,5 @@ tags:
   - CIS 12
   nist:
   - DE.AE
+  security_domain: network
+  asset_type: Endpoint

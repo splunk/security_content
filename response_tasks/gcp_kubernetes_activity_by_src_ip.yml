@@ -19,3 +19,6 @@ search: sourcetype="google:gcp:pubsub:message" data.protoPayload.requestMetadata
   as http_user_agent values(data.protoPayload.authenticationInfo.principalEmail) as
   user values(data.protoPayload.status.message) by src_ip data.resource.labels.cluster_name
   data.resource.type
+tags:
+  analytics_story:
+  - Kubernetes Scanning Activity

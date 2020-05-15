@@ -8,9 +8,9 @@ description: This search is intended to give you a feel for how often successful
 how_to_implement: To successfully implement this search you must be ingesting your
   backup logs.
 author: David Dorsey, Splunk
-search: sourcetype="netbackup_logs" "Disk/Partition backup completed successfully."
-  | bucket _time span=1d | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as
-  dest by _time, MESSAGE
+search: '`netbackup` "Disk/Partition backup completed successfully." | bucket _time
+  span=1d | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time,
+  MESSAGE'
 tags:
   analytics_story:
   - Monitor Backup Solution

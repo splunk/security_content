@@ -29,11 +29,13 @@ search: '| tstats `security_content_summariesonly` count values(All_Email.recipi
 known_false_positives: None at this time
 tags:
   analytics_story:
-  - Emotet Malware (DHS Report TA18-201A)
   - Suspicious Emails
+  - 'Emotet Malware  DHS Report TA18-201A '
   kill_chain_phases:
   - Delivery
   cis20:
   - CIS 7
   nist:
   - PR.IP
+  security_domain: network
+  asset_type: Endpoint

@@ -23,9 +23,9 @@ known_false_positives: Some VPN applications are known to launch netsh.exe. Outs
   commands.
 tags:
   analytics_story:
-  - DHS Report TA18-074A
-  - Disabling Security Tools
   - Netsh Abuse
+  - Disabling Security Tools
+  - DHS Report TA18-074A
   mitre_attack_id:
   - T1059
   - T1089
@@ -36,3 +36,5 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint

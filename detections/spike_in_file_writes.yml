@@ -18,17 +18,19 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   >= relative_time(maxtime, "-1d@d"), count, null))) as "count" avg(eval(if(_time<relative_time(maxtime,
   "-1d@d"), count,null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-1d@d"),
   count, null))) as stdev by "dest" | eval upperBound=(avg+stdev*4), isOutlier=if((count
-  > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `file_write_spikes_filter`'
+  > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter` '
 known_false_positives: It is important to understand that if you happen to install
   any new applications on your hosts or are copying a large number of files, you can
   expect to see a large increase of file modifications.
 tags:
   analytics_story:
-  - Ransomware
   - SamSam Ransomware
+  - Ransomware
   kill_chain_phases:
   - Actions on Objectives
   cis20:
   - CIS 8
   nist:
   - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint

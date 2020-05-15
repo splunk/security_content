@@ -9,4 +9,8 @@ how_to_implement: To successfully implement this search, you must be ingesting y
 author: David Dorsey, Splunk
 inputs:
 - src_ip
-search: '| from datamodel Network_Traffic.All_Traffic | search src_ip={src_ip}'
+search: '| from datamodel Network_Traffic.All_Traffic | search src_ip=$src_ip$'
+tags:
+  analytics_story:
+  - ColdRoot MacOS RAT
+  - Splunk Enterprise Vulnerability CVE-2018-11409

@@ -11,6 +11,18 @@ how_to_implement: To successfully implement this search, you must be ingesting y
 author: Bhavin Patel, Splunk
 inputs:
 - src_ip
-search: '| search tag=dns src_ip={src_ip} dest_port=53 | streamstats time_window=1d
+search: '| search tag=dns src_ip=$src_ip$ dest_port=53 | streamstats time_window=1d
   count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort
   -count'
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  - Command and Control
+  - DNS Hijacking
+  - Data Protection
+  - Dynamic DNS
+  - Hidden Cobra Malware
+  - Host Redirection
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Suspicious AWS Traffic
+  - Suspicious DNS Traffic

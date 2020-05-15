@@ -21,8 +21,8 @@ known_false_positives: It's possible that a legitimate file could be created wit
   the same name used by ransomware note files.
 tags:
   analytics_story:
-  - Ransomware
   - SamSam Ransomware
+  - Ransomware
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -30,3 +30,5 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint

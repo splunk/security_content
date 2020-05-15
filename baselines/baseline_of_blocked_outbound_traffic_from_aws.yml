@@ -11,14 +11,14 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your `VPC flow
   logs.`.
 author: Bhavin Patel, Splunk
-search: sourcetype=aws:cloudwatchlogs:vpcflow action=blocked (src_ip=10.0.0.0/8 OR
-  src_ip=172.16.0.0/12 OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12
-  AND dest_ip!=192.168.0.0/16) | bucket _time span=1h | stats count as numberOfBlockedConnections
-  by _time, src_ip | stats count(numberOfBlockedConnections) as numDataPoints, latest(numberOfBlockedConnections)
+search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12
+  OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)
+  | bucket _time span=1h | stats count as numberOfBlockedConnections by _time, src_ip
+  | stats count(numberOfBlockedConnections) as numDataPoints, latest(numberOfBlockedConnections)
   as latestCount, avg(numberOfBlockedConnections) as avgBlockedConnections, stdev(numberOfBlockedConnections)
   as stdevBlockedConnections by src_ip | table src_ip, latestCount, numDataPoints,
   avgBlockedConnections, stdevBlockedConnections | outputlookup baseline_blocked_outbound_connections
-  | stats count
+  | stats count'
 tags:
   analytics_story:
   - AWS Network ACL Activity

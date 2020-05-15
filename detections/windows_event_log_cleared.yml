@@ -9,10 +9,10 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '(`wineventlog_security` signature_id=1102 OR signature_id=1100)
-  OR (`wineventlog_system` signature_id=104) | stats count min(_time)
-  as firstTime max(_time) as lastTime by signature_id dest user| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_event_log_cleared_filter`'
+search: ((`wineventlog_security`  AND (signature_id=1102 OR signature_id=1100)) OR
+  ((`wineventlog_system`  AND signature_id=104) | stats count min(_time) as firstTime
+  max(_time) as lastTime by signature_id dest user| `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_event_log_cleared_filter`
 known_false_positives: It is possible that these logs may be legitimately cleared
   by Administrators.
 tags:
@@ -33,3 +33,5 @@ tags:
   - PR.AC
   - PR.AT
   - DE.AE
+  security_domain: endpoint
+  asset_type: Endpoint

@@ -12,7 +12,7 @@ type: ESCU
 references: []
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
-  as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run `previously_seen_cloud_compute_image_input_filter`
+  as dest from datamodel=Cloud_Infrastructure.Compute where Compute.action=run `cloud_compute_instance_created_with_previously_unseen_image_filter`
   by Compute.image_id, Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup
   append=t previously_seen_cloud_compute_images | stats min(firstTime) as firstTime
   max(lastTime) as lastTime, values(dest) as dest by image_id, src_user | multireport
@@ -30,3 +30,5 @@ tags:
   - CIS 1
   nist:
   - ID.AM
+  security_domain: endpoint
+  asset_type: Cloud Compute Instance

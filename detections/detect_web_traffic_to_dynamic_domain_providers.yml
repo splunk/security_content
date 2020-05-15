@@ -44,3 +44,5 @@ tags:
   nist:
   - PR.IP
   - DE.DP
+  security_domain: network
+  asset_type: Endpoint

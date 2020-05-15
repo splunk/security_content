@@ -12,5 +12,8 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 author: Bhavin Patel, Splunk
 inputs:
 - user
-search: '| search `cloudtrail` user={user} | table _time userIdentity.type
+search: '| search sourcetype=aws:cloudtrail user=$user$ | table _time userIdentity.type
   userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType '
+tags:
+  analytics_story:
+  - AWS User Monitoring

@@ -10,17 +10,17 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. Please validate the user name entries in `previously_seen_users_console_logins.csv`,
   which is a lookup file created as a result of running this support search.
 author: Jason Brewer, Splunk
-search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn
-  as user | iplocation src | eval City=if(City LIKE "",src,City),Region=if(Region
-  LIKE "",src,Region) | stats earliest(_time) AS firstTime latest(_time) AS lastTime
-  by user src City Region Country | inputlookup append=t previously_seen_users_console_logins.csv
-  | stats min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region
-  Country | outputlookup previously_seen_users_console_logins.csv'
+search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation
+  src | eval City=if(City LIKE "",src,City),Region=if(Region LIKE "",src,Region) |
+  stats earliest(_time) AS firstTime latest(_time) AS lastTime by user src City Region
+  Country | inputlookup append=t previously_seen_users_console_logins.csv | stats
+  min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region Country
+  | outputlookup previously_seen_users_console_logins.csv'
 tags:
   analytics_story:
   - Suspicious AWS Login Activities
   detections:
-  - Detect new user AWS Console Login
-  - Detect AWS Console Login by User from New Region
-  - Detect AWS Console Login by User from New City
   - Detect AWS Console Login by User from New Country
+  - Detect AWS Console Login by User from New City
+  - Detect AWS Console Login by User from New Region
+  - Detect new user AWS Console Login

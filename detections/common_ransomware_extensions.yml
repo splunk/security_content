@@ -35,8 +35,8 @@ known_false_positives: It is possible for a legitimate file with these extension
   of files created with these extensions.
 tags:
   analytics_story:
-  - Ransomware
   - SamSam Ransomware
+  - Ransomware
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -44,3 +44,5 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint

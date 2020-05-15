@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filter for Unload sysmon filter driver search to filter out the false positives
-name: unload_sysmon_filter_driver_filter

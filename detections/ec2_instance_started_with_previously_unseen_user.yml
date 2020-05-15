@@ -11,14 +11,13 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '`cloudtrail` eventName=RunInstances [search `cloudtrail`
-  eventName=RunInstances errorCode=success | stats earliest(_time) as firstTime latest(_time)
-  as lastTime by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t
-  previously_seen_ec2_launches_by_user.csv | stats min(firstTime) as firstTime, max(lastTime)
-  as lastTime by arn | outputlookup previously_seen_ec2_launches_by_user.csv | eval
-  newUser=if(firstTime >= relative_time(now(), "-70m@m"), 1, 0) | where newUser=1
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename
-  arn as userIdentity.arn | table userIdentity.arn] | rename requestParameters.instanceType
+search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
+  errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
+  by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_launches_by_user.csv
+  | stats min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup
+  previously_seen_ec2_launches_by_user.csv | eval newUser=if(firstTime >= relative_time(now(),
+  "-70m@m"), 1, 0) | where newUser=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | rename arn as userIdentity.arn | table userIdentity.arn] | rename requestParameters.instanceType
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn
   as user | table _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_user_filter`'
 known_false_positives: It's possible that a user will start to create EC2 instances
@@ -32,3 +31,5 @@ tags:
   - CIS 1
   nist:
   - ID.AM
+  security_domain: endpoint
+  asset_type: AWS Instance

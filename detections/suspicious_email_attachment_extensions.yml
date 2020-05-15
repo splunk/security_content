@@ -22,12 +22,12 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
   All_Email.file_name All_Email.message_id | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments`
-  | `suspicious_email_attachments_filter` '
+  | `suspicious_email_attachment_extensions_filter` '
 known_false_positives: None identified
 tags:
   analytics_story:
-  - Emotet Malware (DHS Report TA18-201A)
   - Suspicious Emails
+  - 'Emotet Malware  DHS Report TA18-201A '
   kill_chain_phases:
   - Delivery
   cis20:
@@ -37,3 +37,5 @@ tags:
   nist:
   - DE.AE
   - PR.IP
+  security_domain: network
+  asset_type: Endpoint

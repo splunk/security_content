@@ -24,3 +24,5 @@ tags:
   kill_chain_phases:
   - Delivery
   - Actions on Objectives
+  security_domain: network
+  asset_type: Endpoint

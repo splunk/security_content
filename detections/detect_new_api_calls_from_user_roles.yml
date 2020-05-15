@@ -32,3 +32,5 @@ tags:
   - CIS 1
   nist:
   - ID.AM
+  security_domain: endpoint
+  asset_type: AWS Instance

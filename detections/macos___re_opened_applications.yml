@@ -33,3 +33,5 @@ tags:
   nist:
   - DE.DP
   - DE.CM
+  security_domain: threat
+  asset_type: Endpoint

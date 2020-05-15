@@ -27,8 +27,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 known_false_positives: Remote Desktop may be used legitimately by users on the network.
 tags:
   analytics_story:
-  - Hidden Cobra Malware
   - SamSam Ransomware
+  - Hidden Cobra Malware
   - Lateral Movement
   mitre_attack_id:
   - T1076
@@ -42,3 +42,5 @@ tags:
   - DE.AE
   - PR.AC
   - PR.IP
+  security_domain: network
+  asset_type: Endpoint

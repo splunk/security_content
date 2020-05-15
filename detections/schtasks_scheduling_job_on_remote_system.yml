@@ -32,3 +32,5 @@ tags:
   - CIS 3
   nist:
   - PR.IP
+  security_domain: endpoint
+  asset_type: Endpoint

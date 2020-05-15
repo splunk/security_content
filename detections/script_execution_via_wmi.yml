@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
   where Processes.process_name = "scrcons.exe" by Processes.user Processes.dest Processes.process_name  |
   `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `wmi_script_execution_filter`'
+  `script_execution_via_wmi_filter` '
 known_false_positives: Although unlikely, administrators may use wmi to launch scripts
   for legitimate purposes.
 tags:
@@ -32,3 +32,5 @@ tags:
   - PR.AT
   - PR.AC
   - PR.IP
+  security_domain: endpoint
+  asset_type: Endpoint

@@ -10,4 +10,26 @@ how_to_implement: To successfully implement this search you must be ingesting yo
 author: Bhavin Patel, Splunk
 inputs:
 - dest
-search: '| from datamodel Web.Web | search src={dest}'
+search: '| from datamodel Web.Web | search src=$dest$'
+tags:
+  analytics_story:
+  - Brand Monitoring
+  - DHS Report TA18-074A
+  - Disabling Security Tools
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - JBoss Vulnerability
+  - Monitor for Unauthorized Software
+  - Netsh Abuse
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Ransomware
+  - SamSam Ransomware
+  - Suspicious Command-Line Executions
+  - Suspicious Emails
+  - Suspicious MSHTA Activity
+  - Suspicious Windows Registry Activities
+  - Unusual Processes
+  - Windows Log Manipulation
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation

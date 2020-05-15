@@ -34,11 +34,11 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: '`cloudtrail` errorCode=success | rename userName as identity
-  | search NOT [| inputlookup identity_lookup_expanded | fields identity] | search
-  NOT [| inputlookup aws_service_accounts | fields identity] | rename identity as
-  user | stats count min(_time) as firstTime max(_time) as lastTime values(eventName)
-  as eventName by user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`cloudtrail` errorCode=success | rename userName as identity | search NOT
+  [| inputlookup identity_lookup_expanded | fields identity] | search NOT [| inputlookup
+  aws_service_accounts | fields identity] | rename identity as user | stats count
+  min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName by
+  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_aws_api_activities_from_unapproved_accounts_filter`'
 known_false_positives: It's likely that you'll find activity detected by users/service
   accounts that are not listed in the `identity_lookup_expanded` or ` aws_service_accounts.csv`
@@ -56,3 +56,5 @@ tags:
   - DE.CM
   - PR.AC
   - ID.AM
+  security_domain: access
+  asset_type: AWS Instance

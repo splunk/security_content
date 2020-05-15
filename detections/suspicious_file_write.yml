@@ -36,3 +36,5 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint

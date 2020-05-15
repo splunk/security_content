@@ -10,8 +10,8 @@ how_to_implement: This particular search leverages data extracted from Stream:HT
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: '`stream_http` | eval cs_content_type_length = len(cs_content_type)
-  | where cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length
+search: '`stream_http` | eval cs_content_type_length = len(cs_content_type) | where
+  cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length
   cs_content_type url | `unusually_long_content_type_length_filter`'
 known_false_positives: Very few legitimate Content-Type fields will have a length
   greater than 100 characters.
@@ -33,3 +33,5 @@ tags:
   - DE.AE
   - PR.MA
   - DE.CM
+  security_domain: network
+  asset_type: Web Server

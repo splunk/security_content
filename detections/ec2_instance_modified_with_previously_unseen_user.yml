@@ -12,14 +12,13 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '`cloudtrail` `ec2_modification_api_calls` [search `cloudtrail`
-  `ec2_modification_api_calls` errorCode=success | stats earliest(_time) as firstTime
-  latest(_time) as lastTime by userIdentity.arn | rename userIdentity.arn as arn |
-  inputlookup append=t previously_seen_ec2_modifications_by_user | stats min(firstTime)
-  as firstTime, max(lastTime) as lastTime by arn | outputlookup previously_seen_ec2_modifications_by_user
-  | eval newUser=if(firstTime >= relative_time(now(), "-70m@m"), 1, 0) | where newUser=1
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename
-  arn as userIdentity.arn | table userIdentity.arn] | spath output=dest responseElements.instancesSet.items{}.instanceId
+search: '`cloudtrail` `ec2_modification_api_calls` [search `cloudtrail` `ec2_modification_api_calls`
+  errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
+  by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_modifications_by_user
+  | stats min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup
+  previously_seen_ec2_modifications_by_user | eval newUser=if(firstTime >= relative_time(now(),
+  "-70m@m"), 1, 0) | where newUser=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=dest responseElements.instancesSet.items{}.instanceId
   | spath output=user userIdentity.arn | table _time, user, dest | `ec2_instance_modified_with_previously_unseen_user_filter`'
 known_false_positives: It's possible that a new user will start to modify EC2 instances
   when they haven't before for any number of reasons. Verify with the user that is
@@ -31,3 +30,5 @@ tags:
   - CIS 1
   nist:
   - ID.AM
+  security_domain: endpoint
+  asset_type: AWS Instance

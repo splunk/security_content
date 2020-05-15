@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filter for dump lsass via comsvcs dll filter
-name: dump_lsass_via_comsvcs_dll_filter

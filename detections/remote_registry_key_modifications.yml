@@ -21,8 +21,8 @@ known_false_positives: This technique may be legitimately used by administrators
 tags:
   analytics_story:
   - Suspicious Windows Registry Activities
-  - Windows Defense Evasion Tactics
   - Windows Persistence Techniques
+  - Windows Defense Evasion Tactics
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -30,3 +30,5 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint

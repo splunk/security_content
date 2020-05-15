@@ -26,8 +26,8 @@ known_false_positives: Legitimate process can have this combination of command-l
   options, but it's not common.
 tags:
   analytics_story:
-  - Malicious PowerShell
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Malicious PowerShell
   mitre_attack_id:
   - T1086
   - T1064
@@ -42,3 +42,5 @@ tags:
   - PR.PT
   - DE.CM
   - PR.IP
+  security_domain: endpoint
+  asset_type: Endpoint

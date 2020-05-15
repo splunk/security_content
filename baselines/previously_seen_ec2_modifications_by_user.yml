@@ -8,10 +8,9 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
 author: David Dorsey, Splunk
-search: '`cloudtrail` `ec2_modification_api_calls` errorCode=success |
-  spath output=arn userIdentity.arn | stats earliest(_time) as firstTime latest(_time)
-  as lastTime by arn | outputlookup previously_seen_ec2_modifications_by_user | stats
-  count'
+search: '`cloudtrail` `ec2_modification_api_calls` errorCode=success | spath output=arn
+  userIdentity.arn | stats earliest(_time) as firstTime latest(_time) as lastTime
+  by arn | outputlookup previously_seen_ec2_modifications_by_user | stats count'
 tags:
   analytics_story:
   - Unusual AWS EC2 Modifications

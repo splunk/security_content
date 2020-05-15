@@ -16,3 +16,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Authentication.user Authentication.signature Authentication.src_nt_domain | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `drop_dm_object_name("Authentication")`|
   table firstTime lastTime src src_nt_domain dest user app count | sort count'
+tags:
+  analytics_story:
+  - Hidden Cobra Malware
+  - Lateral Movement
+  - SamSam Ransomware

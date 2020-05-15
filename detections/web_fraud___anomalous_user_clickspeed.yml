@@ -41,3 +41,5 @@ tags:
   nist:
   - DE.AE
   - DE.CM
+  security_domain: threat
+  asset_type: account

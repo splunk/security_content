@@ -39,8 +39,8 @@ known_false_positives: It's possible that normal DNS traffic will exhibit this b
   can also be modified to better suit your environment.
 tags:
   analytics_story:
-  - Data Protection
   - Command and Control
+  - Data Protection
   - Suspicious DNS Traffic
   mitre_attack_id:
   - T1043
@@ -52,3 +52,5 @@ tags:
   nist:
   - PR.PT
   - PR.DS
+  security_domain: network
+  asset_type: Endpoint

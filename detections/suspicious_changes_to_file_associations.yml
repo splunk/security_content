@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | join [| tstats `security_content_summariesonly` values(Registry.registry_path)
   as registry_path count  FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\Explorer\\FileExts*
   by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | table
-  process_id dest registry_path]| `change_file_association_filter`'
+  process_id dest registry_path]| `suspicious_changes_to_file_associations_filter` '
 known_false_positives: There may be other processes in your environment that users
   may legitimately use to modify file associations. If this is the case and you are
   finding false positives, you can modify the search to add those processes as exceptions.
@@ -39,3 +39,5 @@ tags:
   - DE.CM
   - PR.PT
   - PR.IP
+  security_domain: endpoint
+  asset_type: Endpoint

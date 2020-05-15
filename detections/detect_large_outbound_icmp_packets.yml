@@ -44,3 +44,5 @@ tags:
   - CIS 12
   nist:
   - DE.AE
+  security_domain: network
+  asset_type: Endpoint

@@ -13,15 +13,15 @@ type: ESCU
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
-  DNS.dest | `drop_dm_object_name("DNS")` | `unauthorized_dns_servers_filter`'
+  DNS.dest | `drop_dm_object_name("DNS")` | `dns_query_requests_resolved_by_unauthorized_dns_servers_filter` '
 known_false_positives: Legitimate DNS activity can be detected in this search. Investigate,
   verify and update the list of authorized DNS servers as appropriate.
 tags:
   analytics_story:
-  - DNS Hijacking
   - Command and Control
   - Host Redirection
   - Suspicious DNS Traffic
+  - DNS Hijacking
   kill_chain_phases:
   - Command and Control
   cis20:
@@ -35,3 +35,5 @@ tags:
   - PR.IP
   - DE.AE
   - DE.CM
+  security_domain: network
+  asset_type: Endpoint

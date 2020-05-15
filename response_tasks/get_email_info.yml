@@ -9,4 +9,8 @@ how_to_implement: To successfully implement this search you must be ingesting yo
 author: Bhavin Patel, Splunk
 inputs:
 - message_id
-search: '| from datamodel Email.All_Email | search message_id={message_id}'
+search: '| from datamodel Email.All_Email | search message_id=$message_id$'
+tags:
+  analytics_story:
+  - Brand Monitoring
+  - Suspicious Emails

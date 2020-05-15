@@ -27,3 +27,5 @@ tags:
   - CIS 12
   nist:
   - DE.AE
+  security_domain: threat
+  asset_type: Endpoint

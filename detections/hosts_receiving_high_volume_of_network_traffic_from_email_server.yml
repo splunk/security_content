@@ -45,3 +45,5 @@ tags:
   - PR.PT
   - DE.CM
   - DE.AE
+  security_domain: network
+  asset_type: Endpoint

@@ -14,5 +14,14 @@ inputs:
 - dest_ip
 search: '| tstats allow_old_summaries=true sum(All_Traffic.bytes_out) as "bytes_out"
   sum(All_Traffic.bytes_in) as "bytes_in" from datamodel=Network_Traffic where nodename=All_Traffic
-  All_Traffic.dest_port=53 All_Traffic.src={src_ip} All_Traffic.dest={dest_ip} | eval
+  All_Traffic.dest_port=53 All_Traffic.src=$src_ip$ All_Traffic.dest=$dest_ip$ | eval
   ratio = (bytes_out/bytes_in) | table ratio'
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  - Command and Control
+  - Data Protection
+  - Dynamic DNS
+  - Hidden Cobra Malware
+  - Suspicious AWS Traffic
+  - Suspicious DNS Traffic
