@@ -227,23 +227,6 @@
             <suffix>"</suffix>
             <default>*</default>
         </input>
-        <input type="dropdown" token="as_mitre_attack">
-            <label>ATT&amp;CK Tactic</label>
-            <choice value="*">All</choice>
-            <choice value="Persistence">Persistence</choice>
-            <choice value="Privilege Escalation">Privilege Escalation</choice>
-            <choice value="Defense Evasion">Defense Evasion</choice>
-            <choice value="Credential Access">Credential Access</choice>
-            <choice value="Discovery">Discovery</choice>
-            <choice value="Lateral Movement">Lateral Movement</choice>
-            <choice value="Execution">Execution</choice>
-            <choice value="Collection">Collection</choice>
-            <choice value="Exfiltration">Exfiltration</choice>
-            <choice value="Command and Control">Command and Control</choice>
-            <prefix>"</prefix>
-            <suffix>"</suffix>
-            <default>*</default>
-        </input>
         <input type="dropdown" token="as_data_models">
             <label>Data Models</label>
             <choice value="*">All</choice>
@@ -287,17 +270,15 @@
                 spath input=data_models path={} output="Data Models"
                 | spath input=mappings path=kill_chain_phases{} output="Kill Chain Phases"
                 | spath input=mappings path=cis20{} output=cis
-                | spath input=mappings path=mitre_attack{} output="ATT&amp;CK"
                 | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
                 | rename num as CIS
                 | rename title as "Analytic Story" description as "Description" category as "Category" creation_date as "Created" modification_date as "Last Updated"
                 | fillnull value="-"
                 | search "Data Models"=$as_data_models$
-                | search "ATT&amp;CK"=$as_mitre_attack$
                 | search "Kill Chain Phases"=$as_kill_chain_phase$
                 | search "Category"=$as_category$
                 | search CIS=$as_cis$
-                | table "Analytic Story" Description Category "Kill Chain Phases" "ATT&amp;CK", CIS, "Data Models" "Created" "Last Updated"</query>
+                | table "Analytic Story" Description Category "Kill Chain Phases" , CIS, "Data Models" "Created" "Last Updated"</query>
             </search>
             <drilldown>
                 <link target="_blank">
@@ -415,23 +396,7 @@
                 <suffix>"</suffix>
                 <default>*</default>
             </input>
-            <input type="dropdown" token="mitre_attack">
-                <label>ATT&amp;CK Tactic</label>
-                <choice value="*">All</choice>
-                <choice value="Persistence">Persistence</choice>
-                <choice value="Privilege Escalation">Privilege Escalation</choice>
-                <choice value="Defense Evasion">Defense Evasion</choice>
-                <choice value="Credential Access">Credential Access</choice>
-                <choice value="Discovery">Discovery</choice>
-                <choice value="Lateral Movement">Lateral Movement</choice>
-                <choice value="Execution">Execution</choice>
-                <choice value="Collection">Collection</choice>
-                <choice value="Exfiltration">Exfiltration</choice>
-                <choice value="Command and Control">Command and Control</choice>
-                <prefix>"</prefix>
-                <suffix>"</suffix>
-                <default>*</default>
-            </input>
+            
             <input type="dropdown" token="data_models">
                 <label>Data Models</label>
                 <choice value="*">All</choice>
@@ -475,17 +440,15 @@
                 spath input=action.escu.data_models path={} output="Data Models"
                 | spath input=action.escu.mappings path=kill_chain_phases{} output="Kill Chain Phases"
                 | spath input=action.escu.mappings path=cis20{} output=cis
-                | spath input=action.escu.mappings path=mitre_attack{} output="ATT&amp;CK"
                 | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
                 | rename num as CIS
                 | fillnull value="-"
                 | search CIS=$cis_token$
-                | search "ATT&amp;CK"=$mitre_attack$
                 | search "Data Models"=$data_models$
                 | search "Kill Chain Phases"=$kill_chain_phase$
                 | search action.escu.search_type=$searchtype$
                 | rename action.escu.asset_at_risk AS "Asset at Risk" | rename title as "Search Name"| rename modification_date as "Last Updated"
-                | table "Search Name" description "Kill Chain Phases" CIS "ATT&amp;CK" "Data Models" "Last Updated"</query>
+                | table "Search Name" description "Kill Chain Phases" CIS "Data Models" "Last Updated"</query>
                 <earliest>0</earliest>
                 <latest></latest>
                 </search>
