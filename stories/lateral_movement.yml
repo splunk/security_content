@@ -54,7 +54,7 @@ original_authors:
     email: davidd@splunk.com
     name: David Dorsey
 references:
-  - https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
+  - https://www.binarydefense.com/reliably-detecting-pass-the-hash/
   - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 spec_version: 2
 usecase: Advanced Threat Detection
