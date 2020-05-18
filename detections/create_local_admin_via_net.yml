@@ -39,7 +39,7 @@ detect:
         Processes.process Processes.process_name Processes.dest | `drop_dm_object_name(Processes)`
         | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |`create_local_admin_via_net_filter`'
       suppress:
-        suppress_fields: dest
+        suppress_fields: dest, process_name
         suppress_period: 86400s
 eli5: Net.exe is a built-in Windows command-line tool that can be used to add, display,
   or modify user accounts. While Microsoft administrators use this tool to manage
