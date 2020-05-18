@@ -288,7 +288,6 @@
                 | spath input=mappings path=kill_chain_phases{} output="Kill Chain Phases"
                 | spath input=mappings path=cis20{} output=cis
                 | spath input=mappings path=mitre_attack{} output="ATT&amp;CK"
-                | spath input=providing_technologies path={} output="Providing Technologies"
                 | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
                 | rename num as CIS
                 | rename title as "Analytic Story" description as "Description" category as "Category" creation_date as "Created" modification_date as "Last Updated"
@@ -298,7 +297,7 @@
                 | search "Kill Chain Phases"=$as_kill_chain_phase$
                 | search "Category"=$as_category$
                 | search CIS=$as_cis$
-                | table "Analytic Story" Description Category "Kill Chain Phases" "ATT&amp;CK", CIS, "Data Models" "Providing Technologies" "Created" "Last Updated"</query>
+                | table "Analytic Story" Description Category "Kill Chain Phases" "ATT&amp;CK", CIS, "Data Models" "Created" "Last Updated"</query>
             </search>
             <drilldown>
                 <link target="_blank">
