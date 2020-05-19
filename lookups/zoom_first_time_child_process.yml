@@ -1,3 +1,4 @@
 description: A list of suspicious file names
-filename: zoom_first_time_child_process.csv
+collection: zoom_first_time_child_process
 name: zoom_first_time_child_process
+fields_list: _key, dest, process_name, firstTimeSeen, lastTimeSeen
