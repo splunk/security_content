@@ -32,8 +32,7 @@ detect:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
         latest_time: -10m@m
-      search: sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) | iplocation
-        sourceIPAddress | search Country=* [search sourcetype=aws:cloudtrail (eventName=Run*
+      search: sourcetype=aws:cloudtrail (eventName=Run* OR eventName=Create*) [search sourcetype=aws:cloudtrail (eventName=Run*
         OR eventName=Create*) | iplocation sourceIPAddress | search Country=* | stats
         earliest(_time) as firstTime, latest(_time) as lastTime by sourceIPAddress,
         City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv
