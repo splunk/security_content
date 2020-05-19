@@ -62,7 +62,7 @@ entities:
   - process_id
   - src_user
 how_to_implement: Endpoint DM compliant EDR data needs to be ingested.
-id: e91bd102-d630-4e76-ab73-7e3ba7dc5961
+id: e91bd102-d630-4e76-ab73-7e3ba22c5961
 investigations:
   - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
     name: Get Authentication Logs For Endpoint
