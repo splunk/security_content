@@ -22,8 +22,8 @@ narrative: 'Zoom is a leader in modern enterprise video communications and its u
     increased dramatically with a large amount of the population under stay-at-home orders
     due to the COVID-19 pandemic. With increased usage has come increased scrutiny and 
     several security flaws have been found with this application on both Windows and macOS
-    systems.
-
+    systems.\
+    
     Current detections focus on finding new child processes of this application on a per host
     basis. Investigative searches are included to gather information needed during an investigation.'
 original_authors:
