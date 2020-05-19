@@ -42,13 +42,13 @@
       "type": "string"
     },
     "how_to_implement": {
-        "$id": "#/properties/how_to_implement",
-        "type": "string",
-        "description": "information about how to implement. Only needed for non standard implementations.",
-        "default": "",
-        "examples": [
-            "This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe."
-        ]
+      "$id": "#/properties/how_to_implement",
+      "default": "",
+      "description": "information about how to implement. Only needed for non standard implementations.",
+      "examples": [
+        "This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe."
+      ],
+      "type": "string"
     },
     "id": {
       "$id": "#/properties/id",

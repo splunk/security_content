@@ -692,7 +692,6 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * PR.IP
 
 ====References====
-* https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 
 date = 2020-02-04
