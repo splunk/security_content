@@ -25,8 +25,8 @@ curl -s https://content.splunkresearch.com | jq
 }
 ```
 
-#### GitHub Workflow (link to wiki)
-Create your customized version of Security Content by following this guide.
+#### GitHub Workflow
+Create your customized version of Security Content by forking this project and following this guide.
 
 # What's in an Analytic Story?
 [Analytic Stories](https://github.com/splunk/security-content/blob/develop/docs/stories_categories.md) and their corresponding searches are composed of **.yml** files (manifests) and associated .conf files. The stories reside in [/stories](https://github.com/splunk/security-content/tree/develop/stories) and the searches live in [/detections](https://github.com/splunk/security-content/tree/develop/detections).
@@ -41,7 +41,6 @@ After release [1.0.46](https://github.com/splunk/security-content/releases) we i
 
 **output(post-filter):** This macro is to  specify your environment-specific values (eg: dest, user), to filter out known false positives.. Replace the macro definition with values that you’d like to exclude from detection results. Think of this as a whitelisting/blacklisting using macros.
 
-Note: we are currently working on coming up with a better naming convention and making this consistent across all our detections, investigations and baselines. Suggestions are welcomed :stuck_out_tongue:
 
 # Execute an Analytic Story
 
