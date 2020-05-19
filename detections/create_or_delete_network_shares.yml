@@ -38,7 +38,7 @@ detect:
         where (Processs.process_name=net.exe OR Processes.process_name=net1.exe) by
         Processes.process Processes.process_name Processes.dest
         | `drop_dm_object_name(Processes)`
-        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | search (process=*share* AND process=*delete*)
+        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | search process=*share*
         | `create_or_delete_windows_shares_filter`'
       suppress:
         suppress_fields: dest,process_name
