@@ -1,3 +1,6 @@
+ 
+ 
+ 
 # Splunk Security Content
 ![security-content](docs/static/logo.png) 
 =====
@@ -55,6 +58,16 @@ After release [1.0.46](https://github.com/splunk/security-content/releases) we i
 **output(post-filter):** This macro is to  specify your environment-specific values (eg: dest, user), to filter out known false positives.. Replace the macro definition with values that you’d like to exclude from detection results. Think of this as a whitelisting/blacklisting using macros.
 
 Note: we are currently working on coming up with a better naming convention and making this consistent across all our detections, investigations and baselines. Suggestions are welcomed :stuck_out_tongue:
+
+# Execute an Analytic Story
+
+Download and install the latest version of [Splunk Analytic Story Execution] 
+(https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
+
+1. Execute an analytic story in an adhoc mode and view the results.
+2. Schedule all the detection searches in an analytic story.
+3. Update security-content via an API
+ 
 
 # Writing Content
 Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing). 
