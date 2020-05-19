@@ -11,7 +11,7 @@
 filename = {{ lookup.filename }}
 {% else %}
 collection = {{ lookup.collection }}
-external_type = 'kvstore'
+external_type = kvstore
 {% endif %}
 {% if lookup.default_match is defined %}
 default_match = {{ lookup.default_match }}

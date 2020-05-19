@@ -38,8 +38,6 @@ detect:
         risk_object_type:
           - system
         risk_score: 50
-      macros:
-        - first_time_seen_cmd_line_filter
       schedule:
         cron_schedule: 0 * * * *
         earliest_time: -70m@m
@@ -52,7 +50,7 @@ detect:
         by Processes.process_id Processes.dest 
         | `drop_dm_object_name(Processes)` 
         | lookup zoom_first_time_child_process dest as dest process_name as process_name OUTPUT firstTimeSeen 
-        | where isnull(firstTimeSeen) OR firstTimeSeen > relative_time(now(), `previously_seen_zoom_child_processes_forget_window`")
+        | where isnull(firstTimeSeen) OR firstTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_window`")
         | `security_content_ctime(firstTime)`
         | table dest, process_id, process_name, parent_process_id, parent_process_name, firstTime'
       suppress:

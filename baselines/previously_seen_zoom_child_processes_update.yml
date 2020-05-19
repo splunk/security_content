@@ -12,7 +12,7 @@ baseline:
         from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe OR Processes.parent_process_name=zoom.us)
         by Processes.process_name Processes.dest| `drop_dm_object_name(Processes)`
         | table firstTimeSeen, lastTimeSeen, process_name, dest
-        | inputlookup cmd_parent_first_time.csv append=t
+        | inputlookup zoom_first_time_child_process append=t
         | stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by process_name, dest
         | where lastTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_forget_window`")
         | outputlookup zoom_first_time_child_process'
