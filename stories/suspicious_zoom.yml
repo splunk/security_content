@@ -5,7 +5,7 @@ creation_date: '2020-04-02'
 description: Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new
     child processes of zoom and provides investigative actions for this detection.
 detections:
-  - detection_id: 272df6de-61f1-4784-877c-1fbc3e2d0838
+  - detection_id: e91bd102-d630-4e76-ab73-7e3ba7dc5961
     name: Suspicious Zoom Processes
     type: splunk
   - detection_id: dcfd6b40-42f9-469d-a433-2e53f7486664
