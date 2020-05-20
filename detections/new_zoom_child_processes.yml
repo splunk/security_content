@@ -61,7 +61,7 @@ entities:
   - dest
   - process_id
   - src_user
-how_to_implement: Endpoint DM compliant EDR data needs to be ingested.
+how_to_implement: You should run the baseline search <code>Previously Seen Zoom Child Processes - Initial</code> to build the initial table of child processes and hostnames for this search to work. You should also schedule at the same interval as this search the second baseline search <code>Previously Seen Zoom Child Processes - Update</code> to keep this table up to date and to age out old child processes.
 id: e91bd102-d630-4e76-ab73-7e3ba22c5961
 investigations:
   - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
