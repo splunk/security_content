@@ -51,11 +51,11 @@ detect:
         | lookup zoom_first_time_child_process dest as dest process_name as process_name OUTPUT firstTimeSeen 
         | where isnull(firstTimeSeen) OR firstTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_window`")
         | `security_content_ctime(firstTime)`
-        | table dest, process_id, process_name, parent_process_id, parent_process_name'
+        | table firstTime dest, process_id, process_name, parent_process_id, parent_process_name'
       suppress:
         suppress_fields: dest, proces_id
         suppress_period: 86400s
-eli5: things
+eli5: 'This search looks for child processes spawned by zoom in the last one hour. Then it lookups a kvstore collection `zoom_first_time_child_process` of previously seen processes spawned by zoom. It returns only those events that have first been seen in the past one hour. This is combined with the main search to return the  dest, process name , parent process name and the first time seen time stamp of the event.'
 entities:
   - dest
   - process_id
