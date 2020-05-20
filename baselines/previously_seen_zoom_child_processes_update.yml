@@ -16,7 +16,7 @@ baseline:
         | stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by process_name, dest
         | where lastTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_forget_window`")
         | outputlookup zoom_first_time_child_process'
-creation_date: '2020-04-13'
+creation_date: '2020-05-20'
 data_metadata:
   data_models:
     - Endpoint
@@ -36,12 +36,14 @@ eli5: This search returns the first and last time a process was seen per endpoin
     been seen within the specified time window. This updated table is outputed to disk.
 id: 80aea7fd-5da2-4533-b3c2-560533bfbaee
 known_false_positives: n/a 
-how_to_implement: n/a
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints, to populate the Endpoint
+  data model in the Processes node.
 maintainers:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-modification_date: '2020-04-13'
+modification_date: '2020-05-20'
 name: Previously Seen Zoom Child Processes - Update
 original_authors:
   - company: Splunk

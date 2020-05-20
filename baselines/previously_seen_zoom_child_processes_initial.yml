@@ -11,7 +11,7 @@ baseline:
         by Processes.process_name Processes.dest| `drop_dm_object_name(Processes)`
         | table dest, process_name, firstTimeSeen, lastTimeSeen
         | outputlookup zoom_first_time_child_process'
-creation_date: '2020-04-13'
+creation_date: '2020-05-20'
 data_metadata:
   data_models:
     - Endpoint
@@ -29,12 +29,14 @@ eli5: This search returns the first and last time a process was seen per endpoin
     a parent process of zoom.exe (Windows) or zoom.us (macOS). This table is outputed to disk.
 id: 60b9c00f-a9d6-4e51-803c-5d63ea21b95b
 known_false_positives: n/a 
-how_to_implement: n/a
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints, to populate the Endpoint
+  data model in the Processes node.
 maintainers:
   - company: Splunk
     email: davidd@splunk.com
     name: David Dorsey
-modification_date: '2020-04-13'
+modification_date: '2020-05-20'
 name: Previously Seen Zoom Child Processes - Initial
 original_authors:
   - company: Splunk
