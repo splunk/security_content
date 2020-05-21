@@ -6,7 +6,7 @@ id: f27349e5-1641-4f6a-9e68-30402be0ad4c
 known_false_positives: "Sensitive role resource access is necessary for cluster operation, however source IP, namespace and user group may indicate possible malicious use. "
 name: "Azure AKS Kubernetes cluster sensitive role access detection"
 references: []
-search: "sourcetype=mscs:storage:blob:json index=azure_test category=kube-audit | spath input=properties.log| search objectRef.resource=clusterroles OR clusterrolebindings | table sourceIPs{} user.username user.groups{} objectRef.namespace requestURI annotations.authorization.k8s.io/reason | dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_role_access`"
+search: "sourcetype=mscs:storage:blob:json category=kube-audit | spath input=properties.log| search objectRef.resource=clusterroles OR clusterrolebindings | table sourceIPs{} user.username user.groups{} objectRef.namespace requestURI annotations.authorization.k8s.io/reason | dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_role_access`"
 tags:
   analytics_story:
     - "Kubernetes Sensitive Role Activity"
