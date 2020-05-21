@@ -12,6 +12,8 @@ import sys
 import datetime
 from jinja2 import Environment, FileSystemLoader
 import re
+from attackcti import attack_client
+import csv
 
 
 # global variables
@@ -436,6 +438,33 @@ def prepare_stories(stories, detections):
     return stories
 
 
+def generate_mitre_lookup():
+
+    csv_mitre_rows = [["mitre_id", "technique", "tactics", "groups"]]
+
+    lift = attack_client()
+    all_enterprise = lift.get_enterprise(stix_format=False)
+    enterprise_relationships = lift.get_enterprise_relationships()
+    enterprise_groups = lift.get_enterprise_groups()
+
+    for technique in all_enterprise['techniques']:
+        apt_groups = []
+        for relationship in enterprise_relationships:
+            if (relationship['target_ref'] == technique['id']) and relationship['source_ref'].startswith('intrusion-set'):
+                for group in enterprise_groups:
+                    if relationship['source_ref'] == group['id']:
+                        apt_groups.append(group['name'])
+
+        if len(apt_groups) == 0:
+            apt_groups.append('no')
+        csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
+
+    with open('lookups/mitre_enrichment.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(csv_mitre_rows)
+
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
@@ -459,6 +488,11 @@ if __name__ == "__main__":
     response_tasks = load_objects("response_tasks/*.yml")
     deployments = load_objects("deployments/*.yml")
 
+    try:
+        generate_mitre_lookup()
+    except:
+        print("WARNING: Generation of Mitre lookup failed.")
+
     lookups_path = generate_transforms_conf(lookups)
 
     detections = sorted(detections, key=lambda d: d['name'])
@@ -475,6 +509,7 @@ if __name__ == "__main__":
     macros_path = generate_macros_conf(macros, detections)
 
     generate_workbench_panels(response_tasks, stories)
+
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
