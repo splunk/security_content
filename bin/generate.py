@@ -22,13 +22,13 @@ VERBOSE = False
 OUTPUT_PATH = ''
 
 
-def load_objects(file_path):
+def load_objects(file_path, VERBOSE):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
-
     for file in sorted(glob.glob(manifest_files)):
+        if VERBOSE:
+            print("processing manifest: {0}".format(file))
         files.append(load_file(file))
-
     return files
 
 
@@ -479,16 +479,18 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
-    stories = load_objects("stories/*.yml")
-    macros = load_objects("macros/*.yml")
-    lookups = load_objects("lookups/*.yml")
-    baselines = load_objects("baselines/*.yml")
-    detections = load_objects("detections/*.yml")
-    responses = load_objects("responses/*.yml")
-    response_tasks = load_objects("response_tasks/*.yml")
-    deployments = load_objects("deployments/*.yml")
+    stories = load_objects("stories/*.yml", VERBOSE)
+    macros = load_objects("macros/*.yml", VERBOSE)
+    lookups = load_objects("lookups/*.yml", VERBOSE)
+    baselines = load_objects("baselines/*.yml", VERBOSE)
+    detections = load_objects("detections/*.yml", VERBOSE)
+    responses = load_objects("responses/*.yml", VERBOSE)
+    response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
+    deployments = load_objects("deployments/*.yml", VERBOSE)
 
     try:
+        if VERBOSE:
+            print("generating Mitre lookups")
         generate_mitre_lookup()
     except:
         print("WARNING: Generation of Mitre lookup failed.")
