@@ -9,7 +9,7 @@
 
 Welcome to the Splunk Security Content
 
-This project gives you access to our repository of Analytic Stories--themed security guides that provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
+This project gives you access to our repository of Analytic Stories that are security guides which provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
 
 # Usage
 The Splunk Security Content can be used via:
@@ -35,11 +35,11 @@ Manifests contain a number of mandatory and optional fields. You can see the ful
 
 # Customize to your Environment
 
-After release [1.0.46](https://github.com/splunk/security-content/releases) we introduced a concept of input(pre-filter) and output(post-filter) macros for each of our detection search. The intention behind introducing these macros is primarily to help our users to update the macro definition “once” and those changes will be applicable across all detections that leverage that macro and  local to your Splunk Environment.
+After release [1.0.46](https://github.com/splunk/security-content/releases) we introduced a concept of **input(pre-filter)** and **output(post-filter)** macros for each of our detection search. The intention behind introducing these macros is primarily to help our users to update the macro definition “once” and those changes will be applicable across all detections that leverage that macro and  local to your Splunk Environment.
 
-**input(pre-filter):** This macro is to  specify your environment-specific configurations (index, source, sourcetype, etc.) to get the specific data sources that you would like to bring in. Replace the macro definition with configurations for your Splunk environment.
+**input(pre-filter):** This macro is to  specify your environment-specific configurations (index, source, sourcetype, etc.) to get the specific data sources that you would like to bring in. Replace the macro definition with configurations for your Splunk environment. For example the [sysmon](macros/sysmon.yml) **input macro** can be modified to the local splunk deployments index or sourcetype. 
 
-**output(post-filter):** This macro is to  specify your environment-specific values (eg: dest, user), to filter out known false positives.. Replace the macro definition with values that you’d like to exclude from detection results. Think of this as a whitelisting/blacklisting using macros.
+**output(post-filter):** This macro is to  specify your environment-specific values (eg: dest, user), to filter out known false positives.. Replace the macro definition with values that you’d like to exclude from detection results. Think of this as a whitelisting/blacklisting using macros. A good example
 
 
 # Execute an Analytic Story
