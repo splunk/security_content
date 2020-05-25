@@ -1,6 +1,6 @@
- 
- 
- 
+
+
+
 # Splunk Security Content
 ![security-content](docs/static/logo.png)
 =====
@@ -28,7 +28,7 @@ curl -s https://content.splunkresearch.com | jq
 }
 ```
 
-#### GitHub Workflow
+#### [GitHub Workflow](https://github.com/splunk/security-content/wiki/2.-Installation-and-Usage)
 Create your customized version of Security Content by forking this project and following this guide.
 
 # What's in an Analytic Story?
@@ -40,7 +40,7 @@ Manifests contain a number of mandatory and optional fields. You can see the ful
 
 After release [1.0.46](https://github.com/splunk/security-content/releases) we introduced a concept of **input(pre-filter)** and **output(post-filter)** macros for each of our detection search. The intention behind introducing these macros is primarily to help our users to update the macro definition “once” and those changes will be applicable across all detections that leverage that macro and  local to your Splunk Environment.
 
-**input(pre-filter):** This macro is to  specify your environment-specific configurations (index, source, sourcetype, etc.) to get the specific data sources that you would like to bring in. Replace the macro definition with configurations for your Splunk environment. For example the [sysmon](macros/sysmon.yml) **input macro** can be modified to the local splunk deployments index or sourcetype. 
+**input(pre-filter):** This macro is to  specify your environment-specific configurations (index, source, sourcetype, etc.) to get the specific data sources that you would like to bring in. Replace the macro definition with configurations for your Splunk environment. For example the [sysmon](macros/sysmon.yml) **input macro** can be modified to the local splunk deployments index or sourcetype.
 
 **output(post-filter):** This macro is to  specify your environment-specific values (eg: dest, user), to filter out known false positives.. Replace the macro definition with values that you’d like to exclude from detection results. Think of this as a whitelisting/blacklisting using macros. A good example
 
@@ -51,16 +51,16 @@ After release [1.0.46](https://github.com/splunk/security-content/releases) we i
 Download and install the latest version of [Splunk Analytic Story Execution]
 (https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
 =======
-Download and install the latest version of [Splunk Analytic Story Execution] 
+Download and install the latest version of [Splunk Analytic Story Execution]
 (https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
 
 1. Execute an analytic story in an adhoc mode and view the results.
 2. Schedule all the detection searches in an analytic story.
 3. Update security-content via an API
- 
+
 
 # Writing Content
-Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing). 
+Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing).
 >>>>>>> develop
 
 1. Execute an analytic story in an adhoc mode and view the results.
