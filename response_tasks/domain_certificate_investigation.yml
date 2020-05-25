@@ -1,0 +1,23 @@
+name: Domain Certificate Investigation
+id: c096f721-8842-42ce-2fc7-742d8272b712
+version: 1
+date: '2019-04-29'
+description: Investigate domain names and URLs of a potentially malicious website.
+  These domain names and URLs could come from anywhere, but this Playbook was designed
+  to work with the Splunk Analytic Story focused on evilginx2 phishing techniques
+  that harvest credentials from fake login sites. The full investigation is only completed
+  if at least one of the TLS certificates of the domains matches the issuer distinguished
+  name of Let's Encrypt, which is a free service that provides automatically issued
+  TLS certificates. This Playbook gathers certificate information for the domains,
+  queries whois for the domains, takes a screenshot of each of the URLs, and does
+  a urlscan.io scan of each of the URLs. Finally, all the results are formatted together
+  and posted to the event comments.
+how_to_implement: To successfully implement this phantom playbook, you must integrate
+  Enterprise Security with Phantom. Configure this playbook in the correlation search
+  `Detect DNS requests to Phishing Sites leveraging EvilGinx2` ,as an adaptive response
+  action.
+author: Philip Royer, Splunk
+playbook:
+  name: lets_encrypt_domain_investigate
+  url_json: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json
+  url_python: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py

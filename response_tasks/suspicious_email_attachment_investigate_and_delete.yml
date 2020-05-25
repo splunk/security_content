@@ -1,0 +1,17 @@
+name: Suspicious Email Attachment Investigate and Delete
+id: 3096f721-8842-42ce-2fc7-742d8372b712
+version: 1
+date: '2019-06-03'
+description: Investigate an email with a suspicious file attachment detected by Splunk
+  Enterprise Security. Detonate the file attachment in a sandbox, gather network behavior
+  from the sandbox results, and pivot on those network indicators with both external
+  reputation queries and internal Splunk Common Information Model searches. After
+  confirming the results with an analyst prompt, delete the email from the user's
+  inbox, hopefully before they have opened it.
+how_to_implement: Synchronize the community playbook repository in Phantom, then open
+  the playbook and follow the deployment notes to configure it for your environment.
+author: Philip Royer, Splunk
+playbook:
+  name: suspicious_email_attachment_investigate_and_delete
+  url_json: https://github.com/phantomcyber/playbooks/blob/4.6/suspicious_email_attachment_investigate_and_delete.json
+  url_python: https://github.com/phantomcyber/playbooks/blob/4.6/suspicious_email_attachment_investigate_and_delete.py

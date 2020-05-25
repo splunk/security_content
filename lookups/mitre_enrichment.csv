@@ -1,0 +1,267 @@
+mitre_id,technique,tactics,groups
+T1531,Account Access Removal,Impact,no
+T1506,Web Session Cookie,Defense Evasion|Lateral Movement,no
+T1539,Steal Web Session Cookie,Credential Access,no
+T1529,System Shutdown/Reboot,Impact,Lazarus Group|APT38|APT37
+T1519,Emond,Persistence|Privilege Escalation,no
+T1518,Software Discovery,Discovery,no
+T1534,Internal Spearphishing,Lateral Movement,no
+T1528,Steal Application Access Token,Credential Access,APT28
+T1522,Cloud Instance Metadata API,Credential Access,no
+T1536,Revert Cloud Instance,Defense Evasion,no
+T1535,Unused/Unsupported Cloud Regions,Defense Evasion,no
+T1525,Implant Container Image,Persistence,no
+T1538,Cloud Service Dashboard,Discovery,no
+T1530,Data from Cloud Storage Object,Collection,no
+T1537,Transfer Data to Cloud Account,Exfiltration,no
+T1526,Cloud Service Discovery,Discovery,no
+T1527,Application Access Token,Defense Evasion|Lateral Movement,APT28
+T1514,Elevated Execution with Prompt,Privilege Escalation,no
+T1505,Server Software Component,Persistence,no
+T1503,Credentials from Web Browsers,Credential Access,TA505|Stolen Pencil|MuddyWater
+T1504,PowerShell Profile,Persistence|Privilege Escalation,Turla
+T1502,Parent PID Spoofing,Defense Evasion|Privilege Escalation,no
+T1500,Compile After Delivery,Defense Evasion,MuddyWater
+T1501,Systemd Service,Persistence,no
+T1499,Endpoint Denial of Service,Impact,no
+T1497,Virtualization/Sandbox Evasion,Defense Evasion|Discovery,The White Company|FIN7
+T1498,Network Denial of Service,Impact,no
+T1496,Resource Hijacking,Impact,APT41|Lazarus Group
+T1495,Firmware Corruption,Impact,no
+T1494,Runtime Data Manipulation,Impact,APT38
+T1493,Transmitted Data Manipulation,Impact,APT38
+T1492,Stored Data Manipulation,Impact,FIN4|APT38
+T1491,Defacement,Impact,no
+T1490,Inhibit System Recovery,Impact,no
+T1489,Service Stop,Impact,Lazarus Group
+T1488,Disk Content Wipe,Impact,Lazarus Group
+T1487,Disk Structure Wipe,Impact,Lazarus Group|APT38|APT37
+T1486,Data Encrypted for Impact,Impact,APT41|TA505|APT38
+T1485,Data Destruction,Impact,Lazarus Group|APT38
+T1484,Group Policy Modification,Defense Evasion,no
+T1483,Domain Generation Algorithms,Command And Control,APT41
+T1482,Domain Trust Discovery,Discovery,no
+T1480,Execution Guardrails,Defense Evasion,APT33|Equation
+T1223,Compiled HTML File,Defense Evasion|Execution,APT41|Silence|Lazarus Group|Dark Caracal|OilRig
+T1222,File and Directory Permissions Modification,Defense Evasion,APT32
+T1220,XSL Script Processing,Defense Evasion|Execution,Cobalt Group
+T1221,Template Injection,Defense Evasion,APT28|Tropic Trooper|Dragonfly 2.0|DarkHydrus
+T1197,BITS Jobs,Defense Evasion|Persistence,Leviathan
+T1191,CMSTP,Defense Evasion|Execution,Cobalt Group|MuddyWater
+T1196,Control Panel Items,Defense Evasion|Execution,no
+T1214,Credentials in Registry,Credential Access,Soft Cell
+T1207,DCShadow,Defense Evasion,no
+T1213,Data from Information Repositories,Collection,Ke3chang|APT28
+T1212,Exploitation for Credential Access,Credential Access,no
+T1217,Browser Bookmark Discovery,Discovery,no
+T1190,Exploit Public-Facing Application,Initial Access,Soft Cell|Night Dragon|Axiom
+T1210,Exploitation of Remote Services,Lateral Movement,Threat Group-3390|APT28
+T1200,Hardware Additions,Initial Access,no
+T1189,Drive-by Compromise,Initial Access,Darkhotel|APT38|Lazarus Group|Dragonfly 2.0|BRONZE BUTLER|Leafminer|APT19|Dark Caracal|Threat Group-3390|APT32|Elderwood|Patchwork|APT37|PLATINUM
+T1211,Exploitation for Defense Evasion,Defense Evasion,APT28
+T1203,Exploitation for Client Execution,Execution,APT41|admin@338|Threat Group-3390|APT12|The White Company|APT33|APT32|APT28|Tropic Trooper|BRONZE BUTLER|Lazarus Group|Cobalt Group|APT37|APT29|Patchwork|Leviathan|TA459|Elderwood
+T1208,Kerberoasting,Credential Access,no
+T1215,Kernel Modules and Extensions,Persistence,no
+T1201,Password Policy Discovery,Discovery,OilRig
+T1205,Port Knocking,Defense Evasion|Persistence|Command And Control,no
+T1198,SIP and Trust Provider Hijacking,Defense Evasion|Persistence,no
+T1218,Signed Binary Proxy Execution,Defense Evasion|Execution,TA505|Rancor|Cobalt Group
+T1202,Indirect Command Execution,Defense Evasion,no
+T1194,Spearphishing via Service,Initial Access,FIN6|OilRig|Dark Caracal|Magic Hound
+T1195,Supply Chain Compromise,Initial Access,APT41|Elderwood
+T1219,Remote Access Tools,Command And Control,Kimsuky|Night Dragon|Thrip|Cobalt Group|Carbanak
+T1216,Signed Script Proxy Execution,Defense Evasion|Execution,APT32
+T1193,Spearphishing Attachment,Initial Access,APT41|Machete|admin@338|Kimsuky|APT12|TA505|Silence|The White Company|APT39|FIN4|Darkhotel|Gallmaker|Tropic Trooper|Turla|Gorgon Group|Rancor|DarkHydrus|Lazarus Group|Cobalt Group|OilRig|APT19|FIN7|BRONZE BUTLER|Dragonfly 2.0|APT32|FIN8|MuddyWater|APT28|TA459|Elderwood|APT29|APT37|Patchwork|Leviathan|menuPass|Magic Hound|PLATINUM
+T1209,Time Providers,Persistence,no
+T1204,User Execution,Execution,Machete|admin@338|APT12|TA505|Silence|The White Company|APT39|FIN4|Night Dragon|Darkhotel|Gallmaker|Dragonfly 2.0|APT33|APT19|BRONZE BUTLER|Dark Caracal|Cobalt Group|FIN7|DarkHydrus|Turla|Gorgon Group|OilRig|MuddyWater|Patchwork|Lazarus Group|APT32|Rancor|APT37|APT28|APT29|menuPass|FIN8|TA459|Elderwood|Leviathan|Magic Hound|PLATINUM
+T1192,Spearphishing Link,Initial Access,Machete|Kimsuky|TA505|Stolen Pencil|APT39|FIN4|APT32|Night Dragon|APT28|Turla|Cobalt Group|Dragonfly 2.0|OilRig|APT33|Elderwood|APT29|Leviathan|Patchwork|Magic Hound|FIN8
+T1206,Sudo Caching,Privilege Escalation,no
+T1199,Trusted Relationship,Initial Access,APT28|menuPass
+T1182,AppCert DLLs,Persistence|Privilege Escalation,Honeybee
+T1176,Browser Extensions,Persistence,Kimsuky|Stolen Pencil
+T1175,Component Object Model and Distributed COM,Lateral Movement|Execution,MuddyWater
+T1181,Extra Window Memory Injection,Defense Evasion|Privilege Escalation,no
+T1179,Hooking,Persistence|Privilege Escalation|Credential Access,PLATINUM
+T1172,Domain Fronting,Command And Control,APT29
+T1187,Forced Authentication,Credential Access,DarkHydrus|Dragonfly 2.0
+T1173,Dynamic Data Exchange,Execution,TA505|MuddyWater|Gallmaker|Patchwork|Cobalt Group|APT37|APT28|FIN7
+T1188,Multi-hop Proxy,Command And Control,FIN4|APT29
+T1171,LLMNR/NBT-NS Poisoning and Relay,Credential Access,no
+T1177,LSASS Driver,Execution|Persistence,no
+T1174,Password Filter DLL,Credential Access,no
+T1180,Screensaver,Persistence,no
+T1183,Image File Execution Options Injection,Privilege Escalation|Persistence|Defense Evasion,TEMP.Veles
+T1170,Mshta,Defense Evasion|Execution,Kimsuky|APT32|MuddyWater|FIN7
+T1184,SSH Hijacking,Lateral Movement,no
+T1185,Man in the Browser,Collection,no
+T1186,Process Doppelgänging,Defense Evasion,no
+T1178,SID-History Injection,Privilege Escalation,no
+T1156,.bash_profile and .bashrc,Persistence,no
+T1134,Access Token Manipulation,Defense Evasion|Privilege Escalation,Turla|Lazarus Group|APT28
+T1155,AppleScript,Execution|Lateral Movement,no
+T1138,Application Shimming,Persistence|Privilege Escalation,FIN7
+T1139,Bash History,Credential Access,no
+T1146,Clear Command History,Defense Evasion,APT41
+T1136,Create Account,Persistence,APT41|Soft Cell|Dragonfly 2.0|Leafminer|APT3
+T1140,Deobfuscate/Decode Files or Information,Defense Evasion,Turla|WIRTE|Darkhotel|Tropic Trooper|Gorgon Group|Honeybee|menuPass|Threat Group-3390|APT19|Leviathan|MuddyWater|APT28|OilRig|BRONZE BUTLER
+T1157,Dylib Hijacking,Persistence|Privilege Escalation,no
+T1148,HISTCONTROL,Defense Evasion,no
+T1147,Hidden Users,Defense Evasion,no
+T1143,Hidden Window,Defense Evasion,Gorgon Group|Deep Panda|DarkHydrus|CopyKittens|APT19|APT32|APT28|APT3|Magic Hound
+T1144,Gatekeeper Bypass,Defense Evasion,no
+T1158,Hidden Files and Directories,Defense Evasion|Persistence,APT32|Tropic Trooper|APT28|Lazarus Group
+T1149,LC_MAIN Hijacking,Defense Evasion,no
+T1152,Launchctl,Defense Evasion|Execution|Persistence,no
+T1168,Local Job Scheduling,Persistence|Execution,no
+T1141,Input Prompt,Credential Access,FIN4
+T1162,Login Item,Persistence,no
+T1137,Office Application Startup,Persistence,APT32|APT28
+T1150,Plist Modification,Defense Evasion|Persistence|Privilege Escalation,no
+T1145,Private Keys,Credential Access,no
+T1163,Rc.common,Persistence,no
+T1142,Keychain,Credential Access,no
+T1159,Launch Agent,Persistence,no
+T1151,Space after Filename,Defense Evasion|Execution,no
+T1161,LC_LOAD_DYLIB Addition,Persistence,no
+T1160,Launch Daemon,Persistence|Privilege Escalation,no
+T1153,Source,Execution,no
+T1154,Trap,Execution|Persistence,no
+T1135,Network Share Discovery,Discovery,APT41|Tropic Trooper|APT1|Dragonfly 2.0|Sowbug
+T1164,Re-opened Applications,Persistence,no
+T1169,Sudo,Privilege Escalation,no
+T1167,Securityd Memory,Credential Access,no
+T1166,Setuid and Setgid,Privilege Escalation|Persistence,no
+T1165,Startup Items,Persistence|Privilege Escalation,no
+T1133,External Remote Services,Persistence|Initial Access,APT41|Soft Cell|TEMP.Veles|Night Dragon|OilRig|Ke3chang|Dragonfly 2.0|FIN5|Threat Group-3390|APT18
+T1132,Data Encoding,Command And Control,APT33|APT19|Lazarus Group|BRONZE BUTLER|Patchwork
+T1131,Authentication Package,Persistence,no
+T1130,Install Root Certificate,Defense Evasion,no
+T1129,Execution through Module Load,Execution,no
+T1128,Netsh Helper DLL,Persistence,no
+T1127,Trusted Developer Utilities,Defense Evasion|Execution,no
+T1126,Network Share Connection Removal,Defense Evasion,Threat Group-3390
+T1125,Video Capture,Collection,Silence|FIN7
+T1124,System Time Discovery,Discovery,The White Company|Lazarus Group|BRONZE BUTLER|Turla
+T1123,Audio Capture,Collection,APT37
+T1122,Component Object Model Hijacking,Defense Evasion|Persistence,APT28
+T1121,Regsvcs/Regasm,Defense Evasion|Execution,no
+T1120,Peripheral Device Discovery,Discovery,APT37|Gamaredon Group|Equation|APT28
+T1119,Automated Collection,Collection,APT1|APT28|Patchwork|OilRig|FIN5|Threat Group-3390|FIN6
+T1118,InstallUtil,Defense Evasion|Execution,no
+T1117,Regsvr32,Defense Evasion|Execution,WIRTE|APT19|Cobalt Group|Leviathan|APT32|Deep Panda
+T1116,Code Signing,Defense Evasion,APT41|FIN6|TA505|FIN7|Honeybee|APT37|Leviathan|CopyKittens|Winnti Group|Suckfly|Molerats|Darkhotel
+T1115,Clipboard Data,Collection,APT38
+T1114,Email Collection,Collection,FIN4|Dragonfly 2.0|APT28|Magic Hound|Ke3chang|Leafminer|APT1
+T1113,Screen Capture,Collection,Silence|MuddyWater|OilRig|Dragonfly 2.0|Dark Caracal|FIN7|BRONZE BUTLER|Magic Hound|Group5|APT28
+T1112,Modify Registry,Defense Evasion,APT41|Turla|APT32|APT38|Dragonfly 2.0|Threat Group-3390|Patchwork|APT19|Honeybee|Gorgon Group|FIN8
+T1111,Two-Factor Authentication Interception,Credential Access,no
+T1110,Brute Force,Credential Access,APT41|APT33|Leafminer|OilRig|Dragonfly 2.0|APT3|Lazarus Group|Turla
+T1109,Component Firmware,Defense Evasion|Persistence,Equation
+T1108,Redundant Access,Defense Evasion|Persistence,Stolen Pencil|Cobalt Group|Leafminer|APT3|FIN5|OilRig|Threat Group-3390
+T1107,File Deletion,Defense Evasion,APT41|Kimsuky|Silence|The White Company|TEMP.Veles|APT32|APT38|Honeybee|Patchwork|Dragonfly 2.0|menuPass|Cobalt Group|FIN8|OilRig|FIN5|BRONZE BUTLER|Magic Hound|APT3|FIN10|Threat Group-3390|APT28|Group5|Lazarus Group|APT18|APT29
+T1106,Execution through API,Execution,Turla|Silence|APT37|Gorgon Group
+T1105,Remote File Copy,Command And Control|Lateral Movement,Soft Cell|TA505|WIRTE|APT33|MuddyWater|APT18|APT38|Turla|Rancor|Gorgon Group|Cobalt Group|Dragonfly 2.0|OilRig|APT37|FIN8|PLATINUM|Leviathan|Elderwood|Magic Hound|APT3|APT32|BRONZE BUTLER|FIN7|FIN10|menuPass|Gamaredon Group|Patchwork|Lazarus Group|Threat Group-3390|APT28
+T1104,Multi-Stage Channels,Command And Control,MuddyWater|APT3
+T1103,AppInit DLLs,Persistence|Privilege Escalation,no
+T1102,Web Service,Command And Control|Defense Evasion,APT41|APT12|FIN6|Turla|FIN7|BRONZE BUTLER|Leviathan|APT37|Magic Hound|RTM|Patchwork|Carbanak
+T1101,Security Support Provider,Persistence,no
+T1100,Web Shell,Persistence|Privilege Escalation,Soft Cell|Threat Group-3390|TEMP.Veles|Leviathan|APT39|Dragonfly 2.0|APT32|OilRig|Deep Panda
+T1099,Timestomp,Defense Evasion,TEMP.Veles|APT32|Lazarus Group|APT28
+T1098,Account Manipulation,Credential Access|Persistence,Magic Hound|Dragonfly 2.0|APT3|Lazarus Group
+T1097,Pass the Ticket,Lateral Movement,APT32|Ke3chang|BRONZE BUTLER|APT29
+T1096,NTFS File Attributes,Defense Evasion,APT32
+T1095,Standard Non-Application Layer Protocol,Command And Control,APT29|PLATINUM|APT3
+T1094,Custom Command and Control Protocol,Command And Control,PLATINUM|APT37|OilRig|APT32
+T1093,Process Hollowing,Defense Evasion,menuPass|Gorgon Group|Patchwork
+T1092,Communication Through Removable Media,Command And Control,APT28
+T1091,Replication Through Removable Media,Lateral Movement|Initial Access,Darkhotel|APT28
+T1090,Connection Proxy,Command And Control|Defense Evasion,APT41|Soft Cell|Turla|APT39|MuddyWater|APT3|Lazarus Group|menuPass|Strider|APT28
+T1089,Disabling Security Tools,Defense Evasion,Kimsuky|Turla|Night Dragon|Dragonfly 2.0|Gorgon Group|Threat Group-3390|Lazarus Group|Putter Panda|Carbanak
+T1088,Bypass User Account Control,Defense Evasion|Privilege Escalation,APT37|MuddyWater|Honeybee|Threat Group-3390|Cobalt Group|BRONZE BUTLER|Patchwork|APT29
+T1087,Account Discovery,Discovery,APT32|APT1|Dragonfly 2.0|BRONZE BUTLER|OilRig|Threat Group-3390|menuPass|FIN6|Poseidon Group|APT3|admin@338|Ke3chang
+T1086,PowerShell,Execution,APT41|Kimsuky|Soft Cell|TA505|WIRTE|TEMP.Veles|APT33|Gallmaker|Turla|DarkHydrus|APT19|APT28|Thrip|Dragonfly 2.0|Cobalt Group|Gorgon Group|Leviathan|TA459|MuddyWater|FIN8|CopyKittens|OilRig|Magic Hound|BRONZE BUTLER|APT32|FIN10|FIN7|Threat Group-3390|menuPass|Patchwork|Stealth Falcon|FIN6|Poseidon Group|APT3|APT29|Deep Panda
+T1085,Rundll32,Defense Evasion|Execution,TA505|MuddyWater|APT29|APT19|CopyKittens|APT3|Carbanak|APT28
+T1084,Windows Management Instrumentation Event Subscription,Persistence,Turla|Leviathan|APT29
+T1083,File and Directory Discovery,Discovery,Kimsuky|APT32|MuddyWater|APT18|Leafminer|Dragonfly 2.0|Honeybee|Dark Caracal|Magic Hound|APT3|Sowbug|BRONZE BUTLER|APT28|Patchwork|Lazarus Group|Dust Storm|admin@338|Turla|Ke3chang
+T1082,System Information Discovery,Discovery,Kimsuky|Tropic Trooper|Darkhotel|MuddyWater|APT18|APT37|Honeybee|APT19|APT32|Magic Hound|OilRig|APT3|Sowbug|Gamaredon Group|Patchwork|Stealth Falcon|Lazarus Group|admin@338|Turla|Ke3chang
+T1081,Credentials in Files,Credential Access,OilRig|Kimsuky|Turla|TA505|Stolen Pencil|MuddyWater|APT3
+T1080,Taint Shared Content,Lateral Movement,Darkhotel
+T1079,Multilayer Encryption,Command And Control,no
+T1078,Valid Accounts,Defense Evasion|Persistence|Privilege Escalation|Initial Access,APT41|Soft Cell|TEMP.Veles|APT39|Stolen Pencil|FIN4|Night Dragon|Dragonfly 2.0|FIN8|Leviathan|APT33|APT3|FIN5|OilRig|menuPass|APT28|FIN10|APT32|Suckfly|FIN6|Threat Group-1314|Threat Group-3390|APT18|PittyTiger|Carbanak
+T1077,Windows Admin Shares,Lateral Movement,APT32|Orangeworm|FIN8|APT3|Lazarus Group|Threat Group-1314|Turla|Deep Panda|Ke3chang
+T1076,Remote Desktop Protocol,Lateral Movement,APT41|TEMP.Veles|Leviathan|APT39|Stolen Pencil|Cobalt Group|Dragonfly 2.0|FIN8|APT3|OilRig|menuPass|FIN10|Patchwork|FIN6|Lazarus Group|APT1|Axiom
+T1075,Pass the Hash,Lateral Movement,Soft Cell|APT32|Night Dragon|APT28|APT1
+T1074,Data Staged,Collection,Machete|Soft Cell|TEMP.Veles|Night Dragon|Honeybee|Patchwork|Dragonfly 2.0|Leviathan|FIN8|APT3|FIN5|menuPass|FIN6|Lazarus Group|Threat Group-3390|APT28
+T1073,DLL Side-Loading,Defense Evasion,APT41|Soft Cell|Tropic Trooper|Patchwork|APT19|APT32|APT3|menuPass|Threat Group-3390
+T1072,Third-party Software,Execution|Lateral Movement,Threat Group-1314
+T1071,Standard Application Layer Protocol,Command And Control,APT41|Machete|WIRTE|APT33|FIN4|Night Dragon|APT18|SilverTerrier|APT38|Dragonfly 2.0|APT19|Cobalt Group|FIN7|Threat Group-3390|Turla|APT37|Rancor|Orangeworm|Honeybee|Ke3chang|Dark Caracal|Lazarus Group|BRONZE BUTLER|APT32|OilRig|Magic Hound|Gamaredon Group|Stealth Falcon|FIN6|APT28
+T1070,Indicator Removal on Host,Defense Evasion,APT41|APT29|APT38|Dragonfly 2.0|APT32|FIN8|FIN5|APT28
+T1069,Permission Groups Discovery,Discovery,FIN6|Dragonfly 2.0|OilRig|APT3|admin@338|Ke3chang
+T1068,Exploitation for Privilege Escalation,Privilege Escalation,APT33|Cobalt Group|PLATINUM|FIN8|APT32|Threat Group-3390|FIN6|APT28
+T1067,Bootkit,Persistence,APT41|Lazarus Group|APT28
+T1066,Indicator Removal from Tools,Defense Evasion,Soft Cell|TEMP.Veles|Patchwork|APT3|Turla|OilRig|Deep Panda
+T1065,Uncommonly Used Port,Command And Control,TEMP.Veles|APT33|APT32|Gorgon Group|Magic Hound|Group5|Lazarus Group|APT3
+T1064,Scripting,Defense Evasion|Execution,Machete|Turla|TA505|Silence|WIRTE|APT39|FIN4|APT32|Darkhotel|Gallmaker|Dark Caracal|Lazarus Group|menuPass|APT19|Dragonfly 2.0|Leafminer|Rancor|Honeybee|APT37|Ke3chang|Cobalt Group|Patchwork|FIN7|Gorgon Group|MuddyWater|Leviathan|FIN8|TA459|APT28|Magic Hound|OilRig|FIN5|BRONZE BUTLER|FIN10|Gamaredon Group|Stealth Falcon|FIN6|APT3|APT29|Deep Panda|APT1
+T1063,Security Software Discovery,Discovery,The White Company|Cobalt Group|Darkhotel|MuddyWater|Tropic Trooper|FIN8|Patchwork|Naikon
+T1062,Hypervisor,Persistence,no
+T1061,Graphical User Interface,Execution,APT3
+T1060,Registry Run Keys / Startup Folder,Persistence,APT41|Machete|Kimsuky|APT33|APT39|APT32|APT18|Turla|APT19|Dark Caracal|Ke3chang|Dragonfly 2.0|Cobalt Group|Honeybee|Threat Group-3390|Gorgon Group|MuddyWater|APT37|Leviathan|BRONZE BUTLER|APT3|Magic Hound|FIN10|FIN7|Patchwork|FIN6|Lazarus Group|Putter Panda|APT29|Darkhotel
+T1059,Command-Line Interface,Execution,APT41|Soft Cell|Turla|Silence|APT32|Cobalt Group|MuddyWater|APT18|APT38|Dragonfly 2.0|Gorgon Group|APT28|FIN7|Rancor|Honeybee|APT37|Leviathan|FIN8|Magic Hound|Sowbug|OilRig|BRONZE BUTLER|menuPass|Threat Group-3390|Suckfly|Patchwork|Lazarus Group|Threat Group-1314|APT3|admin@338|APT1|Ke3chang
+T1058,Service Registry Permissions Weakness,Persistence|Privilege Escalation,no
+T1057,Process Discovery,Discovery,Darkhotel|MuddyWater|APT1|APT38|Tropic Trooper|APT37|Honeybee|OilRig|APT3|Magic Hound|APT28|Winnti Group|Stealth Falcon|Poseidon Group|Lazarus Group|Molerats|Turla|Deep Panda|Ke3chang
+T1056,Input Capture,Collection|Credential Access,APT41|Kimsuky|menuPass|Stolen Pencil|FIN4|APT38|OilRig|Ke3chang|PLATINUM|Sowbug|Magic Hound|Group5|Lazarus Group|Threat Group-3390|APT3|Darkhotel|APT28
+T1055,Process Injection,Defense Evasion|Privilege Escalation,APT41|Kimsuky|Tropic Trooper|Gorgon Group|Turla|Threat Group-3390|APT37|Cobalt Group|Honeybee|Lazarus Group|PLATINUM|Putter Panda
+T1054,Indicator Blocking,Defense Evasion,no
+T1053,Scheduled Task,Execution|Persistence|Privilege Escalation,APT41|Machete|Soft Cell|Silence|TEMP.Veles|APT33|APT39|Cobalt Group|Dragonfly 2.0|OilRig|Rancor|Patchwork|FIN8|BRONZE BUTLER|menuPass|FIN10|APT32|FIN7|Stealth Falcon|FIN6|Threat Group-3390|APT18|APT3|APT29
+T1052,Exfiltration Over Physical Medium,Exfiltration,no
+T1051,Shared Webroot,Lateral Movement,no
+T1050,New Service,Persistence|Privilege Escalation,Kimsuky|Tropic Trooper|Cobalt Group|Ke3chang|FIN7|APT32|Threat Group-3390|APT3|Lazarus Group|Carbanak
+T1049,System Network Connections Discovery,Discovery,APT41|APT38|Soft Cell|APT32|APT1|OilRig|APT3|menuPass|Threat Group-3390|Poseidon Group|admin@338|Turla|Ke3chang
+T1048,Exfiltration Over Alternative Protocol,Exfiltration,Turla|APT33|Thrip|FIN8|OilRig|Lazarus Group
+T1047,Windows Management Instrumentation,Execution,APT41|FIN6|Soft Cell|APT32|MuddyWater|OilRig|Threat Group-3390|Leviathan|FIN8|menuPass|Stealth Falcon|Lazarus Group|APT29|Deep Panda
+T1046,Network Service Scanning,Discovery,APT41|Tropic Trooper|APT39|APT32|Leafminer|Cobalt Group|OilRig|menuPass|Suckfly|FIN6|Threat Group-3390
+T1045,Software Packing,Defense Evasion,Soft Cell|The White Company|APT39|APT38|Dark Caracal|Elderwood|APT3|Group5|Patchwork|APT29|Night Dragon
+T1044,File System Permissions Weakness,Persistence|Privilege Escalation,no
+T1043,Commonly Used Port,Command And Control,Machete|OilRig|APT28|TEMP.Veles|APT33|APT32|Night Dragon|APT29|APT18|Tropic Trooper|APT19|FIN7|Dragonfly 2.0|FIN8|APT37|Magic Hound|APT3|Lazarus Group|Threat Group-3390
+T1042,Change Default File Association,Persistence,Kimsuky
+T1041,Exfiltration Over Command and Control Channel,Exfiltration,Kimsuky|Soft Cell|APT32|APT3|Gamaredon Group|Stealth Falcon|Lazarus Group|Ke3chang
+T1040,Network Sniffing,Credential Access|Discovery,APT33|Stolen Pencil|APT28
+T1039,Data from Network Shared Drive,Collection,Sowbug|BRONZE BUTLER|menuPass
+T1038,DLL Search Order Hijacking,Persistence|Privilege Escalation|Defense Evasion,Threat Group-3390|menuPass
+T1037,Logon Scripts,Lateral Movement|Persistence,Cobalt Group|APT28
+T1036,Masquerading,Defense Evasion,APT41|Soft Cell|PLATINUM|Ke3chang|Scarlet Mimic|menuPass|FIN6|TEMP.Veles|Dragonfly 2.0|MuddyWater|BRONZE BUTLER|Sowbug|FIN7|APT32|Patchwork|Poseidon Group|admin@338|Carbanak|APT1
+T1035,Service Execution,Execution,Silence|FIN6|APT32|Honeybee|Ke3chang
+T1034,Path Interception,Persistence|Privilege Escalation,no
+T1033,System Owner/User Discovery,Discovery,APT41|Soft Cell|Tropic Trooper|APT39|MuddyWater|APT32|APT37|APT19|Dragonfly 2.0|Magic Hound|OilRig|FIN10|Gamaredon Group|Patchwork|Stealth Falcon|Lazarus Group|APT3
+T1032,Standard Cryptographic Protocol,Command And Control,Machete|APT33|Tropic Trooper|Cobalt Group|OilRig|FIN8|BRONZE BUTLER|Stealth Falcon|FIN6|Lazarus Group|Taidoor
+T1031,Modify Existing Service,Persistence,APT41|APT32|Honeybee|APT19
+T1030,Data Transfer Size Limits,Exfiltration,Threat Group-3390
+T1029,Scheduled Transfer,Exfiltration,no
+T1028,Windows Remote Management,Execution|Lateral Movement,Threat Group-3390
+T1027,Obfuscated Files or Information,Defense Evasion,Machete|Soft Cell|Turla|TA505|Silence|APT33|Night Dragon|Darkhotel|Gallmaker|APT29|APT18|Tropic Trooper|menuPass|Patchwork|Leafminer|Cobalt Group|APT37|Threat Group-3390|Honeybee|Dark Caracal|APT19|FIN8|BlackOasis|Elderwood|Leviathan|MuddyWater|FIN7|Magic Hound|APT3|OilRig|APT32|Group5|Dust Storm|Lazarus Group|Putter Panda|APT28
+T1026,Multiband Communication,Command And Control,Lazarus Group
+T1025,Data from Removable Media,Collection,Machete|Turla|Gamaredon Group|APT28
+T1024,Custom Cryptographic Protocol,Command And Control,APT28|BRONZE BUTLER|Lazarus Group
+T1023,Shortcut Modification,Persistence,APT39|Darkhotel|APT29|FIN7|Gorgon Group|Dragonfly 2.0|Leviathan|Lazarus Group
+T1022,Data Encrypted,Exfiltration,Kimsuky|Soft Cell|Turla|menuPass|APT32|Patchwork|Honeybee|CopyKittens|BRONZE BUTLER|FIN6|Lazarus Group|Threat Group-3390|Ke3chang
+T1021,Remote Services,Lateral Movement,TEMP.Veles|Leviathan|APT39|OilRig|menuPass|GCMAN
+T1020,Automated Exfiltration,Exfiltration,Honeybee
+T1019,System Firmware,Persistence,no
+T1018,Remote System Discovery,Discovery,Soft Cell|APT32|Threat Group-3390|Dragonfly 2.0|Deep Panda|Ke3chang|Leafminer|FIN8|APT3|FIN5|BRONZE BUTLER|menuPass|FIN6|Turla
+T1017,Application Deployment Software,Lateral Movement,APT32
+T1016,System Network Configuration Discovery,Discovery,APT41|Soft Cell|APT39|APT32|Darkhotel|MuddyWater|APT1|APT19|Dragonfly 2.0|OilRig|Magic Hound|menuPass|Threat Group-3390|Stealth Falcon|Lazarus Group|APT3|Naikon|admin@338|Turla|Ke3chang
+T1015,Accessibility Features,Persistence|Privilege Escalation,APT41|APT3|APT29|Deep Panda|Axiom
+T1014,Rootkit,Defense Evasion,APT41|APT28|Winnti Group
+T1013,Port Monitors,Persistence|Privilege Escalation,no
+T1012,Query Registry,Discovery,APT32|Dragonfly 2.0|Threat Group-3390|OilRig|Stealth Falcon|Lazarus Group|Turla
+T1011,Exfiltration Over Other Network Medium,Exfiltration,no
+T1010,Application Window Discovery,Discovery,Lazarus Group
+T1009,Binary Padding,Defense Evasion,Patchwork|APT32|Leviathan|BRONZE BUTLER|Moafee
+T1008,Fallback Channels,Command And Control,APT41|OilRig|Lazarus Group
+T1007,System Service Discovery,Discovery,APT1|OilRig|Poseidon Group|admin@338|Turla|Ke3chang
+T1006,File System Logical Offsets,Defense Evasion,no
+T1005,Data from Local System,Collection,Kimsuky|Soft Cell|Turla|menuPass|Dragonfly 2.0|Dark Caracal|Honeybee|APT37|APT28|APT3|BRONZE BUTLER|Patchwork|Stealth Falcon|Lazarus Group|Dust Storm|Threat Group-3390|APT1|Ke3chang
+T1004,Winlogon Helper DLL,Persistence,Tropic Trooper|Turla
+T1003,Credential Dumping,Credential Access,APT41|Soft Cell|TEMP.Veles|APT33|Leviathan|APT39|Stolen Pencil|APT32|Night Dragon|Dragonfly 2.0|Leafminer|Lazarus Group|Magic Hound|APT37|MuddyWater|PLATINUM|FIN8|Sowbug|BRONZE BUTLER|FIN5|OilRig|menuPass|Strider|Patchwork|Stealth Falcon|Suckfly|FIN6|Poseidon Group|Threat Group-3390|APT3|Molerats|APT28|APT1|Ke3chang|Cleaver|Axiom
+T1002,Data Compressed,Exfiltration,APT41|Soft Cell|Gallmaker|APT33|APT32|APT39|MuddyWater|Honeybee|Magic Hound|APT28|Dragonfly 2.0|FIN8|BRONZE BUTLER|CopyKittens|Sowbug|APT3|menuPass|FIN6|Lazarus Group|Threat Group-3390|APT1|Ke3chang
+T1001,Data Obfuscation,Command And Control,APT28|Axiom

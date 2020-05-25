@@ -85,13 +85,6 @@ require([
                         </div>
                         <div class="as_left_attr">
                             <div class="as_story_detail_left_attr_label">
-                                <strong>Technologies: </strong>
-                            </div>
-                            <div class="as_story_detail_left_attr" id="technology">
-                            </div>
-                        </div>
-                        <div class="as_left_attr">
-                            <div class="as_story_detail_left_attr_label">
                                 <strong>References: </strong>
                             </div>
                             <div class="as_story_detail_left_attr" id="references">
@@ -140,7 +133,7 @@ require([
             earliest_time: "-1h@h",
             latest_time: "now",
             cache: false,
-            search: "| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | search title=\"" + asName + "\" | spath input=providing_technologies path={} output=tex | spath input=reference path={} output=ref | spath input=data_models path={} output=dm | table title, category, description, version, mappings, creation_date, modification_date, dm, narrative, tex, ref"
+            search: "| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | search title=\"" + asName + "\" | spath input=reference path={} output=ref | spath input=data_models path={} output=dm | table title, category, description, version, mappings, creation_date, modification_date, dm, narrative, ref"
         });
 
         $('.run-story').unbind('click');
@@ -169,7 +162,7 @@ require([
             earliest_time: "-1h@h",
             latest_time: "now",
             cache: false,
-            search: "| rest /services/saved/searches splunk_server=local count=0 | spath input=action.escu.analytic_story path={} output=uc | search uc = \"" + asName + "\" | spath input=action.escu.data_models path={} output=dm | spath input=action.escu.providing_technologies path={} output=tex | table action.escu.full_search_name, search, description, action.escu.search_type, action.escu.how_to_implement, action.escu.eli5, action.escu.version, action.escu.mappings, dm, tex, action.escu.asset_at_risk, action.escu.confidence, action.escu.known_false_positives, updated, action.escu.modification_date, action.escu.creation_date "
+            search: "| rest /services/saved/searches splunk_server=local count=0 | spath input=action.escu.analytic_story path={} output=uc | search uc = \"" + asName + "\" | spath input=action.escu.data_models path={} output=dm | table action.escu.full_search_name, search, description, action.escu.search_type, action.escu.how_to_implement, action.escu.eli5, action.escu.version, action.escu.mappings, dm, tex, action.escu.asset_at_risk, action.escu.confidence, action.escu.known_false_positives, updated, action.escu.modification_date, action.escu.creation_date "
 
         });
         var searchesSearch = splunkjs.mvc.Components.getInstance("s" + epoch);
@@ -207,7 +200,6 @@ require([
         $('#description').html(converter.makeHtml(asAttributes.description));
         $('#mitre_attack').html(getValueLabels(mappings.mitre_attack, 'attack_tag'));
         $('#data_model').html(getValueLabels(asAttributes.dm, 'data_model_tag'));
-        $('#technology').html(getValueLabels(asAttributes.tex));
         $('#kill_chain_phases').html(getValueLabels(mappings.kill_chain_phases, 'kill_chain_tag'));
         $('#cis_20').html(getValueLabels(mappings.cis20));
         $('#references').html(getReferenceURLS(asAttributes.ref));
@@ -292,14 +284,6 @@ require([
                                         </div>
                                         <div class="search_right_attr_value">
                                             ${ getValueLabels(search['dm'], 'data_model_tag') }
-                                        </div>
-                                    </div>
-                                    <div class="search_right_attr">
-                                        <div class="search_right_attr_label">
-                                            <strong>Technologies</strong>
-                                        </div>
-                                        <div class="search_right_attr_value">
-                                            ${ getValueLabels(search['tex']) }
                                         </div>
                                     </div>
                                 </div>

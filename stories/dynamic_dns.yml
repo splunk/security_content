@@ -1,24 +1,10 @@
-category:
-  - Malware
-channel: ESCU
-creation_date: '2017-11-21'
+name: Dynamic DNS
+id: 8169f17b-ef68-4b59-aae8-586907301221
+version: 2
+date: '2018-09-06'
 description: Detect and investigate hosts in your environment that may be communicating
   with dynamic domain providers. Attackers may leverage these services to help them
   avoid firewall blocks and blacklists.
-detections:
-  - detection_id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
-    name: Detect hosts connecting to dynamic domain providers
-    type: splunk
-  - detection_id: 134da869-e264-4a8f-8d7e-fcd01c18f301
-    name: Detect web traffic to dynamic domain providers
-    type: splunk
-id: 8169f17b-ef68-4b59-aae8-586907301221
-maintainers:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
-modification_date: '2018-09-06'
-name: Dynamic DNS
 narrative: Dynamic DNS services (DDNS) are legitimate low-cost or free services that
   allow users to rapidly update domain resolutions to IP infrastructure. While their
   usage can be benign, malicious actors can abuse DDNS to host harmful payloads or
@@ -30,15 +16,15 @@ narrative: Dynamic DNS services (DDNS) are legitimate low-cost or free services 
   more deeply, when appropriate. While this list of top-level dynamic domains is not
   exhaustive, it can be dynamically updated as new suspicious dynamic domains are
   identified.
-original_authors:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
+author: Bhavin Patel, Splunk
+type: ESCU
 references:
-  - https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
-  - https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
-  - http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
-  - https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
-spec_version: 2
-usecase: Security Monitoring
-version: '2.0'
+- https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
+- https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
+- http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
+- https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
+tags:
+  analytics_story: Dynamic DNS
+  usecase: Security Monitoring
+  category:
+  - Malware
