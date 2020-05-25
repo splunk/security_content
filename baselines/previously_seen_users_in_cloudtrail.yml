@@ -20,6 +20,6 @@ tags:
   - Suspicious AWS Login Activities
   detections:
   - Detect AWS Console Login by User from New Country
-  - Detect AWS Console Login by User from New City
   - Detect AWS Console Login by User from New Region
+  - Detect AWS Console Login by User from New City
   - Detect new user AWS Console Login

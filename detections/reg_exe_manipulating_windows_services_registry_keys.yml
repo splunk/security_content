@@ -13,11 +13,11 @@ references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
-  as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name
-  = reg.exe by Processes.process_id Processes.dest | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join
-  [| tstats `security_content_summariesonly` values(Registry.registry_path) as registry_path
-  count  FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\services\\*"
+  as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
+  where Processes.process_name = reg.exe by Processes.process_id Processes.dest |
+  `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | join [| tstats `security_content_summariesonly` values(Registry.registry_path)
+  as registry_path count  FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\services\\*"
   by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | table
   process_id dest registry_path] | `reg_exe_manipulating_windows_services_registry_keys_filter`'
 known_false_positives: It is unusual for a service to be created or modified by directly
@@ -25,8 +25,8 @@ known_false_positives: It is unusual for a service to be created or modified by 
   It is important to validate and investigate, as appropriate.
 tags:
   analytics_story:
-  - Windows Persistence Techniques
   - Windows Service Abuse
+  - Windows Persistence Techniques
   mitre_attack_id:
   - T1050
   - T1031

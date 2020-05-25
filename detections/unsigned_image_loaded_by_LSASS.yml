@@ -16,7 +16,7 @@ author: Patrick Bareiss, Splunk
 search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)
   as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
   | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `unsigned_image_loaded_by_lsass_filter` '
+  | `unsigned_image_loaded_by_LSAS`unsigned_image_loaded_by_lsass_filter` '
 known_false_positives: Other tools could load images into LSASS for legitimate reason.
   But enterprise tools should always use signed DLLs.
 tags:
