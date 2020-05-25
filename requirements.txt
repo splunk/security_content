@@ -7,18 +7,11 @@ cfgv==2.0.1
 chardet==3.0.4
 configparser==4.0.2
 contextlib2==0.6.0.post1
-<<<<<<< HEAD
-identify==1.4.8
-idna==2.9
-importlib-metadata==1.2.0
-importlib-resources==1.0.2
-Jinja2==2.10.3
-=======
 identify==1.4.16
+idna==2.9
 importlib-metadata==1.6.0
 importlib-resources==1.5.0
 Jinja2==2.11.2
->>>>>>> develop
 jsonschema==3.2.0
 MarkupSafe==1.1.1
 more-itertools==8.0.2
@@ -31,23 +24,15 @@ pytz==2019.3
 PyYAML==5.3.1
 requests==2.23.0
 scandir==1.10.0
-<<<<<<< HEAD
-semantic-version==2.8.3
-simplejson==3.17.0
-=======
 semantic-version==2.8.5
->>>>>>> develop
+simplejson==3.17.0
 six==1.14.0
 stix2==1.4.0
 stix2-patterns==1.3.0
 taxii2-client==2.0.0
 toml==0.10.0
 typing==3.7.4.1
-<<<<<<< HEAD
 urllib3==1.25.9
-virtualenv==16.7.8
-zipp==0.6.0
-=======
 virtualenv==20.0.20
+zipp==0.6.0
 zipp==3.1.0
->>>>>>> develop
