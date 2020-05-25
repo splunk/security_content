@@ -29,7 +29,7 @@ narrative = {{ story.narrative }}
 {% for detection in detections %}
 [savedsearch://ESCU - {{ detection.name }} - Rule]
 type = detection
-asset_type = {{ detection.asset_type }}
+asset_type = {{ detection.tags.asset_type }}
 confidence = medium
 explanation = {{ detection.description }}
 {% if detection.how_to_implement is defined %}
