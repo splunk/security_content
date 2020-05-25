@@ -13,15 +13,7 @@ If you prefer working with the command line, check out our [API](https://docs.sp
 ```
 curl -s https://content.splunkresearch.com | jq
 {
-  "hello": "welcome to Splunks Research security content api",
-  "available_endpoints": [
-    "/stories",
-    "/detections",
-    "/investigations",
-    "/baselines",
-    "/responses",
-    "/package"
-  ]
+  "hello": "welcome to Splunks Research security content api"
 }
 ```
 
