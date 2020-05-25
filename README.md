@@ -1,3 +1,6 @@
+ 
+ 
+ 
 # Splunk Security Content
 ![security-content](docs/static/logo.png)
 =====
@@ -44,8 +47,21 @@ After release [1.0.46](https://github.com/splunk/security-content/releases) we i
 
 # Execute an Analytic Story
 
+<<<<<<< HEAD
 Download and install the latest version of [Splunk Analytic Story Execution]
 (https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
+=======
+Download and install the latest version of [Splunk Analytic Story Execution] 
+(https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
+
+1. Execute an analytic story in an adhoc mode and view the results.
+2. Schedule all the detection searches in an analytic story.
+3. Update security-content via an API
+ 
+
+# Writing Content
+Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing). 
+>>>>>>> develop
 
 1. Execute an analytic story in an adhoc mode and view the results.
 2. Schedule all the detection searches in an analytic story.
