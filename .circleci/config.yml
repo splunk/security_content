@@ -248,13 +248,15 @@ jobs:
           name: update community api sources
           command: |
             cd security-content
-            aws s3 cp stories s3://security-content-community/stories --recursive --exclude "*" --include "*.yml"
-            aws s3 cp baselines s3://security-content-community/baselines --recursive --exclude "*" --include "*.yml"
-            aws s3 cp detections s3://security-content-community/detections --recursive --exclude "*" --include "*.yml"
-            aws s3 cp investigations s3://security-content-community/investigations --recursive --exclude "*" --include "*.yml"
-            aws s3 cp responses s3://security-content-community/responses --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content-community/lookups --recursive --exclude "*" --include "*.yml"
-            aws s3 cp macros s3://security-content-community/macros --recursive --exclude "*" --include "*.yml"
+            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
+            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
+            aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
       - persist_to_workspace:
           root: ~/
           paths:
@@ -458,4 +460,6 @@ workflows:
             - attack-range-update
           filters:
             tags:
-              only: /.*/
+              only: /^v.*/
+            branches:
+              ignore: /.*/
