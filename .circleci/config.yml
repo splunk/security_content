@@ -361,6 +361,7 @@ jobs:
             aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
             aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
             aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
             aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
 workflows:
@@ -457,6 +458,4 @@ workflows:
             - attack-range-update
           filters:
             tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+              only: /.*/
