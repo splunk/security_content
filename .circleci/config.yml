@@ -458,6 +458,4 @@ workflows:
             - attack-range-update
           filters:
             tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+              only: /.*/
