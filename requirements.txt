@@ -34,5 +34,4 @@ toml==0.10.0
 typing==3.7.4.1
 urllib3==1.25.9
 virtualenv==20.0.20
-zipp==0.6.0
 zipp==3.1.0
