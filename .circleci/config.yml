@@ -375,19 +375,18 @@ jobs:
             aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
             aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
             aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
+
 workflows:
   version: 2.1
-  test-dead-links:
-    jobs:
-      - test-links:
-        # always test dead links
-          filters:
-            tags:
-              only: /.*/
   validate-and-build:
     jobs:
       - validate-content:
         # build always
+          filters:
+            tags:
+              only: /.*/
+      - test-links:
+        # always test dead links
           filters:
             tags:
               only: /.*/
