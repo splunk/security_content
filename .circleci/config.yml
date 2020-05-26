@@ -81,6 +81,19 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
+  test-links:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                cd security-content
+                git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
+                git checkout ${CIRCLE_BRANCH}
+            elif [ "${CIRCLE_BRANCH}" == "" ]; then
+      - run: *apt-install
       - run:
           name: check for broken links using liche
           command: |
@@ -364,6 +377,13 @@ jobs:
             aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
 workflows:
   version: 2.1
+  test-dead-links:
+    jobs:
+      - test-links:
+        # always test dead links
+          filters:
+            tags:
+              only: /.*/
   validate-and-build:
     jobs:
       - validate-content:
