@@ -1,28 +1,11 @@
-category:
-  - Abuse
-channel: ESCU
-creation_date: '2017-06-18'
+name: Host Redirection
+id: 2e8948a5-5239-406b-b56b-6c50fe268af4
+version: 1
+date: '2017-09-14'
 description: Detect evidence of tactics used to redirect traffic from a host to a
   destination other than the one intended--potentially one that is part of an adversary's
   attack infrastructure. An example is redirecting communications regarding patches
   and updates or misleading users into visiting a malicious website.
-detections:
-  - detection_id: 74ec6f18-604b-4202-a567-86b2066be3ce
-    name: Clients Connecting to Multiple DNS Servers
-    type: splunk
-  - detection_id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f6
-    name: DNS Query Requests Resolved by Unauthorized DNS Servers
-    type: splunk
-  - detection_id: 06a6fc63-a72d-41dc-8736-7e3dd9612116
-    name: Windows hosts file modification
-    type: splunk
-id: 2e8948a5-5239-406b-b56b-6c50fe268af4
-maintainers:
-  - company: Splunk
-    email: rvaldez@splunk.com
-    name: Rico Valdez
-modification_date: '2017-09-14'
-name: Host Redirection
 narrative: Attackers will often attempt to manipulate client communications for nefarious
   purposes. In some cases, an attacker may endeavor to modify a local host file to
   redirect communications with resources (such as antivirus or system-update services)
@@ -31,12 +14,12 @@ narrative: Attackers will often attempt to manipulate client communications for 
   site, but instead installs malware or collects information from the victim. Additionally,
   an attacker may redirect a victim in order to execute a MITM attack and observe
   communications.
-original_authors:
-  - company: Splunk
-    email: rvaldez@splunk.com
-    name: Rico Valdez
+author: Rico Valdez, Splunk
+type: ESCU
 references:
-  - https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
-spec_version: 2
-usecase: Advanced Threat Detection
-version: '1.0'
+- https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
+tags:
+  analytics_story: Host Redirection
+  usecase: Advanced Threat Detection
+  category:
+  - Abuse

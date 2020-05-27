@@ -1,58 +1,11 @@
-category:
-  - Adversary Tactics
-channel: ESCU
-creation_date: '2018-06-01'
+name: Command and Control
+id: 943773c6-c4de-4f38-89a8-0b92f98804d8
+version: 1
+date: '2018-06-01'
 description: Detect and investigate tactics, techniques, and procedures leveraged
   by attackers to establish and operate command and control channels. Implants installed
   by attackers on compromised endpoints use these channels to receive instructions
   and send data back to the malicious operators.
-detections:
-  - detection_id: e9c102de-4d43-42a7-b1c8-8062ea297419
-    name: Detect Large Outbound ICMP Packets
-    type: splunk
-  - detection_id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
-    name: Protocol or Port Mismatch
-    type: splunk
-  - detection_id: 104658f4-afdc-499f-9719-17a43f9826f4
-    name: Detection of DNS Tunnels
-    type: splunk
-  - detection_id: ea688274-9c06-4473-b951-e4cb7a5d7a45
-    name: TOR Traffic
-    type: splunk
-  - detection_id: ce5a0962-849f-4720-a678-753fe6674479
-    name: Prohibited Network Traffic Allowed
-    type: splunk
-  - detection_id: 74ec6f18-604b-4202-a567-86b2066be3ce
-    name: Clients Connecting to Multiple DNS Servers
-    type: splunk
-  - detection_id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-    name: DNS Query Length With High Standard Deviation
-    type: splunk
-  - detection_id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
-    name: Detect hosts connecting to dynamic domain providers
-    type: splunk
-  - detection_id: 104658f4-afdc-499e-9719-17243f9826f1
-    name: Excessive DNS Failures
-    type: splunk
-  - detection_id: 05437c07-62f5-452e-afdc-04dd44815bb9
-    name: Detect Long DNS TXT Record Response
-    type: splunk
-  - detection_id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f6
-    name: DNS Query Requests Resolved by Unauthorized DNS Servers
-    type: splunk
-  - detection_id: ada0f278-84a8-46w1-a3f1-w32372d4bd53
-    name: Detect Spike in blocked Outbound Traffic from your AWS
-    type: splunk
-  - detection_id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
-    name: DNS Query Length Outliers - MLTK
-    type: splunk
-id: 943773c6-c4de-4f38-89a8-0b92f98804d8
-maintainers:
-  - company: Splunk
-    email: rvaldez@splunk.com
-    name: Rico Valdez
-modification_date: '2018-06-01'
-name: Command and Control
 narrative: 'Threat actors typically architect and implement an infrastructure to use
   in various ways during the course of their attack campaigns. In some cases, they
   leverage this infrastructure for scanning and performing reconnaissance activities.
@@ -69,13 +22,13 @@ narrative: 'Threat actors typically architect and implement an infrastructure to
   Story provides searches that look for a variety of the techniques used for these
   channels, as well as indications that these channels are active, by examining logs
   associated with border control devices and network-access control lists.'
-original_authors:
-  - company: Splunk
-    email: rvaldez@splunk.com
-    name: Rico Valdez
+author: Rico Valdez, Splunk
+type: ESCU
 references:
-  - https://attack.mitre.org/wiki/Command_and_Control
-  - https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
-spec_version: 2
-usecase: Security Monitoring
-version: '1.0'
+- https://attack.mitre.org/wiki/Command_and_Control
+- https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
+tags:
+  analytics_story: Command and Control
+  usecase: Security Monitoring
+  category:
+  - Adversary Tactics

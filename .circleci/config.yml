@@ -144,7 +144,7 @@ jobs:
             python bin/generate.py --path . --output package -v
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
-      - run: 
+      - run:
           name: copy lookups .csv files
           command: |
             cd security-content
@@ -261,17 +261,19 @@ jobs:
       - run: *apt-install
       - aws-cli/setup:
           profile-name: default
-      - run: 
+      - run:
           name: update community api sources
           command: |
             cd security-content
-            aws s3 cp stories s3://security-content-community/stories --recursive --exclude "*" --include "*.yml"
-            aws s3 cp baselines s3://security-content-community/baselines --recursive --exclude "*" --include "*.yml"
-            aws s3 cp detections s3://security-content-community/detections --recursive --exclude "*" --include "*.yml"
-            aws s3 cp investigations s3://security-content-community/investigations --recursive --exclude "*" --include "*.yml"
-            aws s3 cp responses s3://security-content-community/responses --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content-community/lookups --recursive --exclude "*" --include "*.yml"
-            aws s3 cp macros s3://security-content-community/macros --recursive --exclude "*" --include "*.yml"
+            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
+            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
+            aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
       - persist_to_workspace:
           root: ~/
           paths:
@@ -351,7 +353,7 @@ jobs:
       - run:
           name: sync latest ESCU to the Attack Range S3 bucket for apps
           command: |
-            aws s3 cp ~/DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/ 
+            aws s3 cp ~/DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/
             # make the file public since it is not by default
             aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
   master-api-update:
@@ -368,18 +370,19 @@ jobs:
       - run: *apt-install
       - aws-cli/setup:
           profile-name: default
-      - run: 
+      - run:
           name: update api sources
           command: |
             cd security-content
             aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
             aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
             aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
-            aws s3 cp investigations s3://security-content/investigations --recursive --exclude "*" --include "*.yml"
+            aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
             aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
             aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
             aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
-
+            aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
 workflows:
   version: 2.1
   validate-and-build:

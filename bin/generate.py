@@ -11,6 +11,10 @@ from os import path
 import sys
 import datetime
 from jinja2 import Environment, FileSystemLoader
+import re
+from attackcti import attack_client
+import csv
+
 
 # global variables
 REPO_PATH = ''
@@ -18,13 +22,13 @@ VERBOSE = False
 OUTPUT_PATH = ''
 
 
-def load_objects(file_path):
+def load_objects(file_path, VERBOSE):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
-
-    for file in glob.glob(manifest_files):
+    for file in sorted(glob.glob(manifest_files)):
+        if VERBOSE:
+            print("processing manifest: {0}".format(file))
         files.append(load_file(file))
-
     return files
 
 
@@ -54,15 +58,55 @@ def generate_transforms_conf(lookups):
     return output_path
 
 
-def generate_savedsearches_conf(detections, investigations, baselines):
+def generate_savedsearches_conf(detections, response_tasks, baselines, deployments):
+
+    for detection in detections:
+        # parse out data_models
+        data_model = parse_data_models_from_search(detection['search'])
+        if data_model:
+            detection['data_model'] = data_model
+
+        matched_deployments = get_deployments(detection, deployments)
+        if len(matched_deployments):
+            detection['deployment'] = matched_deployments[-1]
+            nes_fields = get_nes_fields(detection['search'], detection['deployment'])
+            if len(nes_fields) > 0:
+                detection['nes_fields'] = nes_fields
+
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection['tags']:
+                    mappings[key] = detection['tags']['mitre_attack_id']
+            else:
+                if key in detection['tags']:
+                    mappings[key] = detection['tags'][key]
+        detection['mappings'] = mappings
+
+    for baseline in baselines:
+        data_model = parse_data_models_from_search(baseline['search'])
+        if data_model:
+            baseline['data_model'] = data_model
+
+        matched_deployments = get_deployments(baseline, deployments)
+        if len(matched_deployments):
+            baseline['deployment'] = matched_deployments[-1]
+
+    for response_task in response_tasks:
+        if 'search' in response_task:
+            data_model = parse_data_models_from_search(response_task['search'])
+            if data_model:
+                response_task['data_model'] = data_model
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
+    j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
     output_path = OUTPUT_PATH + "/default/savedsearches.conf"
-    output = template.render(detections=detections, investigations=investigations, baselines=baselines, time=utc_time)
+    output = template.render(detections=detections, baselines=baselines, response_tasks=response_tasks, time=utc_time)
     with open(output_path, 'w') as f:
         output = output.encode('ascii', 'ignore').decode('ascii')
         f.write(output)
@@ -70,7 +114,23 @@ def generate_savedsearches_conf(detections, investigations, baselines):
     return output_path
 
 
-def generate_analytics_story_conf(stories):
+def generate_analytics_story_conf(stories, detections, response_tasks, baselines):
+
+    sto_det = map_detection_to_stories(detections)
+
+    sto_res = map_response_tasks_to_stories(response_tasks)
+
+    sto_bas = map_baselines_to_stories(baselines)
+
+    for story in stories:
+        if story['name'] in sto_det:
+            story['detections'] = list(sto_det[story['name']])
+        if story['name'] in sto_res:
+            story['response_tasks'] = list(sto_res[story['name']])
+        if story['name'] in sto_bas:
+            story['baselines'] = list(sto_bas[story['name']])
+
+    stories = prepare_stories(stories, detections)
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
@@ -85,7 +145,33 @@ def generate_analytics_story_conf(stories):
     return output_path
 
 
-def generate_use_case_library_conf(stories, detections, investigations, baselines):
+def generate_use_case_library_conf(stories, detections, response_tasks, baselines):
+
+    sto_det = map_detection_to_stories(detections)
+
+    sto_res = map_response_tasks_to_stories(response_tasks)
+
+    for story in stories:
+        if story['name'] in sto_det:
+            story['detections'] = list(sto_det[story['name']])
+        if story['name'] in sto_res:
+            story['response_tasks'] = list(sto_res[story['name']])
+            story['searches'] = story['detections'] + story['response_tasks']
+        else:
+            story['searches'] = story['detections']
+
+    for detection in detections:
+
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection['tags']:
+                    mappings[key] = detection['tags']['mitre_attack_id']
+            else:
+                if key in detection['tags']:
+                    mappings[key] = detection['tags'][key]
+        detection['mappings'] = mappings
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
@@ -94,7 +180,7 @@ def generate_use_case_library_conf(stories, detections, investigations, baseline
     template = j2_env.get_template('use_case_library.j2')
     output_path = OUTPUT_PATH + "/default/use_case_library.conf"
     output = template.render(stories=stories, detections=detections,
-                             investigations=investigations,
+                             response_tasks=response_tasks,
                              baselines=baselines, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -102,7 +188,17 @@ def generate_use_case_library_conf(stories, detections, investigations, baseline
     return output_path
 
 
-def generate_macros_conf(macros):
+def generate_macros_conf(macros, detections):
+    filter_macros = []
+    for detection in detections:
+        new_dict = {}
+        new_dict['definition'] = 'search *'
+        new_dict['description'] = 'Update this macro to limit the output results to filter out false positives. '
+        new_dict['name'] = detection['name']. \
+            replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'
+        filter_macros.append(new_dict)
+
+    all_macros = macros + filter_macros
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
@@ -110,199 +206,263 @@ def generate_macros_conf(macros):
                          trim_blocks=True)
     template = j2_env.get_template('macros.j2')
     output_path = OUTPUT_PATH + "/default/macros.conf"
-    output = template.render(macros=macros, time=utc_time)
+    output = template.render(macros=all_macros, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
 
     return output_path
 
 
-def identify_next_steps(detections, investigations):
-    enriched_detections = []
-    for detection in detections:
-        if 'splunk' in detection['detect']:
-            if 'correlation_rule' in detection['detect']['splunk']:
-                investigations_output = ""
-                has_phantom = False
-                next_steps = ""
-                if 'investigations' in detection:
-                    for i in detection['investigations']:
-                        if i['type'] == 'splunk':
-                            investigations_output += "ESCU - {0}\\n".format(i['name'])
-                            next_steps = "{\"version\": 1, \"data\": \"Recommended following steps:\\n\\n"
-                            next_steps += "1.[[action|escu_investigate]]: Based on ESCU investigate \
-                                            recommendations:\\          n%s\"}" % investigations_output
-                        if i['type'] == 'phantom':
-                            has_phantom = True
+def generate_workbench_panels(response_tasks, stories):
 
-                            # lets pull the playbook URL out from investigation object
-                            playbook_url = ''
-                            for inv in investigations:
-                                if i['name'] == inv['name']:
-                                    playbook_url = inv['investigate']['phantom']['playbook_url']
-                            # construct next steps with the playbook info
-                            playbook_next_steps_string = "Splunk>Phantom Response Playbook - Monitor enrichment of the \
-                                Splunk>Phantom Playbook called " + str(i['name']) + " and answer any \
-                                analyst prompt in Mission Control with a response decision. \
-                                Link to the playbook " + str(playbook_url)
-                            next_steps = "{\"version\": 1, \"data\": \"Recommended following"
-                            next_steps += ":\\n\\n1. [[action|runphantomplaybook]]: Phantom playbook "
-                            next_steps += "recommendations:\\n%s\\n2. [[action|escu_investigate]]: " % (playbook_next_steps_string)
-                            next_steps += "Based on ESCU investigate recommendations:\\n%s\"}" % (investigations_output)
-                    if has_phantom:
-                        detection['recommended_actions'] = 'runphantomplaybook, escu_investigate'
-        enriched_detections.append(detection)
+    sto_res = map_response_tasks_to_stories(response_tasks)
 
-    return enriched_detections
-
-
-def map_investigations_to_detection(detections):
-    inv_det = {}
-    for detection in detections:
-        if 'investigations' in detection:
-            for investigation in detection['investigations']:
-                if not (investigation['id'] in inv_det):
-                    inv_det[investigation['id']] = {detection['id']}
-                else:
-                    inv_det[investigation['id']].add(detection['id'])
-    return inv_det
-
-
-def map_baselines_to_detection(detections):
-    bas_det = {}
-    for detection in detections:
-        if 'baselines' in detection:
-            for baseline in detection['baselines']:
-                if not (baseline['id'] in bas_det):
-                    bas_det[baseline['id']] = {detection['id']}
-                else:
-                    bas_det[baseline['id']].add(detection['id'])
-    return bas_det
-
-
-def map_detection_to_stories(stories):
-    det_sto = {}
     for story in stories:
-        for detection in story['detections']:
-            if not (detection['detection_id'] in det_sto):
-                det_sto[detection['detection_id']] = {story['name']}
+        if story['name'] in sto_res:
+            response_task_names = list(sto_res[story['name']])
+            story['workbench_panels'] = []
+            for response_task_name in response_task_names:
+                str = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                story['workbench_panels'].append(str)
+            story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+
+    workbench_panel_objects = []
+    for response_task in response_tasks:
+        if 'search' in response_task:
+            if 'inputs' in response_task:
+                response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                response_task['lowercase_name'] = response_file_name
+                workbench_panel_objects.append(response_task)
+                j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                                     trim_blocks=True)
+                template = j2_env.get_template('panel.j2')
+                output_path = OUTPUT_PATH + "/default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                output = template.render(search=response_task['search'])
+                with open(output_path, 'w') as f:
+                    f.write(output)
+
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('es_investigations.j2')
+    output_path = OUTPUT_PATH + "/default/es_investigations.conf"
+    output = template.render(response_tasks=workbench_panel_objects, stories=stories)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('workflow_actions.j2')
+    output_path = OUTPUT_PATH + "/default/workflow_actions.conf"
+    output = template.render(response_tasks=workbench_panel_objects)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
+
+def parse_data_models_from_search(search):
+    match = re.search(r'from\sdatamodel\s?=\s?([^\s.]*)', search)
+    if match is not None:
+        return match.group(1)
+    return False
+
+
+def get_deployments(object, deployments):
+    matched_deployments = []
+
+    for deployment in deployments:
+        if 'analytics_story' in deployment['tags']:
+            if type(deployment['tags']['analytics_story']) is str:
+                tags_all_array = [deployment['tags']['analytics_story']]
             else:
-                det_sto[detection['detection_id']].add(story['name'])
-    return det_sto
+                tags_all_array = deployment['tags']['analytics_story']
+            if tags_all_array[0] == 'all':
+                matched_deployments.append(deployment)
+                continue
+
+        for tag in object['tags'].keys():
+            if tag in deployment['tags'].keys():
+                if type(object['tags'][tag]) is str:
+                    tag_array = [object['tags'][tag]]
+                else:
+                    tag_array = object['tags'][tag]
+
+                for tag_value in tag_array:
+                    if type(deployment['tags'][tag]) is str:
+                        tag_array_deployment = [deployment['tags'][tag]]
+                    else:
+                        tag_array_deployment = deployment['tags'][tag]
+
+                    for tag_value_deployment in tag_array_deployment:
+                        if tag_value == tag_value_deployment:
+                            matched_deployments.append(deployment)
+                            continue
+
+    return matched_deployments
 
 
-def enrich_investigations_with_stories(investigations, map_inv_det, map_det_sto):
-    enriched_investigations = []
-    for investigation in investigations:
-        stories_set = set()
-        if investigation['id'] in map_inv_det:
-            for detection_id in map_inv_det[investigation['id']]:
-                if detection_id in map_det_sto:
-                    stories_set = stories_set | map_det_sto[detection_id]
+def get_nes_fields(search, deployment):
+    nes_fields_matches = []
+    if 'notable' in deployment['alert_action']:
+        if 'nes_fields' in deployment['alert_action']['notable']:
+            for field in deployment['alert_action']['notable']['nes_fields']:
+                if (search.find(field + ' ') != -1):
+                    nes_fields_matches.append(field)
 
-        investigation['stories'] = sorted(list(stories_set))
-        enriched_investigations.append(investigation)
-    return enriched_investigations
+    return nes_fields_matches
 
 
-def enrich_detections_with_stories(detections, map_det_sto):
-    enriched_detections = []
+def map_detection_to_stories(detections):
+    sto_det = {}
     for detection in detections:
-        stories_set = set()
-        if detection['id'] in map_det_sto:
-            stories_set = stories_set | map_det_sto[detection['id']]
-        detection['stories'] = sorted(list(stories_set))
-        enriched_detections.append(detection)
-    return enriched_detections
+        if 'analytics_story' in detection['tags']:
+            for story in detection['tags']['analytics_story']:
+                if not (story in sto_det):
+                    sto_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+                else:
+                    sto_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+    return sto_det
 
 
-def enrich_baselines_with_stories(baselines, map_bas_det, map_det_sto):
-    enriched_baselines = []
+def map_response_tasks_to_stories(response_tasks):
+    sto_res = {}
+    for response_task in response_tasks:
+        if 'tags' in response_task:
+            if 'analytics_story' in response_task['tags']:
+                for story in response_task['tags']['analytics_story']:
+                    if not (story in sto_res):
+                        sto_res[story] = {str('ESCU - ' + response_task['name'])}
+                    else:
+                        sto_res[story].add(str('ESCU - ' + response_task['name']))
+    return sto_res
+
+
+def map_baselines_to_stories(baselines):
+    sto_bas = {}
     for baseline in baselines:
-        stories_set = set()
-        if baseline['id'] in map_bas_det:
-            for baseline_id in map_bas_det[baseline['id']]:
-                if baseline_id in map_det_sto:
-                    stories_set = stories_set | map_det_sto[baseline_id]
+        if 'tags' in baseline:
+            if 'analytics_story' in baseline['tags']:
+                for story in baseline['tags']['analytics_story']:
+                    if not (story in sto_bas):
+                        sto_bas[story] = {str('ESCU - ' + baseline['name'])}
+                    else:
+                        sto_bas[story].add(str('ESCU - ' + baseline['name']))
+    return sto_bas
 
-        baseline['stories'] = sorted(list(stories_set))
-        enriched_baselines.append(baseline)
-    return enriched_baselines
+def custom_jinja2_enrichment_filter(string, object):
+    customized_string = string
+    for key in object.keys():
+        customized_string = customized_string.replace("%" + key + "%", str(object[key]))
+
+    for key in object['tags'].keys():
+        customized_string = customized_string.replace("%" + key + "%", str(object['tags'][key]))
+
+    return customized_string
 
 
-def enrich_stories(stories, detections, investigations, baselines):
-    enriched_stories = []
+def prepare_stories(stories, detections):
+
+    # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases, nists
+    sto_to_data_models = {}
+    sto_to_mitre_attack_ids = {}
+    sto_to_kill_chain_phases = {}
+    sto_to_ciss = {}
+    sto_to_nists = {}
+    sto_to_det = {}
+    for detection in detections:
+        if 'analytics_story' in detection['tags']:
+            for story in detection['tags']['analytics_story']:
+                if story in sto_to_det.keys():
+                    sto_to_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+                else:
+                    sto_to_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+
+                data_model = parse_data_models_from_search(detection['search'])
+                if data_model:
+                    if story in sto_to_data_models.keys():
+                        sto_to_data_models[story].add(data_model)
+                    else:
+                        sto_to_data_models[story] = {data_model}
+
+                if 'mitre_attack_id' in detection['tags']:
+                    if story in sto_to_mitre_attack_ids.keys():
+                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
+                            sto_to_mitre_attack_ids[story].add(mitre_attack_id)
+                    else:
+                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
+                            sto_to_mitre_attack_ids[story] = {mitre_attack_id}
+
+                if 'kill_chain_phases' in detection['tags']:
+                    if story in sto_to_kill_chain_phases.keys():
+                        for kill_chain in detection['tags']['kill_chain_phases']:
+                            sto_to_kill_chain_phases[story].add(kill_chain)
+                    else:
+                        for kill_chain in detection['tags']['kill_chain_phases']:
+                            sto_to_kill_chain_phases[story] = {kill_chain}
+
+                if 'cis20' in detection['tags']:
+                    if story in sto_to_ciss.keys():
+                        for cis in detection['tags']['cis20']:
+                            sto_to_ciss[story].add(cis)
+                    else:
+                        for cis in detection['tags']['cis20']:
+                            sto_to_ciss[story] = {cis}
+
+                if 'nist' in detection['tags']:
+                    if story in sto_to_nists.keys():
+                        for nist in detection['tags']['nist']:
+                            sto_to_nists[story].add(nist)
+                    else:
+                        for nist in detection['tags']['nist']:
+                            sto_to_nists[story] = {nist}
+
     for story in stories:
-        providing_technologies = set()
-        data_models = set()
-        detection_names = []
-        mappings = dict()
-        mappings["cis20"] = set()
-        mappings["kill_chain_phases"] = set()
-        mappings["mitre_attack"] = set()
-        mappings["nist"] = set()
-        mappings["mitre_technique_id"] = set()
-        searches = []
+        story['detections'] = sorted(sto_to_det[story['name']])
+        if story['name'] in sto_to_data_models:
+            story['data_models'] = sorted(sto_to_data_models[story['name']])
+        if story['name'] in sto_to_mitre_attack_ids:
+            story['mitre_attack'] = sorted(sto_to_mitre_attack_ids[story['name']])
+        if story['name'] in sto_to_kill_chain_phases:
+            story['kill_chain_phases'] = sorted(sto_to_kill_chain_phases[story['name']])
+        if story['name'] in sto_to_ciss:
+            story['cis20'] = sorted(sto_to_ciss[story['name']])
+        if story['name'] in sto_to_nists:
+            story['nist'] = sorted(sto_to_nists[story['name']])
 
-        for detection in story['detections']:
-            for detection_obj in detections:
-                if detection['detection_id'] == detection_obj['id']:
-                    if 'providing_technologies' in detection_obj['data_metadata']:
-                        providing_technologies = providing_technologies | set(detection_obj
-                                                                              ['data_metadata']['providing_technologies'])
-                    if 'data_models' in detection_obj['data_metadata']:
-                        data_models = data_models | set(detection_obj['data_metadata']['data_models'])
-                    if detection_obj['type'] == 'splunk':
-                        detection_names.append("ESCU - " + detection_obj['name'] + " - Rule")
-
-                    for key in detection_obj['mappings']:
-                        mappings[key] = mappings[key] | set(detection_obj['mappings'][key])
-
-        for key in mappings.keys():
-            mappings[key] = sorted(list(mappings[key]))
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key in story:
+                mappings[key] = story[key]
 
         story['mappings'] = mappings
-        story['detection_names'] = sorted(detection_names)
-        searches = sorted(detection_names)
 
-        investigation_names = []
+    return stories
 
-        for investigation in investigations:
-            for s in investigation['stories']:
-                if s == story['name']:
-                    if 'providing_technologies' in investigation['data_metadata']:
-                        providing_technologies = providing_technologies | set(investigation
-                                                                              ['data_metadata']['providing_technologies'])
-                    if 'data_models' in investigation['data_metadata']:
-                        data_models = data_models | set(investigation['data_metadata']['data_models'])
-                    if investigation['type'] == 'splunk':
-                        investigation_names.append("ESCU - " + investigation['name'])
 
-        story['investigation_names'] = sorted(investigation_names)
-        searches = searches + sorted(investigation_names)
+def generate_mitre_lookup():
 
-        baseline_names = []
+    csv_mitre_rows = [["mitre_id", "technique", "tactics", "groups"]]
 
-        for baseline in baselines:
-            for s in baseline['stories']:
-                if s == story['name']:
-                    if 'providing_technologies' in baseline['data_metadata']:
-                        providing_technologies = providing_technologies | set(baseline['data_metadata']['providing_technologies'])
-                    if 'data_models' in baseline['data_metadata']:
-                        data_models = data_models | set(baseline['data_metadata']['data_models'])
-                    if baseline['type'] == 'splunk':
-                        baseline_names.append("ESCU - " + baseline['name'])
+    lift = attack_client()
+    all_enterprise = lift.get_enterprise(stix_format=False)
+    enterprise_relationships = lift.get_enterprise_relationships()
+    enterprise_groups = lift.get_enterprise_groups()
 
-        story['baseline_names'] = sorted(baseline_names)
-        searches = searches + sorted(baseline_names)
+    for technique in all_enterprise['techniques']:
+        apt_groups = []
+        for relationship in enterprise_relationships:
+            if (relationship['target_ref'] == technique['id']) and relationship['source_ref'].startswith('intrusion-set'):
+                for group in enterprise_groups:
+                    if relationship['source_ref'] == group['id']:
+                        apt_groups.append(group['name'])
 
-        story['providing_technologies'] = sorted(list(providing_technologies))
-        story['data_models'] = sorted(list(data_models))
-        story['searches'] = searches
+        if len(apt_groups) == 0:
+            apt_groups.append('no')
+        csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
-        enriched_stories.append(story)
+    with open('lookups/mitre_enrichment.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(csv_mitre_rows)
 
-    return enriched_stories
 
 
 if __name__ == "__main__":
@@ -319,44 +479,44 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
+    stories = load_objects("stories/*.yml", VERBOSE)
+    macros = load_objects("macros/*.yml", VERBOSE)
+    lookups = load_objects("lookups/*.yml", VERBOSE)
+    baselines = load_objects("baselines/*.yml", VERBOSE)
+    detections = load_objects("detections/*.yml", VERBOSE)
+    responses = load_objects("responses/*.yml", VERBOSE)
+    response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
+    deployments = load_objects("deployments/*.yml", VERBOSE)
 
-    stories = load_objects("stories/*.yml")
-    macros = load_objects("macros/*.yml")
-    lookups = load_objects("lookups/*.yml")
-    detections = load_objects("detections/*.yml")
-    investigations = load_objects("investigations/*.yml")
-    baselines = load_objects("baselines/*.yml")
-
-    detections = identify_next_steps(detections, investigations)
-
-    map_inv_det = map_investigations_to_detection(detections)
-    map_det_sto = map_detection_to_stories(stories)
-    map_bas_det = map_baselines_to_detection(detections)
-    detections = enrich_detections_with_stories(detections, map_det_sto)
-    investigations = enrich_investigations_with_stories(investigations, map_inv_det, map_det_sto)
-    baselines = enrich_baselines_with_stories(baselines, map_bas_det, map_det_sto)
-    stories = enrich_stories(stories, detections, investigations, baselines)
+    try:
+        if VERBOSE:
+            print("generating Mitre lookups")
+        generate_mitre_lookup()
+    except:
+        print("WARNING: Generation of Mitre lookup failed.")
 
     lookups_path = generate_transforms_conf(lookups)
 
     detections = sorted(detections, key=lambda d: d['name'])
-    investigations = sorted(investigations, key=lambda i: i['name'])
+    response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
-    detection_path = generate_savedsearches_conf(detections, investigations, baselines)
+    detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
 
     stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories)
+    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines)
 
-    use_case_lib_path = generate_use_case_library_conf(stories, detections, investigations, baselines)
+    use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines)
 
     macros = sorted(macros, key=lambda m: m['name'])
-    macros_path = generate_macros_conf(macros)
+    macros_path = generate_macros_conf(macros, detections)
+
+    generate_workbench_panels(response_tasks, stories)
+
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
-        print("{0} stories have been successfully written to {1}".format(len(stories), use_case_lib_path))
         print("{0} detections have been successfully written to {1}".format(len(detections), detection_path))
-        print("{0} investigations have been successfully written to {1}".format(len(investigations), detection_path))
+        print("{0} response tasks have been successfully written to {1}".format(len(response_tasks), detection_path))
         print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
         print("security content generation completed..")

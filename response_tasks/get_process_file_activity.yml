@@ -1,0 +1,20 @@
+name: Get Process File Activity
+id: 6a9ad4d9-6ef2-4b85-953f-a37ab256acd5
+version: 2
+date: '2019-11-06'
+description: This search returns the file activity for a specific process on a specific
+  endpoint
+how_to_implement: To successfully implement this search you must be ingesting endpoint
+  data and populating the Endpoint data model.
+author: David Dorsey, Splunk
+inputs:
+- process_id
+- dest
+search: '| tstats `security_content_summariesonly` values(Filesystem.file_name) as
+  file_name values(Filesystem.dest) as dest, values(Filesystem.process_id) as process_id
+  from datamodel=Endpoint.Filesystem where Filesystem.dest=$dest$ Filesystem.process_id=$process_id$
+  by Filesystem.file_path, Filesystem.action, _time | `drop_dm_object_name(Filesystem)`  |
+  sort _time | table _time, process_id, dest, action, file_name, file_path'
+tags:
+  analytics_story:
+  - DHS Report TA18-074A

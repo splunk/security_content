@@ -3,6 +3,152 @@ import yaml
 import argparse
 from os import path
 import sys
+import re
+from jinja2 import Environment, FileSystemLoader
+
+
+def load_objects(file_path):
+    files = []
+    manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
+
+    for file in sorted(glob.glob(manifest_files)):
+        files.append(load_file(file))
+
+    return files
+
+
+def load_file(file_path):
+    with open(file_path, 'r') as stream:
+        try:
+            file = list(yaml.safe_load_all(stream))[0]
+        except yaml.YAMLError as exc:
+            print(exc)
+            sys.exit("ERROR: reading {0}".format(file_path))
+    return file
+
+
+def prepare_content(stories, detections):
+
+    # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases, nists
+    sto_to_data_models = {}
+    sto_to_mitre_attack_ids = {}
+    sto_to_kill_chain_phases = {}
+    sto_to_ciss = {}
+    sto_to_nists = {}
+    sto_to_det = {}
+    for detection in detections:
+        if 'analytics_story' in detection['tags']:
+            for story in detection['tags']['analytics_story']:
+                if story in sto_to_det.keys():
+                    sto_to_det[story].add(detection['name'])
+                else:
+                    sto_to_det[story] = {detection['name']}
+
+                data_model = parse_data_models_from_search(detection['search'])
+                if data_model:
+                    if story in sto_to_data_models.keys():
+                        sto_to_data_models[story].add(data_model)
+                    else:
+                        sto_to_data_models[story] = {data_model}
+
+                if 'mitre_attack_id' in detection['tags']:
+                    if story in sto_to_mitre_attack_ids.keys():
+                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
+                            sto_to_mitre_attack_ids[story].add(mitre_attack_id)
+                    else:
+                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
+                            sto_to_mitre_attack_ids[story] = {mitre_attack_id}
+
+                if 'kill_chain_phases' in detection['tags']:
+                    if story in sto_to_kill_chain_phases.keys():
+                        for kill_chain in detection['tags']['kill_chain_phases']:
+                            sto_to_kill_chain_phases[story].add(kill_chain)
+                    else:
+                        for kill_chain in detection['tags']['kill_chain_phases']:
+                            sto_to_kill_chain_phases[story] = {kill_chain}
+
+                if 'cis20' in detection['tags']:
+                    if story in sto_to_ciss.keys():
+                        for cis in detection['tags']['cis20']:
+                            sto_to_ciss[story].add(cis)
+                    else:
+                        for cis in detection['tags']['cis20']:
+                            sto_to_ciss[story] = {cis}
+
+                if 'nist' in detection['tags']:
+                    if story in sto_to_nists.keys():
+                        for nist in detection['tags']['nist']:
+                            sto_to_nists[story].add(nist)
+                    else:
+                        for nist in detection['tags']['nist']:
+                            sto_to_nists[story] = {nist}
+
+    for story in stories:
+        story['detections'] = sorted(sto_to_det[story['name']])
+        if story['name'] in sto_to_data_models:
+            story['data_models'] = sorted(sto_to_data_models[story['name']])
+        if story['name'] in sto_to_mitre_attack_ids:
+            story['mitre_attack_ids'] = sorted(sto_to_mitre_attack_ids[story['name']])
+        if story['name'] in sto_to_kill_chain_phases:
+            story['kill_chain_phases'] = sorted(sto_to_kill_chain_phases[story['name']])
+        if story['name'] in sto_to_ciss:
+            story['ciss'] = sorted(sto_to_ciss[story['name']])
+        if story['name'] in sto_to_nists:
+            story['nists'] = sorted(sto_to_nists[story['name']])
+
+    #sort stories into categories
+    categories = []
+    category_names = set()
+    for story in stories:
+        if 'category' in story['tags']:
+            category_names.add(story['tags']['category'][0])
+
+    for category_name in sorted(category_names):
+        new_category = {}
+        new_category['name'] = category_name
+        new_category['stories'] = []
+        categories.append(new_category)
+
+    for story in stories:
+        for category in categories:
+            if category['name'] == story['tags']['category'][0]:
+                category['stories'].append(story)
+
+    return categories
+
+
+def write_splunk_docs(stories, detections, OUTPUT_DIR):
+
+    categories = prepare_content(stories, detections)
+
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('splunk_docs_categories.j2')
+    output_path = OUTPUT_DIR + "/splunk_docs_categories.wiki"
+    output = template.render(categories=categories)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
+    return len(stories), output_path
+
+
+def write_markdown_docs(stories, detections, OUTPUT_DIR):
+
+    categories = prepare_content(stories, detections)
+
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('stories_categories.j2')
+    output_path = OUTPUT_DIR + "/stories_categories.md"
+    output = template.render(categories=categories)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
+    return len(stories), output_path
+
+
+
+
 
 
 # function to get unique values
@@ -314,7 +460,7 @@ def generate_stories(REPO_PATH, verbose):
     return complete_stories
 
 
-def write_splunk_docs(stories, detections, OUTPUT_DIR):
+def write_splunk_docs_bak(stories, detections, OUTPUT_DIR):
 
     paths = []
     # Create conf files from analytics stories files
@@ -402,7 +548,7 @@ def write_splunk_docs(stories, detections, OUTPUT_DIR):
     return story_count, paths
 
 
-def write_markdown_docs(stories, detections, OUTPUT_DIR):
+def write_markdown_docs_bak(stories, detections, OUTPUT_DIR):
     paths = []
     # Create conf files from analytics stories files
     splunk_docs_output_path = OUTPUT_DIR + "/stories_categories.md"
@@ -510,6 +656,12 @@ def write_markdown_docs(stories, detections, OUTPUT_DIR):
     return story_count, paths
 
 
+def parse_data_models_from_search(search):
+    match = re.search('from\sdatamodel\s?=\s?([^\s.]*)',search)
+    if match is not None:
+        return match.group(1)
+    return False
+
 if __name__ == "__main__":
 
     # grab arguments
@@ -531,20 +683,21 @@ if __name__ == "__main__":
     gsd = args.gen_splunk_docs
     gmd = args.gen_markdown_docs
 
-    complete_stories = generate_stories(REPO_PATH, verbose)
-    complete_detections = generate_detections(REPO_PATH, complete_stories)
+    stories = load_objects("stories/*.yml")
+    detections = load_objects("detections/*.yml")
+
+    # complete_stories = generate_stories(REPO_PATH, verbose)
+    # complete_detections = generate_detections(REPO_PATH, complete_stories)
 
     if gsd:
-        story_count, paths = write_splunk_docs(complete_stories, complete_detections, OUTPUT_DIR)
-        for p in paths:
-            print("{0} story documents have been successfully written to {1}".format(story_count, p))
+        story_count, path = write_splunk_docs(stories, detections, OUTPUT_DIR)
+        print("{0} story documents have been successfully written to {1}".format(story_count, path))
     else:
         print("--gen_splunk_docs  was set to false, not generating splunk documentation")
 
     if gmd:
-        story_count, paths = write_markdown_docs(complete_stories, complete_detections,  OUTPUT_DIR)
-        for p in paths:
-            print("{0} story documents have been successfully written to {1}".format(story_count, p))
+        story_count, path = write_markdown_docs(stories, detections,  OUTPUT_DIR)
+        print("{0} story documents have been successfully written to {1}".format(story_count, path)) 
     else:
         print("--gen_splunk_docs  was set to false, not generating splunk documentation")
 
