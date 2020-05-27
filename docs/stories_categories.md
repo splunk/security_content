@@ -3162,7 +3162,7 @@ Endpoint
 * company = Splunk
 
 ##### References
-* https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
+* https://www.binarydefense.com/reliably-detecting-pass-the-hash/
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 
 ### Malicious PowerShell

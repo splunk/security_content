@@ -2741,7 +2741,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * DE.CM
 
 ====References====
-* https://blog.binarydefense.com/reliably-detecting-pass-the-hash-through-event-log-analysis
+* https://www.binarydefense.com/reliably-detecting-pass-the-hash/
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 
 creation_date = 2016-09-13
