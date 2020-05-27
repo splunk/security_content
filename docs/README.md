@@ -1,9 +1,9 @@
-# Welcome to Splunk Security Research! 
+# Splunk Security Content 
 ![](static/logo.png) 
 
-Thanks for stopping by the Splunk Security Research Team's resource portal! Here you'll find background and links to our security content and other related tools.
+Welcome to the Splunk Security Content
 
-Splunk security content is organized into "Analytic Stories," themed security guides that provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all built to work together to detect, investigate, and respond to threats. The other apps were designed to help you derive more value from this content. 
+This project gives you access to our repository of Analytic Stories that are security guides which provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
 
 ## View Our Content
 You can review our Analytic Stories by category [here](stories_categories.md), or in our [Splunk App](https://github.com/splunk/security-content/releases). 
@@ -13,21 +13,13 @@ If you prefer working with the command line, check out our [API](https://docs.sp
 ```
 curl -s https://content.splunkresearch.com | jq
 {
-  "hello": "welcome to Splunks Research security content api",
-  "available_endpoints": [
-    "/stories",
-    "/detections",
-    "/investigations",
-    "/baselines",
-    "/responses",
-    "/package"
-  ]
+  "hello": "welcome to Splunks Research security content api"
 }
 ```
 
 ## Getting Started
 
-Once you've cloned the security-content repo, we recommend using our Analytic Story Execution App [(ASX)](https://github.com/splunk/analytics_story_execution) to execute all of the searches, machine-learning models, and Splunk Phantom playbooks in the story automatically.   
+Once you've installed our [app](https://github.com/splunk/security-content/releases), we recommend using our Analytic Story Execution App [(ASX)](https://github.com/splunk/analytics_story_execution) to execute and schedule all of the detections a story automatically.   
 
 ## Test Out The Detections
 The [attack_range](https://http://github.com/splunk/attack_range) project allows you to spin up an enviroment and launch attacks against it to test the detections. 
@@ -36,15 +28,25 @@ The [attack_range](https://http://github.com/splunk/attack_range) project allows
 If you get stuck or need help with any of our tools, see our [support options](https://github.com/splunk/security-content#support). 
 
 ## Contribute Content
-If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security-content#Contributing). Digital defenders unite!
+If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security-content/blob/develop/docs/CONTRIBUTING.md). Digital defenders unite!
 
 
-## Content Spec Documentation 
-* [Story](spec/story.spec.md)
-* [Detections](spec/detections.spec.md) 
-* [Investigations](spec/investigations.spec.md) 
-* [Responses](spec/responses.spec.md) 
-* [Baselines](spec/baselines.spec.md)
+## Content Parts
+* [stories/](stories/): All Analytic Stories
+* [detections/](detections/): Splunk Enterprise, Splunk UBA, and Splunk Phantom detections that power Analytic Stories
+* [response_tasks/](response_tasks/): Splunk Enterprise and Splunk Phantom investigative searches and playbooks employed by Analytic Stories
+* [responses/](responses/): Automated Splunk Enterprise and Splunk Phantom responses triggered by Analytic Stories
+* [baselines/](baselines/): Splunk Phantom and Splunk Enterprise baseline searches needed to support detection searches in Analytic Stories
+
+#### Content Spec Files
+* [stories](docs/spec/stories.spec.md) 
+* [detections](docs/spec/detections.spec.md)
+* [deployments](docs/spec/deployments.spec.md)
+* [responses](docs/spec/responses.spec.md)
+* [response_tasks](docs/spec/response_tasks.spec.md)
+* [baselines](docs/spec/baselines.spec.md)
+* [lookups](docs/spec/lookups.spec.md)
+* [macros](docs/spec/macros.spec.md)
 
 
 
