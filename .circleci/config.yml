@@ -385,15 +385,25 @@ jobs:
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
 workflows:
   version: 2.1
+  test-dead-links:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+                - beta
+    jobs:
+      - test-links:
+        # always test dead links
+          filters:
+            tags:
+              only: /.*/
   validate-and-build:
     jobs:
       - validate-content:
         # build always
-          filters:
-            tags:
-              only: /.*/
-      - test-links:
-        # always test dead links
           filters:
             tags:
               only: /.*/
