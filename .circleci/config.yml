@@ -395,7 +395,7 @@ workflows:
                 - master
                 - develop
     jobs:
-      - test-links:
+      - test-links
   validate-and-build:
     jobs:
       - validate-content:
