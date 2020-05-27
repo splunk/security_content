@@ -81,6 +81,23 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
+  test-links:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                cd security-content
+                git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
+                git checkout ${CIRCLE_BRANCH}
+            elif [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
       - run:
           name: check for broken links using liche
           command: |
@@ -92,8 +109,8 @@ jobs:
             source $BASH_ENV
             go get -u github.com/raviqqe/liche
             cd security-content
-            liche docs/stories_categories.md -v -t 45
-            liche README.md -v -t 45
+            liche docs/stories_categories.md -v -t 60
+            liche README.md -v -t 60
   build-sources:
     executor: content-executor
     steps:
@@ -368,6 +385,17 @@ jobs:
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
 workflows:
   version: 2.1
+  test-dead-links:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+    jobs:
+      - test-links
   validate-and-build:
     jobs:
       - validate-content:

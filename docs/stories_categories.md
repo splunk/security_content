@@ -1486,7 +1486,6 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 * PR.IP
 
 ##### References
-* https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
 
 ### Asset Tracking
 * id = 91c676cf-0b23-438d-abee-f6335e1fce77
