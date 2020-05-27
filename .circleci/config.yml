@@ -393,7 +393,7 @@ workflows:
             branches:
               only:
                 - master
-                - beta
+                - develop
     jobs:
       - test-links:
         # always test dead links
