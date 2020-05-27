@@ -396,10 +396,6 @@ workflows:
                 - develop
     jobs:
       - test-links:
-        # always test dead links
-          filters:
-            tags:
-              only: /.*/
   validate-and-build:
     jobs:
       - validate-content:
