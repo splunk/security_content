@@ -152,6 +152,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     sto_res = map_response_tasks_to_stories(response_tasks)
 
     for story in stories:
+        story['author_name'], story['author_company'] = parse_author_company(story)
         if story['name'] in sto_det:
             story['detections'] = list(sto_det[story['name']])
         if story['name'] in sto_res:
@@ -263,6 +264,22 @@ def parse_data_models_from_search(search):
     if match is not None:
         return match.group(1)
     return False
+
+
+def parse_author_company(story):
+    match_author = re.search(r'^([^,]+)', story['author'])
+    if match_author is None:
+        match_author = 'no'
+    else:
+        match_author = match_author.group(1)
+
+    match_company = re.search(r',\s?(.*)$', story['author'])
+    if match_company is None:
+        match_company = 'no'
+    else:
+        match_company = match_company.group(1)
+
+    return match_author, match_company
 
 
 def get_deployments(object, deployments):
