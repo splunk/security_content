@@ -9,12 +9,12 @@
 
 {% for story in stories %}
 [analytic_story://{{ story.name }}]
-category = {{ story.category[0] }}
-last_updated = {{ story.modification_date }}
+category = {{ story.tags.category[0] }}
+last_updated = {{ story.date }}
 version = {{ story.version }}
 references = {{ story.references | tojson }}
-maintainers = {{ story.maintainers | tojson }}
-spec_version = {{ story.spec_version }}
+maintainers = [{"company": "{{ story.author_company }}", "email": "-", "name": "{{ story.author_name }}"}]
+spec_version = 3
 searches = {{ story.searches | tojson }}
 description = {{ story.description }}
 {% if story.narrative is defined %}
@@ -29,48 +29,55 @@ narrative = {{ story.narrative }}
 {% for detection in detections %}
 [savedsearch://ESCU - {{ detection.name }} - Rule]
 type = detection
-asset_type = {{ detection.asset_type }}
-confidence = {{ detection.confidence }}
-explanation = {{ detection.eli5 }}
+asset_type = {{ detection.tags.asset_type }}
+confidence = medium
+explanation = {{ detection.description }}
+{% if detection.how_to_implement is defined %}
 how_to_implement = {{ detection.how_to_implement }}
+{% else %}
+how_to_implement = none
+{% endif %}
 annotations = {{ detection.mappings | tojson }}
 known_false_positives = {{ detection.known_false_positives }}
-providing_technologies = {{ detection.data_metadata.providing_technologies | tojson }}
+providing_technologies = []
 
 {% endfor %}
 ### END DETECTIONS ###
 
-### INVESTIGATIONS ###
+### RESPONSE TASKS ###
 
-{% for investigation in investigations %}
-[savedsearch://ESCU - {{ investigation.name }}]
+{% for response_task in response_tasks %}
+[savedsearch://ESCU - {{ response_task.name }}]
 type = investigation
 explanation = none
-how_to_implement = {{ investigation.how_to_implement }}
-{% if investigation.known_false_positives is defined %}
-known_false_positives = {{ investigation.known_false_positives }}
+{% if response_task.how_to_implement is defined %}
+how_to_implement = {{ response_task.how_to_implement }}
 {% else %}
-known_false_positives = None at this time
+how_to_implement = none
 {% endif %}
-{% if investigation.investigate.splunk is defined %}
-earliest_time_offset = {{ investigation.investigate.splunk.schedule.earliest_time }}
-latest_time_offset = {{ investigation.investigate.splunk.schedule.latest_time }}
-{% else %}
-earliest_time_offset = {{ investigation.investigate.phantom.schedule.earliest_time }}
-latest_time_offset = {{ investigation.investigate.phantom.schedule.latest_time }}
-{% endif %}
+known_false_positives = not defined
+earliest_time_offset = 14400
+latest_time_offset = 0
 
 {% endfor %}
-### END INVESTIGATIONS ###
+### END RESPONSE TASKS ###
 
 ### BASELINES ###
 {% for baseline in baselines %}
 [savedsearch://ESCU - {{ baseline.name }}]
 type = support
-explanation = {{ baseline.eli5 }}
+explanation = {{ baseline.description }}
+{% if baseline.how_to_implement is defined %}
 how_to_implement = {{ baseline.how_to_implement }}
+{% else %}
+how_to_implement = none
+{% endif %}
+{% if baseline.known_false_positives is defined %}
 known_false_positives = {{ baseline.known_false_positives }}
-providing_technologies = {{ baseline.data_metadata.providing_technologies | tojson }}
+{% else %}
+known_false_positives = not defined
+{% endif %}
+providing_technologies = none
 
 {% endfor %}
 ### END ESCU BASELINES ###

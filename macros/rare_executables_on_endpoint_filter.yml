@@ -1,3 +1,0 @@
-definition: search *
-description: Update this macro to filter out false positives
-name: rare_executables_on_endpoint_filter

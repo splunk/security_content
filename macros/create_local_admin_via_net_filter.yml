@@ -1,3 +1,0 @@
-definition: search *
-description: Update this macro to limit the output results to filter out false positives. 
-name: create_local_admin_via_net_filter

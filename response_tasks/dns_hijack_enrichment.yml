@@ -1,0 +1,33 @@
+name: DNS Hijack Enrichment
+id: c096f721-8842-42ce-bfc7-74bd9a72c712
+version: 1
+date: '2019-02-14'
+description: 'This Playbook is part of the Splunk Analytic Story called DNS Hijacking.
+  It is made to be run when the Detection Search within that story called "DNS Record
+  Changed" is used to identify DNS record changes for cloud and corporate domains
+  used in your environment. The detection search is dependent on a support searched
+  called "Discover DNS Records" which finds the common DNS responses for the last
+  30 days of monitored corporate domains and cloud providers (located in lookups:
+  cim_corporate_email_domains.csv, cim_corporate_web_domains.csv, and cloud_domains.csv
+  from Splunk CIM App). These responses are stored under the lookup called discovered_dns_records.csv.
+  The playbook starts with the changed DNS records and uses MaxMind, whois, Censys,
+  Malware Domain List, and PassiveTotal to gather attributes of the DNS records for
+  comparison against expected values. The resulting enrichment is displayed in Mission
+  Control and posted back to the Notable Event in Splunk ES.'
+how_to_implement: 'If Splunk>Phantom is also configured in your environment, a Playbook
+  called "DNS Hijack Enrichment" can be configured to run when any results are found
+  by this detection search. The playbook takes in the DNS record changed and uses
+  Geoip, whois, Censys and PassiveTotal to detect if DNS issuers changed. To use this
+  integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`,
+  add the correct hostname to the "Phantom Instance" field in the Adaptive Response
+  Actions when configuring this detection search, and set the corresponding Playbook
+  to active. \
+
+  (Playbook Link:`https://my.phantom.us/4.2/playbook/dns-hijack-enrichment/`).\
+
+  '
+author: Bhavin Patel, Splunk
+playbook:
+  name: dns_hijack_enrichment
+  url_json: https://github.com/phantomcyber/playbooks/blob/4.6/dns_hijack_enrichment.json
+  url_python: https://github.com/phantomcyber/playbooks/blob/4.6/dns_hijack_enrichment.py

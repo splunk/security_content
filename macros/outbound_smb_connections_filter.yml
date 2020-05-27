@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters for outbound SMB traffic detection
-name: outbound_smb_connections_filter
