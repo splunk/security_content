@@ -9,18 +9,32 @@
 
 {% for story in stories %}
 [{{ story.name }}]
-category =  {{ story.category[0] }}
-creation_date = {{ story.creation_date }}
-modification_date = {{ story.modification_date }}
+category =  {{ story.tags.category[0] }}
+creation_date = {{ story.date }}
+modification_date = {{ story.date }}
 id = {{ story.id }}
 version = {{ story.version }}
 reference = {{ story.references | tojson }}
-detection_searches = {{ story.detection_names | tojson }}
+detection_searches = {{ story.detections | tojson }}
+{% if story.mappings is defined %}
 mappings = {{ story.mappings | tojson }}
-investigative_searches = {{ story.investigation_names | tojson }}
-support_searches = {{ story.baseline_names | tojson }}
+{% endif %}
+{% if story.response_tasks is defined %}
+investigative_searches = {{ story.response_tasks | tojson }}
+{% else %}
+investigative_searches = []
+{% endif %}
+{% if story.baselines is defined %}
+support_searches = {{ story.baselines | tojson }}
+{% else %}
+support_searches = []
+{% endif %}
+{% if story.data_models is defined %}
 data_models = {{ story.data_models | tojson }}
-providing_technologies = {{ story.providing_technologies | tojson }}
+{% else %}
+data_models = []
+{% endif %}
+providing_technologies = none
 description = {{ story.description }}
 {% if story.narrative is defined %}
 narrative = {{ story.narrative }}

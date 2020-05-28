@@ -1,33 +1,10 @@
-category:
-  - Cloud Security
-channel: ESCU
-creation_date: '2018-03-12'
+name: AWS User Monitoring
+id: 2e8948a5-5239-406b-b56b-6c50f1269af3
+version: 1
+date: '2018-03-12'
 description: Detect and investigate dormant user accounts for your AWS environment
   that have become active again. Because inactive and ad-hoc accounts are common attack
   targets, it's critical to enable governance within your environment.
-detections:
-  - detection_id: ada0f478-84a8-4641-a3f1-d82362d4bd55
-    name: Detect AWS API Activities From Unapproved Accounts
-    type: splunk
-  - detection_id: ada0f478-84a8-4641-a3f1-d32362d4bd55
-    name: Detect Spike in AWS API Activity
-    type: splunk
-  - detection_id: 22773e84-bac0-4595-b086-20d3f335b4f1
-    name: Detect new API calls from user roles
-    type: splunk
-  - detection_id: ada0f478-84a8-4641-a3f1-e32372d4bd53
-    name: Detect Spike in Security Group Activity
-    type: splunk
-  - detection_id: 2a9b80d3-6340-4345-w5ad-212bf5d1dac4
-    name: Detect API activity from users without MFA
-    type: splunk
-id: 2e8948a5-5239-406b-b56b-6c50f1269af3
-maintainers:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
-modification_date: '2018-03-12'
-name: AWS User Monitoring
 narrative: 'It seems obvious that it is critical to monitor and control the users
   who have access to your cloud infrastructure. Nevertheless, it''s all too common
   for enterprises to lose track of ad-hoc accounts, leaving their servers vulnerable
@@ -48,13 +25,13 @@ narrative: 'It seems obvious that it is critical to monitor and control the user
   The detection searches in this Analytic Story are designed to help you uncover AWS
   API activities from users not listed in the identity table, as well as similar activities
   from disabled accounts.'
-original_authors:
-  - company: Splunk
-    email: bpatel@splunk.com
-    name: Bhavin Patel
+author: Bhavin Patel, Splunk
+type: ESCU
 references:
-  - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-  - https://redlock.io/blog/cryptojacking-tesla
-spec_version: 2
-usecase: Security Monitoring
-version: '1.0'
+- https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+- https://redlock.io/blog/cryptojacking-tesla
+tags:
+  analytics_story: AWS User Monitoring
+  usecase: Security Monitoring
+  category:
+  - Cloud Security

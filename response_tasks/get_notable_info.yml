@@ -1,0 +1,69 @@
+name: Get Notable Info
+id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
+version: 1
+date: '2017-09-20'
+description: This search queries the notable index to retrieve detailed information
+  captured within the notable. Every notable has a unique ID associated with it, which
+  is used to point us directly to the notable event under investigation.
+how_to_implement: If you are using Enterprise Security you are likely already creating
+  notable events with your correlation rules. No additional configuration is necessary.
+author: Bhavin Patel, Splunk
+inputs:
+- event_id
+search: '| search `notable_by_id($event_id$)` | table time, rule_name, dest, dest_asset_id,
+  dest_owner, priority, severity, owner, status_description'
+tags:
+  analytics_story:
+  - AWS Cryptomining
+  - AWS Network ACL Activity
+  - AWS User Monitoring
+  - Account Monitoring and Controls
+  - Apache Struts Vulnerability
+  - Asset Tracking
+  - Brand Monitoring
+  - Cloud Cryptomining
+  - Collection and Staging
+  - Command and Control
+  - DHS Report TA18-074A
+  - DNS Amplification Attacks
+  - Data Protection
+  - Disabling Security Tools
+  - Dynamic DNS
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - Host Redirection
+  - JBoss Vulnerability
+  - Kubernetes Scanning Activity
+  - Lateral Movement
+  - Malicious PowerShell
+  - Monitor for Unauthorized Software
+  - Monitor for Updates
+  - Netsh Abuse
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Ransomware
+  - Router and Infrastructure Security
+  - SQL Injection
+  - SamSam Ransomware
+  - Spectre And Meltdown Vulnerabilities
+  - Splunk Enterprise Vulnerability
+  - Splunk Enterprise Vulnerability CVE-2018-11409
+  - Suspicious AWS EC2 Activities
+  - Suspicious AWS S3 Activities
+  - Suspicious AWS Traffic
+  - Suspicious Command-Line Executions
+  - Suspicious DNS Traffic
+  - Suspicious Emails
+  - Suspicious MSHTA Activity
+  - Suspicious WMI Use
+  - Suspicious Windows Registry Activities
+  - Unusual Processes
+  - Use of Cleartext Protocols
+  - Web Fraud Detection
+  - Windows Defense Evasion Tactics
+  - Windows File Extension and Association Abuse
+  - Windows Log Manipulation
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation
+  - Windows Service Abuse

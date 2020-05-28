@@ -1,3 +1,0 @@
-description: Use this macro to add additional filters for monitoring DNS query length with high standard deviation
-name: dns_query_length_with_high_standard_deviation_filter
-definition: search *

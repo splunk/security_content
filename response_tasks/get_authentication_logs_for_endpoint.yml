@@ -1,0 +1,56 @@
+name: Get Authentication Logs For Endpoint
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
+version: 1
+date: '2017-11-01'
+description: This search returns all users that have attempted to access a particular
+  endpoint.
+how_to_implement: To successfully implement this search you need to be ingesting authentication
+  logs from your various systems and populating the Authentication data model.
+author: Bhavin Patel, Splunk
+inputs:
+- dest
+search: '| tstats count from datamodel=Authentication where Authentication.dest=$dest$
+  by _time, Authentication.dest, Authentication.user, Authentication.app, Authentication.action
+  | `drop_dm_object_name("Authentication")`'
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  - Account Monitoring and Controls
+  - Apache Struts Vulnerability
+  - Brand Monitoring
+  - ColdRoot MacOS RAT
+  - Collection and Staging
+  - Command and Control
+  - DHS Report TA18-074A
+  - Data Protection
+  - Disabling Security Tools
+  - Dynamic DNS
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - Host Redirection
+  - Lateral Movement
+  - Malicious PowerShell
+  - Monitor for Unauthorized Software
+  - Netsh Abuse
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Ransomware
+  - Router and Infrastructure Security
+  - SQL Injection
+  - SamSam Ransomware
+  - Spectre And Meltdown Vulnerabilities
+  - Suspicious AWS Traffic
+  - Suspicious Command-Line Executions
+  - Suspicious DNS Traffic
+  - Suspicious Emails
+  - Suspicious MSHTA Activity
+  - Suspicious WMI Use
+  - Suspicious Windows Registry Activities
+  - Unusual Processes
+  - Windows Defense Evasion Tactics
+  - Windows File Extension and Association Abuse
+  - Windows Log Manipulation
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation
+  - Windows Service Abuse

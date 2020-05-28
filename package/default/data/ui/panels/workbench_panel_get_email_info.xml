@@ -1,0 +1,9 @@
+<panel>
+  <table>
+    <search>
+      <query>| from datamodel Email.All_Email | search message_id=$message_id$</query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>

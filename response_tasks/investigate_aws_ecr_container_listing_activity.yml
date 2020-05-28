@@ -1,0 +1,23 @@
+name: Investigate AWS ECR container listing activity
+id: 6027623f-7d10-4847-af3b-8d7e87970451
+version: 1
+date: '2020-02-20'
+description: This search lists all the users performing a list image operation on
+  AWS Elastic Container Registry. Listing source user, image id, source IP, user type,
+  http user agent. This search also gives counts of unique user agents per listing
+  source.
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.You must also install Cloud Infrastructure Data Model.
+author: Rod Soto, Rico Valdez, Splunk
+inputs:
+- Compute.event_name
+search: '|tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Cloud_Infrastructure.Compute
+  where Compute.user_type!="AssumeRole" AND Compute.event_name="ListImages" by Compute.image_id
+  Compute.src_user Compute.src Compute.http_user_agent Compute.user_type | rename
+  "Compute.*" as * |stats values(http_user_agent) as http_user_agent distinct_count(http_user_agent)
+  as unique_ua_count by src_user, image_id, src, user_type | where unique_ua_count
+  > 1'
+tags:
+  analytics_story:
+  - Container Implantation Monitoring and Investigation

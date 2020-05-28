@@ -1,0 +1,59 @@
+name: Get Risk Modifiers For User
+id: fdcfb369-1725-4c24-824a-22972d7f0d55
+version: 1
+date: '2017-10-19'
+description: 'For the last 7 days, the search will query the Risk data model in Splunk
+  Enterprise Security and calculate the count, sum of the risk_scores, names of the
+  correlation searches that contributed to create a risk score for a specific user '
+how_to_implement: Enable the correlation searches included in Splunk Enterprise Security
+  that include Risk Analysis alert actions by leveraging the Risk Analysis Framework
+author: Bhavin Patel, Splunk
+inputs:
+- user
+search: '| from datamodel:Risk.All_Risk | search risk_object_type=user risk_object=$user$
+  | stats count sum(risk_score) as risk_score values(search_name)  min(_time) as firstTime
+  max(_time) as lastTime by risk_object |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` '
+tags:
+  analytics_story:
+  - AWS Network ACL Activity
+  - Account Monitoring and Controls
+  - Apache Struts Vulnerability
+  - Brand Monitoring
+  - ColdRoot MacOS RAT
+  - Collection and Staging
+  - Command and Control
+  - DHS Report TA18-074A
+  - DNS Amplification Attacks
+  - Data Protection
+  - Disabling Security Tools
+  - Dynamic DNS
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - Host Redirection
+  - Lateral Movement
+  - Malicious PowerShell
+  - Monitor Backup Solution
+  - Monitor for Unauthorized Software
+  - Netsh Abuse
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Ransomware
+  - Router and Infrastructure Security
+  - SamSam Ransomware
+  - Spectre And Meltdown Vulnerabilities
+  - Suspicious AWS Traffic
+  - Suspicious Command-Line Executions
+  - Suspicious DNS Traffic
+  - Suspicious Emails
+  - Suspicious MSHTA Activity
+  - Suspicious WMI Use
+  - Suspicious Windows Registry Activities
+  - Unusual Processes
+  - Use of Cleartext Protocols
+  - Windows Defense Evasion Tactics
+  - Windows File Extension and Association Abuse
+  - Windows Log Manipulation
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation
+  - Windows Service Abuse
