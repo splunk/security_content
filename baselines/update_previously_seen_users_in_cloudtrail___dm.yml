@@ -1,52 +1,34 @@
-tag
-baseline:
-  splunk:
-    schedule:
-      cron_schedule: 0 0 1 * *
-      earliest_time: -60m@m
-      latest_time: m@m
-    search: | tstats earliest(_time) as firstTime latest(_time) as lastTime from
-      datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user
-      Authenticaiton.src | iplocation Authentication.src | rename Authentication.user as user 
-      Authentciation.src as src | table user src City Region Country firstTime lastTime
-      | inputlookup append=t previously_seen_users_console_logins.csv | stats min(firstTime) as
-      firstTime max(lastTime) as lastTime by user src City Region Country
-      | outputlookup previously_seen_users_console_logins.csv
-creation_date: '2020-04-28'
-data_metadata:
-  data_source:
-    - AWS CloudTrail logs
-  data_model:
-    - Authentication
-  providing_technologies:
-    - AWS
+name: Update previously seen users in CloudTrail - DM
+id: 66ff71c2-7e01-47dd-a041-906688c9d322
+version: 1
+date: '2020-05-28'
 description: This search looks for CloudTrail events where a user logs into the console,
   then updates the baseline of the latest and earliest times, City, Region, and Country
-  we have encountered this user in our dataset, grouped by ARN, within the last hour.
-eli5: In this support search, we look for console login events by a particular user
-  to update the baseline cache of users/arns making the accesses, including the earliest
-  and latest times, City, Region, and Country a particular user ARN is seen in our
-  dataset, grouped by the ARN value. In cases where City and Region cannot be determined,
-  the source IP address is substituted for these values.
-entities:
-  - user
-  - src
+  we have encountered this user in our dataset, grouped by user, within the last hour.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Please validate the user name entries in `previously_seen_users_console_logins.csv`,
   which is a lookup file created as a result of running this support search.
-id: 66ff71c2-7e01-47dd-a041-906688c9d322
-known_false_positives: n/a
-maintainers:
-  - company: Splunk
-    email: rvaldez@splunk.com
-    name: Rico Valdez
-modification_date: '2018-04-30'
-name: Update previously seen users in CloudTrail
-original_authors:
-  - company: Splunk
-    email: rvaldez@splunk.com
-    name: Rico Valdez
-spec_version: 2
-type: splunk
-version: '1.0'
+author: Rico Valdez, Splunk
+search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation
+  src | eval City=if(City LIKE "",src,City),Region=if(Region LIKE "",src,Region) |
+  stats earliest(_time) AS firstTime latest(_time) AS lastTime by user src City Region
+  Country | inputlookup append=t previously_seen_users_console_logins.csv | stats
+  min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region Country
+  | outputlookup previously_seen_users_console_logins.csv'
+
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from
+      datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user
+      Authenticaiton.src | iplocation Authentication.src | rename Authentication.user as user
+      Authentciation.src as src | table user src City Region Country firstTime lastTime
+      | inputlookup append=t previously_seen_users_console_logins.csv | stats min(firstTime) as
+      firstTime max(lastTime) as lastTime by user src City Region Country
+      | outputlookup previously_seen_users_console_logins.csv'
+tags:
+  analytics_story:
+  - Suspicious AWS Login Activities - DM
+  detections:
+  - Detect AWS Console Login by User from New Country
+  - Detect AWS Console Login by User from New Region
+  - Detect AWS Console Login by User from New City
+  - Detect new user AWS Console Login - DM
