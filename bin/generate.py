@@ -521,12 +521,12 @@ if __name__ == "__main__":
     response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
     deployments = load_objects("deployments/*.yml", VERBOSE)
 
-    # try:
-    #     if VERBOSE:
-    #         print("generating Mitre lookups")
-    #     generate_mitre_lookup()
-    # except:
-    #     print("WARNING: Generation of Mitre lookup failed.")
+    try:
+        if VERBOSE:
+            print("generating Mitre lookups")
+        generate_mitre_lookup()
+    except:
+        print("WARNING: Generation of Mitre lookup failed.")
 
     lookups_path = generate_transforms_conf(lookups)
     lookups_path = generate_collections_conf(lookups)
