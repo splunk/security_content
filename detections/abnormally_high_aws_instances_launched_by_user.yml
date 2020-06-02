@@ -10,7 +10,14 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-
+search: '`cloudtrail` eventName=RunInstances errorCode=success | bucket span=10m _time
+  | stats count AS instances_launched by _time userName | eventstats avg(instances_launched)
+  as total_launched_avg, stdev(instances_launched) as total_launched_stdev | eval
+  threshold_value = 4 | eval isOutlier=if(instances_launched > total_launched_avg+(total_launched_stdev
+  * threshold_value), 1, 0) | search isOutlier=1 AND _time >= relative_time(now(),
+  "-10m@m") | eval num_standard_deviations_away = round(abs(instances_launched - total_launched_avg)
+  / total_launched_stdev, 2) | table _time, userName, instances_launched, num_standard_deviations_away,
+  total_launched_avg, total_launched_stdev | `abnormally_high_aws_instances_launched_by_user_filter`'
 known_false_positives: Many service accounts configured within an AWS infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter
   out service accounts from the output. Always verify if this search alerted on a
