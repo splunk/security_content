@@ -82,11 +82,9 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
-      - slack/notify:
-          color: '#42e2f4'
-          fail_only: true
-          message: validation failed for PR
+      - slack/status:
           webhook: '${SLACK_WEBHOOK}'
+          fail_only: true
         
   test-links:
     executor: content-executor
@@ -118,11 +116,9 @@ jobs:
             cd security-content
             liche docs/stories_categories.md -v -t 60
             liche README.md -v -t 60
-      - slack/notify:
-          color: '#42e2f4'
-          fail_only: true
-          message: there are broken links in the project
+      - slack/status:
           webhook: '${SLACK_WEBHOOK}'
+          fail_only: true
         
   build-sources:
     executor: content-executor
@@ -189,10 +185,8 @@ jobs:
           root: security-content/
           paths:
               - content-pack-build.tar.gz
-      - slack/notify:
-          color: '#42e2f4'
+      - slack/status:
           fail_only: true
-          message: running generate.py failed 
           webhook: '${SLACK_WEBHOOK}'
         
   build-package:
@@ -232,10 +226,8 @@ jobs:
           root: ~/dist
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-      - slack/notify:
-          color: '#42e2f4'
+      - slack/status:
           fail_only: true
-          message: building .tar.gz package using slim failed
           webhook: '${SLACK_WEBHOOK}'
         
   run-appinspect:
@@ -270,10 +262,8 @@ jobs:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-      - slack/notify:
-          color: '#42e2f4'
+      - slack/status:
           fail_only: true
-          message: appinspect did not pass for package
           webhook: '${SLACK_WEBHOOK}'
         
   community-api-update:
@@ -359,10 +349,8 @@ jobs:
           root: ~/
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
-      - slack/notify:
-          color: '#42e2f4'
+      - slack/status:
           fail_only: true
-          message: issue pushing updates into repo
           webhook: '${SLACK_WEBHOOK}'
         
   publish-github-release:
@@ -380,10 +368,8 @@ jobs:
           root: ~/
           paths:
               - DA-ESS-ContentUpdate-latest.tar.gz
-      - slack/notify:
-          color: '#42e2f4'
+      - slack/status:
           fail_only: true
-          message: issue publishing release using ghr
           webhook: '${SLACK_WEBHOOK}'
         
   attack-range-update:
@@ -399,10 +385,8 @@ jobs:
             aws s3 cp ~/DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/
             # make the file public since it is not by default
             aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
-      - slack/notify:
-          color: '#42e2f4'
+      - slack/status:
           fail_only: true
-          message: issue updating latest release to attack-range bucket
           webhook: '${SLACK_WEBHOOK}'
         
   master-api-update:
@@ -432,10 +416,8 @@ jobs:
             aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
             aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
-      - slack/notify:
-          color: '#42e2f4'
+      - slack/status:
           fail_only: true
-          message: issue updating production API
           webhook: '${SLACK_WEBHOOK}'
         
 workflows:
