@@ -12,6 +12,8 @@ import sys
 import datetime
 from jinja2 import Environment, FileSystemLoader
 import re
+from attackcti import attack_client
+import csv
 
 
 # global variables
@@ -20,13 +22,13 @@ VERBOSE = False
 OUTPUT_PATH = ''
 
 
-def load_objects(file_path):
+def load_objects(file_path, VERBOSE):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
-
     for file in sorted(glob.glob(manifest_files)):
+        if VERBOSE:
+            print("processing manifest: {0}".format(file))
         files.append(load_file(file))
-
     return files
 
 
@@ -150,6 +152,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     sto_res = map_response_tasks_to_stories(response_tasks)
 
     for story in stories:
+        story['author_name'], story['author_company'] = parse_author_company(story)
         if story['name'] in sto_det:
             story['detections'] = list(sto_det[story['name']])
         if story['name'] in sto_res:
@@ -261,6 +264,22 @@ def parse_data_models_from_search(search):
     if match is not None:
         return match.group(1)
     return False
+
+
+def parse_author_company(story):
+    match_author = re.search(r'^([^,]+)', story['author'])
+    if match_author is None:
+        match_author = 'no'
+    else:
+        match_author = match_author.group(1)
+
+    match_company = re.search(r',\s?(.*)$', story['author'])
+    if match_company is None:
+        match_company = 'no'
+    else:
+        match_company = match_company.group(1)
+
+    return match_author, match_company
 
 
 def get_deployments(object, deployments):
@@ -436,6 +455,33 @@ def prepare_stories(stories, detections):
     return stories
 
 
+def generate_mitre_lookup():
+
+    csv_mitre_rows = [["mitre_id", "technique", "tactics", "groups"]]
+
+    lift = attack_client()
+    all_enterprise = lift.get_enterprise(stix_format=False)
+    enterprise_relationships = lift.get_enterprise_relationships()
+    enterprise_groups = lift.get_enterprise_groups()
+
+    for technique in all_enterprise['techniques']:
+        apt_groups = []
+        for relationship in enterprise_relationships:
+            if (relationship['target_ref'] == technique['id']) and relationship['source_ref'].startswith('intrusion-set'):
+                for group in enterprise_groups:
+                    if relationship['source_ref'] == group['id']:
+                        apt_groups.append(group['name'])
+
+        if len(apt_groups) == 0:
+            apt_groups.append('no')
+        csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
+
+    with open('lookups/mitre_enrichment.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(csv_mitre_rows)
+
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
@@ -450,14 +496,21 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
-    stories = load_objects("stories/*.yml")
-    macros = load_objects("macros/*.yml")
-    lookups = load_objects("lookups/*.yml")
-    baselines = load_objects("baselines/*.yml")
-    detections = load_objects("detections/*.yml")
-    responses = load_objects("responses/*.yml")
-    response_tasks = load_objects("response_tasks/*.yml")
-    deployments = load_objects("deployments/*.yml")
+    stories = load_objects("stories/*.yml", VERBOSE)
+    macros = load_objects("macros/*.yml", VERBOSE)
+    lookups = load_objects("lookups/*.yml", VERBOSE)
+    baselines = load_objects("baselines/*.yml", VERBOSE)
+    detections = load_objects("detections/*.yml", VERBOSE)
+    responses = load_objects("responses/*.yml", VERBOSE)
+    response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
+    deployments = load_objects("deployments/*.yml", VERBOSE)
+
+    try:
+        if VERBOSE:
+            print("generating Mitre lookups")
+        generate_mitre_lookup()
+    except:
+        print("WARNING: Generation of Mitre lookup failed.")
 
     lookups_path = generate_transforms_conf(lookups)
 
@@ -475,6 +528,7 @@ if __name__ == "__main__":
     macros_path = generate_macros_conf(macros, detections)
 
     generate_workbench_panels(response_tasks, stories)
+
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(stories), story_path))
