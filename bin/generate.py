@@ -57,6 +57,22 @@ def generate_transforms_conf(lookups):
 
     return output_path
 
+def generate_collections_conf(lookups):
+    filtered_lookups = list(filter(lambda i: 'collection' in i, lookups))
+    sorted_lookups = sorted(filtered_lookups, key=lambda i: i['name'])
+
+    utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('collections.j2')
+    output_path = OUTPUT_PATH + "/default/collections.conf"
+    output = template.render(lookups=sorted_lookups, time=utc_time)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
+    return output_path
+
 
 def generate_savedsearches_conf(detections, response_tasks, baselines, deployments):
 
@@ -513,6 +529,7 @@ if __name__ == "__main__":
         print("WARNING: Generation of Mitre lookup failed.")
 
     lookups_path = generate_transforms_conf(lookups)
+    lookups_path = generate_collections_conf(lookups)
 
     detections = sorted(detections, key=lambda d: d['name'])
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
