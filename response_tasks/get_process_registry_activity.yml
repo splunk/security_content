@@ -18,3 +18,4 @@ search: '| tstats `security_content_summariesonly` values(Registry.registry_key_
 tags:
   analytics_story:
   - DHS Report TA18-074A
+  - Suspicious Zoom Child Processes
