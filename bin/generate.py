@@ -21,7 +21,6 @@ REPO_PATH = ''
 VERBOSE = False
 OUTPUT_PATH = ''
 
-
 def load_objects(file_path, VERBOSE):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
@@ -51,6 +50,22 @@ def generate_transforms_conf(lookups):
                          trim_blocks=True)
     template = j2_env.get_template('transforms.j2')
     output_path = OUTPUT_PATH + "/default/transforms.conf"
+    output = template.render(lookups=sorted_lookups, time=utc_time)
+    with open(output_path, 'w') as f:
+        f.write(output)
+
+    return output_path
+
+def generate_collections_conf(lookups):
+    filtered_lookups = list(filter(lambda i: 'collection' in i, lookups))
+    sorted_lookups = sorted(filtered_lookups, key=lambda i: i['name'])
+
+    utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+
+    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                         trim_blocks=True)
+    template = j2_env.get_template('collections.j2')
+    output_path = OUTPUT_PATH + "/default/collections.conf"
     output = template.render(lookups=sorted_lookups, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -152,6 +167,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     sto_res = map_response_tasks_to_stories(response_tasks)
 
     for story in stories:
+        story['author_name'], story['author_company'] = parse_author_company(story)
         if story['name'] in sto_det:
             story['detections'] = list(sto_det[story['name']])
         if story['name'] in sto_res:
@@ -237,6 +253,12 @@ def generate_workbench_panels(response_tasks, stories):
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
                 output_path = OUTPUT_PATH + "/default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                
+                if response_task['search'].find(">") is not -1:
+                    response_task['search']= response_task['search'].replace(">","&gt;")
+                if response_task['search'].find("<") is not -1:
+                    response_task['search']= response_task['search'].replace("<","&lt;")
+
                 output = template.render(search=response_task['search'])
                 with open(output_path, 'w') as f:
                     f.write(output)
@@ -263,6 +285,22 @@ def parse_data_models_from_search(search):
     if match is not None:
         return match.group(1)
     return False
+
+
+def parse_author_company(story):
+    match_author = re.search(r'^([^,]+)', story['author'])
+    if match_author is None:
+        match_author = 'no'
+    else:
+        match_author = match_author.group(1)
+
+    match_company = re.search(r',\s?(.*)$', story['author'])
+    if match_company is None:
+        match_company = 'no'
+    else:
+        match_company = match_company.group(1)
+
+    return match_author, match_company
 
 
 def get_deployments(object, deployments):
@@ -496,6 +534,7 @@ if __name__ == "__main__":
         print("WARNING: Generation of Mitre lookup failed.")
 
     lookups_path = generate_transforms_conf(lookups)
+    lookups_path = generate_collections_conf(lookups)
 
     detections = sorted(detections, key=lambda d: d['name'])
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
