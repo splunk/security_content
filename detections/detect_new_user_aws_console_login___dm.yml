@@ -15,14 +15,6 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   often you run the detection searches) to refresh the baselines.
 type: ESCU
 author: Rico Valdez, Splunk
-search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | stats
-  earliest(_time) as firstTime latest(_time) as lastTime by user | inputlookup append=t
-  previously_seen_users_console_logins.csv  | stats min(firstTime) as firstTime max(lastTime)
-  as lastTime by user | eval userStatus=if(firstTime >= relative_time(now(), "-70m@m"),
-  "First Time Logging into AWS Console","Previously Seen User") | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
-  where userStatus ="First Time Logging into AWS Console"  | `detect_new_user_aws_console_login_filter`'
-
-
 search: | tstats earliest(_time) as firstTime latest(_time) as lastTime from
   datamodel=Authentication where Authentication.signature=ConsoleLogin by
   Authentication.user | rename Authentication.user as user | inputlookup append=t
@@ -36,7 +28,7 @@ known_false_positives: When a legitimate new user logins for the first time, thi
   activity is legitimate.
 tags:
   analytics_story:
-  - Suspicious AWS Login Activities - DM
+  - Suspicious Cloud Authentication Activities
   kill_chain_phases:
   - Actions on Objectives
   cis20:

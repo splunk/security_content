@@ -30,7 +30,7 @@ known_false_positives: When a legitimate new user logins for the first time, thi
 tags:
   analytics_story:
   - Suspicious AWS Login Activities
-  - add new story
+  - Suspicious Cloud Authentication Activities
   kill_chain_phases:
   - Actions on Objectives
   cis20:
