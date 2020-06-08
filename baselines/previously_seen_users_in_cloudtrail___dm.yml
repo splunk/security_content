@@ -6,7 +6,6 @@ description: This search looks for CloudTrail events where a user logs into the 
   then creates a baseline of the latest and earliest times, City, Region, and Country
   we have encountered this user in our dataset, grouped by username, within the last 30
   days.
-update with versions in how-to-implement
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Please validate the user name entries in `previously_seen_users_console_logins.csv`,
@@ -15,8 +14,7 @@ author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
   | iplocation Authentication.src | rename Authentication.user as user Authentication.src as src
-  | table user src City Region Country firstTime lastTime | outputlookup previously_seen_users_console_logins.csv
-  | stats count
+  | table user src City Region Country firstTime lastTime | outputlookup previously_seen_users_console_logins.csv | stats count'
 tags:
   analytics_story:
   - Suspicious Cloud Authentication Activities
