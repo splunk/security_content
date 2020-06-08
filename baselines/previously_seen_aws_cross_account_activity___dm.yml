@@ -11,13 +11,6 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   data model for cloud use cases. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`,
   a lookup file created by this support search.
 author: Rico Valdezy, Splunk
-search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId path=userIdentity.accountId
-  | spath output=requestedAccountId path=resources{}.accountId | search requestingAccountId=*
-  | where requestingAccountId!=requestedAccountId | stats earliest(_time) as firstTime
-  latest(_time) as lastTime by requestingAccountId, requestedAccountId | outputlookup
-  previously_seen_aws_cross_account_activity | stats count'
-
-
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from
   datamodel=Authentication where Authentication.signature=AssumeRole by
   Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role
@@ -27,6 +20,6 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from
   requestedAccountId firstTime lastTime | outputlookup previously_seen_aws_cross_account_activity'
 tags:
   analytics_story:
-  - AWS Cross Account Activity - DM
+  - Suspicious Cloud Authentication Activity 
   detections:
   - AWS Cross Account Activity From Previously Unseen Account - DM
