@@ -1311,6 +1311,54 @@ version = 2
 </div>
 </div>
 
+===Suspicious Zoom Child Processes===
+
+Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new child processes of zoom and provides investigative actions for this detection.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Zoom is a leader in modern enterprise video communications and its usage has increased dramatically with a large amount of the population under stay-at-home orders due to the COVID-19 pandemic. With increased usage has come increased scrutiny and several security flaws have been found with this application on both Windows and macOS systems.\
+Current detections focus on finding new child processes of this application on a per host basis. Investigative searches are included to gather information needed during an investigation.
+
+====Detections====
+* Detect Prohibited Applications Spawning cmd exe
+* First Time Seen Child Process of Zoom
+
+====Data Models====
+* Endpoint
+
+====Tags====
+
+=====ATT&CK=====
+* T1059
+* T1068
+
+=====Kill Chain Phases=====
+* Actions on Objectives
+* Exploitation
+
+=====CIS=====
+* CIS 3
+* CIS 8
+
+=====NIST=====
+* DE.CM
+* PR.IP
+* PR.PT
+
+====References====
+* https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
+* https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
+
+date = 2020-04-13
+
+version = 1
+
+</div>
+</div>
+
 ===Windows Defense Evasion Tactics===
 
 Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe` and disabling user-account control, among many others 
@@ -2194,6 +2242,8 @@ Kubernetes is the most used container orchestration platform, this orchestration
 * Amazon EKS Kubernetes Pod scan detection
 * Amazon EKS Kubernetes cluster scan detection
 * GCP Kubernetes cluster scan detection
+* Kubernetes Azure pod scan fingerprint
+* Kubernetes Azure scan fingerprint
 
 ====Data Models====
 
@@ -2212,6 +2262,82 @@ Kubernetes is the most used container orchestration platform, this orchestration
 * https://github.com/splunk/cloud-datamodel-security-research
 
 date = 2020-04-15
+
+version = 1
+
+</div>
+</div>
+
+===Kubernetes Sensitive Object Access Activity===
+
+This story addresses detection and response of accounts acccesing Kubernetes cluster sensitive objects such as configmaps or secrets providing information on items such as user user, group. object, namespace and authorization reason.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive objects within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes sensitive objects.
+
+====Detections====
+* Kubernetes Azure detect sensitive object access
+* Kubernetes Azure detect service accounts forbidden failure access
+* Kubernetes Azure detect suspicious kubectl calls
+
+====Data Models====
+
+====Tags====
+
+=====ATT&CK=====
+
+=====Kill Chain Phases=====
+* Lateral Movement
+
+=====CIS=====
+
+=====NIST=====
+
+====References====
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
+
+date = 2020-05-20
+
+version = 1
+
+</div>
+</div>
+
+===Kubernetes Sensitive Role Activity===
+
+This story addresses detection and response around Sensitive Role usage within a Kubernetes clusters against cluster resources and namespaces.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive roles within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes role activities
+
+====Detections====
+* Kubernetes Azure detect RBAC authorization by account
+* Kubernetes Azure detect most active service accounts by pod namespace
+* Kubernetes Azure detect sensitive role access
+
+====Data Models====
+
+====Tags====
+
+=====ATT&CK=====
+
+=====Kill Chain Phases=====
+* Lateral Movement
+
+=====CIS=====
+
+=====NIST=====
+
+====References====
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
+
+date = 2020-05-20
 
 version = 1
 

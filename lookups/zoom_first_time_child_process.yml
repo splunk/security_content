@@ -1,0 +1,4 @@
+description: A list of suspicious file names
+collection: zoom_first_time_child_process
+name: zoom_first_time_child_process
+fields_list: _key, dest, process_name, firstTimeSeen, lastTimeSeen
