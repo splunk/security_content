@@ -27,7 +27,7 @@ known_false_positives: Using multiple AWS accounts and roles is perfectly valid 
   You should validate with the account owner that this is a legitimate request.
 tags:
   analytics_story:
-  - Suspicious Cloud Authentication Activites 
+  - Suspicious Cloud Authentication Activites
   kill_chain_phases:
   - Actions on Objectives
   cis20:
