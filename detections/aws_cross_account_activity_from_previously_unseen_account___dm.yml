@@ -4,11 +4,10 @@ version: 1
 date: '2020-05-28'
 description: This search looks for AssumeRole events where an IAM role in a different
   account is requested for the first time.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. Run the `Previously Seen AWS Cross Account Activity` support search only
-  once to create the baseline of previously seen cross account activity. Thanks to
-  Pablo Vega at Recurly for suggesting improvements to the search.
+how_to_implement: You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later)
+  and Enterprise Security 6.2, which contains the required updates to the Authentication data model
+  for cloud use cases. Run the `Previously Seen AWS Cross Account Activity - DM` support search only
+  once to create the baseline of previously seen cross account activity. 
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
