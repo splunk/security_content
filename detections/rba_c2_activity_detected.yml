@@ -1,0 +1,34 @@
+name: Command and Control Activity Detected
+id: 7216eb04-8cc9-4a04-8393-ca0c7c1ab330
+version: 1
+date: '2020-6-08'
+description: A network connection was made to a risky host which has exhibited malicious activity and detected by Windows Defender
+how_to_implement: This search is meant to work with SA-RBA along side 
+type: RBA
+references:
+author: Jim Apger, Splunk 
+search: '| sourcetype=wdtap:alerts Category=CommandAndControl \
+| rename src_user AS user
+| rename ipAddress AS dest
+|table _time,MachineName,UserName,CommandLine,Description,FileHash,FileName,FilePath,LogOnUsers,dest,Url,user \
+|eval CommandLine=if(CommandLine="",FilePath."\\".FileName,CommandLine) \
+|eval CommandLineShort=if(len(CommandLine)>100,substr(CommandLine,1,100)."..<cut>",CommandLine)
+|eval risk_message=Description." CommandLine=".CommandLineShort.". LoggedOnUsers=".LogOnUsers." Remote IP=".IpAddress.". URL=".Url 
+'
+known_false_positives: unknown
+tags:
+  analytics_story:
+    - RBA_24h
+  mitre_attack_id:
+    - T1071
+  rba_threat_object_type:
+    - url
+  rba_risk_object_field_user:
+    - user
+  rba_risk_object_field_system:
+    - dest
+    - src
+  rba_risk_score:
+    - 5
+  security_domain: endpoint
+  asset_type: Endpoint

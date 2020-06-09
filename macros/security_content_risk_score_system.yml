@@ -1,0 +1,27 @@
+arguments:
+  - risk_object
+  - risk_score
+definition: '|eval risk_object=$risk_object$ \
+|`get_asset(src)` \
+|`get_asset(dest)` \
+|eval risk_object_type="system" \
+|eval risk_modifier_count_vuln=dont_have_this_data_but_would_increase_by_1_for_each_high/critical_vuln \
+|eval risk_modifier_count_vuln=0 \
+|eval risk_mod_count=0 \
+|eval risk_mod_count=if(like(src_category,"%pci%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(src_category,"%production%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(src_category,"%database%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(dest_category,"%pci%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(dest_category,"%production%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(dest_category,"%database%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if((src_priority="high"),risk_mod_count+2,risk_mod_count) \
+|eval risk_mod_count=if((src_priority="critical"),risk_mod_count+3,risk_mod_count) \
+|eval risk_mod_count=if((dest_priority="high"),risk_mod_count+2,risk_mod_count) \
+|eval risk_mod_count=if((dest_priority="critical"),risk_mod_count+3,risk_mod_count) \
+|rename risk_mod_count as risk_modifier_count_system \
+|eval risk_modifier_count_system=risk_modifier_count_system+risk_modifier_count_vuln \
+|fillnull risk_modifier_count_system\
+|eval risk_score=$risk_score$ * ((risk_modifier_count_system * .25)+1)\
+|collect index=test'
+description: RBA increases the risk of a system
+name: security_content_risk_score_system

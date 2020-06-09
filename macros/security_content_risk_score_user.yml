@@ -1,0 +1,24 @@
+arguments:
+  - risk_object
+  - risk_score
+definition: '|eval risk_object=$risk_object$ \
+|eval risk_object_type="user" \
+| `get_identity4events(user)` \
+|eval risk_mod_count=0 \
+|eval risk_mod_count=if(like(user_category,"%privileged%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(user_category,"%service-account%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(user_category,"%contractor%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(user_category,"%executive_assistant%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(user_category,"%executive%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(user_category,"%watchlist%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(user_priority,"%medium%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(like(user_priority,"%high%"),risk_mod_count+2,risk_mod_count) \
+|eval risk_mod_count=if(like(user_priority,"%critical%"),risk_mod_count+3,risk_mod_count) \
+|eval risk_mod_count=if(like(user_bunit,"%Executives%"),risk_mod_count+1,risk_mod_count) \
+|eval risk_mod_count=if(user_watchlist="true",risk_mod_count+3,risk_mod_count) \
+|rename risk_mod_count as risk_modifier_count_user \
+|fillnull risk_modifier_count_user \
+|eval risk_score=$risk_score$ * ((risk_modifier_count_user * .25)+1) \
+|collect index=test'
+description: RBA increases the risk of a user
+name: security_content_risk_score_user

@@ -1,0 +1,25 @@
+name: Remotely Query Login Sessions 
+id: e4232beb-9ab3-429e-b361-a0b0bc4f25c4
+version: 1
+date: '2020-6-08'
+description: Adversaries may look for folders and drives shared on remote systems as a means of identifying sources of information to gather as a precursor for Collection and to identify potential systems of interest for Lateral Movement.
+how_to_implement: This search is meant to work with SA-RBA along side 
+type: RBA
+references:
+author: Jim Apger, Splunk 
+search: '`sysmon` EventCode=1 (process_name="qwinsta.exe")
+|eval user=mvindex(split(user,"\\"),1)
+|eval src=host
+|eval risk_message="Adversaries may look for folders and drives shared on remote systems as a means of identifying sources of information to gather as a precursor for Collection and to identify potential systems of interest for Lateral Movement.  Command=".Image." and ParentCommandLine=".ParentCommandLine \
+|eval md5=md5(ParentCommandLine)  \
+|table user src threat_object md5'
+known_false_positives: unknown
+tags:
+  analytics_story:
+    - RBA_24h
+  mitre_attack_id:
+    - T1018
+  rba_threat_object_type:
+    - commandlinehash 
+  security_domain: endpoint
+  asset_type: Endpoint
