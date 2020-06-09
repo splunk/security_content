@@ -20,7 +20,7 @@ search: "| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   | eval firstTime=(if (firstTime>earliest, earliest,firstTime)) | multireport [| table requestingAccountId,
   requestedAccountId, firstTime, lastTime | outputlookup previously_seen_aws_cross_account_activity | where fact=fiction]
   [| where firstTime >= relative_time(now(), '-70m@m')] | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `aws_cross_account_activity_from_new_account_filter`
+  | `security_content_ctime(lastTime)` | `aws_cross_account_activity_from_previously_unseen_account___dm_filter`
   | rename Authentication.user as src_user Authentication.src as src_ip | table requestingAccountId,
   requestedAccountId, src_user, src_ip, Authentication.user_role, firstTime, lastTime"
 known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior.
