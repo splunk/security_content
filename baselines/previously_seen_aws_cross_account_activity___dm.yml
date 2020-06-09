@@ -14,6 +14,6 @@ author: Rico Valdez, Splunk
 search: "| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role | rex field=Authentication.user_role 'arn:aws:sts:*:(?<dest_account>.*):' | where Authentication.vendor_account!=dest_account | rename Authentication.vendor_account as requestingAccountId dest_account as requestedAccountId | table requestingAccountId requestedAccountId firstTime lastTime | outputlookup previously_seen_aws_cross_account_activity"
 tags:
   analytics_story:
-  - Suspicious Cloud Authentication Activity 
+  - Suspicious Cloud Authentication Activities 
   detections:
   - AWS Cross Account Activity From Previously Unseen Account - DM
