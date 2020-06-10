@@ -1,0 +1,15 @@
+name: AWS Investigate Security Hub alerts by instance_id
+id: b0d2e6a8-75fa-4b1b-9486-3d32acadf822
+version: 1
+date: '2020-06-08'
+description: This search retrieves the all the alerts created by AWS Security Hub for a specific instance_id
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs.
+author: Bhavin Patel, Splunk
+inputs:
+- dest
+search: 'sourcetype=aws:securityhub  Resources{}.Id = "*$dest$" | stats count min(_time) as firstTime max(_time) as lastTime values(Types{}) values(ProductFields.*) by Title Description Resources{}.Id'
+tags:
+  analytics_story:
+  - Cloud Compute Instance
