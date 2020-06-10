@@ -1,0 +1,15 @@
+name: EC2 Instance Investigation and Notification
+id: 3096f721-8842-42ce-2fc7-742d83722212
+version: 1
+date: '2020-06-10'
+description: Investigate an AWS Security Hub finding related to an exposed EC2 instance which is being probed by potentially malicious traffic. Gather information about the EC2 configuration, the activity on the server, and any remote IP addresses that are directing traffic at the server. Notify and assign the appropriate people using a Jira ticket and a Slack message, then initiate a prompt to ask a responder whether or not the EC2 instance should be moved to an isolated EC2 Security Group using another playbook called "EC2 Instance Isolation".
+how_to_implement: Synchronize the community playbook repository in Phantom, then open
+  the playbook and follow the deployment notes to configure it for your environment.
+author: Philip Royer, Splunk
+playbook:
+  name: ec2_instance_investigation_and_notification
+  url_json: https://github.com/phantomcyber/playbooks/blob/4.8/ec2_instance_investigation_and_notification.json
+  url_python: https://github.com/phantomcyber/playbooks/blob/4.8/ec2_instance_investigation_and_notification.py
+tags:
+  analytics_story:
+  - AWS Suspicious Provisioning Activities
