@@ -24,3 +24,5 @@ tags:
   - Container Implantation Monitoring and Investigation
   security_domain: threat
   asset_type: AWS ECR container
+  mitre_attack_id:
+  - T1525
