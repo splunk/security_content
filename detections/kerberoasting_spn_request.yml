@@ -1,0 +1,27 @@
+name: Potential kerberoasting detected via SPN requests 
+id: 5cc67381-44fa-4111-8a37-7a230943f027
+version: 1
+date: '2020-06-11'
+description: This search detects a potential kerberoasting attack via service principal name requests
+how_to_implement: You must be ingesting endpoint data that tracks process activity, and include the windows security event logs that contain kerberos
+type: ESCU
+references:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
+  - https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
+author: Jose Hernandez, Splunk
+search: '`eventtype=wineventlog_security` EventID=4769 TicketEncryptionType=0x17 | `kerberoasting_spn_request_filter`'
+known_false_positives: Older systems that support kerberos RC4 by default NetApp may generate false positives
+tags:
+  analytics_story:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1208
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 8
+  - CIS 16
+  nist:
+  - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint
