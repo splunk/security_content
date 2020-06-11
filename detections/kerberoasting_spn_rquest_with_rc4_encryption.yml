@@ -1,4 +1,4 @@
-name: Potential kerberoasting detected via SPN requests 
+name: Kerberoasting spn request with RC4 encryption 
 id: 5cc67381-44fa-4111-8a37-7a230943f027
 version: 1
 date: '2020-06-11'
@@ -9,7 +9,7 @@ references:
   - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
   - https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
 author: Jose Hernandez, Splunk
-search: '`eventtype=wineventlog_security` EventID=4769 TicketEncryptionType=0x17 | `kerberoasting_spn_request_filter`'
+search: '`wineventlog_security` EventID=4769 TicketOptions=0x40810000 TicketEncryptionType=0x17 | `kerberoasting_spn_request_with_rc4_encryption_filter` '
 known_false_positives: Older systems that support kerberos RC4 by default NetApp may generate false positives
 tags:
   analytics_story:
