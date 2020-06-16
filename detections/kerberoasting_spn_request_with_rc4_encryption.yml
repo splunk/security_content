@@ -9,7 +9,11 @@ references:
   - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
   - https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
 author: Jose Hernandez, Splunk
-search: '`wineventlog_security` EventID=4769 TicketOptions=0x40810000 TicketEncryptionType=0x17 | `kerberoasting_spn_request_with_rc4_encryption_filter` '
+search: '`wineventlog_security` EventID=4769 TicketOptions=0x40810000 TicketEncryptionType=0x17 
+| stats count min(_time) as firstTime max(_time) as lastTime values(ServiceName) values(TargetUserName) values(user)  by TargetDomainName 
+| `security_content_ctime(lastTime)`
+| `security_content_ctime(firstTime)` 
+| `kerberoasting_spn_request_with_rc4_encryption_filter`'
 known_false_positives: Older systems that support kerberos RC4 by default NetApp may generate false positives
 tags:
   analytics_story:
