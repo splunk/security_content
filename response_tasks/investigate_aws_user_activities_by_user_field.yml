@@ -17,3 +17,4 @@ search: '| search sourcetype=aws:cloudtrail user=$user$ | table _time userIdenti
 tags:
   analytics_story:
   - AWS User Monitoring
+  - Suspicious Cloud Authentication Activities

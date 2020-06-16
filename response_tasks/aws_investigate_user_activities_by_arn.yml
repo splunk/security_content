@@ -1,5 +1,5 @@
 name: AWS Investigate User Activities By ARN
-id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
+id: bc91a8cd-35e7-4bb2-6140-e756cc46fd72
 version: 2
 date: '2019-04-30'
 description: This search lists all the logged CloudTrail activities by a specific
