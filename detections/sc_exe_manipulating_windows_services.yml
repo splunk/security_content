@@ -1,14 +1,9 @@
 name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: 2
-date: '2019-02-27'
+version: 3
+date: '2020-06-15'
 description: This search looks for arguments to sc.exe indicating the creation or
   modification of a Windows service.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
@@ -30,8 +25,6 @@ tags:
   - Disabling Security Tools
   mitre_attack_id:
   - T1050
-  - T1031
-  - T1089
   kill_chain_phases:
   - Installation
   cis20:
