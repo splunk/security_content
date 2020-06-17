@@ -55,6 +55,7 @@ tags:
   - Suspicious AWS EC2 Activities
   - Suspicious AWS S3 Activities
   - Suspicious AWS Traffic
+  - Suspicious Cloud Authentication Activities
   - Suspicious Command-Line Executions
   - Suspicious DNS Traffic
   - Suspicious Emails

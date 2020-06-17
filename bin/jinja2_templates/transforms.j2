@@ -11,6 +11,7 @@
 filename = {{ lookup.filename }}
 {% else %}
 collection = {{ lookup.collection }}
+external_type = kvstore
 {% endif %}
 {% if lookup.default_match is defined %}
 default_match = {{ lookup.default_match }}
@@ -29,6 +30,12 @@ max_matches = {{ lookup.max_matches }}
 {% endif %}
 {% if lookup.min_matches is defined %}
 min_matches = {{ lookup.min_matches }}
+{% endif %}
+{% if lookup.fields_list is defined %}
+fields_list = {{ lookup.fields_list }}
+{% endif %}
+{% if lookup.filter is defined %}
+filter = {{ lookup.filter }}
 {% endif %}
 
 {% endfor %}

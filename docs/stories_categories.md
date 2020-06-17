@@ -319,6 +319,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [Suspicious WMI Use](#Suspicious-WMI-Use)
 
+* [Suspicious Zoom Child Processes](#Suspicious-Zoom-Child-Processes)
+
 * [Windows Defense Evasion Tactics](#Windows-Defense-Evasion-Tactics)
 
 * [Windows Log Manipulation](#Windows-Log-Manipulation)
@@ -1236,6 +1238,48 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 * https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
 * https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
 
+### Suspicious Zoom Child Processes
+* id = aa3749a6-49c7-491e-a03f-4eaee5fe0258
+* date = 2020-04-13
+* version = 1
+
+#### Description
+Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new child processes of zoom and provides investigative actions for this detection.
+
+#### Narrative
+Zoom is a leader in modern enterprise video communications and its usage has increased dramatically with a large amount of the population under stay-at-home orders due to the COVID-19 pandemic. With increased usage has come increased scrutiny and several security flaws have been found with this application on both Windows and macOS systems.\
+Current detections focus on finding new child processes of this application on a per host basis. Investigative searches are included to gather information needed during an investigation.
+
+#### Detections
+* Detect Prohibited Applications Spawning cmd exe
+* First Time Seen Child Process of Zoom
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1059
+* T1068
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Exploitation
+
+###### CIS
+* CIS 3
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.IP
+* PR.PT
+
+##### References
+* https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
+* https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
+
 ### Windows Defense Evasion Tactics
 * id = 56e24a28-5003-4047-b2db-e8f3c4618064
 * date = 2018-05-31
@@ -1486,7 +1530,6 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 * PR.IP
 
 ##### References
-* https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
 
 ### Asset Tracking
 * id = 91c676cf-0b23-438d-abee-f6335e1fce77
@@ -1752,6 +1795,10 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Container Implantation Monitoring and Investigation](#Container-Implantation-Monitoring-and-Investigation)
 
 * [Kubernetes Scanning Activity](#Kubernetes-Scanning-Activity)
+
+* [Kubernetes Sensitive Object Access Activity](#Kubernetes-Sensitive-Object-Access-Activity)
+
+* [Kubernetes Sensitive Role Activity](#Kubernetes-Sensitive-Role-Activity)
 
 * [Suspicious AWS EC2 Activities](#Suspicious-AWS-EC2-Activities)
 
@@ -2049,6 +2096,8 @@ Kubernetes is the most used container orchestration platform, this orchestration
 * Amazon EKS Kubernetes Pod scan detection
 * Amazon EKS Kubernetes cluster scan detection
 * GCP Kubernetes cluster scan detection
+* Kubernetes Azure pod scan fingerprint
+* Kubernetes Azure scan fingerprint
 
 #### Data Models
 
@@ -2065,6 +2114,70 @@ Kubernetes is the most used container orchestration platform, this orchestration
 
 ##### References
 * https://github.com/splunk/cloud-datamodel-security-research
+
+### Kubernetes Sensitive Object Access Activity
+* id = 2574e6d9-7254-4751-8925-0447deeec8ea
+* date = 2020-05-20
+* version = 1
+
+#### Description
+This story addresses detection and response of accounts acccesing Kubernetes cluster sensitive objects such as configmaps or secrets providing information on items such as user user, group. object, namespace and authorization reason.
+
+#### Narrative
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive objects within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes sensitive objects.
+
+#### Detections
+* Kubernetes Azure detect sensitive object access
+* Kubernetes Azure detect service accounts forbidden failure access
+* Kubernetes Azure detect suspicious kubectl calls
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+* Lateral Movement
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
+
+### Kubernetes Sensitive Role Activity
+* id = 2574e6d9-7254-4751-8925-0447deeec8ew
+* date = 2020-05-20
+* version = 1
+
+#### Description
+This story addresses detection and response around Sensitive Role usage within a Kubernetes clusters against cluster resources and namespaces.
+
+#### Narrative
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive roles within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes role activities
+
+#### Detections
+* Kubernetes Azure detect RBAC authorization by account
+* Kubernetes Azure detect most active service accounts by pod namespace
+* Kubernetes Azure detect sensitive role access
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+* Lateral Movement
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
 
 ### Suspicious AWS EC2 Activities
 * id = 2e8948a5-5239-406b-b56b-6c50f1268af3
