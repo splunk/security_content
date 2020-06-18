@@ -561,7 +561,6 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
 * T1059
 * T1089
@@ -663,6 +662,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 #### Detections
 * Detect Activity Related to Pass the Hash Attacks
+* Kerberoasting spn request with RC4 encryption
 * Remote Desktop Network Traffic
 * Remote Desktop Process Running On System
 * Schtasks scheduling job on remote system
@@ -677,6 +677,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * T1053
 * T1075
 * T1076
+* T1208
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -684,10 +685,12 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 ###### CIS
 * CIS 16
 * CIS 3
+* CIS 8
 * CIS 9
 
 ##### NIST
 * DE.AE
+* DE.CM
 * PR.AC
 * PR.IP
 
@@ -1401,10 +1404,9 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
 * T1053
-* T1089
+* T1058
 * T1103
 * T1131
 * T1138
@@ -1807,6 +1809,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Suspicious AWS S3 Activities](#Suspicious-AWS-S3-Activities)
 
 * [Suspicious AWS Traffic](#Suspicious-AWS-Traffic)
+
+* [Suspicious Cloud Authentication Activities](#Suspicious-Cloud-Authentication-Activities)
 
 * [Unusual AWS EC2 Modifications](#Unusual-AWS-EC2-Modifications)
 
@@ -2332,6 +2336,45 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 ##### References
 * https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
 
+### Suspicious Cloud Authentication Activities
+* id = 6380ebbb-55c5-4fce-b754-01fd565fb73c
+* date = 2020-06-04
+* version = 1
+
+#### Description
+Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
+
+#### Narrative
+It is important to monitor and control who has access to your cloud infrastructure. Detecting suspicious logins will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any compute activity whether legitimate or otherwise.\
+This Analytic Story has data model versions of cloud searches leveraging Authentication data, including those looking for suspicious login activity, and cross-account activity for AWS.
+
+#### Detections
+* Detect AWS Console Login by User from New City
+* Detect AWS Console Login by User from New Country
+* Detect AWS Console Login by User from New Region
+* Detect new user AWS Console Login - DM
+
+#### Data Models
+* Authentication
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+
+##### NIST
+* DE.AE
+* DE.DP
+
+##### References
+* https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
+* https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
 ### Unusual AWS EC2 Modifications
 * id = 73de57ef-0dfc-411f-b1e7-fa24428aeae0
 * date = 2018-04-09
@@ -2465,7 +2508,6 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1043
 * T1050
 * T1053
@@ -2702,10 +2744,8 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
 * T1059
-* T1089
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -3001,9 +3041,8 @@ The Windows operating system uses a services architecture to allow for running c
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
-* T1089
+* T1058
 
 ##### Kill Chain Phases
 * Actions on Objectives

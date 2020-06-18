@@ -549,7 +549,6 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 ====Tags====
 
 =====ATT&CK=====
-* T1031
 * T1050
 * T1059
 * T1089
@@ -663,6 +662,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 ====Detections====
 * Detect Activity Related to Pass the Hash Attacks
+* Kerberoasting spn request with RC4 encryption
 * Remote Desktop Network Traffic
 * Remote Desktop Process Running On System
 * Schtasks scheduling job on remote system
@@ -677,6 +677,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * T1053
 * T1075
 * T1076
+* T1208
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -684,10 +685,12 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 =====CIS=====
 * CIS 16
 * CIS 3
+* CIS 8
 * CIS 9
 
 =====NIST=====
 * DE.AE
+* DE.CM
 * PR.AC
 * PR.IP
 
@@ -1491,10 +1494,9 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 ====Tags====
 
 =====ATT&CK=====
-* T1031
 * T1050
 * T1053
-* T1089
+* T1058
 * T1103
 * T1131
 * T1138
@@ -2521,6 +2523,51 @@ version = 1
 </div>
 </div>
 
+===Suspicious Cloud Authentication Activities===
+
+Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+It is important to monitor and control who has access to your cloud infrastructure. Detecting suspicious logins will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any compute activity whether legitimate or otherwise.\
+This Analytic Story has data model versions of cloud searches leveraging Authentication data, including those looking for suspicious login activity, and cross-account activity for AWS.
+
+====Detections====
+* Detect AWS Console Login by User from New City
+* Detect AWS Console Login by User from New Country
+* Detect AWS Console Login by User from New Region
+* Detect new user AWS Console Login - DM
+
+====Data Models====
+* Authentication
+
+====Tags====
+
+=====ATT&CK=====
+
+=====Kill Chain Phases=====
+* Actions on Objectives
+
+=====CIS=====
+* CIS 16
+
+=====NIST=====
+* DE.AE
+* DE.DP
+
+====References====
+* https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
+* https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
+date = 2020-06-04
+
+version = 1
+
+</div>
+</div>
+
 ===Unusual AWS EC2 Modifications===
 
 Identify unusual changes to your AWS EC2 instances that may indicate malicious activity. Modifications to your EC2 instances by previously unseen users is an example of an activity that may warrant further investigation.
@@ -2643,7 +2690,6 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 ====Tags====
 
 =====ATT&CK=====
-* T1031
 * T1043
 * T1050
 * T1053
@@ -2904,10 +2950,8 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 ====Tags====
 
 =====ATT&CK=====
-* T1031
 * T1050
 * T1059
-* T1089
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -3233,9 +3277,8 @@ The Windows operating system uses a services architecture to allow for running c
 ====Tags====
 
 =====ATT&CK=====
-* T1031
 * T1050
-* T1089
+* T1058
 
 =====Kill Chain Phases=====
 * Actions on Objectives
