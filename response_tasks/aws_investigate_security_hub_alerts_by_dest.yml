@@ -9,8 +9,11 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 author: Bhavin Patel, Splunk
 inputs:
 - dest
-search: 'sourcetype=aws:securityhub  Resources{}.Id = "*$dest$" | stats count min(_time) as firstTime max(_time) as lastTime values(Types{}) values(ProductFields.*) by Title Description Resources{}.Id'
+search: 'sourcetype="aws:securityhub:firehose" "findings{}.Resources{}.Type"=AWSEC2Instance 
+| rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*) | search instance = $dest$ |rename findings{}.* as * | rename Remediation.Recommendation.Text as Remediation |  table instance Title ProductArn Description FirstObservedAt RecordState Remediation'
 tags:
   analytics_story:
   - Cloud Compute Instance
   - Cloud Cryptomining
+  - Suspicious AWS EC2 Activities
+  - AWS Suspicious Provisioning Activities
