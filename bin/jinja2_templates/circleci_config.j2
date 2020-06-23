@@ -496,6 +496,17 @@ workflows:
                 - develop
     jobs:
       - test-links
+  test-detections:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+    jobs:
+      - test-detections
   validate-and-build:
     jobs:
       - validate-content:
