@@ -24,8 +24,8 @@ known_false_positives: vssadmin.exe and wmic.exe are standard applications shipp
   delete old backup copies, although this is typically rare.
 tags:
   analytics_story:
-  - SamSam Ransomware
   - Windows Log Manipulation
+  - SamSam Ransomware
   - Ransomware
   kill_chain_phases:
   - Actions on Objectives

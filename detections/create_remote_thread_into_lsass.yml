@@ -16,7 +16,7 @@ author: Patrick Bareiss, Splunk
 search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime
   max(_time) as lastTime by Computer, EventCode, TargetImage, TargetProcessId | rename
   Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  |`create_remote_thread_into_lsass_filter`'
+  | `create_remote_thread_into_lsass_filter`'
 known_false_positives: Other tools can access LSASS for legitimate reasons and generate
   an event. In these cases, tweaking the search may help eliminate noise.
 tags:

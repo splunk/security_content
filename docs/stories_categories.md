@@ -231,7 +231,7 @@ To get started, run the detection search to identify parent processes of `netsh.
 * PR.PT
 
 ##### References
-* https://technet.microsoft.com/library/bb490939.aspx
+* https://docs.microsoft.com/en-us/previous-versions/tn-archive/bb490939(v=technet.10)
 * https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html
 * http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html
 
@@ -318,6 +318,8 @@ Another search detects incidents wherein a single password is used across multip
 * [Suspicious Windows Registry Activities](#Suspicious-Windows-Registry-Activities)
 
 * [Suspicious WMI Use](#Suspicious-WMI-Use)
+
+* [Suspicious Zoom Child Processes](#Suspicious-Zoom-Child-Processes)
 
 * [Windows Defense Evasion Tactics](#Windows-Defense-Evasion-Tactics)
 
@@ -559,7 +561,6 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
 * T1059
 * T1089
@@ -661,6 +662,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 #### Detections
 * Detect Activity Related to Pass the Hash Attacks
+* Kerberoasting spn request with RC4 encryption
 * Remote Desktop Network Traffic
 * Remote Desktop Process Running On System
 * Schtasks scheduling job on remote system
@@ -675,6 +677,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * T1053
 * T1075
 * T1076
+* T1208
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -682,10 +685,12 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 ###### CIS
 * CIS 16
 * CIS 3
+* CIS 8
 * CIS 9
 
 ##### NIST
 * DE.AE
+* DE.CM
 * PR.AC
 * PR.IP
 
@@ -1236,6 +1241,48 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 * https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
 * https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
 
+### Suspicious Zoom Child Processes
+* id = aa3749a6-49c7-491e-a03f-4eaee5fe0258
+* date = 2020-04-13
+* version = 1
+
+#### Description
+Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new child processes of zoom and provides investigative actions for this detection.
+
+#### Narrative
+Zoom is a leader in modern enterprise video communications and its usage has increased dramatically with a large amount of the population under stay-at-home orders due to the COVID-19 pandemic. With increased usage has come increased scrutiny and several security flaws have been found with this application on both Windows and macOS systems.\
+Current detections focus on finding new child processes of this application on a per host basis. Investigative searches are included to gather information needed during an investigation.
+
+#### Detections
+* Detect Prohibited Applications Spawning cmd exe
+* First Time Seen Child Process of Zoom
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1059
+* T1068
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Exploitation
+
+###### CIS
+* CIS 3
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.IP
+* PR.PT
+
+##### References
+* https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
+* https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
+
 ### Windows Defense Evasion Tactics
 * id = 56e24a28-5003-4047-b2db-e8f3c4618064
 * date = 2018-05-31
@@ -1357,10 +1404,9 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
 * T1053
-* T1089
+* T1058
 * T1103
 * T1131
 * T1138
@@ -1486,7 +1532,6 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 * PR.IP
 
 ##### References
-* https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
 
 ### Asset Tracking
 * id = 91c676cf-0b23-438d-abee-f6335e1fce77
@@ -1753,6 +1798,10 @@ Various legacy protocols operate by default in the clear, without the protection
 
 * [Kubernetes Scanning Activity](#Kubernetes-Scanning-Activity)
 
+* [Kubernetes Sensitive Object Access Activity](#Kubernetes-Sensitive-Object-Access-Activity)
+
+* [Kubernetes Sensitive Role Activity](#Kubernetes-Sensitive-Role-Activity)
+
 * [Suspicious AWS EC2 Activities](#Suspicious-AWS-EC2-Activities)
 
 * [Suspicious AWS Login Activities](#Suspicious-AWS-Login-Activities)
@@ -1760,6 +1809,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Suspicious AWS S3 Activities](#Suspicious-AWS-S3-Activities)
 
 * [Suspicious AWS Traffic](#Suspicious-AWS-Traffic)
+
+* [Suspicious Cloud Authentication Activities](#Suspicious-Cloud-Authentication-Activities)
 
 * [Unusual AWS EC2 Modifications](#Unusual-AWS-EC2-Modifications)
 
@@ -2049,6 +2100,8 @@ Kubernetes is the most used container orchestration platform, this orchestration
 * Amazon EKS Kubernetes Pod scan detection
 * Amazon EKS Kubernetes cluster scan detection
 * GCP Kubernetes cluster scan detection
+* Kubernetes Azure pod scan fingerprint
+* Kubernetes Azure scan fingerprint
 
 #### Data Models
 
@@ -2065,6 +2118,70 @@ Kubernetes is the most used container orchestration platform, this orchestration
 
 ##### References
 * https://github.com/splunk/cloud-datamodel-security-research
+
+### Kubernetes Sensitive Object Access Activity
+* id = 2574e6d9-7254-4751-8925-0447deeec8ea
+* date = 2020-05-20
+* version = 1
+
+#### Description
+This story addresses detection and response of accounts acccesing Kubernetes cluster sensitive objects such as configmaps or secrets providing information on items such as user user, group. object, namespace and authorization reason.
+
+#### Narrative
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive objects within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes sensitive objects.
+
+#### Detections
+* Kubernetes Azure detect sensitive object access
+* Kubernetes Azure detect service accounts forbidden failure access
+* Kubernetes Azure detect suspicious kubectl calls
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+* Lateral Movement
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
+
+### Kubernetes Sensitive Role Activity
+* id = 2574e6d9-7254-4751-8925-0447deeec8ew
+* date = 2020-05-20
+* version = 1
+
+#### Description
+This story addresses detection and response around Sensitive Role usage within a Kubernetes clusters against cluster resources and namespaces.
+
+#### Narrative
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive roles within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes role activities
+
+#### Detections
+* Kubernetes Azure detect RBAC authorization by account
+* Kubernetes Azure detect most active service accounts by pod namespace
+* Kubernetes Azure detect sensitive role access
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+* Lateral Movement
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
 
 ### Suspicious AWS EC2 Activities
 * id = 2e8948a5-5239-406b-b56b-6c50f1268af3
@@ -2219,6 +2336,45 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 ##### References
 * https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
 
+### Suspicious Cloud Authentication Activities
+* id = 6380ebbb-55c5-4fce-b754-01fd565fb73c
+* date = 2020-06-04
+* version = 1
+
+#### Description
+Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
+
+#### Narrative
+It is important to monitor and control who has access to your cloud infrastructure. Detecting suspicious logins will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any compute activity whether legitimate or otherwise.\
+This Analytic Story has data model versions of cloud searches leveraging Authentication data, including those looking for suspicious login activity, and cross-account activity for AWS.
+
+#### Detections
+* Detect AWS Console Login by User from New City
+* Detect AWS Console Login by User from New Country
+* Detect AWS Console Login by User from New Region
+* Detect new user AWS Console Login - DM
+
+#### Data Models
+* Authentication
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+
+##### NIST
+* DE.AE
+* DE.DP
+
+##### References
+* https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
+* https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
 ### Unusual AWS EC2 Modifications
 * id = 73de57ef-0dfc-411f-b1e7-fa24428aeae0
 * date = 2018-04-09
@@ -2352,7 +2508,6 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1043
 * T1050
 * T1053
@@ -2589,10 +2744,8 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
 * T1059
-* T1089
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2888,9 +3041,8 @@ The Windows operating system uses a services architecture to allow for running c
 #### Mappings
 
 ##### ATT&CK
-* T1031
 * T1050
-* T1089
+* T1058
 
 ##### Kill Chain Phases
 * Actions on Objectives
