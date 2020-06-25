@@ -6,7 +6,7 @@ author: Bhavin Patel
 scheduling:
   cron_schedule: '0 * * * *'
   earliest_time: -70m@m
-  latest_time: 
+  latest_time: -10m@m
   schedule_window: auto
 alert_action:
   notable:
