@@ -38,6 +38,8 @@ known_false_positives: "This is a strictly behavioral search, so we define \"fal
 tags:
   analytics_story:
   - AWS Suspicious Provisioning Activities
+  mitre_attack_id:
+  - T1535
   cis20:
   - CIS 1
   nist:
