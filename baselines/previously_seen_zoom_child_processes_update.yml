@@ -23,3 +23,5 @@ tags:
   - Suspicious Zoom Child Processes
   detections:
   - First Time Seen Child Process of Zoom
+  deployments:
+  - Hourly Cache Updates

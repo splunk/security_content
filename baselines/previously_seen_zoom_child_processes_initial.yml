@@ -18,3 +18,5 @@ tags:
   - Suspicious Zoom Child Processes
   detections:
   - First Time Seen Child Process of Zoom
+  deployments:
+  - 90 Day Baseline
