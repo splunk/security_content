@@ -28,6 +28,8 @@ known_false_positives: It is possible that there are legitimate user roles makin
 tags:
   analytics_story:
   - AWS User Monitoring
+  mitre_attack_id:
+  - T1078
   cis20:
   - CIS 1
   nist:
