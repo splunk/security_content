@@ -4,9 +4,9 @@ description: "This search provides information of unauthenticated requests via s
 how_to_implement: "You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audit data diagnostics"
 id: 86aad3e0-732f-4f66-bbbc-70df448e461d
 known_false_positives: "Not all unauthenticated requests are malicious, but source IPs, userAgent, verb, request URI and response status will provide context."
-name: "Azure AKS Kubernetes cluster pod scan detection"
+name: "Kubernetes Azure pod scan fingerprint"
 references: []
-search: "sourcetype=mscs:storage:blob:json category=kube-audit | spath input=properties.log | search responseStatus.code=401 | table  sourceIPs{} userAgent verb requestURI responseStatus.reason properties.pod |`kubernetes_azure_pod_scan_fingerprint_detection`"
+search: "`kubernetes_azure` category=kube-audit | spath input=properties.log | search responseStatus.code=401 | table  sourceIPs{} userAgent verb requestURI responseStatus.reason properties.pod |`kubernetes_azure_pod_scan_fingerprint_filter`"
 tags:
   analytics_story:
     - "Kubernetes Scanning Activity"

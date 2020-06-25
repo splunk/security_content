@@ -12,8 +12,10 @@ how_to_implement: To successfully implement this search you need to be ingesting
 author: Patrick Bareiss, Splunk
 inputs:
 - dest
-search: '`wineventlog_security` EventCode=4768 OR EventCode=4769 | stats count BY user, dest, EventCode | stats max(count)
-  AS max_count sum(count) AS sum_count BY user, dest | where sum_count/max_count!=2'
+search: '`wineventlog_security` EventCode=4768 OR EventCode=4769 | rex field=user
+  "(?<new_user>[^\@]+)" | stats count BY new_user, dest, EventCode | stats max(count)
+  AS max_count sum(count) AS sum_count BY new_user, dest | where sum_count/max_count!=2
+  | rename new_user AS user'
 tags:
   analytics_story:
   - Credential Dumping

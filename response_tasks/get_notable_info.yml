@@ -67,3 +67,5 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  - Kubernetes Sensitive Role Activity
+  - Kubernetes Sensitive Object Access Activity

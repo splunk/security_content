@@ -15,8 +15,7 @@ narrative: Monitoring user accounts within your enterprise is a critical analyti
   or co-opted, leading to suspicious or malicious activity.
 author: David Dorsey, Splunk
 type: ESCU
-references:
-- https://www.sans.org/media/critical-security-controls/critical-controls-poster-2016.pdf
+references: []
 tags:
   analytics_story: Account Monitoring and Controls
   usecase: Security Monitoring

@@ -4,9 +4,9 @@ description: "This search provides information on Kubernetes accounts accessing 
 how_to_implement: "You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audit data diagnostics"
 id: 1bba382b-07fd-4ffa-b390-8002739b76e8
 known_false_positives: "Sensitive object access is not necessarily malicious but user and object context can provide guidance for detection."
-name: "Azure AKS Kubernetes cluster sensitive object access detection"
+name: "Kubernetes Azure detect sensitive object access"
 references: []
-search: "sourcetype=mscs:storage:blob:json category=kube-audit | spath input=properties.log| search objectRef.resource=secrets OR configmaps user.username=system.anonymous OR annotations.authorization.k8s.io/decision=allow  |table user.username user.groups{} objectRef.resource objectRef.namespace objectRef.name annotations.authorization.k8s.io/reason |dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_object_access`"
+search: "`kubernetes_azure` category=kube-audit | spath input=properties.log| search objectRef.resource=secrets OR configmaps user.username=system.anonymous OR annotations.authorization.k8s.io/decision=allow  |table user.username user.groups{} objectRef.resource objectRef.namespace objectRef.name annotations.authorization.k8s.io/reason |dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_object_access_filter`"
 tags:
   analytics_story:
     - "Kubernetes Sensitive Object Access Activity"
