@@ -1835,6 +1835,7 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 #### Mappings
 
 ##### ATT&CK
+* T1078
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1874,6 +1875,8 @@ This Analytic Story is focused on detecting suspicious new instances in your EC2
 #### Mappings
 
 ##### ATT&CK
+* T1078
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1955,6 +1958,7 @@ This Analytic Story was designed to provide you with flexibility in the precisio
 #### Mappings
 
 ##### ATT&CK
+* T1535
 
 ##### Kill Chain Phases
 
@@ -1993,6 +1997,8 @@ The detection searches in this Analytic Story are designed to help you uncover A
 #### Mappings
 
 ##### ATT&CK
+* T1078
+* T1098
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2038,6 +2044,8 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 #### Mappings
 
 ##### ATT&CK
+* T1078
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2075,6 +2083,7 @@ Container Registrys provide a way for organizations to keep customized images of
 #### Mappings
 
 ##### ATT&CK
+* T1525
 
 ##### Kill Chain Phases
 
@@ -2131,6 +2140,9 @@ This story addresses detection and response of accounts acccesing Kubernetes clu
 Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive objects within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes sensitive objects.
 
 #### Detections
+* AWS EKS Kubernetes cluster sensitive object access
+* Kubernetes AWS detect service accounts forbidden failure access
+* Kubernetes AWS detect suspicious kubectl calls
 * Kubernetes Azure detect sensitive object access
 * Kubernetes Azure detect service accounts forbidden failure access
 * Kubernetes Azure detect suspicious kubectl calls
@@ -2163,6 +2175,9 @@ This story addresses detection and response around Sensitive Role usage within a
 Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive roles within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes role activities
 
 #### Detections
+* Kubernetes AWS detect RBAC authorization by account
+* Kubernetes AWS detect most active service accounts by pod
+* Kubernetes AWS detect sensitive role access
 * Kubernetes Azure detect RBAC authorization by account
 * Kubernetes Azure detect most active service accounts by pod namespace
 * Kubernetes Azure detect sensitive role access
@@ -2207,6 +2222,8 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 #### Mappings
 
 ##### ATT&CK
+* T1078
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2246,6 +2263,8 @@ It is important to monitor and control who has access to your AWS infrastructure
 #### Mappings
 
 ##### ATT&CK
+* T1078
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2283,6 +2302,7 @@ Among things to look out for are S3 access from unfamiliar locations and by unfa
 #### Mappings
 
 ##### ATT&CK
+* T1530
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2360,6 +2380,7 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 #### Mappings
 
 ##### ATT&CK
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2395,6 +2416,7 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 #### Mappings
 
 ##### ATT&CK
+* T1078
 
 ##### Kill Chain Phases
 
