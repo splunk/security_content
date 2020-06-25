@@ -1,13 +1,17 @@
-name: First Time Seen Running Windows Service - Initial
+name: First Time Seen Running Windows Service
 id: 823136f2-d755-4b6d-ae04-372b486a5808
 version: 3
 date: '2020-06-15'
 description: This search looks for the first and last time a Windows service is seen running
   in your environment. This table is then cached.
 how_to_implement: While this search does not require you to adhere to Splunk CIM,
-  you must be ingesting your Windows security-event logs in order for this search
-  to execute successfully. The support search, `Previously Seen Running Windows Services Globally`,
-  should be run before this search to create the baseline of known Windows services.
+  you must be ingesting your Windows system event logs in order for this search
+  to execute successfully. You should run the baseline search
+  `Previously Seen Running Windows Services - Initial` to build the initial table of child
+  processes and hostnames for this search to work. You should also schedule at the same interval
+  as this search the second baseline search `Previously Seen Running Windows Services - Update` to
+  keep this table up to date and to age out old Windows Services. Please update the
+  `previously_seen_windows_service_window` macro to adjust the time window.
   Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
 type: ESCU
 references: []
