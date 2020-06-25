@@ -28,6 +28,8 @@ tags:
   - Suspicious AWS S3 Activities
   kill_chain_phases:
   - Actions on Objectives
+  mitre_attack_id:
+  - T1530
   cis20:
   - CIS 13
   - CIS 14
