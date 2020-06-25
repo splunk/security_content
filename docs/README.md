@@ -22,7 +22,7 @@ curl -s https://content.splunkresearch.com | jq
 Once you've installed our [app](https://github.com/splunk/security-content/releases), we recommend using our Analytic Story Execution App [(ASX)](https://github.com/splunk/analytics_story_execution) to execute and schedule all of the detections a story automatically.   
 
 ## Test Out The Detections
-The [attack_range](https://http://github.com/splunk/attack_range) project allows you to spin up an enviroment and launch attacks against it to test the detections. 
+The [attack_range](https://github.com/splunk/attack_range) project allows you to spin up an enviroment and launch attacks against it to test the detections. 
 
 ## Questions?
 If you get stuck or need help with any of our tools, see our [support options](https://github.com/splunk/security-content#support). 
@@ -32,21 +32,21 @@ If you want to help the rest of the security community by sharing your own detec
 
 
 ## Content Parts
-* [stories/](stories/): All Analytic Stories
-* [detections/](detections/): Splunk Enterprise, Splunk UBA, and Splunk Phantom detections that power Analytic Stories
-* [response_tasks/](response_tasks/): Splunk Enterprise and Splunk Phantom investigative searches and playbooks employed by Analytic Stories
-* [responses/](responses/): Automated Splunk Enterprise and Splunk Phantom responses triggered by Analytic Stories
-* [baselines/](baselines/): Splunk Phantom and Splunk Enterprise baseline searches needed to support detection searches in Analytic Stories
+* [stories/](https://github.com/splunk/security-content/tree/develop/stories): All Analytic Stories
+* [detections/](https://github.com/splunk/security-content/tree/develop/detections): Splunk Enterprise, Splunk UBA, and Splunk Phantom detections that power Analytic Stories
+* [response_tasks/](https://github.com/splunk/security-content/tree/develop/response_tasks): Splunk Enterprise and Splunk Phantom investigative searches and playbooks employed by Analytic Stories
+* [responses/](https://github.com/splunk/security-content/tree/develop/responses): Automated Splunk Enterprise and Splunk Phantom responses triggered by Analytic Stories
+* [baselines/](https://github.com/splunk/security-content/tree/develop/baselines): Splunk Phantom and Splunk Enterprise baseline searches needed to support detection searches in Analytic Stories
 
 #### Content Spec Files
-* [stories](docs/spec/stories.spec.md) 
-* [detections](docs/spec/detections.spec.md)
-* [deployments](docs/spec/deployments.spec.md)
-* [responses](docs/spec/responses.spec.md)
-* [response_tasks](docs/spec/response_tasks.spec.md)
-* [baselines](docs/spec/baselines.spec.md)
-* [lookups](docs/spec/lookups.spec.md)
-* [macros](docs/spec/macros.spec.md)
+* [stories](https://github.com/splunk/security-content/blob/develop/docs/spec/stories.spec.md) 
+* [detections](https://github.com/splunk/security-content/blob/develop/docs/spec/detections.spec.md)
+* [deployments](https://github.com/splunk/security-content/blob/develop/docs/spec/deployments.spec.md)
+* [responses](https://github.com/splunk/security-content/blob/develop/docs/spec/responses.spec.md)
+* [response_tasks](https://github.com/splunk/security-content/blob/develop/docs/spec/response_tasks.spec.md)
+* [baselines](https://github.com/splunk/security-content/blob/develop/docs/spec/baselines.spec.md)
+* [lookups](https://github.com/splunk/security-content/blob/develop/docs/spec/lookups.spec.md)
+* [macros](https://github.com/splunk/security-content/blob/develop/docs/spec/macros.spec.md)
 
 
 
