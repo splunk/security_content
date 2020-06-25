@@ -30,6 +30,7 @@ tags:
   - AWS User Monitoring
   mitre_attack_id:
   - T1078
+  - T1098
   cis20:
   - CIS 1
   nist:
