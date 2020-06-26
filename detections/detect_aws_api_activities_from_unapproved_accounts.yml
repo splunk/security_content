@@ -51,6 +51,8 @@ tags:
   - Actions on Objectives
   cis20:
   - CIS 16
+  mitre_attack_id:
+  - T1078
   nist:
   - DE.DP
   - DE.CM

@@ -27,6 +27,8 @@ tags:
   analytics_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
+  mitre_attack_id:
+  - T1078
   cis20:
   - CIS 1
   nist:

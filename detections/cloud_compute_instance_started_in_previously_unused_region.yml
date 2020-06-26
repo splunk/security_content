@@ -29,6 +29,8 @@ tags:
   - Cloud Cryptomining
   kill_chain_phases:
   - Actions on Objectives
+  mitre_attack_id:
+  - T1535
   cis20:
   - CIS 12
   nist:
