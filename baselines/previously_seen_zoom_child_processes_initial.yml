@@ -3,7 +3,7 @@ id: 60b9c00f-a9d6-4e51-803c-5d63ea21b95b
 version: 1
 date: '2020-05-20'
 description: This search returns the first and last time a process was seen per endpoint with
-    a parent process of zoom.exe (Windows) or zoom.us (macOS). This table is outputed to disk.
+    a parent process of zoom.exe (Windows) or zoom.us (macOS). This table is then cached.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints, to populate the Endpoint
   data model in the Processes node.
@@ -18,3 +18,5 @@ tags:
   - Suspicious Zoom Child Processes
   detections:
   - First Time Seen Child Process of Zoom
+  deployments:
+  - 90 Day Baseline
