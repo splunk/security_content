@@ -517,17 +517,17 @@ jobs:
 workflows:
   version: 2.1
   test-detections:
+    jobs:
+      - test-detections
     triggers:
       - schedule:
-          cron: "15 8 * * *"
+          cron: "45 8 * * *"
           filters:
             branches:
               only:
                 - master
                 - develop
                 - automated_detection_testing
-    jobs:
-      - test-detections
   validate-and-build:
     jobs:
       - validate-content:
