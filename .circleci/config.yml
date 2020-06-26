@@ -83,7 +83,6 @@ jobs:
             sudo unzip terraform_0.12.24_linux_amd64.zip -d /usr/bin
             rm terraform_0.12.24_linux_amd64.zip
             terraform --version
-# start generation of detection tests
       - run:
           name: detection tests > Credential Dumping LSASS memory test
           command: |
@@ -132,7 +131,7 @@ jobs:
             terraform init
             cd ..
             python attack_range.py --mode terraform --action test --test_file ../security-content/credential_dumping_sam_test.yml
-# end generation of detection test
+
   validate-content:
     executor: content-executor
     steps:
@@ -176,40 +175,6 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
-      - slack/status:
-          webhook: '${SLACK_WEBHOOK}'
-          fail_only: true
-
-  test-links:
-    executor: content-executor
-    steps:
-      - run:
-          name: checkout repo
-          command: |
-            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
-                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
-                cd security-content
-                git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
-                git checkout ${CIRCLE_BRANCH}
-            elif [ "${CIRCLE_BRANCH}" == "" ]; then
-                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
-            else
-                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
-            fi
-      - run: *apt-install
-      - run:
-          name: check for broken links using liche
-          command: |
-            echo 'export GOROOT=~/.go' >> $BASH_ENV
-            echo 'export PATH=$GOROOT/bin:$PATH' >> $BASH_ENV
-            echo 'export GOPATH=~/go' >> $BASH_ENV
-            echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
-            echo 'export GO111MODULE="on"' >> $BASH_ENV
-            source $BASH_ENV
-            go get -u github.com/raviqqe/liche
-            cd security-content
-            liche docs/stories_categories.md -v -t 60
-            liche README.md -v -t 60
       - slack/status:
           webhook: '${SLACK_WEBHOOK}'
           fail_only: true
@@ -521,7 +486,7 @@ workflows:
       - test-detections
     triggers:
       - schedule:
-          cron: "45 8 * * *"
+          cron: "55 8 * * *"
           filters:
             branches:
               only:
