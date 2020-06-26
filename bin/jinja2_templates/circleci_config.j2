@@ -98,7 +98,7 @@ jobs:
             cd terraform/
             terraform init
             cd ..
-            python attack_range.py --mode terraform --action test --test_file ../security-content/{{ test.name|replace(" ", "_")|lower() }}.yml
+            python attack_range.py --mode terraform --action test --test_file ../security-content/tests/{{ test.name|replace(" ", "_")|lower() }}.yml
 {% endfor %}
       - run:
           name: cleanup terraform on failures
@@ -463,7 +463,7 @@ workflows:
       - test-detections
     triggers:
       - schedule:
-          cron: "25 9 * * *"
+          cron: "40 9 * * *"
           filters:
             branches:
               only:
