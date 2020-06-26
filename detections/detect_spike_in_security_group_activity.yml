@@ -39,6 +39,8 @@ tags:
   - AWS User Monitoring
   kill_chain_phases:
   - Actions on Objectives
+  mitre_attack_id:
+  - T1078
   cis20:
   - CIS 16
   nist:

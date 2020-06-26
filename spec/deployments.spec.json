@@ -256,7 +256,6 @@
     "date",
     "description",
     "scheduling",
-    "alert_action",
     "tags"
   ],
   "title": "Deployment Schema",
