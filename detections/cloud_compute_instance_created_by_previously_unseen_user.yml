@@ -28,6 +28,8 @@ tags:
   - Cloud Cryptomining
   cis20:
   - CIS 1
+  mitre_attack_id:
+  - T1078
   nist:
   - ID.AM
   security_domain: endpoint

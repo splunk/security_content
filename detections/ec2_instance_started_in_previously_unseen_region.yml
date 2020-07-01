@@ -27,6 +27,9 @@ tags:
   - Suspicious AWS EC2 Activities
   kill_chain_phases:
   - Actions on Objectives
+  mitre_attack_id:
+  - T1078
+  - T1535
   cis20:
   - CIS 12
   nist:

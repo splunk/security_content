@@ -22,7 +22,7 @@ curl -s https://content.splunkresearch.com | jq
 Once you've installed our [app](https://github.com/splunk/security-content/releases), we recommend using our Analytic Story Execution App [(ASX)](https://github.com/splunk/analytics_story_execution) to execute and schedule all of the detections a story automatically.   
 
 ## Test Out The Detections
-The [attack_range](https://http://github.com/splunk/attack_range) project allows you to spin up an enviroment and launch attacks against it to test the detections. 
+The [attack_range](https://github.com/splunk/attack_range) project allows you to spin up an enviroment and launch attacks against it to test the detections. 
 
 ## Questions?
 If you get stuck or need help with any of our tools, see our [support options](https://github.com/splunk/security-content#support). 

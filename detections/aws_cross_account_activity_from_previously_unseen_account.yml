@@ -15,8 +15,7 @@ author: David Dorsey, Splunk
 search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId path=userIdentity.accountId
   | spath output=requestedAccountId path=resources{}.accountId | search requestingAccountId=*
   | where requestingAccountId != requestedAccountId | inputlookup append=t previously_seen_aws_cross_account_activity
-  | multireport [| stats min(eval(coalesce(firstTime, _time)))
-  as firstTime max(eval(coalesce(lastTime, _time)))
+  | multireport [| stats min(eval(coalesce(firstTime, _time))) as firstTime max(eval(coalesce(lastTime, _time)))
   as lastTime by requestingAccountId, requestedAccountId | outputlookup previously_seen_aws_cross_account_activity
   | where fact=fiction] [| eventstats min(eval(coalesce(firstTime, _time))) as firstTime, 
   max(eval(coalesce(lastTime, _time))) as lastTime by requestingAccountId, requestedAccountId | where firstTime
@@ -35,6 +34,8 @@ tags:
   - AWS Cross Account Activity
   kill_chain_phases:
   - Actions on Objectives
+  mitre_attack_id:
+  - T1078
   cis20:
   - CIS 16
   nist:

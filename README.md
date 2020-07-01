@@ -28,7 +28,7 @@ curl -s https://content.splunkresearch.com | jq
 }
 ```
 
-#### [GitHub Workflow](https://github.com/splunk/security-content/wiki/2.-Installation-and-Usage)
+#### [GitHub Workflow](https://github.com/splunk/security-content/wiki/Installation-and-Usage)
 Create your customized version of Security Content by forking this project and following this guide.
 
 # What's in an Analytic Story?
@@ -56,7 +56,7 @@ Download and install the latest version of [Splunk Analytic Story Execution]
 
 
 # Writing Content
-Before you begin, follow the steps to install **dependencies and pre-commit hooks** under ["Developing"](https://github.com/splunk/security-content#developing).
+Before you begin, follow the steps to install **dependencies and pre-commit hooks** under [Developing Content](https://github.com/splunk/security-content/wiki/Developing-Content).
 
 # Security Content
 
@@ -72,7 +72,7 @@ Before you begin, follow the steps to install **dependencies and pre-commit hook
 * [bin/](bin/): All binaries required to produce and test content
 
 # Contribution
-We welcome feedback and contributions from the community! Please see our [contribution guidelines](docs/CONTRIBUTING.md) for more information on how to get involved.
+We welcome feedback and contributions from the community! Please see our [contributing to the project](https://github.com/splunk/security-content/wiki/Contributing-to-the-Project) for more information on how to get involved.
 
 ## Support
 Please use the [GitHub Issue Tracker](https://github.com/splunk/security-content/issues) to submit bugs or request features.
