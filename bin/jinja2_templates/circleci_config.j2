@@ -64,7 +64,7 @@ jobs:
       - run:
           name: checkout attack_range repo
           command: |
-            git clone --single-branch --branch automated_detection_testing https://${GITHUB_TOKEN}@github.com/splunk/attack_range.git
+            git clone https://${GITHUB_TOKEN}@github.com/splunk/attack_range.git
       - restore_cache:
           key: virtualenv
       - run: *apt-install
@@ -470,10 +470,103 @@ workflows:
       - test-detections
     triggers:
       - schedule:
-          cron: "35 9 * * *"
+          cron: "0 5 * * *"
           filters:
             branches:
               only:
-                - master
                 - develop
-                - automated_detection_testing
+  validate-and-build:
+    jobs:
+      - validate-content:
+        # build always
+          filters:
+            tags:
+              only: /.*/
+      - build-sources:
+        # build always
+          requires:
+            - validate-content
+          filters:
+            tags:
+              only: /.*/
+      - build-package:
+        # build always
+          requires:
+            - validate-content
+            - build-sources
+          filters:
+            tags:
+              only: /.*/
+      - run-appinspect:
+        # build always
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+          filters:
+            tags:
+              only: /.*/
+      - community-api-update:
+        # build only on community changes
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+          filters:
+            branches:
+              only: community
+      - update-sources-github:
+        # update package and docs in github if is a tag
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - publish-github-release:
+        # publish release in github if is a tag
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - attack-range-update:
+        # update the attack range with the latest build
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+            - publish-github-release
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - master-api-update:
+        # update master API from develop if is a tag
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+            - update-sources-github
+            - publish-github-release
+            - attack-range-update
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
