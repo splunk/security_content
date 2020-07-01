@@ -1,13 +1,13 @@
-name: Long Running Baseline Searches
+name: 90 Day Baseline Searches
 id: 6eac9f8b-a35d-4b64-b57f-e5ecde43be6b
 date: '2020-06-24'
 description: This configuration file applies to all baselines with tag deployments Long Running Baseline
 author: Bhavin Patel
 scheduling:
-  cron_schedule: '0 7 * * *'
-  earliest_time: -7d
-  latest_time: -now
+  cron_schedule: '0 4 * * *'
+  earliest_time: -90d@d
+  latest_time: -10m@m
   schedule_window: auto
 tags:
   deployments:
-    - Long Running Baseline
+    - 90 Day Baseline

@@ -1,3 +1,4 @@
 description: A placeholder for the list of Windows Services running
-filename: previously_seen_running_windows_services.csv
+collection: previously_seen_running_windows_services
 name: previously_seen_running_windows_services
+fields_list: _key, service, firstTimeSeen, lastTimeSeen
