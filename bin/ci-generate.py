@@ -12,6 +12,7 @@ import sys
 import datetime
 from jinja2 import Environment, FileSystemLoader
 import re
+import os
 
 
 # global variables
@@ -19,24 +20,24 @@ REPO_PATH = ''
 VERBOSE = False
 OUTPUT_PATH = ''
 
-def load_objects(file_path, VERBOSE):
-    files = []
-    test_files = path.join(path.expanduser(REPO_PATH), file_path)
-    for file in sorted(glob.glob(test_files)):
-        if VERBOSE:
-            print("processing test: {0}".format(file))
-        files.append(load_file(file))
-    return files
-
-
-def load_file(file_path):
-    with open(file_path, 'r') as stream:
-        try:
-            file = list(yaml.safe_load_all(stream))[0]
-        except yaml.YAMLError as exc:
-            print(exc)
-            sys.exit("ERROR: reading {0}".format(file_path))
-    return file
+# def load_objects(file_path, VERBOSE):
+#     files = []
+#     test_files = path.join(path.expanduser(REPO_PATH), file_path)
+#     for file in sorted(glob.glob(test_files)):
+#         if VERBOSE:
+#             print("processing test: {0}".format(file))
+#         files.append(load_file(file))
+#     return files
+#
+#
+# def load_file(file_path):
+#     with open(file_path, 'r') as stream:
+#         try:
+#             file = list(yaml.safe_load_all(stream))[0]
+#         except yaml.YAMLError as exc:
+#             print(exc)
+#             sys.exit("ERROR: reading {0}".format(file_path))
+#     return file
 
 
 def generate_circleci_conf(tests, OUTPUT_PATH, VERBOSE):
@@ -65,7 +66,8 @@ if __name__ == "__main__":
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
-    tests = load_objects("tests/*.yml", VERBOSE)
+    #tests = load_objects("tests/*.yml", VERBOSE)
+    tests = arr = os.listdir("tests/")
     generate_circleci_conf(tests, OUTPUT_PATH, VERBOSE)
     if VERBOSE:
         print("{0} tests have been successfully written to {1}".format(len(tests), OUTPUT_PATH))

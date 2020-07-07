@@ -90,7 +90,7 @@ jobs:
             terraform --version
 {% for test in detection_tests %}
       - run:
-          name: detection tests > {{ test.name }}
+          name: detection tests > {{ test }}
           command: |
             cd attack_range
             source venv/bin/activate
@@ -105,7 +105,7 @@ jobs:
             cd terraform/
             terraform init
             cd ..
-            python attack_range.py --mode terraform --action test --test_file ../security-content/tests/{{ test.name|replace(" ", "_")|lower() }}.yml
+            python attack_range.py --mode terraform --action test --test_file ../security-content/tests/{{ test }}
 {% endfor %}
       - run:
           name: cleanup terraform on failures
