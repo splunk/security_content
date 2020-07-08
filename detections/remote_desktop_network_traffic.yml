@@ -1,53 +1,12 @@
-asset_type: Endpoint
-confidence: medium
-creation_date: '2016-09-13'
-data_metadata:
-  data_models:
-    - Network_Traffic
-  data_source:
-    - Network Communications
-  providing_technologies:
-    - Bro
-    - Splunk Stream
+name: Remote Desktop Network Traffic
+id: 272b8407-842d-4b3d-bead-a704584003d3
+version: 3
+date: '2020-07-07'
 description: This search looks for network traffic on TCP/3389, the default port used
   by remote desktop. While remote desktop traffic is not uncommon on a network, it
   is usually associated with known hosts. This search allows for whitelisting both
   source and destination hosts to remove them from the output of the search so you
   can focus on the uncommon uses of remote desktop on your network.
-detect:
-  splunk:
-    correlation_rule:
-      notable:
-        nes_fields: dest, src
-        rule_description: Remote Desktop Traffic detected between $src$ and $dest$.  These
-          two systems typically do not communicate with RDP
-        rule_title: Uncommon Remote Desktop Network Traffic between $src$ and $dest$
-      risk:
-        risk_object: src
-        risk_object_type:
-          - system
-        risk_score: 50
-      macros:
-        - remote_desktop_network_traffic_filter
-      schedule:
-        cron_schedule: 0 * * * *
-        earliest_time: -70m@m
-        latest_time: -10m@m
-      search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as
-        lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND
-        All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source
-        by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
-        | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-        | `remote_desktop_network_traffic_filter` '
-      suppress:
-        suppress_fields: dest,src
-        suppress_period: 28800s
-eli5: This search finds systems that do not commonly communicate use remote desktop.  It
-  does this by filtering out all systems that have the "common_rdp_source" or "common_rdp_destination"
-  category applied to that system.  Categories are applied to systems using the Assets
-  and Identity framework.
-entities:
-  - src
 how_to_implement: To successfully implement this search you need to identify systems
   that commonly originate remote desktop traffic and that commonly receive remote
   desktop traffic. You can use the included support search "Identify Systems Creating
@@ -57,67 +16,31 @@ how_to_implement: To successfully implement this search you need to identify sys
   to add the "common_rdp_source" or "common_rdp_destination" category to that system
   depending on the usage, using the Enterprise Security Assets and Identities framework.  This
   can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
-id: 272b8407-842d-4b3d-bead-a704584003d3
-investigations:
-  - id: 9925d08f-561e-4faa-8912-e3888a842341
-    name: Get Process Information For Port Activity
-    type: splunk
-  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
-    name: Get Authentication Logs For Endpoint
-    type: splunk
-  - id: fecf2918-670d-4f1c-872b-3d7317a41bf9
-    name: Get Parent Process Info
-    type: splunk
-  - id: fdcfb369-1725-4c24-824a-22972d7f0d55
-    name: Get Risk Modifiers For User
-    type: splunk
-  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
-    name: Get Process Info
-    type: splunk
-  - id: b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc
-    name: Investigate Successful Remote Desktop Authentications
-    type: splunk
-  - id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
-    name: Get Notable History
-    type: splunk
-  - id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
-    name: Get Notable Info
-    type: splunk
-  - id: fdcfb369-1725-4c24-824a-22972d7f0d65
-    name: Get Risk Modifiers For Endpoint
-    type: splunk
-  - id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
-    name: Get User Information from Identity Table
-    type: splunk
-known_false_positives: Remote Desktop may be used legitimately by users on the network.
-maintainers:
-  - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
-mappings:
-  cis20:
-    - CIS 3
-    - CIS 9
-    - CIS 16
-  kill_chain_phases:
-    - Actions on Objectives
-  mitre_attack:
-    - Lateral Movement
-    - Remote Desktop Protocol
-  mitre_technique_id:
-    - T1076
-  nist:
-    - DE.AE
-    - PR.AC
-    - PR.IP
-modification_date: '2020-01-10'
-name: Remote Desktop Network Traffic
-original_authors:
-  - company: Splunk
-    email: davidd@splunk.com
-    name: David Dorsey
+type: ESCU
 references: []
-security_domain: network
-spec_version: 2
-type: splunk
-version: '2.0'
+author: David Dorsey, Splunk
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND
+  All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source
+  by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `remote_desktop_network_traffic_filter` '
+known_false_positives: Remote Desktop may be used legitimately by users on the network.
+tags:
+  analytics_story:
+  - SamSam Ransomware
+  - Hidden Cobra Malware
+  - Lateral Movement
+  mitre_attack_id:
+  - T1021.001
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 3
+  - CIS 9
+  - CIS 16
+  nist:
+  - DE.AE
+  - PR.AC
+  - PR.IP
+  security_domain: network
+  asset_type: Endpoint

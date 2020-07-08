@@ -1,4 +1,0 @@
-definition: search *
-description: Use this macro to add output filters for Malicious PowerShell 
-  Process With Obfuscation Techniques.
-name: malicious_powershell_process_obfuscation_techniques_output_filter

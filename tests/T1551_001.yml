@@ -1,0 +1,7 @@
+name: Clear Windows Event Logs
+detections:
+  - Windows Event Log Cleared
+description: Test Windows Event Logs cleared
+pass_condition: '| stats count | where count > 0'
+target: attack-range-windows-domain-controller
+simulation_technique: 'T1551.001'

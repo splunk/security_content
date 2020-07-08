@@ -64,7 +64,6 @@ require([
       tokenModel.set('form.as_cis', '*');
       tokenModel.set('form.as_category', '*');
       tokenModel.set('form.as_kill_chain_phase', '*');
-      tokenModel.set('form.as_mitre_attack', '*');
       tokenModel.set('form.as_data_models', '*');
     });
 
@@ -72,7 +71,6 @@ require([
       tokenModel.set('form.cis', '*');
       tokenModel.set('form.searchtype', '*');
       tokenModel.set('form.kill_chain_phase', '*');
-      tokenModel.set('form.mitre_attack', '*');
       tokenModel.set('form.data_models', '*');
     });
  });

@@ -14,3 +14,4 @@ firefox.exe,prohibited
 java.exe,prohibited
 powershell.exe,prohibited
 mshta.exe, prohibited
+zoom.exe,prohibitied
