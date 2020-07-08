@@ -1,6 +1,7 @@
 name: Create local account test
 detections:
   - Short Lived Windows Accounts
+  - Detect New Local Admin account
 description: Test Create local account
 pass_condition: '| stats count | where count > 0'
 target: attack-range-windows-domain-controller
