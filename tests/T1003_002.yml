@@ -1,7 +1,7 @@
 name: Credential Dumping sam test
 detections:
-  - Attempted Credential Dump From Registry via Reg exe
+  - name: Attempted Credential Dump From Registry via Reg exe
+    pass_condition: '| stats count | where count = 4'
 description: Test credential dumping detections
-pass_condition: '| stats count | where count > 0'
 target: attack-range-windows-domain-controller
 simulation_technique: 'T1003.002'
