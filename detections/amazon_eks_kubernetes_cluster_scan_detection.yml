@@ -23,5 +23,7 @@ tags:
   - Kubernetes Scanning Activity
   kill_chain_phases:
   - Reconnaissance
+  mitre_attack_id:
+  - T1526
   security_domain: threat
   asset_type: Amazon EKS Kubernetes cluster
