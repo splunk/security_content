@@ -1,0 +1,7 @@
+name: Hijack Execution Flow Path Interception by Unquoted Path
+detections:
+  - Detect Path Interception By Creation Of program exe
+description: Test attacks on unquoted service paths
+pass_condition: '| stats count | where count > 0'
+target: attack-range-windows-domain-controller
+simulation_technique: 'T1574.009'

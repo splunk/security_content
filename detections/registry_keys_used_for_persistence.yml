@@ -28,12 +28,12 @@ known_false_positives: There are many legitimate applications that must execute 
 tags:
   analytics_story:
   - Suspicious Windows Registry Activities
-  - Windows Persistence Techniques
-  - 'Emotet Malware  DHS Report TA18-201A '
-  - Ransomware
+  - Suspicious MSHTA Activity
   - DHS Report TA18-074A
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - Suspicious MSHTA Activity
+  - Ransomware
+  - Windows Persistence Techniques
+  - 'Emotet Malware  DHS Report TA18-201A '
   mitre_attack_id:
   - T1103
   - T1131

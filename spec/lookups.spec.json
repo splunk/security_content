@@ -47,10 +47,24 @@
       ],
       "type": "string"
     },
+    "fields_list": {
+      "description": "A comma and space separated list of field names",
+      "examples": [
+        "_key, dest, process_name"
+      ],
+      "type": "string"
+    },
     "filename": {
       "description": "The name of the file to use for this lookup",
       "examples": [
         "prohibited_apps_launching_cmd.csv"
+      ],
+      "type": "string"
+    },
+    "filter": {
+      "description": "Use this attribute to improve search performance when working with significantly large KV",
+      "examples": [
+        "dest=\"SPLK_*\""
       ],
       "type": "string"
     },
