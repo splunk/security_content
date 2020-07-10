@@ -11,7 +11,7 @@ from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
 
-VERSION = "2.2"
+VERSION = "3.0"
 NAME = "Detection Priority by Threat Actors"
 DESCRIPTION = "security-content detection priorty by common techniques used from threat actors"
 DOMAIN = "mitre-enterprise"
@@ -31,7 +31,7 @@ def main(argv):
     counted_techniques, max_count = count_techniques(techniques, all_techniques)
 
     print("count techniques")
-    detections = load_objects(path.join(cmdargs.projects_path,'security-content'),'detections/*.yml')
+    detections = load_objects(path.join(cmdargs.projects_path),'detections/*.yml')
 
     print("get matched techniques")
     matched_techniques = get_matched_techniques(counted_techniques, detections)

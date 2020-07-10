@@ -6,7 +6,8 @@
     "techniques": [
         {
             "techniqueID": "T1193",
-            "score": 51
+            "score": 49,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/suspicious_lnk_file_launching_a_process.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_oulook_exe_writing_a__zip_file.yml"
         },
         {
             "techniqueID": "T1566.001",
@@ -26,7 +27,8 @@
         },
         {
             "techniqueID": "T1086",
-            "score": 44
+            "score": 38,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/malicious_powershell_process___multiple_suspicious_command_line_arguments.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/malicious_powershell_process___connect_to_internet_with_hidden_window.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/malicious_powershell_process___encoded_command.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/malicious_powershell_process_with_obfuscation_techniques.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/malicious_powershell_process___execution_policy_bypass.yml"
         },
         {
             "techniqueID": "T1059.003",
@@ -70,11 +72,13 @@
         },
         {
             "techniqueID": "T1082",
-            "score": 25
+            "score": 23,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_attackers_scanning_for_vulnerable_jboss_servers.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/web_servers_executing_suspicious_processes.yml"
         },
         {
             "techniqueID": "T1192",
-            "score": 24
+            "score": 23,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_dns_requests_to_phishing_sites_leveraging_evilginx2.yml"
         },
         {
             "techniqueID": "T1566.002",
@@ -82,7 +86,8 @@
         },
         {
             "techniqueID": "T1078",
-            "score": 24
+            "score": 2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/web_fraud___anomalous_user_clickspeed.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/ec2_instance_started_in_previously_unseen_region.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_new_api_calls_from_user_roles.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_aws_api_activities_from_unapproved_accounts.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_spike_in_security_group_activity.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/abnormally_high_aws_instances_terminated_by_user___mltk.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_spike_in_aws_api_activity.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/multiple_okta_users_with_invalid_credentails_from_the_same_ip.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/cloud_compute_instance_created_by_previously_unseen_user.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/okta_failed_sso_attempts.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_new_user_aws_console_login.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_new_local_admin_account.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/abnormally_high_aws_instances_launched_by_user___mltk.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/okta_account_lockout_events.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/abnormally_high_aws_instances_launched_by_user.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/ec2_instance_modified_with_previously_unseen_user.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_excessive_user_account_lockouts.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/abnormally_high_aws_instances_terminated_by_user.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/okta_user_logins_from_multiple_cities.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/ec2_instance_started_with_previously_unseen_user.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_excessive_account_lockouts_from_endpoint.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/aws_cross_account_activity_from_previously_unseen_account.yml"
         },
         {
             "techniqueID": "T1083",
@@ -106,11 +111,13 @@
         },
         {
             "techniqueID": "T1076",
-            "score": 20
+            "score": 18,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/remote_desktop_process_running_on_system.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/remote_desktop_network_bruteforce.yml"
         },
         {
             "techniqueID": "T1021.001",
-            "score": 20
+            "score": 19,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/remote_desktop_network_traffic.yml"
         },
         {
             "techniqueID": "T1056.001",
@@ -142,7 +149,8 @@
         },
         {
             "techniqueID": "T1047",
-            "score": 17
+            "score": 10,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/wmi_permanent_event_subscription.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/script_execution_via_wmi.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/process_execution_via_wmi.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/remote_wmi_command_attempt.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/remote_process_instantiation_via_wmi.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/wmi_temporary_event_subscription.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/wmi_permanent_event_subscription___sysmon.yml"
         },
         {
             "techniqueID": "T1560.001",
@@ -154,11 +162,13 @@
         },
         {
             "techniqueID": "T1043",
-            "score": 16
+            "score": 2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/dns_query_length_outliers___mltk.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/tor_traffic.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/smb_traffic_spike.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/hosts_receiving_high_volume_of_network_traffic_from_email_server.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/smb_traffic_spike___mltk.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/prohibited_network_traffic_allowed.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/dns_query_length_with_high_standard_deviation.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_outbound_smb_traffic.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detection_of_dns_tunnels.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_long_dns_txt_record_response.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/email_servers_sending_high_volume_traffic_to_hosts.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/sql_injection_with_long_urls.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/protocol_or_port_mismatch.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/excessive_dns_failures.yml"
         },
         {
             "techniqueID": "T1112",
-            "score": 15
+            "score": 13,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/disabling_remote_user_account_control.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/suspicious_reg_exe_process.yml"
         },
         {
             "techniqueID": "T1555.003",
@@ -174,7 +184,8 @@
         },
         {
             "techniqueID": "T1136.001",
-            "score": 14
+            "score": 13,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/short_lived_windows_accounts.yml"
         },
         {
             "techniqueID": "T1087.001",
@@ -206,7 +217,8 @@
         },
         {
             "techniqueID": "T1041",
-            "score": 12
+            "score": 11,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_web_traffic_to_dynamic_domain_providers.yml"
         },
         {
             "techniqueID": "T1045",
@@ -222,11 +234,13 @@
         },
         {
             "techniqueID": "T1085",
-            "score": 11
+            "score": 10,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/rundll_loading_dll_by_ordinal.yml"
         },
         {
             "techniqueID": "T1059",
-            "score": 11
+            "score": 3,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/first_time_seen_command_line_argument.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/processes_launching_netsh.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_prohibited_applications_spawning_cmd_exe.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/create_local_admin_accounts_using_net_exe.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/processes_created_by_netsh.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_use_of_cmd_exe_to_launch_script_interpreters.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_mshta_exe_running_scripts_in_command_line_arguments.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_psexec_with_accepteula_flag.yml"
         },
         {
             "techniqueID": "T1073",
@@ -278,7 +292,8 @@
         },
         {
             "techniqueID": "T1068",
-            "score": 9
+            "score": 7,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/child_processes_of_spoolsv_exe.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/first_time_seen_child_process_of_zoom.yml"
         },
         {
             "techniqueID": "T1562.001",
@@ -306,7 +321,8 @@
         },
         {
             "techniqueID": "T1003",
-            "score": 9
+            "score": -3,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_mimikatz_using_loaded_images.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/dump_lsass_via_comsvcs_dll.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/create_remote_thread_into_lsass.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/attempted_credential_dump_from_registry_via_reg_exe.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/access_lsass_memory_for_dump_creation.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/credential_dumping_via_symlink_to_shadow_copy.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_credential_dumping_through_lsass_access.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/creation_of_shadow_copy_with_wmic_and_powershell.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/detect_mimikatz_via_powershell_and_eventcode_4703.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/credential_dumping_via_copy_command_from_shadow_copy.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/unsigned_image_loaded_by_lsass.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/creation_of_shadow_copy.yml"
         },
         {
             "techniqueID": "T1143",
@@ -474,7 +490,8 @@
         },
         {
             "techniqueID": "T1015",
-            "score": 5
+            "score": 2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/overwriting_accessibility_binaries.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/registry_keys_used_for_privilege_escalation.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/uncommon_processes_on_endpoint.yml"
         },
         {
             "techniqueID": "T1573.002",
@@ -510,7 +527,8 @@
         },
         {
             "techniqueID": "T1075",
-            "score": 5
+            "score": 4,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_activity_related_to_pass_the_hash_attacks.yml"
         },
         {
             "techniqueID": "T1001.002",
@@ -550,7 +568,8 @@
         },
         {
             "techniqueID": "T1084",
-            "score": 5
+            "score": 2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/wmi_permanent_event_subscription.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/wmi_temporary_event_subscription.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/wmi_permanent_event_subscription___sysmon.yml"
         },
         {
             "techniqueID": "T1550.002",
@@ -562,7 +581,8 @@
         },
         {
             "techniqueID": "T1036",
-            "score": 5
+            "score": 4,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml"
         },
         {
             "techniqueID": "T1078.003",
@@ -634,7 +654,8 @@
         },
         {
             "techniqueID": "T1102",
-            "score": 4
+            "score": 3,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_web_traffic_to_dynamic_domain_providers.yml"
         },
         {
             "techniqueID": "T1036.003",
@@ -662,7 +683,8 @@
         },
         {
             "techniqueID": "T1072",
-            "score": 3
+            "score": 2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detection_of_tools_built_by_nirsoft.yml"
         },
         {
             "techniqueID": "T1542.003",
@@ -682,7 +704,8 @@
         },
         {
             "techniqueID": "T1095",
-            "score": 3
+            "score": 2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_large_outbound_icmp_packets.yml"
         },
         {
             "techniqueID": "T1071",
@@ -694,7 +717,8 @@
         },
         {
             "techniqueID": "T1098",
-            "score": 3
+            "score": 2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/detect_new_api_calls_from_user_roles.yml"
         },
         {
             "techniqueID": "T1078.002",
@@ -998,7 +1022,8 @@
         },
         {
             "techniqueID": "T1042",
-            "score": 1
+            "score": -2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/execution_of_file_with_spaces_before_extension.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/execution_of_file_with_multiple_extensions.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/suspicious_changes_to_file_associations.yml"
         },
         {
             "techniqueID": "T1216.001",
@@ -1034,7 +1059,8 @@
         },
         {
             "techniqueID": "T1074",
-            "score": 1
+            "score": -1,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/suspicious_writes_to_windows_recycle_bin.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/suspicious_writes_to_system_volume_information.yml"
         },
         {
             "techniqueID": "T1092",
@@ -1246,7 +1272,8 @@
         },
         {
             "techniqueID": "T1138",
-            "score": 1
+            "score": -2,
+            "comment": "https://github.com/splunk/security-content/blob/develop/detections/shim_database_file_creation.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/shim_database_installation_with_suspicious_parameters.yml\n\nhttps://github.com/splunk/security-content/blob/develop/detections/registry_keys_for_creating_shim_databases.yml"
         },
         {
             "techniqueID": "T1546.013",

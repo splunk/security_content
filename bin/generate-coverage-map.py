@@ -12,7 +12,7 @@ from stix2 import FileSystemSource
 from stix2 import Filter
 import tqdm
 
-VERSION = "2.2"
+VERSION = "3.0"
 NAME = "Detection Coverage"
 DESCRIPTION = "security-content detection coverage"
 DOMAIN = "mitre-enterprise"
