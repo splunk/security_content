@@ -253,7 +253,7 @@ def generate_workbench_panels(response_tasks, stories):
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
                 output_path = OUTPUT_PATH + "/default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
-                
+
                 if response_task['search'].find(">") is not -1:
                     response_task['search']= response_task['search'].replace(">","&gt;")
                 if response_task['search'].find("<") is not -1:
@@ -558,4 +558,6 @@ if __name__ == "__main__":
         print("{0} response tasks have been successfully written to {1}".format(len(response_tasks), detection_path))
         print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
+        print("{0} lookups have been successfully written to {1}".format(len(lookups), lookups_path))
+        print("workbench panels were generated")
         print("security content generation completed..")
