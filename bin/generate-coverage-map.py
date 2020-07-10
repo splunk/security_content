@@ -29,7 +29,7 @@ def main(argv):
     techniques = get_all_techniques(cmdargs.projects_path)
 
     print("count techniques")
-    detections = load_objects(path.join(cmdargs.projects_path,'security-content'),'detections/*.yml')
+    detections = load_objects(path.join(cmdargs.projects_path),'detections/*.yml')
 
     print("get matched techniques")
     matched_techniques = get_matched_techniques(techniques, detections)
