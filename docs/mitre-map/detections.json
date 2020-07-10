@@ -1,5 +1,5 @@
 {
-    "version": "2.2",
+    "version": "3.0",
     "name": "Detection Priority by Threat Actors",
     "description": "security-content detection priorty by common techniques used from threat actors",
     "domain": "mitre-enterprise",
