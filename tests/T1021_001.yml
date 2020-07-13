@@ -1,0 +1,7 @@
+name: Remote Desktop Connection
+detections:
+  - name: Remote Desktop Network Traffic
+    pass_condition: '| stats count | where count > 0'
+description: Test remote desktop connections
+target: attack-range-windows-domain-controller
+simulation_technique: 'T1021.001'

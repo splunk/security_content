@@ -12,7 +12,7 @@ search: '`okta` displayMessage="User login to Okta" client.geographicalContext.c
   | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city)
   as locations values(client.geographicalContext.city) as cities values(client.geographicalContext.state)
   as states by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  |`okta_user_logins_from_multiple_cities_filter`| search locations > 1'
+  | `okta_user_logins_from_multiple_cities_filter` | search locations > 1'
 known_false_positives: Users in your enviornment may legitmately be travelling and
   loggin in from different locations. This search is useful for those users that should
   *not* be travelling for some reason, such as the COVID-19 pandemic. The search also

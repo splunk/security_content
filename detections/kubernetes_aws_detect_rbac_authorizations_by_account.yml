@@ -4,9 +4,9 @@ description: "This search provides information on Kubernetes RBAC authorizations
 how_to_implement: "You must install splunk AWS add on and Splunk App for AWS. This search works with cloudwatch logs"
 id: de7264ed-3ed9-4fef-bb01-6eefc87cefe8
 known_false_positives: "Not all RBAC Authorications are malicious. RBAC authorizations can uncover malicious activity specially if sensitive Roles have been granted."
-name: "AWS EKS Kubernetes RBAC authorizations by account"
+name: "Kubernetes AWS detect RBAC authorization by account"
 references: []
-search: sourcetype="aws:cloudwatchlogs:eks" annotations.authorization.k8s.io/reason=* | table sourceIPs{} user.username userAgent annotations.authorization.k8s.io/reason | stats count by user.username annotations.authorization.k8s.io/reason | rare user.username annotations.authorization.k8s.io/reason |`kubernetes_aws_detect_RBAC_authorization_by_account`
+search: "`aws_cloudwatchlogs_eks` annotations.authorization.k8s.io/reason=* | table sourceIPs{} user.username userAgent annotations.authorization.k8s.io/reason | stats count by user.username annotations.authorization.k8s.io/reason | rare user.username annotations.authorization.k8s.io/reason |`kubernetes_aws_detect_rbac_authorization_by_account_filter`"
 tags:
   analytics_story:
     - "Kubernetes Sensitive Role Activity"

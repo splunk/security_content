@@ -31,5 +31,5 @@ tags:
   - Suspicious MSHTA Activity
   - Unusual Processes
   detections:
-  - Unusually Long Command Line - MLTK
   - Detect Prohibited Applications Spawning cmd.exe
+  - Unusually Long Command Line - MLTK

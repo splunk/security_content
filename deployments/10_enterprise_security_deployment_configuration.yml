@@ -4,9 +4,9 @@ date: '2020-04-27'
 description: This configuration file applies to all correlation searches that are used for detection
 author: Bhavin Patel
 scheduling:
-  cron_schedule: '*/30 * * * *'
-  earliest_time: -30m
-  latest_time: now
+  cron_schedule: '0 * * * *'
+  earliest_time: -70m@m
+  latest_time: -10m@m
   schedule_window: auto
 alert_action:
   notable:
