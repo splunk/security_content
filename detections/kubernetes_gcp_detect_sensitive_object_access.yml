@@ -4,9 +4,9 @@ description: "This search provides information on Kubernetes accounts accessing 
 how_to_implement: "You must install splunk add on for GCP . This search works with pubsub messaging service logs."
 id: bdb6d596-86a0-4aba-8369-418ae8b9963a
 known_false_positives: "Sensitive object access is not necessarily malicious but user and object context can provide guidance for detection."
-name: "GCP GKE Kubernetes cluster sensitive object access detection"
+name: "Kubernetes GCP detect sensitive object access"
 references: []
-search: google_gcp_pubsub_message data.protoPayload.authorizationInfo{}.resource=configmaps OR secrets  | table data.protoPayload.requestMetadata.callerIp src_user data.resource.labels.cluster_name data.protoPayload.request.metadata.namespace data.labels.authorization.k8s.io/decision | dedup data.protoPayload.requestMetadata.callerIp src_user data.resource.labels.cluster_name |`kubernetes_gcp_detect_sensitive_object_access`"
+search: google_gcp_pubsub_message data.protoPayload.authorizationInfo{}.resource=configmaps OR secrets  | table data.protoPayload.requestMetadata.callerIp src_user data.resource.labels.cluster_name data.protoPayload.request.metadata.namespace data.labels.authorization.k8s.io/decision | dedup data.protoPayload.requestMetadata.callerIp src_user data.resource.labels.cluster_name |`kubernetes_gcp_detect_sensitive_object_access_filter`"
 tags:
   analytics_story:
     - "Kubernetes Sensitive Object Access Activity"

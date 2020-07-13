@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters
-name: kubernetes_gcp_detect_sensitive_object_access

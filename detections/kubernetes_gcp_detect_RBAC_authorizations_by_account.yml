@@ -4,9 +4,9 @@ description: "This search provides information on Kubernetes RBAC authorizations
 how_to_implement: "You must install splunk AWS add on for GCP. This search works with pubsub messaging service logs"
 id: 99487de3-7192-4b41-939d-fbe9acfb1340
 known_false_positives: "Not all RBAC Authorications are malicious. RBAC authorizations can uncover malicious activity specially if sensitive Roles have been granted."
-name: "GCP GKE Kubernetes RBAC authorizations by account"
+name: "Kubernetes GCP RBAC authorizations by account"
 references: []
-search: google_gcp_pubsub_message data.labels.authorization.k8s.io/reason=ClusterRoleBinding OR Clusterrole  | table src_ip src_user data.labels.authorization.k8s.io/decision data.labels.authorization.k8s.io/reason | rare src_user data.labels.authorization.k8s.io/reason |`kubernetes_gcp_detect_RBAC_authorization_by_account`
+search: google_gcp_pubsub_message data.labels.authorization.k8s.io/reason=ClusterRoleBinding OR Clusterrole  | table src_ip src_user data.labels.authorization.k8s.io/decision data.labels.authorization.k8s.io/reason | rare src_user data.labels.authorization.k8s.io/reason |`kubernetes_gcp_detect_RBAC_authorization_by_account_filter`
 tags:
   analytics_story:
     - "Kubernetes Sensitive Role Activity"
