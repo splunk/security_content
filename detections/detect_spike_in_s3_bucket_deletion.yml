@@ -36,6 +36,8 @@ known_false_positives: Based on the values of`dataPointThreshold` and `deviation
 tags:
   analytics_story:
   - Suspicious AWS S3 Activities
+  mitre_attack_id:
+  - T1530
   kill_chain_phases:
   - Actions on Objectives
   cis20:

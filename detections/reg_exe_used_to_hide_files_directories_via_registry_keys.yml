@@ -21,9 +21,9 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
 known_false_positives: None at the moment
 tags:
   analytics_story:
+  - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
-  - Windows Defense Evasion Tactics
   kill_chain_phases:
   - Actions on Objectives
   cis20:

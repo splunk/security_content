@@ -20,9 +20,9 @@ known_false_positives: This technique may be legitimately used by administrators
   modify remote registries, so it's important to filter these events out.
 tags:
   analytics_story:
+  - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
-  - Windows Defense Evasion Tactics
   kill_chain_phases:
   - Actions on Objectives
   cis20:

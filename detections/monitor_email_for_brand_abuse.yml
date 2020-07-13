@@ -21,8 +21,8 @@ search: '| tstats `security_content_summariesonly` values(All_Email.recipient) a
 known_false_positives: None at this time
 tags:
   analytics_story:
-  - Suspicious Emails
   - Brand Monitoring
+  - Suspicious Emails
   kill_chain_phases:
   - Delivery
   cis20:

@@ -13,7 +13,7 @@ category = {{ story.tags.category[0] }}
 last_updated = {{ story.date }}
 version = {{ story.version }}
 references = {{ story.references | tojson }}
-maintainers = {{ story.author | tojson }}
+maintainers = [{"company": "{{ story.author_company }}", "email": "-", "name": "{{ story.author_name }}"}]
 spec_version = 3
 searches = {{ story.searches | tojson }}
 description = {{ story.description }}
@@ -29,7 +29,7 @@ narrative = {{ story.narrative }}
 {% for detection in detections %}
 [savedsearch://ESCU - {{ detection.name }} - Rule]
 type = detection
-asset_type = {{ detection.asset_type }}
+asset_type = {{ detection.tags.asset_type }}
 confidence = medium
 explanation = {{ detection.description }}
 {% if detection.how_to_implement is defined %}
@@ -39,7 +39,7 @@ how_to_implement = none
 {% endif %}
 annotations = {{ detection.mappings | tojson }}
 known_false_positives = {{ detection.known_false_positives }}
-providing_technologies = none
+providing_technologies = []
 
 {% endfor %}
 ### END DETECTIONS ###

@@ -41,9 +41,9 @@ known_false_positives: The false-positive rate may vary based on the values of`d
   of blocked outbound connections.
 tags:
   analytics_story:
-  - Command and Control
   - AWS Network ACL Activity
   - Suspicious AWS Traffic
+  - Command and Control
   kill_chain_phases:
   - Actions on Objectives
   - Command and Control

@@ -17,5 +17,5 @@ tags:
   - Suspicious Emails
   detections:
   - Monitor Email For Brand Abuse
-  - Monitor Web Traffic For Brand Abuse
   - Monitor DNS For Brand Abuse
+  - Monitor Web Traffic For Brand Abuse
