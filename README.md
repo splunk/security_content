@@ -49,8 +49,7 @@ Please see the Developing Content [guide](https://github.com/splunk/security-con
 A complete use case, specifically built to detect, investigate, and respond to a specific threat like [Credential Dumping](https://github.com/splunk/security-content/blob/develop/stories/credential_dumping.yml) or [Ransomware](). A group of detections and a response make up an analytic story, they are associated with the tag `analytics_story: <name>`.  
 
 # Execute an Analytic Story 🏃‍♀️
-Download and install the latest version of [Splunk Analytic Story Execution]
-(https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
+Download and install the latest version of [Splunk Analytic Story Execution](https://github.com/splunk/analytic_story_execution/releases). This Splunk application will help the user do the following:
 
 1. Execute an analytic story in an ad-hoc mode and view the results.
 2. Schedule all the detection searches in an analytic story.
