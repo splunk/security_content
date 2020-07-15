@@ -383,13 +383,13 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate-actors-map.py --path . --output docs/mitre-map/
+            python bin/generate-actors-map.py --projects_path . --output docs/mitre-map/
       - run:
           name: run generate-coverage-map
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate-coverage-map.py --path . --output docs/mitre-map
+            python bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
       - run:
           name: update github with new docs and package bits
           command: |
