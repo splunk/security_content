@@ -10,7 +10,6 @@ import csv
 from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
-import tqdm
 
 VERSION = "3.0"
 NAME = "Detection Coverage"
