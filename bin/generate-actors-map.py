@@ -30,7 +30,7 @@ def main(argv):
     print("count techniques")
     counted_techniques, max_count = count_techniques(techniques, all_techniques)
 
-    print("count techniques")
+    print("load detections techniques")
     detections = load_objects(path.join(cmdargs.projects_path),'detections/*.yml')
 
     print("get matched techniques")
