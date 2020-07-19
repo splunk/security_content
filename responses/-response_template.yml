@@ -1,0 +1,28 @@
+---
+# Response Templates
+# OAR response templates are the starting point for building investigations and consist of phases
+# We have modularized the tasks and phases so that you can use what's been build or build your own processes
+name: Preparation NIST                              # Name of the phase or stage
+id: d360707d-9214-4449-b15d-9d3cf134209a            # UUID v4
+sla_type: minutes                                   # minutes, hours, days
+sla:                                                # numerical value of sla_type
+is_note_required: false
+tags:
+  - nist
+  analytics_story: Credential Dumping
+detection:
+  - id:                                             # UUID v4
+    name:                                           # related RP that you would like to keep as linked and mention in the workflow
+references:
+  - https://example.com
+phase_title:                                        # links to response_phase
+  - id:                                             # UUID v4
+    name: Phase Title                               # Plain name of the phase
+phase_ii_title:
+  - id:
+    name: Phase II Title
+workflow: Workflow in markdown format. You can put here anything you want, i.e. specific conditions/requirements or details on the order of Response execution.
+    Here newlines will be saved.
+date: '2020-04-21'
+version: 1
+author: ButterCup, Splunk

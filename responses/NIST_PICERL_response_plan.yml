@@ -1,0 +1,38 @@
+name: NIST PICERL Response Plan
+id: 8a7ea67a-dd53-468e-aeef-b75aed0a877c
+description: The NIST incident response process has several phases. This response plan describes the major phases of the incident response process—preparation, detection and analysis, containment, eradication and recovery, and post-incident activity—in detail. Customers should use this process to build effective incident response plans.  This particular response template aligns to the PICERL (preparation, identification, containment, eradication, recovery, lessons learned format produced by SANS Cybersecurity Training Organization.
+is_note_required: false
+tags:
+    - nist
+    - picerl
+    use_case:
+      - Credential Dumping
+      - Ransomeware
+references:
+  - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+  - https://www.sans.org/reading-room/whitepapers/incident/incident-handlers-handbook-33901
+response_phase:
+  preparation:
+    - id: d360707d-9214-4449-b15d-9d3cf134209a
+      name: Preparation
+  identification:
+    - id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
+      name:  Detection and Analysis
+  containment:
+    - id: 5d790fae-8ba6-4fc9-b288-78b67ef8370c
+      name: Containment
+  eradication:
+    - id: d3b80e0e-4e85-4259-a13c-69ef20987e1c
+      name: Eradication
+  recovery:
+    - id: cae4dcdb-f81b-45ec-b0d6-a00cec468e9a
+      name: Recovery
+  lessons_learned:
+    - id: 001209bc-2f94-4dc7-b21e-9598c41eaa80
+      name: Post-Incident Activities
+workflow: Organizations should use this response plan as template to define the processes for their security operations teams.
+  With this as the template and then customizing the response plan around attack vectors. Organizations can fashion a framework for thier response procedures.
+  Response plans and response procedures are different in the setting that procedures should have the actual step-by-step actions vs an response plan that discuses and deomonstrates actions without specifcs and aligns to the policy. Preparation should not be imported into response tools that support ingestion (hive, phantom, xsoar, etc).
+date: '2020-04-21'
+version: 1
+author: ButterCup, Splunk
