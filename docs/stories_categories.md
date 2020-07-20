@@ -218,7 +218,8 @@ To get started, run the detection search to identify parent processes of `netsh.
 
 ##### ATT&CK
 * T1059
-* T1089
+* T1562
+* T1562.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -512,6 +513,9 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 ##### ATT&CK
 * T1003
+* T1003.001
+* T1003.002
+* T1003.003
 * T1064
 * T1086
 
@@ -562,9 +566,10 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
 ##### ATT&CK
 * T1050
-* T1059
 * T1089
 * T1112
+* T1562
+* T1562.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -674,6 +679,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 #### Mappings
 
 ##### ATT&CK
+* T1021.001
 * T1053
 * T1075
 * T1076
@@ -1348,6 +1354,7 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 ##### ATT&CK
 * T1070
+* T1551.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1406,6 +1413,7 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 ##### ATT&CK
 * T1050
 * T1053
+* T1054.009
 * T1058
 * T1103
 * T1131
@@ -1522,6 +1530,7 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 ##### ATT&CK
 * T1078
 * T1136
+* T1136.001
 
 ##### Kill Chain Phases
 
@@ -2117,6 +2126,7 @@ Kubernetes is the most used container orchestration platform, this orchestration
 #### Mappings
 
 ##### ATT&CK
+* T1526
 
 ##### Kill Chain Phases
 * Reconnaissance
@@ -2146,6 +2156,9 @@ Kubernetes is the most used container orchestration platform, this orchestration
 * Kubernetes Azure detect sensitive object access
 * Kubernetes Azure detect service accounts forbidden failure access
 * Kubernetes Azure detect suspicious kubectl calls
+* Kubernetes GCP detect sensitive object access
+* Kubernetes GCP detect service accounts forbidden failure access
+* Kubernetes GCP detect suspicious kubectl calls
 
 #### Data Models
 
@@ -2181,6 +2194,9 @@ Kubernetes is the most used container orchestration platform, this orchestration
 * Kubernetes Azure detect RBAC authorization by account
 * Kubernetes Azure detect most active service accounts by pod namespace
 * Kubernetes Azure detect sensitive role access
+* Kubernetes GCP detect RBAC authorizations by account
+* Kubernetes GCP detect most active service accounts by pod
+* Kubernetes GCP detect sensitive role access
 
 #### Data Models
 
@@ -2535,12 +2551,14 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 * T1053
 * T1059
 * T1064
-* T1078
 * T1086
 * T1089
 * T1103
 * T1112
 * T1131
+* T1136.001
+* T1562
+* T1562.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2713,6 +2731,7 @@ Among other searches in this Analytic Story is a detection search that looks for
 #### Mappings
 
 ##### ATT&CK
+* T1021.001
 * T1043
 * T1059
 * T1064
@@ -2840,6 +2859,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * T1070
 * T1103
 * T1131
+* T1551.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2907,6 +2927,7 @@ This Analytic Story includes searches designed to help detect and investigate si
 #### Mappings
 
 ##### ATT&CK
+* T1021.001
 * T1059
 * T1076
 * T1082

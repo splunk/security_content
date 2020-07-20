@@ -1,11 +1,15 @@
 name: Credential Dumping LSASS memory test
 detections:
-  - Access LSASS Memory for Dump Creation
-  - Create Remote Thread into LSASS
-  - Detect Credential Dumping through LSASS access
-  - Dump LSASS via comsvcs DLL
-  - Unsigned Image Loaded by LSASS
+  - name: Access LSASS Memory for Dump Creation
+    pass_condition: '| stats count | where count = 2'
+  - name: Create Remote Thread into LSASS
+    pass_condition: '| stats count | where count = 1'
+  - name: Detect Credential Dumping through LSASS access
+    pass_condition: '| stats count | where count = 1'
+  - name: Dump LSASS via comsvcs DLL
+    pass_condition: '| stats count | where count = 1'
+  - name: Unsigned Image Loaded by LSASS
+    pass_condition: '| stats count | where count > 0'
 description: Test credential dumping detections
-pass_condition: '| stats count | where count > 0'
 target: attack-range-windows-domain-controller
 simulation_technique: 'T1003.001'

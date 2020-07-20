@@ -13,6 +13,8 @@ tags:
   asset_type: "Azure AKS Kubernetes cluster"
   kill_chain_phases:
     - Reconnaissance
+  mitre_attack_id:
+    - T1526
   security_domain: threat
 type: ESCU
 version: 1
