@@ -49,7 +49,7 @@ def generate_transforms_conf(lookups):
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
     template = j2_env.get_template('transforms.j2')
-    output_path = OUTPUT_PATH + "/default/transforms.conf"
+    output_path = path.join(OUTPUT_PATH, "default/transforms.conf")
     output = template.render(lookups=sorted_lookups, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -65,7 +65,7 @@ def generate_collections_conf(lookups):
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
     template = j2_env.get_template('collections.j2')
-    output_path = OUTPUT_PATH + "/default/collections.conf"
+    output_path = path.join(OUTPUT_PATH, "/default/collections.conf")
     output = template.render(lookups=sorted_lookups, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -120,7 +120,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
                          trim_blocks=True)
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
-    output_path = OUTPUT_PATH + "/default/savedsearches.conf"
+    output_path = path.join(OUTPUT_PATH, "default/savedsearches.conf")
     output = template.render(detections=detections, baselines=baselines, response_tasks=response_tasks, time=utc_time)
     with open(output_path, 'w') as f:
         output = output.encode('ascii', 'ignore').decode('ascii')
@@ -152,7 +152,7 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
     template = j2_env.get_template('analytic_stories.j2')
-    output_path = OUTPUT_PATH + "/default/analytic_stories.conf"
+    output_path = path.join(OUTPUT_PATH, "default/analytic_stories.conf")
     output = template.render(stories=stories, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -194,7 +194,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
     template = j2_env.get_template('use_case_library.j2')
-    output_path = OUTPUT_PATH + "/default/use_case_library.conf"
+    output_path = path.join(OUTPUT_PATH, "default/use_case_library.conf")
     output = template.render(stories=stories, detections=detections,
                              response_tasks=response_tasks,
                              baselines=baselines, time=utc_time)
@@ -221,7 +221,7 @@ def generate_macros_conf(macros, detections):
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
     template = j2_env.get_template('macros.j2')
-    output_path = OUTPUT_PATH + "/default/macros.conf"
+    output_path = path.join(OUTPUT_PATH, "default/macros.conf")
     output = template.render(macros=all_macros, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -252,8 +252,9 @@ def generate_workbench_panels(response_tasks, stories):
                 j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                output_path = OUTPUT_PATH + "/default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
-
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                output_path = path.join(OUTPUT_PATH, file_path)
+                
                 if response_task['search'].find(">") is not -1:
                     response_task['search']= response_task['search'].replace(">","&gt;")
                 if response_task['search'].find("<") is not -1:
@@ -266,7 +267,7 @@ def generate_workbench_panels(response_tasks, stories):
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
     template = j2_env.get_template('es_investigations.j2')
-    output_path = OUTPUT_PATH + "/default/es_investigations.conf"
+    output_path = path.join(OUTPUT_PATH, "default/es_investigations.conf")
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -274,7 +275,7 @@ def generate_workbench_panels(response_tasks, stories):
     j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
-    output_path = OUTPUT_PATH + "/default/workflow_actions.conf"
+    output_path = path.join(OUTPUT_PATH, "default/workflow_actions.conf")
     output = template.render(response_tasks=workbench_panel_objects)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -487,9 +488,6 @@ def generate_mitre_lookup():
 
     for technique in all_enterprise['techniques']:
         apt_groups = []
-        if 'revoked' in technique:
-            if technique['revoked']:
-                continue
         for relationship in enterprise_relationships:
             if (relationship['target_ref'] == technique['id']) and relationship['source_ref'].startswith('intrusion-set'):
                 for group in enterprise_groups:
