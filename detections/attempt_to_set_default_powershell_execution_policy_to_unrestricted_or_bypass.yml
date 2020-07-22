@@ -1,7 +1,7 @@
 name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-version: 4
-date: '2019-12-02'
+version: 5
+date: '2020-07-21'
 description: Monitor for changes of the ExecutionPolicy in the registry to the values
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
 how_to_implement: You must be ingesting data that records process activity from your
@@ -27,8 +27,7 @@ tags:
   - Malicious PowerShell
   - Credential Dumping
   mitre_attack_id:
-  - T1086
-  - T1064
+  - T1059.001
   kill_chain_phases:
   - Installation
   - Actions on Objectives
