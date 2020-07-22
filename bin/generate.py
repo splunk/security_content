@@ -354,10 +354,14 @@ def map_detection_to_stories(detections):
     for detection in detections:
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
-                if not (story in sto_det):
-                    sto_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+                if 'type' in detection.keys():
+                    rule_name = str(detection['type'] ' - ' + detection['name'] + ' - Rule')
                 else:
-                    sto_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                if not (story in sto_det):
+                    sto_det[story] = {rule_name}
+                else:
+                    sto_det[story].add(rule_name)
     return sto_det
 
 
@@ -367,10 +371,14 @@ def map_response_tasks_to_stories(response_tasks):
         if 'tags' in response_task:
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
+                    if 'type' in response_task.keys():
+                        task_name = str(response_task['type'] ' - ' + response_task['name'])
+                    else: 
+                        task_name = str('ESCU - ' + response_task['name'])
                     if not (story in sto_res):
-                        sto_res[story] = {str('ESCU - ' + response_task['name'])}
+                        sto_res[story] = {task_name}
                     else:
-                        sto_res[story].add(str('ESCU - ' + response_task['name']))
+                        sto_res[story].add(task_name)
     return sto_res
 
 
@@ -380,10 +388,14 @@ def map_baselines_to_stories(baselines):
         if 'tags' in baseline:
             if 'analytics_story' in baseline['tags']:
                 for story in baseline['tags']['analytics_story']:
-                    if not (story in sto_bas):
-                        sto_bas[story] = {str('ESCU - ' + baseline['name'])}
+                    if 'type' in baseline.keys():
+                        baseline_name = str(baseline['type'] ' - ' + baseline['name'])
                     else:
-                        sto_bas[story].add(str('ESCU - ' + baseline['name']))
+                        baseline_name = str('ESCU - ' + baseline['name'])
+                    if not (story in sto_bas):
+                        sto_bas[story] = {baseline_name}
+                    else:
+                        sto_bas[story].add(baseline_name)
     return sto_bas
 
 def custom_jinja2_enrichment_filter(string, object):
@@ -409,10 +421,15 @@ def prepare_stories(stories, detections):
     for detection in detections:
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
-                if story in sto_to_det.keys():
-                    sto_to_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+                if 'type' in detection.keys():
+                    rule_name = str(detection['type'] ' - ' + detection['name'] + ' - Rule')
                 else:
-                    sto_to_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+
+                if story in sto_to_det.keys():
+                    sto_to_det[story].add(rule_name)
+                else:
+                    sto_to_det[story] = {rule_name}
 
                 data_model = parse_data_models_from_search(detection['search'])
                 if data_model:
