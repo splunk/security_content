@@ -1,7 +1,7 @@
 name: Detect AWS API Activities From Unapproved Accounts
 id: ada0f478-84a8-4641-a3f1-d82362d4bd55
-version: 1
-date: '2018-03-13'
+version: 2
+date: '2020-07-21'
 description: This search looks for successful CloudTrail activity by user accounts
   that are not listed in the identity table or `aws_service_accounts.csv`. It returns
   event names and count, as well as the first and last time a specific user or service
@@ -52,7 +52,7 @@ tags:
   cis20:
   - CIS 16
   mitre_attack_id:
-  - T1078
+  - T1078.004
   nist:
   - DE.DP
   - DE.CM

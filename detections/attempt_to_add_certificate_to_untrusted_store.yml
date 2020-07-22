@@ -1,7 +1,7 @@
 name: Attempt To Add Certificate To Untrusted Store
 id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
-version: 4
-date: '2018-11-15'
+version: 5
+date: '2020-07-21'
 description: Attempt to add a certificate to the untrusted certificate store
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
@@ -23,7 +23,7 @@ tags:
   analytics_story:
   - Disabling Security Tools
   mitre_attack_id:
-  - T1089
+  - T1553.004
   kill_chain_phases:
   - Installation
   - Actions on Objectives

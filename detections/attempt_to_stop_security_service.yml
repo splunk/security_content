@@ -1,7 +1,7 @@
 name: Attempt To Stop Security Service
 id: c8e349c6-b97c-486e-8949-bd7bcd1f3910
-version: 2
-date: '2017-09-15'
+version: 3
+date: '2020-07-21'
 description: This search looks for attempts to stop security-related services on the
   endpoint.
 how_to_implement: You must be ingesting data that records the file-system activity
@@ -30,7 +30,7 @@ tags:
   analytics_story:
   - Disabling Security Tools
   mitre_attack_id:
-  - T1089
+  - T1562.001
   kill_chain_phases:
   - Installation
   - Actions on Objectives
