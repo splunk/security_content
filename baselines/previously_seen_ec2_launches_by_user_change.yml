@@ -1,0 +1,20 @@
+name: Previously Seen EC2 Launches By User - Change
+id: 6c767ac0-0906-4355-9a83-927f5ee7bdad
+version: 1
+date: '2020-07-23'
+description: This search builds a table of previously seen ARNs that have launched
+  a EC2 instance.
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  logs to be ingested into the Change Datamodel
+author: Bhavin Patel, Splunk
+search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Change
+    where All_Changes.result= RunInstances by All_Changes.user 
+| `drop_dm_object_name("All_Changes")` 
+| outputlookup previously_seen_ec2_launches_by_user_change.csv'
+tags:
+  analytics_story:
+  - AWS Cryptomining
+  - Suspicious AWS EC2 Activities
+  detections:
+  - EC2 Instance Started With Previously Unseen User - Change
