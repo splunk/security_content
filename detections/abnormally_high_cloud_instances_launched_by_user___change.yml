@@ -1,25 +1,24 @@
-name: Abnormally High AWS Instances Launched by User - Change
+name: Abnormally High Cloud Instances Launched by User - Change
 id: 2a9b80d3-6340-4345-b5ad-290bf5d0da33
 version: 1
 date: '2020-07-23'
 description: This search looks for CloudTrail events where a user successfully launches
   an abnormally high number of instances.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  logs to be ingested into the Change Datamodel. The threshold value should be tuned to your environment.
+how_to_implement: You must install the the latest AWS, GCP or Azure TA and ingest the logs into
+  the Change Datamodel. The threshold value should be tuned to your environment.
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count as instances_launched from datamodel=Change
-    where All_Changes.result= RunInstances
+    where All_Changes.action= run
     by _time span=10m, All_Changes.user 
 | `drop_dm_object_name("All_Changes")` 
 | eventstats avg(instances_launched) as total_launched_avg, stdev(instances_launched) as total_launched_stdev 
 | eval threshold_value = 4 
 | eval isOutlier=if(instances_launched > total_launched_avg+(total_launched_stdev * threshold_value), 1, 0) 
 | search isOutlier=1 
-| table _time, user, instances_launched |`abnormally_high_aws_instances_launched_by_user___change_filter`'
-known_false_positives: Many service accounts configured within an AWS infrastructure
+| table _time, user, instances_launched |`abnormally_high_cloud_instances_launched_by_user___change_filter`'
+known_false_positives: Many service accounts configured within the Cloud infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter
   out service accounts from the output. Always verify if this search alerted on a
   human user.
