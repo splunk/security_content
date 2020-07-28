@@ -6,7 +6,7 @@ id: 5f04081e-ddee-4353-afe4-504f288de9ad
 known_false_positives: "CreateRole is not very common in common users. This search can be adjusted to provide specific values to identify cases of abuse. In general AWS provides plenty of trust policies that fit most use cases."
 name: "aws detect role creation"
 references: []
-search: '`aws_cloudwatchlogs_eks` event_name=CreateRole action=created userIdentity.type=AssumedRole requestParameters.description="*Allows*" | table sourceIPAddress userIdentity.principalId userIdentity.arn action event_name awsRegion http_user_agent mfa_auth msg requestParameters.roleName requestParameters.description responseElements.role.arn responseElements.role.createDate | `aws_detect_role_creation_filter`'
+search: '`aws_cloudwatchlogs_eks` event_name=CreateRole action=created userIdentity.type=AssumedRole requestParameters.description=Allows | table sourceIPAddress userIdentity.principalId userIdentity.arn action event_name awsRegion http_user_agent mfa_auth msg requestParameters.roleName requestParameters.description responseElements.role.arn responseElements.role.createDate | `aws_detect_role_creation_filter`'
 tags:
   analytics_story:
     - "AWS Cross Account Activity"
