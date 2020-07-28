@@ -6,8 +6,6 @@ description: This search provides information of unauthenticated requests via us
   agent, and authentication data against Kubernetes cluster's pods
 how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
   then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
-  You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_pod_scan_fingerprint_attack_detection
-  to filter out FPs.
 type: ESCU
 references: []
 author: Rod Soto, Splunk

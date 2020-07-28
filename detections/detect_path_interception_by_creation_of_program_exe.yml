@@ -18,7 +18,7 @@ tags:
   analytics_story:
   - Windows Persistence Techniques
   mitre_attack_id:
-  - T1054.009
+  - T1574.009
   kill_chain_phases:
   - Actions on Objectives
   cis20:
