@@ -4,6 +4,9 @@ detections:
     pass_condition: '| stats count | where count = 1'
   - name: Detect New Local Admin account
     pass_condition: '| stats count | where count = 1'
+  - name: Create local admin accounts using net exe
+    pass_condition: '| stats count | where count > 1'
 description: Test Create local account
 target: attack-range-windows-domain-controller
 simulation_technique: 'T1136.001'
+
