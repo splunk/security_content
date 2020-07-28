@@ -4,9 +4,9 @@ description: "This search provides detection of suspicious use of sts:GetSession
 how_to_implement: "You must install splunk AWS add-on and Splunk App for AWS. This search works with cloudwatch logs"
 id: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 known_false_positives: "Sts:GetSessionToken can be very noisy as in certain environments numerous calls of this type can be executed. This search can be adjusted to provide specific values to identify cases of abuse. In specific environments the use of field requestParameters.serialNumber will need to be used."
-name: "AWS detect sts get session token abuse"
+name: "aws detect sts get session token abuse"
 references: []
-search: "`aws_cloudwatchlogs_eks` ASIA*  userIdentity.type=IAMUser| spath eventName | search eventName=GetSessionToken | table sourceIPAddress eventTime userIdentity.arn userName userAgent user_type status region | `aws_detect_sts_get_session_token_abuse_filter`"
+search: '`aws_cloudwatchlogs_eks` "ASIA*"  userIdentity.type=IAMUser| spath eventName | search eventName=GetSessionToken | table sourceIPAddress eventTime userIdentity.arn userName userAgent user_type status region | `aws_detect_sts_get_session_token_abuse_filter`'
 tags:
   analytics_story:
     - "AWS Cross Account Activity"
