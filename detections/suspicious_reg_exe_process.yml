@@ -33,7 +33,7 @@ tags:
   - Disabling Security Tools
   - DHS Report TA18-074A
   mitre_attack_id:
-  - T1574.011
+  - T1112
   kill_chain_phases:
   - Actions on Objectives
   cis20:
