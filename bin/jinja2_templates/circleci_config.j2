@@ -102,6 +102,7 @@ jobs:
             sed -i "s/private_key_path =.*$/private_key_path = ~\/.ssh\/id_rsa_3968782b01d635eb784228581d9cbe90/g" attack_range.conf
             sed -i "s/windows_domain_controller = .*$/windows_domain_controller = 1/g" attack_range.conf
             sed -i "s/capture_attack_data = .*$/capture_attack_data = 1/g" attack_range.conf
+            sed -i "s/art_branch = .*$/art_branch =  local-master/g" attack_range.conf
             cd terraform/
             terraform init
             cd ..
