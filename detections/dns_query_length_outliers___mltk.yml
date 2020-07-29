@@ -51,7 +51,7 @@ tags:
   - Suspicious DNS Traffic
   - Command and Control
   mitre_attack_id:
-  - T1043
+  - T1071.004
   kill_chain_phases:
   - Command and Control
   cis20:

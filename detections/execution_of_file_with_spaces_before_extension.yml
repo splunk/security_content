@@ -1,7 +1,7 @@
 name: Execution of File With Spaces Before Extension
 id: ab0353e6-a956-420b-b724-a8b4846d5d5a
-version: 1
-date: '2018-01-26'
+version: 2
+date: '2020-07-21'
 description: This search looks for processes launched from files with at least five
   spaces in the name before the extension. This is typically done to obfuscate the
   file extension by pushing it outside of the default view.
@@ -22,7 +22,7 @@ tags:
   analytics_story:
   - Windows File Extension and Association Abuse
   mitre_attack_id:
-  - T1042
+  - T1036
   kill_chain_phases:
   - Actions on Objectives
   cis20:

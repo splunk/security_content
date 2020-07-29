@@ -1,7 +1,7 @@
 name: Okta Account Lockout Events
 id: 62b70968-a0a5-4724-8ac4-67871e6f544d
-version: 1
-date: '2020-04-01'
+version: 2
+date: '2020-07-21'
 description: Detect Okta user lockout events
 how_to_implement: This search is specific to Okta and requires Okta logs are being
   ingested in your Splunk deployment.
@@ -17,7 +17,7 @@ tags:
   analytics_story:
   - Suspicious Okta Activity
   mitre_attack_id:
-  - T1078
+  - T1078.001
   cis20:
   - CIS 16
   nist:

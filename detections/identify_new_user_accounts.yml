@@ -22,7 +22,7 @@ tags:
   analytics_story:
   - Account Monitoring and Controls
   mitre_attack_id:
-  - T1136
+  - T1078.002
   cis20:
   - CIS 16
   nist:

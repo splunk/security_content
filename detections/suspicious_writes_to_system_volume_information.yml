@@ -1,7 +1,7 @@
 name: Suspicious writes to System Volume Information
 id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
-version: 1
-date: '2018-01-08'
+version: 2
+date: '2020-07-22'
 description: This search detects writes to the 'System Volume Information' folder
   by something other than the System process.
 how_to_implement: You need to be ingesting logs with both the process name and command-line
@@ -21,7 +21,7 @@ tags:
   analytics_story:
   - Collection and Staging
   mitre_attack_id:
-  - T1074
+  - T1036
   cis20:
   - CIS 8
   nist:

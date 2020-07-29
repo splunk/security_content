@@ -1,7 +1,7 @@
 name: Excessive DNS Failures
 id: 104658f4-afdc-499e-9719-17243f9826f1
-version: 1
-date: '2017-09-18'
+version: 2
+date: '2020-07-21'
 description: This search identifies DNS query failures by counting the number of DNS
   responses that do not indicate success, and trigger on more than 50 occurrences.
 how_to_implement: To successfully implement this search you must ensure that DNS data
@@ -24,8 +24,7 @@ tags:
   - Suspicious DNS Traffic
   - Command and Control
   mitre_attack_id:
-  - T1048
-  - T1043
+  - T1071.004
   kill_chain_phases:
   - Command and Control
   cis20:

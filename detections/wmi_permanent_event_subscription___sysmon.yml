@@ -19,7 +19,6 @@ tags:
   - Suspicious WMI Use
   mitre_attack_id:
   - T1047
-  - T1084
   kill_chain_phases:
   - Actions on Objectives
   cis20:
