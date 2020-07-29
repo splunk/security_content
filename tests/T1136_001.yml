@@ -1,11 +1,11 @@
 name: Create local account test
 detections:
   - name: Short Lived Windows Accounts
-    pass_condition: '| stats count | where count = 3'
+    pass_condition: '| stats count | where count > 0'
   - name: Detect New Local Admin account
-    pass_condition: '| stats count | where count = 2'
+    pass_condition: '| stats count | where count > 0'
   - name: Create local admin accounts using net exe
-    pass_condition: '| stats count | where count > 1'
+    pass_condition: '| stats count | where count > 0'
 description: Test Create local account
 target: attack-range-windows-domain-controller
 simulation_technique: 'T1136.001'
