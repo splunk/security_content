@@ -1,12 +1,12 @@
 name: Make personnel report suspicious activity
-id:
+id: f83abcae-3734-45ff-99ef-b17eb937c057
 tags:
   - nist
   - picerl
   nist:
     RS.RP
 description: |
-  Make sure that personnel will report suspicious activity i.e. suspicious emails,links, files, activity on their computers, etc
+  c
 automation:
   is_note_required: false
   role:

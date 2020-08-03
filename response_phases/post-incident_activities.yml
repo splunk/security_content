@@ -4,6 +4,8 @@ sla_type: minutes
 sla:
 description: One of the most important parts of incident response is learning and improving. Each incident response team should evolve to reflect new threats, improved technology, and lessons learned. Holding a “lessons learned” meeting with all involved parties after a major incident and lessor incidents at a regular interval. Consolidating the incident details and measuring the incident important data points to ensure the most effective proceses are being used.
 tags:
+    - nist
+    - picerl
   analytics_story:
     NIST SP 800-61r2 Response Plan
   usecase:
@@ -14,9 +16,9 @@ references:
   - 3.4 Post-Incident Activity -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 response_task:
   - id: 69d25415-408f-462a-899f-9bc8eef8c299
-    name: create_followup_report
+    name: create_follow-up_report
   - id: 43fc5e87-d819-460a-a740-de2066b18a29
-    name: lessons_learned
-date: '2020-04-21'
-version: 1
+    name: provide_lessons_learned_tasks_or_changes
+date: '2020-07-30'
+version: 2
 author: ButterCup, Splunk

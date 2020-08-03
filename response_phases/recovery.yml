@@ -14,9 +14,9 @@ references:
   - 3.3 Containment, Eradication, and Recovery -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 response_task:
   - id: bb515cf6-40b5-4005-af04-6f63439df7b4
-    name: restore_systems
+    name: restore_systems_to_operational_status
   - id: 8218bcf6-739b-4f76-8952-eb133480ad8d
-    name: validate_restoration
+    name: validate_restored_hosts
   - id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
     name: implement_monitoring
 date: '2020-04-21'

@@ -1,4 +1,4 @@
-name: Detection and Analysis
+name: Identification
 id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
 sla_type: minutes
 sla:
@@ -10,6 +10,16 @@ response_task:
     name: Determine if an incident has occurred
   - id: ef9e7a25-73f0-4b63-b43b-2f4171518931
     name: Analyze precursors to the event
+  - id: be7cce5c-29b9-405c-923a-d4565705da2e
+    name: Analyze host indicator and reputation
+  - id: a194130b-f5a8-4bfe-b09f-35f58f4397d5
+    name: Analyze IP address indicator and reputation
+  - id: 7744864c-5446-47ab-8118-4cbaa1649747
+    name: Analyze domain indicator and reputation
+  - id: 65a23d95-7b5a-405c-b5bf-893983478d35
+    name: Analyze url indicator and reputation
+  - id: 9e2d3e51-2e8f-4d49-8206-fb3e5fbf6620
+    name: Analyze email indicator and reputation
   - id: 994298f0-75fc-4c14-b044-9b81944d3a03
     name: Confirm Incident
   - id: 91f1c863-c080-4b3c-921c-e1ca1c0e7ae1

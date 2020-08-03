@@ -1,5 +1,5 @@
 name: Raise personnel awareness
-id:
+id: 145a82b5-cafd-468e-b487-737fdf13d6a4
 tags:
   - nist
   - picerl
@@ -15,7 +15,7 @@ automation:
     playbook:
 references:
   - https://attack.mitre.org/mitigations/M1017/
-workflow: Train users to to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.
+workflow: Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.
 date: '2020-07-17'
 version: 1
 author: ButterCup, Splunk, @atc_react
