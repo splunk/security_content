@@ -1,7 +1,7 @@
 name: Okta User Logins From Multiple Cities
 id: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
-version: 1
-date: '2020-04-01'
+version: 2
+date: '2020-07-21'
 description: This search detects logins from the same user from different states in
   a 24 hour period.
 how_to_implement: This search is specific to Okta and requires Okta logs are being
@@ -23,7 +23,7 @@ tags:
   analytics_story:
   - Suspicious Okta Activity
   mitre_attack_id:
-  - T1078
+  - T1078.001
   cis20:
   - CIS 16
   nist:

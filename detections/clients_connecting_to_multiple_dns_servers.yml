@@ -1,7 +1,7 @@
 name: Clients Connecting to Multiple DNS Servers
 id: 74ec6f18-604b-4202-a567-86b2066be3ce
-version: 2
-date: '2020-01-16'
+version: 3
+date: '2020-07-21'
 description: This search allows you to identify the endpoints that have connected
   to more than five DNS servers and made DNS Queries over the time frame of the search.
 how_to_implement: 'This search requires that DNS data is being ingested and populating
@@ -32,7 +32,7 @@ tags:
   - Suspicious DNS Traffic
   - Host Redirection
   mitre_attack_id:
-  - T1048
+  - T1048.003
   kill_chain_phases:
   - Command and Control
   cis20:
