@@ -1,5 +1,5 @@
 name: Identification
-id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
+id: 6cdd56ba-5ffd-46a9-9dde-d25ce755c100
 sla_type: minutes
 sla:
 description: Events are occurances of a systems or systems. Incidents are declared violations and incidents can occur in countless ways. Detection and analysis phase is about identifying an event as an incident and properly categorizing and prioritizing incident notification and documentation. It is infeasible to develop step-by-step instructions for handling every incident. This generic detection and analysis process is a template to ensure the right process is being followed.

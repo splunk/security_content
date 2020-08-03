@@ -16,8 +16,8 @@ response_phase:
     - id: d360707d-9214-4449-b15d-9d3cf134209a
       name: Preparation
   identification:
-    - id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
-      name:  Detection and Analysis
+    - id: 6cdd56ba-5ffd-46a9-9dde-d25ce755c100
+      name:  Identification
   containment:
     - id: 5d790fae-8ba6-4fc9-b288-78b67ef8370c
       name: Containment
