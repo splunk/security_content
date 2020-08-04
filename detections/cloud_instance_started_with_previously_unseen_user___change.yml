@@ -1,0 +1,32 @@
+name: Cloud Instance Started With Previously Unseen User - Change
+id: 22773e84-bac0-4595-b086-2033f735b333
+version: 1
+date: '2020-07-23'
+description: This search looks for Cloud instances being created by users who have not
+  created them before.
+how_to_implement: You must configure the Cloud audit logs to be ingested into the Change Datamodel. This search works best when you run the "Previously Seen Cloud Launches By User - Change" support search once to create a history of previously seen users.
+type: ESCU
+references: []
+author: Bhavin Patel, Splunk
+search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime latest(_time) as lastTime values(All_Changes.src) values(All_Changes.dest) from datamodel=Change
+    where All_Changes.result= RunInstances by All_Changes.user 
+| `drop_dm_object_name("All_Changes")` 
+| inputlookup append=t previously_seen_Cloud_launches_by_user_change.csv
+  | stats min(firstTime) as firstTime, max(lastTime) as lastTime by user | outputlookup
+  previously_seen_Cloud_launches_by_user_change.csv | eval newUser=if(firstTime >= relative_time(now(),
+  "-70m@m"), 1, 0) | search newUser=1 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` |`cloud_instance_started_with_previously_unseen_user___change_filter`'
+known_false_positives: It's possible that a user will start to create Cloud instances
+  when they haven't before for any number of reasons. Verify with the user that is
+  launching instances that this is the intended behavior.
+tags:
+  analytics_story:
+  - Suspicious Cloud Instance Activities
+  mitre_attack_id:
+  - T1078
+  cis20:
+  - CIS 1
+  nist:
+  - ID.AM
+  security_domain: endpoint
+  asset_type: AWS Instance

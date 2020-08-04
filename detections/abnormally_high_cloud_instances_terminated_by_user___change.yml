@@ -24,8 +24,7 @@ known_false_positives: Many service accounts configured with your Cloud infrastr
   on a human user.
 tags:
   analytics_story:
-  - AWS Cryptomining
-  - Suspicious AWS EC2 Activities
+  - Suspicious Cloud Instance Activities
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
