@@ -400,6 +400,7 @@ def map_baselines_to_stories(baselines):
 def custom_jinja2_enrichment_filter(string, object):
     customized_string = string
     for key in object.keys():
+        [key.encode('utf-8') for key in object]
         customized_string = customized_string.replace("%" + key + "%", str(object[key]))
 
     for key in object['tags'].keys():
