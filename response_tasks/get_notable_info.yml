@@ -69,3 +69,4 @@ tags:
   - Windows Service Abuse
   - Kubernetes Sensitive Role Activity
   - Kubernetes Sensitive Object Access Activity
+  - Windows DNS SIGRed CVE-2020-1350
