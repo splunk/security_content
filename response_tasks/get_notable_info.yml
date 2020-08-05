@@ -69,3 +69,5 @@ tags:
   - Windows Service Abuse
   - Kubernetes Sensitive Role Activity
   - Kubernetes Sensitive Object Access Activity
+  - F5 TMUI RCE CVE-2020-5902
+  - Windows DNS SIGRed CVE-2020-1350
