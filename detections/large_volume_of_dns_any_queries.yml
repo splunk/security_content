@@ -18,6 +18,8 @@ known_false_positives: Legitimate ANY requests may trigger this search, however 
 tags:
   analytics_story:
   - DNS Amplification Attacks
+  mitre_attack_id:
+  - T1498.002
   kill_chain_phases:
   - Actions on Objectives
   cis20:

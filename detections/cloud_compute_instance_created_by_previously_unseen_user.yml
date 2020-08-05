@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created By Previously Unseen User
 id: 76988f6a-3935-48f6-a9e5-6fca8b3ed843
-version: 1
-date: '2018-03-12'
+version: 2
+date: '2020-07-21'
 description: This search looks for cloud compute instances created by users who have
   not created them before.
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
@@ -29,7 +29,7 @@ tags:
   cis20:
   - CIS 1
   mitre_attack_id:
-  - T1078
+  - T1078.004
   nist:
   - ID.AM
   security_domain: endpoint

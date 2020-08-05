@@ -1,7 +1,7 @@
 name: Deleting Shadow Copies
 id: b89919ed-ee5f-492c-b139-95dbb162039e
-version: 2
-date: '2020-04-17'
+version: 3
+date: '2020-07-21'
 description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy
   Service.  Wmic is an interface to the Windows Management Instrumentation.  This
   search looks for either of these tools being used to delete shadow copies.
@@ -27,6 +27,8 @@ tags:
   - Windows Log Manipulation
   - SamSam Ransomware
   - Ransomware
+  mitre_attack_id:
+  - T1485
   kill_chain_phases:
   - Actions on Objectives
   cis20:

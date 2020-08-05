@@ -46,10 +46,10 @@ def generate_transforms_conf(lookups):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('transforms.j2')
-    output_path = OUTPUT_PATH + "/default/transforms.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -62,10 +62,10 @@ def generate_collections_conf(lookups):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('collections.j2')
-    output_path = OUTPUT_PATH + "/default/collections.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -116,11 +116,11 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
-    output_path = OUTPUT_PATH + "/default/savedsearches.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/savedsearches.conf')
     output = template.render(detections=detections, baselines=baselines, response_tasks=response_tasks, time=utc_time)
     with open(output_path, 'w') as f:
         output = output.encode('ascii', 'ignore').decode('ascii')
@@ -149,10 +149,10 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('analytic_stories.j2')
-    output_path = OUTPUT_PATH + "/default/analytic_stories.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
     output = template.render(stories=stories, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -191,10 +191,10 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('use_case_library.j2')
-    output_path = OUTPUT_PATH + "/default/use_case_library.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
     output = template.render(stories=stories, detections=detections,
                              response_tasks=response_tasks,
                              baselines=baselines, time=utc_time)
@@ -218,10 +218,10 @@ def generate_macros_conf(macros, detections):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('macros.j2')
-    output_path = OUTPUT_PATH + "/default/macros.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
     output = template.render(macros=all_macros, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -249,11 +249,11 @@ def generate_workbench_panels(response_tasks, stories):
                 response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
                 response_task['lowercase_name'] = response_file_name
                 workbench_panel_objects.append(response_task)
-                j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                output_path = OUTPUT_PATH + "/default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
-                
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                output_path = path.join(OUTPUT_PATH, file_path)
                 if response_task['search'].find(">") is not -1:
                     response_task['search']= response_task['search'].replace(">","&gt;")
                 if response_task['search'].find("<") is not -1:
@@ -263,18 +263,18 @@ def generate_workbench_panels(response_tasks, stories):
                 with open(output_path, 'w') as f:
                     f.write(output)
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('es_investigations.j2')
-    output_path = OUTPUT_PATH + "/default/es_investigations.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w') as f:
         f.write(output)
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
-    output_path = OUTPUT_PATH + "/default/workflow_actions.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')
     output = template.render(response_tasks=workbench_panel_objects)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -353,10 +353,14 @@ def map_detection_to_stories(detections):
     for detection in detections:
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
-                if not (story in sto_det):
-                    sto_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+                if 'type' in detection.keys():
+                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
                 else:
-                    sto_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                if not (story in sto_det):
+                    sto_det[story] = {rule_name}
+                else:
+                    sto_det[story].add(rule_name)
     return sto_det
 
 
@@ -366,10 +370,14 @@ def map_response_tasks_to_stories(response_tasks):
         if 'tags' in response_task:
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
+                    if 'type' in response_task.keys():
+                        task_name = str(response_task['type'] + ' - ' + response_task['name'])
+                    else: 
+                        task_name = str('ESCU - ' + response_task['name'])
                     if not (story in sto_res):
-                        sto_res[story] = {str('ESCU - ' + response_task['name'])}
+                        sto_res[story] = {task_name}
                     else:
-                        sto_res[story].add(str('ESCU - ' + response_task['name']))
+                        sto_res[story].add(task_name)
     return sto_res
 
 
@@ -379,15 +387,20 @@ def map_baselines_to_stories(baselines):
         if 'tags' in baseline:
             if 'analytics_story' in baseline['tags']:
                 for story in baseline['tags']['analytics_story']:
-                    if not (story in sto_bas):
-                        sto_bas[story] = {str('ESCU - ' + baseline['name'])}
+                    if 'type' in baseline.keys():
+                        baseline_name = str(baseline['type'] + ' - ' + baseline['name'])
                     else:
-                        sto_bas[story].add(str('ESCU - ' + baseline['name']))
+                        baseline_name = str('ESCU - ' + baseline['name'])
+                    if not (story in sto_bas):
+                        sto_bas[story] = {baseline_name}
+                    else:
+                        sto_bas[story].add(baseline_name)
     return sto_bas
 
 def custom_jinja2_enrichment_filter(string, object):
     customized_string = string
     for key in object.keys():
+        [key.encode('utf-8') for key in object]
         customized_string = customized_string.replace("%" + key + "%", str(object[key]))
 
     for key in object['tags'].keys():
@@ -408,10 +421,15 @@ def prepare_stories(stories, detections):
     for detection in detections:
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
-                if story in sto_to_det.keys():
-                    sto_to_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+                if 'type' in detection.keys():
+                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
                 else:
-                    sto_to_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+
+                if story in sto_to_det.keys():
+                    sto_to_det[story].add(rule_name)
+                else:
+                    sto_to_det[story] = {rule_name}
 
                 data_model = parse_data_models_from_search(detection['search'])
                 if data_model:
@@ -516,6 +534,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
+    TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
     VERBOSE = args.verbose
     stories = load_objects("stories/*.yml", VERBOSE)
     macros = load_objects("macros/*.yml", VERBOSE)

@@ -1,7 +1,7 @@
 name: Abnormally High AWS Instances Launched by User - MLTK
 id: dec41ad5-d579-42cb-b4c6-f5dbb778bbe5
-version: 1
-date: '2019-11-14'
+version: 2
+date: '2020-07-21'
 description: This search looks for CloudTrail events where a user successfully launches
   an abnormally high number of instances.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
@@ -25,7 +25,7 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
-  - T1078
+  - T1078.004
   cis20:
   - CIS 13
   nist:

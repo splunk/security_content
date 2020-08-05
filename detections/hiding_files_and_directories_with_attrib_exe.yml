@@ -1,7 +1,7 @@
 name: Hiding Files And Directories With Attrib exe
 id: c77162d3-f93c-45cc-80c8-22f6b5264g9f
-version: 3
-date: '2020-03-16'
+version: 4
+date: '2020-07-21'
 description: Attackers leverage an existing Windows binary, attrib.exe, to mark specific
   as hidden by using specific flags so that the victim does not see the file.  The
   search looks for specific command-line arguments to detect the use of attrib.exe
@@ -25,6 +25,8 @@ tags:
   analytics_story:
   - Windows Defense Evasion Tactics
   - Windows Persistence Techniques
+  mitre_attack_id:
+  - T1222.001
   kill_chain_phases:
   - Actions on Objectives
   cis20:
