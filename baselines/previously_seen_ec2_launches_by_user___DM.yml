@@ -1,0 +1,20 @@
+name: Previously Seen EC2 Launches By User - DM
+id: 85b5f461-30e1-417b-b6d7-0c2ea5a1fb0c
+version: 1
+date: '2020-07-29'
+description: This search builds a table of previously seen ARNs that have launched
+  a EC2 instance.
+###how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs.
+author: Rico Valdez, Splunk
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
+  where All_Changes.action=created All_Changes.object_category=instance All_Changes.status=success
+  `previously_seen_cloud_compute_creations_by_user_input_filter` by All_Changes.user
+  | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_compute_creations_by_user_dm
+  | stats count'
+tags:
+  analytics_story:
+  - Suspicious Cloud Change Activities
+  detections:
+  - EC2 Instance Started With Previously Unseen User - DM
