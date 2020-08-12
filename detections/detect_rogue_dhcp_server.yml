@@ -1,4 +1,4 @@
-name: Detect Rogue DHCP Server in Network
+name: Detect Rogue DHCP Server
 id: 6e1ada88-7a0d-4ac1-92c6-03d354686079
 version: 1
 date: '2020-08-11'
@@ -15,11 +15,11 @@ how_to_implement: This search uses a standard SPL query on logs from Cisco Netwo
 type: ESCU
 references: []
 author: Mikael Bjerkeland, Splunk
-search: '`cisco_ios` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT" 
+search: '`cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT" 
   | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type) AS 
   message_type values(src_mac) AS src_mac BY host
   | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
-  `detect_rogue_dhcp_server_output_filter`'
+  `detect_rogue_dhcp_server`'
 known_false_positives: This search might be prone to high false positives if
   DHCP Snooping has been incorrectly configured or in the unlikely event that 
   the DHCP server has been moved to another network interface.
