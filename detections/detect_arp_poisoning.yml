@@ -20,7 +20,7 @@ search: '`cisco_networks` facility="PM" mnemonic="ERR_DISABLE" disable_cause="ar
   | stats min(_time) AS firstTime max(_time) AS lastTime count
   BY host src_interface
   | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
-  `detect_arp_poisoning`'
+  `detect_arp_poisoning_filter`'
 known_false_positives: This search might be prone to high false positives if
   DHCP Snooping or ARP inspection has been incorrectly configured,
   or if a device normally sends many ARP packets (unlikely).

@@ -19,7 +19,7 @@ search: '`cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRU
   | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type) AS 
   message_type values(src_mac) AS src_mac BY host
   | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
-  `detect_rogue_dhcp_server`'
+  `detect_rogue_dhcp_server_filter`'
 known_false_positives: This search might be prone to high false positives if
   DHCP Snooping has been incorrectly configured or in the unlikely event that 
   the DHCP server has been moved to another network interface.
