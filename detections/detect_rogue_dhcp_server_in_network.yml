@@ -15,7 +15,11 @@ how_to_implement: This search uses a standard SPL query on logs from Cisco Netwo
 type: ESCU
 references: []
 author: Mikael Bjerkeland, Splunk
-search: 'eventtype=cisco_ios-dhcp_snooping_untrusted_port | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type) AS message_type values(src_mac) AS src_mac BY host'
+search: '`cisco_ios` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT" 
+  | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type) AS 
+  message_type values(src_mac) AS src_mac BY host
+  | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
+  `detect_rogue_dhcp_server_output_filter`'
 known_false_positives: This search might be prone to high false positives if
   DHCP Snooping has been incorrectly configured or in the unlikely event that 
   the DHCP server has been moved to another network interface.
