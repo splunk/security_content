@@ -20,8 +20,8 @@ def main(argv):
 
     # parse input variables
     parser = argparse.ArgumentParser(description='Detection Coverage')
-    parser.add_argument('--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
-    parser.add_argument('--output', default='output', action='store', help='result output directory, defaults to output')
+    parser.add_argument('-p', '--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
+    parser.add_argument('-o','--output', default='output', action='store', help='result output directory, defaults to output')
     cmdargs = parser.parse_args()
 
     print("get all techniques")
@@ -83,6 +83,7 @@ def get_matched_techniques(counted_techniques, detections):
                         matched_splunk_detections.append(detection)
 
         matched_techniques.append({
+            "name": technique["name"],
             "ID": technique["external_references"][0]["external_id"],
             "splunk_rules": matched_splunk_detections,
         })
@@ -173,10 +174,10 @@ def generate_csv_file(matched_techniques, output):
         for technique in matched_techniques:
             if len(technique['splunk_rules']) > 0:
                 for splunk_rule in technique["splunk_rules"]:
-                    writer.writerow([technique["ID"], "Yes", \
+                    writer.writerow([technique["name"], technique["ID"], "Yes", \
                     security_content_url + splunk_rule["filename"], technique['score']])
             else:
-                writer.writerow([technique["ID"], "No", \
+                writer.writerow([technique['name'], technique["ID"], "No", \
                 "-", technique['score']])
 #    print("Recommended detections were successfully written to output/detections.csv")
 

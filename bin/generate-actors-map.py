@@ -20,8 +20,8 @@ def main(argv):
 
     # parse input variables
     parser = argparse.ArgumentParser(description='Detection Priority based on APT groups')
-    parser.add_argument('--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
-    parser.add_argument('--output', default='output', action='store', help='result output directory, defaults to output')
+    parser.add_argument('-p','--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
+    parser.add_argument('-o','--output', default='output', action='store', help='result output directory, defaults to output')
     cmdargs = parser.parse_args()
 
     print("get all techniques for group")
@@ -54,6 +54,12 @@ def count_techniques(techniques, all_techniques):
             counted_techniques.append({'name': all_technique['name'], 'object': all_technique, 'count': count_technique})
             max_count = count_technique if count_technique > max_count else max_count
 
+    sum_techniques = []
+    for all_technique in all_techniques:
+        for t in counted_techniques:
+            if t['name'] == all_technique['name']:
+                print(t["object"]["external_references"][0]["external_id"])
+
     counted_techniques = sorted(counted_techniques, key = lambda i: i['count'], reverse=True)
 
     return counted_techniques, max_count
@@ -70,11 +76,10 @@ def get_all_techniques_for_groups(projects_path):
         techniques.extend(get_technique_by_group(fs, group_obj))
 
         # ONLY FOR TESTING
-        #if len(techniques) > 50 :
-        #    return techniques, all_techniques
+        if len(techniques) > 10:
+            return techniques, all_techniques
 
     return techniques, all_techniques
-
 
 def get_all_techniques(src):
     filt = [Filter('type', '=', 'attack-pattern')]
@@ -107,8 +112,8 @@ def get_matched_techniques(counted_techniques, detections):
                 for mitreid in detection['object']['tags']['mitre_attack_id']:
                     if mitreid == technique["object"]["external_references"][0]["external_id"]:
                         matched_splunk_detections.append(detection)
-
         matched_techniques.append({
+            "name": technique["name"], 
             "ID": technique["object"]["external_references"][0]["external_id"],
             # substract the amount of detections we have from the score
             "score": technique["count"] - len(matched_splunk_detections),
@@ -200,15 +205,15 @@ def generate_csv_file(matched_techniques, output):
 
     with open(output + '/detections.csv', 'w') as f:
         writer = csv.writer(f)
-        writer.writerow(['Technique ID', 'Detection Available', 'Link', 'score'])
+        writer.writerow(['Name', 'Technique ID', 'Detection Available', 'Link', 'score'])
         for technique in matched_techniques:
             if len(technique['splunk_rules']) > 0:
                 for splunk_rule in technique["splunk_rules"]:
-                    writer.writerow([technique["ID"], "Yes", \
+                    writer.writerow([technique["name"],technique["ID"], "Yes", \
                     security_content_url + splunk_rule["filename"], technique['score']])
             else:
-                writer.writerow([technique["ID"], "No", \
-                "-", technique['score']])
+                writer.writerow([technique["name"],technique["ID"], "No", \
+                        "-", technique['score']])
 #    print("Recommended detections were successfully written to output/detections.csv")
 
 
