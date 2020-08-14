@@ -10,9 +10,9 @@ scheduling:
   schedule_window: auto
 alert_action:
   notable:
-    rule_description: 'ARP Poisoning has been detected on interface $src_interface$ on host $host$.
+    rule_description: 'ARP Poisoning has been detected on interface $src_interface$ on host $orig_host$.
       This may be an indication of a MITM attack.'
-    rule_title: 'ARP Poisoning Detected on $host$'
+    rule_title: 'ARP Poisoning Detected on $orig_host$'
     nes_fields:
       - src_interface
       - firstTime

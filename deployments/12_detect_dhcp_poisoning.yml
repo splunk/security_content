@@ -10,9 +10,9 @@ scheduling:
   schedule_window: auto
 alert_action:
   notable:
-    rule_description: 'DHCP Snooping has detected a Rogue DHCP Server on $host$ from $src_mac$.
+    rule_description: 'DHCP Snooping has detected a Rogue DHCP Server on $orig_host$ from $src_mac$.
       This may be an indication of a MITM attack.'
-    rule_title: 'Rogue DHCP Server Detected on $host$'
+    rule_title: 'Rogue DHCP Server Detected on $orig_host$'
     nes_fields:
       - src_mac
       - firstTime
