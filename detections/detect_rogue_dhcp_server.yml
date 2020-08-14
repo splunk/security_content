@@ -40,5 +40,6 @@ tags:
   nist:
   - ID.AM
   - PR.DS
+  detection_name: Detect Rogue DHCP Server
   security_domain: network
   asset_type: Infrastructure

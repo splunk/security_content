@@ -17,6 +17,7 @@ type: ESCU
 references: []
 author: Mikael Bjerkeland, Splunk
 search: '`cisco_networks` facility="PM" mnemonic="ERR_DISABLE" disable_cause="arp-inspection"
+  | eval src_interface=src_int_prefix_long+src_int_suffix
   | stats min(_time) AS firstTime max(_time) AS lastTime count
   BY host src_interface
   | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
@@ -41,5 +42,7 @@ tags:
   nist:
   - ID.AM
   - PR.DS
+  detection_name: Detect ARP Poisoning
   security_domain: network
   asset_type: Infrastructure
+  
