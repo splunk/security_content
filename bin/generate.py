@@ -88,9 +88,10 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             if len(nes_fields) > 0:
                 detection['nes_fields'] = nes_fields
 
-        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'security_domain', 'asset_type', 'risk_object', 'risk_object_type', 'risk_score']
         mappings = {}
         for key in keys:
+            #print(key)
             if key == 'mitre_attack':
                 if 'mitre_attack_id' in detection['tags']:
                     mappings[key] = detection['tags']['mitre_attack_id']
@@ -98,6 +99,16 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
                 if key in detection['tags']:
                     mappings[key] = detection['tags'][key]
         detection['mappings'] = mappings
+
+        if 'risk_object' in detection['tags']:
+            detection['risk_object'] = detection['tags']['risk_object']
+            print(detection['tags']['risk_object'])
+        if 'risk_object_type' in detection['tags']:
+            detection['risk_object_type'] = detection['tags']['risk_object_type']
+            print(detection['tags']['risk_object_type'])
+        if 'risk_score' in detection['tags']:
+            detection['risk_score'] = detection['tags']['risk_score']
+            print(detection['tags']['risk_score'])
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])

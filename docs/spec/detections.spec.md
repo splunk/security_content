@@ -27,6 +27,10 @@ schema for detections
 | [tags](#tags) | `object` | **Required**  | No | `{}` | Detection Schema (this schema) |
 | [type](#type) | `string` | **Required**  | No | `""` | Detection Schema (this schema) |
 | [version](#version) | `integer` | **Required**  | No | `0` | Detection Schema (this schema) |
+| [risk_object_field](#risk_object_field) | `string` | **Optional** | No | `""` | ES Schema |
+| [risk_object_type](#risk_object_type) | `string` | **Optional** | No | `""` | ES Schema | 
+| [risk_score](#risk_score) | `integer`  | **Optional** | No | `0` | ES Schema |  
+
 | `*` | any | Additional | Yes | this schema *allows* additional properties |
 
 ## author
@@ -322,6 +326,82 @@ An array of key value pairs for tagging
   "custom_key": "custom_value"
 }
 ```
+
+
+## Risk Object Field
+
+Optional tags for risk scoring parameters associated to the detection. The Risk object field is the name of the risk object
+corresponding to the type of entity the risk is associated too.  
+
+`risk_object_field`
+
+* is **optional**
+* type: `string`
+* default `""`
+* defined in the SSA Schema
+
+## Risk Object Field Values
+
+Possible field names can take the possible values:  ``risk_system``, ``src``, ``dest``, ``src_user``, ``user``, ``risk_hash``,
+``risk_network``, ``risk_host``, ``risk_other``.
+
+## Risk Object Field Example 
+
+```json
+{
+  "risk_object_field": "src_user",
+}
+```
+
+## Risk Object Type
+
+The corresponding entity type for the risk score associated to the optional tag ``risk_object_type``.
+
+`risk_object_type`
+
+* is **optional**
+* type: `string`
+* default `""`
+* defined in this schema 
+
+## Risk Object Field Types
+
+Possible object types can take the possible values:  ``system``, ``user``, ``hash_values``, ``network_artifacts``, ``host_artifacts``, 
+``other``.
+
+## RBA Risk Object Field Example 
+
+```json
+{
+  "risk_object_type": "system",
+}
+```
+
+## Risk Object Score
+
+The risk score corresponding to ``risk_object_field`` and ``risk_b.
+
+`risk_object_type`
+
+* is **optional**
+* type: `string`
+* default `""`
+* defined in this schema 
+
+## Risk Object Field Types
+
+Possible object types can take the possible values:  ``system``, ``user``, ``hash_values``, ``network_artifacts``, ``host_artifacts``, 
+``other``.
+
+## RBA Risk Object Field Example 
+
+```json
+{
+  "risk_object_type": "system",
+}
+```
+ 
+ 
 
 
 ## type
