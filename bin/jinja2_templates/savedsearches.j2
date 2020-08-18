@@ -78,13 +78,6 @@ action.email.to = {{ detection.deployment.alert_action.email.to }}
 action.email.message.alert = {{ detection.deployment.alert_action.email.message | custom_jinja2_enrichment_filter(detection) }}
 action.email.useNSSubject = 1
 {% endif %}
-{% if detection.deployment.alert_action.risk is defined %}
-action.risk = 1
-action.risk.param._risk_object = dest
-action.risk.param._risk_object_type = system
-action.risk.param._risk_score = 30
-action.risk.param.verbose = 0
-{% endif %}
 alert.digest_mode = 1
 action.escu.earliest_time_offset = 3600
 action.escu.latest_time_offset = 86400
