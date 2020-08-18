@@ -95,7 +95,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             if len(nes_fields) > 0:
                 detection['nes_fields'] = nes_fields
 
-        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'security_domain', 'asset_type', 'risk_object', 'risk_object_type', 'risk_score']
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
         mappings = {}
         for key in keys:
             if key == 'mitre_attack':
