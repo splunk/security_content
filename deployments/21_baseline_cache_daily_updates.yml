@@ -1,0 +1,13 @@
+name: Baseline Cache Daily Updates
+id: 1030c701-2acf-4b1a-9970-46c7145caf2d
+date: '2020-08-18'
+description: This configuration file applies to all baselines with tag deployments Daily Cache Updates
+author: David Dorsey
+scheduling:
+  cron_schedule: '10 0 * * *'
+  earliest_time: -1450m@m
+  latest_time: -10m@m
+  schedule_window: auto
+tags:
+  deployments:
+    - Daily Cache Updates
