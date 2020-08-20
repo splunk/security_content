@@ -1,5 +1,5 @@
 name: Previously Seen Cloud Provisioning Activity Sources - Update
-id: 4ce865fc-f43e-4521-a8ed-ab8af99052d7
+id: 9830abb9-be80-4563-b232-09bf1f628cf3
 version: 1
 date: '2020-08-20'
 description: This returns the first and last times seen for every
@@ -7,9 +7,7 @@ description: This returns the first and last times seen for every
   activity within the last day. Cloud provisioning is broadly defined as any event that runs or
   creates something.  It then updates this information with historical data and filters out locations
   that have not been seen within the specified time window. This updated table is then cached.
-###how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs.
+how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud provider.
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change 
   where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success 
