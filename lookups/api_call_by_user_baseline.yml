@@ -1,4 +1,5 @@
-description: A lookup file that will contain the baseline information for number of
+description: A collection that will contain the baseline information for number of
   AWS API calls per user
-filename: api_call_by_user_baseline.csv
+collection: api_call_by_user_baseline
 name: api_call_by_user_baseline
+fields_list: arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls

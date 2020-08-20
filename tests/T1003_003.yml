@@ -1,13 +1,13 @@
 name: Credential Dumping Ntds test
 detections:
   - name: Creation of Shadow Copy
-    pass_condition: '| stats count | where count = 4'
+    pass_condition: '| stats count | where count > 0'
   - name: Creation of Shadow Copy with wmic and powershell
-    pass_condition: '| stats count | where count = 2'
+    pass_condition: '| stats count | where count > 0'
   - name: Credential Dumping via Copy Command from Shadow Copy
-    pass_condition: '| stats count | where count = 1'
+    pass_condition: '| stats count | where count > 0'
   - name: Credential Dumping via Symlink to Shadow Copy
-    pass_condition: '| stats count | where count = 1'
+    pass_condition: '| stats count | where count > 0'
 description: Test credential dumping detections
 target: attack-range-windows-domain-controller
 simulation_technique: 'T1003.003'

@@ -94,7 +94,7 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 #### Mappings
 
 ##### ATT&CK
-* T1043
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -135,6 +135,7 @@ The search in this story can help you to detect if attackers are abusing your co
 #### Mappings
 
 ##### ATT&CK
+* T1498.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -171,7 +172,8 @@ Attackers will often attempt to manipulate client communications for nefarious p
 #### Mappings
 
 ##### ATT&CK
-* T1048
+* T1048.003
+* T1071.004
 
 ##### Kill Chain Phases
 * Command and Control
@@ -217,8 +219,7 @@ To get started, run the detection search to identify parent processes of `netsh.
 #### Mappings
 
 ##### ATT&CK
-* T1059
-* T1562
+* T1059.003
 * T1562.004
 
 ##### Kill Chain Phases
@@ -296,6 +297,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [DNS Hijacking](#DNS-Hijacking)
 
+* [F5 TMUI RCE CVE-2020-5902](#F5-TMUI-RCE-CVE-2020-5902)
+
 * [Lateral Movement](#Lateral-Movement)
 
 * [Malicious PowerShell](#Malicious-PowerShell)
@@ -323,6 +326,8 @@ Another search detects incidents wherein a single password is used across multip
 * [Suspicious Zoom Child Processes](#Suspicious-Zoom-Child-Processes)
 
 * [Windows Defense Evasion Tactics](#Windows-Defense-Evasion-Tactics)
+
+* [Windows DNS SIGRed CVE-2020-1350](#Windows-DNS-SIGRed-CVE-2020-1350)
 
 * [Windows Log Manipulation](#Windows-Log-Manipulation)
 
@@ -357,9 +362,9 @@ Use the searches to detect and monitor suspicious behavior related to these acti
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1074
-* T1114
+* T1036
+* T1114.001
+* T1114.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -411,8 +416,10 @@ Because this communication is so critical for an adversary, they often use techn
 #### Mappings
 
 ##### ATT&CK
-* T1043
 * T1048
+* T1048.003
+* T1071.001
+* T1071.004
 * T1095
 
 ##### Kill Chain Phases
@@ -463,7 +470,7 @@ This Analytic Story focuses on detecting signs of MiTM attacks enabled by [EvilG
 #### Mappings
 
 ##### ATT&CK
-* T1192
+* T1566.003
 
 ##### Kill Chain Phases
 * Command and Control
@@ -512,12 +519,10 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 #### Mappings
 
 ##### ATT&CK
-* T1003
 * T1003.001
 * T1003.002
 * T1003.003
-* T1064
-* T1086
+* T1059.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -565,10 +570,10 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1089
 * T1112
-* T1562
+* T1543.003
+* T1553.004
+* T1562.001
 * T1562.004
 
 ##### Kill Chain Phases
@@ -623,7 +628,8 @@ The searches in this Analytic Story help you detect and investigate activities t
 #### Mappings
 
 ##### ATT&CK
-* T1048
+* T1048.003
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -649,6 +655,41 @@ The searches in this Analytic Story help you detect and investigate activities t
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 * http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
+
+### F5 TMUI RCE CVE-2020-5902
+* id = 7678c968-d46e-11ea-87d0-0242ac130003
+* date = 2020-08-02
+* version = 1
+
+#### Description
+Uncover activity consistent with CVE-2020-5902. Discovered by Positive Technologies researchers, this vulnerability affects F5 BIG-IP, BIG-IQ. and Traffix SDC devices (vulnerable versions in F5 support link below). This vulnerability allows unauthenticated users, along with authenticated users, who have access to the configuration utility to execute system commands, create/delete files, disable services, and/or execute Java code.  This vulnerability can result in full system compromise.
+
+#### Narrative
+A client is able to perform a remote code execution on an exposed and vulnerable system. The detection search in this Analytic Story uses syslog to detect the malicious behavior. Syslog is going to be the best detection method, as any systems using SSL to protect their management console will make detection via wire data difficult.  The searches included used Splunk Connect For Syslog (https://splunkbase.splunk.com/app/4740/), and used a custom destination port to help define the data as F5 data (covered in https://splunk-connect-for-syslog.readthedocs.io/en/master/sources/F5/)
+
+#### Detections
+* Detect F5 TMUI RCE CVE-2020-5902
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1190
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 11
+
+##### NIST
+* DE.CM
+
+##### References
+* https://www.ptsecurity.com/ww-en/about/news/f5-fixes-critical-vulnerability-discovered-by-positive-technologies-in-big-ip-application-delivery-controller/
+* https://support.f5.com/csp/article/K52145254
+* https://blog.cloudflare.com/cve-2020-5902-helping-to-protect-against-the-f5-tmui-rce-vulnerability/
 
 ### Lateral Movement
 * id = 399d65dc-1f08-499b-a259-aad9051f38ad
@@ -680,10 +721,9 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 ##### ATT&CK
 * T1021.001
-* T1053
-* T1075
-* T1076
-* T1208
+* T1053.005
+* T1550.002
+* T1558.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -736,8 +776,8 @@ In the event a system is suspected of having been compromised via a malicious we
 #### Mappings
 
 ##### ATT&CK
-* T1064
-* T1086
+* T1027
+* T1059.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -784,7 +824,8 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 #### Mappings
 
 ##### ATT&CK
-* T1193
+* T1566.001
+* T1566.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -852,11 +893,9 @@ If behavioral searches included in this story yield positive hits, iDefense reco
 #### Mappings
 
 ##### ATT&CK
-* T1059
-* T1064
-* T1086
-* T1103
-* T1131
+* T1059.001
+* T1059.003
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -898,7 +937,7 @@ This Analytic Story contains a search designed to identify attempts by attackers
 #### Mappings
 
 ##### ATT&CK
-* T1043
+* T1190
 
 ##### Kill Chain Phases
 * Delivery
@@ -939,8 +978,8 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 ##### ATT&CK
 * T1036
-* T1059
-* T1064
+* T1059.001
+* T1059.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -988,8 +1027,8 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1048
+* T1048.003
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1044,6 +1083,8 @@ Once a phishing message has been detected, the next steps are to answer the foll
 #### Mappings
 
 ##### ATT&CK
+* T1566
+* T1566.001
 
 ##### Kill Chain Phases
 * Delivery
@@ -1084,9 +1125,8 @@ The searches in this story help you detect and investigate suspicious activity t
 #### Mappings
 
 ##### ATT&CK
-* T1059
-* T1103
-* T1131
+* T1059.003
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1129,7 +1169,7 @@ With people moving quickly to adopt web-based applications and ways to manage th
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.001
 
 ##### Kill Chain Phases
 
@@ -1173,12 +1213,10 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 #### Mappings
 
 ##### ATT&CK
-* T1015
-* T1042
-* T1103
 * T1112
-* T1131
-* T1138
+* T1546.001
+* T1546.011
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1227,8 +1265,8 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 #### Mappings
 
 ##### ATT&CK
+* T1021.001
 * T1047
-* T1084
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1269,7 +1307,7 @@ Current detections focus on finding new child processes of this application on a
 #### Mappings
 
 ##### ATT&CK
-* T1059
+* T1059.003
 * T1068
 
 ##### Kill Chain Phases
@@ -1313,8 +1351,8 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 #### Mappings
 
 ##### ATT&CK
-* T1089
 * T1112
+* T1222.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1328,6 +1366,44 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 ##### References
 * https://attack.mitre.org/wiki/Defense_Evasion
+
+### Windows DNS SIGRed CVE-2020-1350
+* id = 36dbb206-d073-11ea-87d0-0242ac130003
+* date = 2020-07-28
+* version = 1
+
+#### Description
+Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and is triggered by a malicious DNS response (only affects DNS over TCP). An attacker can use the malicious payload to cause a buffer overflow on the vulnerable system, leading to compromise.  The included searches in this Analytic Story are designed to identify the large response payload for SIG and KEY DNS records which can be used for the exploit.
+
+#### Narrative
+When a client requests a DNS record for a particular domain, that request gets routed first through the client's locally configured DNS server, then to any DNS server(s) configured as forwarders, and then onto the target domain's own DNS server(s).  If a attacker wanted to, they could host a malicious DNS server that responds to the initial request with a specially crafted large response (~65KB).  This response would flow through to the client's local DNS server, which if not patched for CVE-2020-1350, would cause the buffer overflow. The detection searches in this Analytic Story use wire data to detect the malicious behavior. Searches for Splunk Stream and Zeek are included.  The Splunk Stream search correlates across stream:dns and stream:tcp, while the Zeek search correlates across bro:dns:json and bro:conn:json.  These correlations are required to pick up both the DNS record types (SIG and KEY) along with the payload size (>65KB).
+
+#### Detections
+* Detect Windows DNS SIGRed via Splunk Stream
+* Detect Windows DNS SIGRed via Zeek
+
+#### Data Models
+* Network_Resolution
+
+#### Mappings
+
+##### ATT&CK
+* T1203
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 12
+* CIS 16
+* CIS 8
+
+##### NIST
+* DE.CM
+
+##### References
+* https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+* https://support.microsoft.com/en-au/help/4569509/windows-dns-server-remote-code-execution-vulnerability
 
 ### Windows Log Manipulation
 * id = b6db2c60-a281-48b4-95f1-2cd99ed56835
@@ -1354,7 +1430,8 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 ##### ATT&CK
 * T1070
-* T1551.001
+* T1070.001
+* T1485
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1411,13 +1488,12 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1053
-* T1054.009
-* T1058
-* T1103
-* T1131
-* T1138
+* T1053.005
+* T1222.001
+* T1543.003
+* T1546.011
+* T1547.001
+* T1574.009
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1466,8 +1542,10 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 #### Mappings
 
 ##### ATT&CK
-* T1015
 * T1068
+* T1204.002
+* T1546.008
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1528,8 +1606,8 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 #### Mappings
 
 ##### ATT&CK
-* T1078
-* T1136
+* T1078.002
+* T1078.003
 * T1136.001
 
 ##### Kill Chain Phases
@@ -1699,8 +1777,9 @@ A traditional security best practice is to control the ports, protocols, and ser
 #### Mappings
 
 ##### ATT&CK
-* T1043
 * T1048
+* T1048.003
+* T1071.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1838,16 +1917,22 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 #### Detections
 * AWS Cross Account Activity From Previously Unseen Account
+* aws detect attach to role policy
+* aws detect permanent key creation
+* aws detect role creation
+* aws detect sts assume role abuse
+* aws detect sts get session token abuse
 
 #### Data Models
 
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Lateral Movement
 
 ###### CIS
 * CIS 16
@@ -1884,7 +1969,7 @@ This Analytic Story is focused on detecting suspicious new instances in your EC2
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.004
 * T1535
 
 ##### Kill Chain Phases
@@ -2006,8 +2091,7 @@ The detection searches in this Analytic Story are designed to help you uncover A
 #### Mappings
 
 ##### ATT&CK
-* T1078
-* T1098
+* T1078.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2053,7 +2137,7 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.004
 * T1535
 
 ##### Kill Chain Phases
@@ -2117,6 +2201,7 @@ Kubernetes is the most used container orchestration platform, this orchestration
 #### Detections
 * Amazon EKS Kubernetes Pod scan detection
 * Amazon EKS Kubernetes cluster scan detection
+* GCP Kubernetes cluster pod scan detection
 * GCP Kubernetes cluster scan detection
 * Kubernetes Azure pod scan fingerprint
 * Kubernetes Azure scan fingerprint
@@ -2238,7 +2323,7 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.004
 * T1535
 
 ##### Kill Chain Phases
@@ -2279,7 +2364,7 @@ It is important to monitor and control who has access to your AWS infrastructure
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.004
 * T1535
 
 ##### Kill Chain Phases
@@ -2432,7 +2517,7 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.004
 
 ##### Kill Chain Phases
 
@@ -2546,18 +2631,15 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1050
-* T1053
-* T1059
-* T1064
-* T1086
-* T1089
-* T1103
+* T1021.002
+* T1053.005
+* T1059.001
+* T1059.003
+* T1071.002
 * T1112
-* T1131
 * T1136.001
-* T1562
+* T1543.003
+* T1547.001
 * T1562.004
 
 ##### Kill Chain Phases
@@ -2609,7 +2691,7 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 #### Mappings
 
 ##### ATT&CK
-* T1041
+* T1071.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2663,12 +2745,11 @@ The searches in this Analytic Story will help you find executables that are rare
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1059
+* T1021.002
+* T1059.003
 * T1072
-* T1087
-* T1103
-* T1131
+* T1547.001
+* T1566.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2732,10 +2813,11 @@ Among other searches in this Analytic Story is a detection search that looks for
 
 ##### ATT&CK
 * T1021.001
-* T1043
-* T1059
-* T1064
-* T1076
+* T1021.002
+* T1059.001
+* T1059.003
+* T1071.002
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2785,8 +2867,9 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1059
+* T1059.003
+* T1543.003
+* T1569.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2851,15 +2934,16 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 #### Mappings
 
 ##### ATT&CK
+* T1021.001
+* T1021.002
 * T1036
-* T1043
-* T1047
 * T1048
-* T1053
+* T1053.005
 * T1070
-* T1103
-* T1131
-* T1551.001
+* T1070.001
+* T1071.001
+* T1485
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2928,9 +3012,10 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 ##### ATT&CK
 * T1021.001
-* T1059
-* T1076
+* T1059.001
+* T1059.003
 * T1082
+* T1485
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2994,9 +3079,9 @@ In the event an unusual process is identified, it is imperative to better unders
 #### Mappings
 
 ##### ATT&CK
-* T1015
 * T1036
-* T1085
+* T1204.002
+* T1218.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -3044,7 +3129,8 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 #### Mappings
 
 ##### ATT&CK
-* T1042
+* T1036
+* T1546.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -3084,8 +3170,9 @@ The Windows operating system uses a services architecture to allow for running c
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1058
+* T1543.003
+* T1547.001
+* T1569.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
