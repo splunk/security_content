@@ -13,6 +13,8 @@ tags:
   asset_type: "AWS Account"
   kill_chain_phases:
     - Lateral Movement
+  mitre_attack_id:
+    - T1550
   security_domain: threat
 type: ESCU
 version: 1
