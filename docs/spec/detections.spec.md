@@ -420,12 +420,12 @@ object assocaited to the value for the tag `risk_object`
 * default `""`
 * defined in this schema 
 
-## Risk Object Field Types
+## Risk Object Type Values
 
 Possible object types can take the possible values:  ``system``, ``user``, ``hash_values``, ``network_artifacts``, ``host_artifacts``, 
 ``other``.
 
-## RBA Risk Object Field Example 
+## RBA Risk Object Type Example 
 
 ```json
 {
@@ -435,7 +435,7 @@ Possible object types can take the possible values:  ``system``, ``user``, ``has
 
 ## Risk Object Score
 
-The risk score corresponding to ``risk_object_field`` and ``risk_b.
+The risk score corresponding to the entity described in``risk_object``.
 
 `risk_object_type`
 
