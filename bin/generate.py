@@ -108,8 +108,10 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
 
         # used for upstream processing of risk scoring annotations in ECSU
         # this is not currently compatible with newer instances of ESCU (6.3.0+)
+        # we are duplicating the code block above for now and just changing variable names to make future
+        # changes to this data structure separate from the mappings generation
         # @todo expose the JSON data structure for newer risk type
-        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'risk_object', 'risk_object_type', 'risk_score']
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
         savedsearch_annotations = {}
         for key in annotation_keys:
             if key == 'mitre_attack':
