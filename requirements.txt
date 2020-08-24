@@ -19,9 +19,9 @@ Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
 more-itertools==8.4.0
-nodeenv==1.4.0
+nodeenv==1.5.0
 pathlib2==2.3.5
-pre-commit==2.6.0
+pre-commit==2.7.1
 pyrsistent==0.16.0
 python-dateutil==2.8.1
 pytz==2020.1
