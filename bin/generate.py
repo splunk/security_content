@@ -74,6 +74,13 @@ def generate_collections_conf(lookups):
 
 
 def generate_savedsearches_conf(detections, response_tasks, baselines, deployments):
+    '''
+    @param detections: input list of individual YAML detections in detections/ directory
+    @param response_tasks:
+    @param baselines:
+    @param deployments:
+    @return: the savedsearches.conf file located in package/default/
+    '''
 
     for detection in detections:
         # parse out data_models
@@ -98,6 +105,27 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
                 if key in detection['tags']:
                     mappings[key] = detection['tags'][key]
         detection['mappings'] = mappings
+
+        # used for upstream processing of risk scoring annotations in ECSU
+        # this is not currently compatible with newer instances of ESCU (6.3.0+)
+        # @todo expose the JSON data structure for newer risk type
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'risk_object', 'risk_object_type', 'risk_score']
+        savedsearch_annotations = {}
+        for key in annotation_keys:
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection['tags']:
+                    savedsearch_annotations[key] = detection['tags']['mitre_attack_id']
+            else:
+                if key in detection['tags']:
+                    savedsearch_annotations[key] = detection['tags'][key]
+        detection['savedsearch_annotations'] = savedsearch_annotations
+
+        if 'risk_object' in detection['tags']:
+            detection['risk_object'] = detection['tags']['risk_object']
+        if 'risk_object_type' in detection['tags']:
+            detection['risk_object_type'] = detection['tags']['risk_object_type']
+        if 'risk_score' in detection['tags']:
+            detection['risk_score'] = detection['tags']['risk_score']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
