@@ -6,7 +6,7 @@ id: 12d6d713-3cb4-4ffc-a064-1dca3d1cca01
 known_false_positives: "Not all permanent key creations are malicious. If there is a policy of rotating keys this search can be adjusted to provide better context."
 name: "aws detect permanent key creation"
 references: []
-search: '`aws_cloudwatchlogs_eks` AKIA | spath eventName | search eventName=CreateAccessKey "userIdentity.type!=AssumedRole" | table sourceIPAddress userName src_user userIdentity.type userAgent action status responseElements.accessKey.createDate responseElements.accessKey.status responseElements.accessKey.accessKeyId
+search: '`aws_cloudwatchlogs_eks` CreateAccessKey | spath eventName | search eventName=CreateAccessKey "userIdentity.type"=IAMUser | table sourceIPAddress userName userIdentity.type userAgent action status responseElements.accessKey.createDate responseElements.accessKey.status responseElements.accessKey.accessKeyId
  |`aws_detect_permanent_key_creation_filter`'
 tags:
   analytics_story:
