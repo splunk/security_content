@@ -1,0 +1,20 @@
+name: Preparation NIST                              # Name of the phase or stage
+id: d360707d-9214-4449-b15d-9d3cf134209a            # UUID v4
+sla_type: minutes                                   # minutes, hours, days
+sla:                                                 # numerical value of sla_type
+description: Some text description here. It will be merged into one line, if preceded with '>' or markdown with '|'
+tags:
+  analytics_story:
+    Example story aligned to the response plan
+  usecase:
+    Advanced Threat Detection
+references:
+  - name and reference value like - https://example.com
+response_task:
+  - id: #UUID v4
+    name: Name of the task which is the name of the file in lowercase with underscores they are placed in the order of execution
+  - id:
+    name:
+date: '2020-07-17'
+version: 1
+author: ButterCup, Splunk
