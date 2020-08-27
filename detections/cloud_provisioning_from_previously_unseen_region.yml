@@ -1,5 +1,5 @@
 name: Cloud Provisioning Activity From Previously Unseen Region
-id: e7ecc5e0-88df-48b9-91af-51104c68f02f
+id: 5aba1860-9617-4af9-b19d-aecac16fe4f2
 version: 1
 date: '2020-08-16'
 description: 'This search looks for cloud provisioning activities from previously unseen
@@ -11,7 +11,7 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   baseline search `Previously Seen Cloud Provisioning Activity Sources - Update` to keep this table up to date and
   to age out old data. You can adjust the time window for this search by updating the
   `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide additional filtering for this search by
-  customizing the `cloud_provisioning_from_previously_unseen_region_filter` macro.
+  customizing the `cloud_provisioning_activity_from_previously_unseen_region_filter` macro.
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
@@ -24,7 +24,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   | eval firstTimeSeenRegion=min(firstTimeSeen)
   | where isnull(firstTimeSeenRegion) OR firstTime > relative_time(now(), "`previously_unseen_cloud_provisioning_activity_window`")
   | table firstTime, src, Region, user, object, command
-  | `cloud_provisioning_from_previously_unseen_region_filter`'
+  | `cloud_provisioning_activity_from_previously_unseen_region_filter`'
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
