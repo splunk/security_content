@@ -1,8 +1,8 @@
-name: Abnormally High Number Of Cloud Instances Launched
+name: Abnormally High Number Of Cloud Instances Destroyed
 id: f2361e9f-3928-496c-a556-120cd4223a65
-version: 2
+version: 1
 date: '2020-08-21'
-description: This search finds for the number successfully launched cloud instances for every hour
+description: This search finds for the number successfully destroyed cloud instances for every hour
   of the week, then applies the probability densitiy function to that distrubtion, and stores that
   model.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
@@ -11,18 +11,19 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '| tstats count as instances_launched values(All_Changes.object_id) as object_id from datamodel=Change where
-   (All_Changes.action=created OR All_Changes.action=started)
+search: '| tstats count as instances_destroyed values(All_Changes.object_id) as object_id,
+   values(All_Changes.user) as user from datamodel=Change where
+   All_Changes.action=deleted
    AND All_Changes.status=success AND All_Changes.object_category=instance
-   by All_Changes.user _time span=1h
+   by _time span=1h
    | `drop_dm_object_name("All_Changes")`
    | eval HourOfDay=strftime(_time, "%H") | eval DayOfWeek=strftime(_time, "%w")
    | lookup cloud_instances_enough_data filter as instances_launced output enough_data
-   | apply cloud_excessive_instances_v1 | rename "IsOutlier(instances_launched)" as isOutlier
+   | apply cloud_excessive_destroyed_instances_v1 | rename "IsOutlier(instances_destroyed)" as isOutlier
    | where isOutlier=1
    | eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0)
    | eval distance_from_threshold = instances_launched - expected_upper_threshold
-   | table _time, user, instances_launched, expected_upper_threshold, distance_from_threshold, object_id'
+   | table _time, user, instances_destroyed, expected_upper_threshold, distance_from_threshold, object_id'
 known_false_positives: Many service accounts configured within an AWS infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter
   out service accounts from the output. Always verify if this search alerted on a
@@ -30,7 +31,7 @@ known_false_positives: Many service accounts configured within an AWS infrastruc
 tags:
   analytics_story:
   - Cloud Cryptomining
-  - Suspicious AWS EC2 Activities
+  - Suspicious Cloud Instance Activities
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:

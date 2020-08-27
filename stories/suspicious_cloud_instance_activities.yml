@@ -1,0 +1,23 @@
+name: Suspicious Cloud Instance Activities
+id: 8168ca88-392e-42f4-85a2-767579c660ce
+version: 1
+date: '2020-08-25'
+description: Use the searches in this Analytic Story to monitor your cloud compute instances
+  for evidence of anomalous activity and suspicious behaviors, such as EC2 instances
+  that originate from unusual locations or those launched by previously unseen users
+  (among others). Included investigative searches will help you probe more deeply,
+  when the information warrants it.
+narrative: Monitoring your cloud infrastructure logs allows you enable governance, compliance,
+  and risk auditing. It is crucial for a company to monitor events and actions taken in the their
+  cloud environments to ensure that your instances are not vulnerable to attacks.
+  This Analytic Story identifies suspicious activities in your cloud compute instances and
+  helps you respond and investigate those activities.
+author: David Dorsey, Splunk
+type: ESCU
+references:
+- https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+tags:
+  analytics_story: Suspicious Cloud Instance Activities
+  usecase: Security Monitoring
+  category:
+  - Cloud Security
