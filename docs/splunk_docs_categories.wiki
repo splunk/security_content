@@ -1942,7 +1942,9 @@ Networking devices, such as routers and switches, are often overlooked as resour
 This Analytic Story helps you gain a better understanding of how your network devices are interacting with your hosts. By compromising your network devices, attackers can obtain direct access to the company's internal infrastructure&#151; effectively increasing the attack surface and accessing private services/data.
 
 ====Detections====
+* Detect ARP Poisoning
 * Detect New Login Attempts to Routers
+* Detect Rogue DHCP Server
 
 ====Data Models====
 * Authentication
@@ -1950,15 +1952,25 @@ This Analytic Story helps you gain a better understanding of how your network de
 ====Tags====
 
 =====ATT&CK=====
+* T1200
+* T1498
+* T1557
 
 =====Kill Chain Phases=====
 * Actions on Objectives
+* Delivery
+* Reconnaissance
 
 =====CIS=====
+* CIS 1
 * CIS 11
 
 =====NIST=====
+* ID.AM
+* PR.AC
+* PR.DS
 * PR.IP
+* PR.PT
 
 ====References====
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
@@ -2038,7 +2050,9 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 ====Tags====
 
 =====ATT&CK=====
+* T1078
 * T1078.004
+* T1550
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -2154,6 +2168,45 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 date = 2018-05-21
 
 version = 2
+
+</div>
+</div>
+
+===AWS Security Hub Alerts===
+
+This story is focused around detecting Security Hub alerts generated from AWS
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+AWS Security Hub collects and consolidates findings from AWS security services enabled in your environment, such as intrusion detection findings from Amazon GuardDuty, vulnerability scans from Amazon Inspector, S3 bucket policy findings from Amazon Macie, publicly accessible and cross-account resources from IAM Access Analyzer, and resources lacking WAF coverage from AWS Firewall Manager.
+
+====Detections====
+* Detect Spike in AWS Security Hub Alerts for EC2 Instance
+* Detect Spike in AWS Security Hub Alerts for User
+
+====Data Models====
+
+====Tags====
+
+=====ATT&CK=====
+
+=====Kill Chain Phases=====
+
+=====CIS=====
+* CIS 13
+
+=====NIST=====
+* DE.AE
+* DE.DP
+
+====References====
+* https://aws.amazon.com/security-hub/features/
+
+date = 2020-08-04
+
+version = 1
 
 </div>
 </div>
@@ -2692,6 +2745,50 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
 
 date = 2020-06-04
+
+version = 1
+
+</div>
+</div>
+
+===Suspicious GCP Storage Activities===
+
+Use the searches in this Analytic Story to monitor your GCP Storage buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open storage buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Similar to other cloud providers, GCP operates on a shared responsibility model. This means the end user, you, are responsible for setting appropriate access control lists and permissions on your GCP resources.\ This Analytics Story concentrates on detecting things like open storage buckets (both read and write) along with storage bucket access from unfamiliar users and IP addresses.
+
+====Detections====
+* Detect GCP Storage access from a new IP
+* Detect New Open GCP Storage Buckets
+
+====Data Models====
+
+====Tags====
+
+=====ATT&CK=====
+* T1530
+
+=====Kill Chain Phases=====
+* Actions on Objectives
+
+=====CIS=====
+* CIS 13
+* CIS 14
+
+=====NIST=====
+* DE.CM
+* PR.AC
+* PR.DS
+
+====References====
+* https://cloud.google.com/blog/products/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
+* https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/
+
+date = 2020-08-05
 
 version = 1
 

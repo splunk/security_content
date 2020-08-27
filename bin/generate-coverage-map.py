@@ -20,14 +20,14 @@ def main(argv):
 
     # parse input variables
     parser = argparse.ArgumentParser(description='Detection Coverage')
-    parser.add_argument('--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
-    parser.add_argument('--output', default='output', action='store', help='result output directory, defaults to output')
+    parser.add_argument('-p', '--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
+    parser.add_argument('-o', '--output', default='output', action='store', help='result output directory, defaults to output')
     cmdargs = parser.parse_args()
 
     print("get all techniques")
     techniques = get_all_techniques(cmdargs.projects_path)
 
-    print("count techniques")
+    print("load detections")
     detections = load_objects(path.join(cmdargs.projects_path),'detections/*.yml')
 
     print("get matched techniques")
@@ -45,6 +45,7 @@ def main(argv):
 
 def count_detections(matched_techniques):
     scored_detections = []
+    final_scored_detections = []
     max_count = 0
 
     for technique in matched_techniques:
@@ -52,7 +53,16 @@ def count_detections(matched_techniques):
             technique['score'] = len(technique['splunk_rules'])
             max_count = technique['score'] if technique['score'] > max_count else max_count
             scored_detections.append(technique)
-    return scored_detections, max_count
+
+    for technique in matched_techniques:
+        if "." in technique['ID']:
+            parent_id = technique['ID'].split(".")[0]
+            for scored in scored_detections:
+                if parent_id == scored['ID']:
+                    scored['score'] += len(technique['splunk_rules'])
+                final_scored_detections.append(scored)
+
+    return final_scored_detections, max_count
 
 
 def get_all_techniques(projects_path):
@@ -108,6 +118,7 @@ def generate_navigator_layer(matched_techniques, max_count, output):
                 layer_technique = {
                 "techniqueID": technique["ID"],
                 "score" : technique["score"]
+
                 }
         else:
             layer_technique = {}
@@ -120,11 +131,12 @@ def generate_navigator_layer(matched_techniques, max_count, output):
     # ranging from zero (white) to the maximum score in the file (red)
     layer_json["gradient"] = {
         "colors": [
-			"##ffffff",
-			"#8ec843"
+			"#ffffff",
+			"#66b1ff",
+            "#096ed7"
         ],
         "minValue": 0,
-        "maxValue": 0
+        "maxValue": max_count
     }
 
     layer_json["filters"] = {
@@ -146,8 +158,8 @@ def generate_navigator_layer(matched_techniques, max_count, output):
             "color": "#ffffff"
         },
 		{
-			"label": "Available detections",
-			"color": "#8ec843"
+			"label": "Some detections available",
+			"color": "#66b1ff"
 		}
     ]
 
