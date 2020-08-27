@@ -24,7 +24,7 @@ search: '| tstats count as instances_destroyed values(All_Changes.object_id) as 
    | eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0)
    | eval distance_from_threshold = instances_launched - expected_upper_threshold
    | table _time, user, instances_destroyed, expected_upper_threshold, distance_from_threshold, object_id
-   | 'abnormally_high_number_of_cloud_instances_destroyed_filter'
+   | `abnormally_high_number_of_cloud_instances_destroyed_filter`'
 known_false_positives: Many service accounts configured within an AWS infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter
   out service accounts from the output. Always verify if this search alerted on a
