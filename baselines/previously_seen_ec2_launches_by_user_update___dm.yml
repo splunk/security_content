@@ -1,0 +1,51 @@
+name: Previously Seen EC2 Launches By User - Update - DM
+id: 7a6bf377-6c97-41f0-8ba1-fde334aee69c
+version: 1
+date: '2020-07-29'
+description: This search builds a table of previously seen ARNs that have launched
+  a EC2 instance.
+###how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs.
+author: Rico Valdez, Splunk
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
+  where All_Changes.action=created All_Changes.object_category=instance All_Changes.status=success
+  `previously_seen_cloud_compute_creations_by_user_input_filter` by All_Changes.user
+  | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_compute_creations_by_user_dm
+  | stats count'
+
+
+
+
+
+search: '| tstats `security_content_summariesonly` earliest(_time) as firstTime, latest(_time) as lastTime
+  values(All_Changes.object) as Objects from datamodel=Change.All_Changes where All_Changes.action=modified
+  by All_Changes.user | `drop_dm_object_name("All_Changes")` | inputlookup append=t
+  previously_seen_cloud_compute_creations_by_user | stats min(firstTime) as firstTime max(lastTime)
+  as lastTime, values(Objects) as Objects by user | multireport [| table user, firstTime, lastTime
+  | outputlookup previously_seen_cloud_compute_creations_by_user | where fact=fiction]
+  [| eval new_user=if(firstTime >= relative_time(now(),
+  `previously_seen_cloud_compute_creations_by_user_search_window_begin_offset`), 1, 0) | where new_user=1
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`]
+  | table src_user, dest, firstTime, lastTime | `cloud_compute_instance_created_by_previously_unseen_user_filter`'
+
+
+
+###search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
+  errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
+  by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_launches_by_user.csv
+  | stats min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup
+  previously_seen_ec2_launches_by_user.csv | eval newUser=if(firstTime >= relative_time(now(),
+  "-70m@m"), 1, 0) | where newUser=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | rename arn as userIdentity.arn | table userIdentity.arn] | rename requestParameters.instanceType
+  as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn
+  as user | table _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_user_filter`'
+
+
+
+
+tags:
+  analytics_story:
+  - Suspicious Cloud Change Activities
+  detections:
+  - EC2 Instance Started With Previously Unseen User - DM

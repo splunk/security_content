@@ -1,4 +1,4 @@
-name: Previously Seen Cloud Compute Creations By User - DM
+name: Previously Seen Cloud Compute Creations By User - DM - Initial
 id: dd4ced8a-15a9-4285-94ac-7e4134673bf8
 version: 1
 date: '2020-08-15'
@@ -8,8 +8,9 @@ XXXhow_to_implement: You must be ingesting the approrpiate cloud infrastructure 
   and have the Security Research cloud data model installed.
 author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where All_Changes.action=created AND All_Changes.object_category=instance `previously_seen_cloud_compute_creations_by_user_input_filter`
-  by All_Changes.user | `drop_dm_object_name("Change")` | outputlookup previously_seen_cloud_compute_creations_by_user
+  where All_Changes.action=created AND All_Changes.object_category=instance 
+  `previously_seen_cloud_compute_creations_by_user_input_filter` by All_Changes.user 
+  | `drop_dm_object_name("Change")` | outputlookup previously_seen_cloud_compute_creations_by_user
   | stats count'
 tags:
   analytics_story:

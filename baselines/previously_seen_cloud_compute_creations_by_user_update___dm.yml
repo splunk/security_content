@@ -1,0 +1,20 @@
+name: Previously Seen Cloud Compute Creations By User - Update - DM
+id: 6bf75d69-7766-47bc-8097-e41696807a6f
+version: 1
+date: '2020-08-15'
+description: This search builds a table of previously seen users that have launched
+  a cloud compute instance.
+XXXhow_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+author: Rico Valdez, Splunk
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
+  where All_Changes.action=created AND All_Changes.object_category=instance 
+  `previously_seen_cloud_compute_creations_by_user_input_filter` by All_Changes.user 
+  | `drop_dm_object_name("Change")` | inputlookup append=t previously_seen_cloud_compute_creations_by_user  
+  | stats min(firstTime) as firstTime max(lastTime) as lastTime by user
+  | outputlookup previously_seen_cloud_compute_creations_by_user | stats count
+tags:
+  analytics_story:
+  - Cloud Cryptomining
+  detections:
+  - Cloud Compute Instance Created By Previously Unseen User - DM
