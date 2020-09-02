@@ -1,0 +1,29 @@
+name: AWS Create IAM User
+id: f236122f-3928-496c-a556-120cd4223a65
+version: 2
+date: '2020-08-21'
+description: This search looks for creation of IAM users in AWS environments
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. Also, this search leverages the Change datamodel included in SA-CIM (version 4.18.0 or later)
+type: ESCU
+references: []
+author: Bhavin Patel, Splunk
+search: '| tstats `security_content_summariesonly` earliest(_time) as firstTime, latest(_time) as lastTime  from datamodel=Change where nodename=All_Changes.Account_Management All_Changes.action = created All_Changes.command=CreateUser All_Changes.status= success by  All_Changes.src All_Changes.Account_Management.src_user All_Changes.change_type All_Changes.object All_Changes.command  All_Changes.user All_Changes.user_agent All_Changes.vendor_region |`drop_dm_object_name(All_Changes)`| `drop_dm_object_name(Account_Management)`| `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` | `aws_create_iam_user_filter`'
+known_false_positives: Many service accounts configured within an AWS infrastructure 
+  are known to exhibit this behavior. Always verify if this search alerted on a
+  human user.
+tags:
+  analytics_story:
+  - AWS Persistence
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1136.003
+  cis20:
+  - CIS 13
+  nist:
+  - DE.DP
+  - DE.AE
+  security_domain: Cloud
+  asset_type: Cloud Instance

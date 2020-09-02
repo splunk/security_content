@@ -1,0 +1,17 @@
+name: AWS Persistence
+id: ced74200-8465-4bc3-bd2c-9a782eec6722
+version: 1
+date: '2020-08-03'
+description: Monitor your AWS Infrastructure to detect attackers performing activities to establish persistence in your environment.
+narrative: ''
+author: Bhavin Patel, Splunk
+type: ESCU
+references:
+- https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+tags:
+  analytics_story: AWS Persistence
+  usecase: Security Monitoring
+  category:
+  - Cloud Security
+
+
