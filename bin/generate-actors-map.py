@@ -20,8 +20,8 @@ def main(argv):
 
     # parse input variables
     parser = argparse.ArgumentParser(description='Detection Priority based on APT groups')
-    parser.add_argument('--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
-    parser.add_argument('--output', default='output', action='store', help='result output directory, defaults to output')
+    parser.add_argument('-p', '--projects_path', default='.', action='store', metavar='N', help='folder containing the projects Mitre Cyber Threat Intelligence Repository, Security Content and Sigma')
+    parser.add_argument('-o', '--output', default='output', action='store', help='result output directory, defaults to output')
     cmdargs = parser.parse_args()
 
     print("get all techniques for group")
@@ -45,6 +45,7 @@ def main(argv):
 
 def count_techniques(techniques, all_techniques):
     counted_techniques = []
+    final_counted_techniques = []
 
     max_count = 0
     actors = []
@@ -54,7 +55,15 @@ def count_techniques(techniques, all_techniques):
             counted_techniques.append({'name': all_technique['name'], 'object': all_technique, 'count': count_technique})
             max_count = count_technique if count_technique > max_count else max_count
 
-    counted_techniques = sorted(counted_techniques, key = lambda i: i['count'], reverse=True)
+    for all_technique in all_techniques:
+        if "." in all_technique["external_references"][0]["external_id"]:
+            parent_id = all_technique["external_references"][0]["external_id"].split(".")[0]
+            for counted in counted_techniques:
+                if parent_id == counted["object"]["external_references"][0]["external_id"]:
+                    counted['count'] += 1
+                final_counted_techniques.append(counted)
+
+    counted_techniques = sorted(final_counted_techniques, key = lambda i: i['count'], reverse=True)
 
     return counted_techniques, max_count
 
@@ -131,13 +140,16 @@ def generate_navigator_layer(matched_techniques, max_count, output):
     for technique in matched_techniques:
         comments = []
 
+        layer_technique = {
+            "techniqueID": technique["ID"],
+            "score" : technique["score"],
+            "showSubtechniques": True
+        }
+
+
         if len(technique["splunk_rules"]) > 0:
             for splunk_rule in technique["splunk_rules"]:
                 comments.append("https://github.com/splunk/security-content/blob/develop/detections/" + splunk_rule['filename'])
-        layer_technique = {
-            "techniqueID": technique["ID"],
-            "score" : technique["score"]
-        }
 
         if len(comments) > 0:
             layer_technique["comment"] = "\n\n".join(comments)

@@ -27,6 +27,9 @@ schema for detections
 | [tags](#tags) | `object` | **Required**  | No | `{}` | Detection Schema (this schema) |
 | [type](#type) | `string` | **Required**  | No | `""` | Detection Schema (this schema) |
 | [version](#version) | `integer` | **Required**  | No | `0` | Detection Schema (this schema) |
+| [risk_object](#risk_object) | `string` | **Optional** | No | `""` | ES Schema |
+| [risk_object_type](#risk_object_type) | `string` | **Optional** | No | `""` | ES Schema | 	
+| [risk_score](#risk_score) | `integer`  | **Optional** | No | `0` | ES Schema | 
 | `*` | any | Additional | Yes | this schema *allows* additional properties |
 
 ## author
@@ -378,3 +381,77 @@ version of detection, e.g. 1 or 2 ...
 ```json
 2
 ```
+<<<<<<< HEAD
+=======
+
+
+## Risk Object Tag
+
+Optional parameter for risk scoring meta-data associated to the detection. The `risk_object` field is the name of the risk object
+corresponding to the type of entity the risk is associated too.  
+
+`risk_object`
+
+* is **optional**
+* type: `string`
+* default `""`
+* defined in the SSA Schema
+
+## Risk Object Values
+
+Possible field names can take the possible values:  ``risk_system``, ``src``, ``dest``, ``src_user``, ``user``, ``risk_hash``,
+``risk_network``, ``risk_host``, ``risk_other``.
+
+## Risk Object Example 
+
+```json
+{
+  "risk_object": "src_user",
+}
+```
+
+## Risk Object Type
+
+The corresponding entity type for the risk score associated to the optional tag ``risk_object_type``.  This is the type of 
+object assocaited to the value for the tag `risk_object`
+
+`risk_object_type`
+
+* is **optional**
+* type: `string`
+* default `""`
+* defined in this schema 
+
+## Risk Object Type Values
+
+Possible object types can take the possible values:  ``system``, ``user``, ``hash_values``, ``network_artifacts``, ``host_artifacts``, 
+``other``.
+
+## RBA Risk Object Type Example 
+
+```json
+{
+  "risk_object_type": "system",
+}
+```
+
+## Risk Object Score
+
+The risk score corresponding to the entity described in``risk_object``.
+
+`risk_object_type`
+
+* is **optional**
+* type: `Integer`
+* default `0`
+* defined in this schema 
+
+
+## RBA Risk Object Score Example 
+
+```json
+{
+  "risk_object_score": "60",
+}
+```
+>>>>>>> 0db46f89dc1bc1aedbe8c7c020f52bc41f56bc97

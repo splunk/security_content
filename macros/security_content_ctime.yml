@@ -1,5 +1,5 @@
 arguments:
   - field
-definition: 'convert timeformat="%m/%d/%Y %H:%M:%S" ctime($field$)'
+definition: 'convert timeformat="%Y-%m-%dT%H:%M:%S" ctime($field$)'
 description: convert epoch time to string
 name: security_content_ctime
