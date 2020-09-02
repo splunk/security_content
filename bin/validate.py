@@ -121,6 +121,28 @@ def validate_standard_fields(object, uuids):
     except ValueError:
         errors.append("ERROR: Incorrect date format, should be YYYY-MM-DD for object: %s" % object['name'])
 
+    # logic for handling risk related tags which are a triple of k/v pairs
+    # risk_object, risk_object_type and risk_score
+    # the first two fields risk_object, and risk_object_type are an enum of fixed values
+    # defined by ESCU risk scoring
+    if 'risk_object' in object:
+        try:
+            object['risk_object'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: description not ascii for object: %s" % object['name'])
+
+    if 'risk_object_type' in object:
+        try:
+            object['risk_object_type'].encode('ascii')
+        except UnicodeEncodeError:
+            errors.append("ERROR: description not ascii for object: %s" % object['name'])
+
+    if 'risk_object_score' in object:
+        try:
+            object['risk_score'].isnumeric()
+        except UnicodeEncodeError:
+            errors.append("ERROR: description not numeric value for object: %s" % object['name'])
+
     return errors, uuids
 
 
