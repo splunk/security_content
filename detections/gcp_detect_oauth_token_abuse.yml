@@ -5,7 +5,9 @@ how_to_implement: "You must install splunk GCP add-on. This search works with gc
 id: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
 known_false_positives: "GCP Oauth token abuse detection will only work if there are access policies in place along with audit logs."
 name: "gcp detect oauth token abuse"
-references: []
+references:
+  - https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-1
+  - https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-2
 search: '`sourcetype=google:gcp:pubsub:message type.googleapis.com/google.cloud.audit.AuditLog |table protoPayload.@type protoPayload.status.details{}.@type protoPayload.status.details{}.violations{}.callerIp protoPayload.status.details{}.violations{}.type protoPayload.status.message  | `gcp_detect_oauth_token_abuse`'
 tags:
   analytics_story:
@@ -13,9 +15,6 @@ tags:
   asset_type: "GCP Account"
   kill_chain_phases:
     - Lateral Movement
-  reference:
-    - https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-1
-    - https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-2
   mitre_attack_id:
     - T1078
   security_domain: threat
