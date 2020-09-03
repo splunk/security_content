@@ -125,23 +125,25 @@ def validate_standard_fields(object, uuids):
     # risk_object, risk_object_type and risk_score
     # the first two fields risk_object, and risk_object_type are an enum of fixed values
     # defined by ESCU risk scoring
-    if 'risk_object' in object:
-        try:
-            object['risk_object'].encode('ascii')
-        except UnicodeEncodeError:
-            errors.append("ERROR: description not ascii for object: %s" % object['name'])
 
-    if 'risk_object_type' in object:
-        try:
-            object['risk_object_type'].encode('ascii')
-        except UnicodeEncodeError:
-            errors.append("ERROR: description not ascii for object: %s" % object['name'])
+    
+    if 'tags' in object:
+        for k,v in object['tags'].items():
+        
+            if k == 'risk_score':
+                if not isinstance(v, int):
+                    errors.append("ERROR: risk_score not integer value for object: %s" % v)  
+            risk_object_type = ["user","system", "other"]
+            if k == 'risk_object_type':
+                if not any(s in v for s in risk_object_type):
+                    errors.append("ERROR: risk_object_type can only contain  user,system, other: %s" % v) 
+            if k == 'risk_object':
+                try:
+                    v.encode('ascii')
+                except UnicodeEncodeError:
+                    errors.append("ERROR: risk_object not ascii for object: %s" % v)
 
-    if 'risk_object_score' in object:
-        try:
-            object['risk_score'].isnumeric()
-        except UnicodeEncodeError:
-            errors.append("ERROR: description not numeric value for object: %s" % object['name'])
+
 
     return errors, uuids
 
@@ -175,7 +177,7 @@ def validate_detection_search(object, macros):
         if not found_macro:
             errors.append("ERROR: macro definition for " + macro + " can't be found for detection " + object['name'])
 
-    return errors
+    return errors 
 
 def validate_baseline_search(object, macros):
     errors = []
