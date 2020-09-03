@@ -122,7 +122,6 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
                     savedsearch_annotations[key] = detection['tags'][key]
         detection['savedsearch_annotations'] = savedsearch_annotations
 
-
         if 'risk_object' in detection['tags']:
             detection['risk_object'] = detection['tags']['risk_object']
         if 'risk_object_type' in detection['tags']:

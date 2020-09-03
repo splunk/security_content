@@ -37,6 +37,3 @@ tags:
   - DE.AE
   security_domain: network
   asset_type: AWS Instance
-  risk_object: userName
-  risk_object_type: user
-  risk_score: 50
