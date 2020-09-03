@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created With Previously Unseen Instance Type
 id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 version: 1
-date: '2018-03-12'
+date: '2020-09-12'
 description: Find EC2 instances being created with previously unseen instance types.
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
   and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
@@ -10,16 +10,14 @@ how_to_implement: You must be ingesting the appropriate cloud-infrastructure log
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
-  as dest from datamodel=Cloud_Infrastructure.Compute where Compute.event_name=RunInstances
+
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
+  as dest from datamodel=Change where All_Changes.action=created
   `cloud_compute_instance_created_with_previously_unseen_instance_type_filter` by
-  Compute.instance_type, Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup
+  All_Changes.Instance_Changes.instance_type, All_Changes.user | `drop_dm_object_name("Change")` | inputlookup
   append=t previously_seen_cloud_compute_instance_types | stats min(firstTime) as
-  firstTime max(lastTime) as lastTime, values(dest) as dest by instance_type, src_user
-  | multireport [| table instance_type, firstTime, lastTime | outputlookup previously_seen_cloud_compute_instance_types
-  | where fact=fiction][| eval new_type=if(firstTime >= relative_time(now(), `previously_seen_cloud_compute_instance_types_search_window_begin_offset`),
-  1, 0) | where new_type=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
-  | table instance_type, dest, src_user, firstTime, lastTime'
+  firstTime max(lastTime) as lastTime, values(dest) as dest by instance_type, user
+
 known_false_positives: It is possible that an admin will create a new system using
   a new instance type that has never been used before. Verify with the creator that
   they intended to create the system with the new instance type.
