@@ -134,16 +134,16 @@ def validate_standard_fields(object, uuids):
                 if not isinstance(v, int):
                     errors.append("ERROR: risk_score not integer value for object: %s" % v)  
             risk_object_type = ["user","system", "other"]
+
             if k == 'risk_object_type':
-                if not any(s in v for s in risk_object_type):
-                    errors.append("ERROR: risk_object_type can only contain  user,system, other: %s" % v) 
+                if v not in risk_object_type:
+                    errors.append("ERROR: risk_object_type can only contain user, system, other: %s" % v) 
+
             if k == 'risk_object':
                 try:
                     v.encode('ascii')
                 except UnicodeEncodeError:
                     errors.append("ERROR: risk_object not ascii for object: %s" % v)
-
-
 
     return errors, uuids
 
