@@ -11,7 +11,8 @@ author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
   where All_Changes.action=modified All_Changes.object_category=instance All_Changes.status=success 
   `previously_seen_cloud_instance_modifications_by_user_input_filter` by All_Changes.user 
-  | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_instance_modifications_by_user
+  | `drop_dm_object_name("All_Changes")` | eval enough_data = 0
+  | outputlookup previously_seen_cloud_instance_modifications_by_user
   | stats count'
 tags:
   analytics_story:
