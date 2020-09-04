@@ -16,3 +16,4 @@ search: '| search sourcetype=aws:cloudtrail userIdentity.arn=$src_user$ | spath 
 tags:
   analytics_story:
   - AWS Cross Account Activity
+  - Suspicious Cloud Instance Activities

@@ -26,3 +26,6 @@ tags:
   - Suspicious AWS S3 Activities
   - Suspicious AWS Traffic
   - Unusual AWS EC2 Modifications
+  - Suspicious Cloud User Activities
+  - AWS Suspicious Provisioning Activities
+  - Suspicious Cloud Instance Activities
