@@ -24,7 +24,7 @@ type: ESCU
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytics_story: AWS Suspicious Provisioning Activities
+  analytics_story: Suspicious Cloud Provisioning Activities
   usecase: Security Monitoring
   category:
   - Cloud Security
