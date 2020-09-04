@@ -10,7 +10,7 @@ author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.action=created `previously_seen_cloud_compute_image_input_filter` by All_Changes.Instance_Changes.image_id
   | `drop_dm_object_name("Change")` | inputlookup append=t previously_seen_cloud_compute_images | stats min(firstTime) as firstTime
-  max(lastTime) as lastTime by image_id | outputlookup previously_seen_cloud_compute_images
+  max(lastTime) as lastTime by image_id | outputlookup previously_seen_cloud_compute_images'
 tags:
   analytics_story:
   - Cloud Cryptomining

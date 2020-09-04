@@ -2,9 +2,8 @@ name: Previously Seen Cloud Instance Modifications By User - Update
 id: 534b7d30-7b0c-4510-8f55-65439850d58d
 version: 1
 date: '2020-07-29'
-###description: This search builds a table of previously seen ARNs that have launched
-  a EC2 instance.
-###how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+description: This search updates a table of previously seen Cloud Instance modifications that have been made by a user
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
 author: Rico Valdez, Splunk
@@ -18,6 +17,6 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   | outputlookup previously_seen_cloud_instance_modificationss_by_user | stats count'
 tags:
   analytics_story:
-  - Suspicious Cloud Change Activity - Mustang
+  - Suspicious Cloud Change Activity
   detections:
   - Cloud Instance Modified With Previously Unseen User

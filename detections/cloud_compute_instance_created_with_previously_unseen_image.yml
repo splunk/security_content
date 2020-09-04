@@ -15,9 +15,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values
   as dest from datamodel=Change where All_Changes.action=created `cloud_compute_instance_created_with_previously_unseen_image_filter`
   by All_Changes.Instance_Changes.image_id, All_Changes.user | `drop_dm_object_name("Change")` | inputlookup
   append=t previously_seen_cloud_compute_images | stats min(firstTime) as firstTime
-  max(lastTime) as lastTime, values(dest) as dest by image_id, user 
-
-
+  max(lastTime) as lastTime, values(dest) as dest by image_id, user'
 known_false_positives: After a new image is created, the first systems created with
   that image will cause this alert to fire.  Verify that the image being used was
   created by a legitimate user.

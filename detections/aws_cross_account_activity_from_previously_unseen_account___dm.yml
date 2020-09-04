@@ -18,9 +18,9 @@ search: "| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=
   requestingAccountId, requestedAccountId, OUTPUTNEW firstTime as earliest
   | eval firstTime=(if (firstTime>earliest, earliest,firstTime)) 
   | where firstTime >= relative_time(now(), '-70m@m')] | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `aws_cross_account_activity_from_previously_unseen_account_filter`
+  | `security_content_ctime(lastTime)` 
   | rename Authentication.user as src_user Authentication.src as src_ip | table requestingAccountId,
-  requestedAccountId, src_user, src_ip, Authentication.user_role, firstTime, lastTime"
+  requestedAccountId, src_user, src_ip, Authentication.user_role, firstTime, lastTime | `aws_cross_account_activity_from_previously_unseen_account___dm_filter`"
 known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior.
   It's suspicious when an account requests privileges of an account it hasn't before.
   You should validate with the account owner that this is a legitimate request.
