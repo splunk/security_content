@@ -4,9 +4,7 @@ version: 1
 date: '2020-07-29'
 description: This search builds a table of previously seen users that have modified
   a cloud instance.
-###how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
+how_to_implement: You must be ingesting your cloud infrastructure logs
 author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
   where All_Changes.action=modified All_Changes.object_category=instance All_Changes.status=success 
@@ -16,6 +14,6 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   | stats count'
 tags:
   analytics_story:
-  - Suspicious Cloud Change Activity - Mustang
+  - Suspicious Cloud Change Activity
   detections:
   - Cloud Instance Modified With Previously Unseen User
