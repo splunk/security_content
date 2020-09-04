@@ -10,14 +10,12 @@ how_to_implement: You must be ingesting the appropriate cloud-infrastructure log
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest from datamodel=Change where All_Changes.action=created
   `cloud_compute_instance_created_with_previously_unseen_instance_type_filter` by
   All_Changes.Instance_Changes.instance_type, All_Changes.user | `drop_dm_object_name("Change")` | inputlookup
   append=t previously_seen_cloud_compute_instance_types | stats min(firstTime) as
-  firstTime max(lastTime) as lastTime, values(dest) as dest by instance_type, user
-
+  firstTime max(lastTime) as lastTime, values(dest) as dest by instance_type, user'
 known_false_positives: It is possible that an admin will create a new system using
   a new instance type that has never been used before. Verify with the creator that
   they intended to create the system with the new instance type.
