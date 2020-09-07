@@ -3,5 +3,5 @@ detections:
   - name: Suspicious Reg exe Process
     pass_condition: '| stats count | where count > 5'
 description: Test Modify Registry detections
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1112'
