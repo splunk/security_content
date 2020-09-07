@@ -3,5 +3,5 @@ detections:
   - name: Malicious PowerShell Process - Encoded Command
     pass_condition: '| stats count | where count > 0'
 description: Test detections for Obfuscated Files or Information
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1027'

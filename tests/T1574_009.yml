@@ -3,5 +3,5 @@ detections:
   - name: Detect Path Interception By Creation Of program exe
     pass_condition: '| stats count | where count = 1'
 description: Test attacks on unquoted service paths
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1574.009'
