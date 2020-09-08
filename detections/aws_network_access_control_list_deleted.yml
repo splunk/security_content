@@ -12,10 +12,9 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs.
 type: ESCU
 references: []
-author: Bhavin Patel, Splunk
-search: '`cloudtrail` eventName=DeleteNetworkAcl|rename userIdentity.arn as arn  |
-  stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage)
-  values(errorCode) values(userAgent) values(userIdentity.*) by src userName arn eventName
+author: Bhavin Patel, Splunk; Peter Gael, Splunk
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where All_Changes.object_category="firewall" AND All_Changes.action="deleted" by All_Changes.command All_Changes.status All_Changes.user All_Changes.user_agent All_Changes.user_type All_Changes.object_id All_Changes.vendor_account
+  | `drop_dm_object_name("All_Changes")`
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `aws_network_access_control_list_deleted_filter`'
 known_false_positives: It's possible that a user has legitimately deleted a network
   ACL.
