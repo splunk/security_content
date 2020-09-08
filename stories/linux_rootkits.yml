@@ -2,16 +2,13 @@ name: Credential Dumping
 id: eaa45cfb-a7ed-4f2d-b16f-4667ad152d82
 version: 3
 date: '2020-08-31'
-description: Uncover linux rootkits when detected by a tool or via suspicios
-activity in a system like kernel hooking. Linux rootkits although somewhat rare
-to see in the wild are due to the various obfuscation techniques they use.
-The included searches in this Analytic Story are designed to identify rootkit infections.
+description: Uncover linux rootkits when detected by a tool or via suspicios activity in a system like kernel hooking. Linux rootkits although somewhat rare to see in the wild are due to the various obfuscation techniques they use. The included searches in this Analytic Story are designed to identify rootkit infections.
 narrative: ''
 author: Jose Hernandez, Splunk
 type: ESCU
 references:
-- https://attack.mitre.org/wiki/Technique/T1003
-- https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+- https://attack.mitre.org/wiki/Technique/T1014
+- https://www.splunk.com/en_us/blog/security/a-little-splunk-medicinalrub-for-your-drovorub-rootkit-questions.html
 tags:
   analytics_story: Linux Rootkits
   usecase: Advanced Threat Detection
