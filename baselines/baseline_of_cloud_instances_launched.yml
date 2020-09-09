@@ -35,5 +35,5 @@ tags:
   detections:
   - Abnormally High Number Of Cloud Instances Launched
   deployments:
-  - 90 Day Baseline
+  - Weekly Model Rebuild 90 Day Lookback
 
