@@ -18,7 +18,7 @@ usage: detection_service.py [-h] -tfn TEST_FILE_NAME [-arr ATTACK_RANGE_REPO]
 detection_service.py: error: the following arguments are required: -tfn/--test_file_name
 ```
 
-The detection_service.py has one mandatory parameter, which is --test_file_name. This parameter will look into the security content repository under tests for the specified test file (without extension). The other parameters are optional and can be used to specify forks of projects or specific branches. The detection_service.py is creating Pull Requests after a successful test. Therefore, it needs a Github OAUTH Token. This can be either added with the parameter --github_token or can be derived from the secrets_manager through --secrets_manager_key. Let's have a look how to use the detection service after you deployed it:
+The detection_service.py has one mandatory parameter, which is --test_file_name. This parameter will look into the security content repository under tests for the specified test file (without extension). The other parameters are optional and can be used to specify forks of projects or specific branches. The detection_service.py is creating Pull Requests after a successful test. Therefore, it needs a Github OAUTH Token. This can be either added with the parameter --github_token or can be derived from the [AWS secrets manager](https://aws.amazon.com/secrets-manager/) through --secrets_manager_key. Let's have a look how to use the detection service after you deployed it:
 
 Example 1:
 ```
