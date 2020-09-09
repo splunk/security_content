@@ -33,4 +33,5 @@ tags:
   - Suspicious Cloud Instance Activities
   detections:
   - Abnormally High Number Of Cloud Instances Destroyed
-
+  deployments:
+  - Weekly Model Rebuild 90 Day Lookback
