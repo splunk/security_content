@@ -1,7 +1,7 @@
-name: Cloud Compute Instance Started In Previously Unused Region
+name: Cloud Compute Instance Created In Previously Unused Region
 id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 version: 1
-date: '2019-10-02'
+date: '2020-09-02'
 description: This search looks at cloud-infrastructure events where an instance is
   created in any region within the last hour and then compares it to a lookup file
   of previously seen regions where instances have been created.
@@ -12,16 +12,14 @@ how_to_implement: You must be ingesting the appropriate cloud-infrastructure log
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(Compute.dest)
-  as dest from datamodel=Cloud_Infrastructure.Compute where Compute.event_name=RunInstances
-  `cloud_compute_instance_started_in_previously_unused_region_filter` by Compute.region,
-  Compute.src_user | `drop_dm_object_name("Compute")` | inputlookup append=t previously_seen_cloud_regions
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
+  as dest from datamodel=Change where All_Changes.action=created
+  `cloud_compute_instance_created_in_previously_unused_region_filter` by All_Changes.vendor_region,
+  All_Changes.user | `drop_dm_object_name("Change")` | inputlookup append=t previously_seen_cloud_regions
   | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest
-  by region, src_user | multireport [| table region, firstTime, lastTime | outputlookup
-  previously_seen_cloud_regions | where fact=fiction][| eval new_region=if(firstTime
-  >= relative_time(now(), `previously_seen_cloud_regions_search_window_begin_offset`),
+  by vendor_region, user | eval new_region=if(firstTime >= relative_time(now(), `previously_seen_cloud_regions_search_window_begin_offset`),
   1, 0) | where new_region=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
-  | table region, dest, src_user, firstTime, lastTime'
+  | table vendor_region, dest, user, firstTime, lastTime'
 known_false_positives: It's possible that a user has unknowingly started an instance
   in a new region. Please verify that this activity is legitimate.
 tags:
@@ -38,3 +36,5 @@ tags:
   - DE.AE
   security_domain: network
   asset_type: Cloud Compute Instance
+
+

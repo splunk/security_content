@@ -1,5 +1,4 @@
-default_match: 'false'
-description: A place holder for a list of used cloud compute images
-filename: previously_seen_cloud_regions.csv
-min_matches: 1
-name: previously_seen_cloud_regions
+description: A table of vendor_region values and the first and last time that they have been observed in cloud provisioning activities
+collection: previously_seen_cloud_regions
+name: previously_seen_cloud_compute_creations_by_user
+fields_list: _key, firstTime, lastTime, vendor_region, enough_data
