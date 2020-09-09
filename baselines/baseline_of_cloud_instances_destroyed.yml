@@ -22,7 +22,7 @@ how_to_implement: 'You must have Enterprise Security 6.0 or later, if not you wi
 author: David Dorsey, Splunk
 search: '| tstats count as instances_destroyed from datamodel=Change where
    All_Changes.action=deleted
-   AND All_Changes.status=success AND All_Changes.object_category=instance `excessive_cloud_instances_deleted_input_filter`
+   AND All_Changes.status=success AND All_Changes.object_category=instance
    by _time span=1h
    | makecontinuous span=1h _time | eval instances_destroyed=coalesce(instances_destroyed, (random()%2)*0.0000000001)
    | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)

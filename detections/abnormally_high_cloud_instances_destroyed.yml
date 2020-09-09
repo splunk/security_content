@@ -11,7 +11,7 @@ type: ESCU
 references: []
 author: David Dorsey, Splunk
 search: '| tstats count as instances_destroyed values(All_Changes.object_id) as object_id from datamodel=Change where
-   (All_Changes.action=created)
+   All_Changes.action=deleted
    AND All_Changes.status=success AND All_Changes.object_category=instance
    by All_Changes.user _time span=1h
    | `drop_dm_object_name("All_Changes")`
