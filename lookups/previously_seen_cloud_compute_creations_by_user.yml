@@ -1,5 +1,4 @@
-default_match: 'false'
-description: A place holder for a list of users that have created cloud compute instances
-filename: previously_seen_cloud_compute_creations_by_user.csv
-min_matches: 1
+description: A table of source IPs, geographic locations, and the first and last time that they have that done cloud provisioning activities
+collection: previously_seen_cloud_compute_creations_by_user
 name: previously_seen_cloud_compute_creations_by_user
+fields_list: _key, firstTime, lastTime, user, enough_data

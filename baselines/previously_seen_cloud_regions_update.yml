@@ -1,0 +1,22 @@
+name: Previously Seen Cloud Regions - Update
+id: b5e232db-dec6-4db8-aaa1-dd5474521e40
+version: 1
+date: '2020-09-02'
+description: This search looks for cloud compute events where a compute instance is
+  started and creates a baseline of most recent time, `lastTime` and the first time
+  `firstTime` we've seen this region in our dataset grouped by the region for the
+  last 30 days
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+author: David Dorsey, Splunk
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
+  where All_Changes.action=created `previously_seen_cloud_regions_input_filter` by All_Changes.vendor_region
+  | `drop_dm_object_name("Change)` | inputlookup append=t previously_seen_cloud_regions 
+  | stats  min(firstTime) as firstTime max(lastTime) as lastTime by vendor_region
+  | outputlookup previously_seen_cloud_regions | stats count'
+tags:
+  analytics_story:
+  - Cloud Cryptomining
+  detections:
+  - Cloud Compute Instance Created In Previously Unused Region
+
