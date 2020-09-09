@@ -7,5 +7,5 @@ detections:
   - name: Create local admin accounts using net exe
     pass_condition: '| stats count | where count > 0'
 description: Test Create local account
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1136.001'

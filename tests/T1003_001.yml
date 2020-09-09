@@ -11,5 +11,5 @@ detections:
   - name: Unsigned Image Loaded by LSASS
     pass_condition: '| stats count | where count > 0'
 description: Test credential dumping detections
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1003.001'
