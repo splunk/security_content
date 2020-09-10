@@ -10,4 +10,4 @@ tags:
   analytics_story:
   - Suspicious Cloud Authentication Activities 
   detections:
-  - AWS Cross Account Activity From Previously Unseen Account - DM
+  - AWS Cross Account Activity From Previously Unseen Account 
