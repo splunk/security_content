@@ -127,12 +127,12 @@ def validate_standard_fields(object, uuids):
 def validate_detection_search(object, macros):
     errors = []
 
-    if not '_filter' in object['search']:
-        errors.append("ERROR: Missing filter for detection: " + object['name'])
-
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
-    if filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'):
-        errors.append("ERROR: filter for detection: " + object['name'] + " needs to use the name of the detection in lowercase and the special characters needs to be converted into _ .")
+    try:
+        if filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'):
+            errors.append("ERROR: filter for detection: " + object['name'] + " needs to use the name of the detection in lowercase and the special characters needs to be converted into _ .")
+    except: 
+        errors.append("ERROR: Missing filter for detection: " + object['name'])
 
     if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
         if not 'index=_internal' in object['search']:
