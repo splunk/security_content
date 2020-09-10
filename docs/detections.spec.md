@@ -319,6 +319,15 @@ An array of key value pairs for tagging
 ```json
 {
   "analytics_story": "credential_dumping",
+  "kill_chain_phases": "Action on Objectives",
+  "mitre_attack_id": "T1078.004",
+  "cis20": "CIS 13",
+  "nist": "DE.DP",
+  "security domain": "network",
+  "asset_type": "AWS Instance",
+  "risk_object": "user",
+  "risk_object_type": "network_artifacts",
+  "risk score": "60",
   "custom_key": "custom_value"
 }
 ```
@@ -378,3 +387,4 @@ version of detection, e.g. 1 or 2 ...
 ```json
 2
 ```
+
