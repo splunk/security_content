@@ -1,4 +1,4 @@
-name: Previously Seen Cloud Compute Creations By User - Update - DM
+name: Previously Seen Cloud Compute Creations By User - Update
 id: 6bf75d69-7766-47bc-8097-e41696807a6f
 version: 1
 date: '2020-08-15'
@@ -17,4 +17,4 @@ tags:
   analytics_story:
   - Cloud Cryptomining
   detections:
-  - Cloud Compute Instance Created By Previously Unseen User - DM
+  - Cloud Compute Instance Created By Previously Unseen User

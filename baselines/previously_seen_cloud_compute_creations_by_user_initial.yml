@@ -16,4 +16,4 @@ tags:
   analytics_story:
   - Cloud Cryptomining
   detections:
-  - Cloud Compute Instance Created By Previously Unseen User - DM
+  - Cloud Compute Instance Created By Previously Unseen User
