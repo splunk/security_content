@@ -2,14 +2,14 @@ name: Detect Linux Rootkits using falco
 id: 0f5a628b-78e3-4fd5-8d01-085b26efdfc8
 version: 1
 date: '2020-09-09'
-description: This search looks for Linux Kernel Module (LKM) injections via insmod. A commonly used technique by rootkits like Drovrub, Diamorphine, Enye, Heroin, and Sebek to obfuscate themselves via kernel hooking or similar techniques.
-how_to_implement: You must have falco (https://github.com/falcosecurity/falco) installed on the nix* endpoint as well as indexing syslog from the system eg /var/log/syslog.log.
-This detection depends on the following falco rule (https://github.com/d1vious/falco/blob/rule_lkm_injection_detected/rules/falco_rules.yaml#L3013-L3018).
+description: 'This search looks for Linux Kernel Module (LKM) injections via insmod. A commonly used technique by rootkits like Drovrub, Diamorphine, Enye, Heroin, and Sebek to obfuscate themselves via kernel hooking or similar techniques.'
+how_to_implement: 'You must have falco (https://github.com/falcosecurity/falco) installed on the nix* endpoint as well as indexing syslog from the system eg /var/log/syslog.log.
+This detection depends on the following falco rule (https://github.com/d1vious/falco/blob/rule_lkm_injection_detected/rules/falco_rules.yaml#L3013-L3018).'
 type: ESCU
 references: ['https://github.com/nurupo/rootkit',
             'https://media.defense.gov/2020/Aug/13/2002476465/-1/-1/0/CSA_DROVORUB_RUSSIAN_GRU_MALWARE_AUG_2020.PDF']
 author: Jose Hernandez, Splunk
-search: '`syslog` ""Warning Linux Kernel Module injection" | stats count by user, module, parent_process | rename module AS "injected_module" | table user, injected_module, parent_process'
+search: '`syslog` "Warning Linux Kernel Module injection" | stats count by user, module, parent_process | rename module AS "injected_module" | table user, injected_module, parent_process | `detect_linux_rootkits_using_falco_filter`'
 known_false_positives: LKM injection might be common as some applications like falco use this to monitor the system, and they install as part of the initial build of a machine although. This might generate false positive as a machine comes up but should never occur on machines with longer running uptime.
 tags:
   analytics_story:

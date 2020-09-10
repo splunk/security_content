@@ -2,16 +2,16 @@ name: Detect Linux Rootkits using rkhunter
 id: 4b2aa8cf-9c9a-4269-8a21-b41fe5489230
 version: 1
 date: '2020-08-28'
-description: This search looks for any positive matches found by the rkhunter tool.
-how_to_implement: You must have rkhunter installed on the endpoint as well as indexing its log under /var/log/rkhunter.log.
+description: 'This search looks for any positive matches found by the rkhunter tool.'
+how_to_implement: 'You must have rkhunter installed on the endpoint as well as indexing its log under /var/log/rkhunter.log.
 The default search assumes that rkhunter is indexed under the sourcetype rkhunter, please modify the `rkhunter` macro if this is on another sourcetype.
 When configuring props for rkhunter logs, please make sure you set line breaking on everyline.
-The detection was tested using the following command line arguments rkhunter -c --ns --rwo --sk which only reports the warnings.
+The detection was tested using the following command line arguments rkhunter -c --ns --rwo --sk which only reports the warnings.'
 type: ESCU
 references: ['https://en.wikipedia.org/wiki/Rkhunter',
             'https://media.defense.gov/2020/Aug/13/2002476465/-1/-1/0/CSA_DROVORUB_RUSSIAN_GRU_MALWARE_AUG_2020.PDF']
 author: Jose Hernandez, Splunk
-search: '`rkhunter` sourcetype="rkhunter" "Warning:*" NOT ("The SSH configuration option 'PermitRootLogin' has not been set" OR "Checking for possible rootkit files and directories") | `detect_linux_rootkits_using_rkhunter_filter`'
+search: '`rkhunter` "Warning:*" NOT ("The SSH configuration option*" OR "Checking for possible rootkit files and directories") | `detect_linux_rootkits_using_rkhunter_filter`'
 known_false_positives: rkhunter might flag some applications under linux as rootkits incorrectly as well as report some pretty bening activity as a warning, we filtered some of those out in the detection.
 tags:
   analytics_story:

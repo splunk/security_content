@@ -1,15 +1,15 @@
-name: Detect Linux Rootkits using chkrookit
+name: Detect Linux Rootkits using chkrootkit
 id: f2f9c859-976a-4836-9730-43673c6dbbde
 version: 1
 date: '2020-08-28'
-description: This search looks for any positive matches found by the chkrootkit tool.
-how_to_implement: You must install have chkrootkit installed on the endpoint as well as indexing its log under /var/log/chkrootkit/.
-The default search assumes that chkrookit is indexed under the sourcetype chkrookit, please modify the macro if this is on another sourcetype.
+description: 'This search looks for any positive matches found by the chkrootkit tool.'
+how_to_implement: 'You must install have chkrootkit installed on the endpoint as well as indexing its log under /var/log/chkrootkit/.
+The default search assumes that chkrookit is indexed under the sourcetype chkrookit, please modify the macro if this is on another sourcetype.'
 type: ESCU
 references: ['https://linuxhint.com/install_chkrootkit/',
             'https://media.defense.gov/2020/Aug/13/2002476465/-1/-1/0/CSA_DROVORUB_RUSSIAN_GRU_MALWARE_AUG_2020.PDF']
 author: Jose Hernandez, Splunk
-search: '`chkrootkit` "INFECTED:"'
+search: '`chkrootkit` "INFECTED:" | `detect_linux_rootkits_using_chkrootkit_filter'
 known_false_positives: chkrookit might flag some applications under linux as rootkits incorrectly, we have observed specifically Linux.Xor.DDoS being flag often incorrectly.
 tags:
   analytics_story:
