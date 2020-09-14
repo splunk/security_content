@@ -3,5 +3,5 @@ detections:
   - name: Process execution via wmi
     pass_condition: '| stats count | where count = 1'
 description: Test the WMI local process execution attack behavior
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1047'

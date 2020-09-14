@@ -41,6 +41,13 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytics_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytics_story | tojson }}
+{% if detection.tags.risk_object is defined %}
+action.risk = 1
+action.risk.param._risk_object = {{ detection.tags.risk_object }}
+action.risk.param._risk_object_type = {{ detection.tags.risk_object_type }}
+action.risk.param._risk_score = {{ detection.tags.risk_score }}
+action.risk.param.verbose = 0
+{% endif %}
 {% else %}
 action.escu.analytic_story = []
 {% endif %}
@@ -49,6 +56,7 @@ dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
 dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
 action.correlationsearch.label = {{ detection.type | default('ESCU') }} - {{ detection.name }} - Rule
+action.correlationsearch.annotations = {{ detection.savedsearch_annotations | tojson }}
 {% if detection.deployment.scheduling.schedule_window is defined %}
 schedule_window = {{ detection.deployment.scheduling.schedule_window }}
 {% endif %}
@@ -67,13 +75,6 @@ action.email.subject.alert = {{ detection.deployment.alert_action.email.subject 
 action.email.to = {{ detection.deployment.alert_action.email.to }}
 action.email.message.alert = {{ detection.deployment.alert_action.email.message | custom_jinja2_enrichment_filter(detection) }}
 action.email.useNSSubject = 1
-{% endif %}
-{% if detection.deployment.alert_action.risk is defined %}
-action.risk = 1
-action.risk.param._risk_object = dest
-action.risk.param._risk_object_type = system
-action.risk.param._risk_score = 30
-action.risk.param.verbose = 0
 {% endif %}
 alert.digest_mode = 1
 action.escu.earliest_time_offset = 3600
