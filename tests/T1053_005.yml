@@ -3,7 +3,7 @@ detections:
   - name: Schtasks scheduling job on remote system
     pass_condition: '| stats count | where count > 0'
 description: Test scheduling job on remote system
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1053.005'
 vars:
   user_name: 'ATTACKRANGE\Administrator'
