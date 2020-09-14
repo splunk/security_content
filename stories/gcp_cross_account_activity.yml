@@ -27,7 +27,7 @@ narrative: 'Google Cloud Platform (GCP) admins manage access to GCP resources an
 author: Rod Soto, Splunk
 type: ESCU
 references:
--
+- https://cloud.google.com/iam/docs/understanding-service-accounts
 tags:
   analytics_story: GCP Cross Account Activity
   usecase: Security Monitoring
