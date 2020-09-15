@@ -1,0 +1,24 @@
+name: Zerologon CVE-2020-1472
+id: 8ba8a162-f702-11ea-adc1-0242ac120002
+version: 1
+date: '2020-09-15'
+description: Uncover activity consistent with CVE-2020-1472.
+  Discovered by Tom Toovert of Secura, this vulnerability is due to a flaw in the cryptographic
+  authentication scheme used by the Netlogon Remote Protocol.
+  If successfully exploited, an attacker can use this vulnerability to impersonate any affected computer
+  to run remote procedure calls on its behalf.
+narrative: 'An elevation of privilege vulnerability exists when an attacker establishes a vulnerable
+Netlogon secure channel connection to a computer, using the Netlogon Remote Protocol (MS-NRPC).
+An attacker who successfully exploits the vulnerability could run a specially crafted application
+on a device on the network.'
+author: Shannon Davis, Splunk
+type: ESCU
+references:
+- https://www.secura.com/blog/zero-logon
+- https://github.com/SecuraBV/CVE-2020-1472
+- https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
+tags:
+  analytics_story: Zerologon CVE-2020-1472
+  usecase: Advanced Threat Detection
+  category:
+  - Adversary Tactics
