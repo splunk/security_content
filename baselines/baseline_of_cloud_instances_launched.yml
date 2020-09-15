@@ -27,7 +27,7 @@ search: '| tstats count as instances_launched from datamodel=Change where
    | makecontinuous span=1h _time | eval instances_launched=coalesce(instances_launched, (random()%2)*0.0000000001)
    | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)
    | table _time instances_launched, HourOfDay, isWeekend
-   | fit DensityFunction instances_launched by "HourOfDay,isWeekend" into cloud_excessive_instances_created_v1 dist=expon show_density=true show_options="feature_variables, split_by, params"'
+   | fit DensityFunction instances_launched by "HourOfDay,isWeekend" into cloud_excessive_instances_created_v1 dist=expon show_density=true'
 tags:
   analytics_story:
   - Cloud Cryptomining

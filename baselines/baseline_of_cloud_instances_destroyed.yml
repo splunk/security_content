@@ -27,7 +27,7 @@ search: '| tstats count as instances_destroyed from datamodel=Change where
    | makecontinuous span=1h _time | eval instances_destroyed=coalesce(instances_destroyed, (random()%2)*0.0000000001)
    | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)
    | table _time instances_destroyed, HourOfDay, isWeekend
-   | fit DensityFunction instances_destroyed by "HourOfDay,isWeekend" into cloud_excessive_instances_deleted_v1 dist=expon show_density=true show_options="feature_variables, split_by, params"'
+   | fit DensityFunction instances_destroyed by "HourOfDay,isWeekend" into cloud_excessive_instances_deleted_v1 dist=expon show_density=true'
 tags:
   analytics_story:
   - Suspicious Cloud Instance Activities
