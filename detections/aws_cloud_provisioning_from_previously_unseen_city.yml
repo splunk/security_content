@@ -45,3 +45,6 @@ tags:
   - ID.AM
   security_domain: endpoint
   asset_type: AWS Instance
+  risk_score: 25
+  risk_object_type: user
+  risk_object: user
