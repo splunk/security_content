@@ -14,10 +14,13 @@ references:
 - https://github.com/SecuraBV/CVE-2020-1472
 - https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
 author: Shannon Davis, Splunk
-search: '`zeek_rpc` operation IN (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2)
-| stats count by uid
-| search count=3
-| search `detect_zero_logon_cve_2020_1472_filter`'
+search: '`zeek_rpc` operation IN (NetrServerPasswordSet2,NetrServerReqChallenge,NetrServerAuthenticate3)
+| bin span=5m _time
+| stats values(operation) dc(operation) as opscount count(eval(operation=="NetrServerReqChallenge")) as challenge
+count(eval(operation=="NetrServerAuthenticate3")) as authcount count(eval(operation=="NetrServerPasswordSet2")) as passcount
+count as totalcount by _time,src_ip,dest_ip
+| search opscount=3 authcount>4 passcount>0
+| search `detect_zerologon_cve_2020_1472_filter`'
 known_false_positives: unknown
 tags:
   analytics_story:
