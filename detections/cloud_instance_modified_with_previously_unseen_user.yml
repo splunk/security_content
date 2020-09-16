@@ -29,7 +29,8 @@ known_false_positives: It's possible that a new user will start to modify EC2 in
   modifying instances that this is the intended behavior.
 tags:
   analytics_story:
-  - Suspicious Cloud Change Activity 
+  - Suspicious Cloud Change Activity
+  - Suspicious Cloud Instance Activities
   mitre_attack_id:
   - T1078.004
   cis20:

@@ -20,7 +20,7 @@ known_false_positives: Many service accounts configured within an AWS infrastruc
   human user.
 tags:
   analytics_story:
-  - Cloud Cryptomining
+  - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   kill_chain_phases:
   - Actions on Objectives
