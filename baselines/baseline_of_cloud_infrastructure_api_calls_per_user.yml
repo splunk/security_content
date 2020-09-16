@@ -25,7 +25,7 @@ search: '| tstats count as api_calls from datamodel=Change where
    | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)
   | table _time api_calls, user, HourOfDay, isWeekend
   | eventstats dc(api_calls) as count by user, HourOfDay, isWeekend | where count > 1
-  | fit DensityFunction api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_api_calls_v1 dist=norm show_density=true show_options="feature_variables, split_by, params"'
+  | fit DensityFunction api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_api_calls_v1 dist=norm show_density=true'
 tags:
   analytics_story:
   - Suspicious Cloud User Activities
