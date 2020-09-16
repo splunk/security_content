@@ -86,7 +86,7 @@ def main(args):
     with open('attack_range/attack_range.conf', 'r') as file :
       filedata = file.read()
 
-    filedata = filedata.replace('attack_range_password = Pl3ase-k1Ll-me:p', 'attack_range_password = Pl3ase-k1Ll-me:p1')
+    filedata = filedata.replace('attack_range_password = Pl3ase-k1Ll-me:p', 'attack_range_password = I-l1ke-Attack-Range!')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('capture_attack_data = 0', 'capture_attack_data = 1')
     filedata = filedata.replace('sync_to_s3_bucket = 0', 'sync_to_s3_bucket = 1')
@@ -163,7 +163,12 @@ def main(args):
         dataset_obj = {}
         dataset_obj['author'] = ''
         dataset_obj['date'] = str(datetime.today().strftime('%Y-%m-%d'))
-        dataset_obj['description'] = ''
+        descr_str = 'Atomic Test Results: '
+        if 'simulation_output' in results:
+            for output in results['simulation_output']:
+                descr_str += output + ' '
+
+        dataset_obj['description'] = descr_str
         dataset_obj['environment'] = 'attack_range'
         dataset_obj['technique'] = [results['technique']]
 
