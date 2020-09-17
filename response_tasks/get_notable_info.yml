@@ -72,3 +72,4 @@ tags:
   - F5 TMUI RCE CVE-2020-5902
   - Windows DNS SIGRed CVE-2020-1350
   - Suspicious GCP Storage Activities
+  - GCP Cross Account Activity
