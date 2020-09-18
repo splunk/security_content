@@ -14,7 +14,7 @@ This project gives you access to our repository of Analytic Stories that are sec
 # Usage🛡
 The Splunk Security Content can be used via:
 
-#### [Splunk App](https://github.com/splunk/security-content/releases) 
+#### [Splunk App](https://github.com/splunk/security-content/releases)
 Grab the latest release of DA-ESS-ContentUpdate and install it on a Splunk Enterprise instance. Alternatively, you can download it from [splunkbase](https://splunkbase.splunk.com/app/3449/), it is currently a Splunk Supported App.
 
 #### [API](https://docs.splunkresearch.com/?version=latest)
@@ -29,8 +29,8 @@ curl -s https://content.splunkresearch.com | jq
 Create your customized version of Security Content by forking this project and following this [guide](https://github.com/splunk/security-content/wiki/Installation-and-Usage#github-workflow).
 
 # MITRE ATT&CK
-### Detection Coverage 
-To view an up-to-date detection coverage map for all the content tagged with MITRE techniques visit: [https://mitremap.splunkresearch.com/](https://mitremap.splunkresearch.com/) under the **Detection Coverage** layer. Below is a snapshot in time of what we are covering. This map is automatically updated on every release and generated from the [generate-coverage-map.py](https://github.com/splunk/security-content/blob/mitre_maps/bin/generate-coverage-map.py).
+### Detection Coverage
+To view an up-to-date detection coverage map for all the content tagged with MITRE techniques visit: [https://mitremap.splunkresearch.com/](https://mitremap.splunkresearch.com/) under the **Detection Coverage** layer. Below is a snapshot in time of what technique we currently have some detection coverage for. The darker the shade of blue the more detections we have for this particular technique. This map is automatically updated on every release and generated from the [generate-coverage-map.py](https://github.com/splunk/security-content/blob/mitre_maps/bin/generate-coverage-map.py).
 
 ![](docs/mitre-map/coverage.png)
 
@@ -82,3 +82,19 @@ If you have questions or need support, you can:
 * Post a question to [Splunk Answers](http://answers.splunk.com)
 * Join the [#security-research](https://splunk-usergroups.slack.com/messages/C1RH09ERM/) room in the [Splunk Slack channel](http://splunk-usergroups.slack.com)
 * If you are a Splunk Enterprise customer with a valid support entitlement contract and have a Splunk-related question, you can also open a support case on the https://www.splunk.com/ support portal
+
+
+## License
+Copyright 2020 Splunk Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

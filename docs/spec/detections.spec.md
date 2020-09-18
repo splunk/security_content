@@ -378,4 +378,3 @@ version of detection, e.g. 1 or 2 ...
 ```json
 2
 ```
-

@@ -1812,7 +1812,9 @@ Networking devices, such as routers and switches, are often overlooked as resour
 This Analytic Story helps you gain a better understanding of how your network devices are interacting with your hosts. By compromising your network devices, attackers can obtain direct access to the company's internal infrastructure&#151; effectively increasing the attack surface and accessing private services/data.
 
 #### Detections
+* Detect ARP Poisoning
 * Detect New Login Attempts to Routers
+* Detect Rogue DHCP Server
 
 #### Data Models
 * Authentication
@@ -1820,15 +1822,25 @@ This Analytic Story helps you gain a better understanding of how your network de
 #### Mappings
 
 ##### ATT&CK
+* T1200
+* T1498
+* T1557
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Delivery
+* Reconnaissance
 
 ###### CIS
+* CIS 1
 * CIS 11
 
 ##### NIST
+* ID.AM
+* PR.AC
+* PR.DS
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
@@ -1876,6 +1888,8 @@ Various legacy protocols operate by default in the clear, without the protection
 
 * [AWS Network ACL Activity](#AWS-Network-ACL-Activity)
 
+* [AWS Security Hub Alerts](#AWS-Security-Hub-Alerts)
+
 * [AWS Suspicious Provisioning Activities](#AWS-Suspicious-Provisioning-Activities)
 
 * [AWS User Monitoring](#AWS-User-Monitoring)
@@ -1899,6 +1913,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Suspicious AWS Traffic](#Suspicious-AWS-Traffic)
 
 * [Suspicious Cloud Authentication Activities](#Suspicious-Cloud-Authentication-Activities)
+
+* [Suspicious GCP Storage Activities](#Suspicious-GCP-Storage-Activities)
 
 * [Unusual AWS EC2 Modifications](#Unusual-AWS-EC2-Modifications)
 
@@ -1928,7 +1944,9 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 #### Mappings
 
 ##### ATT&CK
+* T1078
 * T1078.004
+* T1550
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2028,6 +2046,39 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 ##### References
 * https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
 * https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
+
+### AWS Security Hub Alerts
+* id = 2f2f610a-d64d-48c2-b57c-96722b49ab5a
+* date = 2020-08-04
+* version = 1
+
+#### Description
+This story is focused around detecting Security Hub alerts generated from AWS
+
+#### Narrative
+AWS Security Hub collects and consolidates findings from AWS security services enabled in your environment, such as intrusion detection findings from Amazon GuardDuty, vulnerability scans from Amazon Inspector, S3 bucket policy findings from Amazon Macie, publicly accessible and cross-account resources from IAM Access Analyzer, and resources lacking WAF coverage from AWS Firewall Manager.
+
+#### Detections
+* Detect Spike in AWS Security Hub Alerts for EC2 Instance
+* Detect Spike in AWS Security Hub Alerts for User
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+
+###### CIS
+* CIS 13
+
+##### NIST
+* DE.AE
+* DE.DP
+
+##### References
+* https://aws.amazon.com/security-hub/features/
 
 ### AWS Suspicious Provisioning Activities
 * id = 3338b567-3804-4261-9889-cf0ca4753c7f
@@ -2496,6 +2547,44 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
+### Suspicious GCP Storage Activities
+* id = 4d656b2e-d6be-11ea-87d0-0242ac130003
+* date = 2020-08-05
+* version = 1
+
+#### Description
+Use the searches in this Analytic Story to monitor your GCP Storage buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open storage buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
+
+#### Narrative
+Similar to other cloud providers, GCP operates on a shared responsibility model. This means the end user, you, are responsible for setting appropriate access control lists and permissions on your GCP resources.\ This Analytics Story concentrates on detecting things like open storage buckets (both read and write) along with storage bucket access from unfamiliar users and IP addresses.
+
+#### Detections
+* Detect GCP Storage access from a new IP
+* Detect New Open GCP Storage Buckets
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1530
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 13
+* CIS 14
+
+##### NIST
+* DE.CM
+* PR.AC
+* PR.DS
+
+##### References
+* https://cloud.google.com/blog/products/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
+* https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/
 
 ### Unusual AWS EC2 Modifications
 * id = 73de57ef-0dfc-411f-b1e7-fa24428aeae0

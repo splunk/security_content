@@ -3,5 +3,5 @@ detections:
   - name: Windows Event Log Cleared
     pass_condition: '| stats count | where count = 4'
 description: Test Windows Event Logs cleared (atomic red team is not yet updated)
-target: attack-range-windows-domain-controller
+target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1551.001'
