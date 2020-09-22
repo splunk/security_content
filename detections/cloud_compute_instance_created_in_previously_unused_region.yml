@@ -11,15 +11,15 @@ how_to_implement: You must be ingesting the appropriate cloud-infrastructure log
   to create a baseline of previously seen regions.
 type: ESCU
 references: []
-author: David Dorsey, Splunk
+author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
-  as dest from datamodel=Change where All_Changes.action=created
-  `cloud_compute_instance_created_in_previously_unused_region_filter` by All_Changes.vendor_region,
-  All_Changes.user | `drop_dm_object_name("Change")` | inputlookup append=t previously_seen_cloud_regions
+  as dest from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region,
+  All_Changes.user | `drop_dm_object_name("All_Changes")` | inputlookup append=t previously_seen_cloud_regions
   | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest
   by vendor_region, user | eval new_region=if(firstTime >= relative_time(now(), `previously_seen_cloud_regions_search_window_begin_offset`),
   1, 0) | where new_region=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
-  | table vendor_region, dest, user, firstTime, lastTime'
+  | table vendor_region, dest, user, firstTime, lastTime
+  | `cloud_compute_instance_created_in_previously_unused_region_filter`'
 known_false_positives: It's possible that a user has unknowingly started an instance
   in a new region. Please verify that this activity is legitimate.
 tags:

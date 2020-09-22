@@ -9,7 +9,7 @@ how_to_implement: You must be ingesting the approrpiate cloud infrastructure log
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.action=created `previously_seen_cloud_compute_image_input_filter` by All_Changes.Instance_Changes.image_id
-  | `drop_dm_object_name("Change")` | outputlookup previously_seen_cloud_compute_images
+  | `drop_dm_object_name("All_Changes.Instance_Changes")` | outputlookup previously_seen_cloud_compute_images
   | stats count'
 tags:
   analytics_story:

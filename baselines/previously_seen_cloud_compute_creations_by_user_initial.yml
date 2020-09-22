@@ -9,8 +9,8 @@ XXXhow_to_implement: You must be ingesting the approrpiate cloud infrastructure 
 author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.action=created AND All_Changes.object_category=instance 
-  `previously_seen_cloud_compute_creations_by_user_input_filter` by All_Changes.user 
-  | `drop_dm_object_name("Change")` | outputlookup previously_seen_cloud_compute_creations_by_user
+  by All_Changes.user 
+  | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_compute_creations_by_user
   | stats count'
 tags:
   analytics_story:
