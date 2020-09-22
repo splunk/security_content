@@ -43,3 +43,6 @@ tags:
   - DE.AE
   security_domain: Cloud
   asset_type: Cloud Instance
+  risk_score: 40
+  risk_object_type: user
+  risk_object: user
