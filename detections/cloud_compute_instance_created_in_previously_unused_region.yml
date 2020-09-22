@@ -18,7 +18,8 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values
   | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest
   by vendor_region, user | eval new_region=if(firstTime >= relative_time(now(), `previously_seen_cloud_regions_search_window_begin_offset`),
   1, 0) | where new_region=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
-  | table vendor_region, dest, user, firstTime, lastTime'
+  | table vendor_region, dest, user, firstTime, lastTime
+  | `cloud_compute_instance_created_in_previously_unused_region_filter`'
 known_false_positives: It's possible that a user has unknowingly started an instance
   in a new region. Please verify that this activity is legitimate.
 tags:
