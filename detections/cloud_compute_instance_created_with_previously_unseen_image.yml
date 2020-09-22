@@ -28,3 +28,6 @@ tags:
   - ID.AM
   security_domain: endpoint
   asset_type: Cloud Compute Instance
+  risk_score: 10
+  risk_object_type: user
+  risk_object: user
