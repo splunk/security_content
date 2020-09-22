@@ -36,5 +36,5 @@ tags:
   asset_type: Cloud Compute Instance
   risk_score: 20
   risk_object_type: user
-  risk_object: userName
+  risk_object: user
 
