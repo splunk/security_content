@@ -10,8 +10,8 @@ how_to_implement: You must be ingesting the approrpiate cloud infrastructure log
   and have the Security Research cloud data model installed.
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where All_Changes.action=created `previously_seen_cloud_regions_input_filter` by All_Changes.vendor_region
-  | `drop_dm_object_name("Change)` | outputlookup previously_seen_cloud_regions
+  where All_Changes.action=created by All_Changes.vendor_region
+  | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_regions
   | stats count'
 tags:
   analytics_story:

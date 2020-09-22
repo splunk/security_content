@@ -1,4 +1,4 @@
-name: Previously Seen Cloud Compute Instance Types
+name: Previously Seen Cloud Compute Instance Types - Initial
 id: 3c78025c-1ffe-4976-a640-75ef604842be
 version: 1
 date: '2020-9-03'
@@ -9,7 +9,7 @@ how_to_implement: You must be ingesting the approrpiate cloud infrastructure log
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.action=created `previously_seen_cloud_compute_instance_types_input_filter`
-  by All_Changes.Instance_Changes.instance_type | `drop_dm_object_name("Change")` 
+  by All_Changes.Instance_Changes.instance_type | `drop_dm_object_name("All_Changes.Instance_Changes")` 
   | outputlookup previously_seen_cloud_compute_instance_types | stats count'
 tags:
   analytics_story:
