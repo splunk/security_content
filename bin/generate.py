@@ -300,7 +300,6 @@ def generate_workbench_panels(response_tasks, stories):
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w') as f:
         f.write(output)
-
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
@@ -402,7 +401,7 @@ def map_response_tasks_to_stories(response_tasks):
                 for story in response_task['tags']['analytics_story']:
                     if 'type' in response_task.keys():
                         task_name = str(response_task['type'] + ' - ' + response_task['name'])
-                    else: 
+                    else:
                         task_name = str('ESCU - ' + response_task['name'])
                     if not (story in sto_res):
                         sto_res[story] = {task_name}
