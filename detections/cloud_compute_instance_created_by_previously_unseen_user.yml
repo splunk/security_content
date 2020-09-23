@@ -4,22 +4,20 @@ version: 1
 date: '2020-08-21'
 description: This search looks for cloud compute instances created by users who have
   not created them before.
-XXXXhow_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
-  installed. Run the "Previously Seen Cloud Compute Creations By User" support search
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
+  Run the "Previously Seen Cloud Compute Creations By User" support search
   to create of baseline of previously seen users.
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '| tstats `security_content_summariesonly` earliest(_time) as firstTime, latest(_time)
-  as lastTime values(All_Changes.object) as instance from datamodel=Change
-  where All_Changes.action=created by All_Changes.user | `drop_dm_object_name("Change")`
-  | inputlookup append=t previously_seen_cloud_compute_creations_by_user  | stats
-  min(firstTime) as firstTime max(lastTime) as lastTime, values(object) as object by user
-  | multireport [| table user, firstTime, lastTime | outputlookup previously_seen_cloud_compute_creations_by_user
-  | where fact=fiction][| eval new_user=if(firstTime >= relative_time(now(), `previously_seen_cloud_compute_creations_by_user_search_window_begin_offset`),
-  1, 0) | where new_user=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
-  | table user, object, firstTime, lastTime | `cloud_compute_instance_created_by_previously_unseen_user_filter`'
+search: '| tstats `security_content_summariesonly` earliest(_time) as firstTimeSeen, latest(_time)
+  as lastTimeSeen values(All_Changes.object) as dest from datamodel=Change
+  where All_Changes.action=created by All_Changes.user | `drop_dm_object_name("All_Changes")`
+  | lookup previously_seen_cloud_compute_creations_by_user OUTPUT firstTime
+  | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m")   
+  | `security_content_ctime(firstTimeSeen)`
+  | table firstTimeSeen, user, dest
+  | `cloud_compute_instance_created_by_previously_unseen_user_filter`'
 known_false_positives: It's possible that a user will start to create compute instances
   for the first time, for any number of reasons. Verify with the user launching instances
   that this is the intended behavior.
