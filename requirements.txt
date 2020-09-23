@@ -11,9 +11,9 @@ contextlib2==0.6.0.post1
 distlib==0.3.1
 filelock==3.0.12
 gitdb==4.0.5
-identify==1.5.2
+identify==1.5.4
 idna==2.10
-importlib-metadata==1.7.0
+importlib-metadata==2.0.0
 importlib-resources==3.0.0
 Jinja2==2.11.2
 jsonschema==3.2.0
@@ -39,4 +39,4 @@ toml==0.10.1
 typing==3.7.4.3
 urllib3==1.25.10
 virtualenv==20.0.31
-zipp==3.1.0
+zipp==3.2.0
