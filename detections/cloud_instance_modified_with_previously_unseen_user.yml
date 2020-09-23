@@ -2,13 +2,12 @@ name: Cloud Instance Modified By Previously Unseen User
 id: 7fb15084-b14e-405a-bd61-a6de15a40722
 version: 1
 date: '2020-07-29'
-description: This search looks for EC2 instances being modified by users who have
+description: This search looks for cloud instances being modified by users who have
   not previously modified them.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. This search works best when you run the "Previously Seen EC2 Launches By
-  User" support search once to create a history of previously seen ARNs. To add or
-  remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
+how_to_implement: This search has a dependency on other searches to create and update a
+  baseline of users observed to be associated with this activity. The search 
+  "Previously Seen Cloud Instance Modifications By User - Update" should be enabled for 
+  this detection to properly work.
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
@@ -20,7 +19,7 @@ search: '| tstats `security_content_summariesonly` earliest(_time) as firstTime,
   | inputlookup append=t previously_seen_cloud_instance_modifications_by_user | stats
   min(firstTime) as firstTime max(lastTime) as lastTime max(enough_data) as enough_data, 
   values(Instances) as Instances by user
-  | eval new_user=if(firstTime >= relative_time(now(), `previously_seen_cloud_compute_creations_by_user_search_window_begin_offset`),
+  | eval new_user=if(firstTime >= relative_time(now(), `previously_seen_cloud_instance_modifications_by_user_search_window_begin_offset`),
   1, 0) | where new_user=1 AND enough_data=1| `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
   | table src_user, dest, firstTime, lastTime | `cloud_instance_modified_by_previously_unseen_user_filter`'
 

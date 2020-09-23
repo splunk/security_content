@@ -3,10 +3,12 @@ id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 version: 1
 date: '2020-09-12'
 description: Find EC2 instances being created with previously unseen instance types.
-how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
-  installed. Run the "Previously Seen Cloud Compute Instance Types" support search
-  to create a baseline of previously seen regions.
+how_to_implement: You must be ingesting your cloud infrastructure logs from your
+  cloud provider. You should run the baseline search `Previously Seen Cloud Compute Instance Types - Initial`
+  to build the initial table of instance types observed and times. You must also enable the second
+  baseline search `Previously Seen Cloud Compute Instance Types - Update` to keep this table up to date and
+  to age out old data. You can also provide additional filtering for this search by
+  customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter` macro.
 type: ESCU
 references: []
 author: David Dorsey, Splunk

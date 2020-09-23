@@ -5,9 +5,12 @@ date: '2020-09-02'
 description: This search looks at cloud-infrastructure events where an instance is
   created in any region within the last hour and then compares it to a lookup file
   of previously seen regions where instances have been created.
-how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs.
-  Run the `Previously Seen Cloud Regions - Initial` to build the table to cache the regions at first.
-  Then schedule and run the search `Previously Seen Cloud Regions - Update` to keep the table up to date.
+how_to_implement: You must be ingesting your cloud infrastructure logs from your
+  cloud provider. You should run the baseline search `Previously Seen Cloud Regions - Initial`
+  to build the initial table of images observed and times. You must also enable the second
+  baseline search `Previously Seen Cloud Regions - Update` to keep this table up to date and
+  to age out old data. You can also provide additional filtering for this search by
+  customizing the `cloud_compute_instance_created_in_previously_unused_region_filter` macro.
 type: ESCU
 references: []
 author: David Dorsey, Splunk
