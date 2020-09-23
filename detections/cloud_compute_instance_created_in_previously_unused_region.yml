@@ -15,7 +15,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, values(All_Changes.object_id
 from datamodel=Change where All_Changes.action=created 
   by All_Changes.vendor_region, All_Changes.user
   | `drop_dm_object_name("All_Changes")`
-  | lookup append=t previously_seen_cloud_regions vendor_region as vendor_region OUTPUT firstTime
+  | lookup previously_seen_cloud_regions vendor_region as vendor_region OUTPUT firstTime
   | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m")
   | `security_content_ctime(firstTimeSeen)`
   | table firstTimeSeen, user, vendor_region, count, dest
