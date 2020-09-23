@@ -47,3 +47,7 @@ tags:
   - T1078
   security_domain: endpoint
   asset_type: AWS Instance
+  risk_score: 5
+  risk_object_type: user
+  risk_object: user
+
