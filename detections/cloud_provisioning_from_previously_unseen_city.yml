@@ -22,7 +22,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   | lookup previously_seen_cloud_provisioning_activity_sources City as City OUTPUT firstTimeSeen, enough_data
   | where enough_data=1
   | eval firstTimeSeenCity=min(firstTimeSeen)
-  | where isnull(firstTimeSeenCity) OR firstTime > relative_time(now(), "`previously_unseen_cloud_provisioning_activity_window`")
+  | where isnull(firstTimeSeenCity) OR firstTimeSeenCity > relative_time(now(), "`previously_unseen_cloud_provisioning_activity_window`")
   | table firstTime, src, City, user, object, command
   | `cloud_provisioning_activity_from_previously_unseen_city_filter`'
 known_false_positives: "This is a strictly behavioral search, so we define \"false\

@@ -11,11 +11,7 @@ how_to_implement: You must be ingesting the appropriate cloud-infrastructure log
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
-  as dest from datamodel=Change where All_Changes.action=created `cloud_compute_instance_created_with_previously_unseen_image_filter`
-  by All_Changes.Instance_Changes.image_id, All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
-  | inputlookup append=t previously_seen_cloud_compute_images | stats min(firstTime) as firstTime
-  max(lastTime) as lastTime, values(dest) as dest by image_id, user'
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen values(All_Changes.object_id) as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id, All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")` | lookup previously_seen_cloud_compute_images image_id as image_id OUTPUT firstTime | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m") | `security_content_ctime(firstTimeSeen)` | table firstTimeSeen, user, image_id, count, dest'
 known_false_positives: After a new image is created, the first systems created with
   that image will cause this alert to fire.  Verify that the image being used was
   created by a legitimate user.
