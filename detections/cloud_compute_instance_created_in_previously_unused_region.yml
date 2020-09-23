@@ -5,20 +5,20 @@ date: '2020-09-02'
 description: This search looks at cloud-infrastructure events where an instance is
   created in any region within the last hour and then compares it to a lookup file
   of previously seen regions where instances have been created.
-how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  and have the Security Research cloud data model (https://github.com/splunk/cloud-datamodel-security-research/)
-  installed. Run the \"Previously Seen Cloud Compute Instance Types\" support search
-  to create a baseline of previously seen regions.
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs.
+  Run the `Previously Seen Cloud Regions - Initial` to build the table to cache the regions at first.
+  Then schedule and run the search `Previously Seen Cloud Regions - Update` to keep the table up to date.
 type: ESCU
 references: []
-author: Rico Valdez, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
-  as dest from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region,
-  All_Changes.user | `drop_dm_object_name("All_Changes")` | inputlookup append=t previously_seen_cloud_regions
-  | stats min(firstTime) as firstTime max(lastTime) as lastTime, values(dest) as dest
-  by vendor_region, user | eval new_region=if(firstTime >= relative_time(now(), `previously_seen_cloud_regions_search_window_begin_offset`),
-  1, 0) | where new_region=1 | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`]
-  | table vendor_region, dest, user, firstTime, lastTime
+author: David Dorsey, Splunk
+search: '| tstats earliest(_time) as firstTimeSeen, values(All_Changes.object_id) as dest, count
+from datamodel=Change where All_Changes.action=created 
+  by All_Changes.vendor_region, All_Changes.user
+  | `drop_dm_object_name("All_Changes")`
+  | lookup append=t previously_seen_cloud_regions vendor_region as vendor_region OUTPUT firstTime
+  | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m")
+  | `security_content_ctime(firstTimeSeen)`
+  | table firstTimeSeen, user, vendor_region, count, dest
   | `cloud_compute_instance_created_in_previously_unused_region_filter`'
 known_false_positives: It's possible that a user has unknowingly started an instance
   in a new region. Please verify that this activity is legitimate.
