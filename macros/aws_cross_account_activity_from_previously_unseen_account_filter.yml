@@ -1,3 +1,3 @@
 definition: search *
 description: Use this macro to add additional filters
-name: aws_cross_account_activity_from_previously_unseen_account___dm_filter
+name: aws_cross_account_activity_from_previously_unseen_account_filter

@@ -4,10 +4,12 @@ version: 1
 date: '2020-05-28'
 description: This search looks for AssumeRole events where an IAM role in a different
   account is requested for the first time.
-how_to_implement: You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later)
-  and Enterprise Security 6.2, which contains the required updates to the Authentication data model
-  for cloud use cases. Run the `Previously Seen AWS Cross Account Activity - DM` support search only
-  once to create the baseline of previously seen cross account activity. 
+how_to_implement: You must be ingesting your cloud infrastructure logs from your
+  cloud provider. You should run the baseline search `Previously Seen AWS Cross Account Activity - Initial`
+  to build the initial table of source IP address, geographic locations, and times. You must also enable the second
+  baseline search `Previously Seen AWS Cross Account Activity - Update` to keep this table up to date and
+  to age out old data. You can also provide additional filtering for this search by
+  customizing the `aws_cross_account_activity_from_previously_unseen_account_filter` macro.
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
@@ -20,7 +22,7 @@ search: "| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=
   | where firstTime >= relative_time(now(), '-70m@m')] | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | rename Authentication.user as src_user Authentication.src as src_ip | table requestingAccountId,
-  requestedAccountId, src_user, src_ip, Authentication.user_role, firstTime, lastTime | `aws_cross_account_activity_from_previously_unseen_account___dm_filter`"
+  requestedAccountId, src_user, src_ip, Authentication.user_role, firstTime, lastTime | `aws_cross_account_activity_from_previously_unseen_account_filter`"
 known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior.
   It's suspicious when an account requests privileges of an account it hasn't before.
   You should validate with the account owner that this is a legitimate request.
