@@ -13,7 +13,7 @@ filelock==3.0.12
 gitdb==4.0.5
 identify==1.5.4
 idna==2.10
-importlib-metadata==1.7.0
+importlib-metadata==2.0.0
 importlib-resources==3.0.0
 Jinja2==2.11.2
 jsonschema==3.2.0
