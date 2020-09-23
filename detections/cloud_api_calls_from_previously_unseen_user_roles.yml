@@ -24,7 +24,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   | lookup previously_seen_cloud_api_calls_per_user_role user as user, command as command OUTPUT firstTimeSeen, enough_data
   | where enough_data=1
   | eval firstTimeSeenSrc=min(firstTimeSeen)
-  | where isnull(firstTimeSeenSrc) OR firstTime > relative_time(now(), "`cloud_api_calls_from_previously_unseen_user_roles_activity_window`")
+  | where isnull(firstTimeSeenSrc) OR firstTime > relative_time(now(), `cloud_api_calls_from_previously_unseen_user_roles_activity_window`)
   | table firstTime, src, user, object, command
   | `cloud_api_calls_from_previously_unseen_user_roles_filter`'
 known_false_positives: "."
