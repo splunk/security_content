@@ -4,8 +4,8 @@ version: 1
 date: '2020-08-15'
 description: This search builds a table of previously seen users that have launched
   a cloud compute instance.
-XXXhow_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-  and have the Security Research cloud data model installed.
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the proper TAs installed.
 author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.action=created AND All_Changes.object_category=instance 
