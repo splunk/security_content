@@ -13,6 +13,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   where All_Changes.action=created by All_Changes.vendor_region
   | `drop_dm_object_name("All_Changes")` | inputlookup append=t previously_seen_cloud_regions 
   | stats min(firstTime) as firstTime max(lastTime) as lastTime by vendor_region
+  | where lastTime > relative_time(now(), "`previously_seen_cloud_region_forget_window`")
   | eventstats min(firstTime) as globalFirstTime
   | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
   | outputlookup previously_seen_cloud_regions | stats count'
