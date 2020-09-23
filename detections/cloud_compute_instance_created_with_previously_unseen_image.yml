@@ -4,12 +4,12 @@ version: 1
 date: '2018-10-12'
 description: This search looks for cloud compute instances being created with previously
   unseen image IDs.
-how_to_implement: You must be ingesting your cloud infrastructure logs from your
-  cloud provider. You should run the baseline search `Previously Seen Cloud Compute Images - Initial`
-  to build the initial table of images observed and times. You must also enable the second
-  baseline search `Previously Seen Cloud Compute Images - Update` to keep this table up to date and
-  to age out old data. You can also provide additional filtering for this search by
-  customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter` macro.
+how_to_implement: "You must be ingesting your cloud infrastructure logs from your
+  cloud provider. You should run the baseline search `Previously Seen Cloud Compute Images - Initial`
+  to build the initial table of images observed and times. You must also enable the second
+  baseline search `Previously Seen Cloud Compute Images - Update` to keep this table up to date and
+  to age out old data. You can also provide additional filtering for this search by
+  customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter` macro."
 type: ESCU
 references: []
 author: David Dorsey, Splunk
