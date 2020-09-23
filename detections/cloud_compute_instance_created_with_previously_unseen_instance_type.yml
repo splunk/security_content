@@ -10,7 +10,7 @@ how_to_implement: You must be ingesting the appropriate cloud-infrastructure log
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen values(All_Changes.object_id) as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type, All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")` | lookup previously_seen_cloud_compute_instance_types instance_type as instance_type OUTPUT firstTime | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m") | `security_content_ctime(firstTimeSeen)` | table firstTimeSeen, user, instance_type, count, dest'
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen values(All_Changes.object_id) as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type, All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")` | lookup previously_seen_cloud_compute_instance_types instance_type as instance_type OUTPUT firstTime | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m") | `security_content_ctime(firstTimeSeen)` | table firstTimeSeen, user, instance_type, count, dest | `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`'
 known_false_positives: It is possible that an admin will create a new system using
   a new instance type that has never been used before. Verify with the creator that
   they intended to create the system with the new instance type.
