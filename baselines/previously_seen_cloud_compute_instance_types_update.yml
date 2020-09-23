@@ -11,7 +11,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   by All_Changes.Instance_Changes.instance_type | `drop_dm_object_name("All_Changes.Instance_Changes")`
   | inputlookup append=t previously_seen_cloud_compute_instance_types
   | stats min(firstTime) as firstTime max(lastTime) as lastTime by instance_type
-  | where lastTime > relative_time(now(), "`previously_seen_cloud_compute_instance_type_forget_window`")
+  | where lastTime > relative_time(now(), `previously_seen_cloud_compute_instance_type_forget_window`)
   | eventstats min(firstTime) as globalFirstTime
   | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
   | outputlookup previously_seen_cloud_compute_instance_types | stats count'
