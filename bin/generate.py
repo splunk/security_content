@@ -368,11 +368,12 @@ def get_deployments(object, deployments):
 
 def get_nes_fields(search, deployment):
     nes_fields_matches = []
-    if 'notable' in deployment['alert_action']:
-        if 'nes_fields' in deployment['alert_action']['notable']:
-            for field in deployment['alert_action']['notable']['nes_fields']:
-                if (search.find(field + ' ') != -1):
-                    nes_fields_matches.append(field)
+    if 'alert_action' in deployment:
+        if 'notable' in deployment['alert_action']:
+            if 'nes_fields' in deployment['alert_action']['notable']:
+                for field in deployment['alert_action']['notable']['nes_fields']:
+                    if (search.find(field + ' ') != -1):
+                        nes_fields_matches.append(field)
 
     return nes_fields_matches
 
