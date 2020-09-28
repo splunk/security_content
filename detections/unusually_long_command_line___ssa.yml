@@ -1,0 +1,41 @@
+name: Unusually Long Command Line - SSA
+id: 58f43aba-1775-445e-b19c-be2b87d83ae3
+version: 1
+date: '2020-07-23'
+description: Command lines that are extremely long may be indicative of malicious
+  activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin
+  to help identify command lines with lengths that are unusual for a given user.
+  This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
+how_to_implement: You must be ingesting sysmon endpoint data that monitors command lines.
+references: []
+type: SSA
+author: Rico Valdez, Ignacio Bermudez Corrales, Splunk
+search: ' | from read_ssa_enriched_events()
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
+| eval cmd_line=ucast(map_get(input_event, "process"), "string", null),
+dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+input=parse_double(len(coalesce(cmd_line, ""))),
+dest_ip_id=ucast(map_get(input_event, "dest_ip_id"), "string", null)
+| where cmd_line!=null and dest_user_id!=null
+| adaptive_threshold algorithm="quantile" entity="dest_user_id" window=60480000
+| where output="True" AND quantile>0.99
+| eval start_time = timestamp,
+end_time = timestamp,
+entities = mvappend(dest_ip_id, dest_user_id),
+body = "TBD"
+| into write_ssa_detected_events();
+'
+known_false_positives: Some legitimate applications use long command lines for installs
+  or updates. You should review identified command lines for legitimacy.
+  At the beginning of this search `adaptive_threshold` needs time to learn the baseline.
+  This search runs on a window of one week, if pattern of command line length changes over time,
+  some previously non suspiciously long commands can be suspicious in the current context.
+tags:
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 8
+  nist:
+  - PR.PT
+  - DE.CM
+  security_domain: endpoint
