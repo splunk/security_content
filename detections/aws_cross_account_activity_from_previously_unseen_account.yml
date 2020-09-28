@@ -19,7 +19,7 @@ search: "| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=
   requestingAccountId dest_account as requestedAccountId | lookup previously_seen_aws_cross_account_activity
   requestingAccountId, requestedAccountId, OUTPUTNEW firstTime as earliest
   | eval firstTime=(if (firstTime>earliest, earliest,firstTime)) 
-  | where firstTime >= relative_time(now(), '-70m@m')] | `security_content_ctime(firstTime)`
+  | where firstTime >= relative_time(now(), '-70m@m') | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | rename Authentication.user as src_user Authentication.src as src_ip | table requestingAccountId,
   requestedAccountId, src_user, src_ip, Authentication.user_role, firstTime, lastTime | `aws_cross_account_activity_from_previously_unseen_account_filter`"
