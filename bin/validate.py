@@ -74,7 +74,8 @@ def validate_objects(REPO_PATH, objects):
         errors = errors + validation_errors
 
     for object in objects['detections']:
-        errors = errors + validate_detection_search(object, objects['macros'])
+        if object['type'] == 'ESCU':
+            errors = errors + validate_detection_search(object, objects['macros'])
 
     for object in objects['baselines']:
         errors = errors + validate_baseline_search(object, objects['macros'])
@@ -126,18 +127,18 @@ def validate_standard_fields(object, uuids):
     # the first two fields risk_object, and risk_object_type are an enum of fixed values
     # defined by ESCU risk scoring
 
-    
+
     if 'tags' in object:
         for k,v in object['tags'].items():
-        
+
             if k == 'risk_score':
                 if not isinstance(v, int):
-                    errors.append("ERROR: risk_score not integer value for object: %s" % v)  
+                    errors.append("ERROR: risk_score not integer value for object: %s" % v)
             risk_object_type = ["user","system", "other"]
 
             if k == 'risk_object_type':
                 if v not in risk_object_type:
-                    errors.append("ERROR: risk_object_type can only contain user, system, other: %s" % v) 
+                    errors.append("ERROR: risk_object_type can only contain user, system, other: %s" % v)
 
             if k == 'risk_object':
                 try:
@@ -177,7 +178,7 @@ def validate_detection_search(object, macros):
         if not found_macro:
             errors.append("ERROR: macro definition for " + macro + " can't be found for detection " + object['name'])
 
-    return errors 
+    return errors
 
 def validate_baseline_search(object, macros):
     errors = []
