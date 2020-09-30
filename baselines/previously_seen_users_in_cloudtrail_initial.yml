@@ -1,4 +1,4 @@
-name: Previously seen users in CloudTrail - Initial
+name: Previously Seen Users in CloudTrail - Initial
 id: 0a87ecf9-dc6a-43af-861a-205e75a09bf5
 version: 1
 date: '2020-05-28'
@@ -22,4 +22,4 @@ tags:
   - Detect AWS Console Login by User from New Country
   - Detect AWS Console Login by User from New Region
   - Detect AWS Console Login by User from New City
-  - Detect new user AWS Console Login - DM
+  - Detect AWS Console Login by New User
