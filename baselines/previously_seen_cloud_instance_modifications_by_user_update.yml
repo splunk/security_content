@@ -17,6 +17,6 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   | outputlookup previously_seen_cloud_instance_modificationss_by_user | stats count'
 tags:
   analytics_story:
-  - Suspicious Cloud Change Activity
+  - Suspicious Cloud Instance Activities
   detections:
   - Cloud Instance Modified With Previously Unseen User
