@@ -15,7 +15,7 @@ how_to_implement: You must install and configure the Splunk Add-on for AWS (vers
   often you run the detection searches) to refresh the baselines.
 type: ESCU
 author: Rico Valdez, Splunk
-search: "| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)` | inputlookup append=t previously_seen_users_console_logins.csv | stats min(firstTime) as firstTime max(lastTime) as lastTime by user | eval userStatus=if(firstTime >=relative_time(now(), '-70m@m'), 'First Time Logging into AWS Console','Previously Seen User')| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `detect_aws_console_login_by_new_user_filter`"
+search: "| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)` | inputlookup append=t previously_seen_users_console_logins | stats min(firstTime) as firstTime max(lastTime) as lastTime by user | eval userStatus=if(firstTime >=relative_time(now(), '-70m@m'), 'First Time Logging into AWS Console','Previously Seen User')| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `detect_aws_console_login_by_new_user_filter`"
 known_false_positives: When a legitimate new user logins for the first time, this
   activity will be detected. Check how old the account is and verify that the user
   activity is legitimate.

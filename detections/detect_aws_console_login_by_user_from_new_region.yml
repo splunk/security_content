@@ -15,9 +15,9 @@ how_to_implement: "You must be ingesting your cloud infrastructure logs from you
   customizing the `detect_aws_console_login_by_user_from_new_region_filter` macro."
 type: ESCU
 author: Jason Brewer, Splunk
-search: '| inputlookup previously_seen_users_console_logins.csv | stats min(firstTime)
+search: '| inputlookup previously_seen_users_console_logins | stats min(firstTime)
   as firstTime max(lastTime) as lastTime by user Region | join user type=outer [|
-  inputlookup previously_seen_users_console_logins.csv | stats min(firstTime) AS earliestseen
+  inputlookup previously_seen_users_console_logins | stats min(firstTime) AS earliestseen
   by user | fields earliestseen user] | eval userStatus=if(firstTime >= relative_time(now(),
   "@d"), "New Region","Previously Seen Region") | eval UserData=if(earliestseen >=
   relative_time(now(), "@d") OR isnull(earliestseen), "New User","Old User") | where
