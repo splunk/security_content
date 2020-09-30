@@ -13,7 +13,7 @@ author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` earliest(_time) as firstTimeSeen, latest(_time)
   as lastTimeSeen values(All_Changes.object) as dest from datamodel=Change
   where All_Changes.action=created by All_Changes.user | `drop_dm_object_name("All_Changes")`
-  | lookup previously_seen_cloud_compute_creations_by_user OUTPUT firstTime
+  | lookup previously_seen_cloud_compute_creations_by_user user as user OUTPUT firstTime
   | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m")   
   | `security_content_ctime(firstTimeSeen)`
   | table firstTimeSeen, user, dest
