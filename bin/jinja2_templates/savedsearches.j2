@@ -60,6 +60,7 @@ action.correlationsearch.annotations = {{ detection.savedsearch_annotations | to
 {% if detection.deployment.scheduling.schedule_window is defined %}
 schedule_window = {{ detection.deployment.scheduling.schedule_window }}
 {% endif %}
+{% if detection.deployment.alert_action is defined %}
 {% if detection.deployment.alert_action.notable is defined %}
 action.notable = 1
 {% if detection.nes_fields is defined %}
@@ -75,6 +76,7 @@ action.email.subject.alert = {{ detection.deployment.alert_action.email.subject 
 action.email.to = {{ detection.deployment.alert_action.email.to }}
 action.email.message.alert = {{ detection.deployment.alert_action.email.message | custom_jinja2_enrichment_filter(detection) }}
 action.email.useNSSubject = 1
+{% endif %}
 {% endif %}
 alert.digest_mode = 1
 action.escu.earliest_time_offset = 3600

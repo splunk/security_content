@@ -7,17 +7,17 @@ description: This search looks for CloudTrail events wherein a console login eve
   file of previously seen users (by ARN values) who have logged into the console.
   The alert is fired if the user has logged into the console for the first time within
   the last hour
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. Run the "Previously seen users in CloudTrail" support search only once to
-  create a baseline of previously seen IAM users within the last 30 days. Run "Update
-  previously seen users in CloudTrail" hourly (or more frequently depending on how
-  often you run the detection searches) to refresh the baselines.
+how_to_implement: "You must be ingesting your cloud infrastructure logs from your
+  cloud provider. You should run the baseline search `Previously seen users in CloudTrail - Initial`
+  to build the initial table of source IP address, geographic locations, and times. You must also enable the second
+  baseline search `Previously Seen users in Cloudtrail - Update` to keep this table up to date and
+  to age out old data. You can also provide additional filtering for this search by
+  customizing the `detect_aws_console_login_by_user_from_new_country_filter` macro."
 type: ESCU
 author: Jason Brewer, Splunk
-search: '| inputlookup previously_seen_users_console_logins.csv | stats min(firstTime)
+search: '| inputlookup previously_seen_users_console_logins | stats min(firstTime)
   as firstTime max(lastTime) as lastTime by user Country | join user type=outer [|
-  inputlookup previously_seen_users_console_logins.csv | stats min(firstTime) AS earliestseen
+  inputlookup previously_seen_users_console_logins | stats min(firstTime) AS earliestseen
   by user | fields earliestseen user] | eval userStatus=if(firstTime >= relative_time(now(),
   "@d"), "New Country","Previously Seen Country") | eval UserData=if(earliestseen
   >= relative_time(now(), "@d") OR isnull(earliestseen), "New User","Old User") |
@@ -42,3 +42,7 @@ tags:
   - DE.AE
   security_domain: network
   asset_type: AWS Instance
+  risk_score: 5
+  risk_object_type: user
+  risk_object: user
+

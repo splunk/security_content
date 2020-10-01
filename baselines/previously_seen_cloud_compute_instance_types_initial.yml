@@ -1,0 +1,20 @@
+name: Previously Seen Cloud Compute Instance Types - Initial
+id: 3c78025c-1ffe-4976-a640-75ef604842be
+version: 1
+date: '2020-9-03'
+description: This search builds a table of previously seen cloud compute instance
+  types
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+author: David Dorsey, Splunk
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
+  where All_Changes.action=created `previously_seen_cloud_compute_instance_types_input_filter`
+  by All_Changes.Instance_Changes.instance_type | `drop_dm_object_name("All_Changes.Instance_Changes")`
+  | eventstats min(firstTime) as globalFirstTime
+  | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
+  | outputlookup previously_seen_cloud_compute_instance_types | stats count'
+tags:
+  analytics_story:
+  - Cloud Cryptomining
+  detections:
+  - Cloud Compute Instance Created With Previously Unseen Instance Type
