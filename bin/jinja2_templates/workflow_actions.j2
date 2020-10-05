@@ -1,7 +1,7 @@
 
 {% for response_task in response_tasks %}
 {% if response_task.inputs|length == 1 %}
-[workbench_panel_{{ response_task.lowercase_name }}]]
+[workbench_panel_{{ response_task.lowercase_name }}]
 label                   = Workbench - {{ response_task.name }}
 type                    = link
 fields                  = {{ response_task.inputs[0] }}
