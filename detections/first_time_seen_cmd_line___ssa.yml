@@ -18,8 +18,8 @@ search: '
        cmd_line=lower(ucast(map_get(input_event, "process"), "string", null))
 | where process_name="cmd.exe" AND
         match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true
-| first_time_event cache_partitions=5 output_column="first_time_process_argument" input_columns="cmd_line"
-| where first_time_process_argument
+| first_time_event cache_partitions=5 input_columns="cmd_line"
+| where first_time_cmd_line
 | eval start_time = timestamp,
        end_time = timestamp,
        entities = mvappend(dest_ip_id, dest_user_id),
