@@ -10,11 +10,13 @@ This search has been modified to process raw sysmon data from attack_range's nxl
 author: Ignacio Bermudez Corrales, Splunk
 type: SSA
 search: '| from read_ssa_enriched_events()
+
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
 | eval process_name=ucast(map_get(input_event, "process_name"), "string", null),
 parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)),
 dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
-dest_ip_id=ucast(map_get(input_event, "dest_ip_id"), "string", null)
+dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+
 | where process_name="cmd.exe"
 | rex field=parent_process "(?<field0>[^\\\\]+)$"
 | where field0="winword.exe" OR
@@ -31,9 +33,10 @@ dest_ip_id=ucast(map_get(input_event, "dest_ip_id"), "string", null)
         field0="firefox.exe" OR
         field0="java.exe" OR
         field0="powershell.exe"
+
 | eval start_time=timestamp,
 end_time=timestamp,
-entities=mvappend([dest_ip_id, dest_user_id]),
+entities=mvappend(dest_device_id, dest_user_id),
 body="TBD"
 | into write_ssa_detected_events();'
 eli5: "Obtaining access to the Command-Line Interface (CLI) is typically a primary
@@ -58,4 +61,5 @@ tags:
   nist:
     - PR.PT
     - DE.CM
-security_domain: endpoint
+  risk_severity: low
+  security_domain: endpoint
