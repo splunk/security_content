@@ -15,16 +15,8 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change 
-  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success 
-  by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command | `drop_dm_object_name("All_Changes")`
-  | iplocation src | where isnotnull(Country)
-  | lookup previously_seen_cloud_provisioning_activity_sources Country as Country OUTPUT firstTimeSeen, enough_data
-  | where enough_data=1
-  | eval firstTimeSeenSrc=min(firstTimeSeen)
-  | where isnull(firstTimeSeenCountry) OR firstTimeSeenCountry > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`)
-  | table firstTime, src, Country, user, object, command
-  | `cloud_provisioning_activity_from_previously_unseen_country_filter`'
+#updated search, remove where enough_data =1
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command | `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(Country) | lookup previously_seen_cloud_provisioning_activity_sources Country as Country OUTPUT firstTimeSeen, enough_data  | eval firstTimeSeenCountry=min(firstTimeSeen) | where isnull(firstTimeSeenCountry) OR firstTimeSeenCountry > relative_time(now(), "-24h@h") | table firstTime, src, Country, user, object, command | `cloud_provisioning_activity_from_previously_unseen_country_filter`'
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
