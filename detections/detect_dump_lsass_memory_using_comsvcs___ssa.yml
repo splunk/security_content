@@ -37,5 +37,6 @@ tags:
   - CIS 16
   nist:
   - DE.CM
+  risk_severity: low
   security_domain: endpoint
   asset_type: Endpoint

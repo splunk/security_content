@@ -13,9 +13,9 @@ type: SSA
 author: Ignacio Bermudez Corrales, Splunk
 search: ' | from read_ssa_enriched_events()
           | eval device=ucast(map_get(input_event, "dest_device_id"), "string", null),
+          timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
           process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
           process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)),
-          timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
 | where process_name="arp.exe" OR
         process_name="adaptertroubleshooter.exe" OR
         process_name="applicationframehost.exe" OR
@@ -596,3 +596,4 @@ tags:
     - PR.PT
     - DE.CM
   security_domain: endpoint
+  risk_severity: low

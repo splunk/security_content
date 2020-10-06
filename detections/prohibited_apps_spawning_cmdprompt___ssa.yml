@@ -16,7 +16,7 @@ search: '
 | eval process_name=ucast(map_get(input_event, "process_name"), "string", null),
 parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)),
 dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
-dest_ip_id=ucast(map_get(input_event, "dest_ip_id"), "string", null)
+dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
 
 | where process_name="cmd.exe"
 | rex field=parent_process "(?<field0>[^\\\\]+)$"
@@ -37,7 +37,7 @@ dest_ip_id=ucast(map_get(input_event, "dest_ip_id"), "string", null)
 
 | eval start_time=timestamp,
 end_time=timestamp,
-entities=mvappend([dest_ip_id, dest_user_id]),
+entities=mvappend(dest_device_id, dest_user_id),
 body="TBD"
 | into write_ssa_detected_events();
 '
@@ -63,4 +63,5 @@ tags:
   nist:
     - PR.PT
     - DE.CM
-security_domain: endpoint
+  risk_severity: low
+  security_domain: endpoint

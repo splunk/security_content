@@ -111,4 +111,5 @@ tags:
   nist:
     - PR.PT
     - DE.CM
+  risk_severity: low
   security_domain: endpoint
