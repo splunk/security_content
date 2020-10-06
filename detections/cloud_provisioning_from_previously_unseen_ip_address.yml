@@ -1,7 +1,7 @@
 name: Cloud Provisioning Activity From Previously Unseen IP Address
 id: f86a8ec9-b042-45eb-92f4-e9ed1d781078
 version: 1
-date: '2020-08-16'
+date: '2020-10-06'
 description: 'This search looks for cloud provisioning activities from previously unseen
   IP addresses. Provisioning activities are defined broadly as any event that runs or
   creates something.'
@@ -16,15 +16,18 @@ type: ESCU
 references: []
 author: Rico Valdez, Splunk
 #updated search, remove where enough_data =1
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime, values(All_Changes.object_id) as object_id from datamodel=Change
-  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
-  by All_Changes.src, All_Changes.user, All_Changes.command | `drop_dm_object_name("All_Changes")`
-  | iplocation src | where isnotnull(Country)
-  | lookup previously_seen_cloud_provisioning_activity_sources src as src OUTPUT firstTimeSeen, enough_data
-  | eval firstTimeSeenSrc=min(firstTimeSeen)
-  | where isnull(firstTimeSeenSrc) OR firstTimeSeenSrc > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`)
-  | table firstTime, src, user, object_id, command
-  | `cloud_provisioning_activity_from_previously_unseen_ip_address_filter`'
+search: ' | tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command 
+| `drop_dm_object_name("All_Changes")` 
+| iplocation src 
+| where isnotnull(Country) 
+| lookup previously_seen_cloud_provisioning_activity_sources src as src OUTPUT firstTimeSeen, enough_data 
+| eventstats max(enough_data) as enough_data 
+| where enough_data=1 
+| eval firstTimeSeenSrc=min(firstTimeSeen) 
+| where isnull(firstTimeSeenSrc) OR firstTimeSeenSrc > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`) 
+| table firstTime, src, user, object, command 
+| `cloud_provisioning_activity_from_previously_unseen_ip_address_filter` 
+| `security_content_ctime(firstTime)`'
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
