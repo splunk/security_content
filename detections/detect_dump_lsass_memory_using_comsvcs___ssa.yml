@@ -8,8 +8,7 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
 type: SSA
 references: ['https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf']
 author: Jose Hernandez, Splunk
-search: '
-| from read_ssa_enriched_events()
+search: '| from read_ssa_enriched_events()
 | select from_json_object(value) as input_event
 | eval tenant=ucast(map_get(input_event, "_tenant"), "string", null),
 machine=ucast(map_get(input_event, "dest_device_id"), "string", null),
@@ -22,8 +21,7 @@ AND match_regex(process, /(?i)comsvcs.dll MiniDump/)=true
        end_time = timestamp,
        entities = mvappend(machine),
        body = "TBD"
-| into write_ssa_detected_events();
-'
+| into write_ssa_detected_events();'
 known_false_positives: None identified.
 tags:
   analytics_story:

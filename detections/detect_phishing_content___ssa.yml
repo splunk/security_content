@@ -19,8 +19,7 @@ how_to_implement: Events are fed to DSP contains at least email's sender, subjec
 references: [ ]
 type: SSA
 author: Xiao Lin, Splunk
-search: '
-| from read_ssa_enriched_events()
+search: '| from read_ssa_enriched_events()
 | source_type="email"
 | eval strJsn=cast(body, "string"), jsonMap=from_json_object(strJsn),
 eventLine=concat(ucast(map_get(jsonMap, "From"), "string", null), " ", ucast(map_get(jsonMap, "Subject"), "string", null), " ", ucast(map_get(jsonMap, "Content"), "string", null), "                                                                                                                                ")
@@ -30,8 +29,8 @@ mapC = {" ":32,"!":33,"\"":34,"#":35,"$":36,"%":37,"&":38,"`":39,"(":40,")":41,"
 | apply_model connection_id="YOUR_S3_ONNX_CONNECTOR_ID" name="phishing_email_v2" path="s3://smle-experiments/models/phishing_email"
 | where mvindex(`dense/Sigmoid:0`, 0) > 0.5
 | select body, host, timestamp, source_type, source, cast(mvindex(`dense/Sigmoid:0`, 0), "float") AS probability
-| into write_ssa_detected_events();
-'
+| eval entities = mvappend(host)
+| into write_ssa_detected_events();'
 known_false_positives: Because of imbalance of anomaly data in training, the model will less likely report false
   positive. Instead, the model is more prone to false negative. Current best recall score is ~85%
 tags:
