@@ -1,7 +1,7 @@
 name: Unusually Long Command Line - SSA
 id: 58f43aba-1775-445e-b19c-be2b87d83ae3
 version: 1
-date: '2020-07-23'
+date: '2020-10-06'
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin
   to help identify command lines with lengths that are unusual for a given user.
