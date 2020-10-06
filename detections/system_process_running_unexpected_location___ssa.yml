@@ -12,10 +12,10 @@ references: []
 type: SSA
 author: Ignacio Bermudez Corrales, Splunk
 search: ' | from read_ssa_enriched_events()
-          | eval device=ucast(map_get(input_event, "dest_ip_id"), "string", null),
+          | eval device=ucast(map_get(input_event, "dest_device_id"), "string", null),
+          timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
           process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
           process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)),
-          timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
 | where process_name="arp.exe" OR
         process_name="adaptertroubleshooter.exe" OR
         process_name="applicationframehost.exe" OR
@@ -579,6 +579,10 @@ search: ' | from read_ssa_enriched_events()
         process_name="xpsrchvw.exe" OR
         process_name="xwizard.exe"
         | where process_path!="c:\\windows\\system32" AND process_path!="c:\\windows\\syswow64"
+        | eval start_time = timestamp,
+               end_time = timestamp,
+               entities = mvappend(device),
+               body = "TBD"
         | into write_ssa_detected_events();'
 known_false_positives: None
 tags:
@@ -592,3 +596,4 @@ tags:
     - PR.PT
     - DE.CM
   security_domain: endpoint
+  risk_severity: low
