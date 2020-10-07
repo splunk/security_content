@@ -36,6 +36,8 @@ def main(args):
                         help="specify the github token for the PR")
     parser.add_argument("-smk", "--secrets_manager_key", required=False, default="github_token",
                         help="specify the key in AWS secrets manager for your github token")
+    parser.add_argument("-s3b", "--s3_bucket", required=False, default="attack-range-automated-testing",
+                        help="S3 bucket to store the test data")
 
 
     args = parser.parse_args()
@@ -46,6 +48,7 @@ def main(args):
     security_content_branch = args.security_content_branch
     github_token = args.github_token
     secrets_manager_key = args.secrets_manager_key
+    s3_bucket = args.s3_bucket
 
 
     test_obj = {}
@@ -117,7 +120,7 @@ def main(args):
         with open('test_results.yml', 'w') as f:
             yaml.dump(results, f)
         s3_client = boto3.client('s3')
-        response2 = s3_client.upload_file('test_results.yml', 'attack-range-automated-testing', results['technique'] + '/test_results.yml')
+        response2 = s3_client.upload_file('test_results.yml', s3_bucket, results['technique'] + '/test_results.yml')
         os.remove('test_results.yml')
 
         # Create GitHub PR security content
