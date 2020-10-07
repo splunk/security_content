@@ -32,10 +32,6 @@ def main(args):
                         help="specify the url of the security content repository")
     parser.add_argument("-scb", "--security_content_branch", required=False, default="develop",
                         help="specify the security content branch")
-    # parser.add_argument("-adr", "--attack_data_repo", required=False, default="splunk/attack_data",
-    #                     help="specify the url of the attack data repository")
-    # parser.add_argument("-adb", "--attack_data_branch", required=False, default="master",
-    #                     help="specify the attack data branch")
     parser.add_argument("-gt", "--github_token", required=False,
                         help="specify the github token for the PR")
     parser.add_argument("-smk", "--secrets_manager_key", required=False, default="github_token",
@@ -48,8 +44,6 @@ def main(args):
     attack_range_branch = args.attack_range_branch
     security_content_repo = args.security_content_repo
     security_content_branch = args.security_content_branch
-    #attack_data_repo = args.attack_data_repo
-    #attack_data_branch = args.attack_data_branch
     github_token = args.github_token
     secrets_manager_key = args.secrets_manager_key
 
@@ -69,7 +63,6 @@ def main(args):
     # clone repositories
     git.Repo.clone_from('https://github.com/' + attack_range_repo, "attack_range", branch=attack_range_branch)
     security_content_repo_obj = git.Repo.clone_from('https://' + O_AUTH_TOKEN_GITHUB + ':x-oauth-basic@github.com/' + security_content_repo, "security-content", branch=security_content_branch)
-    attack_data_repo_obj = git.Repo.clone_from('https://' + O_AUTH_TOKEN_GITHUB + ':x-oauth-basic@github.com/' + attack_data_repo, "attack_data", branch=attack_data_branch)
 
     sys.path.append(os.path.join(os.getcwd(),'attack_range'))
     copyfile('attack_range/attack_range.conf.template', 'attack_range/attack_range.conf')
@@ -88,8 +81,6 @@ def main(args):
 
     filedata = filedata.replace('attack_range_password = Pl3ase-k1Ll-me:p', 'attack_range_password = I-l1ke-Attack-Range!')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
-    # filedata = filedata.replace('capture_attack_data = 0', 'capture_attack_data = 1')
-    # filedata = filedata.replace('sync_to_s3_bucket = 0', 'sync_to_s3_bucket = 1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
     filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
 
@@ -155,56 +146,6 @@ def main(args):
         g = Github(O_AUTH_TOKEN_GITHUB)
         repo = g.get_repo("splunk/security-content")
         pr = repo.create_pull(title="Automated Detection Testing PR " + random_number, body=body, head=branch_name, base="develop")
-
-        # Create GitHub PR attack data
-
-        # not needed anymore ?
-        #
-        # branch_name = "automated_detection_testing_" + random_number
-        # attack_data_repo_obj.git.checkout(attack_data_branch, b=branch_name)
-        #
-        # dataset_obj = {}
-        # dataset_obj['author'] = ''
-        # dataset_obj['date'] = str(datetime.today().strftime('%Y-%m-%d'))
-        # descr_str = 'Atomic Test Results: '
-        # if 'simulation_output' in results:
-        #     for output in results['simulation_output']:
-        #         descr_str += output + ' '
-        #
-        # dataset_obj['description'] = descr_str
-        # dataset_obj['environment'] = 'attack_range'
-        # dataset_obj['technique'] = [results['technique']]
-        #
-        # response = s3_client.list_objects_v2(
-        #         Bucket='attack-range-attack-data',
-        #         Prefix =results['technique'],
-        #         MaxKeys=100 )
-        # dataset_urls = []
-        # for dataset in response['Contents']:
-        #     dataset_urls.append('https://attack-range-attack-data.s3-us-west-2.amazonaws.com/' + dataset['Key'])
-        #
-        # dataset_obj['dataset'] = dataset_urls
-        # dataset_obj['references'] = ''
-        # dataset_obj['sourcetypes'] = ''
-        #
-        # folder_path = "attack_data/datasets/" + results['technique']
-        # if not path.exists(folder_path):
-        #     os.makedirs(folder_path)
-        #
-        # with open(folder_path + '/dataset.yml', 'w+' ) as outfile:
-	    #        yaml.dump(dataset_obj, outfile , default_flow_style=False, sort_keys=False)
-        #
-        # attack_data_repo_obj.index.add(['datasets/' + results['technique'] + '/dataset.yml'])
-        # attack_data_repo_obj.index.commit('Added attack data')
-        #
-        # template = j2_env.get_template('PR_template_attack_data.j2')
-        # body = template.render()
-        #
-        # attack_data_repo_obj.git.push('--set-upstream', 'origin', branch_name)
-        # g = Github(O_AUTH_TOKEN_GITHUB)
-        # repo = g.get_repo("splunk/attack_data")
-        # pr = repo.create_pull(title="Automated Detection Testing PR " + random_number, body=body, head=branch_name, base="master")
-
 
 
 def load_file(file_path):
