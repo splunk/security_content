@@ -74,6 +74,13 @@ def generate_collections_conf(lookups):
 
 
 def generate_savedsearches_conf(detections, response_tasks, baselines, deployments):
+    '''
+    @param detections: input list of individual YAML detections in detections/ directory
+    @param response_tasks:
+    @param baselines:
+    @param deployments:
+    @return: the savedsearches.conf file located in package/default/
+    '''
 
     for detection in detections:
         # parse out data_models
@@ -98,6 +105,29 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
                 if key in detection['tags']:
                     mappings[key] = detection['tags'][key]
         detection['mappings'] = mappings
+
+        # used for upstream processing of risk scoring annotations in ECSU
+        # this is not currently compatible with newer instances of ESCU (6.3.0+)
+        # we are duplicating the code block above for now and just changing variable names to make future
+        # changes to this data structure separate from the mappings generation
+        # @todo expose the JSON data structure for newer risk type
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        savedsearch_annotations = {}
+        for key in annotation_keys:
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection['tags']:
+                    savedsearch_annotations[key] = detection['tags']['mitre_attack_id']
+            else:
+                if key in detection['tags']:
+                    savedsearch_annotations[key] = detection['tags'][key]
+        detection['savedsearch_annotations'] = savedsearch_annotations
+
+        if 'risk_object' in detection['tags']:
+            detection['risk_object'] = detection['tags']['risk_object']
+        if 'risk_object_type' in detection['tags']:
+            detection['risk_object_type'] = detection['tags']['risk_object_type']
+        if 'risk_score' in detection['tags']:
+            detection['risk_score'] = detection['tags']['risk_score']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
@@ -270,7 +300,6 @@ def generate_workbench_panels(response_tasks, stories):
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w') as f:
         f.write(output)
-
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
@@ -372,7 +401,7 @@ def map_response_tasks_to_stories(response_tasks):
                 for story in response_task['tags']['analytics_story']:
                     if 'type' in response_task.keys():
                         task_name = str(response_task['type'] + ' - ' + response_task['name'])
-                    else: 
+                    else:
                         task_name = str('ESCU - ' + response_task['name'])
                     if not (story in sto_res):
                         sto_res[story] = {task_name}

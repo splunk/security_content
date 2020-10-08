@@ -24,6 +24,7 @@ known_false_positives: Other tools can import the same DLLs. These tools should 
 tags:
   analytics_story:
   - Credential Dumping
+  - Detect Zerologon Attack
   mitre_attack_id:
   - T1003.001
   kill_chain_phases:
