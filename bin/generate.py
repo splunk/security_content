@@ -14,6 +14,7 @@ from jinja2 import Environment, FileSystemLoader
 import re
 from attackcti import attack_client
 import csv
+import json
 
 
 # global variables
@@ -569,15 +570,23 @@ if __name__ == "__main__":
     macros = load_objects("macros/*.yml", VERBOSE)
     lookups = load_objects("lookups/*.yml", VERBOSE)
     baselines = load_objects("baselines/*.yml", VERBOSE)
-    detections = load_objects("detections/*.yml", VERBOSE)
     responses = load_objects("responses/*.yml", VERBOSE)
     response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
     deployments = load_objects("deployments/*.yml", VERBOSE)
 
+    # process all detections
+    detections = []
+    application = load_objects("detections/applicaton/*.yml", VERBOSE)
+    web = load_objects("detections/web/*.yml", VERBOSE)
+    network = load_objects("detections/network/*.yml", VERBOSE)
+    endpoint = load_objects("detections/endpoint/*.yml", VERBOSE)
+    cloud = load_objects("detections/cloud/*.yml", VERBOSE)
+    detections = application + web + network + endpoint + cloud
+
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        generate_mitre_lookup()
+        #generate_mitre_lookup()
     except:
         print("WARNING: Generation of Mitre lookup failed.")
 
@@ -585,6 +594,13 @@ if __name__ == "__main__":
     lookups_path = generate_collections_conf(lookups)
 
     detections = sorted(detections, key=lambda d: d['name'])
+
+    # only use ESCU detections to the configurations
+    detections = [object for object in detections if object["type"].lower() == "escu"]
+
+    for i in detections:
+        print(json.dumps(i,indent=2))
+    #print(detections)
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
