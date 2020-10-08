@@ -9,8 +9,8 @@ how_to_implement: You must install and configure the Splunk Add-on for AWS (vers
   and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`,
   a lookup file created by this support search.
 author: Rico Valdez, Splunk
-search: "| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication 
-  where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role | rex field=Authentication.user_role 'arn:aws:sts:*:(?<dest_account>.*):' | where Authentication.vendor_account!=dest_account | rename Authentication.vendor_account as requestingAccountId dest_account as requestedAccountId | inputlookup append=t previously_seen_aws_cross_account_activity  | stats min(firstTime) as firstTime max(lastTime) as lastTime by requestingAccountId requestedAccountId| outputlookup previously_seen_aws_cross_account_activity"
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication 
+  where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role | rex field=Authentication.user_role "arn:aws:sts:*:(?<dest_account>.*):" | where Authentication.vendor_account!=dest_account | rename Authentication.vendor_account as requestingAccountId dest_account as requestedAccountId | inputlookup append=t previously_seen_aws_cross_account_activity  | stats min(firstTime) as firstTime max(lastTime) as lastTime by requestingAccountId requestedAccountId| outputlookup previously_seen_aws_cross_account_activity'
 tags:
   analytics_story:
   - Suspicious Cloud Authentication Activities 
