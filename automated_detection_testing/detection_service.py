@@ -138,7 +138,7 @@ def main(args):
                 detection_obj['tags']['automated_detection_testing'] = 'passed'
                 if 'attack_data' in test_file:
                     datasets = []
-                    for dataset in detection_test['attack_data']:
+                    for dataset in test_file['attack_data']:
                         datasets.append(dataset['data'])
                     detection_obj['tags']['dataset'] = datasets
 
