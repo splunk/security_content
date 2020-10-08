@@ -1,5 +1,5 @@
 {
-  "$id": "http://example.com/example.json",
+  "$id": "https://raw.githubusercontent.com/splunk/security-content/develop/docs/spec/response_tasks.spec.json",
   "$schema": "http://json-schema.org/draft-07/schema",
   "additionalProperties": true,
   "default": {},
@@ -50,9 +50,9 @@
       ],
       "type": "string"
     },
-    "sla":{
+    "sla": {
       "$id": "#/properties/sla",
-      "default": null,
+      "default": 0,
       "description": "Measured integer for Service Level Agreement for completion of the phase",
       "examples": [
         5,
@@ -60,7 +60,7 @@
       ],
       "type": "integer"
     },
-    "sla_type":{
+    "sla_type": {
       "$id": "#/properties/sla_type",
       "default": "minutes",
       "description": "Duration for measured integer for Service Level Agreement for completion of the phase (e.g. minutes, or hours, etc)",
@@ -80,13 +80,14 @@
         "sla": "",
         "role": "",
         "action": [],
-        "playbooks": {}
+        "playbooks": []
       },
       "description": "An array of key value pairs for defining actions and playbooks",
-      "examples": {
-          "sla_type": minutes                                     # minutes, hours, days
-          "sla": '30'                                             # numerical string for measuring sla_type
-          "is_note_required": false                               # note required for closure, if true closure requires a note in the task or a closing manual note
+      "examples": [
+        {
+          "is_note_required": false,
+          "sla_type": "minutes",
+          "sla": 30,
           "action": [
             "run_query"
           ],
@@ -100,7 +101,8 @@
               "playbook": "automate something else"
             }
           ]
-        },
+        }
+      ],
       "minItems": 1,
       "uniqueItems": true,
       "type": "object"
@@ -150,7 +152,7 @@
         "type": "string"
       },
       "type": "array"
-    },
+    }
   },
   "required": [
     "name",
@@ -159,9 +161,7 @@
     "date",
     "description",
     "author",
-    "tags",
-    "is_note_required",
-    "workflow"
+    "tags"
   ],
   "title": "Response Schema",
   "type": "object"

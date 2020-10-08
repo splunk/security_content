@@ -1,5 +1,5 @@
 {
-  "$id": "http://example.com/example.json",
+  "$id": "https://raw.githubusercontent.com/splunk/security-content/develop/docs/spec/response.spec.json",
   "$schema": "http://json-schema.org/draft-07/schema",
   "additionalProperties": true,
   "default": {},
@@ -133,7 +133,7 @@
         "type": "string"
       },
       "type": "array"
-    },
+    }
   },
   "required": [
     "name",
