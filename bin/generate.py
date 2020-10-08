@@ -14,7 +14,6 @@ from jinja2 import Environment, FileSystemLoader
 import re
 from attackcti import attack_client
 import csv
-import json
 
 
 # global variables
@@ -576,7 +575,7 @@ if __name__ == "__main__":
 
     # process all detections
     detections = []
-    application = load_objects("detections/applicaton/*.yml", VERBOSE)
+    application = load_objects("detections/application/*.yml", VERBOSE)
     web = load_objects("detections/web/*.yml", VERBOSE)
     network = load_objects("detections/network/*.yml", VERBOSE)
     endpoint = load_objects("detections/endpoint/*.yml", VERBOSE)
@@ -598,9 +597,6 @@ if __name__ == "__main__":
     # only use ESCU detections to the configurations
     detections = [object for object in detections if object["type"].lower() == "escu"]
 
-    for i in detections:
-        print(json.dumps(i,indent=2))
-    #print(detections)
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
