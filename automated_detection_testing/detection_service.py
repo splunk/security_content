@@ -113,6 +113,9 @@ def main(args):
     # delete ssh key
     response = ec2.delete_key_pair(KeyName=ssh_key_name)
 
+    # read_test_file
+    test_file = load_file('security-content/tests/' + test_file_name + '.yml')
+
     # check if was succesful
     if not execution_error:
 
@@ -133,6 +136,12 @@ def main(args):
                 file_path = 'security-content/detections/' + test['detection'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower() + '.yml'
                 detection_obj = load_file(file_path)
                 detection_obj['tags']['automated_detection_testing'] = 'passed'
+                if 'attack_data' in test_file:
+                    datasets = []
+                    for dataset in detection_test['attack_data']:
+                        datasets.append(dataset['data'])
+                    detection_obj['tags']['dataset'] = datasets
+
                 with open(file_path, 'w') as f:
                     yaml.dump(detection_obj, f)
 
