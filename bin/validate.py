@@ -74,7 +74,8 @@ def validate_objects(REPO_PATH, objects):
         errors = errors + validation_errors
 
     for object in objects['detections']:
-        errors = errors + validate_detection_search(object, objects['macros'])
+        if object['type'] == 'ESCU':
+            errors = errors + validate_detection_search(object, objects['macros'])
 
     for object in objects['baselines']:
         errors = errors + validate_baseline_search(object, objects['macros'])
@@ -120,6 +121,30 @@ def validate_standard_fields(object, uuids):
         datetime.datetime.strptime(object['date'], '%Y-%m-%d')
     except ValueError:
         errors.append("ERROR: Incorrect date format, should be YYYY-MM-DD for object: %s" % object['name'])
+
+    # logic for handling risk related tags which are a triple of k/v pairs
+    # risk_object, risk_object_type and risk_score
+    # the first two fields risk_object, and risk_object_type are an enum of fixed values
+    # defined by ESCU risk scoring
+
+
+    if 'tags' in object:
+        for k,v in object['tags'].items():
+
+            if k == 'risk_score':
+                if not isinstance(v, int):
+                    errors.append("ERROR: risk_score not integer value for object: %s" % v)
+            risk_object_type = ["user","system", "other"]
+
+            if k == 'risk_object_type':
+                if v not in risk_object_type:
+                    errors.append("ERROR: risk_object_type can only contain user, system, other: %s" % v)
+
+            if k == 'risk_object':
+                try:
+                    v.encode('ascii')
+                except UnicodeEncodeError:
+                    errors.append("ERROR: risk_object not ascii for object: %s" % v)
 
     return errors, uuids
 

@@ -29,7 +29,7 @@ tags:
   - Data Protection
   - Disabling Security Tools
   - Dynamic DNS
-  - 'Emotet Malware  DHS Report TA18-201A '
+  - Emotet Malware  DHS Report TA18-201A
   - Hidden Cobra Malware
   - Host Redirection
   - JBoss Vulnerability
@@ -73,3 +73,4 @@ tags:
   - Windows DNS SIGRed CVE-2020-1350
   - Suspicious GCP Storage Activities
   - Linux Rootkits
+  - GCP Cross Account Activity
