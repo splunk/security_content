@@ -8,3 +8,8 @@ simulation_technique: 'T1053.005'
 vars:
   user_name: 'ATTACKRANGE\Administrator'
   password: 'I-l1ke-Attack-Range!'
+attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1053.005/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
