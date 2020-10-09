@@ -11,3 +11,8 @@ detections:
 description: Test credential dumping detections
 target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1003.003'
+attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1003.003/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
