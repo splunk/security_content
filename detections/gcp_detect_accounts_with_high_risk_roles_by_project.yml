@@ -1,0 +1,23 @@
+author: "Rod Soto, Splunk"
+date: "2020-10-09"
+description: "This search provides detection of GCPloit exploitation framework. This framework can be used to escalate privileges and move laterally from compromised high privilege accounts."
+how_to_implement: "You must install splunk GCP add-on. This search works with gcp:pubsub:message logs"
+id: 27af8c15-38b0-4408-b339-920170724adb
+known_false_positives: "Payload.request.function.timeout value can possibly be match with other functions or requests however the source user and target request account may indicate an attempt to move laterally accross acounts or projects"
+name: "gcp detect accounts with high risk roles by project"
+references:
+  - https://github.com/dxa4481/gcploit
+  - https://www.youtube.com/watch?v=Ml09R38jpok
+  - https://cloud.google.com/iam/docs/understanding-roles
+search: sourcetype=google:gcp:pubsub:message "data.protoPayload.request.policy.bindings{}.role"="roles/owner" OR "roles/editor" OR "roles/iam.serviceAccountUser" OR "roles/iam.serviceAccountAdmin" OR "roles/iam.serviceAccountTokenCreator" OR "roles/dataflow.developer" OR "roles/dataflow.admin" OR "roles/composer.admin" OR "roles/dataproc.admin" OR "roles/dataproc.editor" | table data.resource.type data.protoPayload.authenticationInfo.principalEmail data.protoPayload.authorizationInfo{}.permission data.protoPayload.authorizationInfo{}.resource data.protoPayload.response.bindings{}.role data.protoPayload.response.bindings{}.members{} | `gcp_detect_accounts_with_high_risk_roles_by_project`'
+tags:
+  analytics_story:
+    - "GCP Cross Account Activity"
+  asset_type: "GCP Account"
+  kill_chain_phases:
+    - Lateral Movement
+  mitre_attack_id:
+    - T1078
+  security_domain: threat
+type: ESCU
+version: 1
