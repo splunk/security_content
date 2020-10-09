@@ -19,8 +19,6 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime, value
     where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
     by All_Changes.src, All_Changes.user, All_Changes.command 
 | `drop_dm_object_name("All_Changes")` 
-| iplocation src 
-| where isnotnull(Country) 
 | lookup previously_seen_cloud_provisioning_activity_sources src as src OUTPUT firstTimeSeen, enough_data 
 | eventstats max(enough_data) as enough_data 
 | where enough_data=1 
