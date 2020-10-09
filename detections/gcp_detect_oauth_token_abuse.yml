@@ -8,15 +8,15 @@ name: "gcp detect oauth token abuse"
 references:
   - https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-1
   - https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-2
-search: '`sourcetype=google:gcp:pubsub:message type.googleapis.com/google.cloud.audit.AuditLog |table protoPayload.@type protoPayload.status.details{}.@type protoPayload.status.details{}.violations{}.callerIp protoPayload.status.details{}.violations{}.type protoPayload.status.message  | `gcp_detect_oauth_token_abuse`'
+search: '`google_gcp_pubsub_message` type.googleapis.com/google.cloud.audit.AuditLog |table protoPayload.@type protoPayload.status.details{}.@type protoPayload.status.details{}.violations{}.callerIp protoPayload.status.details{}.violations{}.type protoPayload.status.message  | `gcp_detect_oauth_token_abuse_filter`'
 tags:
   analytics_story:
-    - "GCP Cross Account Activity"
+  - GCP Cross Account Activity
   asset_type: "GCP Account"
   kill_chain_phases:
-    - Lateral Movement
+  - Lateral Movement
   mitre_attack_id:
-    - T1078
+  - T1078
   security_domain: threat
 type: ESCU
 version: 1
