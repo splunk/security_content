@@ -9,13 +9,12 @@ description: This search looks for cloud compute events where a compute instance
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed.
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where All_Changes.action=created by All_Changes.vendor_region
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
+  where (All_Changes.action=started OR All_Changes.action=created) by All_Changes.vendor_region
   | `drop_dm_object_name("All_Changes")` 
-  | eventstats min(firstTime) as globalFirstTime
+  | eventstats min(firstTimeSeen) as globalFirstTime
   | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
-  | outputlookup previously_seen_cloud_regions
-  | stats count'
+  | outputlookup previously_seen_cloud_regions'
 tags:
   analytics_story:
   - Cloud Cryptomining

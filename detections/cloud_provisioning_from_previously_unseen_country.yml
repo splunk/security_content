@@ -1,7 +1,7 @@
 name: Cloud Provisioning Activity From Previously Unseen Country
 id: 94994255-3acf-4213-9b3f-0494df03bb31
 version: 1
-date: '2020-08-16'
+date: '2020-10-09'
 description: 'This search looks for cloud provisioning activities from previously unseen
   countries. Provisioning activities are defined broadly as any event that runs or
   creates something.'
@@ -14,17 +14,19 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   customizing the `cloud_provisioning_activity_from_previously_unseen_country_filter` macro.
 type: ESCU
 references: []
-author: Rico Valdez, Splunk
+author: Rico Valdez, Bhavin Patel, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change 
   where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success 
   by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command | `drop_dm_object_name("All_Changes")`
   | iplocation src | where isnotnull(Country)
   | lookup previously_seen_cloud_provisioning_activity_sources Country as Country OUTPUT firstTimeSeen, enough_data
+  | eventstats max(enough_data) as enough_data 
   | where enough_data=1
-  | eval firstTimeSeenSrc=min(firstTimeSeen)
-  | where isnull(firstTimeSeenCountry) OR firstTimeSeenCountry > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`)
+  | eval firstTimeSeenCountry=min(firstTimeSeen)
+  | where isnull(firstTimeSeenCountry) OR firstTimeSeenCountry > relative_time(now(), "-24h@h")
   | table firstTime, src, Country, user, object, command
-  | `cloud_provisioning_activity_from_previously_unseen_country_filter`'
+  | `cloud_provisioning_activity_from_previously_unseen_country_filter`
+  | `security_content_ctime(firstTime)`'
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
