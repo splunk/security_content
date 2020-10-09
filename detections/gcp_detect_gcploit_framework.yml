@@ -8,7 +8,7 @@ name: "gcp detect gcploit framework"
 references:
   - https://github.com/dxa4481/gcploit
   - https://www.youtube.com/watch?v=Ml09R38jpok
-search: '`sourcetype=google:gcp:pubsub:message data.protoPayload.request.function.timeout=539s | table src src_user data.resource.labels.project_id data.protoPayload.request.function.serviceAccountEmail data.protoPayload.authorizationInfo{}.permission data.protoPayload.request.location http_user_agent | `gcp_detect_gcploit_framework`'
+search: sourcetype=google:gcp:pubsub:message data.protoPayload.request.function.timeout=539s | table src src_user data.resource.labels.project_id data.protoPayload.request.function.serviceAccountEmail data.protoPayload.authorizationInfo{}.permission data.protoPayload.request.location http_user_agent | `gcp_detect_gcploit_framework`
 tags:
   analytics_story:
     - "GCP Cross Account Activity"
