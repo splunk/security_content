@@ -9,3 +9,16 @@ detections:
 description: Test Create local account
 target: default-attack-range-windows-domain-controller
 simulation_technique: 'T1136.001'
+attack_data:
+  - file_name: windows-security.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+  - file_name: windows-system.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
