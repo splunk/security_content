@@ -10,9 +10,10 @@ automation:
     sla_type: minutes
     sla:
     action:
-    playbook:
+    playbook: ""
 references:
-workflow: > We do not rise to the level of our expectations. We fall to the level of our training.  - @atc_project
+workflow: |
+  We do not rise to the level of our expectations. We fall to the level of our training.  - @atc_project
   > “The more that you read, the more things you will know. The more that you learn, the more places you’ll go.” ― Dr. Seuss
   We assume that you already have a strong technical background in fundamental disciplines — Networking, Operating Systems, and Programming.
   Here are some relevant training courses that will help you in the Incident Response activities:

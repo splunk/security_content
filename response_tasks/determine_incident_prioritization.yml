@@ -5,7 +5,7 @@ tags:
     RS.RP
 description: |
   Determine Functional Impact of the Incident. Incidents targeting IT systems typically impact the business functionality that those systems provide, resulting in some type of negative impact to the users of those systems.
-  Determine Information Impact of the Incident. Incidents may affect the confidentiality, integrity, and availability of the organization’s information.
+  Determine Information Impact of the Incident. Incidents may affect the confidentiality, integrity, and availability of the organizations information.
   Determine Recoverability from the Incident. The size of the incident and the type of resources it affects will determine the amount of time and resources that must be spent on recovering from that incident.
 automation:
   role:

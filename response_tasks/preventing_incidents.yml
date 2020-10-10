@@ -10,10 +10,11 @@ automation:
   sla_type: minutes
   sla:
   action:
-  playbook:
+  playbook: ""
 references:
   - 3.1.2 Prevent Incidents - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: The following:
+workflow: |
+  The following:
   * Risk Assessments. Periodic risk assessments of systems and applications should determine what allowing staff to emphasize monitoring and response activities for those resources.
   * Host Security. All hosts should be hardened appropriately using standard configurations. In addition to keeping each host properly patched, hosts should be configured to follow the principle of least privilege—granting users only the privileges necessary for performing their authorized tasks. Hosts should have auditing enabled and should log significant security-related events. The security of hosts risks are posed by combinations of threats and vulnerabilities.
   * Applicable threats, including organization-specific threats. Each risk should be prioritized, and the risks can be mitigated, transferred, or accepted until a reasonable overall level of risk is reached. Another benefit of conducting risk assessments regularly is that critical resources are identified, Content Automation Protocol (SCAP) expressed operating system and application configuration and their configurations should be continuously monitored. checklists to assist in securing hosts consistently and effectively.

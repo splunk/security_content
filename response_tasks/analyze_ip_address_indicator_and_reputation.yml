@@ -20,10 +20,9 @@ automation:
     - lookup ip
   playbooks:
     - scm:
-      playook:
+      playook: ""
 references:
     - 3.2.3 Sources of Precursors and Indicators - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-  - # Find references for IP validation
 workflow: |
   1. If Splunk present, run Splunk Query on each indictor and prevalence in the environment. Summarize # of times indicator seen in the last 24 hrs, 7 days, 1 month, six months increments. Return the hosts that have used this indictor. (make an artifact for each host?)
     a. search -> ```| stats ...```

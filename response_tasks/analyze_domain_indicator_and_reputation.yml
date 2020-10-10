@@ -17,7 +17,7 @@ automation:
     - hunt domain
   playbooks:
     - scm:
-      playook:
+      playbook: ""
 references:
     - 3.2.3 Sources of Precursors and Indicators - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 workflow: |
