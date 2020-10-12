@@ -18,6 +18,7 @@ search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime 
     by All_Changes.Instance_Changes.image_id, All_Changes.user 
 | `drop_dm_object_name("All_Changes")` 
 | `drop_dm_object_name("Instance_Changes")` 
+| where image_id != "unknown"
 | lookup previously_seen_cloud_compute_images image_id as image_id OUTPUT firstTimeSeen, enough_data 
 | eventstats max(enough_data) as enough_data 
 | where enough_data=1 
