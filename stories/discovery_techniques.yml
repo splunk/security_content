@@ -2,11 +2,11 @@ name: Discovery Techniques
 id: 163cd847-beb0-4a84-8ee3-9f2172a0b695
 version: 1
 date: '2020-10-12'
-description: Discovery techniques are attacks used by adversaries to figure out the environment.
+description: 'Discovery techniques are attacks used by adversaries to figure out the environment.
   It consists of techniques an adversary may use to gain knowledge about the system and internal network.
   These techniques help adversaries observe the environment and orient themselves before deciding how to act.
   They also allow adversaries to explore what they can control and what’s around their entry point
-  in order to discover how it could benefit their current objective.
+  in order to discover how it could benefit their current objective.'
 narrative: 'Discovery techniques are attacks used by adversaries to figure out the environment.
   It consists of techniques an adversary may use to gain knowledge about the system and internal network.
   These techniques help adversaries observe the environment and orient themselves before deciding how to act.
