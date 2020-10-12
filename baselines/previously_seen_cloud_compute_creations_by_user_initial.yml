@@ -7,11 +7,12 @@ description: This search builds a table of previously seen users that have launc
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the proper TAs installed.
 author: Rico Valdez, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where All_Changes.action=created AND All_Changes.object_category=instance 
-  by All_Changes.user 
-  | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_compute_creations_by_user
-  | stats count'
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
+    where All_Changes.action=created AND All_Changes.object_category=instance 
+    by All_Changes.user 
+| `drop_dm_object_name("All_Changes")` 
+| outputlookup previously_seen_cloud_compute_creations_by_user 
+| stats count'
 tags:
   analytics_story:
   - Cloud Cryptomining
