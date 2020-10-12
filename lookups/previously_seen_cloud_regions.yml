@@ -1,4 +1,4 @@
 description: A table of vendor_region values and the first and last time that they have been observed in cloud provisioning activities
 collection: previously_seen_cloud_regions
 name: previously_seen_cloud_regions
-fields_list: _key, firstTime, lastTime, vendor_region, enough_data
+fields_list: _key, firstTimeSeen, lastTimeSeen, vendor_region, enough_data
