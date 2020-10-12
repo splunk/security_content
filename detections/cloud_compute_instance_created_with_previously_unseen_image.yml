@@ -13,15 +13,19 @@ how_to_implement: "You must be ingesting your cloud infrastructure logs from you
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen values(All_Changes.object_id) as dest, count
-  from datamodel=Change where All_Changes.action=created `previously_seen_cloud_compute_instance_types_input_filter`
-  by All_Changes.Instance_Changes.image_id, All_Changes.user
-  | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
-  | lookup previously_seen_cloud_compute_images image_id as image_id OUTPUT firstTime
-  | where isnull(firstTime) OR firstTime > relative_time(now(), "-70m@m")
-  | `security_content_ctime(firstTimeSeen)`
-  | table firstTimeSeen, user, image_id, count, dest
-  | `cloud_compute_instance_created_with_previously_unseen_image_filter`'
+search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id) as dest
+    from datamodel=Change where All_Changes.action=created 
+    by All_Changes.Instance_Changes.image_id, All_Changes.user 
+| `drop_dm_object_name("All_Changes")` 
+| `drop_dm_object_name("Instance_Changes")` 
+| lookup previously_seen_cloud_compute_images image_id as image_id OUTPUT firstTimeSeen, enough_data 
+| eventstats max(enough_data) as enough_data 
+| where enough_data=1 
+| eval firstTimeSeenImage=min(firstTimeSeen) 
+| where isnull(firstTimeSeenImage) OR firstTimeSeenImage > relative_time(now(), "-24h@h") 
+| table firstTime, user, image_id, count, dest 
+| `security_content_ctime(firstTime)`
+| `cloud_compute_instance_created_with_previously_unseen_image_filter`'
 known_false_positives: After a new image is created, the first systems created with
   that image will cause this alert to fire.  Verify that the image being used was
   created by a legitimate user.
