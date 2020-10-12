@@ -7,12 +7,14 @@ description: This search builds a table of previously seen cloud compute instanc
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed.
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where All_Changes.action=created `previously_seen_cloud_compute_instance_types_input_filter`
-  by All_Changes.Instance_Changes.instance_type | `drop_dm_object_name("All_Changes.Instance_Changes")`
-  | eventstats min(firstTime) as globalFirstTime
-  | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
-  | outputlookup previously_seen_cloud_compute_instance_types | stats count'
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
+    where All_Changes.action=created 
+    by All_Changes.Instance_Changes.instance_type 
+| `drop_dm_object_name("All_Changes.Instance_Changes")` 
+| where instance_type != "unknown"
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_compute_instance_types'
 tags:
   analytics_story:
   - Cloud Cryptomining
