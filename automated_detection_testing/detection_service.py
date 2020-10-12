@@ -128,8 +128,12 @@ def main(args):
 
         # Create GitHub PR security content
         random_number = str(randrange(10000))
-        branch_name = "automated_detection_testing_" + random_number
-        security_content_repo_obj.git.checkout(security_content_branch, b=branch_name)
+        if security_content_branch == 'develop':
+            branch_name = "automated_detection_testing_" + random_number
+            security_content_repo_obj.git.checkout(security_content_branch, b=branch_name)
+        else:
+            branch_name = security_content_branch
+            security_content_repo_obj.git.checkout(security_content_branch)
 
         for test in results['results']:
             if not test['error']:
@@ -157,7 +161,7 @@ def main(args):
         security_content_repo_obj.git.push('--set-upstream', 'origin', branch_name)
         g = Github(O_AUTH_TOKEN_GITHUB)
         repo = g.get_repo("splunk/security-content")
-        pr = repo.create_pull(title="Automated Detection Testing PR " + random_number, body=body, head=branch_name, base="develop")
+        pr = repo.create_pull(title="Automated Detection Testing PR " + branch_name, body=body, head=branch_name, base="develop")
 
 
 def load_file(file_path):
