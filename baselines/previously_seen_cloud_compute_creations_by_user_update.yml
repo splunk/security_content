@@ -12,7 +12,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
     by All_Changes.user| `drop_dm_object_name("All_Changes")` 
 | inputlookup append=t previously_seen_cloud_compute_creations_by_user 
 | stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by user 
-| where lastTimeSeen > relative_time(now(), "-24h@h") 
+| where lastTimeSeen > relative_time(now(), "-90d@d") 
 | eventstats min(firstTimeSeen) as globalFirstTime 
 | eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
 | outputlookup previously_seen_cloud_compute_creations_by_user'

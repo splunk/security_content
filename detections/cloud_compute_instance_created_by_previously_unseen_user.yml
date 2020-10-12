@@ -10,9 +10,9 @@ how_to_implement: You must be ingesting the appropriate cloud-infrastructure log
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '| tstats `security_content_summariesonly` earliest(_time) as firstTime, latest(_time)
+search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime, latest(_time)
     as lastTime values(All_Changes.object) as dest from datamodel=Change
-    where All_Changes.action=created by All_Changes.user 
+    where All_Changes.action=created by All_Changes.user All_Changes.vendor_region 
 | `drop_dm_object_name("All_Changes")` 
 | lookup previously_seen_cloud_compute_creations_by_user user as user OUTPUTNEW firstTimeSeen, enough_data 
 | eventstats max(enough_data) as enough_data 
