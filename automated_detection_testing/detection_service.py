@@ -80,13 +80,12 @@ def main(args):
 
     # build new version of ESCU
     sys.path.append(os.path.join(os.getcwd(),'security-content/bin'))
-    # try:
-    module = __import__('generate')
-    module.sys.argv = ['generate', '-p', 'security-content', '-o' 'security-content/package']
-    results = module.main(module.sys.argv)
-    # except Exception as e:
-    #     print('Error: ' + str(e))
-    exit(1)
+    try:
+        module = __import__('generate')
+        module.sys.argv = ['generate', '-p', 'security-content', '-o' 'security-content/package']
+        results = module.main(module.sys.argv)
+    except Exception as e:
+        print('Error: ' + str(e))
 
     with open('attack_range/attack_range.conf', 'r') as file :
       filedata = file.read()
