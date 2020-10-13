@@ -535,13 +535,12 @@ def generate_mitre_lookup(OUTPUT_PATH):
                     if relationship['source_ref'] == group['id']:
                         apt_groups.append(group['name'])
 
-        print(technique)
         if not ('revoked' in technique):
             if len(apt_groups) == 0:
                 apt_groups.append('no')
             csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
-    with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='') as file:
+    with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='', encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerows(csv_mitre_rows)
 
