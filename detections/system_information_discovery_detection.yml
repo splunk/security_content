@@ -16,7 +16,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | eventstats dc(process) as dc_processes_by_dest by dest
   | where dc_processes_by_dest > 2
   | stats values(process) min(firstTime) as firstTime max(lastTime) as lastTime by user, dest
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `system_information_discovery_detection_filter`'
 known_false_positives: Administrators debugging servers
 tags:
   analytics_story:
