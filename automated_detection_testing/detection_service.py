@@ -82,7 +82,7 @@ def main(args):
     sys.path.append(os.path.join(os.getcwd(),'security-content/bin'))
     try:
         module = __import__('generate')
-        module.sys.argv = ['generate', '--path', 'security-content', '--output' 'security-content/package']
+        module.sys.argv = ['generate', '-p', 'security-content', '-o' 'security-content/package']
         results = module.main(module.sys.argv)
     except Exception as e:
         print('Error: ' + str(e))

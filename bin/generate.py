@@ -16,13 +16,7 @@ from attackcti import attack_client
 import csv
 
 
-# global variables
-REPO_PATH = ''
-VERBOSE = False
-OUTPUT_PATH = ''
-TEMPLATE_PATH = ''
-
-def load_objects(file_path, VERBOSE):
+def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
     for file in sorted(glob.glob(manifest_files)):
@@ -42,7 +36,7 @@ def load_file(file_path):
     return file
 
 
-def generate_transforms_conf(lookups):
+def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     sorted_lookups = sorted(lookups, key=lambda i: i['name'])
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
@@ -57,7 +51,7 @@ def generate_transforms_conf(lookups):
 
     return output_path
 
-def generate_collections_conf(lookups):
+def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     filtered_lookups = list(filter(lambda i: 'collection' in i, lookups))
     sorted_lookups = sorted(filtered_lookups, key=lambda i: i['name'])
 
@@ -74,7 +68,7 @@ def generate_collections_conf(lookups):
     return output_path
 
 
-def generate_savedsearches_conf(detections, response_tasks, baselines, deployments):
+def generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
     @param detections: input list of individual YAML detections in detections/ directory
     @param response_tasks:
@@ -160,7 +154,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     return output_path
 
 
-def generate_analytics_story_conf(stories, detections, response_tasks, baselines):
+def generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
 
@@ -191,7 +185,7 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
     return output_path
 
 
-def generate_use_case_library_conf(stories, detections, response_tasks, baselines):
+def generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
 
@@ -235,7 +229,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     return output_path
 
 
-def generate_macros_conf(macros, detections):
+def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
     filter_macros = []
     for detection in detections:
         new_dict = {}
@@ -260,7 +254,7 @@ def generate_macros_conf(macros, detections):
     return output_path
 
 
-def generate_workbench_panels(response_tasks, stories):
+def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_res = map_response_tasks_to_stories(response_tasks)
 
@@ -524,7 +518,7 @@ def prepare_stories(stories, detections):
     return stories
 
 
-def generate_mitre_lookup():
+def generate_mitre_lookup(OUTPUT_PATH):
 
     csv_mitre_rows = [["mitre_id", "technique", "tactics", "groups"]]
 
@@ -545,7 +539,7 @@ def generate_mitre_lookup():
             apt_groups.append('no')
         csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
-    with open('lookups/mitre_enrichment.csv', 'w', newline='') as file:
+    with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(csv_mitre_rows)
 
@@ -566,39 +560,39 @@ def main(args):
     OUTPUT_PATH = args.output
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
     VERBOSE = args.verbose
-    stories = load_objects("stories/*.yml", VERBOSE)
-    macros = load_objects("macros/*.yml", VERBOSE)
-    lookups = load_objects("lookups/*.yml", VERBOSE)
-    baselines = load_objects("baselines/*.yml", VERBOSE)
-    detections = load_objects("detections/*.yml", VERBOSE)
-    responses = load_objects("responses/*.yml", VERBOSE)
-    response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
-    deployments = load_objects("deployments/*.yml", VERBOSE)
+    stories = load_objects("stories/*.yml", VERBOSE, REPO_PATH)
+    macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
+    lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
+    baselines = load_objects("baselines/*.yml", VERBOSE, REPO_PATH)
+    detections = load_objects("detections/*.yml", VERBOSE, REPO_PATH)
+    responses = load_objects("responses/*.yml", VERBOSE, REPO_PATH)
+    response_tasks = load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH)
+    deployments = load_objects("deployments/*.yml", VERBOSE, REPO_PATH)
 
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        generate_mitre_lookup()
+        generate_mitre_lookup(OUTPUT_PATH)
     except:
         print("WARNING: Generation of Mitre lookup failed.")
 
-    lookups_path = generate_transforms_conf(lookups)
-    lookups_path = generate_collections_conf(lookups)
+    lookups_path = generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
+    lookups_path = generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
 
     detections = sorted(detections, key=lambda d: d['name'])
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
-    detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
+    detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
 
     stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines)
+    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
-    use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines)
+    use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     macros = sorted(macros, key=lambda m: m['name'])
-    macros_path = generate_macros_conf(macros, detections)
+    macros_path = generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH)
 
-    generate_workbench_panels(response_tasks, stories)
+    generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH)
 
 
     if VERBOSE:
