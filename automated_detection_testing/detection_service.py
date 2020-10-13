@@ -15,7 +15,7 @@ import base64
 from botocore.exceptions import ClientError
 import json
 from datetime import datetime
-
+import subprocess
 
 
 
@@ -79,7 +79,14 @@ def main(args):
     os.chmod(ssh_key_name, 0o600)
 
     # build new version of ESCU
-    os.system('cd security-content && virtualenv venv && source venv/bin/activate && pip install -r requirements.txt && python bin/generate.py --path . --output package')
+    sys.path.append(os.path.join(os.getcwd(),'security-content/bin'))
+    try:
+        module = __import__('generate')
+        module.sys.argv = ['generate', '--path', 'security-content', '--output' 'security-content/package']
+        results = module.main(module.sys.argv)
+    except Exception as e:
+        print('Error: ' + str(e))
+        exit(1)
 
     with open('attack_range/attack_range.conf', 'r') as file :
       filedata = file.read()

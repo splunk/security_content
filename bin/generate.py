@@ -20,6 +20,7 @@ import csv
 REPO_PATH = ''
 VERBOSE = False
 OUTPUT_PATH = ''
+TEMPLATE_PATH = ''
 
 def load_objects(file_path, VERBOSE):
     files = []
@@ -550,7 +551,7 @@ def generate_mitre_lookup():
 
 
 
-if __name__ == "__main__":
+def main(args):
 
     parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
@@ -607,3 +608,7 @@ if __name__ == "__main__":
         print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
         print("security content generation completed..")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
