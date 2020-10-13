@@ -78,6 +78,8 @@ def main(args):
         ssh_key.write(response['KeyMaterial'])
     os.chmod(ssh_key_name, 0o600)
 
+    # build new version of ESCU
+    os.system('cd security-content && virtualenv venv && source venv/bin/activate && pip install -r requirements.txt && python bin/generate.py --path . --output package')
 
     with open('attack_range/attack_range.conf', 'r') as file :
       filedata = file.read()
@@ -86,6 +88,7 @@ def main(args):
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
     filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
+    filedata = filedata.replace('update_escu_app = 0', 'update_escu_app = 1')
 
     with open('attack_range/attack_range.conf', 'w') as file:
       file.write(filedata)
