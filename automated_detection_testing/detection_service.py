@@ -156,7 +156,7 @@ def main(args):
                     detection_obj['tags']['dataset'] = datasets
 
                 with open(file_path, 'w') as f:
-                    yaml.dump(detection_obj, f)
+                    yaml.dump(detection_obj, f, sort_keys=False)
 
                 changed_file_path = 'detections/' + test['detection'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower() + '.yml'
                 security_content_repo_obj.index.add([changed_file_path])
