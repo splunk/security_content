@@ -29,6 +29,7 @@ def load_objects(file_path, VERBOSE, REPO_PATH):
 def load_file(file_path):
     with open(file_path, 'r') as stream:
         try:
+            print(file_path)
             file = list(yaml.safe_load_all(stream))[0]
         except yaml.YAMLError as exc:
             print(exc)
@@ -535,9 +536,11 @@ def generate_mitre_lookup(OUTPUT_PATH):
                     if relationship['source_ref'] == group['id']:
                         apt_groups.append(group['name'])
 
-        if len(apt_groups) == 0:
-            apt_groups.append('no')
-        csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
+        print(technique)
+        if not ('revoked' in technique):
+            if len(apt_groups) == 0:
+                apt_groups.append('no')
+            csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
     with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='') as file:
         writer = csv.writer(file)
@@ -573,7 +576,8 @@ def main(args):
         if VERBOSE:
             print("generating Mitre lookups")
         generate_mitre_lookup(OUTPUT_PATH)
-    except:
+    except Exception as e:
+        print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
 
     lookups_path = generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
