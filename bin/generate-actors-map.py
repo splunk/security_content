@@ -32,12 +32,7 @@ def main(argv):
 
     print("load detections techniques")
     detections = []
-    application = load_objects(path.join(cmdargs.projects_path),'detections/application/*.yml')
-    web = load_objects(path.join(cmdargs.projects_path),'detections/web/*.yml')
-    network = load_objects(path.join(cmdargs.projects_path),'detections/network/*.yml')
-    endpoint = load_objects(path.join(cmdargs.projects_path),'detections/endpoint/*.yml')
-    cloud = load_objects(path.join(cmdargs.projects_path),'detections/cloud/*.yml')
-    detections = application + web + network + endpoint + cloud
+    detections = load_objects(path.join(cmdargs.projects_path),'detections/*/*.yml')
 
     print("get matched techniques")
     matched_techniques = get_matched_techniques(counted_techniques, detections)

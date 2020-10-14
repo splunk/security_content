@@ -575,17 +575,12 @@ if __name__ == "__main__":
 
     # process all detections
     detections = []
-    application = load_objects("detections/application/*.yml", VERBOSE)
-    web = load_objects("detections/web/*.yml", VERBOSE)
-    network = load_objects("detections/network/*.yml", VERBOSE)
-    endpoint = load_objects("detections/endpoint/*.yml", VERBOSE)
-    cloud = load_objects("detections/cloud/*.yml", VERBOSE)
-    detections = application + web + network + endpoint + cloud
+    detections = load_objects("detections/*/*.yml", VERBOSE)
 
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        #generate_mitre_lookup()
+        generate_mitre_lookup()
     except:
         print("WARNING: Generation of Mitre lookup failed.")
 

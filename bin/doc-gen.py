@@ -685,12 +685,7 @@ if __name__ == "__main__":
 
     stories = load_objects("stories/*.yml")
     detections = []
-    application = load_objects("detections/application/*.yml")
-    web = load_objects("detections/web/*.yml")
-    network = load_objects("detections/network/*.yml")
-    endpoint = load_objects("detections/endpoint/*.yml")
-    cloud = load_objects("detections/cloud/*.yml")
-    detections = application + web + network + endpoint + cloud
+    detections = load_objects("detections/*/*.yml")
 
     # complete_stories = generate_stories(REPO_PATH, verbose)
     # complete_detections = generate_detections(REPO_PATH, complete_stories)
