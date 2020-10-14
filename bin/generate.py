@@ -569,10 +569,13 @@ if __name__ == "__main__":
     macros = load_objects("macros/*.yml", VERBOSE)
     lookups = load_objects("lookups/*.yml", VERBOSE)
     baselines = load_objects("baselines/*.yml", VERBOSE)
-    detections = load_objects("detections/*.yml", VERBOSE)
     responses = load_objects("responses/*.yml", VERBOSE)
     response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
     deployments = load_objects("deployments/*.yml", VERBOSE)
+
+    # process all detections
+    detections = []
+    detections = load_objects("detections/*/*.yml", VERBOSE)
 
     try:
         if VERBOSE:
@@ -585,6 +588,10 @@ if __name__ == "__main__":
     lookups_path = generate_collections_conf(lookups)
 
     detections = sorted(detections, key=lambda d: d['name'])
+
+    # only use ESCU detections to the configurations
+    detections = [object for object in detections if object["type"].lower() == "escu"]
+
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
