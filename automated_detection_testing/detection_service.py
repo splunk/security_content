@@ -158,7 +158,7 @@ def main(args):
                 with open(file_path, 'w') as f:
                     yaml.dump(detection_obj, f, sort_keys=False)
 
-                changed_file_path = 'detections/' + test['detection'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower() + '.yml'
+                changed_file_path = 'detections/' + test['detection_file']
                 security_content_repo_obj.index.add([changed_file_path])
                 security_content_repo_obj.index.commit('Added detection testing service results in' + test['detection'])
 
