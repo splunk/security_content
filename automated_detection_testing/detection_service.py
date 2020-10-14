@@ -146,7 +146,7 @@ def main(args):
 
         for test in results['results']:
             if not test['error']:
-                file_path = 'security-content/detections/' + test['detection'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower() + '.yml'
+                file_path = 'security-content/detections/' + test['detection_file']
                 detection_obj = load_file(file_path)
                 detection_obj['tags']['automated_detection_testing'] = 'passed'
                 if 'attack_data' in test_file:

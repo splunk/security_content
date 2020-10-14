@@ -1,6 +1,7 @@
 name: System Information Discovery
 detections:
   - name: System Information Discovery Detection
+    file: endpoint/system_information_discovery_detection.yml
     pass_condition: '| stats count | where count > 0'
 description: Test System Information Discovery Detection
 target: default-attack-range-windows-domain-controller
