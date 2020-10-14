@@ -1,6 +1,7 @@
 name: Modify Registry
 detections:
   - name: Suspicious Reg exe Process
+    file: endpoint/suspicious_reg_exe_process.yml
     pass_condition: '| stats count | where count > 5'
 description: Test Modify Registry detections
 target: default-attack-range-windows-domain-controller

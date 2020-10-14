@@ -1,6 +1,7 @@
 name: Obfuscated Files or Information
 detections:
   - name: Malicious PowerShell Process - Encoded Command
+    file: endpoint/malicious_powershell_process___encoded_command.yml
     pass_condition: '| stats count | where count > 0'
 description: Test detections for Obfuscated Files or Information
 target: default-attack-range-windows-domain-controller

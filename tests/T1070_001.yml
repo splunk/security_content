@@ -1,6 +1,7 @@
 name: Clear Windows Event Logs
 detections:
   - name: Windows Event Log Cleared
+    file: endpoint/windows_event_log_cleared.yml
     pass_condition: '| stats count | where count > 0'
 description: Test Windows Event Logs cleared (atomic red team is not yet updated)
 target: default-attack-range-windows-domain-controller

@@ -31,6 +31,3 @@ tags:
   nist:
   - DE.CM
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1082/windows-sysmon.log

@@ -1,6 +1,7 @@
 name: Scheduled Task
 detections:
   - name: Schtasks scheduling job on remote system
+    file: endpoint/schtasks_scheduling_job_on_remote_system.yml
     pass_condition: '| stats count | where count > 0'
 description: Test scheduling job on remote system
 target: default-attack-range-windows-domain-controller
