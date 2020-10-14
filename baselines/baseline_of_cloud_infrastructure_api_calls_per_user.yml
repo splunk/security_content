@@ -26,7 +26,7 @@ search: '| tstats count as api_calls from datamodel=Change where All_Changes.use
 | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) 
 | table _time api_calls, user, HourOfDay, isWeekend 
 | eventstats dc(api_calls) as api_calls by user, HourOfDay, isWeekend 
-| where api_calls > 1 
+| where api_calls >= 1 
 | fit DensityFunction api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_api_calls_v1 dist=norm show_density=true'
 tags:
   analytics_story:
