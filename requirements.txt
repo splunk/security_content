@@ -6,12 +6,12 @@ attrs==20.2.0
 certifi==2020.6.20
 cfgv==3.2.0
 chardet==3.0.4
-configparser==5.0.0
+configparser==5.0.1
 contextlib2==0.6.0.post1
 distlib==0.3.1
 filelock==3.0.12
 gitdb==4.0.5
-identify==1.5.5
+identify==1.5.6
 idna==2.10
 importlib-metadata==2.0.0
 importlib-resources==3.0.0

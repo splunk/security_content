@@ -570,6 +570,10 @@ def main(args):
     response_tasks = load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH)
     deployments = load_objects("deployments/*.yml", VERBOSE, REPO_PATH)
 
+    # process all detections
+    detections = []
+    detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
+
     try:
         if VERBOSE:
             print("generating Mitre lookups")
@@ -582,6 +586,10 @@ def main(args):
     lookups_path = generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
 
     detections = sorted(detections, key=lambda d: d['name'])
+
+    # only use ESCU detections to the configurations
+    detections = [object for object in detections if object["type"].lower() == "escu"]
+
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
