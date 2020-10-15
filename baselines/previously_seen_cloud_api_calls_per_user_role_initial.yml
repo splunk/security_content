@@ -10,7 +10,7 @@ author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change 
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success
   by All_Changes.user, All_Changes.command | `drop_dm_object_name("All_Changes")`
-  eventstats min(firstTimeSeen) as globalFirstTime
+  | eventstats min(firstTimeSeen) as globalFirstTime
   | eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
   | table user, command, firstTimeSeen, lastTimeSeen, enough_data
   | outputlookup previously_seen_cloud_api_calls_per_user_role'
