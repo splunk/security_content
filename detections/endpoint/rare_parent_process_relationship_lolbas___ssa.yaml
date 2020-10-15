@@ -22,7 +22,7 @@ dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
 | select parent_process, process_name, timestamp, dest_device_id, dest_user_id
 | conditional_anomaly conditional="parent_process" target="process_name"
 | rename output as input
-| adaptive_threshold algorithm="quantile" entity="parent_process" value="input" window=604800000L
+| adaptive_threshold algorithm="quantile" entity="parent_process" window=604800000L
 | where label AND quantile<0.1 AND (process_name="powershell.exe" OR
                                       process_name="regsvcs.exe" OR
                                       process_name="ftp.exe" OR
