@@ -4,7 +4,6 @@ import yaml
 import glob
 import re
 
-from collections import OrderedDict
 from attackcti import attack_client
 
 
@@ -101,7 +100,7 @@ def generate_content():
         if 'asset_type' in orig_dict:
             tag_dict['asset_type'] = orig_dict['asset_type']
         new_dict['tags'] = tag_dict
-        ordered_new_dict = OrderedDict(new_dict.items())
+
         new_file_name = new_dict['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
         with open('detections/' + new_file_name + '.yml', 'w+' ) as outfile:
 	           yaml.dump( new_dict , outfile , default_flow_style=False, sort_keys=False)
