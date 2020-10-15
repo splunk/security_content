@@ -1,5 +1,5 @@
 name: Detect AWS Console Login by New User
-id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
+id: bc91a8cd-35e7-4bb2-6140-e756cc46f221
 version: 1
 date: '2020-05-28'
 description: This search looks for CloudTrail events wherein a console login event
