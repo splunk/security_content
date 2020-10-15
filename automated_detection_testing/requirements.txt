@@ -42,7 +42,7 @@ pexpect==4.7.0
 pluggy==0.13.1
 pre-commit==1.21.0
 protobuf==3.6.1
-psutil==5.6.7
+psutil==5.7.2
 ptyprocess==0.6.0
 py==1.8.1
 pycparser==2.19
