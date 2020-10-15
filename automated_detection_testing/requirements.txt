@@ -67,7 +67,7 @@ termcolor==1.1.0
 toml==0.10.0
 urllib3==1.25.7
 virtualenv==16.7.9
-wcwidth==0.1.7
+wcwidth==0.2.5
 wget==3.2
 wrapt==1.12.1
 xmltodict==0.12.0
