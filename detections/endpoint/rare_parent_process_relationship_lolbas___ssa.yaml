@@ -19,10 +19,11 @@ dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
 dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
 
 | where parent_process!=null
+| select parent_process, process_name, timestamp, dest_device_id, dest_user_id
 | conditional_anomaly conditional="parent_process" target="process_name"
 | rename output as input
 | adaptive_threshold algorithm="quantile" entity="parent_process" value="input" window=604800000L
-| where output AND quantile<0.1 AND (process_name="powershell.exe" OR
+| where label AND quantile<0.1 AND (process_name="powershell.exe" OR
                                       process_name="regsvcs.exe" OR
                                       process_name="ftp.exe" OR
                                       process_name="dfsvc.exe" OR
@@ -103,8 +104,9 @@ end_time = timestamp,
 entities = mvappend(dest_device_id, dest_user_id),
 body = "TBD"
 | into write_ssa_detected_events();'
-known_false_positives: Some custom tools used by admins could be used rarely to launch remotely applications.
-This might trigger false positives at the beginning when it hasn't collected yet enough data to construct the baseline.
+known_false_positives: > 
+ Some custom tools used by admins could be used rarely to launch remotely applications.
+ This might trigger false positives at the beginning when it hasn't collected yet enough data to construct the baseline.
 tags:
   mitre_technique_id:
     - T1203
