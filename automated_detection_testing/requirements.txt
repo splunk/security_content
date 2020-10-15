@@ -16,7 +16,7 @@ configparser==4.0.2
 contextlib2==0.6.0.post1
 cryptography==2.8
 Deprecated==1.2.10
-dnspython==1.16.0
+dnspython==2.0.0
 docutils==0.16
 execnet==1.7.1
 gitdb==4.0.5
