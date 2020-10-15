@@ -17,7 +17,7 @@ contextlib2==0.6.0.post1
 cryptography==2.8
 Deprecated==1.2.10
 dnspython==1.16.0
-docutils==0.15.2
+docutils==0.16
 execnet==1.7.1
 gitdb==4.0.5
 GitPython==3.1.7
