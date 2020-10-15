@@ -9,9 +9,9 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: (`wineventlog_security` (EventID=1102 OR EventID=1100)) OR (`wineventlog_system` EventID=104)
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventID dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_event_log_cleared_filter`
+search: (`wineventlog_security` (EventCode=1102 OR EventCode=1100)) OR (`wineventlog_system` EventCode=104)
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode dest
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_event_log_cleared_filter`
 known_false_positives: It is possible that these logs may be legitimately cleared
   by Administrators.
 tags:
