@@ -5,5 +5,6 @@ detections:
     pass_condition: '| stats count | where count > 0'
 description: Test credential dumping detections
 attack_data:
-  - file_name: windows-sysmon.log
-    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1003.001/windows-sysmon.log
+  - file_name: unit_test_detect_prohibited_applications_spawning_cmd_exe.json
+    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/unit_test_detect_prohibited_applications_spawning_cmd_exe.json
+
