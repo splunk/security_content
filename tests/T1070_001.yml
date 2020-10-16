@@ -1,0 +1,17 @@
+name: Clear Windows Event Logs
+detections:
+  - name: Windows Event Log Cleared
+    file: endpoint/windows_event_log_cleared.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test Windows Event Logs cleared (atomic red team is not yet updated)
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1070.001'
+attack_data:
+  - file_name: windows-security.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1070.001/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+  - file_name: windows-system.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1070.001/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
