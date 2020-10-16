@@ -684,7 +684,8 @@ if __name__ == "__main__":
     gmd = args.gen_markdown_docs
 
     stories = load_objects("stories/*.yml")
-    detections = load_objects("detections/*.yml")
+    detections = []
+    detections = load_objects("detections/*/*.yml")
 
     # complete_stories = generate_stories(REPO_PATH, verbose)
     # complete_detections = generate_detections(REPO_PATH, complete_stories)
@@ -697,7 +698,7 @@ if __name__ == "__main__":
 
     if gmd:
         story_count, path = write_markdown_docs(stories, detections,  OUTPUT_DIR)
-        print("{0} story documents have been successfully written to {1}".format(story_count, path)) 
+        print("{0} story documents have been successfully written to {1}".format(story_count, path))
     else:
         print("--gen_splunk_docs  was set to false, not generating splunk documentation")
 

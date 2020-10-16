@@ -13,7 +13,7 @@ import argparse
 import datetime
 import string
 import re
-from os import path
+from os import path, walk
 
 
 def validate_schema(REPO_PATH, type, objects):
@@ -28,9 +28,13 @@ def validate_schema(REPO_PATH, type, objects):
     except IOError:
         print("ERROR: reading schema file {0}".format(schema_file))
 
-    manifest_files = path.join(path.expanduser(REPO_PATH), type + '/*.yml')
+    manifest_files = []
+    for root, dirs, files in walk(REPO_PATH + "/" + type):
+        for file in files:
+            if file.endswith(".yml"):
+                manifest_files.append((path.join(root, file)))
 
-    for manifest_file in glob.glob(manifest_files):
+    for manifest_file in manifest_files:
         if verbose:
             print("processing manifest {0}".format(manifest_file))
 
@@ -42,7 +46,6 @@ def validate_schema(REPO_PATH, type, objects):
                 print("Error reading {0}".format(manifest_file))
                 error = True
                 continue
-
         try:
             jsonschema.validate(instance=object, schema=schema)
         except jsonschema.exceptions.ValidationError as json_ve:
