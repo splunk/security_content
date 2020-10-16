@@ -1,10 +1,9 @@
-name: Detect Prohibited Applications Spawning cmd exe Unit Test
+name: First time seen command line argument - SSA Unit Test
 detections:
-  - name: Access LSASS Memory for Dump Creation
-    file: endpoint/prohibited_apps_spawning_cmdprompt___ssa.yml
+  - name: First time seen command line argument
+    file: endpoint/first_time_seen_cmd_line___ssa.yml
     pass_condition: '| stats count | where count > 0'
-description: Test credential dumping detections
+description: Test detection of first time seen command
 attack_data:
-  - file_name: unit_test_detect_prohibited_applications_spawning_cmd_exe.json
-    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/unit_test_detect_prohibited_applications_spawning_cmd_exe.json
-
+  - file_name: first_time_seen_commandline.json
+    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/first_time_seen_commandline.json
