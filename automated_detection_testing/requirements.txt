@@ -46,7 +46,7 @@ psutil==5.7.2
 ptyprocess==0.6.0
 py==1.8.1
 pycparser==2.20
-PyGithub==1.51
+PyGithub==1.53
 PyJWT==1.7.1
 PyNaCl==1.4.0
 pyparsing==2.4.6
