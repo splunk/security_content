@@ -38,7 +38,7 @@ packer.py==0.3.0
 paramiko==2.7.2
 path==15.0.0
 path.py==12.5.0
-pexpect==4.7.0
+pexpect==4.8.0
 pluggy==0.13.1
 pre-commit==1.21.0
 protobuf==3.13.0
