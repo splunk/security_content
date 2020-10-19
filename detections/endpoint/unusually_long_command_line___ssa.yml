@@ -20,9 +20,9 @@ process_name=ucast(map_get(input_event, "process_name"), "string", null)
 | eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)|(\/\w+)/, " ARG"),
 cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"),
 cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"),
-input=parse_double(len(coalesce(cmd_line_norm, ""))),
+input=parse_double(len(coalesce(cmd_line_norm, "")))
 | adaptive_threshold algorithm="quantile" entity="process_name" window=60480000
-| where output="True" AND quantile>0.99
+| where label AND quantile>0.99
 | first_time_event cache_partitions=1 input_columns="dest_device_id,cmd_line"
 | where first_time_dest_device_id_cmd_line
 | eval start_time = timestamp,
