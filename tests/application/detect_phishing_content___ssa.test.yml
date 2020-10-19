@@ -1,0 +1,10 @@
+name: Phishing Email Detection by Machine Learning Method - SSA Unit Test
+detections:
+  - name: Phishing Email Detection by Machine Learning Method
+    file: application/detect_phishing_content___ssa.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test phishing emails using NLP
+attack_data:
+  - file_name: detect_phishing_content.json
+    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/detect_phishing_content.json
+
