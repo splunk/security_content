@@ -1,0 +1,13 @@
+name: System Information Discovery
+detections:
+  - name: System Information Discovery Detection
+    file: endpoint/system_information_discovery_detection.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test System Information Discovery Detection
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1082'
+attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1082/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

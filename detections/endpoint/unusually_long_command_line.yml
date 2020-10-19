@@ -6,7 +6,7 @@ description: Command lines that are extremely long may be indicative of maliciou
   activity on your hosts.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships, from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the "process"
+  data model in the Processes node. The command-line arguments are mapped to the process
   field in the Endpoint data model.
 type: ESCU
 references: []
