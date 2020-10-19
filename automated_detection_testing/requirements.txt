@@ -62,7 +62,7 @@ s3transfer==0.3.3
 six==1.13.0
 smmap==3.0.4
 splunk-sdk==1.6.14
-tabulate==0.8.6
+tabulate==0.8.7
 termcolor==1.1.0
 toml==0.10.0
 urllib3==1.25.7
