@@ -16,12 +16,7 @@ from attackcti import attack_client
 import csv
 
 
-# global variables
-REPO_PATH = ''
-VERBOSE = False
-OUTPUT_PATH = ''
-
-def load_objects(file_path, VERBOSE):
+def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
     for file in sorted(glob.glob(manifest_files)):
@@ -32,7 +27,7 @@ def load_objects(file_path, VERBOSE):
 
 
 def load_file(file_path):
-    with open(file_path, 'r') as stream:
+    with open(file_path, 'r', encoding="utf-8") as stream:
         try:
             file = list(yaml.safe_load_all(stream))[0]
         except yaml.YAMLError as exc:
@@ -41,7 +36,7 @@ def load_file(file_path):
     return file
 
 
-def generate_transforms_conf(lookups):
+def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     sorted_lookups = sorted(lookups, key=lambda i: i['name'])
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
@@ -56,7 +51,7 @@ def generate_transforms_conf(lookups):
 
     return output_path
 
-def generate_collections_conf(lookups):
+def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     filtered_lookups = list(filter(lambda i: 'collection' in i, lookups))
     sorted_lookups = sorted(filtered_lookups, key=lambda i: i['name'])
 
@@ -73,7 +68,7 @@ def generate_collections_conf(lookups):
     return output_path
 
 
-def generate_savedsearches_conf(detections, response_tasks, baselines, deployments):
+def generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
     @param detections: input list of individual YAML detections in detections/ directory
     @param response_tasks:
@@ -159,7 +154,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     return output_path
 
 
-def generate_analytics_story_conf(stories, detections, response_tasks, baselines):
+def generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
 
@@ -190,7 +185,7 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
     return output_path
 
 
-def generate_use_case_library_conf(stories, detections, response_tasks, baselines):
+def generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
 
@@ -234,7 +229,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     return output_path
 
 
-def generate_macros_conf(macros, detections):
+def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
     filter_macros = []
     for detection in detections:
         new_dict = {}
@@ -259,7 +254,7 @@ def generate_macros_conf(macros, detections):
     return output_path
 
 
-def generate_workbench_panels(response_tasks, stories):
+def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_res = map_response_tasks_to_stories(response_tasks)
 
@@ -523,7 +518,7 @@ def prepare_stories(stories, detections):
     return stories
 
 
-def generate_mitre_lookup():
+def generate_mitre_lookup(OUTPUT_PATH):
 
     csv_mitre_rows = [["mitre_id", "technique", "tactics", "groups"]]
 
@@ -540,17 +535,18 @@ def generate_mitre_lookup():
                     if relationship['source_ref'] == group['id']:
                         apt_groups.append(group['name'])
 
-        if len(apt_groups) == 0:
-            apt_groups.append('no')
-        csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
+        if not ('revoked' in technique):
+            if len(apt_groups) == 0:
+                apt_groups.append('no')
+            csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
-    with open('lookups/mitre_enrichment.csv', 'w', newline='') as file:
+    with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='', encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerows(csv_mitre_rows)
 
 
 
-if __name__ == "__main__":
+def main(args):
 
     parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
@@ -565,27 +561,29 @@ if __name__ == "__main__":
     OUTPUT_PATH = args.output
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
     VERBOSE = args.verbose
-    stories = load_objects("stories/*.yml", VERBOSE)
-    macros = load_objects("macros/*.yml", VERBOSE)
-    lookups = load_objects("lookups/*.yml", VERBOSE)
-    baselines = load_objects("baselines/*.yml", VERBOSE)
-    responses = load_objects("responses/*.yml", VERBOSE)
-    response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
-    deployments = load_objects("deployments/*.yml", VERBOSE)
+    stories = load_objects("stories/*.yml", VERBOSE, REPO_PATH)
+    macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
+    lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
+    baselines = load_objects("baselines/*.yml", VERBOSE, REPO_PATH)
+    detections = load_objects("detections/*.yml", VERBOSE, REPO_PATH)
+    responses = load_objects("responses/*.yml", VERBOSE, REPO_PATH)
+    response_tasks = load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH)
+    deployments = load_objects("deployments/*.yml", VERBOSE, REPO_PATH)
 
     # process all detections
     detections = []
-    detections = load_objects("detections/*/*.yml", VERBOSE)
+    detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
 
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        generate_mitre_lookup()
-    except:
+        generate_mitre_lookup(OUTPUT_PATH)
+    except Exception as e:
+        print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
 
-    lookups_path = generate_transforms_conf(lookups)
-    lookups_path = generate_collections_conf(lookups)
+    lookups_path = generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
+    lookups_path = generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
 
     detections = sorted(detections, key=lambda d: d['name'])
 
@@ -594,17 +592,17 @@ if __name__ == "__main__":
 
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
-    detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
+    detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
 
     stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines)
+    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
-    use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines)
+    use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     macros = sorted(macros, key=lambda m: m['name'])
-    macros_path = generate_macros_conf(macros, detections)
+    macros_path = generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH)
 
-    generate_workbench_panels(response_tasks, stories)
+    generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH)
 
 
     if VERBOSE:
@@ -614,3 +612,7 @@ if __name__ == "__main__":
         print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
         print("security content generation completed..")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
