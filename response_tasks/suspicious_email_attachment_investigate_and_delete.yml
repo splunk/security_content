@@ -2,9 +2,18 @@ name: Suspicious Email Attachment Investigate and Delete
 id: 3096f721-8842-42ce-2fc7-742d8372b712
 tags:
   nist:
-    RS.RP
+  - RS.RP
   phantom:
-    '4.6'
+  - '4.6'
+  analytics_story:
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - Lateral Movement
+  - Malicious PowerShell
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Ransomware
+  - SamSam Ransomware
 description: |
   Investigate an email with a suspicious file attachment detected by Splunk Enterprise Security. Detonate the file attachment in a sandbox, gather network behavior from the sandbox results, and pivot on those network indicators with both external reputation queries and internal Splunk Common Information Model searches. After confirming the results with an analyst prompt, delete the email from the user's inbox, hopefully before they have opened it.
 automation:

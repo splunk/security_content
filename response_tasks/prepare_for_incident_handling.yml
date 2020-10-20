@@ -4,7 +4,7 @@ tags:
   nist:
     RS.RP
 description: |
-  The lists in the workflow below provide examples of tools and resources available that may be of value during incident handling. These lists are intended to be a starting point for discussions about which tools and resources an organization’s incident handlers need.
+  The lists in the workflow below provide examples of tools and resources available that may be of value during incident handling. These lists are intended to be a starting point for discussions about which tools and resources an organizations incident handlers need.
 automation:
   is_note_required: false
   role:
@@ -16,7 +16,7 @@ references:
   - 3.1.1 Preparing to Handle Incidents - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 workflow: |
     ## Incident Handler Communications and Facilities:
-    * Contact information for team members and others within and outside the organization (primary and backup contacts), such as law enforcement and other incident response teams; information may include phone numbers, email addresses, public encryption keys (in accordance with the encryption software described below), and instructions for verifying the contact’s identity
+    * Contact information for team members and others within and outside the organization (primary and backup contacts), such as law enforcement and other incident response teams; information may include phone numbers, email addresses, public encryption keys (in accordance with the encryption software described below), and instructions for verifying the contacts identity
     * On-call information for other teams within the organization, including escalation information
     * Incident reporting mechanisms, such as phone numbers, email addresses, online forms, and secure instant messaging systems that users can use to report suspected incidents; at least one mechanism should permit people to report incidents anonymously
     * Issue tracking system for tracking incident information, status, etc.
