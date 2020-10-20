@@ -1,0 +1,15 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - ssa-validate
+
+validate:
+  stage: ssa-validate
+  image: python:3.7
+  before_script:
+    - pip3 install -r requirements.txt
+  script:
+    - python3 bin/validate.py -p . -v
+
+
