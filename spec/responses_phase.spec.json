@@ -1,14 +1,14 @@
 {
-  "$id": "https://raw.githubusercontent.com/splunk/security-content/develop/docs/spec/response.spec.json",
+  "$id": "http://example.com/example.json",
   "$schema": "http://json-schema.org/draft-07/schema",
   "additionalProperties": true,
   "default": {},
-  "description": "schema for response",
+  "description": "schema for phase",
   "properties": {
     "author": {
       "$id": "#/properties/author",
       "default": "",
-      "description": "Author of the response",
+      "description": "Author of the phase",
       "examples": [
         "Rico Valdez, Patrick Barei\u00df, Splunk"
       ],
@@ -26,9 +26,9 @@
     "description": {
       "$id": "#/properties/description",
       "default": "",
-      "description": "Description of response",
+      "description": "Description of phase",
       "examples": [
-        "Response example."
+        "Response phase descripion."
       ],
       "type": "string"
     },
@@ -44,35 +44,31 @@
     "name": {
       "$id": "#/properties/name",
       "default": "",
-      "description": "Name of response",
+      "description": "Name of phase",
       "examples": [
-        "Response Example"
+        "Preparation"
       ],
       "type": "string"
     },
-    "response_phase": {
-      "$id": "#/properties/response_phases",
+    "response_task": {
+      "$id": "#/properties/response_task",
       "additionalProperties": true,
       "default": {},
-      "description": "Response divided into phases. These will used to referenced known response_phase parameters",
+      "description": "Response phase is divided into task(s) to be completed. These will used to referenced known response_task parameters. Order is as positioned and with unique name.",
       "examples": [
         {
-          "preparation": [
             {
               "id": "7c72d944-3995-4485-8e57-67b4c353989b",
-              "name": "Preparation NIST"
-            }
-          ],
-          "identification": [
+              "name": "Prepare for Incident Handling"
+            },
             {
               "id": "c36f3f48-e0bb-4c20-a62a-cdc8f6418892",
-              "name": "Detection and Analysis"
+              "name": "Preventing Incidents"
             },
             {
               "id": "0dc849b2-2eb4-4fd2-add1-b6cc475765f0",
-              "name": "Analysis"
+              "name": "Practice"
             }
-          ]
         }
       ],
       "minItems": 1,
@@ -101,15 +97,26 @@
       ],
       "type": "integer"
     },
-    "is_note_required":{
-      "$id": "#/properties/is_note_required",
-      "default": false,
-      "description": "Global assignment for notes being required for tasks, can be individually set in the task",
+    "sla":{
+      "$id": "#/properties/sla",
+      "default": null,
+      "description": "Measured integer for Service Level Agreement for completion of the phase",
       "examples": [
-        true,
-        false
+        5,
+        30
       ],
-      "type": "boolean"
+      "type": "integer"
+    },
+    "sla_type":{
+      "$id": "#/properties/sla_type",
+      "default": "minutes",
+      "description": "Duration for measured integer for Service Level Agreement for completion of the phase (e.g. minutes, or hours, etc)",
+      "examples": [
+        "minutes",
+        "hours",
+        "days"
+      ],
+      "type": "string"
     },
     "references": {
       "$id": "#/properties/references",
@@ -118,7 +125,6 @@
       "description": "A list of references for this response, phase or task (e.g. web or printed citation)",
       "examples": [
         [
-          "Blue Team Handbook by Don Murdoch - Alarm Triage Overview pages 146-148",
           "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
         ]
       ],
@@ -127,13 +133,13 @@
         "default": "",
         "description": "An explanation about the purpose of this instance.",
         "examples": [
-          "https://www.amazon.com/Blue-Team-Handbook-condensed-Responder/dp/1500734756"
+          "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
         ],
-        "title": "Blue Team Handbook by Don Murdoch - Amazon",
+        "title": "3.1 Preparation",
         "type": "string"
       },
       "type": "array"
-    }
+    },
   },
   "required": [
     "name",
@@ -142,8 +148,8 @@
     "date",
     "description",
     "author",
-    "response_phase",
-    "tags"
+    "response_task",
+    "tags",
   ],
   "title": "Response Schema",
   "type": "object"
