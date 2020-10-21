@@ -16,7 +16,7 @@ process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
 timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
 process=lower(ucast(map_get(input_event, "process"), "string", null))
 | where process_name LIKE "%rundll32.exe%"
-AND match_regex(process, /(?i)comsvcs.dll MiniDump/)=true
+AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true
 | eval start_time = timestamp,
        end_time = timestamp,
        entities = mvappend(machine),

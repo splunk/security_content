@@ -99,12 +99,14 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
-* Installation
 
 ###### CIS
+* CIS 12
 * CIS 13
+* CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
 * PR.DS
 * PR.PT
@@ -184,12 +186,12 @@ Attackers will often attempt to manipulate client communications for nefarious p
 * CIS 13
 * CIS 3
 * CIS 8
+* CIS 9
 
 ##### NIST
 * DE.AE
 * DE.CM
 * ID.AM
-* PR.AC
 * PR.DS
 * PR.IP
 * PR.PT
@@ -505,12 +507,14 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * Access LSASS Memory for Dump Creation
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 * Attempted Credential Dump From Registry via Reg exe
+* Attempted Credential Dump From Registry via Reg exe - SSA
 * Create Remote Thread into LSASS
 * Creation of Shadow Copy
 * Creation of Shadow Copy with wmic and powershell
 * Credential Dumping via Copy Command from Shadow Copy
 * Credential Dumping via Symlink to Shadow Copy
 * Detect Credential Dumping through LSASS access
+* Detect Dump LSASS Memory using comsvcs - SSA
 * Detect Mimikatz Using Loaded Images
 * Dump LSASS via comsvcs DLL
 * Unsigned Image Loaded by LSASS
@@ -521,6 +525,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 #### Mappings
 
 ##### ATT&CK
+* T1003
 * T1003.001
 * T1003.002
 * T1003.003
@@ -1889,10 +1894,8 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 ##### NIST
 * ID.AM
-* PR.AC
 * PR.DS
 * PR.IP
-* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
@@ -2306,6 +2309,9 @@ In between the time between when the temporary credentials are issued and when t
 This Analytic Story includes searches that will help you monitor your GCP Audit logs logs for evidence of suspicious cross-account activity.  For example, while accessing multiple GCP accounts and roles may be perfectly valid behavior, it may be suspicious when an account requests privileges of an account it has not accessed in the past. After identifying suspicious activities, you can use the provided investigative searches to help you probe more deeply.
 
 #### Detections
+* GCP Detect accounts with high risk roles by project
+* GCP Detect gcploit framework
+* GCP Detect high risk permissions by resource and account
 * gcp detect oauth token abuse
 
 #### Data Models

@@ -90,8 +90,9 @@ timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
  process_name=="msconfig.exe"
 | stats count(process_name) as lolbas_counter by device,span(timestamp, 300s)
 | eval lolbas_counter=lolbas_counter*1.0
-| adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000
-| where output AND quantile>0.5
+| rename window_end as timestamp
+| adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000L
+| where label AND quantile>0.99
 | eval start_time = timestamp,
        end_time = timestamp,
        entities = mvappend(device),

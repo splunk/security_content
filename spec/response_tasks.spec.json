@@ -1,25 +1,16 @@
 {
-  "$id": "http://example.com/example.json",
+  "$id": "https://raw.githubusercontent.com/splunk/security-content/develop/docs/spec/response_tasks.spec.json",
   "$schema": "http://json-schema.org/draft-07/schema",
   "additionalProperties": true,
   "default": {},
-  "description": "schema for response tasks",
+  "description": "schema for response task",
   "properties": {
     "author": {
       "$id": "#/properties/author",
       "default": "",
-      "description": "Author of response task",
+      "description": "Author of the response task",
       "examples": [
-        "Patrick Barei\u00df, Splunk"
-      ],
-      "type": "string"
-    },
-    "dashboard": {
-      "$id": "#/properties/dashboard",
-      "default": "",
-      "description": "Name of dashboard used as response task",
-      "examples": [
-        "process_chain_analysis.json"
+        "ButterCup, Splunk"
       ],
       "type": "string"
     },
@@ -37,16 +28,7 @@
       "default": "",
       "description": "Description of response task",
       "examples": [
-        "Response Task example description"
-      ],
-      "type": "string"
-    },
-    "how_to_implement": {
-      "$id": "#/properties/how_to_implement",
-      "default": "",
-      "description": "information about how to implement. Only needed for non standard implementations.",
-      "examples": [
-        "This search requires Sysmon Logs and a Sysmon configuration, which includes EventCode 10 for lsass.exe."
+        "Response example."
       ],
       "type": "string"
     },
@@ -59,91 +41,117 @@
       ],
       "type": "string"
     },
-    "inputs": {
-      "$id": "#/properties/inputs",
-      "default": [],
-      "description": "Inputs used from the response task",
-      "examples": [
-        [
-          "lookup_file"
-        ]
-      ],
-      "type": "array"
-    },
     "name": {
       "$id": "#/properties/name",
       "default": "",
-      "description": "Namo fo response task",
+      "description": "Name of response task",
       "examples": [
-        "Response Tas Example"
+        "Response Example"
       ],
       "type": "string"
     },
-    "playbook": {
-      "$id": "#/properties/playbook",
+    "sla": {
+      "$id": "#/properties/sla",
+      "default": 0,
+      "description": "Measured integer for Service Level Agreement for completion of the phase",
+      "examples": [
+        5,
+        30
+      ],
+      "type": "integer"
+    },
+    "sla_type": {
+      "$id": "#/properties/sla_type",
+      "default": "minutes",
+      "description": "Duration for measured integer for Service Level Agreement for completion of the phase (e.g. minutes, or hours, etc)",
+      "examples": [
+        "minutes",
+        "hours",
+        "days"
+      ],
+      "type": "string"
+    },
+    "automation": {
+      "$id": "#/properties/automation",
       "additionalProperties": true,
-      "default": {},
-      "description": "A phantom playbook as response task",
+      "default": {
+        "is_note_required": false,
+        "sla_type": "minutes",
+        "sla": "",
+        "role": "",
+        "action": [],
+        "playbooks": []
+      },
+      "description": "An array of key value pairs for defining actions and playbooks",
       "examples": [
         {
-          "name": "lets_encrypt_domain_investigate.json",
-          "url_json": "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json",
-          "url_python": "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py"
+          "is_note_required": false,
+          "sla_type": "minutes",
+          "sla": 30,
+          "action": [
+            "run_query"
+          ],
+          "playbooks": [
+            {
+              "scm": "local",
+              "playbook": "automate something"
+            },
+            {
+              "scm": "local",
+              "playbook": "automate something else"
+            }
+          ]
         }
       ],
-      "properties": {
-        "name": {
-          "$id": "#/properties/playbook/properties/name",
-          "default": "",
-          "description": "Name of Phantom Playbook",
-          "examples": [
-            "lets_encrypt_domain_investigate.json"
-          ],
-          "type": "string"
-        },
-        "url_json": {
-          "$id": "#/properties/playbook/properties/url_json",
-          "default": "",
-          "description": "URL for phantom playbook json file",
-          "examples": [
-            "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json"
-          ],
-          "type": "string"
-        },
-        "url_python": {
-          "$id": "#/properties/playbook/properties/url_python",
-          "default": "",
-          "description": "URL for phantom playbook python file",
-          "examples": [
-            "https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "url_json",
-        "url_python"
-      ],
+      "minItems": 1,
+      "uniqueItems": true,
       "type": "object"
     },
-    "search": {
-      "$id": "#/properties/search",
-      "default": "",
-      "description": "Search as response task",
+    "tags": {
+      "$id": "#/properties/tags",
+      "additionalProperties": true,
+      "default": {},
+      "description": "An array of key value pairs for tagging",
       "examples": [
-        "`sysmon` EventCode=1 | search [| inputlookup %lookup_file% ] | stats count by dest user process_name"
+        {
+          "analytics_story": "credential_dumping"
+        }
       ],
-      "type": "string"
+      "minItems": 1,
+      "type": "object",
+      "uniqueItems": true
     },
     "version": {
       "$id": "#/properties/version",
       "default": 0,
       "description": "version of detection, e.g. 1 or 2 ...",
       "examples": [
-        3
+        1
       ],
       "type": "integer"
+    },
+    "references": {
+      "$id": "#/properties/references",
+      "additionalItems": true,
+      "default": [],
+      "description": "A list of references for this response, phase or task (e.g. web or printed citation)",
+      "examples": [
+        [
+          "Blue Team Handbook by Don Murdoch - Alarm Triage Overview pages 146-148",
+          "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
+        ]
+      ],
+      "items": {
+        "$id": "#/properties/references/items",
+        "default": "",
+        "description": "An explanation about the purpose of this instance.",
+        "examples": [
+          "https://www.amazon.com/Blue-Team-Handbook-condensed-Responder/dp/1500734756"
+        ],
+        "title": "Blue Team Handbook by Don Murdoch - Amazon",
+        "type": "string"
+      },
+      "type": "array"
     }
   },
   "required": [
@@ -152,8 +160,9 @@
     "version",
     "date",
     "description",
-    "author"
+    "author",
+    "tags"
   ],
-  "title": "Response Task Schema",
+  "title": "Response Schema",
   "type": "object"
 }
