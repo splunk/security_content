@@ -41,8 +41,6 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytics_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytics_story | tojson }}
-
-##remmoved old code
 {% if detection.tags.risk is defined %}
 action.risk = 1
 action.risk.param._risk = {{ detection.tags.risk | tojson }}
