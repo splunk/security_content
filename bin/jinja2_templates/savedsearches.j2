@@ -41,12 +41,16 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytics_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytics_story | tojson }}
-{% if detection.tags.risk_object is defined %}
+{% if detection.tags.risk.risk_object is defined %}
 action.risk = 1
-action.risk.param._risk_object = {{ detection.tags.risk_object }}
-action.risk.param._risk_object_type = {{ detection.tags.risk_object_type }}
-action.risk.param._risk_score = {{ detection.tags.risk_score }}
+action.risk.param._risk_object = {{ detection.tags.risk.risk_object }}
+action.risk.param._risk_object_type = {{ detection.tags.risk.risk_object_type }}
+action.risk.param._risk_score = {{ detection.tags.risk.risk_score }}
 action.risk.param.verbose = 0
+{% endif %}
+{% if detection.tags.risk is defined %}
+action.risk = 1
+action.risk.param._risk = {{ detection.tags.risk | tojson }}
 {% endif %}
 {% else %}
 action.escu.analytic_story = []

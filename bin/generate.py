@@ -117,12 +117,20 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
                     savedsearch_annotations[key] = detection['tags'][key]
         detection['savedsearch_annotations'] = savedsearch_annotations
 
-        if 'risk_object' in detection['tags']:
-            detection['risk_object'] = detection['tags']['risk_object']
-        if 'risk_object_type' in detection['tags']:
-            detection['risk_object_type'] = detection['tags']['risk_object_type']
-        if 'risk_score' in detection['tags']:
-            detection['risk_score'] = detection['tags']['risk_score']
+        if 'risk' in detection['tags']:
+            if len(detection['tags']['risk']) > 1:
+
+                detection['risk'] = detection['tags']['risk']
+                # print (detection['tags']['risk'])
+                # print (len(detection['tags']['risk']))
+
+            # if len(detection['tags']['risk']) == 1:
+            #     detection['risk'] = detection['tags']['risk']
+            #      detection['risk']['risk_object'] = detection['tags']['risk_object']
+
+            #      detection[]['risk_object_type'] = detection['tags']['risk_object_type']
+            #     if 'risk_score' in detection['tags']:
+            #         detection['risk_score'] = detection['tags']['risk_score']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
@@ -574,13 +582,13 @@ def main(args):
     detections = []
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
 
-    try:
-        if VERBOSE:
-            print("generating Mitre lookups")
-        generate_mitre_lookup(OUTPUT_PATH)
-    except Exception as e:
-        print('Error: ' + str(e))
-        print("WARNING: Generation of Mitre lookup failed.")
+    # try:
+    #     if VERBOSE:
+    #         print("generating Mitre lookups")
+    #     generate_mitre_lookup(OUTPUT_PATH)
+    # except Exception as e:
+    #     print('Error: ' + str(e))
+    #     print("WARNING: Generation of Mitre lookup failed.")
 
     lookups_path = generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
     lookups_path = generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
