@@ -65,7 +65,6 @@ def test_detection(test):
         print("Testing %s" % name)
         # Download data to temporal folder
         data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s/humvee" % SSML_CWD))
-        print("Temporal data dir %s" % data_dir.name)
         # Temporal solution
         d = test_desc['attack_data'][0]
         test_data = os.path.abspath("%s/%s" % (data_dir.name, d['file_name']))
@@ -95,6 +94,8 @@ def test_detection(test):
                 print("Errors in detection")
                 print("-------------------")
                 print(res)
+                print("\nTested query from %s:\n" % detection)
+                print(spl2)
                 exit(1)
 
 
