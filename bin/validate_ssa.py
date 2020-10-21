@@ -5,8 +5,22 @@ import git
 import subprocess
 import urllib.request
 import tempfile
+import argparse
+import sys
 
-ssml_cwd = ".splunk-streaming-ml"
+SSML_CWD = ".splunk-streaming-ml"
+
+
+def main(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('test_files', type=str, nargs='+', help="test files to be checked")
+
+    parsed = parser.parse_args(args)
+    build_humvee()
+    for t in parsed.test_files:
+        test_detection(t)
+    exit(0)
+
 
 def get_path(p):
     return os.path.join(os.path.join(os.path.dirname(__file__), p))
@@ -29,12 +43,12 @@ def extract_pipeline(search, data):
 
 
 def build_humvee():
-    if not os.path.exists(get_path(ssml_cwd)):
+    if not os.path.exists(get_path(SSML_CWD)):
         git.Repo.clone_from('git@cd.splunkdev.com:applied-research/splunk-streaming-ml.git',
-                            get_path(ssml_cwd))
+                            get_path(SSML_CWD))
     else:
-        git.cmd.Git(get_path(ssml_cwd)).pull()
-    subprocess.run(["./gradlew", "humvee:shadowJar"], cwd=get_path(ssml_cwd))
+        git.cmd.Git(get_path(SSML_CWD)).pull()
+    subprocess.run(["./gradlew", "humvee:shadowJar"], cwd=get_path(SSML_CWD))
 
 
 def activate_detection(detection, data):
@@ -50,7 +64,7 @@ def test_detection(test):
         name = test_desc['name']
         print("Testing %s" % name)
         # Download data to temporal folder
-        data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s/humvee" % ssml_cwd))
+        data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s/humvee" % SSML_CWD))
         print("Temporal data dir %s" % data_dir.name)
         # Temporal solution
         d = test_desc['attack_data'][0]
@@ -68,7 +82,7 @@ def test_detection(test):
             spl2_fh.write(spl2)
         # Execute SPL2
         subprocess.run(["java",
-                        "-jar",  get_path("%s/humvee/build/libs/humvee-1.2.1-SNAPSHOT-all.jar" % ssml_cwd),
+                        "-jar", get_path("%s/humvee/build/libs/humvee-1.2.1-SNAPSHOT-all.jar" % SSML_CWD),
                         'cli',
                         '-i', spl2_file,
                         '-o', test_out],
@@ -77,7 +91,6 @@ def test_detection(test):
             res = '\n'.join(test_status_fh.readlines())
             if res == "OK\n":
                 print("SPL2 executed correctly")
-                exit(0)
             else:
                 print("Errors in detection")
                 print("-------------------")
@@ -85,16 +98,5 @@ def test_detection(test):
                 exit(1)
 
 
-
-
-def deploy_dsp():
-    if not os.path.exists(get_path(".data-pipelines")):
-        git.Repo.clone_from('git@cd.splunkdev.com:data-availability/data-pipelines.git',
-                            get_path('.data-pipelines'))
-    else:
-        git.cmd.Git(get_path(".data-pipelines")).pull()
-
-
-print(get_path(ssml_cwd))
-build_humvee()
-test_detection(get_path("../tests/endpoint/rare_parent_process_relationship_lolbas___ssa.test.yaml"))
+if __name__ == '__main__':
+    main(sys.argv[1:])
