@@ -1,0 +1,13 @@
+name: Pass the Hash
+detections:
+  - name: Detect Activity Related to Pass the Hash Attacks
+    file: endpoint/detect_activity_related_to_pass_the_hash_attacks.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test pass the hash detection
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1550.002'
+attack_data:
+  - file_name: windows-security.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1550.002/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

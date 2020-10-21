@@ -18,3 +18,7 @@ playbook:
   name: excessive_account_lockouts_enrichment_and_response
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/excessive_account_lockouts_enrichment_and_response.json
   url_python: https://github.com/phantomcyber/playbooks/blob/4.6/excessive_account_lockouts_enrichment_and_response.py
+
+tags:
+  analytics_story:
+  - Account Monitoring and Controls

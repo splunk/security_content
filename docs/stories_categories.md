@@ -99,12 +99,14 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
-* Installation
 
 ###### CIS
+* CIS 12
 * CIS 13
+* CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
 * PR.DS
 * PR.PT
@@ -184,12 +186,12 @@ Attackers will often attempt to manipulate client communications for nefarious p
 * CIS 13
 * CIS 3
 * CIS 8
+* CIS 9
 
 ##### NIST
 * DE.AE
 * DE.CM
 * ID.AM
-* PR.AC
 * PR.DS
 * PR.IP
 * PR.PT
@@ -292,6 +294,8 @@ Another search detects incidents wherein a single password is used across multip
 * [Common Phishing Frameworks](#Common-Phishing-Frameworks)
 
 * [Credential Dumping](#Credential-Dumping)
+
+* [Detect Zerologon Attack](#Detect-Zerologon-Attack)
 
 * [Disabling Security Tools](#Disabling-Security-Tools)
 
@@ -503,12 +507,14 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * Access LSASS Memory for Dump Creation
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 * Attempted Credential Dump From Registry via Reg exe
+* Attempted Credential Dump From Registry via Reg exe - SSA
 * Create Remote Thread into LSASS
 * Creation of Shadow Copy
 * Creation of Shadow Copy with wmic and powershell
 * Credential Dumping via Copy Command from Shadow Copy
 * Credential Dumping via Symlink to Shadow Copy
 * Detect Credential Dumping through LSASS access
+* Detect Dump LSASS Memory using comsvcs - SSA
 * Detect Mimikatz Using Loaded Images
 * Dump LSASS via comsvcs DLL
 * Unsigned Image Loaded by LSASS
@@ -519,6 +525,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 #### Mappings
 
 ##### ATT&CK
+* T1003
 * T1003.001
 * T1003.002
 * T1003.003
@@ -544,6 +551,56 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1003
 * https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+
+### Detect Zerologon Attack
+* id = 5d14a962-569e-4578-939f-f386feb63ce4
+* date = 2020-09-18
+* version = 1
+
+#### Description
+Uncover activity related to the execution of Zerologon CVE-2020-11472, a technique wherein attackers target a Microsoft Windows Domain Controller to reset its computer account password. The result from this attack is attackers can now provide themselves high privileges and take over Domain Controller. The included searches in this Analytic Story are designed to identify attempts to reset Domain Controller Computer Account via exploit code remotely or via the use of tool Mimikatz as payload carrier.
+
+#### Narrative
+This attack is a privilege escalation technique, where attacker targets a Netlogon secure channel connection to a domain controller, using Netlogon Remote Protocol (MS-NRPC). This vulnerability exposes vulnerable Windows Domain Controllers to be targeted via unaunthenticated RPC calls which eventually reset Domain Contoller computer account ($) providing the attacker the opportunity to exfil domain controller credential secrets and assign themselve high privileges that can lead to domain controller and potentially complete network takeover. The detection searches in this Analytic Story use Windows Event viewer events and Sysmon events to detect attack execution, these searches monitor access to the Local Security Authority Subsystem Service (LSASS) process which is an indicator of the use of Mimikatz tool which has bee updated to carry this attack payload.
+
+#### Detections
+* Detect Computer Changed with Anonymous Account
+* Detect Credential Dumping through LSASS access
+* Detect Mimikatz Using Loaded Images
+* Detect Zerologon via Zeek
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1003.001
+* T1190
+* T1210
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Exploitation
+
+###### CIS
+* CIS 11
+* CIS 16
+* CIS 3
+* CIS 5
+* CIS 6
+* CIS 8
+
+##### NIST
+* DE.AE
+* DE.CM
+* PR.AC
+* PR.IP
+
+##### References
+* https://attack.mitre.org/wiki/Technique/T1003
+* https://github.com/SecuraBV/CVE-2020-1472
+* https://www.secura.com/blog/zero-logon
+* https://nvd.nist.gov/vuln/detail/CVE-2020-1472
 
 ### Disabling Security Tools
 * id = fcc27099-46a0-46b0-a271-5c7dab56b6f1
@@ -1837,10 +1894,8 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 ##### NIST
 * ID.AM
-* PR.AC
 * PR.DS
 * PR.IP
-* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
@@ -1897,6 +1952,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Cloud Cryptomining](#Cloud-Cryptomining)
 
 * [Container Implantation Monitoring and Investigation](#Container-Implantation-Monitoring-and-Investigation)
+
+* [GCP Cross Account Activity](#GCP-Cross-Account-Activity)
 
 * [Kubernetes Scanning Activity](#Kubernetes-Scanning-Activity)
 
@@ -2237,6 +2294,42 @@ Container Registrys provide a way for organizations to keep customized images of
 
 ##### References
 * https://github.com/splunk/cloud-datamodel-security-research
+
+### GCP Cross Account Activity
+* id = 0432039c-ef41-4b03-b157-450c25dad1e6
+* date = 2020-09-01
+* version = 1
+
+#### Description
+Track when a user assumes an IAM role in another GCP account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
+
+#### Narrative
+Google Cloud Platform (GCP) admins manage access to GCP resources and services across the enterprise using GCP Identity and Access Management (IAM) functionality. IAM provides the ability to create and manage GCP users, groups, and roles-each with their own unique set of privileges and defined access to specific resources (such as Compute instances, the GCP Management Console, API, or the command-line interface). Unlike conventional (human) users, IAM roles are potentially assumable by anyone in the organization. They provide users with dynamically created temporary security credentials that expire within a set time period.\
+In between the time between when the temporary credentials are issued and when they expire is a period of opportunity, where a user could leverage the temporary credentials to wreak havoc-spin up or remove instances, create new users, elevate privileges, and other malicious activities-throughout the environment.\
+This Analytic Story includes searches that will help you monitor your GCP Audit logs logs for evidence of suspicious cross-account activity.  For example, while accessing multiple GCP accounts and roles may be perfectly valid behavior, it may be suspicious when an account requests privileges of an account it has not accessed in the past. After identifying suspicious activities, you can use the provided investigative searches to help you probe more deeply.
+
+#### Detections
+* GCP Detect accounts with high risk roles by project
+* GCP Detect gcploit framework
+* GCP Detect high risk permissions by resource and account
+* gcp detect oauth token abuse
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1078
+
+##### Kill Chain Phases
+* Lateral Movement
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://cloud.google.com/iam/docs/understanding-service-accounts
 
 ### Kubernetes Scanning Activity
 * id = a9ef59cf-e981-4e66-9eef-bb049f695c09

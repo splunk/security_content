@@ -1,0 +1,13 @@
+name: Kerberoasting
+detections:
+  - name: Kerberoasting spn request with RC4 encryption
+    file: endpoint/kerberoasting_spn_request_with_rc4_encryption.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test Kerberoasting attack
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1558.003'
+attack_data:
+  - file_name: windows-security.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1558.003/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
