@@ -18,15 +18,31 @@ def main(args):
     parsed = parser.parse_args(args)
     build_humvee()
     status = True
+    passed_tests = []
+    failed_tests = []
     for t in parsed.test_files:
-        status = status & test_detection(t)
+        cur_status = test_detection(t)
+        status = status & cur_status
+        if cur_status:
+            passed_tests.append(t)
+        else:
+            failed_tests.append(t)
         if not status and not parsed.skip_errors:
-            exit(1)
+            _exit(1, passed_tests, failed_tests)
     if status:
-        exit(0)
+        _exit(0, passed_tests, failed_tests)
     else:
-        exit(1)
+        _exit(1, passed_tests, failed_tests)
 
+
+def _exit(code, passed, failed):
+    print("\nPassed tests")
+    print("=================")
+    print("\n".join(passed))
+    print("\nFailed tests")
+    print("=================")
+    print("\n".join(failed))
+    exit(code)
 
 def get_path(p):
     return os.path.join(os.path.join(os.path.dirname(__file__), p))
