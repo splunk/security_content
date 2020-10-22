@@ -13,13 +13,19 @@ SSML_CWD = ".splunk-streaming-ml"
 
 def main(args):
     parser = argparse.ArgumentParser()
+    parser.add_argument('--skip-errors', action='store_true', default=False)
     parser.add_argument('test_files', type=str, nargs='+', help="test files to be checked")
-
     parsed = parser.parse_args(args)
     build_humvee()
+    status = True
     for t in parsed.test_files:
-        test_detection(t)
-    exit(0)
+        status = status & test_detection(t)
+        if not status and not parsed.skip_errors:
+            exit(1)
+    if status:
+        exit(0)
+    else:
+        exit(1)
 
 
 def get_path(p):
@@ -74,6 +80,9 @@ def test_detection(test):
         # Download data to temporal folder
         data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s/humvee" % SSML_CWD))
         # Temporal solution
+        if test_desc['attack_data'] is None or len(test_desc['attack_data']) == 0:
+            print("No dataset in testing file")
+            return False
         d = test_desc['attack_data'][0]
         test_data = os.path.abspath("%s/%s" % (data_dir.name, d['file_name']))
         urllib.request.urlretrieve(d['data'], test_data)
@@ -107,14 +116,15 @@ def test_detection(test):
                         print(status)
                         print("\nTested query from %s:\n" % detection['file'])
                         print(spl2)
-                        exit(1)
+                        return False
                 # Validate the results
                 with open(test_out, 'r') as test_out_fh:
                     if len(test_out_fh.readlines()) > 0:
                         print("Output expected")
                     else:
                         print("Pass condition %s didn't produce any events" % detection['pass_condition'])
-                        exit(1)
+                        return False
+    return True
 
 
 if __name__ == '__main__':
