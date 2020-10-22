@@ -1,0 +1,22 @@
+name: Credential Dumping Ntds test
+detections:
+  - name: Creation of Shadow Copy
+    file: endpoint/creation_of_shadow_copy.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Creation of Shadow Copy with wmic and powershell
+    file: endpoint/creation_of_shadow_copy_with_wmic_and_powershell.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Credential Dumping via Copy Command from Shadow Copy
+    file: endpoint/credential_dumping_via_copy_command_from_shadow_copy.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Credential Dumping via Symlink to Shadow Copy
+    file: endpoint/credential_dumping_via_symlink_to_shadow_copy.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test credential dumping detections
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1003.003'
+attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1003.003/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -16,12 +16,7 @@ from attackcti import attack_client
 import csv
 
 
-# global variables
-REPO_PATH = ''
-VERBOSE = False
-OUTPUT_PATH = ''
-
-def load_objects(file_path, VERBOSE):
+def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
     for file in sorted(glob.glob(manifest_files)):
@@ -32,7 +27,7 @@ def load_objects(file_path, VERBOSE):
 
 
 def load_file(file_path):
-    with open(file_path, 'r') as stream:
+    with open(file_path, 'r', encoding="utf-8") as stream:
         try:
             file = list(yaml.safe_load_all(stream))[0]
         except yaml.YAMLError as exc:
@@ -41,31 +36,31 @@ def load_file(file_path):
     return file
 
 
-def generate_transforms_conf(lookups):
+def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     sorted_lookups = sorted(lookups, key=lambda i: i['name'])
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('transforms.j2')
-    output_path = OUTPUT_PATH + "/default/transforms.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
 
     return output_path
 
-def generate_collections_conf(lookups):
+def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     filtered_lookups = list(filter(lambda i: 'collection' in i, lookups))
     sorted_lookups = sorted(filtered_lookups, key=lambda i: i['name'])
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('collections.j2')
-    output_path = OUTPUT_PATH + "/default/collections.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -73,7 +68,14 @@ def generate_collections_conf(lookups):
     return output_path
 
 
-def generate_savedsearches_conf(detections, response_tasks, baselines, deployments):
+def generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH):
+    '''
+    @param detections: input list of individual YAML detections in detections/ directory
+    @param response_tasks:
+    @param baselines:
+    @param deployments:
+    @return: the savedsearches.conf file located in package/default/
+    '''
 
     for detection in detections:
         # parse out data_models
@@ -99,6 +101,29 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
                     mappings[key] = detection['tags'][key]
         detection['mappings'] = mappings
 
+        # used for upstream processing of risk scoring annotations in ECSU
+        # this is not currently compatible with newer instances of ESCU (6.3.0+)
+        # we are duplicating the code block above for now and just changing variable names to make future
+        # changes to this data structure separate from the mappings generation
+        # @todo expose the JSON data structure for newer risk type
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        savedsearch_annotations = {}
+        for key in annotation_keys:
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection['tags']:
+                    savedsearch_annotations[key] = detection['tags']['mitre_attack_id']
+            else:
+                if key in detection['tags']:
+                    savedsearch_annotations[key] = detection['tags'][key]
+        detection['savedsearch_annotations'] = savedsearch_annotations
+
+        if 'risk_object' in detection['tags']:
+            detection['risk_object'] = detection['tags']['risk_object']
+        if 'risk_object_type' in detection['tags']:
+            detection['risk_object_type'] = detection['tags']['risk_object_type']
+        if 'risk_score' in detection['tags']:
+            detection['risk_score'] = detection['tags']['risk_score']
+
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
@@ -116,11 +141,11 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
-    output_path = OUTPUT_PATH + "/default/savedsearches.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/savedsearches.conf')
     output = template.render(detections=detections, baselines=baselines, response_tasks=response_tasks, time=utc_time)
     with open(output_path, 'w') as f:
         output = output.encode('ascii', 'ignore').decode('ascii')
@@ -129,7 +154,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     return output_path
 
 
-def generate_analytics_story_conf(stories, detections, response_tasks, baselines):
+def generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
 
@@ -149,10 +174,10 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('analytic_stories.j2')
-    output_path = OUTPUT_PATH + "/default/analytic_stories.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
     output = template.render(stories=stories, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -160,7 +185,7 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
     return output_path
 
 
-def generate_use_case_library_conf(stories, detections, response_tasks, baselines):
+def generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
 
@@ -191,10 +216,10 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('use_case_library.j2')
-    output_path = OUTPUT_PATH + "/default/use_case_library.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
     output = template.render(stories=stories, detections=detections,
                              response_tasks=response_tasks,
                              baselines=baselines, time=utc_time)
@@ -204,7 +229,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     return output_path
 
 
-def generate_macros_conf(macros, detections):
+def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
     filter_macros = []
     for detection in detections:
         new_dict = {}
@@ -218,10 +243,10 @@ def generate_macros_conf(macros, detections):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('macros.j2')
-    output_path = OUTPUT_PATH + "/default/macros.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
     output = template.render(macros=all_macros, time=utc_time)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -229,7 +254,7 @@ def generate_macros_conf(macros, detections):
     return output_path
 
 
-def generate_workbench_panels(response_tasks, stories):
+def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_res = map_response_tasks_to_stories(response_tasks)
 
@@ -249,11 +274,11 @@ def generate_workbench_panels(response_tasks, stories):
                 response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
                 response_task['lowercase_name'] = response_file_name
                 workbench_panel_objects.append(response_task)
-                j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+                j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                output_path = OUTPUT_PATH + "/default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
-                
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                output_path = path.join(OUTPUT_PATH, file_path)
                 if response_task['search'].find(">") is not -1:
                     response_task['search']= response_task['search'].replace(">","&gt;")
                 if response_task['search'].find("<") is not -1:
@@ -263,18 +288,17 @@ def generate_workbench_panels(response_tasks, stories):
                 with open(output_path, 'w') as f:
                     f.write(output)
 
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('es_investigations.j2')
-    output_path = OUTPUT_PATH + "/default/es_investigations.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w') as f:
         f.write(output)
-
-    j2_env = Environment(loader=FileSystemLoader('bin/jinja2_templates'),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
-    output_path = OUTPUT_PATH + "/default/workflow_actions.conf"
+    output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')
     output = template.render(response_tasks=workbench_panel_objects)
     with open(output_path, 'w') as f:
         f.write(output)
@@ -353,10 +377,14 @@ def map_detection_to_stories(detections):
     for detection in detections:
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
-                if not (story in sto_det):
-                    sto_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+                if 'type' in detection.keys():
+                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
                 else:
-                    sto_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                if not (story in sto_det):
+                    sto_det[story] = {rule_name}
+                else:
+                    sto_det[story].add(rule_name)
     return sto_det
 
 
@@ -366,10 +394,14 @@ def map_response_tasks_to_stories(response_tasks):
         if 'tags' in response_task:
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
-                    if not (story in sto_res):
-                        sto_res[story] = {str('ESCU - ' + response_task['name'])}
+                    if 'type' in response_task.keys():
+                        task_name = str(response_task['type'] + ' - ' + response_task['name'])
                     else:
-                        sto_res[story].add(str('ESCU - ' + response_task['name']))
+                        task_name = str('ESCU - ' + response_task['name'])
+                    if not (story in sto_res):
+                        sto_res[story] = {task_name}
+                    else:
+                        sto_res[story].add(task_name)
     return sto_res
 
 
@@ -379,15 +411,20 @@ def map_baselines_to_stories(baselines):
         if 'tags' in baseline:
             if 'analytics_story' in baseline['tags']:
                 for story in baseline['tags']['analytics_story']:
-                    if not (story in sto_bas):
-                        sto_bas[story] = {str('ESCU - ' + baseline['name'])}
+                    if 'type' in baseline.keys():
+                        baseline_name = str(baseline['type'] + ' - ' + baseline['name'])
                     else:
-                        sto_bas[story].add(str('ESCU - ' + baseline['name']))
+                        baseline_name = str('ESCU - ' + baseline['name'])
+                    if not (story in sto_bas):
+                        sto_bas[story] = {baseline_name}
+                    else:
+                        sto_bas[story].add(baseline_name)
     return sto_bas
 
 def custom_jinja2_enrichment_filter(string, object):
     customized_string = string
     for key in object.keys():
+        [key.encode('utf-8') for key in object]
         customized_string = customized_string.replace("%" + key + "%", str(object[key]))
 
     for key in object['tags'].keys():
@@ -408,10 +445,15 @@ def prepare_stories(stories, detections):
     for detection in detections:
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
-                if story in sto_to_det.keys():
-                    sto_to_det[story].add(str('ESCU - ' + detection['name'] + ' - Rule'))
+                if 'type' in detection.keys():
+                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
                 else:
-                    sto_to_det[story] = {str('ESCU - ' + detection['name'] + ' - Rule')}
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+
+                if story in sto_to_det.keys():
+                    sto_to_det[story].add(rule_name)
+                else:
+                    sto_to_det[story] = {rule_name}
 
                 data_model = parse_data_models_from_search(detection['search'])
                 if data_model:
@@ -476,7 +518,7 @@ def prepare_stories(stories, detections):
     return stories
 
 
-def generate_mitre_lookup():
+def generate_mitre_lookup(OUTPUT_PATH):
 
     csv_mitre_rows = [["mitre_id", "technique", "tactics", "groups"]]
 
@@ -493,17 +535,18 @@ def generate_mitre_lookup():
                     if relationship['source_ref'] == group['id']:
                         apt_groups.append(group['name'])
 
-        if len(apt_groups) == 0:
-            apt_groups.append('no')
-        csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
+        if not ('revoked' in technique):
+            if len(apt_groups) == 0:
+                apt_groups.append('no')
+            csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
-    with open('lookups/mitre_enrichment.csv', 'w', newline='') as file:
+    with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='', encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerows(csv_mitre_rows)
 
 
 
-if __name__ == "__main__":
+def main(args):
 
     parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
@@ -516,40 +559,50 @@ if __name__ == "__main__":
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
+    TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
     VERBOSE = args.verbose
-    stories = load_objects("stories/*.yml", VERBOSE)
-    macros = load_objects("macros/*.yml", VERBOSE)
-    lookups = load_objects("lookups/*.yml", VERBOSE)
-    baselines = load_objects("baselines/*.yml", VERBOSE)
-    detections = load_objects("detections/*.yml", VERBOSE)
-    responses = load_objects("responses/*.yml", VERBOSE)
-    response_tasks = load_objects("response_tasks/*.yml", VERBOSE)
-    deployments = load_objects("deployments/*.yml", VERBOSE)
+    stories = load_objects("stories/*.yml", VERBOSE, REPO_PATH)
+    macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
+    lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
+    baselines = load_objects("baselines/*.yml", VERBOSE, REPO_PATH)
+    detections = load_objects("detections/*.yml", VERBOSE, REPO_PATH)
+    responses = load_objects("responses/*.yml", VERBOSE, REPO_PATH)
+    response_tasks = load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH)
+    deployments = load_objects("deployments/*.yml", VERBOSE, REPO_PATH)
+
+    # process all detections
+    detections = []
+    detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
 
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        generate_mitre_lookup()
-    except:
+        generate_mitre_lookup(OUTPUT_PATH)
+    except Exception as e:
+        print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
 
-    lookups_path = generate_transforms_conf(lookups)
-    lookups_path = generate_collections_conf(lookups)
+    lookups_path = generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
+    lookups_path = generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH)
 
     detections = sorted(detections, key=lambda d: d['name'])
+
+    # only use ESCU detections to the configurations
+    detections = [object for object in detections if object["type"].lower() == "escu"]
+
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
-    detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments)
+    detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
 
     stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines)
+    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
-    use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines)
+    use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     macros = sorted(macros, key=lambda m: m['name'])
-    macros_path = generate_macros_conf(macros, detections)
+    macros_path = generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH)
 
-    generate_workbench_panels(response_tasks, stories)
+    generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH)
 
 
     if VERBOSE:
@@ -559,3 +612,7 @@ if __name__ == "__main__":
         print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
         print("security content generation completed..")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

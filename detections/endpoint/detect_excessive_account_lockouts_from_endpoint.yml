@@ -1,0 +1,40 @@
+name: Detect Excessive Account Lockouts From Endpoint
+id: c026e3dd-7e18-4abb-8f41-929e836efe74
+version: 4
+date: '2020-07-21'
+description: This search identifies endpoints that have caused a relatively high number
+  of account lockouts in a short period.
+how_to_implement: "You must ingest your Windows security event logs in the `Change`\
+  \ datamodel under the nodename is `Account_Management`, for this search to execute\
+  \ successfully. Please consider updating the cron schedule and the count of lockouts\
+  \ you want to monitor, according to your environment. \\\n **Splunk>Phantom Playbook\
+  \ Integration**\\\nIf Splunk>Phantom is also configured in your environment, a Playbook\
+  \ called \"Excessive Account Lockouts Enrichment and Response\" can be configured\
+  \ to run when any results are found by this detection search. The Playbook executes\
+  \ the Contextual and Investigative searches in this Story, conducts additional information\
+  \ gathering on Windows endpoints, and takes a response action to shut down the affected\
+  \ endpoint. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`,\
+  \ add the correct hostname to the \"Phantom Instance\" field in the Adaptive Response\
+  \ Actions when configuring this detection search, and set the corresponding Playbook\
+  \ to active. \\\n(Playbook Link:`https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/`).\\\
+  \n"
+type: ESCU
+author: David Dorsey, Splunk
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
+  All_Changes.result="lockout" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`
+  |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
+known_false_positives: It's possible that a widely used system, such as a kiosk, could
+  cause a large number of account lockouts.
+tags:
+  analytics_story:
+  - Account Monitoring and Controls
+  mitre_attack_id:
+  - T1078.003
+  cis20:
+  - CIS 16
+  nist:
+  - PR.IP
+  security_domain: access
+  asset_type: Windows

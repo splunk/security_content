@@ -1,0 +1,13 @@
+name: Process Execution via WMI
+detections:
+  - name: Process execution via wmi
+    file: endpoint/process_execution_via_wmi.yml
+    pass_condition: '| stats count | where count = 1'
+description: Test the WMI local process execution attack behavior
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1047'
+attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1047/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

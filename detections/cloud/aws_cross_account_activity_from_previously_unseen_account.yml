@@ -1,0 +1,46 @@
+name: AWS Cross Account Activity From Previously Unseen Account
+id: 64fbbddf-fabf-4edf-80b3-0cc36ef37727
+version: 4
+date: '2020-07-21'
+description: This search looks for AssumeRole events where an IAM role in a different
+  account is requested for the first time.
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. Run the `Previously Seen AWS Cross Account Activity` support search only
+  once to create the baseline of previously seen cross account activity. Thanks to
+  Pablo Vega at Recurly for suggesting improvements to the search.
+type: ESCU
+references: []
+author: David Dorsey, Splunk
+search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId path=userIdentity.accountId
+  | spath output=requestedAccountId path=resources{}.accountId | search requestingAccountId=*
+  | where requestingAccountId != requestedAccountId | inputlookup append=t previously_seen_aws_cross_account_activity
+  | multireport [| stats min(eval(coalesce(firstTime, _time))) as firstTime max(eval(coalesce(lastTime, _time)))
+  as lastTime by requestingAccountId, requestedAccountId | outputlookup previously_seen_aws_cross_account_activity
+  | where fact=fiction] [| eventstats min(eval(coalesce(firstTime, _time))) as firstTime,
+  max(eval(coalesce(lastTime, _time))) as lastTime by requestingAccountId, requestedAccountId | where firstTime
+  >= relative_time(now(), "-70m@m") AND isnotnull(_time) | spath output=accessKeyId
+  path=responseElements.credentials.accessKeyId | spath output=requestingARN path=resources{}.ARN
+  | stats values(awsRegion) as awsRegion values(firstTime) as firstTime values(lastTime)
+  as lastTime values(sharedEventID) as sharedEventID, values(requestingARN) as src_user,
+  values(responseElements.assumedRoleUser.arn) as dest_user by _time, requestingAccountId,
+  requestedAccountId, accessKeyId] | table _time, firstTime, lastTime, src_user, requestingAccountId,
+  dest_user, requestedAccountId, awsRegion, accessKeyId, sharedEventID | `aws_cross_account_activity_from_previously_unseen_account_filter`'
+known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior.
+  It's suspicious when an account requests privileges of an account it hasn't before.
+  You should validate with the account owner that this is a legitimate request.
+tags:
+  analytics_story:
+  - AWS Cross Account Activity
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1078.004
+  cis20:
+  - CIS 16
+  nist:
+  - PR.AC
+  - PR.DS
+  - DE.AE
+  security_domain: network
+  asset_type: AWS Instance

@@ -1,0 +1,156 @@
+{
+  "$id": "http://example.com/example.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "additionalProperties": true,
+  "default": {},
+  "description": "schema for phase",
+  "properties": {
+    "author": {
+      "$id": "#/properties/author",
+      "default": "",
+      "description": "Author of the phase",
+      "examples": [
+        "Rico Valdez, Patrick Barei\u00df, Splunk"
+      ],
+      "type": "string"
+    },
+    "date": {
+      "$id": "#/properties/date",
+      "default": "",
+      "description": "date of creation or modification, format yyyy-mm-dd",
+      "examples": [
+        "2019-12-06"
+      ],
+      "type": "string"
+    },
+    "description": {
+      "$id": "#/properties/description",
+      "default": "",
+      "description": "Description of phase",
+      "examples": [
+        "Response phase descripion."
+      ],
+      "type": "string"
+    },
+    "id": {
+      "$id": "#/properties/id",
+      "default": "",
+      "description": "UUID as unique identifier",
+      "examples": [
+        "fb4c31b0-13e8-4155-8aa5-24de4b8d6717"
+      ],
+      "type": "string"
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "default": "",
+      "description": "Name of phase",
+      "examples": [
+        "Preparation"
+      ],
+      "type": "string"
+    },
+    "response_task": {
+      "$id": "#/properties/response_task",
+      "additionalProperties": true,
+      "default": {},
+      "description": "Response phase is divided into task(s) to be completed. These will used to referenced known response_task parameters. Order is as positioned and with unique name.",
+      "examples": [
+        {
+            {
+              "id": "7c72d944-3995-4485-8e57-67b4c353989b",
+              "name": "Prepare for Incident Handling"
+            },
+            {
+              "id": "c36f3f48-e0bb-4c20-a62a-cdc8f6418892",
+              "name": "Preventing Incidents"
+            },
+            {
+              "id": "0dc849b2-2eb4-4fd2-add1-b6cc475765f0",
+              "name": "Practice"
+            }
+        }
+      ],
+      "minItems": 1,
+      "type": "array"
+    },
+    "tags": {
+      "$id": "#/properties/tags",
+      "additionalProperties": true,
+      "default": {},
+      "description": "An array of key value pairs for tagging",
+      "examples": [
+        {
+          "analytics_story": "credential_dumping"
+        }
+      ],
+      "minItems": 1,
+      "type": "object",
+      "uniqueItems": true
+    },
+    "version": {
+      "$id": "#/properties/version",
+      "default": 0,
+      "description": "version of detection, e.g. 1 or 2 ...",
+      "examples": [
+        1
+      ],
+      "type": "integer"
+    },
+    "sla":{
+      "$id": "#/properties/sla",
+      "default": null,
+      "description": "Measured integer for Service Level Agreement for completion of the phase",
+      "examples": [
+        5,
+        30
+      ],
+      "type": "integer"
+    },
+    "sla_type":{
+      "$id": "#/properties/sla_type",
+      "default": "minutes",
+      "description": "Duration for measured integer for Service Level Agreement for completion of the phase (e.g. minutes, or hours, etc)",
+      "examples": [
+        "minutes",
+        "hours",
+        "days"
+      ],
+      "type": "string"
+    },
+    "references": {
+      "$id": "#/properties/references",
+      "additionalItems": true,
+      "default": [],
+      "description": "A list of references for this response, phase or task (e.g. web or printed citation)",
+      "examples": [
+        [
+          "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
+        ]
+      ],
+      "items": {
+        "$id": "#/properties/references/items",
+        "default": "",
+        "description": "An explanation about the purpose of this instance.",
+        "examples": [
+          "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
+        ],
+        "title": "3.1 Preparation",
+        "type": "string"
+      },
+      "type": "array"
+    },
+  },
+  "required": [
+    "name",
+    "id",
+    "version",
+    "date",
+    "description",
+    "author",
+    "response_task",
+    "tags",
+  ],
+  "title": "Response Schema",
+  "type": "object"
+}

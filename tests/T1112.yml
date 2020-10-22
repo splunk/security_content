@@ -1,0 +1,13 @@
+name: Modify Registry
+detections:
+  - name: Suspicious Reg exe Process
+    file: endpoint/suspicious_reg_exe_process.yml
+    pass_condition: '| stats count | where count > 5'
+description: Test Modify Registry detections
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1112'
+attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1112/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

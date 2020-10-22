@@ -94,17 +94,19 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 #### Mappings
 
 ##### ATT&CK
-* T1043
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
-* Installation
 
 ###### CIS
+* CIS 12
 * CIS 13
+* CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
 * PR.DS
 * PR.PT
@@ -135,6 +137,7 @@ The search in this story can help you to detect if attackers are abusing your co
 #### Mappings
 
 ##### ATT&CK
+* T1498.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -171,7 +174,8 @@ Attackers will often attempt to manipulate client communications for nefarious p
 #### Mappings
 
 ##### ATT&CK
-* T1048
+* T1048.003
+* T1071.004
 
 ##### Kill Chain Phases
 * Command and Control
@@ -182,12 +186,12 @@ Attackers will often attempt to manipulate client communications for nefarious p
 * CIS 13
 * CIS 3
 * CIS 8
+* CIS 9
 
 ##### NIST
 * DE.AE
 * DE.CM
 * ID.AM
-* PR.AC
 * PR.DS
 * PR.IP
 * PR.PT
@@ -217,8 +221,8 @@ To get started, run the detection search to identify parent processes of `netsh.
 #### Mappings
 
 ##### ATT&CK
-* T1059
-* T1089
+* T1059.003
+* T1562.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -291,9 +295,13 @@ Another search detects incidents wherein a single password is used across multip
 
 * [Credential Dumping](#Credential-Dumping)
 
+* [Detect Zerologon Attack](#Detect-Zerologon-Attack)
+
 * [Disabling Security Tools](#Disabling-Security-Tools)
 
 * [DNS Hijacking](#DNS-Hijacking)
+
+* [F5 TMUI RCE CVE-2020-5902](#F5-TMUI-RCE-CVE-2020-5902)
 
 * [Lateral Movement](#Lateral-Movement)
 
@@ -322,6 +330,8 @@ Another search detects incidents wherein a single password is used across multip
 * [Suspicious Zoom Child Processes](#Suspicious-Zoom-Child-Processes)
 
 * [Windows Defense Evasion Tactics](#Windows-Defense-Evasion-Tactics)
+
+* [Windows DNS SIGRed CVE-2020-1350](#Windows-DNS-SIGRed-CVE-2020-1350)
 
 * [Windows Log Manipulation](#Windows-Log-Manipulation)
 
@@ -356,9 +366,9 @@ Use the searches to detect and monitor suspicious behavior related to these acti
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1074
-* T1114
+* T1036
+* T1114.001
+* T1114.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -410,8 +420,10 @@ Because this communication is so critical for an adversary, they often use techn
 #### Mappings
 
 ##### ATT&CK
-* T1043
 * T1048
+* T1048.003
+* T1071.001
+* T1071.004
 * T1095
 
 ##### Kill Chain Phases
@@ -462,7 +474,7 @@ This Analytic Story focuses on detecting signs of MiTM attacks enabled by [EvilG
 #### Mappings
 
 ##### ATT&CK
-* T1192
+* T1566.003
 
 ##### Kill Chain Phases
 * Command and Control
@@ -495,12 +507,14 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * Access LSASS Memory for Dump Creation
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 * Attempted Credential Dump From Registry via Reg exe
+* Attempted Credential Dump From Registry via Reg exe - SSA
 * Create Remote Thread into LSASS
 * Creation of Shadow Copy
 * Creation of Shadow Copy with wmic and powershell
 * Credential Dumping via Copy Command from Shadow Copy
 * Credential Dumping via Symlink to Shadow Copy
 * Detect Credential Dumping through LSASS access
+* Detect Dump LSASS Memory using comsvcs - SSA
 * Detect Mimikatz Using Loaded Images
 * Dump LSASS via comsvcs DLL
 * Unsigned Image Loaded by LSASS
@@ -512,8 +526,10 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 ##### ATT&CK
 * T1003
-* T1064
-* T1086
+* T1003.001
+* T1003.002
+* T1003.003
+* T1059.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -535,6 +551,56 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1003
 * https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+
+### Detect Zerologon Attack
+* id = 5d14a962-569e-4578-939f-f386feb63ce4
+* date = 2020-09-18
+* version = 1
+
+#### Description
+Uncover activity related to the execution of Zerologon CVE-2020-11472, a technique wherein attackers target a Microsoft Windows Domain Controller to reset its computer account password. The result from this attack is attackers can now provide themselves high privileges and take over Domain Controller. The included searches in this Analytic Story are designed to identify attempts to reset Domain Controller Computer Account via exploit code remotely or via the use of tool Mimikatz as payload carrier.
+
+#### Narrative
+This attack is a privilege escalation technique, where attacker targets a Netlogon secure channel connection to a domain controller, using Netlogon Remote Protocol (MS-NRPC). This vulnerability exposes vulnerable Windows Domain Controllers to be targeted via unaunthenticated RPC calls which eventually reset Domain Contoller computer account ($) providing the attacker the opportunity to exfil domain controller credential secrets and assign themselve high privileges that can lead to domain controller and potentially complete network takeover. The detection searches in this Analytic Story use Windows Event viewer events and Sysmon events to detect attack execution, these searches monitor access to the Local Security Authority Subsystem Service (LSASS) process which is an indicator of the use of Mimikatz tool which has bee updated to carry this attack payload.
+
+#### Detections
+* Detect Computer Changed with Anonymous Account
+* Detect Credential Dumping through LSASS access
+* Detect Mimikatz Using Loaded Images
+* Detect Zerologon via Zeek
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1003.001
+* T1190
+* T1210
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Exploitation
+
+###### CIS
+* CIS 11
+* CIS 16
+* CIS 3
+* CIS 5
+* CIS 6
+* CIS 8
+
+##### NIST
+* DE.AE
+* DE.CM
+* PR.AC
+* PR.IP
+
+##### References
+* https://attack.mitre.org/wiki/Technique/T1003
+* https://github.com/SecuraBV/CVE-2020-1472
+* https://www.secura.com/blog/zero-logon
+* https://nvd.nist.gov/vuln/detail/CVE-2020-1472
 
 ### Disabling Security Tools
 * id = fcc27099-46a0-46b0-a271-5c7dab56b6f1
@@ -561,10 +627,11 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1059
-* T1089
 * T1112
+* T1543.003
+* T1553.004
+* T1562.001
+* T1562.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -618,7 +685,8 @@ The searches in this Analytic Story help you detect and investigate activities t
 #### Mappings
 
 ##### ATT&CK
-* T1048
+* T1048.003
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -644,6 +712,41 @@ The searches in this Analytic Story help you detect and investigate activities t
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 * http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 * https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
+
+### F5 TMUI RCE CVE-2020-5902
+* id = 7678c968-d46e-11ea-87d0-0242ac130003
+* date = 2020-08-02
+* version = 1
+
+#### Description
+Uncover activity consistent with CVE-2020-5902. Discovered by Positive Technologies researchers, this vulnerability affects F5 BIG-IP, BIG-IQ. and Traffix SDC devices (vulnerable versions in F5 support link below). This vulnerability allows unauthenticated users, along with authenticated users, who have access to the configuration utility to execute system commands, create/delete files, disable services, and/or execute Java code.  This vulnerability can result in full system compromise.
+
+#### Narrative
+A client is able to perform a remote code execution on an exposed and vulnerable system. The detection search in this Analytic Story uses syslog to detect the malicious behavior. Syslog is going to be the best detection method, as any systems using SSL to protect their management console will make detection via wire data difficult.  The searches included used Splunk Connect For Syslog (https://splunkbase.splunk.com/app/4740/), and used a custom destination port to help define the data as F5 data (covered in https://splunk-connect-for-syslog.readthedocs.io/en/master/sources/F5/)
+
+#### Detections
+* Detect F5 TMUI RCE CVE-2020-5902
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1190
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 11
+
+##### NIST
+* DE.CM
+
+##### References
+* https://www.ptsecurity.com/ww-en/about/news/f5-fixes-critical-vulnerability-discovered-by-positive-technologies-in-big-ip-application-delivery-controller/
+* https://support.f5.com/csp/article/K52145254
+* https://blog.cloudflare.com/cve-2020-5902-helping-to-protect-against-the-f5-tmui-rce-vulnerability/
 
 ### Lateral Movement
 * id = 399d65dc-1f08-499b-a259-aad9051f38ad
@@ -674,10 +777,10 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 #### Mappings
 
 ##### ATT&CK
-* T1053
-* T1075
-* T1076
-* T1208
+* T1021.001
+* T1053.005
+* T1550.002
+* T1558.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -730,8 +833,8 @@ In the event a system is suspected of having been compromised via a malicious we
 #### Mappings
 
 ##### ATT&CK
-* T1064
-* T1086
+* T1027
+* T1059.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -778,7 +881,8 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 #### Mappings
 
 ##### ATT&CK
-* T1193
+* T1566.001
+* T1566.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -846,11 +950,9 @@ If behavioral searches included in this story yield positive hits, iDefense reco
 #### Mappings
 
 ##### ATT&CK
-* T1059
-* T1064
-* T1086
-* T1103
-* T1131
+* T1059.001
+* T1059.003
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -892,7 +994,7 @@ This Analytic Story contains a search designed to identify attempts by attackers
 #### Mappings
 
 ##### ATT&CK
-* T1043
+* T1190
 
 ##### Kill Chain Phases
 * Delivery
@@ -933,8 +1035,8 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 ##### ATT&CK
 * T1036
-* T1059
-* T1064
+* T1059.001
+* T1059.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -982,8 +1084,8 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1048
+* T1048.003
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1038,6 +1140,8 @@ Once a phishing message has been detected, the next steps are to answer the foll
 #### Mappings
 
 ##### ATT&CK
+* T1566
+* T1566.001
 
 ##### Kill Chain Phases
 * Delivery
@@ -1078,9 +1182,8 @@ The searches in this story help you detect and investigate suspicious activity t
 #### Mappings
 
 ##### ATT&CK
-* T1059
-* T1103
-* T1131
+* T1059.003
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1123,7 +1226,7 @@ With people moving quickly to adopt web-based applications and ways to manage th
 #### Mappings
 
 ##### ATT&CK
-* T1078
+* T1078.001
 
 ##### Kill Chain Phases
 
@@ -1167,12 +1270,10 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 #### Mappings
 
 ##### ATT&CK
-* T1015
-* T1042
-* T1103
 * T1112
-* T1131
-* T1138
+* T1546.001
+* T1546.011
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1221,8 +1322,8 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 #### Mappings
 
 ##### ATT&CK
+* T1021.001
 * T1047
-* T1084
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1263,7 +1364,7 @@ Current detections focus on finding new child processes of this application on a
 #### Mappings
 
 ##### ATT&CK
-* T1059
+* T1059.003
 * T1068
 
 ##### Kill Chain Phases
@@ -1307,8 +1408,8 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 #### Mappings
 
 ##### ATT&CK
-* T1089
 * T1112
+* T1222.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1322,6 +1423,44 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 ##### References
 * https://attack.mitre.org/wiki/Defense_Evasion
+
+### Windows DNS SIGRed CVE-2020-1350
+* id = 36dbb206-d073-11ea-87d0-0242ac130003
+* date = 2020-07-28
+* version = 1
+
+#### Description
+Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and is triggered by a malicious DNS response (only affects DNS over TCP). An attacker can use the malicious payload to cause a buffer overflow on the vulnerable system, leading to compromise.  The included searches in this Analytic Story are designed to identify the large response payload for SIG and KEY DNS records which can be used for the exploit.
+
+#### Narrative
+When a client requests a DNS record for a particular domain, that request gets routed first through the client's locally configured DNS server, then to any DNS server(s) configured as forwarders, and then onto the target domain's own DNS server(s).  If a attacker wanted to, they could host a malicious DNS server that responds to the initial request with a specially crafted large response (~65KB).  This response would flow through to the client's local DNS server, which if not patched for CVE-2020-1350, would cause the buffer overflow. The detection searches in this Analytic Story use wire data to detect the malicious behavior. Searches for Splunk Stream and Zeek are included.  The Splunk Stream search correlates across stream:dns and stream:tcp, while the Zeek search correlates across bro:dns:json and bro:conn:json.  These correlations are required to pick up both the DNS record types (SIG and KEY) along with the payload size (>65KB).
+
+#### Detections
+* Detect Windows DNS SIGRed via Splunk Stream
+* Detect Windows DNS SIGRed via Zeek
+
+#### Data Models
+* Network_Resolution
+
+#### Mappings
+
+##### ATT&CK
+* T1203
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 12
+* CIS 16
+* CIS 8
+
+##### NIST
+* DE.CM
+
+##### References
+* https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+* https://support.microsoft.com/en-au/help/4569509/windows-dns-server-remote-code-execution-vulnerability
 
 ### Windows Log Manipulation
 * id = b6db2c60-a281-48b4-95f1-2cd99ed56835
@@ -1348,6 +1487,8 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 ##### ATT&CK
 * T1070
+* T1070.001
+* T1485
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1404,12 +1545,12 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1053
-* T1058
-* T1103
-* T1131
-* T1138
+* T1053.005
+* T1222.001
+* T1543.003
+* T1546.011
+* T1547.001
+* T1574.009
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1458,8 +1599,10 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 #### Mappings
 
 ##### ATT&CK
-* T1015
 * T1068
+* T1204.002
+* T1546.008
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1520,8 +1663,9 @@ Monitoring user accounts within your enterprise is a critical analytic function 
 #### Mappings
 
 ##### ATT&CK
-* T1078
-* T1136
+* T1078.002
+* T1078.003
+* T1136.001
 
 ##### Kill Chain Phases
 
@@ -1690,8 +1834,9 @@ A traditional security best practice is to control the ports, protocols, and ser
 #### Mappings
 
 ##### ATT&CK
-* T1043
 * T1048
+* T1048.003
+* T1071.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1724,7 +1869,9 @@ Networking devices, such as routers and switches, are often overlooked as resour
 This Analytic Story helps you gain a better understanding of how your network devices are interacting with your hosts. By compromising your network devices, attackers can obtain direct access to the company's internal infrastructure&#151; effectively increasing the attack surface and accessing private services/data.
 
 #### Detections
+* Detect ARP Poisoning
 * Detect New Login Attempts to Routers
+* Detect Rogue DHCP Server
 
 #### Data Models
 * Authentication
@@ -1732,14 +1879,22 @@ This Analytic Story helps you gain a better understanding of how your network de
 #### Mappings
 
 ##### ATT&CK
+* T1200
+* T1498
+* T1557
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Delivery
+* Reconnaissance
 
 ###### CIS
+* CIS 1
 * CIS 11
 
 ##### NIST
+* ID.AM
+* PR.DS
 * PR.IP
 
 ##### References
@@ -1788,6 +1943,8 @@ Various legacy protocols operate by default in the clear, without the protection
 
 * [AWS Network ACL Activity](#AWS-Network-ACL-Activity)
 
+* [AWS Security Hub Alerts](#AWS-Security-Hub-Alerts)
+
 * [AWS Suspicious Provisioning Activities](#AWS-Suspicious-Provisioning-Activities)
 
 * [AWS User Monitoring](#AWS-User-Monitoring)
@@ -1795,6 +1952,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Cloud Cryptomining](#Cloud-Cryptomining)
 
 * [Container Implantation Monitoring and Investigation](#Container-Implantation-Monitoring-and-Investigation)
+
+* [GCP Cross Account Activity](#GCP-Cross-Account-Activity)
 
 * [Kubernetes Scanning Activity](#Kubernetes-Scanning-Activity)
 
@@ -1811,6 +1970,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Suspicious AWS Traffic](#Suspicious-AWS-Traffic)
 
 * [Suspicious Cloud Authentication Activities](#Suspicious-Cloud-Authentication-Activities)
+
+* [Suspicious GCP Storage Activities](#Suspicious-GCP-Storage-Activities)
 
 * [Unusual AWS EC2 Modifications](#Unusual-AWS-EC2-Modifications)
 
@@ -1829,15 +1990,24 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 #### Detections
 * AWS Cross Account Activity From Previously Unseen Account
+* aws detect attach to role policy
+* aws detect permanent key creation
+* aws detect role creation
+* aws detect sts assume role abuse
+* aws detect sts get session token abuse
 
 #### Data Models
 
 #### Mappings
 
 ##### ATT&CK
+* T1078
+* T1078.004
+* T1550
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Lateral Movement
 
 ###### CIS
 * CIS 16
@@ -1874,6 +2044,8 @@ This Analytic Story is focused on detecting suspicious new instances in your EC2
 #### Mappings
 
 ##### ATT&CK
+* T1078.004
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1932,6 +2104,39 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 * https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
 * https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
 
+### AWS Security Hub Alerts
+* id = 2f2f610a-d64d-48c2-b57c-96722b49ab5a
+* date = 2020-08-04
+* version = 1
+
+#### Description
+This story is focused around detecting Security Hub alerts generated from AWS
+
+#### Narrative
+AWS Security Hub collects and consolidates findings from AWS security services enabled in your environment, such as intrusion detection findings from Amazon GuardDuty, vulnerability scans from Amazon Inspector, S3 bucket policy findings from Amazon Macie, publicly accessible and cross-account resources from IAM Access Analyzer, and resources lacking WAF coverage from AWS Firewall Manager.
+
+#### Detections
+* Detect Spike in AWS Security Hub Alerts for EC2 Instance
+* Detect Spike in AWS Security Hub Alerts for User
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+
+##### Kill Chain Phases
+
+###### CIS
+* CIS 13
+
+##### NIST
+* DE.AE
+* DE.DP
+
+##### References
+* https://aws.amazon.com/security-hub/features/
+
 ### AWS Suspicious Provisioning Activities
 * id = 3338b567-3804-4261-9889-cf0ca4753c7f
 * date = 2018-03-16
@@ -1955,6 +2160,7 @@ This Analytic Story was designed to provide you with flexibility in the precisio
 #### Mappings
 
 ##### ATT&CK
+* T1535
 
 ##### Kill Chain Phases
 
@@ -1993,6 +2199,7 @@ The detection searches in this Analytic Story are designed to help you uncover A
 #### Mappings
 
 ##### ATT&CK
+* T1078.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2038,6 +2245,8 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 #### Mappings
 
 ##### ATT&CK
+* T1078.004
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2075,6 +2284,7 @@ Container Registrys provide a way for organizations to keep customized images of
 #### Mappings
 
 ##### ATT&CK
+* T1525
 
 ##### Kill Chain Phases
 
@@ -2084,6 +2294,42 @@ Container Registrys provide a way for organizations to keep customized images of
 
 ##### References
 * https://github.com/splunk/cloud-datamodel-security-research
+
+### GCP Cross Account Activity
+* id = 0432039c-ef41-4b03-b157-450c25dad1e6
+* date = 2020-09-01
+* version = 1
+
+#### Description
+Track when a user assumes an IAM role in another GCP account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
+
+#### Narrative
+Google Cloud Platform (GCP) admins manage access to GCP resources and services across the enterprise using GCP Identity and Access Management (IAM) functionality. IAM provides the ability to create and manage GCP users, groups, and roles-each with their own unique set of privileges and defined access to specific resources (such as Compute instances, the GCP Management Console, API, or the command-line interface). Unlike conventional (human) users, IAM roles are potentially assumable by anyone in the organization. They provide users with dynamically created temporary security credentials that expire within a set time period.\
+In between the time between when the temporary credentials are issued and when they expire is a period of opportunity, where a user could leverage the temporary credentials to wreak havoc-spin up or remove instances, create new users, elevate privileges, and other malicious activities-throughout the environment.\
+This Analytic Story includes searches that will help you monitor your GCP Audit logs logs for evidence of suspicious cross-account activity.  For example, while accessing multiple GCP accounts and roles may be perfectly valid behavior, it may be suspicious when an account requests privileges of an account it has not accessed in the past. After identifying suspicious activities, you can use the provided investigative searches to help you probe more deeply.
+
+#### Detections
+* GCP Detect accounts with high risk roles by project
+* GCP Detect gcploit framework
+* GCP Detect high risk permissions by resource and account
+* gcp detect oauth token abuse
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1078
+
+##### Kill Chain Phases
+* Lateral Movement
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://cloud.google.com/iam/docs/understanding-service-accounts
 
 ### Kubernetes Scanning Activity
 * id = a9ef59cf-e981-4e66-9eef-bb049f695c09
@@ -2099,6 +2345,7 @@ Kubernetes is the most used container orchestration platform, this orchestration
 #### Detections
 * Amazon EKS Kubernetes Pod scan detection
 * Amazon EKS Kubernetes cluster scan detection
+* GCP Kubernetes cluster pod scan detection
 * GCP Kubernetes cluster scan detection
 * Kubernetes Azure pod scan fingerprint
 * Kubernetes Azure scan fingerprint
@@ -2108,6 +2355,7 @@ Kubernetes is the most used container orchestration platform, this orchestration
 #### Mappings
 
 ##### ATT&CK
+* T1526
 
 ##### Kill Chain Phases
 * Reconnaissance
@@ -2131,9 +2379,15 @@ This story addresses detection and response of accounts acccesing Kubernetes clu
 Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive objects within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes sensitive objects.
 
 #### Detections
+* AWS EKS Kubernetes cluster sensitive object access
+* Kubernetes AWS detect service accounts forbidden failure access
+* Kubernetes AWS detect suspicious kubectl calls
 * Kubernetes Azure detect sensitive object access
 * Kubernetes Azure detect service accounts forbidden failure access
 * Kubernetes Azure detect suspicious kubectl calls
+* Kubernetes GCP detect sensitive object access
+* Kubernetes GCP detect service accounts forbidden failure access
+* Kubernetes GCP detect suspicious kubectl calls
 
 #### Data Models
 
@@ -2163,9 +2417,15 @@ This story addresses detection and response around Sensitive Role usage within a
 Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive roles within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes role activities
 
 #### Detections
+* Kubernetes AWS detect RBAC authorization by account
+* Kubernetes AWS detect most active service accounts by pod
+* Kubernetes AWS detect sensitive role access
 * Kubernetes Azure detect RBAC authorization by account
 * Kubernetes Azure detect most active service accounts by pod namespace
 * Kubernetes Azure detect sensitive role access
+* Kubernetes GCP detect RBAC authorizations by account
+* Kubernetes GCP detect most active service accounts by pod
+* Kubernetes GCP detect sensitive role access
 
 #### Data Models
 
@@ -2207,6 +2467,8 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 #### Mappings
 
 ##### ATT&CK
+* T1078.004
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2246,6 +2508,8 @@ It is important to monitor and control who has access to your AWS infrastructure
 #### Mappings
 
 ##### ATT&CK
+* T1078.004
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2283,6 +2547,7 @@ Among things to look out for are S3 access from unfamiliar locations and by unfa
 #### Mappings
 
 ##### ATT&CK
+* T1530
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2360,6 +2625,7 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 #### Mappings
 
 ##### ATT&CK
+* T1535
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2374,6 +2640,44 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
+### Suspicious GCP Storage Activities
+* id = 4d656b2e-d6be-11ea-87d0-0242ac130003
+* date = 2020-08-05
+* version = 1
+
+#### Description
+Use the searches in this Analytic Story to monitor your GCP Storage buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open storage buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
+
+#### Narrative
+Similar to other cloud providers, GCP operates on a shared responsibility model. This means the end user, you, are responsible for setting appropriate access control lists and permissions on your GCP resources.\ This Analytics Story concentrates on detecting things like open storage buckets (both read and write) along with storage bucket access from unfamiliar users and IP addresses.
+
+#### Detections
+* Detect GCP Storage access from a new IP
+* Detect New Open GCP Storage Buckets
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1530
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 13
+* CIS 14
+
+##### NIST
+* DE.CM
+* PR.AC
+* PR.DS
+
+##### References
+* https://cloud.google.com/blog/products/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
+* https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/
 
 ### Unusual AWS EC2 Modifications
 * id = 73de57ef-0dfc-411f-b1e7-fa24428aeae0
@@ -2395,6 +2699,7 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 #### Mappings
 
 ##### ATT&CK
+* T1078.004
 
 ##### Kill Chain Phases
 
@@ -2508,17 +2813,16 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1050
-* T1053
-* T1059
-* T1064
-* T1078
-* T1086
-* T1089
-* T1103
+* T1021.002
+* T1053.005
+* T1059.001
+* T1059.003
+* T1071.002
 * T1112
-* T1131
+* T1136.001
+* T1543.003
+* T1547.001
+* T1562.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2569,7 +2873,7 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 #### Mappings
 
 ##### ATT&CK
-* T1041
+* T1071.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2623,12 +2927,11 @@ The searches in this Analytic Story will help you find executables that are rare
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1059
+* T1021.002
+* T1059.003
 * T1072
-* T1087
-* T1103
-* T1131
+* T1547.001
+* T1566.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2691,10 +2994,12 @@ Among other searches in this Analytic Story is a detection search that looks for
 #### Mappings
 
 ##### ATT&CK
-* T1043
-* T1059
-* T1064
-* T1076
+* T1021.001
+* T1021.002
+* T1059.001
+* T1059.003
+* T1071.002
+* T1071.004
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2744,8 +3049,9 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1059
+* T1059.003
+* T1543.003
+* T1569.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2810,14 +3116,16 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 #### Mappings
 
 ##### ATT&CK
+* T1021.001
+* T1021.002
 * T1036
-* T1043
-* T1047
 * T1048
-* T1053
+* T1053.005
 * T1070
-* T1103
-* T1131
+* T1070.001
+* T1071.001
+* T1485
+* T1547.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2885,9 +3193,11 @@ This Analytic Story includes searches designed to help detect and investigate si
 #### Mappings
 
 ##### ATT&CK
-* T1059
-* T1076
+* T1021.001
+* T1059.001
+* T1059.003
 * T1082
+* T1485
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2951,9 +3261,9 @@ In the event an unusual process is identified, it is imperative to better unders
 #### Mappings
 
 ##### ATT&CK
-* T1015
 * T1036
-* T1085
+* T1204.002
+* T1218.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -3001,7 +3311,8 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 #### Mappings
 
 ##### ATT&CK
-* T1042
+* T1036
+* T1546.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -3041,8 +3352,9 @@ The Windows operating system uses a services architecture to allow for running c
 #### Mappings
 
 ##### ATT&CK
-* T1050
-* T1058
+* T1543.003
+* T1547.001
+* T1569.002
 
 ##### Kill Chain Phases
 * Actions on Objectives

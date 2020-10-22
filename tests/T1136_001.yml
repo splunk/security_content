@@ -1,0 +1,27 @@
+name: Create local account test
+detections:
+  - name: Short Lived Windows Accounts
+    file: endpoint/short_lived_windows_accounts.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Detect New Local Admin account
+    file: endpoint/detect_new_local_admin_account.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Create local admin accounts using net exe
+    file: endpoint/create_local_admin_accounts_using_net_exe.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test Create local account
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1136.001'
+attack_data:
+  - file_name: windows-security.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
+  - file_name: windows-system.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

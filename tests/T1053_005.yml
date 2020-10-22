@@ -1,0 +1,16 @@
+name: Scheduled Task
+detections:
+  - name: Schtasks scheduling job on remote system
+    file: endpoint/schtasks_scheduling_job_on_remote_system.yml
+    pass_condition: '| stats count | where count > 0'
+description: Test scheduling job on remote system
+target: default-attack-range-windows-domain-controller
+simulation_technique: 'T1053.005'
+vars:
+  user_name: 'ATTACKRANGE\Administrator'
+  password: 'I-l1ke-Attack-Range!'
+attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1053.005/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
