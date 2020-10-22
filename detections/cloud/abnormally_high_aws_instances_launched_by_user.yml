@@ -40,7 +40,7 @@ tags:
   risk:
     - risk_score: 50
       risk_object_type: user
-      risk_object: user
+      risk_object_field: user
     - risk_score: 70
       risk_object_type: dest
-      risk_object: system
+      risk_object_field: system

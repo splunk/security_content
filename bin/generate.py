@@ -121,8 +121,8 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             if len(detection['tags']['risk']) > 1:
 
                 detection['risk'] = detection['tags']['risk']
-                print (detection['tags']['risk'])
-                print (len(detection['tags']['risk']))
+                # print (detection['tags']['risk'])
+                # print (len(detection['tags']['risk']))
 
             # if len(detection['tags']['risk']) == 1:
             #     detection['risk'] = detection['tags']['risk']
