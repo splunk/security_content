@@ -11,7 +11,9 @@ references: [Initial ESCU implementation by Jose Hernandez and Patrick Bareiss]
 author: Xiao Lin, Splunk
 search: ' | from read_ssa_enriched_events()
 | eval strJsn=cast(body, "string"), jsonMap=from_json_object(strJsn), eval _time=map_get(jsonMap, "_time"), EventCode=map_get(jsonMap, "EventCode"), TicketOptions=map_get(jsonMap, "TicketOptions"), TicketEncryptionType=map_get(jsonMap, "TicketEncryptionType"), ServiceName=map_get(jsonMap, "ServiceName"), ServiceID=map_get(jsonMap, "ServiceID")
+| where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17"
 | first_time_event cache_partitions=1 input_columns="EventCode,TicketOptions,TicketEncryptionType,ServiceName,ServiceID"
+| where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID
 | eval start_time=_time, end_time=_time, body="TBD", entities="TBD"
 | select start_time, end_time, entities, body 
 | into write_ssa_detected_events(); '
