@@ -1,0 +1,31 @@
+name: Detect Kerberoasting - SSA
+id: dabdd6d7-3e10-42be-8711-4e124f7a3850
+version: 1
+date: '2020-10-21'
+description: This search detects a potential kerberoasting attack via service principal
+  name requests
+how_to_implement: The test data is converted from Windows Security Event logs generated
+  from Attach Range simulation and used in SPL search and extended to SPL2
+type: SSA
+references: [Initial ESCU implementation by Jose Hernandez and Patrick Bareiss]
+author: Xiao Lin, Splunk
+search: ' | from read_ssa_enriched_events()
+| eval strJsn=cast(body, "string"), jsonMap=from_json_object(strJsn), eval _time=map_get(jsonMap, "_time"), EventCode=map_get(jsonMap, "EventCode"), TicketOptions=map_get(jsonMap, "TicketOptions"), TicketEncryptionType=map_get(jsonMap, "TicketEncryptionType"), ServiceName=map_get(jsonMap, "ServiceName"), ServiceID=map_get(jsonMap, "ServiceID")
+| first_time_event cache_partitions=1 input_columns="EventCode,TicketOptions,TicketEncryptionType,ServiceName,ServiceID"
+| eval start_time=_time, end_time=_time, body="TBD", entities="TBD"
+| select start_time, end_time, entities, body 
+| into write_ssa_detected_events(); '
+known_false_positives: Older systems that support kerberos RC4 by default NetApp may
+  generate false positives
+tags:
+  mitre_attack_id:
+  - T1558.003
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 8
+  - CIS 16
+  nist:
+  - DE.CM
+  security_domain: endpoint
+  risk_severity: low
