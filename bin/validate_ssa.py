@@ -32,13 +32,17 @@ def get_pipeline_input(data):
            '| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))' % data
 
 
-def get_pipeline_output():
-    return ';'
+def get_pipeline_output(pass_condition):
+    return '%s;' % pass_condition
 
 
-def extract_pipeline(search, data):
-    updated_search = re.sub(r"\|\s*from\s+read_ssa_enriched_events\(\s*\)", get_pipeline_input(data), search)
-    updated_search = re.sub(r"\|\s*into\s+write_ssa_detected_events\(\s*\)\s*;", get_pipeline_output(), updated_search)
+def extract_pipeline(search, data, pass_condition):
+    updated_search = re.sub(r"\|\s*from\s+read_ssa_enriched_events\(\s*\)",
+                            get_pipeline_input(data),
+                            search)
+    updated_search = re.sub(r"\|\s*into\s+write_ssa_detected_events\(\s*\)\s*;",
+                            get_pipeline_output(pass_condition),
+                            updated_search)
     return updated_search
 
 
@@ -51,10 +55,10 @@ def build_humvee():
     subprocess.run(["./gradlew", "humvee:shadowJar"], cwd=get_path(SSML_CWD))
 
 
-def activate_detection(detection, data):
+def activate_detection(detection, data, pass_condition):
     with open(detection, 'r') as fh:
         parsed_detection = yaml.safe_load(fh)
-        pipeline = extract_pipeline(parsed_detection['search'], data)
+        pipeline = extract_pipeline(parsed_detection['search'], data, pass_condition)
         return pipeline
 
 
@@ -72,31 +76,40 @@ def test_detection(test):
         # for d in test_desc['attack_data']:
         #     test_data = "%s/%s" % (data_dir.name, d['file_name'])
         #     urllib.request.urlretrieve(d['data'], test_data)
-        detection = get_path("../detections/%s" % test_desc['detections'][0]['file'])
-        spl2 = activate_detection(detection, test_data)
-        spl2_file = os.path.join(data_dir.name, "test.spl2")
-        test_out = "%s.out" % spl2_file
-        test_status = "%s.status" % test_out
-        with open(spl2_file, 'w') as spl2_fh:
-            spl2_fh.write(spl2)
-        # Execute SPL2
-        subprocess.run(["java",
-                        "-jar", get_path("%s/humvee/build/libs/humvee-1.2.1-SNAPSHOT-all.jar" % SSML_CWD),
-                        'cli',
-                        '-i', spl2_file,
-                        '-o', test_out],
-                       stderr=subprocess.DEVNULL)
-        with open(test_status, "r") as test_status_fh:
-            res = '\n'.join(test_status_fh.readlines())
-            if res == "OK\n":
-                print("SPL2 executed correctly")
-            else:
-                print("Errors in detection")
-                print("-------------------")
-                print(res)
-                print("\nTested query from %s:\n" % detection)
-                print(spl2)
-                exit(1)
+        for detection in test_desc['detections']:
+            detection_file = get_path("../detections/%s" % detection['file'])
+            spl2 = activate_detection(detection_file, test_data, detection['pass_condition'])
+            spl2_file = os.path.join(data_dir.name, "test.spl2")
+            test_out = "%s.out" % spl2_file
+            test_status = "%s.status" % test_out
+            with open(spl2_file, 'w') as spl2_fh:
+                spl2_fh.write(spl2)
+            # Execute SPL2
+            subprocess.run(["java",
+                            "-jar", get_path("%s/humvee/build/libs/humvee-1.2.1-SNAPSHOT-all.jar" % SSML_CWD),
+                            'cli',
+                            '-i', spl2_file,
+                            '-o', test_out],
+                           stderr=subprocess.DEVNULL)
+            # Validate that it can run
+            with open(test_status, "r") as test_status_fh:
+                status = '\n'.join(test_status_fh.readlines())
+                if status == "OK\n":
+                    print("SPL2 executed")
+                else:
+                    print("Errors in detection")
+                    print("-------------------")
+                    print(status)
+                    print("\nTested query from %s:\n" % detection['file'])
+                    print(spl2)
+                    exit(1)
+            # Validate the results
+            with open(test_out, 'r') as test_out_fh:
+                if len(test_out_fh.readlines()) > 0:
+                    print("Output expected")
+                else:
+                    print("Passing condition %s didn't produce any events" % detection['passing_condition'])
+                    exit(1)
 
 
 if __name__ == '__main__':
