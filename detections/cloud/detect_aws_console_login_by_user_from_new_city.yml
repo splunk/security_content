@@ -23,8 +23,8 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
     [| inputlookup previously_seen_users_console_logins 
     | stats earliest(firstTime) AS earliestseen by user City
     | fields earliestseen user City]
-| eval userCity=if(firstTime >= relative_time(now(), "@d"), "New City","Previously Seen City") 
-| eval userStatus=if(earliestseen >= relative_time(now(), "@d") OR isnull(earliestseen), "New User","Old User")
+| eval userCity=if(firstTime >= relative_time(now(), "-24h@h"), "New City","Previously Seen City") 
+| eval userStatus=if(earliestseen >= relative_time(now(), "-24h@h") OR isnull(earliestseen), "New User","Old User")
 | where userCity = "New City" AND userStatus != "Old User"
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
