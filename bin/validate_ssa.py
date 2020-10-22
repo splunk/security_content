@@ -14,6 +14,7 @@ SSML_CWD = ".splunk-streaming-ml"
 def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('--skip-errors', action='store_true', default=False)
+    parser.add_argument('--debug', action='store_true', default=False)
     parser.add_argument('test_files', type=str, nargs='+', help="test files to be checked")
     parsed = parser.parse_args(args)
     build_humvee()
@@ -21,7 +22,7 @@ def main(args):
     passed_tests = []
     failed_tests = []
     for t in parsed.test_files:
-        cur_status = test_detection(t)
+        cur_status = test_detection(t, parsed)
         status = status & cur_status
         if cur_status:
             passed_tests.append(t)
@@ -43,6 +44,7 @@ def _exit(code, passed, failed):
     print("=================")
     print("\n".join(failed))
     exit(code)
+
 
 def get_path(p):
     return os.path.join(os.path.join(os.path.dirname(__file__), p))
@@ -88,7 +90,7 @@ def activate_detection(detection, data, pass_condition):
             return None
 
 
-def test_detection(test):
+def test_detection(test, args):
     with open(test, 'r') as fh:
         test_desc = yaml.safe_load(fh)
         name = test_desc['name']
@@ -101,6 +103,8 @@ def test_detection(test):
             return False
         d = test_desc['attack_data'][0]
         test_data = os.path.abspath("%s/%s" % (data_dir.name, d['file_name']))
+        if args.debug:
+            print("Downloading dataset %s from %s" % (d['file_name'], d['data']))
         urllib.request.urlretrieve(d['data'], test_data)
         # for d in test_desc['attack_data']:
         #     test_data = "%s/%s" % (data_dir.name, d['file_name'])
@@ -108,6 +112,13 @@ def test_detection(test):
         for detection in test_desc['detections']:
             detection_file = get_path("../detections/%s" % detection['file'])
             spl2 = activate_detection(detection_file, test_data, detection['pass_condition'])
+            if args.debug:
+                print("\n Running test with this pipeline")
+                print(spl2)
+                print("\nWill test the pipeline with this data")
+                with open(test_data, 'r') as test_data_fh:
+                    for line in test_data_fh.readlines()[:10]:
+                        print(line.strip())
             if spl2 is not None:
                 spl2_file = os.path.join(data_dir.name, "test.spl2")
                 test_out = "%s.out" % spl2_file
@@ -125,9 +136,9 @@ def test_detection(test):
                 with open(test_status, "r") as test_status_fh:
                     status = '\n'.join(test_status_fh.readlines())
                     if status == "OK\n":
-                        print("SPL2 executed")
+                        print("Pipeline was executed")
                     else:
-                        print("Errors in detection")
+                        print("Pipeline can not be executed")
                         print("-------------------")
                         print(status)
                         print("\nTested query from %s:\n" % detection['file'])
@@ -135,7 +146,11 @@ def test_detection(test):
                         return False
                 # Validate the results
                 with open(test_out, 'r') as test_out_fh:
-                    if len(test_out_fh.readlines()) > 0:
+                    res = test_out_fh.readlines()
+                    if args.debug:
+                        print("\nThis is what came out of the pipeline\n")
+                        print("\n".join(res[:10]))
+                    if len(res) > 0:
                         print("Output expected")
                     else:
                         print("Pass condition %s didn't produce any events" % detection['pass_condition'])
