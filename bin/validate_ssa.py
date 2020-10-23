@@ -1,14 +1,14 @@
 import yaml
 import re
 import os
-import git
 import subprocess
 import urllib.request
 import tempfile
 import argparse
 import sys
 
-SSML_CWD = ".splunk-streaming-ml"
+SSML_CWD = ".humvee"
+HUMVEE_URL = "https://repo.splunk.com/artifactory/maven-splunk-local/com/splunk/humvee-scala_2.11/1.2.1-SNAPSHOT/humvee-scala_2.11-1.2.1-20201022.220521-1.jar"
 
 
 def main(args):
@@ -72,11 +72,9 @@ def extract_pipeline(search, data, pass_condition):
 
 def build_humvee():
     if not os.path.exists(get_path(SSML_CWD)):
-        git.Repo.clone_from('git@cd.splunkdev.com:applied-research/splunk-streaming-ml.git',
-                            get_path(SSML_CWD))
-    else:
-        git.cmd.Git(get_path(SSML_CWD)).pull()
-    subprocess.run(["./gradlew", "humvee:shadowJar"], cwd=get_path(SSML_CWD))
+        os.mkdir(get_path(SSML_CWD))
+    if not os.path.exists(get_path("%s/humvee.jar" % SSML_CWD)):
+        urllib.request.urlretrieve(HUMVEE_URL, "%s/humvee.jar" % get_path(SSML_CWD))
 
 
 def activate_detection(detection, data, pass_condition):
@@ -96,7 +94,7 @@ def test_detection(test, args):
         name = test_desc['name']
         print("Testing %s" % name)
         # Download data to temporal folder
-        data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s/humvee" % SSML_CWD))
+        data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s" % SSML_CWD))
         # Temporal solution
         if test_desc['attack_data'] is None or len(test_desc['attack_data']) == 0:
             print("No dataset in testing file")
@@ -127,7 +125,7 @@ def test_detection(test, args):
                     spl2_fh.write(spl2)
                 # Execute SPL2
                 subprocess.run(["java",
-                                "-jar", get_path("%s/humvee/build/libs/humvee-1.2.1-SNAPSHOT-all.jar" % SSML_CWD),
+                                "-jar", get_path("%s/humvee.jar" % SSML_CWD),
                                 'cli',
                                 '-i', spl2_file,
                                 '-o', test_out],
