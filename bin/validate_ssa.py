@@ -124,7 +124,7 @@ def test_detection(test, args):
                 with open(spl2_file, 'w') as spl2_fh:
                     spl2_fh.write(spl2)
                 # Execute SPL2
-                subprocess.run(["java",
+                subprocess.run(["/usr/bin/java",
                                 "-jar", get_path("%s/humvee.jar" % SSML_CWD),
                                 'cli',
                                 '-i', spl2_file,
