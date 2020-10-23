@@ -6,7 +6,7 @@ stages:
 
 validate:
   stage: ssa-validate
-  image: python:3.7
+  image: chrsep/alpine-java-python
   before_script:
     - pip3 install -r requirements.txt
   script:
