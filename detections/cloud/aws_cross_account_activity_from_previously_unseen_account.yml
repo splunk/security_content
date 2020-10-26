@@ -43,4 +43,4 @@ tags:
   asset_type: AWS Instance
   risk_score: 15
   risk_object_type: user
-  risk_object: src_user
+  risk_object: user
