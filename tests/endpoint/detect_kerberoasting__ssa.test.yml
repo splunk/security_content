@@ -2,7 +2,7 @@ name: Detect Kerberoasting - SSA Unit test
 detections:
   - name: Detect kerberoasting
     file: endpoint/detect_kerberoasting__ssa.yml 
-    pass_condition: '| stats count | where count > 0'
+    pass_condition: ''
 description: Test detection of kerberoasting
 attack_data:
   - file_name: T1558.003.json

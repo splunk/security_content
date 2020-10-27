@@ -2,7 +2,7 @@ name: Detect Pass the Hash - SSA Unit test
 detections:
   - name: Detect Pass the Hash
     file: endpoint/detect_pass_hash__ssa.yml 
-    pass_condition: '| stats count | where count > 0'
+    pass_condition: ''
 description: Test detection of pass-the-hash
 attack_data:
   - file_name: T1550.002.json

@@ -10,7 +10,7 @@ type: SSA
 references: [Initial ESCU implementation by Bhavin Patel and Patrick Bareiss]
 author: Xiao Lin, Splunk
 search: ' | from read_ssa_enriched_events()
-| eval strJsn=cast(body, "string"), jsonMap=from_json_object(strJsn), _time=map_get(jsonMap, "_time"), EventCode=map_get(jsonMap, "EventCode"), LogonType=map_get(jsonMap, "LogonType"), LogonProcess=map_get(jsonMap, "LogonProcess"), ComputerName=map_get(jsonMap, "ComputerName"), AccountName=map_get(jsonMap, "AccountName")
+| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "EventCode"), LogonType=map_get(input_event, "LogonType"), LogonProcess=map_get(input_event, "LogonProcess"), ComputerName=map_get(input_event, "ComputerName"), AccountName=map_get(input_event, "AccountName")
 | where (LogonType="3" AND LogonProcess="NtLmSsp" AND AccountName IS NOT NULL) OR (LogonType="9" AND LogonProcess="seclogo")
 | first_time_event cache_partitions=1 input_columns="EventCode,LogonProcess,ComputerName"
 | where first_time_EventCode_LogonProcess_ComputerName
