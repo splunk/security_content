@@ -3,7 +3,7 @@ date: "2020-10-27"
 description: "This search provides detection of accounts creating KMS with encrypt policy and without using MFA."
 how_to_implement: "You must install splunk AWS add on and Splunk App for AWS. This search works with clodtrail logs"
 id: c79c164f-4b21-4847-98f9-cf6a9f49179e
-known_false_positives: "Not all KMS key creations are malicious. Particulary look for kms:Encryp only policy. It is very unusual to create a key to encrypt only and not to decrypt."
+known_false_positives: "Not all KMS key creations are malicious. Particulary look for kms:Encrypt only policy. It is very unusual to create a key to encrypt only and not to decrypt."
 name: "aws detect users creating keys with encrypt policy without mfa"
 references:
    - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
