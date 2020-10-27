@@ -1,0 +1,13 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - ssa-validate
+
+validate:
+  stage: ssa-validate
+  image: chrsep/alpine-java-python
+  before_script:
+    - pip3 install -r requirements.txt
+  script:
+    - python3 bin/validate_ssa.py --skip-error tests/*/*
