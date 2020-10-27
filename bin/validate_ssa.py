@@ -6,9 +6,22 @@ import urllib.request
 import tempfile
 import argparse
 import sys
+import coloredlogs
+import logging
 
 SSML_CWD = ".humvee"
 HUMVEE_URL = "https://repo.splunk.com/artifactory/maven-splunk-local/com/splunk/humvee-scala_2.11/1.2.1-SNAPSHOT/humvee-scala_2.11-1.2.1-20201022.220521-1.jar"
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(coloredlogs.ColoredFormatter("%(asctime)s - %(levelname)s - %(message)s%(detail)s"))
+logger.addHandler(handler)
+
+
+def log(level, msg, detail=None):
+    args = {'detail': ""} if detail is None else {'detail': "\n%s" % detail}
+    logger.log(level, msg, extra=args)
 
 
 def main(args):
@@ -17,6 +30,8 @@ def main(args):
     parser.add_argument('--debug', action='store_true', default=False)
     parser.add_argument('test_files', type=str, nargs='+', help="test files to be checked")
     parsed = parser.parse_args(args)
+    if parsed.debug:
+        logger.setLevel(logging.DEBUG)
     build_humvee()
     status = True
     passed_tests = []
@@ -37,12 +52,8 @@ def main(args):
 
 
 def _exit(code, passed, failed):
-    print("\nPassed tests")
-    print("=================")
-    print("\n".join(passed))
-    print("\nFailed tests")
-    print("=================")
-    print("\n".join(failed))
+    log(logging.INFO, "Passed tests", "\n".join(passed))
+    log(logging.INFO, "Failed tests", "\n".join(failed))
     exit(code)
 
 
@@ -74,6 +85,7 @@ def build_humvee():
     if not os.path.exists(get_path(SSML_CWD)):
         os.mkdir(get_path(SSML_CWD))
     if not os.path.exists(get_path("%s/humvee.jar" % SSML_CWD)):
+        logger.debug("Downloading Humvee")
         urllib.request.urlretrieve(HUMVEE_URL, "%s/humvee.jar" % get_path(SSML_CWD))
 
 
@@ -92,17 +104,16 @@ def test_detection(test, args):
     with open(test, 'r') as fh:
         test_desc = yaml.safe_load(fh)
         name = test_desc['name']
-        print("Testing %s" % name)
+        log(logging.INFO, "Testing %s" % name)
         # Download data to temporal folder
         data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s" % SSML_CWD))
         # Temporal solution
         if test_desc['attack_data'] is None or len(test_desc['attack_data']) == 0:
-            print("No dataset in testing file")
+            log(logging.ERROR, "No dataset in testing file in %s" % test)
             return False
         d = test_desc['attack_data'][0]
         test_data = os.path.abspath("%s/%s" % (data_dir.name, d['file_name']))
-        if args.debug:
-            print("Downloading dataset %s from %s" % (d['file_name'], d['data']))
+        log(logging.DEBUG, "Downloading dataset %s from %s" % (d['file_name'], d['data']))
         urllib.request.urlretrieve(d['data'], test_data)
         # for d in test_desc['attack_data']:
         #     test_data = "%s/%s" % (data_dir.name, d['file_name'])
@@ -111,12 +122,9 @@ def test_detection(test, args):
             detection_file = get_path("../detections/%s" % detection['file'])
             spl2 = activate_detection(detection_file, test_data, detection['pass_condition'])
             if args.debug:
-                print("\n Running test with this pipeline")
-                print(spl2)
-                print("\nWill test the pipeline with this data")
+                log(logging.DEBUG, "Test SPL2 query", detail=spl2)
                 with open(test_data, 'r') as test_data_fh:
-                    for line in test_data_fh.readlines()[:10]:
-                        print(line.strip())
+                    log(logging.DEBUG, "Sample testing data", detail="\n".join(test_data_fh.readlines()[:10]))
             if spl2 is not None:
                 spl2_file = os.path.join(data_dir.name, "test.spl2")
                 test_out = "%s.out" % spl2_file
@@ -124,6 +132,7 @@ def test_detection(test, args):
                 with open(spl2_file, 'w') as spl2_fh:
                     spl2_fh.write(spl2)
                 # Execute SPL2
+                log(logging.INFO, "Humvee test %s" % detection['name'])
                 subprocess.run(["/usr/bin/java",
                                 "-jar", get_path("%s/humvee.jar" % SSML_CWD),
                                 'cli',
@@ -134,24 +143,21 @@ def test_detection(test, args):
                 with open(test_status, "r") as test_status_fh:
                     status = '\n'.join(test_status_fh.readlines())
                     if status == "OK\n":
-                        print("Pipeline was executed")
+                        log(logging.INFO, "%s executed without issues" % detection['name'])
                     else:
-                        print("Pipeline can not be executed")
-                        print("-------------------")
-                        print(status)
-                        print("\nTested query from %s:\n" % detection['file'])
-                        print(spl2)
+                        log(logging.ERROR, "Detection %s can not be executed" % detection_file, detail=status)
+                        log(logging.ERROR, "Faulty SPL2 with errors", detail=spl2)
                         return False
                 # Validate the results
                 with open(test_out, 'r') as test_out_fh:
                     res = test_out_fh.readlines()
-                    if args.debug:
-                        print("\nThis is what came out of the pipeline\n")
-                        print("\n".join(res[:10]))
+                    log(logging.DEBUG,
+                        "Output events sample (%d/%d)" % (len(res[:10]), len(res)),
+                        detail="\n".join(res[:10]))
                     if len(res) > 0:
-                        print("Output expected")
+                        log(logging.DEBUG, "Passed test %s" % detection['name'])
                     else:
-                        print("Pass condition %s didn't produce any events" % detection['pass_condition'])
+                        log(logging.ERROR, "Pass condition %s didn't produce any events" % detection['pass_condition'])
                         return False
     return True
 
