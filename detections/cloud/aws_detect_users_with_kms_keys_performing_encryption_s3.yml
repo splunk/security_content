@@ -4,7 +4,7 @@ description: "This search provides detection of users with KMS keys performing e
 how_to_implement: "You must install splunk AWS add on and Splunk App for AWS. This search works with clodtrail logs"
 id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 known_false_positives: "Not all operations with KMS keys are malicious.  It is very unusual to create a key to encrypt only and not to decrypt. This search compliments the creation of KMS keys with encrypt policy. It is recommended to change * for specific keys found in the KMS policy search"
-name: "aws detect users with kms keys performing encryption"
+name: "aws detect users with kms keys performing encryption s3"
 references:
    - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
    - https://github.com/d1vious/git-wild-hunt
