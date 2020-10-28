@@ -15,7 +15,7 @@ OR (All_Traffic.transport=tcp AND All_Traffic.dest_port=22) AND
   All_Traffic.dest_category!=common_software_repo_destination AND All_Traffic.src_category=network OR All_Traffic.src_category=router OR All_Traffic.src_category=switch
   by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_software_download_to_network_device_filter`'
-known_false_positives: This search will also report any legitimate software updates of network devices as well as outbound SSH sessions.
+known_false_positives: This search will also report any legitimate attempts of software downloads to network devices as well as outbound SSH sessions from network devices.
 tags:
   analytics_story:
   - Router and Infrastructure Security
