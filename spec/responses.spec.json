@@ -1,5 +1,5 @@
 {
-  "$id": "http://example.com/example.json",
+  "$id": "https://raw.githubusercontent.com/splunk/security-content/develop/docs/spec/response.spec.json",
   "$schema": "http://json-schema.org/draft-07/schema",
   "additionalProperties": true,
   "default": {},
@@ -17,7 +17,7 @@
     "date": {
       "$id": "#/properties/date",
       "default": "",
-      "description": "version of detection, e.g. 1 or 2 ...",
+      "description": "date of creation or modification, format yyyy-mm-dd",
       "examples": [
         "2019-12-06"
       ],
@@ -50,27 +50,27 @@
       ],
       "type": "string"
     },
-    "response_tasks": {
-      "$id": "#/properties/response_tasks",
+    "response_phase": {
+      "$id": "#/properties/response_phases",
       "additionalProperties": true,
       "default": {},
-      "description": "Response tasks divided into phases",
+      "description": "Response divided into phases. These will used to referenced known response_phase parameters",
       "examples": [
         {
-          "another_phase": [
+          "preparation": [
             {
               "id": "7c72d944-3995-4485-8e57-67b4c353989b",
-              "name": "Another investigation"
+              "name": "Preparation NIST"
             }
           ],
           "identification": [
             {
               "id": "c36f3f48-e0bb-4c20-a62a-cdc8f6418892",
-              "name": "Investigate Indicator of Compromise Hash"
+              "name": "Detection and Analysis"
             },
             {
               "id": "0dc849b2-2eb4-4fd2-add1-b6cc475765f0",
-              "name": "Investigate Domains"
+              "name": "Analysis"
             }
           ]
         }
@@ -100,6 +100,39 @@
         1
       ],
       "type": "integer"
+    },
+    "is_note_required":{
+      "$id": "#/properties/is_note_required",
+      "default": false,
+      "description": "Global assignment for notes being required for tasks, can be individually set in the task",
+      "examples": [
+        true,
+        false
+      ],
+      "type": "boolean"
+    },
+    "references": {
+      "$id": "#/properties/references",
+      "additionalItems": true,
+      "default": [],
+      "description": "A list of references for this response, phase or task (e.g. web or printed citation)",
+      "examples": [
+        [
+          "Blue Team Handbook by Don Murdoch - Alarm Triage Overview pages 146-148",
+          "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
+        ]
+      ],
+      "items": {
+        "$id": "#/properties/references/items",
+        "default": "",
+        "description": "An explanation about the purpose of this instance.",
+        "examples": [
+          "https://www.amazon.com/Blue-Team-Handbook-condensed-Responder/dp/1500734756"
+        ],
+        "title": "Blue Team Handbook by Don Murdoch - Amazon",
+        "type": "string"
+      },
+      "type": "array"
     }
   },
   "required": [
@@ -109,7 +142,7 @@
     "date",
     "description",
     "author",
-    "response_tasks",
+    "response_phase",
     "tags"
   ],
   "title": "Response Schema",

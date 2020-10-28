@@ -42,6 +42,7 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+bin/.*
 
 # Translations
 *.mo
@@ -82,6 +83,7 @@ celerybeat-schedule
 .venv
 env/
 venv/
+automated_detection_testing/venv/
 ENV/
 env.bak/
 venv.bak/

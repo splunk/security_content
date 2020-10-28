@@ -16,3 +16,6 @@ search: '| from datamodel Email.All_Email | search recipient=misswang8107@gmail.
   OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time)
   as lastTime values(dest) values(src) by src_user recipient | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`'
+tags:
+  analytics_story:
+  - Hidden Cobra Malware
