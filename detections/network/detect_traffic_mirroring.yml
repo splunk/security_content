@@ -8,6 +8,7 @@ how_to_implement: This search uses a standard SPL query on logs from Cisco Netwo
   The search also requires that the Cisco Networks Add-on for Splunk 
   (https://splunkbase.splunk.com/app/1467) is used to
   parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on.
+  Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
 type: ESCU
 references: []
 author: Mikael Bjerkeland, Splunk
