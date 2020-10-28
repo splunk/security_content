@@ -94,6 +94,28 @@ def activate_detection(detection, data, pass_condition):
         parsed_detection = yaml.safe_load(fh)
         # Returns pipeline only for SSA detections
         if parsed_detection['type'] == "SSA":
+
+            # validate tags before we run any tests
+            # todo add full tag validation via validate_standard_fields from validate.py and move this code block
+            # todo into a common file used by both validate.py and validate_ssa.py
+            if 'tags' in parsed_detection:
+                for k, v in parsed_detection['tags'].items():
+
+                    if k == 'risk_score':
+                        if not isinstance(v, int):
+                            log(logging.ERROR, "ERROR: risk_score not integer value for object: %s" % v)
+                    risk_object_type = ["user", "system", "other"]
+
+                    if k == 'risk_object_type':
+                        if v not in risk_object_type:
+                            log(logging.ERROR, "ERROR: risk_object_type can only contain user, system, other: %s" % v)
+
+                    if k == 'risk_object':
+                        try:
+                            v.encode('ascii')
+                        except UnicodeEncodeError:
+                            log(logging.ERROR, "ERROR: risk_object not ascii for object: %s" % v)
+
             pipeline = extract_pipeline(parsed_detection['search'], data, pass_condition)
             return pipeline
         else:

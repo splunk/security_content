@@ -88,6 +88,7 @@ def validate_objects(REPO_PATH, objects):
     return errors
 
 
+# todo refactor this so that logic can be independent of uuids for use in validate_ssa.py
 def validate_standard_fields(object, uuids):
 
     errors = []
