@@ -11,8 +11,8 @@ def parse_detection(d):
         return yaml.safe_load(fh)
 
 
-tested = set()
-untested = list()
+tested = dict()
+untested = dict()
 
 
 # Find all tested
@@ -23,26 +23,30 @@ for root, _, files in os.walk(get_path("../tests")):
                 test_desc = yaml.safe_load(test_fh)
                 for t in test_desc['detections']:
                     detection_desc = parse_detection(get_path("../detections/%s" % t['file']))
-                    if detection_desc['type'] == 'SSA':
-                        tested.add(t['file'])
+                    detection_type = detection_desc['type']
+                    if detection_type not in tested:
+                        tested[detection_type] = set()
+                    tested[detection_type].add(t['file'])
 
 for root, _, files in os.walk(get_path("../detections")):
     for detection in files:
         if detection.endswith('yml') or detection.endswith('yaml'):
             detection_desc = parse_detection(os.path.join(root, detection))
-            if detection_desc['type'] == 'SSA':
-                detection = "%s/%s" % (root.split("/")[-1], detection)
-                if detection not in tested:
-                    untested.append(detection)
+            detection_type = detection_desc['type']
+            detection = "%s/%s" % (root.split("/")[-1], detection)
+            if detection not in tested[detection_type]:
+                if detection_type not in untested:
+                    untested[detection_type] = list()
+                untested[detection_type].append(detection)
 
-print('''
-Tested detections
-=================
+for k in untested.keys():
+    print('''
+Tested %s detections
+====================
 %s
-''' % "\n".join(tested))
-
-print('''
-Untested detections
-===================
+''' % (k, "\n".join(tested[k])))
+    print('''
+Untested %s detections
+======================
 %s
-''' % "\n".join(untested))
+''' % (k, "\n".join(untested[k])))
