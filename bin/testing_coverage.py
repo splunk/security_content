@@ -39,6 +39,7 @@ for root, _, files in os.walk(get_path("../detections")):
                     untested[detection_type] = list()
                 untested[detection_type].append(detection)
 
+
 for k in untested.keys():
     print('''
 Tested %s detections
@@ -50,3 +51,16 @@ Untested %s detections
 ======================
 %s
 ''' % (k, "\n".join(untested[k])))
+
+total_tested = 0
+total_untested = 0
+for k in untested.keys():
+    n_tested = len(tested[k])
+    n_untested = len(untested[k])
+    total_tested = total_tested + n_tested
+    total_untested = total_untested + n_untested
+    print("""%s testing coverage: (%d/%d) %.2f"""
+          % (k, n_tested, n_tested + n_untested, n_tested / (n_tested + n_untested)))
+
+print("""Total testing coverage: (%d/%d) %.2f"""
+      % (total_tested, total_untested + total_tested, total_tested / (total_tested + total_untested)))
