@@ -14,7 +14,7 @@ gitdb==4.0.5
 identify==1.5.6
 idna==2.10
 importlib-metadata==2.0.0
-importlib-resources==3.0.0
+importlib-resources==3.2.0
 Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
@@ -38,5 +38,6 @@ taxii2-client==2.2.2
 toml==0.10.1
 typing==3.7.4.3
 urllib3==1.25.11
-virtualenv==20.0.35
-zipp==3.3.1
+virtualenv==20.1.0
+zipp==3.4.0
+coloredlogs==14.0
