@@ -107,7 +107,7 @@ def main(args):
         os.system('cd attack_range/terraform && terraform init && cd ../..')
 
     module = __import__('attack_range')
-    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name + '.yml']
+    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name]
 
     execution_error = False
 
@@ -123,17 +123,17 @@ def main(args):
     response = ec2.delete_key_pair(KeyName=ssh_key_name)
 
     # read_test_file
-    test_file = load_file('security-content/tests/' + test_file_name + '.yml')
+    test_file = load_file('security-content/tests/' + test_file_name)
 
     # check if was succesful
     if not execution_error:
 
-        # upload results to S3
-        with open('test_results.yml', 'w') as f:
-            yaml.dump(results, f)
-        s3_client = boto3.client('s3')
-        response2 = s3_client.upload_file('test_results.yml', s3_bucket, results['technique'] + '/test_results.yml')
-        os.remove('test_results.yml')
+        # upload results to S3 / will be implemented later
+        # with open('test_results.yml', 'w') as f:
+        #     yaml.dump(results, f)
+        # s3_client = boto3.client('s3')
+        # response2 = s3_client.upload_file('test_results.yml', s3_bucket, results['technique'] + '/test_results.yml')
+        # os.remove('test_results.yml')
 
         # Create GitHub PR security content
         random_number = str(randrange(10000))
