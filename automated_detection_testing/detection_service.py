@@ -170,6 +170,12 @@ def main(args):
         security_content_repo_obj.git.push('--set-upstream', 'origin', branch_name)
         g = Github(O_AUTH_TOKEN_GITHUB)
         repo = g.get_repo("splunk/security-content")
+        pull_requests = repo.get_pulls(state='open', sort='created', head=branch_name)
+        for pr in pull_requests:
+            if pr.head.label == str('splunk:' + branch_name):
+                pr.create_issue_comment(body)
+                exit(0)
+
         pr = repo.create_pull(title="Automated Detection Testing PR " + branch_name, body=body, head=branch_name, base="develop")
 
 
