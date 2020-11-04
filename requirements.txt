@@ -11,7 +11,7 @@ contextlib2==0.6.0.post1
 distlib==0.3.1
 filelock==3.0.12
 gitdb==4.0.5
-identify==1.5.7
+identify==1.5.9
 idna==2.10
 importlib-metadata==2.0.0
 importlib-resources==3.2.0
