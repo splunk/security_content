@@ -11,7 +11,7 @@ contextlib2==0.6.0.post1
 distlib==0.3.1
 filelock==3.0.12
 gitdb==4.0.5
-identify==1.5.6
+identify==1.5.7
 idna==2.10
 importlib-metadata==2.0.0
 importlib-resources==3.2.0
@@ -21,10 +21,10 @@ MarkupSafe==1.1.1
 more-itertools==8.5.0
 nodeenv==1.5.0
 pathlib2==2.3.5
-pre-commit==2.7.1
+pre-commit==2.8.2
 pyrsistent==0.17.3
 python-dateutil==2.8.1
-pytz==2020.1
+pytz==2020.4
 PyYAML==5.3.1
 requests==2.24.0
 scandir==1.10.0
