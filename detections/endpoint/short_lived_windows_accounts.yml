@@ -30,3 +30,8 @@ tags:
   - PR.IP
   security_domain: access
   asset_type: Windows
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-security.log
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-system.log
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-sysmon.log
