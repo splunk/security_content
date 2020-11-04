@@ -167,6 +167,9 @@ def main(args):
         template = j2_env.get_template('PR_template.j2')
         body = template.render(results=results['results'])
 
+        security_content_repo_obj.config_writer().set_value("user", "name", "Detection Testing Service").release()
+        security_content_repo_obj.config_writer().set_value("user", "email", "research@splunk.com").release()
+        security_content_repo_obj.remotes.origin.pull()
         security_content_repo_obj.git.push('--set-upstream', 'origin', branch_name)
         g = Github(O_AUTH_TOKEN_GITHUB)
         repo = g.get_repo("splunk/security-content")
