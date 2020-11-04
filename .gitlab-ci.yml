@@ -6,10 +6,9 @@ stages:
 
 validate:
   stage: ssa-validate
-  image: python:3.7
+  image: docker-hub.repo.splunkdev.net/alpine:3.7
   before_script:
+    - apk add --update python3 python3-dev py-pip build-base openjdk8-jre && pip install virtualenv && rm -rf /var/cache/apk/*
     - pip3 install -r requirements.txt
   script:
-    - python3 bin/validate.py -p . -v
-
-
+    - python3 bin/validate_ssa.py --skip-error tests/*/*
