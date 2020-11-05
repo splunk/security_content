@@ -7,9 +7,9 @@ description: This search looks for newly created accounts that have been elevate
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '`wineventlog_security` EventID=4720 OR (EventID=4732 Group_Name=Administrators)
+search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
   | transaction MemberSid connected=false maxspan=180m
-  | rename MemberSid as user
+  | rename member_id as user
   | stats count min(_time) as firstTime max(_time) as lastTime by user dest
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_new_local_admin_account_filter`'
