@@ -8,11 +8,9 @@ type: ESCU
 references: []
 author: David Dorsey, Splunk
 search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
-  | transaction member_id connected=false maxspan=180m
-  | rename member_id as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by user dest
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `detect_new_local_admin_account_filter`'
+  | transaction member_id connected=false maxspan=180m | rename member_id as user
+  | stats count min(_time) as firstTime max(_time) as lastTime by user dest | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `detect_new_local_admin_account_filter`'
 known_false_positives: The activity may be legitimate. For this reason, it's best
   to verify the account with an administrator and ask whether there was a valid service
   request for the account creation. If your local administrator group name is not
@@ -32,3 +30,8 @@ tags:
   - DE.CM
   security_domain: access
   asset_type: Windows
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-security.log
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-system.log
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-sysmon.log
