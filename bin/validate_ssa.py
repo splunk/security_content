@@ -8,9 +8,11 @@ import argparse
 import sys
 import coloredlogs
 import logging
+import configparser
+import tarfile
 
 SSML_CWD = ".humvee"
-HUMVEE_URL = "https://repo.splunk.com/artifactory/maven-splunk-local/com/splunk/humvee-scala_2.11/1.2.1-SNAPSHOT/humvee-scala_2.11-1.2.1-20201022.220521-1.jar"
+HUMVEE_URL = "https://repo.splunk.com/artifactory/maven-splunk-local/com/splunk/humvee-scala_2.11/latest/"
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -84,9 +86,25 @@ def extract_pipeline(search, data, pass_condition):
 def build_humvee():
     if not os.path.exists(get_path(SSML_CWD)):
         os.mkdir(get_path(SSML_CWD))
-    if not os.path.exists(get_path("%s/humvee.jar" % SSML_CWD)):
-        logger.debug("Downloading Humvee")
-        urllib.request.urlretrieve(HUMVEE_URL, "%s/humvee.jar" % get_path(SSML_CWD))
+    # Fetch streaming-ml latest version properties
+    subprocess.run(["git",
+                    "archive",
+                    "--remote=git@cd.splunkdev.com:applied-research/splunk-streaming-ml.git",
+                    "HEAD",
+                    "gradle.properties",
+                    "-o",
+                    "%s/gradle.properties" % get_path(SSML_CWD)])
+    with tarfile.open(get_path("%s/gradle.properties" % SSML_CWD), 'r:*') as tar:
+        # Extracts Humvee's version from properties archive file
+        humvee_conf = configparser.ConfigParser()
+        properties = "[root]\n%s" % tar.extractfile("gradle.properties").read().decode("utf-8")
+        humvee_conf.read_string(properties)
+        humvee_version = humvee_conf.get("root", "version")
+        # Download latest humvee's jar
+        humvee_jar = "%s/humvee-%s.jar" % (HUMVEE_URL, humvee_version)
+        logger.debug("Downloading Latest Humvee %s" % humvee_version)
+        urllib.request.urlretrieve(humvee_jar, "%s/humvee.jar" % get_path(SSML_CWD))
+
 
 
 def activate_detection(detection, data, pass_condition):
