@@ -6,7 +6,7 @@ atomicwrites==1.4.0
 attackcti==0.3.3
 attrs==19.3.0
 bcrypt==3.2.0
-boto3==1.16.10
+boto3==1.16.11
 botocore==1.19.10
 certifi==2019.11.28
 cffi==1.14.3
