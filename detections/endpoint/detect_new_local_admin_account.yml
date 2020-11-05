@@ -8,7 +8,7 @@ type: ESCU
 references: []
 author: David Dorsey, Splunk
 search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
-  | transaction MemberSid connected=false maxspan=180m
+  | transaction member_id connected=false maxspan=180m
   | rename member_id as user
   | stats count min(_time) as firstTime max(_time) as lastTime by user dest
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
