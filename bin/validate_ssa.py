@@ -8,9 +8,11 @@ import argparse
 import sys
 import coloredlogs
 import logging
+import json
 
 SSML_CWD = ".humvee"
-HUMVEE_URL = "https://repo.splunk.com/artifactory/maven-splunk-local/com/splunk/humvee-scala_2.11/1.2.1-SNAPSHOT/humvee-scala_2.11-1.2.1-20201022.220521-1.jar"
+HUMVEE_ARTIFACT_SEARCH = "https://repo.splunk.com/artifactory/api/search/artifact?name=humvee&repos=maven-splunk-local"
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -81,12 +83,23 @@ def extract_pipeline(search, data, pass_condition):
     return updated_search
 
 
+def get_latest_humvee_object():
+    res = json.loads(urllib.request.urlopen(HUMVEE_ARTIFACT_SEARCH).read().decode('utf-8'))
+    for r in res['results']:
+        if re.match(r".*/latest/humvee-.*\.jar$", r['uri']):
+            latest_humvee = json.loads(urllib.request.urlopen(r['uri']).read().decode('utf-8'))
+            return latest_humvee
+    return ""
+
+
 def build_humvee():
     if not os.path.exists(get_path(SSML_CWD)):
         os.mkdir(get_path(SSML_CWD))
-    if not os.path.exists(get_path("%s/humvee.jar" % SSML_CWD)):
-        logger.debug("Downloading Humvee")
-        urllib.request.urlretrieve(HUMVEE_URL, "%s/humvee.jar" % get_path(SSML_CWD))
+    latest_humvee_object = get_latest_humvee_object()
+    log(logging.INFO, "Downloading Latest Humvee")
+    log(logging.DEBUG, "Humvee details", detail=latest_humvee_object)
+    urllib.request.urlretrieve(latest_humvee_object['downloadUri'], "%s/humvee.jar" % get_path(SSML_CWD))
+
 
 
 def activate_detection(detection, data, pass_condition):
