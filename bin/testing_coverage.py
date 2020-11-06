@@ -29,34 +29,35 @@ for root, _, files in os.walk(get_path("../tests")):
                     tested[detection_type].add(t['file'])
 
 for root, _, files in os.walk(get_path("../detections")):
-    for detection in files:
-        if detection.endswith('yml') or detection.endswith('yaml'):
-            detection_desc = parse_detection(os.path.join(root, detection))
-            detection_type = detection_desc['type']
-            detection = "%s/%s" % (root.split("/")[-1], detection)
-            if detection not in tested[detection_type]:
-                if detection_type not in untested:
-                    untested[detection_type] = list()
-                untested[detection_type].append(detection)
+    if not os.path.isfile(os.path.join(root, ".untested")):
+        for detection in files:
+            if detection.endswith('yml') or detection.endswith('yaml'):
+                detection_desc = parse_detection(os.path.join(root, detection))
+                detection_type = detection_desc['type']
+                detection = "%s/%s" % (root.split("/")[-1], detection)
+                if detection not in tested[detection_type]:
+                    if detection_type not in untested:
+                        untested[detection_type] = list()
+                    untested[detection_type].append(detection)
 
 
-for k in untested.keys():
+for k in set(untested.keys()).union(tested.keys()):
     print('''
 Tested %s detections
 ====================
 %s
-''' % (k, "\n".join(tested[k])))
+''' % (k, "\n".join(tested[k]) if k in tested else ""))
     print('''
 Untested %s detections
 ======================
 %s
-''' % (k, "\n".join(untested[k])))
+''' % (k, "\n".join(untested[k]) if k in untested else ""))
 
 total_tested = 0
 total_untested = 0
-for k in untested.keys():
-    n_tested = len(tested[k])
-    n_untested = len(untested[k])
+for k in set(untested.keys()).union(tested.keys()):
+    n_tested = len(tested[k]) if k in tested else 0
+    n_untested = len(untested[k]) if k in untested else 0
     total_tested = total_tested + n_tested
     total_untested = total_untested + n_untested
     print("""%s testing coverage: (%d/%d) %.2f"""
