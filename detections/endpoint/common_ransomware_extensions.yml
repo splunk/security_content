@@ -1,7 +1,7 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
 version: 3
-date: '2020-03-16'
+date: '2020-11-06'
 description: The search looks for file modifications with extensions commonly used
   by Ransomware
 how_to_implement: 'You must be ingesting data that records the filesystem activity
@@ -36,6 +36,7 @@ known_false_positives: It is possible for a legitimate file with these extension
 tags:
   analytics_story:
   - SamSam Ransomware
+  - Ryuk Ransonware
   - Ransomware
   kill_chain_phases:
   - Actions on Objectives
