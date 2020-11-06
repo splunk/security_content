@@ -1,21 +1,21 @@
-author: "Rod Soto, Splunk"
-date: "2020-10-27"
-description: "This search provides detection of users with KMS keys performing encryption specifically against S3 buckets."
-how_to_implement: "You must install splunk AWS add on and Splunk App for AWS. This search works with clodtrail logs"
+author: Rod Soto, Splunk
+date: '2020-10-27'
+description: This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs
 id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
-known_false_positives: "Not all operations with KMS keys are malicious.  It is very unusual to create a key to encrypt only and not to decrypt. This search compliments the creation of KMS keys with encrypt policy. It is recommended to change * for specific keys found in the KMS policy search"
-name: "AWS Detect Users with KMS keys performing encryption S3"
+known_false_positives: Not all operations with KMS keys are malicious.  It is very unusual to create a key to encrypt only and not to decrypt. This search compliments the creation of KMS keys with encrypt policy. It is recommended to change * for specific keys found in the KMS policy search
+name: AWS Detect Users with KMS keys performing encryption S3
 references:
    - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
    - https://github.com/d1vious/git-wild-hunt
    - https://www.youtube.com/watch?v=PgzNib37g0M
-search: '`cloudtrail` eventName=GenerateDataKey userIdentity.sessionContext.attributes.mfaAuthenticated=false | table  event_name errorCode region requestParameters.encryptionContext.aws:s3:arn user requestParameters.keyId userAgent'
+search: '`cloudtrail` eventName=GenerateDataKey userIdentity.sessionContext.attributes.mfaAuthenticated=false | table  event_name errorCode region requestParameters.encryptionContext.aws:s3:arn user requestParameters.keyId userAgent | `aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
 tags:
   analytics_story:
-    - "Ransomware Cloud"
-  asset_type: "AWS Account"
+  - Ransomware Cloud
+  asset_type: AWS Account
   mitre_attack_id:
-    - T1486
+  - T1486
   security_domain: threat
 type: ESCU
 version: 1
