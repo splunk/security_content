@@ -69,6 +69,7 @@ tags:
     - Actions on Objectives
   mitre_technique_id:
     - T1078
+    - T1087
     - T1484
   nist:
     - PR.AC
