@@ -350,6 +350,17 @@ jobs:
             aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
             aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+      - run:
+          name: security content api smoke test
+          command: | 
+            API_URL='https://content.splunkresearch.com/detections'
+            API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
+            echo "Security Content API Status: $API_STATUS"
+            if [ "$API_STATUS" != "200" ]; then
+              echo "Error [Security Content API status: $API_STATUS]"
+              exit 1
+            fi
+
 
 workflows:
   version: 2.1
