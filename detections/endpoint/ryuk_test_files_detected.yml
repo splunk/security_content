@@ -1,11 +1,12 @@
-name: Samsam Test File Write
-id: b26a218c-cac9-4ac1-85d7-dfa8331ca4c3
+name: Ryuk Test Files Detected
+id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 version: 1
 date: '2020-11-06'
-description: The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Samsam propagation. how_to_implement: You must be ingesting data that records the file-system activity
-  from your hosts to populate the Endpoint file-system data-model node. If you are
+description: 'The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Samsam propagation. how_to_implement: You must be ingesting data that records the file-system activity'
+how_to_implement: 'You must be ingesting data that records the filesystem activity
+  from your hosts to populate the Endpoint Filesystem data-model object. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
+  you want to collect data.'
 type: ESCU
 references: []
 author: Rod Soto, Jose Hernandez, Splunk

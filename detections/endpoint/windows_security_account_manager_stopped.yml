@@ -4,7 +4,6 @@ version: 1
 date: '2020-11-06'
 description: The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. 
   This is consistent with Ryuk infections across a fleet of endpoints. 
-  directory tree, which is consistent with Samsam propagation.
 how_to_implement: You must be ingesting data that records the process-system activity
   from your hosts to populate the Endpoint Processes data-model object. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
