@@ -1,7 +1,7 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 3
-date: '2020-03-16'
+version: 4
+date: '2020-11-09'
 description: The search looks for files created with names matching those typically
   used in ransomware notes that tell the victim how to get their data back.
 how_to_implement: You must be ingesting data that records file-system activity from
@@ -23,6 +23,8 @@ tags:
   analytics_story:
   - SamSam Ransomware
   - Ransomware
+  mitre_attack_id:
+  - T1485
   kill_chain_phases:
   - Actions on Objectives
   cis20:
