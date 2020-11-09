@@ -28,6 +28,7 @@ known_false_positives: Remote Desktop may be used legitimately by users on the n
 tags:
   analytics_story:
   - SamSam Ransomware
+  - Ryuk Ransomware
   - Hidden Cobra Malware
   - Lateral Movement
   mitre_attack_id:
