@@ -36,6 +36,7 @@ known_false_positives: It is possible for a legitimate file with these extension
 tags:
   analytics_story:
   - SamSam Ransomware
+  - Ryuk Ransonware
   - Ransomware
   mitre_attack_id:
   - T1485
