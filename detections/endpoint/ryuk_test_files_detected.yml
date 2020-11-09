@@ -2,7 +2,7 @@ name: Ryuk Test Files Detected
 id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 version: 1
 date: '2020-11-06'
-description: 'The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Samsam propagation. how_to_implement: You must be ingesting data that records the file-system activity'
+description: 'The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Ryuk propagation.' 
 how_to_implement: 'You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint Filesystem data-model object. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
