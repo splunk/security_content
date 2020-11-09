@@ -21,10 +21,11 @@ how_to_implement: "You must ingest your Windows security event logs in the `Chan
 type: ESCU
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
-  All_Changes.result="lockout" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`
-  |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
+  as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where
+  nodename=All_Changes.Account_Management All_Changes.result="lockout" by All_Changes.dest
+  All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`|
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search
+  count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
 known_false_positives: It's possible that a widely used system, such as a kiosk, could
   cause a large number of account lockouts.
 tags:
@@ -38,3 +39,7 @@ tags:
   - PR.IP
   security_domain: access
   asset_type: Windows
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1078.002_custom_49a0e495-4ecd-41e4-a9c7-4c0a1e841ba6/windows-security.log
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1078.002_custom_49a0e495-4ecd-41e4-a9c7-4c0a1e841ba6/windows-system.log
