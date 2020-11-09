@@ -279,10 +279,8 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                 template = j2_env.get_template('panel.j2')
                 file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
                 output_path = path.join(OUTPUT_PATH, file_path)
-                if response_task['search'].find(">") != -1:
-                    response_task['search']= response_task['search'].replace(">","&gt;")
-                if response_task['search'].find("<") != -1:
-                    response_task['search']= response_task['search'].replace("<","&lt;")
+                response_task['search']= response_task['search'].replace(">","&gt;")
+                response_task['search']= response_task['search'].replace("<","&lt;")
 
                 output = template.render(search=response_task['search'])
                 with open(output_path, 'w') as f:
