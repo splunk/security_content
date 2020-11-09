@@ -48,3 +48,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1485_custom_215ee4f9-c027-4ea1-a882-d97b887d233d/windows-sysmon.log
