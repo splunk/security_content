@@ -1,7 +1,7 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
-version: 3
-date: '2020-03-16'
+version: 4
+date: '2020-11-09'
 description: The search looks for file modifications with extensions commonly used
   by Ransomware
 how_to_implement: 'You must be ingesting data that records the filesystem activity
@@ -36,7 +36,10 @@ known_false_positives: It is possible for a legitimate file with these extension
 tags:
   analytics_story:
   - SamSam Ransomware
+  - Ryuk Ransonware
   - Ransomware
+  mitre_attack_id:
+  - T1485
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -46,3 +49,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1485_custom_215ee4f9-c027-4ea1-a882-d97b887d233d/windows-sysmon.log
