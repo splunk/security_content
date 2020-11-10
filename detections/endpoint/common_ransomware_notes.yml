@@ -23,6 +23,7 @@ tags:
   analytics_story:
   - SamSam Ransomware
   - Ransomware
+  - Ryuk Ransomware
   mitre_attack_id:
   - T1485
   kill_chain_phases:
