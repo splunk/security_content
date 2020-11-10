@@ -21,6 +21,7 @@ known_false_positives: RDP gateways may have unusually high amounts of traffic f
 tags:
   analytics_story:
   - SamSam Ransomware
+  - Ryuk Ransomware
   mitre_attack_id:
   - T1021.001
   kill_chain_phases:

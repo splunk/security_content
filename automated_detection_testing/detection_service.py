@@ -91,6 +91,8 @@ def main(args):
       filedata = file.read()
 
     filedata = filedata.replace('attack_range_password = Pl3ase-k1Ll-me:p', 'attack_range_password = I-l1ke-Attack-Range!')
+    filedata = filedata.replace('windows_domain_controller = 1', 'windows_domain_controller = 0')
+    filedata = filedata.replace('windows_server_join_domain = 1', 'windows_server_join_domain = 0')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
     filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
@@ -107,7 +109,7 @@ def main(args):
         os.system('cd attack_range/terraform && terraform init && cd ../..')
 
     module = __import__('attack_range')
-    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name + '.yml']
+    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name]
 
     execution_error = False
 
@@ -123,17 +125,17 @@ def main(args):
     response = ec2.delete_key_pair(KeyName=ssh_key_name)
 
     # read_test_file
-    test_file = load_file('security-content/tests/' + test_file_name + '.yml')
+    test_file = load_file('security-content/tests/' + test_file_name)
 
     # check if was succesful
     if not execution_error:
 
-        # upload results to S3
-        with open('test_results.yml', 'w') as f:
-            yaml.dump(results, f)
-        s3_client = boto3.client('s3')
-        response2 = s3_client.upload_file('test_results.yml', s3_bucket, results['technique'] + '/test_results.yml')
-        os.remove('test_results.yml')
+        # upload results to S3 / will be implemented later
+        # with open('test_results.yml', 'w') as f:
+        #     yaml.dump(results, f)
+        # s3_client = boto3.client('s3')
+        # response2 = s3_client.upload_file('test_results.yml', s3_bucket, results['technique'] + '/test_results.yml')
+        # os.remove('test_results.yml')
 
         # Create GitHub PR security content
         random_number = str(randrange(10000))
@@ -167,9 +169,19 @@ def main(args):
         template = j2_env.get_template('PR_template.j2')
         body = template.render(results=results['results'])
 
+        security_content_repo_obj.config_writer().set_value("user", "name", "Detection Testing Service").release()
+        security_content_repo_obj.config_writer().set_value("user", "email", "research@splunk.com").release()
+        if not security_content_branch == 'develop':
+            security_content_repo_obj.remotes.origin.pull()
         security_content_repo_obj.git.push('--set-upstream', 'origin', branch_name)
         g = Github(O_AUTH_TOKEN_GITHUB)
         repo = g.get_repo("splunk/security-content")
+        pull_requests = repo.get_pulls(state='open', sort='created', head=branch_name)
+        for pr in pull_requests:
+            if pr.head.label == str('splunk:' + branch_name):
+                pr.create_issue_comment(body)
+                exit(0)
+
         pr = repo.create_pull(title="Automated Detection Testing PR " + branch_name, body=body, head=branch_name, base="develop")
 
 
