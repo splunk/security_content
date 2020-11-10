@@ -79,8 +79,6 @@ action.email.useNSSubject = 1
 {% endif %}
 {% endif %}
 alert.digest_mode = 1
-action.escu.earliest_time_offset = 3600
-action.escu.latest_time_offset = 86400
 disabled = true
 enableSched = 1
 counttype = number of events
@@ -116,6 +114,7 @@ action.escu.data_models = [{{ baseline.data_model | tojson }}]
 action.escu.data_models = []
 {% endif %}
 cron_schedule = {{ baseline.deployment.scheduling.cron_schedule }}
+enableSched = 1
 dispatch.earliest_time = {{ baseline.deployment.scheduling.earliest_time }}
 dispatch.latest_time = {{ baseline.deployment.scheduling.latest_time }}
 {% if baseline.deployment.scheduling.schedule_window is defined %}
