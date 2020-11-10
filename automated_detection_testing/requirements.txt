@@ -7,8 +7,8 @@ attackcti==0.3.3
 attrs==20.3.0
 bcrypt==3.2.0
 botocore==1.19.11
+certifi==2020.11.8
 boto3==1.16.14
-certifi==2019.11.28
 cffi==1.14.3
 cfgv==2.0.1
 chardet==3.0.4
