@@ -1,7 +1,7 @@
 name:  Ryuk Test Files Detected
 detections:
 - name:  Ryuk Test Files Detected
-  file: detections/endpoint/ryuk_test_files_detected.yml
+  file: endpoint/ryuk_test_files_detected.yml
   pass_condition: '| stats count | where count > 0'
 - attack_data: 
   file_name: windows-sysmon.log
