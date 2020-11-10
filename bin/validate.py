@@ -162,11 +162,7 @@ def validate_detection_search(object, macros):
 
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
 
-    if not filter_macro:
-        errors.append("ERROR: filter macro not found for detection: " + object['name'])
-        return errors
-
-    if filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'):
+    if filter_macro and filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter') and "input_filter" not in filter_macro.group(1):
         errors.append("ERROR: filter for detection: " + object['name'] + " needs to use the name of the detection in lowercase and the special characters needs to be converted into _ .")
 
     if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):

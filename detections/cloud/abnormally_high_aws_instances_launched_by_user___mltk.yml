@@ -20,7 +20,7 @@ known_false_positives: Many service accounts configured within an AWS infrastruc
   human user.
 tags:
   analytics_story:
-  - Cloud Cryptomining
+  - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   kill_chain_phases:
   - Actions on Objectives
@@ -33,3 +33,6 @@ tags:
   - DE.AE
   security_domain: network
   asset_type: AWS Instance
+  risk_score: 10
+  risk_object_type: user
+  risk_object: src_usr
