@@ -1,7 +1,7 @@
 name:  Windows connhost exe started forcefully
 detections:
 - name:  Windows connhost exe started forcefully
-  file: detections/endpoint/windows_connhost_exe_force_flag.yml
+  file: endpoint/windows_connhost_exe_force_flag.yml
   pass_condition: '| stats count | where count > 0'
 - attack_data:
   file_name: windows-sysmon.log
