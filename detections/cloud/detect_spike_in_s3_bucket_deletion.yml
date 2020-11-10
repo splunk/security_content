@@ -48,3 +48,6 @@ tags:
   - PR.AC
   security_domain: network
   asset_type: S3 Bucket
+  risk_score: 10
+  risk_object_type: user
+  risk_object: user

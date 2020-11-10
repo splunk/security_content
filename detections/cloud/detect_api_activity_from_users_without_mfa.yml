@@ -54,3 +54,7 @@ tags:
   - PR.AC
   security_domain: network
   asset_type: AWS Instance
+  risk_score: 10
+  risk_object_type: user
+  risk_object: user
+
