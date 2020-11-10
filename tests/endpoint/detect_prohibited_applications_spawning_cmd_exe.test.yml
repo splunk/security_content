@@ -1,10 +1,10 @@
 name: Detect Prohibited Applications Spawning cmd exe Unit Test
 detections:
-  - name: Access LSASS Memory for Dump Creation
-    file: endpoint/prohibited_apps_spawning_cmdprompt___ssa.yml
-    pass_condition: ''
-description: Test credential dumping detections
+- name: Detect Prohibited Applications Spawning cmd exe
+  file: endpoint/detect_prohibited_applications_spawning_cmd_exe.yml
+  pass_condition: '| stats count | where count > 0'
 attack_data:
-  - file_name: unit_test_detect_prohibited_applications_spawning_cmd_exe.json
-    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/unit_test_detect_prohibited_applications_spawning_cmd_exe.json
-
+- file_name: windows-sysmon.log
+  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1059.003_custom_5967c616-f184-4a9d-afe4-758e0745d90e/windows-sysmon.log
+  source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+  sourcetype: xmlwineventlog
