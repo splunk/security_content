@@ -1,0 +1,22 @@
+name: Suspicious Cloud Provisioning Activities
+detections:
+  - name: Cloud Provisioning Activity From Previously Unseen City
+    file: cloud/cloud_provisioning_from_previously_unseen_city.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Cloud Provisioning Activity From Previously Unseen Country
+    file: cloud/cloud_provisioning_from_previously_unseen_country.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Cloud Provisioning Activity From Previously Unseen IP Address
+    file: cloud/cloud_provisioning_from_previously_unseen_ip_address.yml
+    pass_condition: '| stats count | where count > 0'
+  - name: Cloud Provisioning Activity From Previously Unseen Region
+    file: cloud/cloud_provisioning_from_previously_unseen_region.yml
+    pass_condition: '| stats count | where count > 0'
+  
+description: Test Suspicious Cloud Provisioning Activities detections
+target: N/A
+simulation_technique: N/A
+attack_data:
+  - file_name: cloudtrail_behavioural_detections.json
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/cloudtrail_behavioural_detections/cloudtrail_behavioural_detections.json
+    sourcetype: aws:cloudtrail
