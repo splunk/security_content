@@ -1,11 +1,11 @@
-name: Illegal Deletion of Logs via PowerSploit modules
+name: Illegal Deletion of Logs via Mimikatz modules
 id: 4ddb3b0d-f95f-4ae2-b4e8-663296453a7b
 version: 1
 date: '2020-11-09'
 description: "This detection identifies access to PowerSploit modules that delete event logs."
 how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
 references: 
-- https://github.com/PowerShellMafia/PowerSploit
+- https://github.com/gentilkiwi/mimikatz
 type: SSA
 author: Stanislav Miskovic, Splunk
 search: '| from read_ssa_enriched_events()
