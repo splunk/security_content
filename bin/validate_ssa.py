@@ -54,8 +54,10 @@ def main(args):
 
 
 def _exit(code, passed, failed):
-    log(logging.INFO, "Passed tests", "\n".join(passed))
-    log(logging.INFO, "Failed tests", "\n".join(failed))
+    total_passed = len(passed)
+    total_failed = len(failed)
+    log(logging.INFO, "Passed tests (%d/%d)" % (total_passed, total_passed + total_failed), "\n".join(passed))
+    log(logging.INFO, "Failed tests (%d/%d)" % (total_failed, total_passed + total_failed), "\n".join(failed))
     exit(code)
 
 
