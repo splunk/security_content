@@ -1,0 +1,19 @@
+name: Previously Seen Cloud Instance Modifications By User - Initial
+id: f36dc403-739d-42f3-83a3-49237d8654c5
+version: 1
+date: '2020-07-29'
+description: This search builds a table of previously seen users that have modified
+  a cloud instance.
+how_to_implement: You must be ingesting your cloud infrastructure logs
+author: Rico Valdez, Splunk
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change.All_Changes
+  where All_Changes.action=modified All_Changes.object_category=instance All_Changes.status=success 
+  `previously_seen_cloud_instance_modifications_by_user_input_filter` by All_Changes.user 
+  | `drop_dm_object_name("All_Changes")` | eval enough_data = 0
+  | outputlookup previously_seen_cloud_instance_modifications_by_user
+  | stats count'
+tags:
+  analytics_story:
+  - Suspicious Cloud Instance Activities
+  detections:
+  - Cloud Instance Modified With Previously Unseen User
