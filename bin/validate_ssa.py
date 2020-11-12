@@ -9,6 +9,7 @@ import sys
 import coloredlogs
 import logging
 import json
+import hashlib
 
 SSML_CWD = ".humvee"
 HUMVEE_ARTIFACT_SEARCH = "https://repo.splunk.com/artifactory/api/search/artifact?name=humvee&repos=maven-splunk-local"
@@ -98,9 +99,18 @@ def build_humvee():
     if not os.path.exists(get_path(SSML_CWD)):
         os.mkdir(get_path(SSML_CWD))
     latest_humvee_object = get_latest_humvee_object()
-    log(logging.INFO, "Downloading Latest Humvee")
-    log(logging.DEBUG, "Humvee details", detail=latest_humvee_object)
-    urllib.request.urlretrieve(latest_humvee_object['downloadUri'], "%s/humvee.jar" % get_path(SSML_CWD))
+    humvee_path = "%s/humvee.jar" % get_path(SSML_CWD)
+    humvee_md5 = ""
+    if os.path.exists(humvee_path):
+        with open(humvee_path, 'rb') as jar_fh:
+            humvee_md5 = hashlib.md5(jar_fh.read()).hexdigest()
+            log(logging.DEBUG, "Current local checksum of Humvee", detail=humvee_md5)
+    if humvee_md5 != latest_humvee_object['checksums']['md5']:
+        log(logging.INFO, "Downloading Latest Humvee")
+        log(logging.DEBUG, "Humvee details", detail=latest_humvee_object)
+        urllib.request.urlretrieve(latest_humvee_object['downloadUri'], humvee_path)
+    else:
+        log(logging.DEBUG, "Already latest checksum %s" % humvee_md5, detail=latest_humvee_object)
 
 
 def activate_detection(detection, data, pass_condition):
