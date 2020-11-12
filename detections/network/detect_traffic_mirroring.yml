@@ -17,7 +17,7 @@ OR (facility="SPAN" mnemonic="SESSION_UP")
 OR (facility="SPAN" mnemonic="PKTCAP_START")
 OR (mnemonic="CFGLOG_LOGGEDCMD" command="monitor session*")
   | stats min(_time) AS firstTime max(_time) AS lastTime count
-  BY host
+  BY host facility mnemonic
   | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` |
   `detect_traffic_mirroring_filter`'
 known_false_positives: This search will return false positives for any legitimate traffic captures by network administrators.
