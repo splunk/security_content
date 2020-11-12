@@ -6,9 +6,9 @@ atomicwrites==1.4.0
 attackcti==0.3.3
 attrs==20.3.0
 bcrypt==3.2.0
-botocore==1.19.15
+botocore==1.19.16
 certifi==2019.11.28
-boto3==1.16.15
+boto3==1.16.16
 cffi==1.14.3
 cfgv==2.0.1
 chardet==3.0.4
@@ -65,7 +65,7 @@ splunk-sdk==1.6.14
 tabulate==0.8.7
 termcolor==1.1.0
 toml==0.10.2
-urllib3==1.26.0
+urllib3==1.26.1
 virtualenv==20.1.0
 wcwidth==0.2.5
 wget==3.2
