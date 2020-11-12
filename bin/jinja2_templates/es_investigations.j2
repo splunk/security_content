@@ -28,7 +28,7 @@ tokens = {\
       "delimiter": " OR ",\
       "valueType": "primitive",\
       "value": "identity",\
-      "default": "_1!=1"\
+      "default": null\
     }{% else %}
     "{{ token }}": {\
       "valuePrefix": "",\
@@ -36,7 +36,7 @@ tokens = {\
       "delimiter": " OR ",\
       "valueType": "primitive",\
       "value": "asset",\
-      "default": "_1!=1"\
+      "default": null\
     }{% endif %}{{ "," if not loop.last }}\
 {% endfor %}
 }\
