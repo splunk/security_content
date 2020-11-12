@@ -519,7 +519,6 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * CIS 8
 
 =====NIST=====
-* DE.AE
 * DE.CM
 * PR.AC
 * PR.IP
@@ -1237,6 +1236,7 @@ The searches in this story help you detect and investigate suspicious activity t
 
 =====ATT&CK=====
 * T1059.003
+* T1218.005
 * T1547.001
 
 =====Kill Chain Phases=====
@@ -1584,7 +1584,7 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 =====ATT&CK=====
 * T1070
 * T1070.001
-* T1485
+* T1490
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -3361,6 +3361,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * T1070.001
 * T1071.001
 * T1485
+* T1490
 * T1547.001
 
 =====Kill Chain Phases=====
@@ -3391,6 +3392,71 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 
 date = 2020-02-04
+
+version = 1
+
+</div>
+</div>
+
+===Ryuk Ransomware===
+
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the Ryuk ransomware, including looking for file writes associated with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) on October 28th called “Ransomware Activity Targeting the Healthcare and Public Health Sector.” This alert details TTPs associated with ongoing and possible imminent attacks against the Healthcare sector, and is a joint advisory in coordination with other U.S. Government agencies. The objective of these malicious campaigns is to infiltrate targets in named sectors and to drop ransomware payloads, which will likely cause disruption of service and increase risk of actual harm to the health and safety of patients at hospitals, even with the aggravant of an ongoing COVID-19 pandemic. This document specifically refers to several crimeware exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. The Ryuk ransomware payload is not new. It has been well documented and identified in multiple variants. Payloads need a carrier, and for Ryuk it has often been exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks such as Emotet or Trickbot.
+
+====Detections====
+* Common Ransomware Notes
+* Remote Desktop Network Bruteforce
+* Remote Desktop Network Traffic
+* Ryuk Test Files Detected
+* Spike in File Writes
+* Windows DisableAntiSpyware Registry
+* Windows Security Account Manager Stopped
+* Windows connhost exe started forcefully
+
+====Data Models====
+* Endpoint
+* Network_Traffic
+
+====Tags====
+
+=====ATT&CK=====
+* T1021.001
+* T1059.003
+* T1485
+* T1486
+* T1489
+* T1562.001
+
+=====Kill Chain Phases=====
+* Actions on Objectives
+* Delivery
+* Reconnaissance
+
+=====CIS=====
+* CIS 12
+* CIS 16
+* CIS 3
+* CIS 8
+* CIS 9
+
+=====NIST=====
+* DE.AE
+* DE.CM
+* PR.AC
+* PR.IP
+* PR.PT
+
+====References====
+* https://www.splunk.com/en_us/blog/security/detecting-ryuk-using-splunk-attack-range.html
+* https://www.crowdstrike.com/blog/big-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
+* https://us-cert.cisa.gov/ncas/alerts/aa20-302a
+
+date = 2020-11-06
 
 version = 1
 
@@ -3439,7 +3505,9 @@ This Analytic Story includes searches designed to help detect and investigate si
 * T1059.001
 * T1059.003
 * T1082
+* T1204.002
 * T1485
+* T1490
 
 =====Kill Chain Phases=====
 * Actions on Objectives
