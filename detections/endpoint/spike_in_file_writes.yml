@@ -25,6 +25,7 @@ known_false_positives: It is important to understand that if you happen to insta
 tags:
   analytics_story:
   - SamSam Ransomware
+  - Ryuk Ransomware
   - Ransomware
   kill_chain_phases:
   - Actions on Objectives
