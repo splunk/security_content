@@ -3,7 +3,7 @@ date: '2020-10-27'
 description: This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs
 id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
-known_false_positives: Not all operations with KMS keys are malicious.  It is very unusual to create a key to encrypt only and not to decrypt. This search compliments the creation of KMS keys with encrypt policy. It is recommended to change * for specific keys found in the KMS policy search
+known_false_positives: Not all operations with KMS keys are malicious.  It is very unusual to create a key to encrypt only and not to decrypt. This search compliments the creation of KMS keys with encrypt policy. 
 name: AWS Detect Users with KMS keys performing encryption S3
 references:
    - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
