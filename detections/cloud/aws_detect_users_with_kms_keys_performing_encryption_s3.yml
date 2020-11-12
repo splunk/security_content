@@ -9,7 +9,7 @@ references:
    - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
    - https://github.com/d1vious/git-wild-hunt
    - https://www.youtube.com/watch?v=PgzNib37g0M
-search: '`cloudtrail` eventName=GenerateDataKey userIdentity.sessionContext.attributes.mfaAuthenticated=false | table  event_name errorCode region requestParameters.encryptionContext.aws:s3:arn user requestParameters.keyId userAgent | `aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
+search: '`cloudtrail` eventName = CopyObject requestParameters.x-amz-server-side-encryption = "aws:kms" | stats count min(_time) as firstTime max(_time) as lastTime values(bucket_name) values(object_path) by eventName http_user_agent user requestParameters.x-amz-server-side-encryption-aws-kms-key-id | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
 tags:
   analytics_story:
   - Ransomware Cloud
