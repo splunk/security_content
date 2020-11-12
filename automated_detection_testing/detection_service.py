@@ -91,6 +91,8 @@ def main(args):
       filedata = file.read()
 
     filedata = filedata.replace('attack_range_password = Pl3ase-k1Ll-me:p', 'attack_range_password = I-l1ke-Attack-Range!')
+    filedata = filedata.replace('windows_domain_controller = 1', 'windows_domain_controller = 0')
+    filedata = filedata.replace('windows_server_join_domain = 1', 'windows_server_join_domain = 0')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
     filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
@@ -169,7 +171,8 @@ def main(args):
 
         security_content_repo_obj.config_writer().set_value("user", "name", "Detection Testing Service").release()
         security_content_repo_obj.config_writer().set_value("user", "email", "research@splunk.com").release()
-        security_content_repo_obj.remotes.origin.pull()
+        if not security_content_branch == 'develop':
+            security_content_repo_obj.remotes.origin.pull()
         security_content_repo_obj.git.push('--set-upstream', 'origin', branch_name)
         g = Github(O_AUTH_TOKEN_GITHUB)
         repo = g.get_repo("splunk/security-content")

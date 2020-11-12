@@ -8,9 +8,11 @@ import argparse
 import sys
 import coloredlogs
 import logging
+import json
 
 SSML_CWD = ".humvee"
-HUMVEE_URL = "https://repo.splunk.com/artifactory/maven-splunk-local/com/splunk/humvee-scala_2.11/1.2.1-SNAPSHOT/humvee-scala_2.11-1.2.1-20201022.220521-1.jar"
+HUMVEE_ARTIFACT_SEARCH = "https://repo.splunk.com/artifactory/api/search/artifact?name=humvee&repos=maven-splunk-local"
+TEST_TIMEOUT = 600
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -52,8 +54,10 @@ def main(args):
 
 
 def _exit(code, passed, failed):
-    log(logging.INFO, "Passed tests", "\n".join(passed))
-    log(logging.INFO, "Failed tests", "\n".join(failed))
+    total_passed = len(passed)
+    total_failed = len(failed)
+    log(logging.INFO, "Passed tests (%d/%d)" % (total_passed, total_passed + total_failed), "\n".join(passed))
+    log(logging.INFO, "Failed tests (%d/%d)" % (total_failed, total_passed + total_failed), "\n".join(failed))
     exit(code)
 
 
@@ -81,12 +85,22 @@ def extract_pipeline(search, data, pass_condition):
     return updated_search
 
 
+def get_latest_humvee_object():
+    res = json.loads(urllib.request.urlopen(HUMVEE_ARTIFACT_SEARCH).read().decode('utf-8'))
+    for r in res['results']:
+        if re.match(r".*/latest/humvee-.*\.jar$", r['uri']):
+            latest_humvee = json.loads(urllib.request.urlopen(r['uri']).read().decode('utf-8'))
+            return latest_humvee
+    return ""
+
+
 def build_humvee():
     if not os.path.exists(get_path(SSML_CWD)):
         os.mkdir(get_path(SSML_CWD))
-    if not os.path.exists(get_path("%s/humvee.jar" % SSML_CWD)):
-        logger.debug("Downloading Humvee")
-        urllib.request.urlretrieve(HUMVEE_URL, "%s/humvee.jar" % get_path(SSML_CWD))
+    latest_humvee_object = get_latest_humvee_object()
+    log(logging.INFO, "Downloading Latest Humvee")
+    log(logging.DEBUG, "Humvee details", detail=latest_humvee_object)
+    urllib.request.urlretrieve(latest_humvee_object['downloadUri'], "%s/humvee.jar" % get_path(SSML_CWD))
 
 
 def activate_detection(detection, data, pass_condition):
@@ -133,12 +147,17 @@ def test_detection(test, args):
                     spl2_fh.write(spl2)
                 # Execute SPL2
                 log(logging.INFO, "Humvee test %s" % detection['name'])
-                subprocess.run(["/usr/bin/java",
-                                "-jar", get_path("%s/humvee.jar" % SSML_CWD),
-                                'cli',
-                                '-i', spl2_file,
-                                '-o', test_out],
-                               stderr=subprocess.DEVNULL)
+                try:
+                    subprocess.run(["/usr/bin/java",
+                                    "-jar", get_path("%s/humvee.jar" % SSML_CWD),
+                                    'cli',
+                                    '-i', spl2_file,
+                                    '-o', test_out],
+                                   stderr=subprocess.DEVNULL,
+                                   timeout=TEST_TIMEOUT)
+                except TimeoutError:
+                    log(logging.ERROR, "%s test timeout" % detection['name'])
+                    return False
                 # Validate that it can run
                 with open(test_status, "r") as test_status_fh:
                     status = '\n'.join(test_status_fh.readlines())
