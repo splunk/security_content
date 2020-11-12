@@ -17,3 +17,6 @@ tags:
   - Suspicious Cloud Instance Activities
   detections:
   - Cloud Instance Modified With Previously Unseen User
+  deployments:
+  - 90 Day Baseline
+

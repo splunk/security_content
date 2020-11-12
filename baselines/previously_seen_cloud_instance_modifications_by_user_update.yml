@@ -20,3 +20,5 @@ tags:
   - Suspicious Cloud Instance Activities
   detections:
   - Cloud Instance Modified With Previously Unseen User
+  deployments:
+  - Daily Cache Updates
