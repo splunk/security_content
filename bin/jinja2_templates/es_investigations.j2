@@ -23,19 +23,27 @@ tokens = {\
 {% for token in response_task.inputs %}
 {% if token == 'user' %}
     "user": {\
-      "valuePrefix": "",\
-      "valueSuffix": "",\
-      "delimiter": " OR {{ token }} = ",\
+      "valuePrefix": "{{ token }}=\"",\
+      "valueSuffix": "\"",\
+      "delimiter": " OR ",\
       "valueType": "primitive",\
       "value": "identity",\
       "default": "_1!=1"\
-    }{% else %}
-    "{{ token }}": {\
-      "valuePrefix": "",\
-      "valueSuffix": "",\
-      "delimiter": " OR {{ token }} = ",\
+    }{% elif token == 'dest'%}
+    "user": {\
+      "valuePrefix": "{{ token }}=\"",\
+      "valueSuffix": "\"",\
+      "delimiter": " OR ",\
       "valueType": "primitive",\
       "value": "asset",\
+      "default": "_1!=1"\
+    }{% else %}
+    "{{ token }}": {\
+      "valuePrefix": "{{ token }}=\"*",\
+      "valueSuffix": "*\"",\
+      "delimiter": " OR ",\
+      "valueType": "primitive",\
+      "value": "file",\
       "default": "_1!=1"\
     }{% endif %}{{ "," if not loop.last }}\
 {% endfor %}
