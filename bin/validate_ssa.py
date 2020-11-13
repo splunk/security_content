@@ -209,17 +209,17 @@ def test_detection(test, args):
                             detail='''Suggested action: Append this to "tags" in your detection
 %s''' % yaml.dump({'required_fields': list(spl2_ssa_fields)}))
                         return False
-                    declared_ssa_fields = set(detection_desc['required_fields'])
+                    declared_ssa_fields = set(detection_desc['tags']['required_fields'])
                     fields_declared_not_used = declared_ssa_fields.difference(spl2_ssa_fields)
                     fields_not_declared = spl2_ssa_fields.difference(declared_ssa_fields)
                     if len(fields_declared_not_used) > 0:
                         log(logging.ERROR,
-                            "Some declared fields in detection not used in pipeline",
+                            "Some declared fields in detection %s not used in pipeline" % detection['file'],
                             detail=','.join(fields_declared_not_used))
                         return False
                     if len(fields_not_declared) > 0:
                         log(logging.ERROR,
-                            "Some fields used in the pipeline not declared in detection",
+                            "Some fields used in the pipeline not declared in detection %s" % detection['file'],
                             detail=','.join(fields_not_declared))
                         return False
     return True
