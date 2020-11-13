@@ -26,7 +26,7 @@ pyrsistent==0.17.3
 python-dateutil==2.8.1
 pytz==2020.4
 PyYAML==5.3.1
-requests==2.24.0
+requests==2.25.0
 scandir==1.10.0
 semantic-version==2.8.5
 simplejson==3.17.2
