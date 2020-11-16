@@ -3,7 +3,7 @@ import subprocess
 import urllib.request
 import tempfile
 import argparse
-from bin_tools.ssa_utils import *
+from modules.ssa_utils import *
 
 TEST_TIMEOUT = 600
 
