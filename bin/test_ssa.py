@@ -44,7 +44,6 @@ def _exit(code, passed, failed):
 
 
 def get_pipeline_input(data):
-    print(data)
     return '| from read_text("%s") ' \
            '| select from_json_object(value) as input_event ' \
            '| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))' % data
@@ -138,40 +137,6 @@ def test_detection(test, args):
                         log(logging.DEBUG, "Passed test %s" % detection['name'])
                     else:
                         log(logging.ERROR, "Pass condition %s didn't produce any events" % detection['pass_condition'])
-                        return False
-                # Verify that the fields in the detection pipeline match the ones declared
-                subprocess.run(["/usr/bin/java",
-                                "-jar", get_path("%s/humvee.jar" % SSML_CWD),
-                                'cli', '-i',
-                                spl2_file, '-o',
-                                test_out,
-                                '-f'],
-                               stderr=subprocess.DEVNULL)
-                spl2_ssa_fields = set()
-                with open(test_out, 'r') as test_out_fh:
-                    for f in test_out_fh.readlines():
-                        spl2_ssa_fields.add(f.strip())
-                log(logging.DEBUG, "SSA fields used by the detection", detail=",".join(spl2_ssa_fields))
-                with open(detection_file, 'r') as detection_fh:
-                    detection_desc = yaml.safe_load(detection_fh)
-                    if "required_fields" not in detection_desc['tags']:
-                        log(logging.ERROR,
-                            "required_fields not present in detection %s" % detection['file'],
-                            detail='''Suggested action: Append this to "tags" in your detection
-%s''' % yaml.dump({'required_fields': list(spl2_ssa_fields)}))
-                        return False
-                    declared_ssa_fields = set(detection_desc['tags']['required_fields'])
-                    fields_declared_not_used = declared_ssa_fields.difference(spl2_ssa_fields)
-                    fields_not_declared = spl2_ssa_fields.difference(declared_ssa_fields)
-                    if len(fields_declared_not_used) > 0:
-                        log(logging.ERROR,
-                            "Some declared fields in detection %s not used in pipeline" % detection['file'],
-                            detail=','.join(fields_declared_not_used))
-                        return False
-                    if len(fields_not_declared) > 0:
-                        log(logging.ERROR,
-                            "Some fields used in the pipeline not declared in detection %s" % detection['file'],
-                            detail=','.join(fields_not_declared))
                         return False
     return True
 

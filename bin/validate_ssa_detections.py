@@ -62,7 +62,8 @@ def extract_ssa_fields(spl2):
                     pipeline_file, '-o',
                     fields_file,
                     '-f'],
-                   stderr=subprocess.DEVNULL)
+                   stderr=subprocess.DEVNULL,
+                   check=True)
     spl2_ssa_fields = set()
     with open(fields_file, 'r') as test_out_fh:
         for f in test_out_fh.readlines():
@@ -74,28 +75,32 @@ def validate_required_fields(detection_file):
     with open(detection_file, 'r') as detection_fh:
         detection = yaml.safe_load(detection_fh)
         if detection['type'] == "SSA":
-            spl2_ssa_fields = extract_ssa_fields(detection['search'])
-            log(logging.DEBUG, "SSA fields used by the detection", detail=",".join(spl2_ssa_fields))
-            if "required_fields" not in detection['tags']:
-                log(logging.ERROR,
-                    "required_fields not present in detection %s" % detection_file,
-                    detail='''Suggested action: Append this to "tags" in your detection
-            %s''' % yaml.dump({'required_fields': list(spl2_ssa_fields)}))
+            try:
+                spl2_ssa_fields = extract_ssa_fields(detection['search'])
+                log(logging.DEBUG, "SSA fields used by the detection", detail=",".join(spl2_ssa_fields))
+                if "required_fields" not in detection['tags']:
+                    log(logging.ERROR,
+                        "required_fields not present in detection %s" % detection_file,
+                        detail='''Suggested action: Append this to "tags" in your detection
+                %s''' % yaml.dump({'required_fields': list(spl2_ssa_fields)}))
+                    return False
+                declared_ssa_fields = set(detection['tags']['required_fields'])
+                fields_declared_not_used = declared_ssa_fields.difference(spl2_ssa_fields)
+                fields_not_declared = spl2_ssa_fields.difference(declared_ssa_fields)
+                if len(fields_declared_not_used) > 0:
+                    log(logging.ERROR,
+                        "Some declared fields in detection %s not used in pipeline" % detection_file,
+                        detail=','.join(fields_declared_not_used))
+                    return False
+                if len(fields_not_declared) > 0:
+                    log(logging.ERROR,
+                        "Some fields used in the pipeline not declared in detection %s" % detection_file,
+                        detail=','.join(fields_not_declared))
+                    return False
+                return True
+            except subprocess.CalledProcessError:
+                log(logging.ERROR, "Syntax errors in pipeline %s" % detection_file, detail=detection['search'])
                 return False
-            declared_ssa_fields = set(detection['tags']['required_fields'])
-            fields_declared_not_used = declared_ssa_fields.difference(spl2_ssa_fields)
-            fields_not_declared = spl2_ssa_fields.difference(declared_ssa_fields)
-            if len(fields_declared_not_used) > 0:
-                log(logging.ERROR,
-                    "Some declared fields in detection %s not used in pipeline" % detection_file,
-                    detail=','.join(fields_declared_not_used))
-                return False
-            if len(fields_not_declared) > 0:
-                log(logging.ERROR,
-                    "Some fields used in the pipeline not declared in detection %s" % detection_file,
-                    detail=','.join(fields_not_declared))
-                return False
-            return True
         else:
             log(logging.DEBUG, "Not a SSA detection", detail=detection_file)
             return True
