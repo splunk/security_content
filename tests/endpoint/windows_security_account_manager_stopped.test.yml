@@ -1,10 +1,10 @@
-name:  Windows Security Account Manager Stopped
+name:  Windows Security Account Manager Stopped Unit Test
 detections:
 - name:  Windows Security Account Manager Stopped
   file: endpoint/windows_security_account_manager_stopped.yml
   pass_condition: '| stats count | where count > 0'
 attack_data:
 - file_name: windows-sysmon.log
-  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1489.all/windows_security_account_manager_stopped_69c12d59-d951-431e-ab77-ec426b8d65e6.json
+  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/malware/ryuk/windows-sysmon.log
   source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
   sourcetype: xmlwineventlog
