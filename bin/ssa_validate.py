@@ -9,7 +9,7 @@ DUMB_PIPELINE_INPUT = '| from read_text("/")' \
                       '| select from_json_object(value) as input_event' \
                       '| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))'
 
-DUMB_PIPELINE_OUTPUT = ';'
+DUMB_PIPELINE_OUTPUT = '| select start_time, end_time, entities, body;'
 
 
 def main(args):
@@ -128,7 +128,10 @@ def validate_required_fields(detection):
             return False
         return True
     except subprocess.CalledProcessError:
-        log(logging.ERROR, "Syntax errors in pipeline %s" % detection['name'], detail=detection['search'])
+        log(logging.ERROR,
+            "Syntax errors in pipeline %s" % detection['name'],
+            detail=detection['search'])
+        log(logging.INFO, "Perhaps required [input|output] fields do not match SSA ones")
     return False
 
 
