@@ -106,7 +106,7 @@ def main(args):
         sys.exit(1)
     else:
         # init terraform
-        os.system('cd attack_range/terraform/aws && terraform init && cd ../../..')
+        os.system('cd attack_range/terraform/aws && terraform init && cd ../..')
         
 
     module = __import__('attack_range')
