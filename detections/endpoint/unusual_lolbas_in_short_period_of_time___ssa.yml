@@ -93,7 +93,7 @@ timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
 | rename window_end as timestamp
 | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000L
 | where label AND quantile>0.99
-| eval start_time = timestamp,
+| eval start_time = window_start,
        end_time = timestamp,
        entities = mvappend(device),
        body = "TBD"
