@@ -13,6 +13,7 @@ type: SSA
 author: Ignacio Bermudez Corrales, Splunk
 search: ' $ssa_input = | from read_ssa_enriched_events()
           | eval device=ucast(map_get(input_event, "dest_device_id"), "string", null),
+          user=ucast(map_get(input_event, "dest_user_id"), "string", null),
           timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
           process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
           process_path=lower(ucast(map_get(input_event, "process_path"), "string", null));
@@ -595,7 +596,7 @@ $cond_6 = | from $ssa_input
         | where process_path!="c:\\windows\\system32" AND process_path!="c:\\windows\\syswow64"
         | eval start_time = timestamp,
                end_time = timestamp,
-               entities = mvappend(device),
+               entities = mvappend(device, user),
                body = "TBD"
         | into write_ssa_detected_events();'
 known_false_positives: None
