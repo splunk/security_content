@@ -35,3 +35,10 @@ tags:
   - PR.IP
   security_domain: endpoint
   risk_severity: low
+  required_fields:
+    - logon_process
+    - dest_user_primary_artifact
+    - _time
+    - event_code
+    - dest_ip_primary_artifact
+    - logon_type
