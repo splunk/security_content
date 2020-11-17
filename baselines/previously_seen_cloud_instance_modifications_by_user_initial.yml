@@ -7,7 +7,7 @@ description: This search builds a table of previously seen users that have modif
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs and have the latest Change Datamodel accelerated.
 author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-    where All_Changes.action=modified All_Changes.object_category=instance All_Changes.status=success by All_Changes.user 
+    where All_Changes.action=modified All_Changes.change_type=EC2 All_Changes.status=success by All_Changes.user 
 | `drop_dm_object_name("All_Changes")` 
 | eventstats min(firstTimeSeen) as globalFirstTime 
 | eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 

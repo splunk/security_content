@@ -14,7 +14,7 @@ author: Rico Valdez, Splunk
 
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime, latest(_time)
     as lastTime values(All_Changes.object_id) as object_id values(All_Changes.object) as dest from datamodel=Change.All_Changes
-    where All_Changes.action=modified by All_Changes.user 
+    where All_Changes.action=modified All_Changes.change_type=EC2 All_Changes.status=success by All_Changes.user 
 | `drop_dm_object_name("All_Changes")` 
 | lookup previously_seen_cloud_instance_modifications_by_user user as user OUTPUTNEW firstTimeSeen, enough_data 
 | eventstats max(enough_data) as enough_data 

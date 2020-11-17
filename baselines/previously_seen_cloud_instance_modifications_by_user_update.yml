@@ -8,7 +8,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
 author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-    where All_Changes.action=modified All_Changes.object_category=instance All_Changes.status=success 
+    where All_Changes.action=modified All_Changes.change_type=EC2 All_Changes.status=success
     by All_Changes.user 
 | `drop_dm_object_name("All_Changes")` 
 | inputlookup append=t previously_seen_cloud_instance_modifications_by_user 
