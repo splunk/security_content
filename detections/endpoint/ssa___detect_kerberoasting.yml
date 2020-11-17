@@ -31,3 +31,10 @@ tags:
   - DE.CM
   security_domain: endpoint
   risk_severity: low
+  required_fields:
+    - service_name
+    - _time
+    - event_code
+    - ticket_encryption_type
+    - service_id
+    - ticket_options

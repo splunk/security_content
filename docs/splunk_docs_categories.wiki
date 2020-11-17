@@ -2004,22 +2004,31 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 ====Detections====
 * Detect ARP Poisoning
+* Detect IPv6 Network Infrastructure Threats
 * Detect New Login Attempts to Routers
+* Detect Port Security Violation
 * Detect Rogue DHCP Server
+* Detect Software Download To Network Device
+* Detect Traffic Mirroring
 
 ====Data Models====
 * Authentication
+* Network_Traffic
 
 ====Tags====
 
 =====ATT&CK=====
+* T1020.001
 * T1200
 * T1498
+* T1542.005
 * T1557
+* T1557.002
 
 =====Kill Chain Phases=====
 * Actions on Objectives
 * Delivery
+* Exploitation
 * Reconnaissance
 
 =====CIS=====
@@ -2097,7 +2106,6 @@ Herein lies the rub. In between the time between when the temporary credentials 
 This Analytic Story includes searches that will help you monitor your AWS CloudTrail logs for evidence of suspicious cross-account activity.  For example, while accessing multiple AWS accounts and roles may be perfectly valid behavior, it may be suspicious when an account requests privileges of an account it has not accessed in the past. After identifying suspicious activities, you can use the provided investigative searches to help you probe more deeply.
 
 ====Detections====
-* AWS Cross Account Activity From Previously Unseen Account
 * aws detect attach to role policy
 * aws detect permanent key creation
 * aws detect role creation
@@ -2110,18 +2118,14 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 =====ATT&CK=====
 * T1078
-* T1078.004
 * T1550
 
 =====Kill Chain Phases=====
-* Actions on Objectives
 * Lateral Movement
 
 =====CIS=====
-* CIS 16
 
 =====NIST=====
-* DE.AE
 
 ====References====
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
@@ -2148,6 +2152,7 @@ This Analytic Story is focused on detecting suspicious new instances in your EC2
 
 ====Detections====
 * Abnormally High AWS Instances Launched by User
+* Abnormally High AWS Instances Launched by User - MLTK
 * EC2 Instance Started In Previously Unseen Region
 * EC2 Instance Started With Previously Unseen AMI
 * EC2 Instance Started With Previously Unseen Instance Type
@@ -2205,6 +2210,7 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 ====Tags====
 
 =====ATT&CK=====
+* T1562.007
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -2377,14 +2383,15 @@ When malicious miners appropriate a cloud instance, often spinning up hundreds o
 This Analytic Story is focused on detecting suspicious new instances in your cloud environment to help prevent cryptominers from gaining a foothold. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 ====Detections====
-* Abnormally High AWS Instances Launched by User - MLTK
+* Abnormally High Number Of Cloud Instances Destroyed
+* Abnormally High Number Of Cloud Instances Launched
 * Cloud Compute Instance Created By Previously Unseen User
+* Cloud Compute Instance Created In Previously Unused Region
 * Cloud Compute Instance Created With Previously Unseen Image
 * Cloud Compute Instance Created With Previously Unseen Instance Type
-* Cloud Compute Instance Started In Previously Unused Region
 
 ====Data Models====
-* Cloud_Infrastructure
+* Change
 
 ====Tags====
 
@@ -2690,6 +2697,7 @@ It is important to monitor and control who has access to your AWS infrastructure
 * Detect new user AWS Console Login
 
 ====Data Models====
+* Authentication
 
 ====Tags====
 
@@ -2818,10 +2826,11 @@ It is important to monitor and control who has access to your cloud infrastructu
 This Analytic Story has data model versions of cloud searches leveraging Authentication data, including those looking for suspicious login activity, and cross-account activity for AWS.
 
 ====Detections====
+* AWS Cross Account Activity From Previously Unseen Account
+* Detect AWS Console Login by New User
 * Detect AWS Console Login by User from New City
 * Detect AWS Console Login by User from New Country
 * Detect AWS Console Login by User from New Region
-* Detect new user AWS Console Login - DM
 
 ====Data Models====
 * Authentication
@@ -2846,6 +2855,143 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
 
 date = 2020-06-04
+
+version = 1
+
+</div>
+</div>
+
+===Suspicious Cloud Instance Activities===
+
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Monitoring your cloud infrastructure logs allows you enable governance, compliance, and risk auditing. It is crucial for a company to monitor events and actions taken in the their cloud environments to ensure that your instances are not vulnerable to attacks. This Analytic Story identifies suspicious activities in your cloud compute instances and helps you respond and investigate those activities.
+
+====Detections====
+* Abnormally High Number Of Cloud Instances Destroyed
+* Abnormally High Number Of Cloud Instances Launched
+* Cloud Instance Modified By Previously Unseen User
+
+====Data Models====
+* Change
+
+====Tags====
+
+=====ATT&CK=====
+* T1078.004
+
+=====Kill Chain Phases=====
+* Actions on Objectives
+
+=====CIS=====
+* CIS 1
+* CIS 13
+
+=====NIST=====
+* DE.AE
+* DE.DP
+* ID.AM
+
+====References====
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+date = 2020-08-25
+
+version = 1
+
+</div>
+</div>
+
+===Suspicious Cloud Provisioning Activities===
+
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Because most enterprise cloud infrastructure activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).\
+This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
+
+====Detections====
+* Cloud Provisioning Activity From Previously Unseen City
+* Cloud Provisioning Activity From Previously Unseen Country
+* Cloud Provisioning Activity From Previously Unseen IP Address
+* Cloud Provisioning Activity From Previously Unseen Region
+
+====Data Models====
+* Change
+
+====Tags====
+
+=====ATT&CK=====
+* T1078
+
+=====Kill Chain Phases=====
+
+=====CIS=====
+* CIS 1
+
+=====NIST=====
+* ID.AM
+
+====References====
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+date = 2018-08-20
+
+version = 1
+
+</div>
+</div>
+
+===Suspicious Cloud User Activities===
+
+Detect and investigate suspicious activities by users and roles in your cloud environments.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+It seems obvious that it is critical to monitor and control the users who have access to your cloud infrastructure. Nevertheless, it's all too common for enterprises to lose track of ad-hoc accounts, leaving their servers vulnerable to attack. In fact, this was the very oversight that led to Tesla's cryptojacking attack in February, 2018.\
+In addition to compromising the security of your data, when bad actors leverage your compute resources, it can incur monumental costs, since you will be billed for any new instances and increased bandwidth usage.
+
+====Detections====
+* Abnormally High Number Of Cloud Infrastructure API Calls
+* Abnormally High Number Of Cloud Security Group API Calls
+* Cloud API Calls From Previously Unseen User Roles
+
+====Data Models====
+* Change
+
+====Tags====
+
+=====ATT&CK=====
+* T1078
+* T1078.004
+
+=====Kill Chain Phases=====
+* Actions on Objectives
+
+=====CIS=====
+* CIS 1
+* CIS 16
+
+=====NIST=====
+* DE.CM
+* DE.DP
+* ID.AM
+* PR.AC
+
+====References====
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* https://redlock.io/blog/cryptojacking-tesla
+
+date = 2020-09-04
 
 version = 1
 
@@ -3392,6 +3538,45 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 
 date = 2020-02-04
+
+version = 1
+
+</div>
+</div>
+
+===Ransomware Cloud===
+
+Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Ransomware is an ever-present risk to the enterprise, wherein an infected host encrypts business-critical data, holding it hostage until the victim pays the attacker a ransom. There are many types and varieties of ransomware that can affect an enterprise.Cloud ransomware can be deployed by obtaining high privilege credentials from targeted users or resources.
+
+====Detections====
+* AWS Detect Users creating keys with encrypt policy without MFA
+* AWS Detect Users with KMS keys performing encryption S3
+
+====Data Models====
+
+====Tags====
+
+=====ATT&CK=====
+* T1486
+
+=====Kill Chain Phases=====
+
+=====CIS=====
+
+=====NIST=====
+
+====References====
+* https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+* https://github.com/d1vious/git-wild-hunt
+* https://www.youtube.com/watch?v=PgzNib37g0M
+
+date = 2020-10-27
 
 version = 1
 
