@@ -1,0 +1,16 @@
+name: Cloud Compute Instance Created In Previously Unused Region Unit Test
+detections:
+- name: Cloud Compute Instance Created In Previously Unused Region
+  file: cloud/cloud_compute_instance_created_in_previously_unused_region.yml
+  pass_condition: '| stats count | where count > 0'
+baselines:
+- name: Previously Seen Cloud Regions - Initial
+  file: baselines/previously_seen_cloud_regions_initial.yml
+  
+- name: Previously Seen Cloud Regions - Update
+  file: baselines/previously_seen_cloud_regions_update.yml
+attack_data:
+- file_name: cloudtrail_behavioural_detections.json
+  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/cloudtrail_behavioural_detections/cloudtrail_behavioural_detections.json
+  sourcetype: aws:cloudtrail
+
