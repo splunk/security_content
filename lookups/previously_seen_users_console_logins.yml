@@ -1,0 +1,4 @@
+description: A table of users seen doing console logins, and the first and last time that the activity was observed
+collection: previously_seen_users_console_logins
+name: previously_seen_users_console_logins
+fields_list: _key, firstTime, lastTime, user, src, City, Region, Country

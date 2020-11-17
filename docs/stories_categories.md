@@ -543,7 +543,6 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * CIS 8
 
 ##### NIST
-* DE.AE
 * DE.CM
 * PR.AC
 * PR.IP
@@ -1183,6 +1182,7 @@ The searches in this story help you detect and investigate suspicious activity t
 
 ##### ATT&CK
 * T1059.003
+* T1218.005
 * T1547.001
 
 ##### Kill Chain Phases
@@ -1488,7 +1488,7 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 ##### ATT&CK
 * T1070
 * T1070.001
-* T1485
+* T1490
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1870,22 +1870,31 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 #### Detections
 * Detect ARP Poisoning
+* Detect IPv6 Network Infrastructure Threats
 * Detect New Login Attempts to Routers
+* Detect Port Security Violation
 * Detect Rogue DHCP Server
+* Detect Software Download To Network Device
+* Detect Traffic Mirroring
 
 #### Data Models
 * Authentication
+* Network_Traffic
 
 #### Mappings
 
 ##### ATT&CK
+* T1020.001
 * T1200
 * T1498
+* T1542.005
 * T1557
+* T1557.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Delivery
+* Exploitation
 * Reconnaissance
 
 ###### CIS
@@ -1971,6 +1980,12 @@ Various legacy protocols operate by default in the clear, without the protection
 
 * [Suspicious Cloud Authentication Activities](#Suspicious-Cloud-Authentication-Activities)
 
+* [Suspicious Cloud Instance Activities](#Suspicious-Cloud-Instance-Activities)
+
+* [Suspicious Cloud Provisioning Activities](#Suspicious-Cloud-Provisioning-Activities)
+
+* [Suspicious Cloud User Activities](#Suspicious-Cloud-User-Activities)
+
 * [Suspicious GCP Storage Activities](#Suspicious-GCP-Storage-Activities)
 
 * [Unusual AWS EC2 Modifications](#Unusual-AWS-EC2-Modifications)
@@ -1989,7 +2004,6 @@ Herein lies the rub. In between the time between when the temporary credentials 
 This Analytic Story includes searches that will help you monitor your AWS CloudTrail logs for evidence of suspicious cross-account activity.  For example, while accessing multiple AWS accounts and roles may be perfectly valid behavior, it may be suspicious when an account requests privileges of an account it has not accessed in the past. After identifying suspicious activities, you can use the provided investigative searches to help you probe more deeply.
 
 #### Detections
-* AWS Cross Account Activity From Previously Unseen Account
 * aws detect attach to role policy
 * aws detect permanent key creation
 * aws detect role creation
@@ -2002,18 +2016,14 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 ##### ATT&CK
 * T1078
-* T1078.004
 * T1550
 
 ##### Kill Chain Phases
-* Actions on Objectives
 * Lateral Movement
 
 ###### CIS
-* CIS 16
 
 ##### NIST
-* DE.AE
 
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
@@ -2034,6 +2044,7 @@ This Analytic Story is focused on detecting suspicious new instances in your EC2
 
 #### Detections
 * Abnormally High AWS Instances Launched by User
+* Abnormally High AWS Instances Launched by User - MLTK
 * EC2 Instance Started In Previously Unseen Region
 * EC2 Instance Started With Previously Unseen AMI
 * EC2 Instance Started With Previously Unseen Instance Type
@@ -2085,6 +2096,7 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 #### Mappings
 
 ##### ATT&CK
+* T1562.007
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2233,14 +2245,15 @@ When malicious miners appropriate a cloud instance, often spinning up hundreds o
 This Analytic Story is focused on detecting suspicious new instances in your cloud environment to help prevent cryptominers from gaining a foothold. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 #### Detections
-* Abnormally High AWS Instances Launched by User - MLTK
+* Abnormally High Number Of Cloud Instances Destroyed
+* Abnormally High Number Of Cloud Instances Launched
 * Cloud Compute Instance Created By Previously Unseen User
+* Cloud Compute Instance Created In Previously Unused Region
 * Cloud Compute Instance Created With Previously Unseen Image
 * Cloud Compute Instance Created With Previously Unseen Instance Type
-* Cloud Compute Instance Started In Previously Unused Region
 
 #### Data Models
-* Cloud_Infrastructure
+* Change
 
 #### Mappings
 
@@ -2504,6 +2517,7 @@ It is important to monitor and control who has access to your AWS infrastructure
 * Detect new user AWS Console Login
 
 #### Data Models
+* Authentication
 
 #### Mappings
 
@@ -2614,10 +2628,11 @@ It is important to monitor and control who has access to your cloud infrastructu
 This Analytic Story has data model versions of cloud searches leveraging Authentication data, including those looking for suspicious login activity, and cross-account activity for AWS.
 
 #### Detections
+* AWS Cross Account Activity From Previously Unseen Account
+* Detect AWS Console Login by New User
 * Detect AWS Console Login by User from New City
 * Detect AWS Console Login by User from New Country
 * Detect AWS Console Login by User from New Region
-* Detect new user AWS Console Login - DM
 
 #### Data Models
 * Authentication
@@ -2640,6 +2655,125 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
+### Suspicious Cloud Instance Activities
+* id = 8168ca88-392e-42f4-85a2-767579c660ce
+* date = 2020-08-25
+* version = 1
+
+#### Description
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+#### Narrative
+Monitoring your cloud infrastructure logs allows you enable governance, compliance, and risk auditing. It is crucial for a company to monitor events and actions taken in the their cloud environments to ensure that your instances are not vulnerable to attacks. This Analytic Story identifies suspicious activities in your cloud compute instances and helps you respond and investigate those activities.
+
+#### Detections
+* Abnormally High Number Of Cloud Instances Destroyed
+* Abnormally High Number Of Cloud Instances Launched
+* Cloud Instance Modified By Previously Unseen User
+
+#### Data Models
+* Change
+
+#### Mappings
+
+##### ATT&CK
+* T1078.004
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 1
+* CIS 13
+
+##### NIST
+* DE.AE
+* DE.DP
+* ID.AM
+
+##### References
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+### Suspicious Cloud Provisioning Activities
+* id = 51045ded-1575-4ba6-aef7-af6c73cffd86
+* date = 2018-08-20
+* version = 1
+
+#### Description
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+#### Narrative
+Because most enterprise cloud infrastructure activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).\
+This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
+
+#### Detections
+* Cloud Provisioning Activity From Previously Unseen City
+* Cloud Provisioning Activity From Previously Unseen Country
+* Cloud Provisioning Activity From Previously Unseen IP Address
+* Cloud Provisioning Activity From Previously Unseen Region
+
+#### Data Models
+* Change
+
+#### Mappings
+
+##### ATT&CK
+* T1078
+
+##### Kill Chain Phases
+
+###### CIS
+* CIS 1
+
+##### NIST
+* ID.AM
+
+##### References
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+### Suspicious Cloud User Activities
+* id = 1ed5ce7d-5469-4232-92af-89d1a3595b39
+* date = 2020-09-04
+* version = 1
+
+#### Description
+Detect and investigate suspicious activities by users and roles in your cloud environments.
+
+#### Narrative
+It seems obvious that it is critical to monitor and control the users who have access to your cloud infrastructure. Nevertheless, it's all too common for enterprises to lose track of ad-hoc accounts, leaving their servers vulnerable to attack. In fact, this was the very oversight that led to Tesla's cryptojacking attack in February, 2018.\
+In addition to compromising the security of your data, when bad actors leverage your compute resources, it can incur monumental costs, since you will be billed for any new instances and increased bandwidth usage.
+
+#### Detections
+* Abnormally High Number Of Cloud Infrastructure API Calls
+* Abnormally High Number Of Cloud Security Group API Calls
+* Cloud API Calls From Previously Unseen User Roles
+
+#### Data Models
+* Change
+
+#### Mappings
+
+##### ATT&CK
+* T1078
+* T1078.004
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 1
+* CIS 16
+
+##### NIST
+* DE.CM
+* DE.DP
+* ID.AM
+* PR.AC
+
+##### References
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* https://redlock.io/blog/cryptojacking-tesla
 
 ### Suspicious GCP Storage Activities
 * id = 4d656b2e-d6be-11ea-87d0-0242ac130003
@@ -2728,6 +2862,10 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 * [Orangeworm Attack Group](#Orangeworm-Attack-Group)
 
 * [Ransomware](#Ransomware)
+
+* [Ransomware Cloud](#Ransomware-Cloud)
+
+* [Ryuk Ransomware](#Ryuk-Ransomware)
 
 * [SamSam Ransomware](#SamSam-Ransomware)
 
@@ -3125,6 +3263,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * T1070.001
 * T1071.001
 * T1485
+* T1490
 * T1547.001
 
 ##### Kill Chain Phases
@@ -3153,6 +3292,98 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 ##### References
 * https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
+
+### Ransomware Cloud
+* id = f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
+* date = 2020-10-27
+* version = 1
+
+#### Description
+Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
+
+#### Narrative
+Ransomware is an ever-present risk to the enterprise, wherein an infected host encrypts business-critical data, holding it hostage until the victim pays the attacker a ransom. There are many types and varieties of ransomware that can affect an enterprise.Cloud ransomware can be deployed by obtaining high privilege credentials from targeted users or resources.
+
+#### Detections
+* AWS Detect Users creating keys with encrypt policy without MFA
+* AWS Detect Users with KMS keys performing encryption S3
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1486
+
+##### Kill Chain Phases
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+* https://github.com/d1vious/git-wild-hunt
+* https://www.youtube.com/watch?v=PgzNib37g0M
+
+### Ryuk Ransomware
+* id = 507edc74-13d5-4339-878e-b9744ded1f35
+* date = 2020-11-06
+* version = 1
+
+#### Description
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the Ryuk ransomware, including looking for file writes associated with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
+
+#### Narrative
+Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) on October 28th called “Ransomware Activity Targeting the Healthcare and Public Health Sector.” This alert details TTPs associated with ongoing and possible imminent attacks against the Healthcare sector, and is a joint advisory in coordination with other U.S. Government agencies. The objective of these malicious campaigns is to infiltrate targets in named sectors and to drop ransomware payloads, which will likely cause disruption of service and increase risk of actual harm to the health and safety of patients at hospitals, even with the aggravant of an ongoing COVID-19 pandemic. This document specifically refers to several crimeware exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. The Ryuk ransomware payload is not new. It has been well documented and identified in multiple variants. Payloads need a carrier, and for Ryuk it has often been exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks such as Emotet or Trickbot.
+
+#### Detections
+* Common Ransomware Notes
+* Remote Desktop Network Bruteforce
+* Remote Desktop Network Traffic
+* Ryuk Test Files Detected
+* Spike in File Writes
+* Windows DisableAntiSpyware Registry
+* Windows Security Account Manager Stopped
+* Windows connhost exe started forcefully
+
+#### Data Models
+* Endpoint
+* Network_Traffic
+
+#### Mappings
+
+##### ATT&CK
+* T1021.001
+* T1059.003
+* T1485
+* T1486
+* T1489
+* T1562.001
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Delivery
+* Reconnaissance
+
+###### CIS
+* CIS 12
+* CIS 16
+* CIS 3
+* CIS 8
+* CIS 9
+
+##### NIST
+* DE.AE
+* DE.CM
+* PR.AC
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.splunk.com/en_us/blog/security/detecting-ryuk-using-splunk-attack-range.html
+* https://www.crowdstrike.com/blog/big-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
+* https://us-cert.cisa.gov/ncas/alerts/aa20-302a
 
 ### SamSam Ransomware
 * id = c4b89506-fbcf-4cb7-bfd6-527e54789604
@@ -3197,7 +3428,9 @@ This Analytic Story includes searches designed to help detect and investigate si
 * T1059.001
 * T1059.003
 * T1082
+* T1204.002
 * T1485
+* T1490
 
 ##### Kill Chain Phases
 * Actions on Objectives
