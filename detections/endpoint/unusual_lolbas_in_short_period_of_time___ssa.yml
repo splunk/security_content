@@ -114,3 +114,7 @@ tags:
     - DE.CM
   risk_severity: low
   security_domain: endpoint
+  required_fields:
+    - dest_device_id
+    - _time
+    - process_name

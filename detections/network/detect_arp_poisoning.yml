@@ -35,7 +35,7 @@ tags:
   mitre_attack_id:
   - T1200
   - T1498
-  - T1557
+  - T1557.002
   cis20:
   - CIS 1
   - CIS 11

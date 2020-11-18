@@ -39,3 +39,7 @@ tags:
   - DE.CM
   security_domain: network
   asset_type: S3 Bucket
+  risk_score: 10
+  risk_object_type: system
+  risk_object: src_ip
+

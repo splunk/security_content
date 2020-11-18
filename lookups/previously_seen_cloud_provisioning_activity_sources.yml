@@ -1,0 +1,4 @@
+description: A table of source IPs, geographic locations, and the first and last time that they have that done cloud provisioning activities
+collection: previously_seen_cloud_provisioning_activity_sources
+name: previously_seen_cloud_provisioning_activity_sources
+fields_list: _key, src, City, Country, Region, firstTimeSeen, lastTimeSeen, enough_data

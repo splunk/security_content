@@ -62,7 +62,7 @@ def validate_schema(REPO_PATH, type, objects):
     return objects, error, errors
 
 
-def validate_objects(REPO_PATH, objects):
+def validate_objects(REPO_PATH, objects, verbose):
 
     # uuids
     uuids = []
@@ -76,6 +76,8 @@ def validate_objects(REPO_PATH, objects):
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
 
+    if verbose:
+        print("validating object {0}".format(object['name']))
     for object in objects['detections']:
         if object['type'] == 'ESCU':
             errors = errors + validate_detection_search(object, objects['macros'])
@@ -159,7 +161,8 @@ def validate_detection_search(object, macros):
         errors.append("ERROR: Missing filter for detection: " + object['name'])
 
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
-    if filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'):
+
+    if filter_macro and filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter') and "input_filter" not in filter_macro.group(1):
         errors.append("ERROR: filter for detection: " + object['name'] + " needs to use the name of the detection in lowercase and the special characters needs to be converted into _ .")
 
     if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
@@ -242,7 +245,7 @@ if __name__ == "__main__":
         if len(errors) > 0:
             schema_errors = schema_errors + errors
 
-    validation_errors = validate_objects(REPO_PATH, objects)
+    validation_errors = validate_objects(REPO_PATH, objects, verbose)
 
     schema_errors = schema_errors + validation_errors
 
