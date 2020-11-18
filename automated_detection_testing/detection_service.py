@@ -95,7 +95,7 @@ def main(args):
     filedata = filedata.replace('windows_server_join_domain = 1', 'windows_server_join_domain = 0')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
-    filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
+    filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /Users/bpatel/github/security-content/automated_detection_testing/' + ssh_key_name)
     filedata = filedata.replace('update_escu_app = 0', 'update_escu_app = 1')
 
     with open('attack_range/attack_range.conf', 'w') as file:
@@ -106,6 +106,7 @@ def main(args):
         sys.exit(1)
     else:
         # init terraform
+        
         os.system('cd attack_range/terraform/aws && terraform init && cd ../..')
         
 
