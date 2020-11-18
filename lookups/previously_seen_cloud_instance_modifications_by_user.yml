@@ -1,4 +1,4 @@
 description: A table of users seen making instance modifications, and the first and last time that the activity was observed
 collection: previously_seen_cloud_instance_modifications_by_user
 name: previously_seen_cloud_instance_modifications_by_user
-fields_list: _key, firstTime, lastTime, user, enough_data
+fields_list: _key, firstTimeSeen, lastTimeSeen, user, enough_data
