@@ -106,7 +106,7 @@ def main(args):
         sys.exit(1)
     else:
         # init terraform
-        os.system('cd attack_range/terraform && terraform init && cd ../..')
+        os.system('cd attack_range/terraform/aws && terraform init && cd ../../..')
 
     module = __import__('attack_range')
     module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name]
