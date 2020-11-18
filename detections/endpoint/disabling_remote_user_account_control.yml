@@ -15,8 +15,9 @@ references: []
 author: David Dorsey, Patrick Bareiss, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA*
-  Registry.registry_value_name="DWORD (0x00000000)" by Registry.dest, Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.action | `drop_dm_object_name(Registry)` | `disabling_remote_user_account_control_filter`'
+  Registry.registry_value_name="DWORD (0x00000000)" by Registry.dest, Registry.registry_key_name
+  Registry.user Registry.registry_path Registry.registry_value_name Registry.action
+  | `drop_dm_object_name(Registry)` | `disabling_remote_user_account_control_filter`'
 known_false_positives: This registry key may be modified via administrators to implement
   a change in system policy. This type of change should be a very rare occurrence.
 tags:
@@ -34,3 +35,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1548.002/windows-sysmon.log
