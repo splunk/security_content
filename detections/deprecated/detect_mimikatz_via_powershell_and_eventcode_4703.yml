@@ -3,7 +3,7 @@ id: 98917be2-bfc8-475a-8618-a9bb06575188
 version: 2
 date: '2019-02-27'
 description: This search looks for PowerShell requesting privileges consistent with
-  credential dumping.
+  credential dumping. Deprecated, looks like things changed from a logging perspective.
 how_to_implement: 'You must be ingesting Windows Security logs. You must also enable
   the account change auditing here: http://docs.splunk.com/Documentation/Splunk/7.0.2/Data/MonitorWindowseventlogdata.
   Additionally, this search requires you to enable your Group Management Audit Logs
