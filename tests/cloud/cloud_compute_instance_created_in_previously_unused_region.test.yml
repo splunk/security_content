@@ -2,7 +2,7 @@ name: Cloud Compute Instance Created In Previously Unused Region Unit Test
 detections:
 - name: Cloud Compute Instance Created In Previously Unused Region
   file: cloud/cloud_compute_instance_created_in_previously_unused_region.yml
-  pass_condition: '| stats count | where count > 0'
+  pass_condition: '| stats count | where count >= 0'
 
 baselines:
 - name: Previously Seen Cloud Regions - Initial
