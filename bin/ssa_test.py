@@ -1,30 +1,11 @@
 import yaml
-import re
-import os
 import subprocess
 import urllib.request
 import tempfile
 import argparse
-import sys
-import coloredlogs
-import logging
-import json
-import hashlib
+from modules.ssa_utils import *
 
-SSML_CWD = ".humvee"
-HUMVEE_ARTIFACT_SEARCH = "https://repo.splunk.com/artifactory/api/search/artifact?name=humvee&repos=maven-splunk-local"
 TEST_TIMEOUT = 600
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-handler = logging.StreamHandler(sys.stdout)
-handler.setFormatter(coloredlogs.ColoredFormatter("%(asctime)s - %(levelname)s - %(message)s%(detail)s"))
-logger.addHandler(handler)
-
-
-def log(level, msg, detail=None):
-    args = {'detail': ""} if detail is None else {'detail': "\n%s" % detail}
-    logger.log(level, msg, extra=args)
 
 
 def main(args):
@@ -35,7 +16,7 @@ def main(args):
     parsed = parser.parse_args(args)
     if parsed.debug:
         logger.setLevel(logging.DEBUG)
-    build_humvee()
+    build_humvee(get_path(SSML_CWD))
     status = True
     passed_tests = []
     failed_tests = []
@@ -62,10 +43,6 @@ def _exit(code, passed, failed):
     exit(code)
 
 
-def get_path(p):
-    return os.path.join(os.path.join(os.path.dirname(__file__), p))
-
-
 def get_pipeline_input(data):
     return '| from read_text("%s") ' \
            '| select from_json_object(value) as input_event ' \
@@ -84,33 +61,6 @@ def extract_pipeline(search, data, pass_condition):
                             get_pipeline_output(pass_condition),
                             updated_search)
     return updated_search
-
-
-def get_latest_humvee_object():
-    res = json.loads(urllib.request.urlopen(HUMVEE_ARTIFACT_SEARCH).read().decode('utf-8'))
-    for r in res['results']:
-        if re.match(r".*/latest/humvee-.*\.jar$", r['uri']):
-            latest_humvee = json.loads(urllib.request.urlopen(r['uri']).read().decode('utf-8'))
-            return latest_humvee
-    return ""
-
-
-def build_humvee():
-    if not os.path.exists(get_path(SSML_CWD)):
-        os.mkdir(get_path(SSML_CWD))
-    latest_humvee_object = get_latest_humvee_object()
-    humvee_path = "%s/humvee.jar" % get_path(SSML_CWD)
-    humvee_md5 = ""
-    if os.path.exists(humvee_path):
-        with open(humvee_path, 'rb') as jar_fh:
-            humvee_md5 = hashlib.md5(jar_fh.read()).hexdigest()
-            log(logging.DEBUG, "Current local checksum of Humvee", detail=humvee_md5)
-    if humvee_md5 != latest_humvee_object['checksums']['md5']:
-        log(logging.INFO, "Downloading Latest Humvee")
-        log(logging.DEBUG, "Humvee details", detail=latest_humvee_object)
-        urllib.request.urlretrieve(latest_humvee_object['downloadUri'], humvee_path)
-    else:
-        log(logging.DEBUG, "Already latest checksum %s" % humvee_md5, detail=latest_humvee_object)
 
 
 def activate_detection(detection, data, pass_condition):
