@@ -18,16 +18,7 @@ how_to_implement:  You must be ingesting your cloud infrastructure logs from you
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change 
-  where All_Changes.user_type=AssumedRole AND All_Changes.status=success
-  by All_Changes.user, All_Changes.command | `drop_dm_object_name("All_Changes")`
-  | lookup previously_seen_cloud_api_calls_per_user_role user as user, command as command OUTPUT firstTimeSeen, enough_data
-  | eventstats max(enough_data) as enough_data 
-  | where enough_data=1
-  | eval firstTimeSeenUserApiCall=min(firstTimeSeen)
-  | where isnull(firstTimeSeenUserApiCall) OR firstTimeSeenUserApiCall > relative_time(now(), `cloud_api_calls_from_previously_unseen_user_roles_activity_window`)
-  | table firstTime, user, object, command
-  | `cloud_api_calls_from_previously_unseen_user_roles_filter`'
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user, All_Changes.command All_Changes.object | `drop_dm_object_name("All_Changes")` | lookup previously_seen_cloud_api_calls_per_user_role user as user, command as command OUTPUT firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data | where enough_data=1 | eval firstTimeSeenUserApiCall=min(firstTimeSeen) | where isnull(firstTimeSeenUserApiCall) OR firstTimeSeenUserApiCall > relative_time(now(),"-24h@h") | table firstTime, user, object, command |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `cloud_api_calls_from_previously_unseen_user_roles_filter`'
 known_false_positives: "."
 tags:
   analytics_story:
