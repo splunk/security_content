@@ -4,6 +4,7 @@ import argparse
 import tempfile
 import subprocess
 from modules.ssa_utils import *
+from modules.testing_utils import *
 
 
 DUMB_PIPELINE_INPUT = '| from read_text("/")' \
