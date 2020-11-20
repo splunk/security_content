@@ -1,7 +1,7 @@
 name: Malicious PowerShell Process - Execution Policy Bypass Unit Test
 detections:
 - name: Malicious PowerShell Process - Execution Policy Bypass
-  file: malicious_powershell_process___execution_policy_bypass.yml
+  file: endpoint/malicious_powershell_process___execution_policy_bypass.yml
   pass_condition: '| stats count | where count > 0'
 attack_data:
 - file_name: windows-sysmon.log
