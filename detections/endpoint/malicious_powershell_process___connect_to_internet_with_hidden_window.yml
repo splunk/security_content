@@ -6,8 +6,8 @@ description: This search looks for PowerShell processes started with parameters 
   modify the execution policy of the run, run in a hidden window, and connect to the
   Internet. This combination of command-line options is suspicious because it's overriding
   the default PowerShell execution policy, attempts to hide its activity from the
-  user, and connects to the Internet.
-  Deprecated becaue hidden is not needed when download file with System.Net.WebClient.
+  user, and connects to the Internet. Deprecated becaue hidden is not needed when
+  download file with System.Net.WebClient.
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
@@ -18,10 +18,11 @@ references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe Processes.process=*-WindowStyle* Processes.process=*hidden* Processes.process="*New-Object*"
-  by Processes.user Processes.process_name Processes.parent_process_name Processes.process Processes.dest
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `malicious_powershell_process___connect_to_internet_with_hidden_window_filter`'
+  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
+  Processes.process=*-WindowStyle* Processes.process=*hidden* Processes.process="*New-Object*"
+  by Processes.user Processes.process_name Processes.parent_process_name Processes.process
+  Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `malicious_powershell_process___connect_to_internet_with_hidden_window_filter`'
 known_false_positives: Legitimate process can have this combination of command-line
   options, but it's not common.
 tags:
@@ -43,3 +44,6 @@ tags:
   - PR.IP
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1059.001_custom_03e301be-1bfc-4051-af4d-d0865079fb27/windows-sysmon.log
