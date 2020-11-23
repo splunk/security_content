@@ -3,7 +3,10 @@ id: c114aaca-68ee-41c2-ad8c-32bf21db8769
 version: 1
 date: '2020-11-06'
 description: 'The search looks for the Console Window Host process (connhost.exe) executed using the force flag -ForceV1. 
-This is not regular behavior in the Windows OS and is often seen executed by the Ryuk Ransomware.'
+This is not regular behavior in the Windows OS and is often seen executed by the Ryuk Ransomware. 
+DEPRECATED
+This event is actually seen in the windows 10 client of attack_range_local. After further testing we realized this is not specific to Ryuk.
+'
 how_to_implement: You must be ingesting data that records the process-system activity
   from your hosts to populate the Endpoint Processes data-model object. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
