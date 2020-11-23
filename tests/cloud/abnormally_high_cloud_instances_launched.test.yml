@@ -1,12 +1,12 @@
-name: Abnormally High Number Of Cloud Instances Destroyed Unit Test
+name: Abnormally High Number of Cloud Instances Launched Unit Test
 detections:
-- name: Abnormally High Number Of Cloud Instances Destroyed
-  file: cloud/abnormally_high_cloud_instances_destroyed.yml
+- name: Abnormally High Number of Cloud Instances Launched
+  file: cloud/abnormally_high_cloud_instances_launched.yml
   pass_condition: '| stats count | where count >= 0'
 
 baselines:
 - name: Baseline Of Cloud Instances Launched
-  file: baselines/baseline_of_cloud_instances_destroyed.yml
+  file: baselines/baseline_of_cloud_instances_launched.yml
   pass_condition: '| stats count | where count > 0'
 
 attack_data:
@@ -14,5 +14,3 @@ attack_data:
   data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/cloudtrail_behavioural_detections/cloudtrail_behavioural_detections.json
   sourcetype: aws:cloudtrail
   source: aws_cloudtrail
-
-

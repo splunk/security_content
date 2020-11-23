@@ -1,7 +1,7 @@
-name: Detect AWS Console Login by User from New City Unit Test
+name: Detect AWS Console Login by User from New Region Unit Test
 detections:
-- name: Detect AWS Console Login by User from New City
-  file: cloud/detect_aws_console_login_by_user_from_new_city.yml
+- name: Detect AWS Console Login by User from New Region
+  file: cloud/detect_aws_console_login_by_user_from_new_region.yml
   pass_condition: '| stats count | where count >= 0'
 
 baselines:
@@ -18,5 +18,3 @@ attack_data:
   data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/cloudtrail_behavioural_detections/cloudtrail_behavioural_detections.json
   sourcetype: aws:cloudtrail
   source: aws_cloudtrail
-
-
