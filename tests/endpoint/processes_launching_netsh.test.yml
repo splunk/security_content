@@ -1,7 +1,7 @@
 name: Processes created by netsh Unit Test
 detections:
 - name: Processes created by netsh
-  file: endpoint/processes_created_by_netsh.yml
+  file: endpoint/processes_launching_netsh.yml
   pass_condition: '| stats count | where count > 0'
 attack_data:
 - file_name: windows-sysmon.log

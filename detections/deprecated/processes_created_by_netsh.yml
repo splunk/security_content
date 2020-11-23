@@ -9,6 +9,7 @@ description: This search looks for processes launching netsh.exe to execute vari
   proxy technique to execute a helper .dll when netsh.exe is executed. In this search,
   we are looking for processes spawned by netsh.exe that are executing commands via
   the command line.
+  Deprecated because we have another detection of the same type.
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
