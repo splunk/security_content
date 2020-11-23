@@ -1,0 +1,20 @@
+name: AWS Cross Account Activity From Previously Unseen Account Unit Test
+detections:
+- name: AWS Cross Account Activity From Previously Unseen Account
+  file: cloud/aws_cross_account_activity_from_previously_unseen_account.yml
+  pass_condition: '| stats count | where count >= 0'
+
+baselines:
+- name: Previously Seen AWS Cross Account Activity - Initial
+  file: baselines/previously_seen_aws_cross_account_activity_initial.yml
+  pass_condition: '| stats count | where count > 0'
+
+- name: Previously Seen AWS Cross Account Activity - Update
+  file: baselines/previously_seen_aws_cross_account_activity_update.yml
+  pass_condition: '| stats count | where count > 0'
+
+attack_data:
+- file_name: cloudtrail_behavioural_detections.json
+  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/cloudtrail_behavioural_detections/cloudtrail_behavioural_detections.json
+  sourcetype: aws:cloudtrail
+  source: aws_cloudtrail

@@ -1,16 +1,16 @@
-name: Cloud Compute Instance Created In Previously Unused Region Unit Test
+name: Detect AWS Console Login by New User Unit Test
 detections:
-- name: Cloud Compute Instance Created In Previously Unused Region
-  file: cloud/cloud_compute_instance_created_in_previously_unused_region.yml
+- name: Detect AWS Console Login by New User
+  file: cloud/detect_aws_console_login_by_new_user.yml
   pass_condition: '| stats count | where count >= 0'
 
 baselines:
-- name: Previously Seen Cloud Regions - Initial
-  file: baselines/previously_seen_cloud_regions_initial.yml
+- name: Previously Seen Users In Cloudtrail - Initial
+  file: baselines/previously_seen_users_in_cloudtrail_initial.yml
   pass_condition: '| stats count | where count > 0'
   
-- name: Previously Seen Cloud Regions - Update
-  file: baselines/previously_seen_cloud_regions_update.yml
+- name: Previously Seen Users In Cloudtrail - Update
+  file: baselines/previously_seen_users_in_cloudtrail_update.yml
   pass_condition: '| stats count | where count > 0'
 
 attack_data:

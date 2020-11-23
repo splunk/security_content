@@ -1,0 +1,22 @@
+name: Cloud Compute Instance Created With Previously Unseen Instance Type Unit Test
+detections:
+- name: Cloud Compute Instance Created With Previously Unseen Instance Type
+  file: cloud/cloud_compute_instance_created_with_previously_unseen_instance_type.yml
+  pass_condition: '| stats count | where count >= 0'
+
+baselines:
+- name: Previously Seen Cloud Compute Instance Types - Initial
+  file: baselines/previously_seen_cloud_compute_instance_types_initial.yml
+  pass_condition: '| stats count | where count > 0'
+  
+- name: Previously Seen Cloud Compute Instance Types - Update
+  file: baselines/previously_seen_cloud_compute_instance_types_update.yml
+  pass_condition: '| stats count | where count > 0'
+
+attack_data:
+- file_name: cloudtrail_behavioural_detections.json
+  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/cloudtrail_behavioural_detections/cloudtrail_behavioural_detections.json
+  sourcetype: aws:cloudtrail
+  source: aws_cloudtrail
+
+

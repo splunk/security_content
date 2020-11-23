@@ -1,0 +1,22 @@
+name: Cloud Provisioning Activity From Previously Unseen Country Unit Test
+detections:
+- name: Cloud Provisioning Activity From Previously Unseen Country
+  file: cloud/cloud_provisioning_from_previously_unseen_country.yml
+  pass_condition: '| stats count | where count >= 0'
+
+baselines:
+- name: Previously Seen Cloud Provisioning Activity Sources - Initial
+  file: baselines/previously_seen_cloud_provisioning_activity_sources_initial.yml
+  pass_condition: '| stats count | where count > 0'
+  
+- name: Previously Seen Cloud Provisioning Activity Sources - Update
+  file: baselines/previously_seen_cloud_provisioning_activity_sources_update.yml
+  pass_condition: '| stats count | where count > 0'
+
+attack_data:
+- file_name: cloudtrail_behavioural_detections.json
+  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/cloudtrail_behavioural_detections/cloudtrail_behavioural_detections.json
+  sourcetype: aws:cloudtrail
+  source: aws_cloudtrail
+
+
