@@ -18,9 +18,9 @@ references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND
-  Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by Registry.dest, Registry.registry_key_name
-  Registry.user Registry.registry_path Registry.registry_value_name Registry.action | `drop_dm_object_name(Registry)`
-  | `monitor_registry_keys_for_print_monitors_filter`'
+  Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by Registry.dest,
+  Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_name
+  Registry.action | `drop_dm_object_name(Registry)` | `monitor_registry_keys_for_print_monitors_filter`'
 known_false_positives: You will encounter noise from legitimate print-monitor registry
   entries.
 tags:
@@ -40,3 +40,6 @@ tags:
   - PR.AC
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1547.010/windows-sysmon.log
