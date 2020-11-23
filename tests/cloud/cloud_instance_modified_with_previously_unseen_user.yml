@@ -5,12 +5,12 @@ detections:
   pass_condition: '| stats count | where count >= 0'
 
 baselines:
-- name: Previously Seen Cloud Compute Creations By User - Initial
-  file: baselines/previously_seen_cloud_compute_creations_by_user_initial.yml
+- name: Previously Seen Cloud Instance Modifications By User - Initial
+  file: baselines/previously_seen_cloud_instance_modifications_by_user_initial.yml
   pass_condition: '| stats count | where count > 0'
   
-- name: Previously Seen Cloud Compute Creations By User - Update
-  file: baselines/previously_seen_cloud_compute_creations_by_user_update.yml
+- name: Previously Seen Cloud Instance Modifications By User - Update
+  file: baselines/previously_seen_cloud_instance_modifications_by_user_update.yml
   pass_condition: '| stats count | where count > 0'
 
 attack_data:
