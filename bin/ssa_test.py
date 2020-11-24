@@ -5,6 +5,7 @@ import tempfile
 import argparse
 from modules.ssa_utils import *
 from modules.testing_utils import log, logger, get_detection, get_path, pull_data
+from modules.assertions import assertions_parser
 
 TEST_TIMEOUT = 600
 
@@ -50,18 +51,31 @@ def get_pipeline_input(data):
            '| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))' % data
 
 
-def get_pipeline_output(pass_condition):
-    return '%s;' % pass_condition
-
-
 def extract_pipeline(search, data, pass_condition):
     updated_search = re.sub(r"\|\s*from\s+read_ssa_enriched_events\(\s*\)",
                             get_pipeline_input(data),
                             search)
     updated_search = re.sub(r"\|\s*into\s+write_ssa_detected_events\(\s*\)\s*;",
-                            get_pipeline_output(pass_condition),
+                            ";",
                             updated_search)
     return updated_search
+
+
+def activate_detection(detection, data, pass_condition):
+    with open(detection, 'r') as fh:
+        parsed_detection = yaml.safe_load(fh)
+        # Returns pipeline only for SSA detections
+        if parsed_detection['type'] == "SSA":
+            pipeline = extract_pipeline(parsed_detection['search'], data, pass_condition)
+            return pipeline
+        else:
+            return None
+
+
+def assert_results(pass_condition, events):
+    lexer = assertions_parser.AssertionLexer()
+    parser = assertions_parser.AssertionParser(events)
+    return parser.parse(lexer.tokenize(pass_condition))
 
 
 def test_detection(test, args):
@@ -107,27 +121,26 @@ def test_detection(test, args):
                                        timeout=TEST_TIMEOUT)
                     except TimeoutError:
                         log(logging.ERROR, "%s test timeout" % unit['name'])
+                # Validate that it can run
+                with open(test_status, "r") as test_status_fh:
+                    status = '\n'.join(test_status_fh.readlines())
+                    if status == "OK\n":
+                        log(logging.INFO, "%s executed without issues" % unit['name'])
+                    else:
+                        log(logging.ERROR, "Detection %s can not be executed" % detection_file, detail=status)
+                        log(logging.ERROR, "Faulty SPL2 with errors", detail=spl2)
                         return False
-                    # Validate that it can run
-                    with open(test_status, "r") as test_status_fh:
-                        status = '\n'.join(test_status_fh.readlines())
-                        if status == "OK\n":
-                            log(logging.INFO, "%s executed without issues" % unit['name'])
-                        else:
-                            log(logging.ERROR, "Detection %s can not be executed" % detection_file, detail=status)
-                            log(logging.ERROR, "Faulty SPL2 with errors", detail=spl2)
-                            return False
-                    # Validate the results
-                    with open(test_out, 'r') as test_out_fh:
-                        res = test_out_fh.readlines()
-                        log(logging.DEBUG,
-                            "Output events sample (%d/%d)" % (len(res[:10]), len(res)),
-                            detail="\n".join(res[:10]))
-                        if len(res) > 0:
-                            log(logging.DEBUG, "Passed test %s" % unit['name'])
-                        else:
-                            log(logging.ERROR, "Pass condition %s didn't produce any events" % unit['pass_condition'])
-                            return False
+                # Validate the results
+                with open(test_out, 'r') as test_out_fh:
+                    res = test_out_fh.readlines()
+                    log(logging.DEBUG,
+                        "Output events sample (%d/%d)" % (len(res[:10]), len(res)),
+                        detail="\n".join(res[:10]))
+                    if assert_results(unit['pass_condition'], res):
+                        log(logging.DEBUG, "Passed test %s" % unit['name'])
+                    else:
+                        log(logging.ERROR, "Pass condition %s didn't produce any events" % unit['pass_condition'])
+                        return False
     return True
 
 
