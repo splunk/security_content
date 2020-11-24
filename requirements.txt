@@ -13,7 +13,7 @@ distlib==0.3.1
 filelock==3.0.12
 gitdb==4.0.5
 humanfriendly==8.2
-identify==1.5.9
+identify==1.5.10
 idna==2.10
 importlib-metadata==2.0.0
 importlib-resources==3.3.0
