@@ -27,8 +27,3 @@ def count_gte(n, output=[]):
 
 def count_not(n, output=[]):
     return count_lt(n, output) or count_gt(n, output)
-
-
-def count_range(a, b, output=[]):
-    assert(a > b)
-    return count_gt(a, output) and count_lt(b, output)
