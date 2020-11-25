@@ -1,1 +1,1 @@
-bin/modules/assertions/application/assertions.py
+../../bin/modules/assertions/application/assertions.py

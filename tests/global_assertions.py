@@ -1,1 +1,1 @@
-bin/modules/assertions/global_assertions.py
+../bin/modules/assertions/global_assertions.py
