@@ -3,13 +3,13 @@ ansible-runner==1.4.6
 apipkg==1.5
 aspy.yaml==1.3.0
 atomicwrites==1.4.0
-attackcti==0.3.3
+attackcti==0.3.4
 attrs==20.3.0
 bcrypt==3.2.0
-botocore==1.19.22
+botocore==1.19.25
 certifi==2019.11.28
-boto3==1.16.22
-cffi==1.14.3
+boto3==1.16.25
+cffi==1.14.4
 cfgv==2.0.1
 chardet==3.0.4
 configparser==4.0.2
@@ -21,7 +21,7 @@ docutils==0.16
 execnet==1.7.1
 gitdb==4.0.5
 GitPython==3.1.11
-identify==1.5.9
+identify==1.5.10
 idna==2.8
 importlib-metadata==1.3.0
 Jinja2==2.10.3

@@ -1,30 +1,13 @@
 import os
-import sys
 import json
 import hashlib
 import urllib.request
 import re
 import logging
-import coloredlogs
+from modules.testing_utils import log
 
 SSML_CWD = ".humvee"
 HUMVEE_ARTIFACT_SEARCH = "https://repo.splunk.com/artifactory/api/search/artifact?name=humvee&repos=maven-splunk-local"
-
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-handler = logging.StreamHandler(sys.stdout)
-handler.setFormatter(coloredlogs.ColoredFormatter("%(asctime)s - %(levelname)s - %(message)s%(detail)s"))
-logger.addHandler(handler)
-
-
-def get_path(p):
-    return os.path.join(os.path.join(os.path.dirname(__file__), "..", p))
-
-
-def log(level, msg, detail=None):
-    args = {'detail': ""} if detail is None else {'detail': "\n%s" % detail}
-    logger.log(level, msg, extra=args)
 
 
 def get_latest_humvee_object():
