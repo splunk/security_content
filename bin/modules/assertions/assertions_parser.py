@@ -66,7 +66,7 @@ class AssertionParser(Parser):
 
     @_('NOT expr')
     def expr(self, p):
-        return not p.expr0
+        return not p.expr
 
     @_('LPAR expr RPAR')
     def expr(self, p):
