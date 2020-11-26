@@ -1,7 +1,7 @@
 name: Registry Keys for Creating SHIM Databases Unit Test
 tests:
 - name: Registry Keys for Creating SHIM Databases
-  file: endpoint/registry_keys_for_creating_shim_databases
+  file: endpoint/registry_keys_for_creating_shim_databases.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
