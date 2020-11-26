@@ -1,0 +1,12 @@
+name: Registry Keys for Creating SHIM Databases Unit Test
+tests:
+- name: Registry Keys for Creating SHIM Databases
+  file: endpoint/registry_keys_for_creating_shim_databases
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1546.011/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
