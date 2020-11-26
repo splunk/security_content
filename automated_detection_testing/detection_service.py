@@ -139,15 +139,16 @@ def main(args):
         else:
             branch_name = security_content_branch
             security_content_repo_obj.git.checkout(security_content_branch)
-
+        
+        counter = 0
         for test in results:
             if not test['detection_result']['error']:
                 file_path = 'security-content/detections/' + test['detection_result']['detection_file']
                 detection_obj = load_file(file_path)
                 detection_obj['tags']['automated_detection_testing'] = 'passed'
-                if 'attack_data' in test_file:
+                if 'attack_data' in test_file['tests'][counter]:
                     datasets = []
-                    for dataset in test_file['attack_data']:
+                    for dataset in test_file['tests'][counter]['attack_data']:
                         datasets.append(dataset['data'])
                     detection_obj['tags']['dataset'] = datasets
 
@@ -157,6 +158,7 @@ def main(args):
                 changed_file_path = 'detections/' + test['detection_result']['detection_file']
                 security_content_repo_obj.index.add([changed_file_path])
                 security_content_repo_obj.index.commit('Added detection testing service results in' + test['detection_result']['detection_name'])
+                counter = counter + 1
 
 
         j2_env = Environment(loader=FileSystemLoader('templates'),trim_blocks=True)
