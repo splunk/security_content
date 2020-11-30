@@ -20,3 +20,6 @@ tags:
   - Cloud Cryptomining
   detections:
   - Cloud Compute Instance Created In Previously Unused Region
+  deployments:
+  - 90 Day Baseline
+

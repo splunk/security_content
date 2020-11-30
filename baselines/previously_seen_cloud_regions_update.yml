@@ -24,4 +24,7 @@ tags:
   - Cloud Cryptomining
   detections:
   - Cloud Compute Instance Created In Previously Unused Region
+  deployments:
+  - Daily Cache Updates
+
 

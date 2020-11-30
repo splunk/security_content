@@ -25,3 +25,5 @@ tags:
   - Detect AWS Console Login by User from New Region
   - Detect AWS Console Login by User from New City
   - Detect AWS Console Login by New User
+  deployments:
+  - Daily Cache Updates
