@@ -139,7 +139,7 @@ def main(args):
         else:
             branch_name = security_content_branch
             security_content_repo_obj.git.checkout(security_content_branch)
-        
+
         counter = 0
         for test in results:
             if not test['detection_result']['error']:
