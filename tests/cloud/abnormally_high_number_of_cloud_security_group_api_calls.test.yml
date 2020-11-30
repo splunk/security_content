@@ -2,7 +2,7 @@ name: Abnormally High Number Of Cloud Security Group API Calls Unit Test
 tests:
 - name: Abnormally High Number Of Cloud Security Group API Calls
   file: cloud/abnormally_high_number_of_cloud_security_group_api_calls.yml
-  pass_condition: '| stats count | where count >= 0'
+  pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
 

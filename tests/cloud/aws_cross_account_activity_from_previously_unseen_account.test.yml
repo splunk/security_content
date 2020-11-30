@@ -2,7 +2,7 @@ name: AWS Cross Account Activity From Previously Unseen Account Unit Test
 tests:
 - name: AWS Cross Account Activity From Previously Unseen Account
   file: cloud/aws_cross_account_activity_from_previously_unseen_account.yml
-  pass_condition: '| stats count | where count >= 0'
+  pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
 

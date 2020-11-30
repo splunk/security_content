@@ -2,7 +2,7 @@ name: Detect AWS Console Login by User from New Country Unit Test
 tests:
 - name: Detect AWS Console Login by User from New Country
   file: cloud/detect_aws_console_login_by_user_from_new_country.yml
-  pass_condition: '| stats count | where count >= 0'
+  pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
 

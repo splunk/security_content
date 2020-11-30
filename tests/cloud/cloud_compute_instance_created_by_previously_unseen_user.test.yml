@@ -2,7 +2,7 @@ name: Cloud Compute Instance Created By Previously Unseen User Unit Test
 tests:
 - name: Cloud Compute Instance Created By Previously Unseen User
   file: cloud/cloud_compute_instance_created_by_previously_unseen_user.yml
-  pass_condition: '| stats count | where count >= 0'
+  pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
 

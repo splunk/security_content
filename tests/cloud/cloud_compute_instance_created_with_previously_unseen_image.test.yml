@@ -2,7 +2,7 @@ name: Cloud Compute Instance Created With Previously Unseen Image Unit Test
 tests:
 - name: Cloud Compute Instance Created With Previously Unseen Image
   file: cloud/cloud_compute_instance_created_with_previously_unseen_image.yml
-  pass_condition: '| stats count | where count >= 0'
+  pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
 

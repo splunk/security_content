@@ -2,7 +2,7 @@ name: Cloud API Calls From Previously Unseen User Roles Unit Test
 tests:
 - name: Cloud API Calls From Previously Unseen User Roles
   file: cloud/cloud_api_calls_from_previously_unseen_user_roles.yml
-  pass_condition: '| stats count | where count >= 0'
+  pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
 
