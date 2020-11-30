@@ -2,7 +2,7 @@ name: Unsigned Image Loaded by LSASS
 id: 56ef054c-76ef-45f9-af4a-a634695dcd65
 version: 1
 date: '2019-12-06'
-description: This search detects loading of unsigned images by LSASS.
+description: This search detects loading of unsigned images by LSASS. Deprecated because too noisy.
 how_to_implement: This search needs Sysmon Logs with a sysmon configuration, which
   includes EventCode 7 with lsass.exe. This search uses an input macro named `sysmon`.
   We strongly recommend that you specify your environment-specific configurations
