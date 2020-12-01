@@ -16,6 +16,7 @@ from botocore.exceptions import ClientError
 import json
 from datetime import datetime
 import subprocess
+import time
 
 
 
@@ -70,7 +71,8 @@ def main(args):
     sys.path.append(os.path.join(os.getcwd(),'attack_range'))
     copyfile('attack_range/attack_range.conf.template', 'attack_range/attack_range.conf')
 
-    ssh_key_name = 'ds-key-pair-' + str(randrange(10000))
+    epoch_time = str(int(time.time()))
+    ssh_key_name = 'ds-key-pair-' + epoch_time
     # create ssh keys
     ec2 = boto3.client('ec2')
     response = ec2.create_key_pair(KeyName=ssh_key_name)
@@ -91,6 +93,8 @@ def main(args):
       filedata = file.read()
 
     filedata = filedata.replace('attack_range_password = Pl3ase-k1Ll-me:p', 'attack_range_password = I-l1ke-Attack-Range!')
+    filedata = filedata.replace('windows_domain_controller = 1', 'windows_domain_controller = 0')
+    filedata = filedata.replace('windows_server_join_domain = 1', 'windows_server_join_domain = 0')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
     filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
@@ -104,10 +108,10 @@ def main(args):
         sys.exit(1)
     else:
         # init terraform
-        os.system('cd attack_range/terraform && terraform init && cd ../..')
+        os.system('cd attack_range/terraform/aws && terraform init && cd ../../..')
 
     module = __import__('attack_range')
-    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name + '.yml']
+    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name]
 
     execution_error = False
 
@@ -123,53 +127,57 @@ def main(args):
     response = ec2.delete_key_pair(KeyName=ssh_key_name)
 
     # read_test_file
-    test_file = load_file('security-content/tests/' + test_file_name + '.yml')
+    test_file = load_file('security-content/tests/' + test_file_name)
 
     # check if was succesful
     if not execution_error:
 
-        # upload results to S3
-        with open('test_results.yml', 'w') as f:
-            yaml.dump(results, f)
-        s3_client = boto3.client('s3')
-        response2 = s3_client.upload_file('test_results.yml', s3_bucket, results['technique'] + '/test_results.yml')
-        os.remove('test_results.yml')
-
         # Create GitHub PR security content
-        random_number = str(randrange(10000))
         if security_content_branch == 'develop':
-            branch_name = "automated_detection_testing_" + random_number
+            branch_name = "automated_detection_testing_" + epoch_time
             security_content_repo_obj.git.checkout(security_content_branch, b=branch_name)
         else:
             branch_name = security_content_branch
             security_content_repo_obj.git.checkout(security_content_branch)
 
-        for test in results['results']:
-            if not test['error']:
-                file_path = 'security-content/detections/' + test['detection_file']
+        counter = 0
+        for test in results:
+            if not test['detection_result']['error']:
+                file_path = 'security-content/detections/' + test['detection_result']['detection_file']
                 detection_obj = load_file(file_path)
                 detection_obj['tags']['automated_detection_testing'] = 'passed'
-                if 'attack_data' in test_file:
+                if 'attack_data' in test_file['tests'][counter]:
                     datasets = []
-                    for dataset in test_file['attack_data']:
+                    for dataset in test_file['tests'][counter]['attack_data']:
                         datasets.append(dataset['data'])
                     detection_obj['tags']['dataset'] = datasets
 
                 with open(file_path, 'w') as f:
                     yaml.dump(detection_obj, f, sort_keys=False)
 
-                changed_file_path = 'detections/' + test['detection_file']
+                changed_file_path = 'detections/' + test['detection_result']['detection_file']
                 security_content_repo_obj.index.add([changed_file_path])
-                security_content_repo_obj.index.commit('Added detection testing service results in' + test['detection'])
+                security_content_repo_obj.index.commit('Added detection testing service results in' + test['detection_result']['detection_name'])
+                counter = counter + 1
 
 
         j2_env = Environment(loader=FileSystemLoader('templates'),trim_blocks=True)
         template = j2_env.get_template('PR_template.j2')
-        body = template.render(results=results['results'])
+        body = template.render(results=results)
 
+        security_content_repo_obj.config_writer().set_value("user", "name", "Detection Testing Service").release()
+        security_content_repo_obj.config_writer().set_value("user", "email", "research@splunk.com").release()
+        if not security_content_branch == 'develop':
+            security_content_repo_obj.remotes.origin.pull()
         security_content_repo_obj.git.push('--set-upstream', 'origin', branch_name)
         g = Github(O_AUTH_TOKEN_GITHUB)
         repo = g.get_repo("splunk/security-content")
+        pull_requests = repo.get_pulls(state='open', sort='created', head=branch_name)
+        for pr in pull_requests:
+            if pr.head.label == str('splunk:' + branch_name):
+                pr.create_issue_comment(body)
+                exit(0)
+
         pr = repo.create_pull(title="Automated Detection Testing PR " + branch_name, body=body, head=branch_name, base="develop")
 
 

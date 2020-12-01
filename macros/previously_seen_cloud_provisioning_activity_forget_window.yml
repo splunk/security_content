@@ -1,0 +1,3 @@
+description: Use this macro to determine how long to keep track of cloud provisioning locations
+definition: '"-90d@d"'
+name: previously_seen_cloud_provisioning_activity_forget_window

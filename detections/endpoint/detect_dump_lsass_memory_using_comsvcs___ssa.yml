@@ -37,3 +37,9 @@ tags:
   risk_severity: low
   security_domain: endpoint
   asset_type: Endpoint
+  required_fields:
+    - process_name
+    - _tenant
+    - _time
+    - dest_device_id
+    - process
