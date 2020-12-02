@@ -24,6 +24,8 @@ tags:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
+  mitre_attack_id:
+  - T1564.001
   kill_chain_phases:
   - Actions on Objectives
   cis20:

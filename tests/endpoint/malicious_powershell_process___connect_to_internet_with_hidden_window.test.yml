@@ -1,0 +1,12 @@
+name: Malicious PowerShell Process - Connect To Internet With Hidden Window Unit Test
+tests:
+- name: Malicious PowerShell Process - Connect To Internet With Hidden Window
+  file: endpoint/malicious_powershell_process___connect_to_internet_with_hidden_window.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1059.001_custom_03e301be-1bfc-4051-af4d-d0865079fb27/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
