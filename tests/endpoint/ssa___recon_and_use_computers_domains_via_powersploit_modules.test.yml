@@ -1,10 +1,10 @@
 name: Reconnaissance and Access to Computers and Domains via PowerSploit modules - SSA Unit test
-detections:
+tests:
   - name: Reconnaissance and Access to Computers and Domains via PowerSploit modules
     file: endpoint/ssa___recon_and_use_computers_domains_via_powersploit_modules.yml
     pass_condition: '| stats count(body) as count_events by body, span(start_time, 7d) | where count_events > 0'
-description: Test reconnaissance and access to computers and domains detections
-attack_data:
-  - file_name: logAllPowerSploitModulesWithOldNames.log
-    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+    description: Test reconnaissance and access to computers and domains detections
+    attack_data:
+      - file_name: logAllPowerSploitModulesWithOldNames.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
 
