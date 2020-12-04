@@ -1,8 +1,11 @@
-# from modules.assertions.application.assertions import *
-# from modules.assertions.cloud.assertions import *
-# from modules.assertions.endpoint.assertions import *
-# from modules.assertions.network.assertions import *
-# from modules.assertions.web.assertions import *
+# Do not remove these imports that appear unused.
+# Functions in this modules are discovered by the assertion_parser through `getattr`
+
+from modules.assertions.application.assertions import *
+from modules.assertions.cloud.assertions import *
+from modules.assertions.endpoint.assertions import *
+from modules.assertions.network.assertions import *
+from modules.assertions.web.assertions import *
 
 
 def count_eq(n, output=[]):

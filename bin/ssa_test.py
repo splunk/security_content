@@ -8,6 +8,9 @@ from modules.testing_utils import log, logger, get_detection, get_path, pull_dat
 from modules.assertions import assertions_parser
 
 TEST_TIMEOUT = 600
+PASSED = 1
+SKIPPED = 0
+FAILED = -1
 
 
 def main(args):
@@ -21,25 +24,29 @@ def main(args):
     build_humvee(get_path(SSML_CWD))
     status = True
     passed_tests = []
+    skipped_tests = []
     failed_tests = []
     for t in parsed.test_files:
         cur_status = test_detection(t, parsed)
-        status = status & cur_status
-        if cur_status:
+        status = status and (cur_status == PASSED or cur_status == SKIPPED)
+        if cur_status == PASSED:
             passed_tests.append(t)
+        elif cur_status == SKIPPED:
+            skipped_tests.append(t)
         else:
             failed_tests.append(t)
         if not status and not parsed.skip_errors:
-            _exit(1, passed_tests, failed_tests)
+            _exit(1, passed_tests, skipped_tests, failed_tests)
     if status:
-        _exit(0, passed_tests, failed_tests)
+        _exit(0, passed_tests, skipped_tests, failed_tests)
     else:
-        _exit(1, passed_tests, failed_tests)
+        _exit(1, passed_tests, skipped_tests, failed_tests)
 
 
-def _exit(code, passed, failed):
+def _exit(code, passed, skipped, failed):
     total_passed = len(passed)
     total_failed = len(failed)
+    log(logging.DEBUG, "Skipped tests %d" % len(skipped), "\n".join(skipped))
     log(logging.INFO, "Passed tests (%d/%d)" % (total_passed, total_passed + total_failed), "\n".join(passed))
     log(logging.INFO, "Failed tests (%d/%d)" % (total_failed, total_passed + total_failed), "\n".join(failed))
     exit(code)
@@ -89,19 +96,19 @@ def assert_results(pass_condition, events):
 def test_detection(test, args):
     with open(test, 'r') as fh:
         test_desc = yaml.safe_load(fh)
-        if test_desc is not None:
+        if (test_desc is not None) and ('name' in test_desc) and ('tests' in test_desc):
             name = test_desc['name']
-            log(logging.INFO, "Testing %s" % name)
             # Download data to temporal folder
             for unit in test_desc['tests']:
                 detection = get_detection(unit)
                 if detection['type'] == "SSA":
+                    log(logging.INFO, "Testing %s" % name)
                     # Prepare data
                     data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s" % SSML_CWD))
                     detection_file = get_path("../detections/%s" % unit['file'])
                     if unit['attack_data'] is None or len(unit['attack_data']) == 0:
                         log(logging.ERROR, "No dataset in testing file in %s" % test)
-                        return False
+                        return FAILED
                     test_data = pull_data(unit, data_dir.name)
                     # Extract pipeline and remove SSA decorations
                     input_data = test_data[list(test_data.keys())[0]]
@@ -130,7 +137,7 @@ def test_detection(test, args):
                                            timeout=TEST_TIMEOUT)
                         except TimeoutError:
                             log(logging.ERROR, "%s test timeout" % unit['name'])
-                            return False
+                            return FAILED
                     # Validate that it can run
                     with open(test_status, "r") as test_status_fh:
                         status = '\n'.join(test_status_fh.readlines())
@@ -139,7 +146,7 @@ def test_detection(test, args):
                         else:
                             log(logging.ERROR, "Detection %s can not be executed" % detection_file, detail=status)
                             log(logging.ERROR, "Faulty SPL2 with errors", detail=spl2)
-                            return False
+                            return FAILED
                     # Validate the results
                     with open(test_out, 'r') as test_out_fh:
                         res = test_out_fh.readlines()
@@ -150,10 +157,14 @@ def test_detection(test, args):
                             log(logging.DEBUG, "Passed test %s" % unit['name'])
                         else:
                             log(logging.ERROR, "Did not pass condition:", unit['pass_condition'])
-                            return False
+                            return FAILED
+                else:
+                    log(logging.DEBUG, "Not an SSA test, skipping testing file", unit['name'])
+                    return SKIPPED
         else:
             log(logging.WARN, "Not a testing file", test)
-    return True
+            return SKIPPED
+    return PASSED
 
 
 if __name__ == '__main__':
