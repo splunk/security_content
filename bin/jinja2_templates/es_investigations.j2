@@ -37,6 +37,14 @@ tokens = {\
       "valueType": "primitive",\
       "value": "asset",\
       "default": "_1!=1"\
+    }{% elif token == 'process_name' OR token == 'parent_process_name' %}
+    "file": {\
+      "valuePrefix": "{{ token }}=\"*",\
+      "valueSuffix": "*\"",\
+      "delimiter": " OR ",\
+      "valueType": "primitive",\
+      "value": "file",\
+      "default": "_1!=1"\
     }{% else %}
     "{{ token }}": {\
       "valuePrefix": "{{ token }}=\"*",\
