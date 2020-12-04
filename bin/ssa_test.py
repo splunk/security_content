@@ -70,16 +70,16 @@ def test_detection(test, args):
         name = test_desc['name']
         log(logging.INFO, "Testing %s" % name)
         # Download data to temporal folder
-        for unit in test_desc['detections']:
+        for unit in test_desc['tests']:
             detection = get_detection(unit)
             if detection['type'] == "SSA":
                 # Prepare data
                 data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s" % SSML_CWD))
                 detection_file = get_path("../detections/%s" % unit['file'])
-                if test_desc['attack_data'] is None or len(test_desc['attack_data']) == 0:
+                if unit['attack_data'] is None or len(unit['attack_data']) == 0:
                     log(logging.ERROR, "No dataset in testing file in %s" % test)
                     return False
-                test_data = pull_data(test_desc, data_dir.name)
+                test_data = pull_data(unit, data_dir.name)
                 # Extract pipeline and remove SSA decorations
                 input_data = test_data[list(test_data.keys())[0]]
                 spl2 = extract_pipeline(detection['search'], input_data, unit['pass_condition'])
