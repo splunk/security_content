@@ -1,7 +1,7 @@
 name: Scheduled Task Name Used by Dragonfly Threat Actors
 id: d5af132c-7c17-439c-9d31-13d55340f36c
-version: 4
-date: '2020-07-21'
+version: 5
+date: '2020-12-07'
 description: This search looks for flags passed to schtasks.exe on the command-line
   that indicate a task name associated with the Dragonfly threat actor was created
   or deleted.
@@ -14,10 +14,11 @@ references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe  by
-  Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
-  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | search (process=*delete* OR process=*create*) process=*reset* | `scheduled_task_name_used_by_dragonfly_threat_actors_filter` '
+  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
+  (Processes.process=*delete* OR Processes.process=*create*)
+  by Processes.user Processes.process_name Processes.parent_process_name Processes.dest
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `scheduled_task_name_used_by_dragonfly_threat_actors_filter` '
 known_false_positives: No known false positives
 tags:
   analytics_story:
