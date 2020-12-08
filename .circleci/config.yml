@@ -204,9 +204,9 @@ jobs:
             REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header 'Authorization: bearer ${APPINSPECT_TOKEN}' --header 'Cookie: Apache=10.209.0.26.1607362865900740' --form 'app_package=@~/DA-ESS-ContentUpdate-latest.tar.gz' | jq -r '.request_id')
             sleep 1
             STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header 'Authorization: bearer ${APPINSPECT_TOKEN}'--header 'Cookie: Apache=10.209.0.26.1607362865900740' | jq -r '.status')
-            while [$STATUS != 'SUCCESS']
+            while [ $STATUS != "SUCCESS" ]
             do
-              if [$STATUS == "PROCESSING"]
+              if [ $STATUS == "PROCESSING" ]
               then
                 echo "appinspect still processsing request id: $REQUEST_ID"
               else
