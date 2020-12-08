@@ -199,11 +199,27 @@ jobs:
           at: ~/
       - run: *apt-install
       - run:
-          name: grab appinspect
+          name: submit package to appinspect API
           command: |
-            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.tar.gz -o appinspect-lastest.tar.gz
-            mkdir appinspect-latest
-            tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
+            REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header 'Authorization: bearer ${APPINSPECT_TOKEN}' --header 'Cookie: Apache=10.209.0.26.1607362865900740' --form 'app_package=@DA-ESS-ContentUpdate-3.9.0.tar.gz' | jq -r '.request_id')
+            echo $REQUEST_ID
+            sleep 1
+            STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header 'Authorization: bearer ${APPINSPECT_TOKEN}'--header 'Cookie: Apache=10.209.0.26.1607362865900740' | jq -r '.status')
+            echo $STATUS
+            while [$STATUS != 'SUCCESS']
+            do
+              if [$STATUS == "PROCESSING"]
+              then
+                echo "appinspect still processsing request id: $REQUEST_ID"
+              else
+                echo "there was an error with app inspect report please see below:"
+                curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header 'Authorization: bearer ${APPINSPECT_TOKEN}' --header 'Content-Type: application/json' | jq -r
+                exit 1
+              fi
+            sleep 2
+            done
+            echo "app inspect passed successfully see report below:"
+            curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header 'Authorization: bearer ${APPINSPECT_TOKEN}' --header 'Content-Type: application/json' | jq -r
       - run:
           name: install app inspect
           command: |
