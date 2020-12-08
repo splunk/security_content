@@ -214,7 +214,7 @@ jobs:
                 else
                     echo "there was an error with app inspect report please see below:"
                     curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r
-            fi
+                fi
             done
             echo "app inspect passed successfully see report below:"
             curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r
