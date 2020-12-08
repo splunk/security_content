@@ -43,3 +43,6 @@ tags:
   - DE.AE
   security_domain: endpoint
   asset_type: ''
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-sysmon.log
