@@ -34,4 +34,4 @@ tags:
   - PR.PT
   - DE.CM
   security_domain: endpoint
-  asset_type: ''
+  asset_type: Endpoint
