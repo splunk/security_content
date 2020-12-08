@@ -9,12 +9,12 @@ how_to_implement: In order to implement this search, you must install the AWS Ap
 author: Bhavin Patel, Splunk
 inputs:
 - dest
-search: '| search sourcetype=aws:cloudtrail responseElements.instancesSet.items{}.instanceId=$dest$
+search: '| search sourcetype=aws:cloudtrail dest=$dest$
   |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId
-  as instanceId, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress,
+  as dest, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress,
   responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture
   as architecture, responseElements.instancesSet.items{}.keyName as keyName | table
-  arn, awsRegion, instanceId, architecture, privateIpAddress, amiID, keyName'
+  arn, awsRegion, dest, architecture, privateIpAddress, amiID, keyName'
 tags:
   analytics_story:
   - AWS Cryptomining
