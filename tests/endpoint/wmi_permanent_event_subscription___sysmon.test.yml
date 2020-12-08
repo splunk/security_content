@@ -1,7 +1,7 @@
 name: WMI Permanent Event Subscription - Sysmon Unit Test
 tests:
 - name: WMI Permanent Event Subscription - Sysmon
-  file: endpoint/wmi_permanent_event_subscription___sysmon
+  file: endpoint/wmi_permanent_event_subscription___sysmon.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
