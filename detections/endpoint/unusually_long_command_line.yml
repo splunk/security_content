@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   `security_content_ctime(lastTime)`|  eval processlen=len(process) | eventstats stdev(processlen)
   as stdev, avg(processlen) as avg by dest | stats max(processlen) as maxlen, values(stdev)
   as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process |
-  `unusually_long_command_line_filter` | eval threshold = 3 | where maxlen > ((threshold*stdevperhost)
+  `unusually_long_command_line_filter` |eval threshold = 3 | where maxlen > ((threshold*stdevperhost)
   + avgperhost)'
 known_false_positives: Some legitimate applications start with long command lines.
 tags:
