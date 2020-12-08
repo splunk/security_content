@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters to prevent i.e. false positives
-name: detect_traffic_mirroring_filter
