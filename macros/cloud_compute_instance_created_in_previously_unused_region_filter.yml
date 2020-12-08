@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters
-name: cloud_compute_instance_created_in_previously_unused_region_filter
