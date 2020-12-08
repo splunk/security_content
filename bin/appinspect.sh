@@ -20,6 +20,7 @@ APPINSPECT_TOKEN=$1
 APP_PATH=$2
 
 cd $APP_PATH
+mkdir report
 # submit a inspection job EXPECTS app on same directory
 REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
 echo "app inspect request: $REQUEST_ID"
@@ -35,11 +36,12 @@ do
 	# REPORT FINISHED CHECK RESULTS
     then
     	echo "appinspect completed inspection"
-        curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: text/html' -o appinspect_report.html
+        curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: text/html' -o report/appinspect_report.html
         FAILS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r '.summary | .failure')
-        if [ $FAIL >= 1 ]
+        ERRORS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r '.summary | .error')
+        if [ $FAIL >= 1 ] || [ $ERRORS >= 1 ]
         then
-    		echo "ERROR appinspect had $FAILS failures, see summary report under job artifacts for details"
+    		echo "ERROR appinspect had $FAILS failures and or $ERRORS errors, see summary report under job artifacts for details"
     		exit 1
     	else
     		echo "appinspect passed successfully, see summary report under job artifacts for details"

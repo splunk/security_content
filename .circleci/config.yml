@@ -212,7 +212,7 @@ jobs:
             cd security-content/bin
             ./appinspect.sh $APPINSPECT_TOKEN ~/
       - store_artifacts:
-          path: ~/
+          path: ~/report
           destination: report/
       - persist_to_workspace:
           root: ~/
