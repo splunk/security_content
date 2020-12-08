@@ -37,5 +37,5 @@ tags:
   asset_type: Endpoint
   automated_detection_testing: passed
   dataset:
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1070.001/windows-security.log
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1070.001/windows-system.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log

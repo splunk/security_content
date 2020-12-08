@@ -23,7 +23,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev python3-dev -qq
+    sudo apt install -y python-dev python3-dev jq -qq
     # install go for other testing tools
     # but first lets clean up the env
     if  [ -f goinstall.sh ]; then
@@ -199,27 +199,33 @@ jobs:
           at: ~/
       - run: *apt-install
       - run:
-          name: grab appinspect
+          name: submit package to appinspect API
           command: |
-            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.tar.gz -o appinspect-lastest.tar.gz
-            mkdir appinspect-latest
-            tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
-      - run:
-          name: install app inspect
-          command: |
-            cd appinspect-latest
-            rm -rf venv
-            sudo pip install --upgrade pip setuptools
-            sudo pip install virtualenv
-            virtualenv --python=/usr/bin/python3 --clear venv
-            source venv/bin/activate
-            pip install .
-      - run:
-          name: run app inspect
-          command: |
-            cd appinspect-latest
-            source venv/bin/activate
-            splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud --max-messages=all
+            cd ~/
+            REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
+            echo "app inspect request: $REQUEST_ID"
+            sleep 5
+            STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" | jq -r '.status')
+            echo $STATUS
+            while :
+            do
+                STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" | jq -r '.status')
+                if [ $STATUS == "PROCESSING" ] || [ $STATUS == "PREPARING" ]
+                then
+                    echo "appinspect PROCESSING request: $REQUEST_ID"
+                elif [ $STATUS == "SUCCESS" ]
+                then
+                    echo "app inspect passed successfully see report below:"
+                    curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r
+                    exit 0
+                else
+                    echo "there was an error with app inspect report please see below:"
+                    curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r
+                    exit 1
+                fi
+                sleep 60
+            done
+            exit 0
       - persist_to_workspace:
           root: ~/
           paths:
