@@ -201,7 +201,9 @@ jobs:
       - run:
           name: submit package to appinspect API
           command: |
-            REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Cookie: Apache=10.209.0.26.1607362865900740' --form 'app_package=@DA-ESS-ContentUpdate-3.9.0.tar.gz' | jq -r '.request_id')
+            pwd
+            ls
+            REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Cookie: Apache=10.209.0.26.1607362865900740' --form 'app_package=@"DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
             echo "app inspect request: $REQUEST_ID"
             sleep 1
             STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Cookie: Apache=10.209.0.26.1607362865900740' | jq -r '.status')
