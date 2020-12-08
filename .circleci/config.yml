@@ -218,13 +218,6 @@ jobs:
             done
             echo "app inspect passed successfully see report below:"
             curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header 'Authorization: bearer ${APPINSPECT_TOKEN}' --header 'Content-Type: application/json' | jq -r
-            cd appinspect-latest
-            rm -rf venv
-            sudo pip install --upgrade pip setuptools
-            sudo pip install virtualenv
-            virtualenv --python=/usr/bin/python3 --clear venv
-            source venv/bin/activate
-            pip install .
       - persist_to_workspace:
           root: ~/
           paths:
