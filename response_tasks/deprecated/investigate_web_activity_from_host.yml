@@ -1,0 +1,35 @@
+name: Investigate Web Activity From Host
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd22
+version: 1
+date: '2017-11-09'
+description: This search allows you to find all the web activity from a specific host.
+  During an investigation, it is important to profile web activity to characterize
+  user or host activity.
+how_to_implement: To successfully implement this search you must be ingesting your
+  web traffic and populating the Web data model.
+author: Bhavin Patel, Splunk
+inputs:
+- dest
+search: '| from datamodel Web.Web | search src=$dest$'
+tags:
+  analytics_story:
+  - Brand Monitoring
+  - DHS Report TA18-074A
+  - Disabling Security Tools
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - JBoss Vulnerability
+  - Monitor for Unauthorized Software
+  - Netsh Abuse
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Ransomware
+  - SamSam Ransomware
+  - Suspicious Command-Line Executions
+  - Suspicious Emails
+  - Suspicious MSHTA Activity
+  - Suspicious Windows Registry Activities
+  - Unusual Processes
+  - Windows Log Manipulation
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation
