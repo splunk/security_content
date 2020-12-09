@@ -199,38 +199,25 @@ jobs:
           at: ~/
       - run: *apt-install
       - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run:
           name: submit package to appinspect API
           command: |
-            cd ~/
-            REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
-            echo "app inspect request: $REQUEST_ID"
-            sleep 5
-            STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" | jq -r '.status')
-            echo $STATUS
-            while :
-            do
-                STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" | jq -r '.status')
-                if [ $STATUS == "PROCESSING" ] || [ $STATUS == "PREPARING" ]
-                then
-                    echo "appinspect PROCESSING request: $REQUEST_ID"
-                elif [ $STATUS == "SUCCESS" ]
-                then
-                    echo "app inspect passed successfully see report below:"
-                    curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r
-                    exit 0
-                else
-                    echo "there was an error with app inspect report please see below:"
-                    curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r
-                    exit 1
-                fi
-                sleep 60
-            done
-            exit 0
+            cd security-content/bin
+            ./appinspect.sh $APPINSPECT_TOKEN ~/
+      - store_artifacts:
+          path: ~/report
+          destination: report/
       - persist_to_workspace:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-
   update-sources-github:
     executor: content-executor
     steps:
@@ -308,7 +295,7 @@ jobs:
       - run:
           name: publish release on github
           command: |
-            cp ~/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
+            cp ~/DA-ESS-ContentUpdate-latest.tar.gz ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}_${CIRCLE_BUILD_NUM}.tar.gz
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/DA-ESS-ContentUpdate-${CIRCLE_TAG}.tar.gz
       - persist_to_workspace:
           root: ~/
