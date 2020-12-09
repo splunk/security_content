@@ -32,6 +32,6 @@ tags:
   asset_type: Windows
   automated_detection_testing: passed
   dataset:
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-security.log
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-system.log
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1136.001/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log

@@ -1,10 +1,10 @@
 name: Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules - SSA Unit test
-detections:
+tests:
   - name: Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
     file: endpoint/ssa___recon_process_service_hijacking_via_mimikatz_modules.yml
     pass_condition: '| stats count(body) as count_events by body, span(start_time, 7d) | where count_events > 0'
-description: Test reconnaissance of process or service hijacking detections
-attack_data:
-  - file_name: logAllMimikatzModules.log
-    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllMimikatzModules.log
+    description: Test reconnaissance of process or service hijacking detections
+    attack_data:
+      - file_name: logAllMimikatzModules.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllMimikatzModules.log
 

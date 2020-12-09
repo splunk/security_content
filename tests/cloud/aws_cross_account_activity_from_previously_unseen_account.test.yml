@@ -1,0 +1,24 @@
+name: AWS Cross Account Activity From Previously Unseen Account Unit Test
+tests:
+- name: AWS Cross Account Activity From Previously Unseen Account
+  file: cloud/aws_cross_account_activity_from_previously_unseen_account.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  baselines:
+  - name: Previously Seen AWS Cross Account Activity - Initial
+    file: baselines/previously_seen_aws_cross_account_activity_initial.yml
+    pass_condition: '| stats count | where count > 0'
+    earliest_time: '-30d'
+    latest_time: '-1d'
+  - name: Previously Seen AWS Cross Account Activity - Update
+    file: baselines/previously_seen_aws_cross_account_activity_update.yml
+    pass_condition: '| stats count | where count > 0'
+    earliest_time: '-30d'
+    latest_time: '-1d'
+  attack_data:
+  - file_name: cloudtrail_behavioural_detections.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True
