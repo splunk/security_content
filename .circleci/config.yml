@@ -23,7 +23,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev python3-dev -qq
+    sudo apt install -y python-dev python3-dev jq -qq
     # install go for other testing tools
     # but first lets clean up the env
     if  [ -f goinstall.sh ]; then
@@ -199,66 +199,25 @@ jobs:
           at: ~/
       - run: *apt-install
       - run:
-          name: grab appinspect
-          command: |
-            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.tar.gz -o appinspect-lastest.tar.gz
-            mkdir appinspect-latest
-            tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
-      - run:
-          name: install app inspect
-          command: |
-            cd appinspect-latest
-            rm -rf venv
-            sudo pip install --upgrade pip setuptools
-            sudo pip install virtualenv
-            virtualenv --python=/usr/bin/python3 --clear venv
-            source venv/bin/activate
-            pip install .
-      - run:
-          name: run app inspect
-          command: |
-            cd appinspect-latest
-            source venv/bin/activate
-            splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud --max-messages=all
-      - persist_to_workspace:
-          root: ~/
-          paths:
-             - DA-ESS-ContentUpdate-latest.tar.gz
-
-  community-api-update:
-    executor: aws-cli/default
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
           name: checkout repo
           command: |
             if [ "${CIRCLE_BRANCH}" == "" ]; then
-                git clone community https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
-      - run: *apt-install
-      - aws-cli/setup:
-          profile-name: default
       - run:
-          name: update community api sources
+          name: submit package to appinspect API
           command: |
-            cd security-content
-            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
-            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
-            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
-            aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
-            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
-            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
-            aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+            cd security-content/bin
+            ./appinspect.sh $APPINSPECT_TOKEN ~/
+      - store_artifacts:
+          path: ~/report
+          destination: report/
       - persist_to_workspace:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-
   update-sources-github:
     executor: content-executor
     steps:
@@ -384,6 +343,17 @@ jobs:
             aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
             aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+      - run:
+          name: security content api smoke test
+          command: | 
+            API_URL='https://content.splunkresearch.com/detections'
+            API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
+            echo "Security Content API Status: $API_STATUS"
+            if [ "$API_STATUS" != "200" ]; then
+              echo "Error [Security Content API status: $API_STATUS]"
+              exit 1
+            fi
+
 
 workflows:
   version: 2.1
@@ -418,16 +388,6 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - community-api-update:
-        # build only on community changes
-          requires:
-            - validate-content
-            - build-sources
-            - build-package
-            - run-appinspect
-          filters:
-            branches:
-              only: community
       - update-sources-github:
         # update package and docs in github if is a tag
           requires:

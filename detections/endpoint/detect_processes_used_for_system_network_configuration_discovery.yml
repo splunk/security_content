@@ -1,7 +1,7 @@
 name: Detect processes used for System Network Configuration Discovery
 id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
-version: 1
-date: '2018-11-20'
+version: 2
+date: '2020-11-10'
 description: This search looks for fast execution of processes used for system network
   configuration discovery on the endpoint.
 how_to_implement: You must be ingesting data that records registry activity from your
@@ -26,6 +26,8 @@ known_false_positives: It is uncommon for normal users to execute a series of co
 tags:
   analytics_story:
   - Unusual Processes
+  mitre_attack_id:
+  - T1016
   kill_chain_phases:
   - Installation
   - Command and Control
@@ -37,3 +39,6 @@ tags:
   - PR.DS
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log

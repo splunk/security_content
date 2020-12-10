@@ -1,0 +1,3 @@
+description: Use this macro to determine how far back you should be checking for new provisioning activities
+definition: '"-70m@m"'
+name: previously_unseen_cloud_provisioning_activity_window

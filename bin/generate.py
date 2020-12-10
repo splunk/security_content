@@ -279,10 +279,8 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                 template = j2_env.get_template('panel.j2')
                 file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
                 output_path = path.join(OUTPUT_PATH, file_path)
-                if response_task['search'].find(">") is not -1:
-                    response_task['search']= response_task['search'].replace(">","&gt;")
-                if response_task['search'].find("<") is not -1:
-                    response_task['search']= response_task['search'].replace("<","&lt;")
+                response_task['search']= response_task['search'].replace(">","&gt;")
+                response_task['search']= response_task['search'].replace("<","&lt;")
 
                 output = template.render(search=response_task['search'])
                 with open(output_path, 'w') as f:
@@ -363,11 +361,12 @@ def get_deployments(object, deployments):
 
 def get_nes_fields(search, deployment):
     nes_fields_matches = []
-    if 'notable' in deployment['alert_action']:
-        if 'nes_fields' in deployment['alert_action']['notable']:
-            for field in deployment['alert_action']['notable']['nes_fields']:
-                if (search.find(field + ' ') != -1):
-                    nes_fields_matches.append(field)
+    if 'alert_action' in deployment:
+        if 'notable' in deployment['alert_action']:
+            if 'nes_fields' in deployment['alert_action']['notable']:
+                for field in deployment['alert_action']['notable']['nes_fields']:
+                    if (search.find(field + ' ') != -1):
+                        nes_fields_matches.append(field)
 
     return nes_fields_matches
 

@@ -221,7 +221,6 @@ To get started, run the detection search to identify parent processes of `netsh.
 #### Mappings
 
 ##### ATT&CK
-* T1059.003
 * T1562.004
 
 ##### Kill Chain Phases
@@ -250,7 +249,7 @@ Monitor your environment for activity consistent with common attack techniques b
 #### Narrative
 The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of Internet services or software with Internet access to defraud victims or to otherwise take advantage of them. According to the Bureau, Internet crime schemes are used to steal millions of dollars each year from victims and continue to plague the Internet through various methods. The agency includes phishing scams, data breaches, Denial of Service (DOS) attacks, email account compromise, malware, spoofing, and ransomware in this category.\
 These crimes are not the fraud itself, but rather the attack techniques commonly employed by fraudsters in their pursuit of data that enables them to commit malicious actssuch as obtaining and using stolen credit cards. They represent a serious problem that is steadily increasing and not likely to go away anytime soon.\
-hen developing a strategy for preventing fraud in your environment, its important to  look across all of your web services for evidence that attackers are abusing enterprise resources to enumerate systems, harvest data for secondary fraudulent activity, or abuse terms of service.This Analytic Story looks for evidence of common Internet attack techniques that could be indicative of web fraud in your environmentincluding account harvesting, anomalous user clickspeed, and password sharing across accounts, to name just a few.\
+When developing a strategy for preventing fraud in your environment, its important to  look across all of your web services for evidence that attackers are abusing enterprise resources to enumerate systems, harvest data for secondary fraudulent activity, or abuse terms of service.This Analytic Story looks for evidence of common Internet attack techniques that could be indicative of web fraud in your environmentincluding account harvesting, anomalous user clickspeed, and password sharing across accounts, to name just a few.\
 The account-harvesting search focuses on web pages used for user-account registration. It detects the creation of a large number of user accounts using the same email domain name, a type of activity frequently seen in advance of a fraud campaign.\
 The anomalous clickspeed search looks for users who are moving through your website at a faster-than-normal speed or with a perfect click cadence (high periodicity or low standard deviation), which could indicate that the user is a script, not an actual human.\
 Another search detects incidents wherein a single password is used across multiple accounts, which may indicate that a fraudster has infiltrated your environment and embedded a common password within a script.
@@ -294,6 +293,8 @@ Another search detects incidents wherein a single password is used across multip
 * [Common Phishing Frameworks](#Common-Phishing-Frameworks)
 
 * [Credential Dumping](#Credential-Dumping)
+
+* [Data Exfiltration](#Data-Exfiltration)
 
 * [Detect Zerologon Attack](#Detect-Zerologon-Attack)
 
@@ -543,7 +544,6 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * CIS 8
 
 ##### NIST
-* DE.AE
 * DE.CM
 * PR.AC
 * PR.IP
@@ -551,6 +551,39 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1003
 * https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+
+### Data Exfiltration
+* id = 66b0fe0c-1351-11eb-adc1-0242ac120002
+* date = 2020-10-21
+* version = 1
+
+#### Description
+The stealing of data by an adversary.
+
+#### Narrative
+Exfiltration comes in many flavors.  Adversaries can collect data over encrypted or non-encrypted channels.  They can utilise Command and Control channels that are already in place to exfiltrate data.  They can use both standard data transfer protocols such as FTP, SCP, etc to exfiltrate data.  Or they can use non-standard protocols such as DNS, ICMP, etc with specially crafted fields to try and circumvent security technologies in place.
+
+#### Detections
+* Detect SNICat SNI Exfiltration
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1041
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 13
+
+##### NIST
+* DE.AE
+
+##### References
+* https://attack.mitre.org/tactics/TA0010/
 
 ### Detect Zerologon Attack
 * id = 5d14a962-569e-4578-939f-f386feb63ce4
@@ -839,6 +872,7 @@ In the event a system is suspected of having been compromised via a malicious we
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Installation
 
 ###### CIS
 * CIS 3
@@ -865,7 +899,7 @@ Detect signs of malicious payloads that may indicate that your environment has b
 #### Narrative
 Despite its simplicity, phishing remains the most pervasive and dangerous cyberthreat. In fact, research shows that as many as [91% of all successful attacks](https://digitalguardian.com/blog/91-percent-cyber-attacks-start-phishing-email-heres-how-protect-against-phishing) are initiated via a phishing email. \
 As most people know, these emails use fraudulent domains, [email scraping](https://www.cyberscoop.com/emotet-trojan-phishing-scraping-templates-cofense-geodo/), familiar contact names inserted as senders, and other tactics to lure targets into clicking a malicious link, opening an attachment with a [nefarious payload](https://www.cyberscoop.com/emotet-trojan-phishing-scraping-templates-cofense-geodo/), or entering sensitive personal information that perpetrators may intercept. This attack technique requires a relatively low level of skill and allows adversaries to easily cast a wide net. Worse, because its success relies on the gullibility of humans, it's impossible to completely "automate" it out of your environment. However, you can use ES and ESCU to detect and investigate potentially malicious payloads injected into your environment subsequent to a phishing attack. \
-hile any kind of file may contain a malicious payload, some are more likely to be perceived as benign (and thus more often escape notice) by the average victim&#151;especially when the attacker sends an email that seems to be from one of their contacts. An example is Microsoft Office files. Most corporate users are familiar with documents with the following suffixes: .doc/.docx (MS Word), .xls/.xlsx (MS Excel), and .ppt/.pptx (MS PowerPoint), so they may click without a second thought, slashing a hole in their organizations' security. \
+While any kind of file may contain a malicious payload, some are more likely to be perceived as benign (and thus more often escape notice) by the average victim&#151;especially when the attacker sends an email that seems to be from one of their contacts. An example is Microsoft Office files. Most corporate users are familiar with documents with the following suffixes: .doc/.docx (MS Word), .xls/.xlsx (MS Excel), and .ppt/.pptx (MS PowerPoint), so they may click without a second thought, slashing a hole in their organizations' security. \
 Following is a typical series of events, according to an [article by Trend Micro](https://blog.trendmicro.com/trendlabs-security-intelligence/rising-trend-attackers-using-lnk-files-download-malware/):\
 1. Attacker sends a phishing email. Recipient downloads the attached file, which is typically a .docx or .zip file with an embedded .lnk file\
 1. The .lnk file executes a PowerShell script\
@@ -1183,6 +1217,7 @@ The searches in this story help you detect and investigate suspicious activity t
 
 ##### ATT&CK
 * T1059.003
+* T1218.005
 * T1547.001
 
 ##### Kill Chain Phases
@@ -1270,10 +1305,13 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 #### Mappings
 
 ##### ATT&CK
-* T1112
 * T1546.001
 * T1546.011
+* T1546.012
 * T1547.001
+* T1547.010
+* T1548.002
+* T1564.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1322,7 +1360,6 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 #### Mappings
 
 ##### ATT&CK
-* T1021.001
 * T1047
 
 ##### Kill Chain Phases
@@ -1410,6 +1447,8 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 ##### ATT&CK
 * T1112
 * T1222.001
+* T1548.002
+* T1564.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1488,7 +1527,7 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 ##### ATT&CK
 * T1070
 * T1070.001
-* T1485
+* T1490
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1550,7 +1589,10 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * T1543.003
 * T1546.011
 * T1547.001
+* T1547.010
+* T1564.001
 * T1574.009
+* T1574.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1602,7 +1644,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * T1068
 * T1204.002
 * T1546.008
-* T1547.001
+* T1546.012
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1870,22 +1912,31 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 #### Detections
 * Detect ARP Poisoning
+* Detect IPv6 Network Infrastructure Threats
 * Detect New Login Attempts to Routers
+* Detect Port Security Violation
 * Detect Rogue DHCP Server
+* Detect Software Download To Network Device
+* Detect Traffic Mirroring
 
 #### Data Models
 * Authentication
+* Network_Traffic
 
 #### Mappings
 
 ##### ATT&CK
+* T1020.001
 * T1200
 * T1498
+* T1542.005
 * T1557
+* T1557.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Delivery
+* Exploitation
 * Reconnaissance
 
 ###### CIS
@@ -1971,6 +2022,12 @@ Various legacy protocols operate by default in the clear, without the protection
 
 * [Suspicious Cloud Authentication Activities](#Suspicious-Cloud-Authentication-Activities)
 
+* [Suspicious Cloud Instance Activities](#Suspicious-Cloud-Instance-Activities)
+
+* [Suspicious Cloud Provisioning Activities](#Suspicious-Cloud-Provisioning-Activities)
+
+* [Suspicious Cloud User Activities](#Suspicious-Cloud-User-Activities)
+
 * [Suspicious GCP Storage Activities](#Suspicious-GCP-Storage-Activities)
 
 * [Unusual AWS EC2 Modifications](#Unusual-AWS-EC2-Modifications)
@@ -1989,7 +2046,6 @@ Herein lies the rub. In between the time between when the temporary credentials 
 This Analytic Story includes searches that will help you monitor your AWS CloudTrail logs for evidence of suspicious cross-account activity.  For example, while accessing multiple AWS accounts and roles may be perfectly valid behavior, it may be suspicious when an account requests privileges of an account it has not accessed in the past. After identifying suspicious activities, you can use the provided investigative searches to help you probe more deeply.
 
 #### Detections
-* AWS Cross Account Activity From Previously Unseen Account
 * aws detect attach to role policy
 * aws detect permanent key creation
 * aws detect role creation
@@ -2002,18 +2058,14 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 ##### ATT&CK
 * T1078
-* T1078.004
 * T1550
 
 ##### Kill Chain Phases
-* Actions on Objectives
 * Lateral Movement
 
 ###### CIS
-* CIS 16
 
 ##### NIST
-* DE.AE
 
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
@@ -2029,11 +2081,12 @@ Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomin
 #### Narrative
 Cryptomining is an intentionally difficult, resource-intensive business. Its complexity was designed into the process to ensure that the number of blocks mined each day would remain steady. So, it's par for the course that ambitious, but unscrupulous, miners make amassing the computing power of large enterprises--a practice known as cryptojacking--a top priority. \
 Cryptojacking has attracted an increasing amount of media attention since its explosion in popularity in the fall of 2017. The attacks have moved from in-browser exploits and mobile phones to enterprise cloud services, such as Amazon Web Services (AWS). It's difficult to determine exactly how widespread the practice has become, since bad actors continually evolve their ability to escape detection, including employing unlisted endpoints, moderating their CPU usage, and hiding the mining pool's IP address behind a free CDN. \
-hen malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \
+When malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \
 This Analytic Story is focused on detecting suspicious new instances in your EC2 environment to help prevent such a disaster. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 #### Detections
 * Abnormally High AWS Instances Launched by User
+* Abnormally High AWS Instances Launched by User - MLTK
 * EC2 Instance Started In Previously Unseen Region
 * EC2 Instance Started With Previously Unseen AMI
 * EC2 Instance Started With Previously Unseen Instance Type
@@ -2085,6 +2138,7 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 #### Mappings
 
 ##### ATT&CK
+* T1562.007
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2233,14 +2287,15 @@ When malicious miners appropriate a cloud instance, often spinning up hundreds o
 This Analytic Story is focused on detecting suspicious new instances in your cloud environment to help prevent cryptominers from gaining a foothold. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 #### Detections
-* Abnormally High AWS Instances Launched by User - MLTK
+* Abnormally High Number Of Cloud Instances Destroyed
+* Abnormally High Number Of Cloud Instances Launched
 * Cloud Compute Instance Created By Previously Unseen User
+* Cloud Compute Instance Created In Previously Unused Region
 * Cloud Compute Instance Created With Previously Unseen Image
 * Cloud Compute Instance Created With Previously Unseen Instance Type
-* Cloud Compute Instance Started In Previously Unused Region
 
 #### Data Models
-* Cloud_Infrastructure
+* Change
 
 #### Mappings
 
@@ -2504,6 +2559,7 @@ It is important to monitor and control who has access to your AWS infrastructure
 * Detect new user AWS Console Login
 
 #### Data Models
+* Authentication
 
 #### Mappings
 
@@ -2614,10 +2670,11 @@ It is important to monitor and control who has access to your cloud infrastructu
 This Analytic Story has data model versions of cloud searches leveraging Authentication data, including those looking for suspicious login activity, and cross-account activity for AWS.
 
 #### Detections
+* AWS Cross Account Activity From Previously Unseen Account
+* Detect AWS Console Login by New User
 * Detect AWS Console Login by User from New City
 * Detect AWS Console Login by User from New Country
 * Detect AWS Console Login by User from New Region
-* Detect new user AWS Console Login - DM
 
 #### Data Models
 * Authentication
@@ -2640,6 +2697,125 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
+### Suspicious Cloud Instance Activities
+* id = 8168ca88-392e-42f4-85a2-767579c660ce
+* date = 2020-08-25
+* version = 1
+
+#### Description
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+#### Narrative
+Monitoring your cloud infrastructure logs allows you enable governance, compliance, and risk auditing. It is crucial for a company to monitor events and actions taken in the their cloud environments to ensure that your instances are not vulnerable to attacks. This Analytic Story identifies suspicious activities in your cloud compute instances and helps you respond and investigate those activities.
+
+#### Detections
+* Abnormally High Number Of Cloud Instances Destroyed
+* Abnormally High Number Of Cloud Instances Launched
+* Cloud Instance Modified By Previously Unseen User
+
+#### Data Models
+* Change
+
+#### Mappings
+
+##### ATT&CK
+* T1078.004
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 1
+* CIS 13
+
+##### NIST
+* DE.AE
+* DE.DP
+* ID.AM
+
+##### References
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+### Suspicious Cloud Provisioning Activities
+* id = 51045ded-1575-4ba6-aef7-af6c73cffd86
+* date = 2018-08-20
+* version = 1
+
+#### Description
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+#### Narrative
+Because most enterprise cloud infrastructure activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).\
+This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
+
+#### Detections
+* Cloud Provisioning Activity From Previously Unseen City
+* Cloud Provisioning Activity From Previously Unseen Country
+* Cloud Provisioning Activity From Previously Unseen IP Address
+* Cloud Provisioning Activity From Previously Unseen Region
+
+#### Data Models
+* Change
+
+#### Mappings
+
+##### ATT&CK
+* T1078
+
+##### Kill Chain Phases
+
+###### CIS
+* CIS 1
+
+##### NIST
+* ID.AM
+
+##### References
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+### Suspicious Cloud User Activities
+* id = 1ed5ce7d-5469-4232-92af-89d1a3595b39
+* date = 2020-09-04
+* version = 1
+
+#### Description
+Detect and investigate suspicious activities by users and roles in your cloud environments.
+
+#### Narrative
+It seems obvious that it is critical to monitor and control the users who have access to your cloud infrastructure. Nevertheless, it's all too common for enterprises to lose track of ad-hoc accounts, leaving their servers vulnerable to attack. In fact, this was the very oversight that led to Tesla's cryptojacking attack in February, 2018.\
+In addition to compromising the security of your data, when bad actors leverage your compute resources, it can incur monumental costs, since you will be billed for any new instances and increased bandwidth usage.
+
+#### Detections
+* Abnormally High Number Of Cloud Infrastructure API Calls
+* Abnormally High Number Of Cloud Security Group API Calls
+* Cloud API Calls From Previously Unseen User Roles
+
+#### Data Models
+* Change
+
+#### Mappings
+
+##### ATT&CK
+* T1078
+* T1078.004
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 1
+* CIS 16
+
+##### NIST
+* DE.CM
+* DE.DP
+* ID.AM
+* PR.AC
+
+##### References
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* https://redlock.io/blog/cryptojacking-tesla
 
 ### Suspicious GCP Storage Activities
 * id = 4d656b2e-d6be-11ea-87d0-0242ac130003
@@ -2728,6 +2904,10 @@ A common attack technique is to infiltrate a cloud instance and make modificatio
 * [Orangeworm Attack Group](#Orangeworm-Attack-Group)
 
 * [Ransomware](#Ransomware)
+
+* [Ransomware Cloud](#Ransomware-Cloud)
+
+* [Ryuk Ransomware](#Ryuk-Ransomware)
 
 * [SamSam Ransomware](#SamSam-Ransomware)
 
@@ -2911,7 +3091,6 @@ The searches in this Analytic Story will help you find executables that are rare
 #### Detections
 * Detect Rare Executables
 * Detect Use of cmd exe to Launch Script Interpreters
-* Detection of tools built by NirSoft
 * Email Attachments With Lots Of Spaces
 * Prohibited Software On Endpoint
 * Registry Keys Used For Persistence
@@ -2929,7 +3108,6 @@ The searches in this Analytic Story will help you find executables that are rare
 ##### ATT&CK
 * T1021.002
 * T1059.003
-* T1072
 * T1547.001
 * T1566.001
 
@@ -3116,15 +3294,16 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 #### Mappings
 
 ##### ATT&CK
-* T1021.001
 * T1021.002
 * T1036
+* T1047
 * T1048
 * T1053.005
 * T1070
 * T1070.001
 * T1071.001
 * T1485
+* T1490
 * T1547.001
 
 ##### Kill Chain Phases
@@ -3153,6 +3332,98 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 ##### References
 * https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 * https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
+
+### Ransomware Cloud
+* id = f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
+* date = 2020-10-27
+* version = 1
+
+#### Description
+Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
+
+#### Narrative
+Ransomware is an ever-present risk to the enterprise, wherein an infected host encrypts business-critical data, holding it hostage until the victim pays the attacker a ransom. There are many types and varieties of ransomware that can affect an enterprise.Cloud ransomware can be deployed by obtaining high privilege credentials from targeted users or resources.
+
+#### Detections
+* AWS Detect Users creating keys with encrypt policy without MFA
+* AWS Detect Users with KMS keys performing encryption S3
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1486
+
+##### Kill Chain Phases
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+* https://github.com/d1vious/git-wild-hunt
+* https://www.youtube.com/watch?v=PgzNib37g0M
+
+### Ryuk Ransomware
+* id = 507edc74-13d5-4339-878e-b9744ded1f35
+* date = 2020-11-06
+* version = 1
+
+#### Description
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the Ryuk ransomware, including looking for file writes associated with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
+
+#### Narrative
+Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) on October 28th called “Ransomware Activity Targeting the Healthcare and Public Health Sector.” This alert details TTPs associated with ongoing and possible imminent attacks against the Healthcare sector, and is a joint advisory in coordination with other U.S. Government agencies. The objective of these malicious campaigns is to infiltrate targets in named sectors and to drop ransomware payloads, which will likely cause disruption of service and increase risk of actual harm to the health and safety of patients at hospitals, even with the aggravant of an ongoing COVID-19 pandemic. This document specifically refers to several crimeware exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. The Ryuk ransomware payload is not new. It has been well documented and identified in multiple variants. Payloads need a carrier, and for Ryuk it has often been exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks such as Emotet or Trickbot.
+
+#### Detections
+* Common Ransomware Notes
+* Remote Desktop Network Bruteforce
+* Remote Desktop Network Traffic
+* Ryuk Test Files Detected
+* Spike in File Writes
+* Windows DisableAntiSpyware Registry
+* Windows Security Account Manager Stopped
+* Windows connhost exe started forcefully
+
+#### Data Models
+* Endpoint
+* Network_Traffic
+
+#### Mappings
+
+##### ATT&CK
+* T1021.001
+* T1059.003
+* T1485
+* T1486
+* T1489
+* T1562.001
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Delivery
+* Reconnaissance
+
+###### CIS
+* CIS 12
+* CIS 16
+* CIS 3
+* CIS 8
+* CIS 9
+
+##### NIST
+* DE.AE
+* DE.CM
+* PR.AC
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.splunk.com/en_us/blog/security/detecting-ryuk-using-splunk-attack-range.html
+* https://www.crowdstrike.com/blog/big-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
+* https://us-cert.cisa.gov/ncas/alerts/aa20-302a
 
 ### SamSam Ransomware
 * id = c4b89506-fbcf-4cb7-bfd6-527e54789604
@@ -3194,14 +3465,15 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 ##### ATT&CK
 * T1021.001
-* T1059.001
-* T1059.003
+* T1021.002
 * T1082
+* T1204.002
 * T1485
+* T1486
+* T1490
 
 ##### Kill Chain Phases
 * Actions on Objectives
-* Command and Control
 * Delivery
 * Installation
 * Reconnaissance
@@ -3220,7 +3492,6 @@ This Analytic Story includes searches designed to help detect and investigate si
 ##### NIST
 * DE.AE
 * DE.CM
-* ID.AM
 * ID.RA
 * PR.AC
 * PR.DS
@@ -3261,6 +3532,7 @@ In the event an unusual process is identified, it is imperative to better unders
 #### Mappings
 
 ##### ATT&CK
+* T1016
 * T1036
 * T1204.002
 * T1218.011
@@ -3311,7 +3583,7 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 #### Mappings
 
 ##### ATT&CK
-* T1036
+* T1036.003
 * T1546.001
 
 ##### Kill Chain Phases
@@ -3353,8 +3625,8 @@ The Windows operating system uses a services architecture to allow for running c
 
 ##### ATT&CK
 * T1543.003
-* T1547.001
 * T1569.002
+* T1574.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -3405,7 +3677,7 @@ The exploit involved manipulating the `Content-Type HTTP` header to execute comm
 This Analytic Story contains two different searches that help to identify activity that may be related to this issue. The first search looks for characteristics of the `Content-Type` header consistent with attempts to exploit the vulnerability. This should be a relatively pertinent indicator, as the `Content-Type` header is generally consistent and does not have a large degree of variation.\
 The second search looks for the execution of various commands typically entered on the command shell when an attacker first lands on a system. These commands are not generally executed on web servers during the course of day-to-day operation, but they may be used when the system is undergoing maintenance or troubleshooting.\
 First, it is helpful is to understand how often the notable event is generated, as well as the commonalities in some of these events. This may help determine whether this is a common occurrence that is of a lesser concern or a rare event that may require more extensive investigation. It can also help to understand whether the issue is restricted to a single user or system or is broader in scope.\
-hen looking at the target of the behavior illustrated by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to see what other events involving the target have occurred in the recent past. This can help tie different events together and give further situational awareness regarding the target.\
+When looking at the target of the behavior illustrated by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to see what other events involving the target have occurred in the recent past. This can help tie different events together and give further situational awareness regarding the target.\
 Various types of information for external systems should be reviewed and (potentially) collected if the incident is, indeed, judged to be malicious. Information like this can be useful in generating your own threat intelligence to create alerts in the future.\
 Looking at the country, responsible party, and fully qualified domain names associated with the external IP address--as well as the registration information associated with those domain names, if they are frequently visited by others--can help you answer the question of "who," in regard to the external system. Answering that can help qualify the event and may serve useful for tracking. In addition, there are various sources that can provide some reputation information on the IP address or domain name, which can assist in determining if the event is malicious in nature. Finally, determining whether or not there are other events associated with the IP address may help connect some dots or show other events that should be brought into scope.\
 Gathering various data elements on the system of interest can sometimes help quickly determine that something suspicious may be happening. Some of these items include determining who else may have recently logged into the system, whether any unusual scheduled tasks exist, whether the system is communicating on suspicious ports, whether there are modifications to sensitive registry keys, and whether there are any known vulnerabilities on the system. This information can often highlight other activity commonly seen in attack scenarios or give more information about how the system may have been targeted.\
@@ -3462,7 +3734,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 #### Narrative
 This Analytic Story looks for probing and exploitation attempts targeting JBoss application servers. While the vulnerabilities associated with this story are rather dated, they were leveraged in a spring 2016 campaign in connection with the Samsam ransomware variant. Incidents involving this ransomware are unique, in that they begin with attacks against vulnerable services, rather than the phishing or drive-by attacks more common with ransomware. In this case, vulnerable JBoss applications appear to be the target of choice.\
 It is helpful to understand how often a notable event generated by this story occurs, as well as the commonalities between some of these events, both of which may provide clues about whether this is a common occurrence of minimal concern or a rare event that may require more extensive investigation. It may also help to understand whether the issue is restricted to a single user/system or whether it is broader in scope.\
-hen looking at the target of the behavior uncovered by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to identify other recent events involving the target. This can help tie different events together and give further situational awareness regarding the target host.\
+When looking at the target of the behavior uncovered by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to identify other recent events involving the target. This can help tie different events together and give further situational awareness regarding the target host.\
 Various types of information for external systems should be reviewed and, potentially, collected if the incident is, indeed, judged to be malicious. This data may be useful for generating your own threat intelligence, so you can create future alerts.\
 The following factors may assist you in determining whether the event is malicious: \
 1. Country of origin\

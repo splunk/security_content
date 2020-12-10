@@ -1,7 +1,7 @@
 name: Detect Excessive Account Lockouts From Endpoint
 id: c026e3dd-7e18-4abb-8f41-929e836efe74
-version: 4
-date: '2020-07-21'
+version: 5
+date: '2020-11-09'
 description: This search identifies endpoints that have caused a relatively high number
   of account lockouts in a short period.
 how_to_implement: "You must ingest your Windows security event logs in the `Change`\
@@ -21,20 +21,25 @@ how_to_implement: "You must ingest your Windows security event logs in the `Chan
 type: ESCU
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
-  All_Changes.result="lockout" by All_Changes.dest All_Changes.result |`drop_dm_object_name("All_Changes")`
-  |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
+  as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where
+  nodename=All_Changes.Account_Management All_Changes.result="lockout" by All_Changes.dest
+  All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`|
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search
+  count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
 known_false_positives: It's possible that a widely used system, such as a kiosk, could
   cause a large number of account lockouts.
 tags:
   analytics_story:
   - Account Monitoring and Controls
   mitre_attack_id:
-  - T1078.003
+  - T1078.002
   cis20:
   - CIS 16
   nist:
   - PR.IP
   security_domain: access
   asset_type: Windows
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log

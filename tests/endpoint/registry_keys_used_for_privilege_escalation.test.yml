@@ -1,0 +1,12 @@
+name: Registry Keys Used For Privilege Escalation Unit Test
+tests:
+- name: Registry Keys Used For Privilege Escalation
+  file: endpoint/registry_keys_used_for_privilege_escalation.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
