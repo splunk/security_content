@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) max(_time) a
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | search dest=$dest$ 
-| join dest type=outer 
+| join dest type=inner 
     [| tstats `security_content_summariesonly` count from datamodel=Endpoint.Ports by Ports.process_id Ports.src Ports.dest_port 
     | `drop_dm_object_name(Ports)` 
     | search dest_port=$dest_port$ 

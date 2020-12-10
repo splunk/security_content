@@ -10,7 +10,7 @@ how_to_implement: If you are using Enterprise Security you are likely already cr
 author: Bhavin Patel, Splunk
 inputs:
 - dest
-search: '| search `notable` | search dest=$dest$ | table _time, rule_name, owner,
+search: '| search `notable` | search dest=$dest$ | table _time,dest, rule_name, owner,
   priority, severity, status_description'
 tags:
   analytics_story:
