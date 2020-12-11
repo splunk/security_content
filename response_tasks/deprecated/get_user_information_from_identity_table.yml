@@ -1,0 +1,58 @@
+name: Get User Information from Identity Table
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
+version: 1
+date: '2017-09-20'
+description: Gather more information about the user identified in the Notable Event.
+how_to_implement: To successfully implement this search you must have populated the
+  identity table with information about your users.
+author: Bhavin Patel, Splunk
+inputs:
+- user
+search: '| `identities` | search identity=$user$ | table _time, identity, first, last,
+  email, category, watchlist'
+tags:
+  analytics_story:
+  - AWS Cryptomining
+  - AWS Network ACL Activity
+  - Account Monitoring and Controls
+  - Apache Struts Vulnerability
+  - Brand Monitoring
+  - Cloud Cryptomining
+  - ColdRoot MacOS RAT
+  - Collection and Staging
+  - Command and Control
+  - DHS Report TA18-074A
+  - Data Protection
+  - Disabling Security Tools
+  - Dynamic DNS
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Hidden Cobra Malware
+  - Host Redirection
+  - Lateral Movement
+  - Malicious PowerShell
+  - Monitor for Unauthorized Software
+  - Netsh Abuse
+  - Orangeworm Attack Group
+  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Ransomware
+  - Router and Infrastructure Security
+  - SamSam Ransomware
+  - Spectre And Meltdown Vulnerabilities
+  - Suspicious AWS EC2 Activities
+  - Suspicious AWS S3 Activities
+  - Suspicious AWS Traffic
+  - Suspicious Command-Line Executions
+  - Suspicious DNS Traffic
+  - Suspicious Emails
+  - Suspicious MSHTA Activity
+  - Suspicious WMI Use
+  - Suspicious Windows Registry Activities
+  - Unusual Processes
+  - Use of Cleartext Protocols
+  - Windows Defense Evasion Tactics
+  - Windows File Extension and Association Abuse
+  - Windows Log Manipulation
+  - Windows Persistence Techniques
+  - Windows Privilege Escalation
+  - Windows Service Abuse
