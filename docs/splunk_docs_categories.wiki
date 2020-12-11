@@ -219,7 +219,6 @@ To get started, run the detection search to identify parent processes of `netsh.
 ====Tags====
 
 =====ATT&CK=====
-* T1059.003
 * T1562.004
 
 =====Kill Chain Phases=====
@@ -254,7 +253,7 @@ Monitor your environment for activity consistent with common attack techniques b
 ====Narrative====
 The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of Internet services or software with Internet access to defraud victims or to otherwise take advantage of them. According to the Bureau, Internet crime schemes are used to steal millions of dollars each year from victims and continue to plague the Internet through various methods. The agency includes phishing scams, data breaches, Denial of Service (DOS) attacks, email account compromise, malware, spoofing, and ransomware in this category.\
 These crimes are not the fraud itself, but rather the attack techniques commonly employed by fraudsters in their pursuit of data that enables them to commit malicious actssuch as obtaining and using stolen credit cards. They represent a serious problem that is steadily increasing and not likely to go away anytime soon.\
-hen developing a strategy for preventing fraud in your environment, its important to  look across all of your web services for evidence that attackers are abusing enterprise resources to enumerate systems, harvest data for secondary fraudulent activity, or abuse terms of service.This Analytic Story looks for evidence of common Internet attack techniques that could be indicative of web fraud in your environmentincluding account harvesting, anomalous user clickspeed, and password sharing across accounts, to name just a few.\
+When developing a strategy for preventing fraud in your environment, its important to  look across all of your web services for evidence that attackers are abusing enterprise resources to enumerate systems, harvest data for secondary fraudulent activity, or abuse terms of service.This Analytic Story looks for evidence of common Internet attack techniques that could be indicative of web fraud in your environmentincluding account harvesting, anomalous user clickspeed, and password sharing across accounts, to name just a few.\
 The account-harvesting search focuses on web pages used for user-account registration. It detects the creation of a large number of user accounts using the same email domain name, a type of activity frequently seen in advance of a fraud campaign.\
 The anomalous clickspeed search looks for users who are moving through your website at a faster-than-normal speed or with a perfect click cadence (high periodicity or low standard deviation), which could indicate that the user is a script, not an actual human.\
 Another search detects incidents wherein a single password is used across multiple accounts, which may indicate that a fraudster has infiltrated your environment and embedded a common password within a script.
@@ -530,6 +529,45 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 date = 2020-02-04
 
 version = 3
+
+</div>
+</div>
+
+===Data Exfiltration===
+
+The stealing of data by an adversary.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Exfiltration comes in many flavors.  Adversaries can collect data over encrypted or non-encrypted channels.  They can utilise Command and Control channels that are already in place to exfiltrate data.  They can use both standard data transfer protocols such as FTP, SCP, etc to exfiltrate data.  Or they can use non-standard protocols such as DNS, ICMP, etc with specially crafted fields to try and circumvent security technologies in place.
+
+====Detections====
+* Detect SNICat SNI Exfiltration
+
+====Data Models====
+
+====Tags====
+
+=====ATT&CK=====
+* T1041
+
+=====Kill Chain Phases=====
+* Actions on Objectives
+
+=====CIS=====
+* CIS 13
+
+=====NIST=====
+* DE.AE
+
+====References====
+* https://attack.mitre.org/tactics/TA0010/
+
+date = 2020-10-21
+
+version = 1
 
 </div>
 </div>
@@ -850,6 +888,7 @@ In the event a system is suspected of having been compromised via a malicious we
 =====Kill Chain Phases=====
 * Actions on Objectives
 * Command and Control
+* Installation
 
 =====CIS=====
 * CIS 3
@@ -882,7 +921,7 @@ Detect signs of malicious payloads that may indicate that your environment has b
 ====Narrative====
 Despite its simplicity, phishing remains the most pervasive and dangerous cyberthreat. In fact, research shows that as many as [91% of all successful attacks](https://digitalguardian.com/blog/91-percent-cyber-attacks-start-phishing-email-heres-how-protect-against-phishing) are initiated via a phishing email. \
 As most people know, these emails use fraudulent domains, [email scraping](https://www.cyberscoop.com/emotet-trojan-phishing-scraping-templates-cofense-geodo/), familiar contact names inserted as senders, and other tactics to lure targets into clicking a malicious link, opening an attachment with a [nefarious payload](https://www.cyberscoop.com/emotet-trojan-phishing-scraping-templates-cofense-geodo/), or entering sensitive personal information that perpetrators may intercept. This attack technique requires a relatively low level of skill and allows adversaries to easily cast a wide net. Worse, because its success relies on the gullibility of humans, it's impossible to completely "automate" it out of your environment. However, you can use ES and ESCU to detect and investigate potentially malicious payloads injected into your environment subsequent to a phishing attack. \
-hile any kind of file may contain a malicious payload, some are more likely to be perceived as benign (and thus more often escape notice) by the average victim&#151;especially when the attacker sends an email that seems to be from one of their contacts. An example is Microsoft Office files. Most corporate users are familiar with documents with the following suffixes: .doc/.docx (MS Word), .xls/.xlsx (MS Excel), and .ppt/.pptx (MS PowerPoint), so they may click without a second thought, slashing a hole in their organizations' security. \
+While any kind of file may contain a malicious payload, some are more likely to be perceived as benign (and thus more often escape notice) by the average victim&#151;especially when the attacker sends an email that seems to be from one of their contacts. An example is Microsoft Office files. Most corporate users are familiar with documents with the following suffixes: .doc/.docx (MS Word), .xls/.xlsx (MS Excel), and .ppt/.pptx (MS PowerPoint), so they may click without a second thought, slashing a hole in their organizations' security. \
 Following is a typical series of events, according to an [article by Trend Micro](https://blog.trendmicro.com/trendlabs-security-intelligence/rising-trend-attackers-using-lnk-files-download-malware/):\
 1. Attacker sends a phishing email. Recipient downloads the attached file, which is typically a .docx or .zip file with an embedded .lnk file\
 1. The .lnk file executes a PowerShell script\
@@ -1336,10 +1375,13 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 ====Tags====
 
 =====ATT&CK=====
-* T1112
 * T1546.001
 * T1546.011
+* T1546.012
 * T1547.001
+* T1547.010
+* T1548.002
+* T1564.001
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -1394,7 +1436,6 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 ====Tags====
 
 =====ATT&CK=====
-* T1021.001
 * T1047
 
 =====Kill Chain Phases=====
@@ -1494,6 +1535,8 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 =====ATT&CK=====
 * T1112
 * T1222.001
+* T1548.002
+* T1564.001
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -1652,7 +1695,10 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * T1543.003
 * T1546.011
 * T1547.001
+* T1547.010
+* T1564.001
 * T1574.009
+* T1574.011
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -1710,7 +1756,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * T1068
 * T1204.002
 * T1546.008
-* T1547.001
+* T1546.012
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -2147,7 +2193,7 @@ Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomin
 ====Narrative====
 Cryptomining is an intentionally difficult, resource-intensive business. Its complexity was designed into the process to ensure that the number of blocks mined each day would remain steady. So, it's par for the course that ambitious, but unscrupulous, miners make amassing the computing power of large enterprises--a practice known as cryptojacking--a top priority. \
 Cryptojacking has attracted an increasing amount of media attention since its explosion in popularity in the fall of 2017. The attacks have moved from in-browser exploits and mobile phones to enterprise cloud services, such as Amazon Web Services (AWS). It's difficult to determine exactly how widespread the practice has become, since bad actors continually evolve their ability to escape detection, including employing unlisted endpoints, moderating their CPU usage, and hiding the mining pool's IP address behind a free CDN. \
-hen malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \
+When malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \
 This Analytic Story is focused on detecting suspicious new instances in your EC2 environment to help prevent such a disaster. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 ====Detections====
@@ -3275,7 +3321,6 @@ The searches in this Analytic Story will help you find executables that are rare
 ====Detections====
 * Detect Rare Executables
 * Detect Use of cmd exe to Launch Script Interpreters
-* Detection of tools built by NirSoft
 * Email Attachments With Lots Of Spaces
 * Prohibited Software On Endpoint
 * Registry Keys Used For Persistence
@@ -3293,7 +3338,6 @@ The searches in this Analytic Story will help you find executables that are rare
 =====ATT&CK=====
 * T1021.002
 * T1059.003
-* T1072
 * T1547.001
 * T1566.001
 
@@ -3498,9 +3542,9 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 ====Tags====
 
 =====ATT&CK=====
-* T1021.001
 * T1021.002
 * T1036
+* T1047
 * T1048
 * T1053.005
 * T1070
@@ -3687,16 +3731,15 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 =====ATT&CK=====
 * T1021.001
-* T1059.001
-* T1059.003
+* T1021.002
 * T1082
 * T1204.002
 * T1485
+* T1486
 * T1490
 
 =====Kill Chain Phases=====
 * Actions on Objectives
-* Command and Control
 * Delivery
 * Installation
 * Reconnaissance
@@ -3715,7 +3758,6 @@ This Analytic Story includes searches designed to help detect and investigate si
 =====NIST=====
 * DE.AE
 * DE.CM
-* ID.AM
 * ID.RA
 * PR.AC
 * PR.DS
@@ -3762,6 +3804,7 @@ In the event an unusual process is identified, it is imperative to better unders
 ====Tags====
 
 =====ATT&CK=====
+* T1016
 * T1036
 * T1204.002
 * T1218.011
@@ -3818,7 +3861,7 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 ====Tags====
 
 =====ATT&CK=====
-* T1036
+* T1036.003
 * T1546.001
 
 =====Kill Chain Phases=====
@@ -3866,8 +3909,8 @@ The Windows operating system uses a services architecture to allow for running c
 
 =====ATT&CK=====
 * T1543.003
-* T1547.001
 * T1569.002
+* T1574.011
 
 =====Kill Chain Phases=====
 * Actions on Objectives
@@ -3914,7 +3957,7 @@ The exploit involved manipulating the `Content-Type HTTP` header to execute comm
 This Analytic Story contains two different searches that help to identify activity that may be related to this issue. The first search looks for characteristics of the `Content-Type` header consistent with attempts to exploit the vulnerability. This should be a relatively pertinent indicator, as the `Content-Type` header is generally consistent and does not have a large degree of variation.\
 The second search looks for the execution of various commands typically entered on the command shell when an attacker first lands on a system. These commands are not generally executed on web servers during the course of day-to-day operation, but they may be used when the system is undergoing maintenance or troubleshooting.\
 First, it is helpful is to understand how often the notable event is generated, as well as the commonalities in some of these events. This may help determine whether this is a common occurrence that is of a lesser concern or a rare event that may require more extensive investigation. It can also help to understand whether the issue is restricted to a single user or system or is broader in scope.\
-hen looking at the target of the behavior illustrated by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to see what other events involving the target have occurred in the recent past. This can help tie different events together and give further situational awareness regarding the target.\
+When looking at the target of the behavior illustrated by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to see what other events involving the target have occurred in the recent past. This can help tie different events together and give further situational awareness regarding the target.\
 Various types of information for external systems should be reviewed and (potentially) collected if the incident is, indeed, judged to be malicious. Information like this can be useful in generating your own threat intelligence to create alerts in the future.\
 Looking at the country, responsible party, and fully qualified domain names associated with the external IP address--as well as the registration information associated with those domain names, if they are frequently visited by others--can help you answer the question of "who," in regard to the external system. Answering that can help qualify the event and may serve useful for tracking. In addition, there are various sources that can provide some reputation information on the IP address or domain name, which can assist in determining if the event is malicious in nature. Finally, determining whether or not there are other events associated with the IP address may help connect some dots or show other events that should be brought into scope.\
 Gathering various data elements on the system of interest can sometimes help quickly determine that something suspicious may be happening. Some of these items include determining who else may have recently logged into the system, whether any unusual scheduled tasks exist, whether the system is communicating on suspicious ports, whether there are modifications to sensitive registry keys, and whether there are any known vulnerabilities on the system. This information can often highlight other activity commonly seen in attack scenarios or give more information about how the system may have been targeted.\
@@ -3977,7 +4020,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 ====Narrative====
 This Analytic Story looks for probing and exploitation attempts targeting JBoss application servers. While the vulnerabilities associated with this story are rather dated, they were leveraged in a spring 2016 campaign in connection with the Samsam ransomware variant. Incidents involving this ransomware are unique, in that they begin with attacks against vulnerable services, rather than the phishing or drive-by attacks more common with ransomware. In this case, vulnerable JBoss applications appear to be the target of choice.\
 It is helpful to understand how often a notable event generated by this story occurs, as well as the commonalities between some of these events, both of which may provide clues about whether this is a common occurrence of minimal concern or a rare event that may require more extensive investigation. It may also help to understand whether the issue is restricted to a single user/system or whether it is broader in scope.\
-hen looking at the target of the behavior uncovered by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to identify other recent events involving the target. This can help tie different events together and give further situational awareness regarding the target host.\
+When looking at the target of the behavior uncovered by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to identify other recent events involving the target. This can help tie different events together and give further situational awareness regarding the target host.\
 Various types of information for external systems should be reviewed and, potentially, collected if the incident is, indeed, judged to be malicious. This data may be useful for generating your own threat intelligence, so you can create future alerts.\
 The following factors may assist you in determining whether the event is malicious: \
 1. Country of origin\
