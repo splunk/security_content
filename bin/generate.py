@@ -106,7 +106,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         # we are duplicating the code block above for now and just changing variable names to make future
         # changes to this data structure separate from the mappings generation
         # @todo expose the JSON data structure for newer risk type
-        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytics_story']
         savedsearch_annotations = {}
         for key in annotation_keys:
             if key == 'mitre_attack':
