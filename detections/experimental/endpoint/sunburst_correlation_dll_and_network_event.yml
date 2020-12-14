@@ -3,7 +3,7 @@ id: 701a8740-e8db-40df-9190-5516d3819787
 version: 1
 date: '2020-12-14'
 description: 'The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe. After a
-  period of 12-14 days, the malware will attempt to resolve a subdomain of avsvmcloud[.]com. This detections
+  period of 12-14 days, the malware will attempt to resolve a subdomain of avsvmcloud.com. This detections
   will correlate both events.'
 how_to_implement: This detection relies on sysmon logs with the Event ID 6, Driver loaded. Please tune your sysmon
   config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll is captured by Sysmon. Additionally,
@@ -18,7 +18,7 @@ search: '(`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.
   | where dc_events=2
   | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) AS ImageLoaded values(QueryName) AS QueryName by host
   | rename host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `sunburst_correlation_dll_network_event_filter` '
+  | `sunburst_correlation_dll_and_network_event_filter` '
 known_false_positives: unknown
 tags:
   analytics_story:
