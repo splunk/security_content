@@ -7,6 +7,6 @@ tests:
   latest_time: 'now'
   attack_data:
   - file_name: windows-sysmon.log
-    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1059.001_custom_03e301be-1bfc-4051-af4d-d0865079fb27/windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

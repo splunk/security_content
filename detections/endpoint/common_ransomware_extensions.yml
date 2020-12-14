@@ -51,4 +51,4 @@ tags:
   asset_type: Endpoint
   automated_detection_testing: passed
   dataset:
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1485_custom_215ee4f9-c027-4ea1-a882-d97b887d233d/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_extensions/windows-sysmon.log

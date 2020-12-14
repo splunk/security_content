@@ -13,8 +13,8 @@ azure-mgmt-core==1.2.2
 azure-mgmt-network==16.0.0
 azure-mgmt-resource==15.0.0
 bcrypt==3.2.0
-boto3==1.16.29
-botocore==1.19.29
+boto3==1.16.34
+botocore==1.19.35
 certifi==2019.11.28
 cffi==1.14.4
 cfgv==2.0.1
@@ -35,7 +35,7 @@ Jinja2==2.10.3
 jmespath==0.10.0
 lockfile==0.12.2
 MarkupSafe==1.1.1
-mock==4.0.2
+mock==4.0.3
 more-itertools==8.6.0
 mysql-connector-python==8.0.22
 nodeenv==1.3.4
@@ -43,11 +43,11 @@ ntlm-auth==1.5.0
 packaging==20.7
 packer.py==0.3.0
 paramiko==2.7.2
-path==15.0.0
+path==15.0.1
 path.py==12.5.0
 pexpect==4.8.0
 pluggy==0.13.1
-pre-commit==2.9.2
+pre-commit==2.9.3
 protobuf==3.14.0
 psutil==5.7.3
 ptyprocess==0.6.0
@@ -73,7 +73,7 @@ tabulate==0.8.7
 termcolor==1.1.0
 toml==0.10.2
 urllib3==1.26.2
-virtualenv==20.2.1
+virtualenv==20.2.2
 wcwidth==0.2.5
 wget==3.2
 wrapt==1.12.1
