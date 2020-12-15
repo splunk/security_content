@@ -115,13 +115,13 @@ def main(args):
 
     execution_error = False
 
-    try:
-        results = module.main(module.sys.argv)
-    except Exception as e:
-        print('Error: ' + str(e))
-        module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'destroy']
-        module.main(module.sys.argv)
-        execution_error = True
+    #try:
+    results = module.main(module.sys.argv)
+    # except Exception as e:
+    #     print('Error: ' + str(e))
+    #     module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'destroy']
+    #     module.main(module.sys.argv)
+    #     execution_error = True
 
     # delete ssh key
     response = ec2.delete_key_pair(KeyName=ssh_key_name)

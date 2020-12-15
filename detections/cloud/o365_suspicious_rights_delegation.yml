@@ -6,7 +6,7 @@ description: This search detects the assignment of rights to accesss content fro
   another mailbox. This is usually only assigned to a service account.
 type: ESCU
 author: Patrick Bareiss, Splunk
-search: '`o365_management_activity` Operation="Add-MailboxPermission" | spath input=Parameters
+search: '`o365_management_activity` Operation=Add-MailboxPermission | spath input=Parameters
   | rename User AS src_user, Identity AS dest_user
   | search AccessRights=FullAccess OR AccessRights=SendAs OR AccessRights=SendOnBehalf
   | stats count earliest(_time) as firstTime latest(_time) as lastTime by user src_user dest_user Operation AccessRights
