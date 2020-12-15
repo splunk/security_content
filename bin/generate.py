@@ -106,7 +106,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         # we are duplicating the code block above for now and just changing variable names to make future
         # changes to this data structure separate from the mappings generation
         # @todo expose the JSON data structure for newer risk type
-        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytics_story']
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
         savedsearch_annotations = {}
         for key in annotation_keys:
             if key == 'mitre_attack':
@@ -466,32 +466,28 @@ def prepare_stories(stories, detections):
                         for mitre_attack_id in detection['tags']['mitre_attack_id']:
                             sto_to_mitre_attack_ids[story].add(mitre_attack_id)
                     else:
-                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
-                            sto_to_mitre_attack_ids[story] = {mitre_attack_id}
+                        sto_to_mitre_attack_ids[story] = set(detection['tags']['mitre_attack_id'])
 
                 if 'kill_chain_phases' in detection['tags']:
                     if story in sto_to_kill_chain_phases.keys():
                         for kill_chain in detection['tags']['kill_chain_phases']:
                             sto_to_kill_chain_phases[story].add(kill_chain)
                     else:
-                        for kill_chain in detection['tags']['kill_chain_phases']:
-                            sto_to_kill_chain_phases[story] = {kill_chain}
+                        sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
 
                 if 'cis20' in detection['tags']:
                     if story in sto_to_ciss.keys():
                         for cis in detection['tags']['cis20']:
                             sto_to_ciss[story].add(cis)
                     else:
-                        for cis in detection['tags']['cis20']:
-                            sto_to_ciss[story] = {cis}
+                        sto_to_ciss[story] = set(detection['tags']['cis20'])                           
 
                 if 'nist' in detection['tags']:
                     if story in sto_to_nists.keys():
                         for nist in detection['tags']['nist']:
                             sto_to_nists[story].add(nist)
                     else:
-                        for nist in detection['tags']['nist']:
-                            sto_to_nists[story] = {nist}
+                        sto_to_nists[story] = set(detection['tags']['nist'])
 
     for story in stories:
         story['detections'] = sorted(sto_to_det[story['name']])
