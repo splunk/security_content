@@ -7,9 +7,9 @@ description: This search detects the assignment of rights to accesss content fro
 type: ESCU
 author: Patrick Bareiss, Splunk
 search: '`o365_management_activity` Operation=Add-MailboxPermission | spath input=Parameters
-  | rename User AS src_user, Identity AS dest_user
-  | search AccessRights=FullAccess OR AccessRights=SendAs OR AccessRights=SendOnBehalf
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime by user src_user dest_user Operation AccessRights
+  | rename User AS src_user, Identity AS dest_user | search AccessRights=FullAccess
+  OR AccessRights=SendAs OR AccessRights=SendOnBehalf | stats count earliest(_time)
+  as firstTime latest(_time) as lastTime by user src_user dest_user Operation AccessRights
   |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`o365_suspicious_rights_delegation_filter`'
 known_false_positives: Service Accounts
 tags:
@@ -26,3 +26,6 @@ tags:
   - DE.AE
   security_domain: threat
   asset_type: Office 365
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json
