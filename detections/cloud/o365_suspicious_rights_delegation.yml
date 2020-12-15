@@ -10,7 +10,7 @@ search: '`o365_management_activity` Operation="Add-MailboxPermission" | spath in
   | rename User AS src_user, Identity AS dest_user
   | search AccessRights=FullAccess OR AccessRights=SendAs OR AccessRights=SendOnBehalf
   | stats count earliest(_time) as firstTime latest(_time) as lastTime by user src_user dest_user Operation AccessRights
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `o365_suspicious_rights_delegation_filter`'
+  |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`o365_suspicious_rights_delegation_filter`'
 known_false_positives: Service Accounts
 tags:
   analytics_story:

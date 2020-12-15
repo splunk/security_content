@@ -8,5 +8,5 @@ tests:
   attack_data:
   - file_name: suspicious_rights_delegation.json
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json
-    sourcetype: o365:management:activity
-    source: o365
+    sourcetype: 'o365:management:activity'
+    source: 'o365'
