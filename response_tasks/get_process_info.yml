@@ -11,10 +11,13 @@ author: Bhavin Patel, Splunk
 inputs:
 - process_name
 - dest
-search: '| tstats `security_content_summariesonly` count min(_time)  max(_time) as
-  lastTime from datamodel=Endpoint.Processes where Proceses.dest=$dest$ Proceses.process_name=$process_name$
-  by Processes.parent_process Processes.process_name Processes.user Processes.dest
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` '
+search: '| tstats `summariesonly` count values(Processes.process) as process min(_time)
+    as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest
+| `drop_dm_object_name("Processes")` 
+| search  process_name= $process_name$ 
+| search dest = $dest$
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`'
 tags:
   analytics_story:
   - AWS Network ACL Activity
