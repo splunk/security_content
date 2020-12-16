@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters
-name: ec2_excessive_terminateinstances_mltk_input_filter

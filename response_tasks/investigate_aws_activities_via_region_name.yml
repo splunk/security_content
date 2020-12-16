@@ -10,9 +10,9 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs.
 author: Bhavin Patel, Splunk
 inputs:
-- awsRegion
-search: '| search sourcetype=aws:cloudtrail awsRegion=$awsRegion$| rename requestParameters.instancesSet.items{}.instanceId
-  as instanceId| stats values(eventName) by userName instanceId'
+- vendor_region
+search: '| search sourcetype=aws:cloudtrail vendor_region=$vendor_region$| rename requestParameters.instancesSet.items{}.instanceId
+  as instanceId | stats values(eventName) by user instanceId vendor_region'
 tags:
   analytics_story:
   - AWS Cryptomining

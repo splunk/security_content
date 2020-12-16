@@ -20,7 +20,7 @@ how_to_implement: "To successfully implement this search you will need to ensure
   \n"
 type: ESCU
 author: Jose Hernandez, Splunk
-search: '| inputlookup discovered_dns_records.csv | rename answer as discovered_answer
+search: '| inputlookup discovered_dns_records | rename answer as discovered_answer
   | join domain[|tstats `security_content_summariesonly` count values(DNS.record_type)
   as type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution
   where DNS.message_type=RESPONSE DNS.answer!="unknown" DNS.answer!="" by DNS.query

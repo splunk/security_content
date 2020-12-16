@@ -12,7 +12,7 @@ how_to_implement: This search leverages data extracted from Stream:HTTP. You mus
 author: Bhavin Patel, Splunk
 inputs:
 - session_id
-search: '| search sourcetype=stream:http $session_id$ | stats values(url) values(http_user_agent)
+search: '| search sourcetype=stream:http session_id  = $session_id$ | stats values(url) values(http_user_agent)
   by src_ip status'
 tags:
   analytics_story:
