@@ -7,7 +7,9 @@ known_false_positives: "PST export can be done for legitimate purposes but due t
 name: O365 PST export alert
 references:
   - https://attack.mitre.org/techniques/T1114/
-search: "`o365_management_activity` Category=ThreatManagement Name=eDiscovery search started or exported | table Source Severity AlertEntityId Operation Name | `o365_pst_export_alert_filter`"
+search: '`o365_management_activity` Category=ThreatManagement Name="eDiscovery search started or exported"
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime by Source Severity AlertEntityId Operation Name
+  |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `o365_pst_export_alert_filter`'
 tags:
   analytics_story:
   - Office 365 Detections
