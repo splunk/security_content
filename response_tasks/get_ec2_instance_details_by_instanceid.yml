@@ -11,7 +11,7 @@ author: Bhavin Patel, Splunk
 inputs:
 - instanceId
 search: '| search sourcetype="aws:description" source="*:ec2_instances"| dedup id
-  sortby -_time | search id=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value,"
+  sortby -_time |rename id as instanceId|  search instanceId=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value,"
   = "), ip_address=if((ip_address == "null"),private_ip_address,ip_address) | table
   id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time,
   state, vpc_id, subnet_id, tags | rename aws_account_id as "Account ID", id as ID,

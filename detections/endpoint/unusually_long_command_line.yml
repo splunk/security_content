@@ -1,7 +1,7 @@
 name: Unusually Long Command Line
 id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-version: 4
-date: '2020-03-16'
+version: 5
+date: '2020-12-08'
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
@@ -16,8 +16,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`|  eval processlen=len(process) | eventstats stdev(processlen)
   as stdev, avg(processlen) as avg by dest | stats max(processlen) as maxlen, values(stdev)
-  as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process |
-  `unusually_long_command_line_filter` | eval threshold = 10 | where maxlen > ((threshold*stdevperhost)
+  as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process
+  | `unusually_long_command_line_filter` |eval threshold = 3 | where maxlen > ((threshold*stdevperhost)
   + avgperhost)'
 known_false_positives: Some legitimate applications start with long command lines.
 tags:
@@ -34,4 +34,7 @@ tags:
   - PR.PT
   - DE.CM
   security_domain: endpoint
-  asset_type: ''
+  asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
