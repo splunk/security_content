@@ -2,7 +2,7 @@ name: Unusually Long Command Line - SSA Unit Test
 tests:
   - name: Unusually Long Command Line
     file: endpoint/unusually_long_command_line___ssa.yml
-    pass_condition: ''
+    pass_condition: '@count_gt(0)'
     description: Test unusually long command lines
     attack_data:
       - file_name: unusual_commandline.json

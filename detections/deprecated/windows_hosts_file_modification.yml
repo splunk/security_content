@@ -3,7 +3,7 @@ id: 06a6fc63-a72d-41dc-8736-7e3dd9612116
 version: 1
 date: '2018-11-02'
 description: The search looks for modifications to the hosts file on all Windows endpoints
-  across your environment.
+  across your environment. 
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records the file-system activity from your hosts to populate the Endpoint.Filesystem
   data model node. This is typically populated via endpoint detection-and-response
