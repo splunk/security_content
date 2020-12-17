@@ -7,7 +7,11 @@ known_false_positives: "The threshold for alert is above 10 attempts and this sh
 name: O365 Excessive Authentication Failures Alert
 references:
   - https://attack.mitre.org/techniques/T1110/
-search: "`o365_management_activity` Workload=AzureActiveDirectory | UserAuthenticationMethod=* status=Failed | table UserType user UserAuthenticationMethod UserAgent user_type status src_ip signature RequestType ResultStatus LogonError | stats count by user,status |where count > 10| `o365_excessive_authentication_failures_alert_filter`"
+search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=Failed
+  | stats count earliest(_time) as firstTime latest(_time) values(UserAuthenticationMethod) AS UserAuthenticationMethod
+  values(UserAgent) AS UserAgent values(status) AS status values(src_ip) AS src_ip by user
+  | where count > 10 |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
+  | `o365_excessive_authentication_failures_alert_filter`'
 tags:
   analytics_story:
   - Office 365 Detections
