@@ -7,7 +7,9 @@ known_false_positives: "Unless it is a special case, it is uncommon to disable M
 name: O365 Disable MFA
 references:
   - https://attack.mitre.org/techniques/T1556/
-search: "`o365_management_activity` Workload=AzureActiveDirectory | spath Operation | search Operation=Disable Strong Authentication. | table UserType Operation user status signature dest ResultStatus | `o365_disable_mfa_filter`"
+search: '`o365_management_activity` Operation="Disable Strong Authentication."
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation user status signature dest ResultStatus
+  |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `o365_disable_mfa_filter`'
 tags:
   analytics_story:
   - Office 365 Detections
