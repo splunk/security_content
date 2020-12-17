@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
   (Processes.process=*delete* OR Processes.process=*create*) by Processes.user Processes.process_name
   Processes.parent_process_name Processes.dest | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `scheduled_task_deleted_or_created_via_cmd` '
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `scheduled_task_deleted_or_created_via_cmd_filter` '
 known_false_positives: Tasks should not be manually created via CLI, this is rarely done by admins as well
 tags:
   analytics_story:
