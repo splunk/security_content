@@ -1,0 +1,21 @@
+author: "Rod Soto, Splunk"
+date: "2020-12-16"
+description: "This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes"
+how_to_implement: "You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity"
+id: d441364c-349c-453b-b55f-12eccab67cf9
+known_false_positives: "The threshold for alert is above 10 attempts and this should reduce the number of false positives."
+name: O365 Excessive Authentication Failures Alert
+references:
+  - https://attack.mitre.org/techniques/T1110/
+search: "`o365_management_activity` Workload=AzureActiveDirectory | UserAuthenticationMethod=* status=Failed | table UserType user UserAuthenticationMethod UserAgent user_type status src_ip signature RequestType ResultStatus LogonError | stats count by user,status |where count > 10| `o365_excessive_authentication_failures_alert_filter`"
+tags:
+  analytics_story:
+  - Office 365 Detections
+  asset_type: "Office 365"
+  kill_chain_phases:
+  - Not Applicable
+  mitre_attack_id:
+  - T1110
+  security_domain: threat
+type: ESCU
+version: 1
