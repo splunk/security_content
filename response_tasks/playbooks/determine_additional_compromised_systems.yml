@@ -30,6 +30,8 @@ automation:
   playbooks:
     - scm: escu
       playook: Hunt compromised hosts
+    - scm: escu
+      playbook: Process additional compromised systems
 references:
   - 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 workflow: Discuss the playbook workflow.

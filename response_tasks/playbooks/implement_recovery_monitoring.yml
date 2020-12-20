@@ -1,6 +1,7 @@
 name: Implement recovery monitoring
 id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

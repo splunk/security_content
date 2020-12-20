@@ -1,6 +1,7 @@
 name: Identify vunlerabilities
 id: f28177ae-78de-43c9-8692-e972e8a0aa62
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

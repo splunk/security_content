@@ -1,6 +1,7 @@
 name: Preventing Incidents
 id: 5b7c5d18-6598-412b-a4f1-e66e92890503
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: Keeping the number of incidents reasonably low is very important to protect the business processes of the organization. It is outside the scope of this document to provide specific advice on securing networks, systems, and applications. Although incident response teams are generally not responsible for securing resources, they are advocates of sound security practices. An incident response team should identify problems that the organization is otherwise not aware of and play a key role in risk assessment and training by identifying gaps.

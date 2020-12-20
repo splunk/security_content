@@ -1,6 +1,7 @@
 name: Identify additional affected hosts
 id: 3d481dd1-4f30-4262-a846-78af6bdce11c
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |
@@ -14,8 +15,8 @@ automation:
     - run query
     - merge event
   playbooks:
-    - scm: community
-      playook: Merge event with case
+    - scm:
+      playook:
 references:
   - 3.3.1 Choosing a Containment Strategy - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
   - 3.3.2 Evidence Gathering and Handling - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf

@@ -1,6 +1,7 @@
 name: Raise personnel awareness
 id: 145a82b5-cafd-468e-b487-737fdf13d6a4
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: Raise personnel awareness regarding phishing, ransomware, social engineering, and other attacks that involve user interaction

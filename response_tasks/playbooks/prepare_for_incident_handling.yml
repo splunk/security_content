@@ -1,6 +1,7 @@
 name: Prepare for incident handling
 id: 91d4566e-a292-4f0a-b894-dde23bde3f08
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

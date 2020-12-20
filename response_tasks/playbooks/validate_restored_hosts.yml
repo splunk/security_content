@@ -1,6 +1,7 @@
 name: Validate restored hosts
 id: 8218bcf6-739b-4f76-8952-eb133480ad8d
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

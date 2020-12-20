@@ -1,6 +1,7 @@
 name: Create follow-up report
 id: 69d25415-408f-462a-899f-9bc8eef8c299
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

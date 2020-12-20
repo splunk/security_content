@@ -30,8 +30,12 @@ automation:
     - post data
   playbooks:
     - scm: escu
-      playook:
-references:
+      playook: Process event disposition
+    - scm: escu
+      playbook: Associate and merge events
+    - scm: escu
+      playbook: Assign workbook set phase
+references: escu
   - 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 workflow: How to determine the event disposition
 date: '2020-12-13'

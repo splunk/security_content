@@ -3,6 +3,7 @@ id: ef9e7a25-73f0-4b63-b43b-2f4171518931
 tags:
   nist:
     RS.RP
+  analytics_story: Response Plan
 description: |
   Review precursor and indicator data and try to prove the data observed is normal activity. This analysis is provided by reviewing additional logs and sources to include ids's, siem, network logs, host and host application event logs and vulnerabiltiy information. This is not an exhaustive list, but a summary of the data available.  Data available should be aligned the type of event and resources available to the customer.
 automation:

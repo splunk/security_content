@@ -1,6 +1,7 @@
 name: Restore systems to operational status
 id: bb515cf6-40b5-4005-af04-6f63439df7b4
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

@@ -1,6 +1,7 @@
 name: Practice Real World Events
 id: 97d00b14-dd01-47e4-b7eb-0a82f4998c4e
 tags:
+  analytics_story: Response Plan
   nist: RS.RP
 description: Practice in the real environment. Sharpen Response skills within your organization by simulating real world with training exercises within your organization.
 automation:

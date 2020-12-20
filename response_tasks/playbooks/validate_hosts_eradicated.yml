@@ -1,6 +1,7 @@
 name: Validate hosts eradicated
 id: b678705c-12a6-428b-a631-ed579332bc99
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

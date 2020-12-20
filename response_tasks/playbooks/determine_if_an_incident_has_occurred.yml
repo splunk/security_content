@@ -1,6 +1,7 @@
 name: Determine if an incident has occurred
 id: 92ba5c50-717d-44e7-bb88-72bf6907ec83
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

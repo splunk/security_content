@@ -1,6 +1,7 @@
 name: Contain Incident
 id: 735335a5-7ac0-4bdf-b1d3-6f4a6767d02f
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

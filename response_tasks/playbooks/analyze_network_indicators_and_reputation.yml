@@ -3,6 +3,7 @@ id: 710b1249-88b4-4dfd-95cc-541cc688e1a3
 tags:
   nist:
     RS.RP
+  analytics_story: Response Plan
 description: |
   Validate indicator existance, reputation, detonation and determine if Known APT, Commodity, Suspicous or Not Malicious?
 automation:

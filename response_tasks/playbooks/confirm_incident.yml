@@ -1,6 +1,7 @@
 name: Confirm incident
 id: 994298f0-75fc-4c14-b044-9b81944d3a03
 tags:
+  analytics_story: Response Plan
   nist: RS.RP
 description: |
   Upon analysis, determination of incident status is either confirmation, suspicious, false positive or authorized exception. Update the event metadata and process event as determined.

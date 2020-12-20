@@ -1,6 +1,7 @@
 name: Determine Incident Prioritization
 id: 91f1c863-c080-4b3c-921c-e1ca1c0e7ae1
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

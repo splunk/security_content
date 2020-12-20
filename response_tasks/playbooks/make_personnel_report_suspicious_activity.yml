@@ -1,6 +1,7 @@
 name: Make personnel report suspicious activity
 id: f83abcae-3734-45ff-99ef-b17eb937c057
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

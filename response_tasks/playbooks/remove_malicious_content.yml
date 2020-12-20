@@ -1,6 +1,7 @@
 name: Remove malicious content
 id: 26cd22c6-4b67-4dc5-b8d1-f5ef9b5d8226
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |

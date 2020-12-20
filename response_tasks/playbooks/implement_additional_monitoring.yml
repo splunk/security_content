@@ -1,6 +1,7 @@
 name: Implement additional monitoring
 id: edb7867c-2e81-4356-a422-92781f4fa34c
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |
@@ -14,7 +15,7 @@ automation:
     - run query
   playbooks:
     - scm:
-      playook: ""
+      playook:
 references:
   - 3.2.4 Incident Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 requirements:

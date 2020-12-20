@@ -1,6 +1,7 @@
 name: Mitigate or remediate any vulnerabilities
 id: 70362de1-bfef-4a0f-893f-3e0d605ed9b7
 tags:
+  analytics_story: Response Plan
   nist:
     RS.RP
 description: |
