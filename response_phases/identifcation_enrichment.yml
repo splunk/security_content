@@ -6,12 +6,12 @@ description: This phase is about getting the necessary enrichment automation and
 references:
   -  3.2 Detection and Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 response_task:
-  - id: 667b8d15-2564-4994-929d-bda2532341bf
-    name: Accept and assign event
-  - id: 40d2f4c2-d6d4-4e09-b69d-a9bf44ceba09
-    name: Validate customer and host enrichment
-  - id: 9bfbaa5f-b2ab-4ff5-acaf-cdd8105d6b92
-    name: Indicator analysis
+  - name: Accept and assign event
+    id: 667b8d15-2564-4994-929d-bda2532341bf
+  - name: Validate customer and host enrichment
+    id: 40d2f4c2-d6d4-4e09-b69d-a9bf44ceba09
+  - name: Indicator analysis
+    id: 9bfbaa5f-b2ab-4ff5-acaf-cdd8105d6b92
 date: '2020-12-13'
 version: 1
 author: ButterCup, Splunk

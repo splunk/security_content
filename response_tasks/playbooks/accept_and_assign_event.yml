@@ -1,11 +1,11 @@
 name: Accept and assign event
 id: 667b8d15-2564-4994-929d-bda2532341bf
 tags:
-  - nist
-  - picerl
+  - SOAR
+  - PICERL
   nist:
     RS.RP
-description: Please click on `Accept event and assign owner` to execute the playbook to accept event and complete the first task.
+description: Please click on "Accept event and assign owner" to execute the playbook to accept event and complete the first task.
 
 Please be advised that SLAs assigned will start as soon as the playbook executes and task is assigned to owner.
 automation:

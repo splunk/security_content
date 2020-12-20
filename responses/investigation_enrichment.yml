@@ -12,10 +12,10 @@ author: Rob Gresham, Splunk
 response_phase:
   - identification:
       - id: 9bfbaa5f-b2ab-4ff5-acaf-cdd8105d6b92
-        name: Identification enrichment 
+        name: Identification enrichment
 tags:
-  - picerl
-  - soar
+  - PICERL
+  - SOAR
   analytics_story:
   - Malicious PowerShell
   - Unusual Processes

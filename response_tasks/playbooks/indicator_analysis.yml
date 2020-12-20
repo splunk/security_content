@@ -35,11 +35,18 @@ automation:
     - post data
   playbooks:
     - scm: escu
+      playook: Indicator Analysis - IP
+    - scm: escu
+      playook: Indicator Analysis - Domain
+    - scm: escu
+      playook: Indicator Analysis - URL
+    - scm: escu
+      playook: Indicator Analysis - Filehash
+    - scm: escu
       playook: Process Indicators
 references:
 requirements:
-workflow:
-  1. Review 'Analysis of Indicator <indicator> | Threat <threat_level>| Confidence <conf_level>'. This report provides intelligence, Sandbox reputation, and additional information like whois or domain whois.
+workflow: 1. Review 'Analysis of Indicator: <indicator> | Threat <threat_level>| Confidence <conf_level>'. This report provides intelligence, Sandbox reputation, and additional information like whois or domain whois.
   2. While reviewing the note data your are confirm and looking for indications of APT, known malware references
     * APT - Looking for references to APT naming (APT29 or such) or codeword like namings
     * Malware - Looking for reference to known malware campaigns or intrusions

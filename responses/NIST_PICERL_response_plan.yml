@@ -31,5 +31,7 @@ tags:
     - "Credential Dumping"
     - Ransomeware
   nist: RS.RP
+  - PICERL
+  - SOAR
 version: 1
 workflow: "Organizations should use this response plan as template to define the processes for their security operations teams. With this as the template and then customizing the response plan around attack vectors. Organizations can fashion a framework for thier response procedures. Response plans and response procedures are different in the setting that procedures should have the actual step-by-step actions vs an response plan that discuses and deomonstrates actions without specifcs and aligns to the policy. Preparation should not be imported into response tools that support ingestion (hive, phantom, xsoar, etc)."

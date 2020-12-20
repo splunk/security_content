@@ -14,8 +14,8 @@ response_phase:
       - id: 8006e050-c94f-41d4-ba42-24958cb4aa5c
         name: Identification execution
 tags:
-  - picerl
-  - soar
+  - PICERL
+  - SOAR
   analytics_story:
   - Malicious PowerShell
   - Unusual Processes

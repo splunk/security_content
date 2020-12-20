@@ -1,20 +1,20 @@
 name: Validate customer and host enrichment
 id: 40d2f4c2-d6d4-4e09-b69d-a9bf44ceba09
 tags:
-  - nist
-  - picerl
-  - soar
+  - SOAR
+  - PICERL
+  nist:
   - RS.RP
   - RS.AN
 description: Validate Customer and endpoint information by reviewing `Customer or System Information Report` and note with collected host and/or Customer account information as needed.  If the necessary information is not available, manually update the note as necessary.
 
-Create artifact manuaully if you find the missing account information and hostname. When completed, execute the `` workbook playbook to determine if you need to merge events into a case or create a case for events to merge into.
+Create artifact manuaully if you find the missing account information and hostname. When completed, execute the `Process customer and hosts validation` playbook to determine if you need to merge events into a case or create a case for events to merge into.
 
 Review [Understanding account types](https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties) and [Primary Group Ids](https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows)
 automation:
   role:
   sla_type: minutes
-  sla: 15
+  sla: 30
   is_note_required: false
   actions:
     - run query
@@ -23,9 +23,13 @@ automation:
     - add artifact
   playbooks:
     - scm: escu
+      playook: Indicator Analysis - Host-Account
+    - scm: escu
       playook: Associate Host and Account Events
     - scm: escu
-      playook: Indicator Analysis - Host-Account
+      playbook: Process customer and hosts validation
+    - scm: escu
+      playbook: Analyze user
 references:
   - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows
   - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
