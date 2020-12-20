@@ -1,0 +1,52 @@
+name: Analyze domain indicator and reputation
+id: 7744864c-5446-47ab-8118-4cbaa1649747
+tags:
+  - picerl
+  - soar
+  analytics_story:
+  nist:
+  - RS.RP
+  - RS.AN
+description: Review threat intelligence information generated for the domain indicator notes in this task.
+
+Validate indicator confidence from High, Medium, Low?
+Provide Threat Level from Critical, High, Medium, Low?
+Evauate reputation and  intelligence and determine if malware, APT, Suspicious, Allowed or Undetermined?
+
+Provide any additional analysis that supports your assessment.
+automation:
+  role:
+  sla_type: minutes
+  sla: 30
+  is_note_required: false
+  actions:
+    - file intelligence
+    - file reputation
+    - hunt file
+    - post data
+  playbooks:
+    - scm: escu
+      playook: Indicator Analysis - filehash
+    - scm: escu
+      playook: Process Indicators
+references:
+  - 3.2.3 Sources of Precursors and Indicators - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+workflow:
+  1. Review 'Analysis of Indicator <indicator> | Threat <threat_level>| Confidence <conf_level>'. This report provides intelligence, Sandbox reputation, and additional information like domain whois.
+  2. While reviewing the note data your are confirm and looking for indications of APT, known malware references
+    * APT - Looking for references to APT naming (APT29 or such) or codeword like namings
+    * Malware - Looking for reference to known malware campaigns or intrusions
+    * Suspicious - Would be any whois information that appears suspicious like recently registered domain names
+    * Allowed - Authorized business endpoint or Content Delivery Service address
+    * Undetermined - Indicator with no information or any data about indicator
+  3. Threat Level should be based on known indications.
+    * APT - Critical
+    * Malware - High
+    * Suspicous - Medium
+    * Allowed - Low
+    * Undetermined - Low
+  4. Threat Confidence should be based on the number of confirmed resources you could use to collaborate your assessment
+  5. Lastly, provide any commentary on why the level changed from the automate analysis.
+date: '2020-12-12'
+version: 1
+author: ButterCup, Splunk
