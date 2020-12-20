@@ -1,0 +1,59 @@
+name: Indicator Analysis
+id: 9bfbaa5f-b2ab-4ff5-acaf-cdd8105d6b92
+tags:
+  - picerl
+  - soar
+  analytics_story:
+  - Malicious PowerShell
+  - Unusual Processes
+  - Hidden Cobra Malware
+  nist:
+  - RS.RP
+  - RS.AN
+  cis20:
+  - CIS 4
+  - CIS 6
+  - CIS 8
+  - CIS 19
+description: Review threat intelligence information generated for the indicator notes in this task.  (hash, filename, ip, domain, url).
+
+Validate indicator confidence from High, Medium, Low?
+Provide Threat Level from Critical, High, Medium, Low?
+Evaluate reputation and intelligence and determine if malware, APT, Suspicious, Allowed or Undetermined?
+
+Provide any additional analysis that supports your assessment.
+automation:
+  role:
+  sla_type: minutes
+  sla: 30
+  is_note_required: false
+  actions:
+    - ip reputation
+    - domain reputation
+    - url reputation
+    - file reputation
+    - post data
+  playbooks:
+    - scm: escu
+      playook: Process Indicators
+references:
+requirements:
+workflow:
+  1. Review 'Analysis of Indicator <indicator> | Threat <threat_level>| Confidence <conf_level>'. This report provides intelligence, Sandbox reputation, and additional information like whois or domain whois.
+  2. While reviewing the note data your are confirm and looking for indications of APT, known malware references
+    * APT - Looking for references to APT naming (APT29 or such) or codeword like namings
+    * Malware - Looking for reference to known malware campaigns or intrusions
+    * Suspicious - Any odd references or something that looks suspicious.
+    * Allowed - Authorized software for your organization
+    * Undetermined - Indicator with no information or any data about indicator
+  3. Threat Level should be based on known indications.
+    * APT - Critical
+    * Malware - High
+    * Suspicous - Medium
+    * Allowed - Low
+    * Undetermined - Low
+  4. Threat Confidence should be based on the number of confirmed resources you could use to collaborate your assessment
+  5. Lastly, provide any commentary on why the level changed from the automate analysis.
+date: '2020-12-12'
+version: 1
+author: ButterCup, Splunk

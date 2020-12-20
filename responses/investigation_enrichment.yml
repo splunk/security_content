@@ -1,0 +1,32 @@
+name: Investigation enrichment
+id: 0534dee5-5682-4fb1-ab14-6d8b8c619bc2
+sla_type: minutes
+sla: 60
+is_note_required: false
+version: 1
+date: '2020-12-13'
+description: This workbook can be used for validating enrichment for common indicators like (IP Addresses, Domains, URLs and file hashes. File detonation and URL detonation are not recommended unless internal or from a paid cloud service. This workbook has complementary ingestion and utility automation playbooks that can be used to support this workbooks workflow.
+
+Indicator enrichment can be a religion and is generally very preferential to products. We do not specifically endorse these services used. They are considered free and representative of the space they live within.
+author: Rob Gresham, Splunk
+response_phase:
+  - identification:
+      - id: 9bfbaa5f-b2ab-4ff5-acaf-cdd8105d6b92
+        name: Identification enrichment 
+tags:
+  - picerl
+  - soar
+  analytics_story:
+  - Malicious PowerShell
+  - Unusual Processes
+  - Hidden Cobra Malware
+  nist:
+  - RS.RP
+  - RS.AN
+  cis20:
+  - CIS 4
+  - CIS 6
+  - CIS 8
+  - CIS 19
+workflow: This workbook provides the initial steps for atomic indicator enrichment.  There is no detonation process here because detonation should be either an internal or paid for service for customers.  Additionally, malware detonation can be a time consuming process (some implemementation put a timing delay on the processing). Not including this will ensure your playbooks are fast and that you can always call it as an additonal process with a separate playbook.
+Indicator enrichment is a necessary first process regardless of the inital alarm. In developing our best practices, we see enrichment of atomic indicators is the first step and the easiest to start and build a foundation of automation and orchestration upon.

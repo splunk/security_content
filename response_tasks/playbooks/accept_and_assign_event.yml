@@ -1,19 +1,22 @@
 name: Accept and assign event
 id: 667b8d15-2564-4994-929d-bda2532341bf
 tags:
+  - nist
+  - picerl
   nist:
     RS.RP
-description: |
-  Accepts the event and starts the response plan process by assigning the event to the person executing the playbook and assigns them to this task and closes this step as completed.
+description: Please click on `Accept event and assign owner` to execute the playbook to accept event and complete the first task.
+
+Please be advised that SLAs assigned will start as soon as the playbook executes and task is assigned to owner.
 automation:
   role:
   sla_type: minutes
   sla:
   is_note_required: false
   actions:
-    - set status
+    - post data
   playbooks:
-    - scm: local
+    - scm: escu
       playook: Accept event and assign owner
 references:
   - 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf

@@ -1,0 +1,39 @@
+name: Determine event disposition
+id: 4bf7f4cf-f4a6-4f24-b754-e17bcac67e0c
+tags:
+  - picerl
+  - soar
+  analytics_story:
+  - Malicious PowerShell
+  - Unusual Processes
+  - Hidden Cobra Malware
+  nist:
+  - RS.RP
+  - RS.AN
+  cis20:
+  - CIS 4
+  - CIS 6
+  - CIS 8
+  - CIS 19
+description: Determine whether to escalate event or close with disposition change (response, escalated, non-event, false positive)
+If non-event, add any final comments and close the task. Manually, categorize and add the appropriate attack vector and tier tag.
+If false-positive, then add lesson learned task assign to CSIRT
+If response, then add response workbook
+If escalate, then add response workbook and send email to CSIRT
+automation:
+  role:
+  sla_type: minutes
+  sla:
+  is_note_required: false
+  actions:
+    - create ticket
+    - post data
+  playbooks:
+    - scm: escu
+      playook:
+references:
+  - 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+workflow: How to determine the event disposition
+date: '2020-12-13'
+version: 1
+author: ButterCup, Splunk

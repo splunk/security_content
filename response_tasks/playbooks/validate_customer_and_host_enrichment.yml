@@ -1,0 +1,41 @@
+name: Validate customer and host enrichment
+id: 40d2f4c2-d6d4-4e09-b69d-a9bf44ceba09
+tags:
+  - nist
+  - picerl
+  - soar
+  - RS.RP
+  - RS.AN
+description: Validate Customer and endpoint information by reviewing `Customer or System Information Report` and note with collected host and/or Customer account information as needed.  If the necessary information is not available, manually update the note as necessary.
+
+Create artifact manuaully if you find the missing account information and hostname. When completed, execute the `` workbook playbook to determine if you need to merge events into a case or create a case for events to merge into.
+
+Review [Understanding account types](https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties) and [Primary Group Ids](https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows)
+automation:
+  role:
+  sla_type: minutes
+  sla: 15
+  is_note_required: false
+  actions:
+    - run query
+    - get system attributes
+    - get user attributes
+    - add artifact
+  playbooks:
+    - scm: escu
+      playook: Associate Host and Account Events
+    - scm: escu
+      playook: Indicator Analysis - Host-Account
+references:
+  - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/security-identifiers-in-windows
+  - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
+requirements:
+workflow:
+  1. Review `Customer Information Report` and fill out any missing information from the automation collection. If you are missing the customer username or account id, create a new artifact with `User artifact` and cef value of destinationUserId or destinationUserName.
+  2. Review `System Information Report` and fill out any missing information from the automation collection. If you are missing the customer hostname or DNS Name, create a new artifact with `User artifact` and cef value of destinationHostName.
+  3. Ensure you have good understanding of the priority of the customer and the asset. Annotate any addition infomration in the nodes.
+  4. When ready, execute the 'Associate Host and Account Events' playbook to determine if you need to associate this event to an existing case or create a case for it.
+  5. When completed the playbook will complete this task.
+date: '2020-12-12'
+version: 1
+author: ButterCup, Splunk

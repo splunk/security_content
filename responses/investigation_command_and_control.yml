@@ -1,0 +1,29 @@
+name: Investigation command and control
+id: 8b1e088e-d47d-427e-8457-776f4be1d696
+sla_type: minutes
+sla: 60
+is_note_required: false
+version: 1
+date: '2020-12-13'
+description: This workbook
+author: Rob Gresham, Splunk
+response_phase:
+  - investigate:
+      - id: 9bfbaa5f-b2ab-4ff5-acaf-cdd8105d6b92
+        name: Identfication command and control
+tags:
+  - picerl
+  - soar
+  analytics_story:
+  - Malicious PowerShell
+  - Unusual Processes
+  - Hidden Cobra Malware
+  nist:
+  - RS.RP
+  - RS.AN
+  cis20:
+  - CIS 4
+  - CIS 6
+  - CIS 8
+  - CIS 19
+workflow: This workbook provides

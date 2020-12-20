@@ -1,0 +1,38 @@
+name: Determine additional compromised systems
+id: 92afde8b-9652-4bc8-a037-e7a426adaba4
+tags:
+  - picerl
+  - soar
+  analytics_story:
+  - Malicious PowerShell
+  - Unusual Processes
+  - Hidden Cobra Malware
+  nist:
+  - RS.RP
+  - RS.AN
+  cis20:
+  - CIS 4
+  - CIS 6
+  - CIS 8
+  - CIS 19
+description: Execute the playbook `Hunt Compromised Hosts` and review the notes created in this task and determine if any additionally compromised hosts exists. The Hunt Compromised Hosts playbook takes the artifacts tagged with `APT`,`malware`,`suspicious` or has a severity of `critical` or `high` and then prompts the analyst for number of days to look back to a maximum of 90 days.
+
+Any found hosts should have appropriate artifacts created for them and and allow the automation to gather the necessary information. You may have to do additoinal searching for the customer that owns the possibly compromised host.
+automation:
+  role:
+  sla_type: minutes
+  sla:
+  is_note_required: false
+  actions:
+    - run query
+    - post data
+    - add artifact
+  playbooks:
+    - scm: escu
+      playook: Hunt compromised hosts
+references:
+  - 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+workflow: Discuss the playbook workflow.
+date: '2020-12-13'
+version: 1
+author: ButterCup, Splunk
