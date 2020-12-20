@@ -22,6 +22,7 @@ tags:
   analytics_story:
   - Orangeworm Attack Group
   - Windows Service Abuse
+  - Sunburst Malware
   detections:
   - First Time Seen Running Windows Service
   deployments:

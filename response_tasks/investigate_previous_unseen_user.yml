@@ -16,7 +16,7 @@ search: '| tstats count `security_content_summariesonly` earliest(_time) as firs
   | bucket _time span=30d | stats count min(first_login) as first_login max(last_login)
   as last_login values(Authentication.dest) AS Authentication.dest by Authentication.user
   | where count=1 | where first_login >= relative_time(now(), "-30d") | `security_content_ctime(first_login)`
-  | `security_content_ctime(last_login)` | `drop_dm_object_name("Authentication")`'
+  | `security_content_ctime(last_login)` | `drop_dm_object_name("Authentication")` | search dest=$dest$'
 tags:
   analytics_story:
   - Credential Dumping

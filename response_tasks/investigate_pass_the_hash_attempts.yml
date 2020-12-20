@@ -14,7 +14,7 @@ inputs:
 - dest
 search: '`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate
   | stats count earliest(_time) as first_login latest(_time) as last_login by src_user
-  dest | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`'
+  dest | `security_content_ctime(first_login)` | `security_content_ctime(last_login)` | search dest=$dest$'
 tags:
   analytics_story:
   - Credential Dumping

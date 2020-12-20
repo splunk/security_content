@@ -1,7 +1,7 @@
-name: Scheduled Task Name Used by Dragonfly Threat Actors Unit Test
+name: Scheduled Task Deleted Or Created Via CMD
 tests:
-- name: Scheduled Task Name Used by Dragonfly Threat Actors
-  file: endpoint/scheduled_task_name_used_by_dragonfly_threat_actors.yml
+- name: Scheduled Task Deleted Or Created Via CMD
+  file: endpoint/scheduled_task_deleted_or_created_via_cmd.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
