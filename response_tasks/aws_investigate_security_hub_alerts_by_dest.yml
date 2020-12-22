@@ -10,7 +10,7 @@ author: Bhavin Patel, Splunk
 inputs:
 - dest
 search: 'sourcetype="aws:securityhub:firehose" "findings{}.Resources{}.Type"=AWSEC2Instance 
-| rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*) | search instance = $dest$ |rename findings{}.* as * | rename Remediation.Recommendation.Text as Remediation |  table instance Title ProductArn Description FirstObservedAt RecordState Remediation'
+| rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*)| rename instance as dest| search dest = $dest$ |rename findings{}.* as * | rename Remediation.Recommendation.Text as Remediation |  table dest Title ProductArn Description FirstObservedAt RecordState Remediation'
 tags:
   analytics_story:
   - Cloud Compute Instance

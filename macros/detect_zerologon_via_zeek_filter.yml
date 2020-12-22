@@ -1,4 +1,0 @@
-definition: search *
-description: Use this macro to add additional filters
-name: detect_zerologon_via_zeek_filter
-
