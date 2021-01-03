@@ -1,0 +1,20 @@
+name: Add Prohibited Processes to Enterprise Security
+id: 251930a5-1451-4428-bb13-eed5775be0ce
+version: 1
+date: '2017-09-15'
+description: This search takes the existing interesting process table from ES, filters
+  out any existing additions added by ESCU and then updates the table with processes
+  identified by ESCU that should be prohibited on your endpoints.
+how_to_implement: This search should be run on each new install of ESCU.
+author: David Dorsey, Splunk
+search: '| inputlookup prohibited_processes | search note!=ESCU* | inputlookup
+  append=T prohibited_processes | fillnull value=* dest dest_pci_domain | fillnull
+  value=false is_required is_secure | fillnull value=true is_prohibited | outputlookup
+  prohibited_processes | stats count'
+tags:
+  analytics_story:
+  - 'Emotet Malware  DHS Report TA18-201A '
+  - Monitor for Unauthorized Software
+  - SamSam Ransomware
+  detections:
+  - Prohibited Software On Endpoint

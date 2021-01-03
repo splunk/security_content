@@ -23,6 +23,7 @@ tags:
   - Orangeworm Attack Group
   - Windows Persistence Techniques
   - Disabling Security Tools
+  - Sunburst Malware
   mitre_attack_id:
   - T1543.003
   kill_chain_phases:
@@ -39,3 +40,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log

@@ -1,10 +1,10 @@
 name: Illegal Management of Computers and Active Directory Elements via PowerSploit modules - SSA Unit test
-detections:
+tests:
   - name: Illegal Management of Computers and Active Directory Elements via PowerSploit modules
     file: endpoint/ssa___illegal_management_computers_and_AD_elements_via_powersploit_modules.yml
-    pass_condition: '| stats count(body) as count_events by body, span(start_time, 7d) | where count_events > 0'
-description: Test illegal management of computers and Active Directory elements detections
-attack_data:
-  - file_name: logAllPowerSploitModulesWithOldNames.log
-    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+    pass_condition: '@count_gt(0)'
+    description: Test illegal management of computers and Active Directory elements detections
+    attack_data:
+      - file_name: logAllPowerSploitModulesWithOldNames.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
 

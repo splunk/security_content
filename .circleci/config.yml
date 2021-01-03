@@ -23,7 +23,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev python3-dev -qq
+    sudo apt install -y python-dev python3-dev jq -qq
     # install go for other testing tools
     # but first lets clean up the env
     if  [ -f goinstall.sh ]; then
@@ -137,10 +137,10 @@ jobs:
             cd security-content
             # check if tag is set, get build number from the tag if set
             if [ -z "${CIRCLE_TAG}" ]; then
-                CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
+                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" package/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
             else
-                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d+.\d+.\d+")
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
             fi
             # update build number and version
@@ -199,32 +199,26 @@ jobs:
           at: ~/
       - run: *apt-install
       - run:
-          name: grab appinspect
+          name: checkout repo
           command: |
-            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.tar.gz -o appinspect-lastest.tar.gz
-            mkdir appinspect-latest
-            tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
       - run:
-          name: install app inspect
+          name: submit package to appinspect API
           command: |
-            cd appinspect-latest
-            rm -rf venv
-            sudo pip install --upgrade pip setuptools
-            sudo pip install virtualenv
-            virtualenv --python=/usr/bin/python3 --clear venv
-            source venv/bin/activate
-            pip install .
-      - run:
-          name: run app inspect
-          command: |
-            cd appinspect-latest
-            source venv/bin/activate
-            splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud --max-messages=all
+            cd security-content/bin
+            #./appinspect.sh $APPINSPECT_TOKEN ~/
+            exit 0
+      - store_artifacts:
+          path: ~/report
+          destination: report/
       - persist_to_workspace:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-
   update-sources-github:
     executor: content-executor
     steps:

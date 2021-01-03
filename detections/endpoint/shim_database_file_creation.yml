@@ -1,7 +1,7 @@
 name: Shim Database File Creation
 id: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 version: 3
-date: '2020-07-22'
+date: '2020-12-08'
 description: This search looks for shim database files being written to default directories.
   The sdbinst.exe application is used to install shim database files (.sdb). According
   to Microsoft, a shim is a small library that transparently intercepts an API, changes
@@ -16,7 +16,7 @@ references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count values(Filesystem.action)
   values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path  min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*Windows\AppPatch\Custom*
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*Windows\\AppPatch\\Custom*
   by Filesystem.file_name Filesystem.dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   |`drop_dm_object_name(Filesystem)` | `shim_database_file_creation_filter`'
 known_false_positives: Because legitimate shim files are created and used all the
@@ -35,3 +35,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log

@@ -14,16 +14,17 @@ references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = schtasks.exe
-  Processes.process="*/create*" Processes.process="* /s *" by Processes.process_name
-  Processes.process Processes.parent_process_name Processes.dest Processes.user |
-  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `schtasks_scheduling_job_on_remote_system_filter`'
+  Processes.process="*/create*" (Processes.process="* /s *" OR Processes.process="*
+  /S *") by Processes.process_name Processes.process Processes.parent_process_name
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `schtasks_scheduling_job_on_remote_system_filter`'
 known_false_positives: Administrators may create jobs on remote systems, but this
   activity is usually limited to a small set of hosts or users. It is important to
   validate and investigate as appropriate.
 tags:
   analytics_story:
   - Lateral Movement
+  - Sunburst Malware
   mitre_attack_id:
   - T1053.005
   kill_chain_phases:
@@ -36,4 +37,4 @@ tags:
   asset_type: Endpoint
   automated_detection_testing: passed
   dataset:
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1053.005/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log

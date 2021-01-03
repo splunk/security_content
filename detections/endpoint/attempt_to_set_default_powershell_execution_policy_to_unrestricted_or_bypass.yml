@@ -11,12 +11,12 @@ how_to_implement: You must be ingesting data that records process activity from 
 type: ESCU
 references: []
 author: Patrick Bareiss, Splunk
-search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-  from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\\\Microsoft\\\\Powershell\\\\1\\\\ShellIds\\\\Microsoft.PowerShell*
-  Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted OR Registry.registry_value_name=Bypass)
-  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest
-  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
-  | `attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`"
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell*
+  Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted
+  OR Registry.registry_value_name=Bypass) by Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
+  | `attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
 known_false_positives: Administrators may attempt to change the default execution
   policy on a system for a variety of reasons. However, setting the policy to "unrestricted"
   or "bypass" as this search is designed to identify, would be unusual. Hits should
@@ -37,3 +37,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log

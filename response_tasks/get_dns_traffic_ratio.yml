@@ -14,7 +14,7 @@ inputs:
 - dest_ip
 search: '| tstats allow_old_summaries=true sum(All_Traffic.bytes_out) as "bytes_out"
   sum(All_Traffic.bytes_in) as "bytes_in" from datamodel=Network_Traffic where nodename=All_Traffic
-  All_Traffic.dest_port=53 All_Traffic.src=$src_ip$ All_Traffic.dest=$dest_ip$ | eval
+  All_Traffic.dest_port=53 by All_Traffic.src All_Traffic.dest| `drop_dm_object_name(All_Traffic)` | rename src as src_ip | rename dest as dest_ip | search src_ip=$src_ip$ | search dest_ip = $dest_ip | eval
   ratio = (bytes_out/bytes_in) | table ratio'
 tags:
   analytics_story:

@@ -7,6 +7,6 @@ tests:
     latest_time: 'now'
     attack_data:
     - file_name: cisco_ios.log
-      data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1557.002/cisco_ios.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1557.002/cisco_ios/cisco_ios.log
       source: udp:514
       sourcetype: cisco:ios

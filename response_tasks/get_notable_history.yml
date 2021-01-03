@@ -10,7 +10,7 @@ how_to_implement: If you are using Enterprise Security you are likely already cr
 author: Bhavin Patel, Splunk
 inputs:
 - dest
-search: '| search `notable` | search dest=$dest$ | table _time, rule_name, owner,
+search: '| search `notable` | search dest=$dest$ | table _time, dest, rule_name, owner,
   priority, severity, status_description'
 tags:
   analytics_story:
@@ -72,3 +72,14 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  - Data Exfiltration
+  - F5 TMUI RCE CVE-2020-5902
+  - Detect Zerologon Attack
+  - GCP Cross Account Activity
+  - Kubernetes Sensitive Object Access Activity
+  - Kubernetes Sensitive Role Activity
+  - Ransomware Cloud
+  - Ryuk Ransomware
+  - Suspicious Cloud Provisioning Activities
+  - Suspicious GCP Storage Activities
+  - Windows DNS SIGRed CVE-2020-1350
