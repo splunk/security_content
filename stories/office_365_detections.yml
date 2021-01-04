@@ -1,0 +1,17 @@
+name: Office 365 Detections
+id: 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
+version: 1
+date: '2020-12-16'
+description: This story is focused around detecting Office 365 Attacks.
+narrative: More and more companies are using Microsofts Office 365 cloud offering.
+  Therefore, we see more and more attacks against Office 365. This story provides
+  various detections for Office 365 attacks.
+author: Patrick Bareiss, Splunk
+type: ESCU
+references:
+  - https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
+tags:
+  analytics_story: Office 365 Detections
+  usecase: Security Monitoring
+  category:
+  - Cloud Security

@@ -1,0 +1,12 @@
+name: O365 Suspicious Rights Delegation Unit Test
+tests:
+- name: O365 Suspicious Rights Delegation
+  file: cloud/o365_suspicious_rights_delegation.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: suspicious_rights_delegation.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json
+    sourcetype: 'o365:management:activity'
+    source: 'o365'

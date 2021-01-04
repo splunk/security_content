@@ -1,0 +1,4 @@
+definition: sourcetype=o365:management:activity
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: o365_management_activity
