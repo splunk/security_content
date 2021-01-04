@@ -16,7 +16,7 @@ humanfriendly==9.0
 identify==1.5.10
 idna==2.10
 importlib-metadata==3.3.0
-importlib-resources==3.3.0
+importlib-resources==4.1.1
 Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
@@ -26,7 +26,7 @@ pathlib2==2.3.5
 pre-commit==2.9.3
 pyrsistent==0.17.3
 python-dateutil==2.8.1
-pytz==2020.4
+pytz==2020.5
 PyYAML==5.3.1
 requests==2.25.1
 scandir==1.10.0
