@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-21'
 description: This search will detect users creating spikes of API activity in your
   AWS environment.  It will also update the cache file that factors in the latest
-  data.
+  data. This search is deprecated and have been translated to use the latest Change Datamodel.
 how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit
