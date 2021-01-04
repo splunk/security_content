@@ -3,10 +3,10 @@ id: ada0f478-84a8-4641-s3f3-d82362dffd75
 version: 2
 date: '2020-07-21'
 description: This search looks for CloudTrail events where an abnormally high number
-  of instances were successfully terminated by a user in a 10-minute window
+  of instances were successfully terminated by a user in a 10-minute window. This search is deprecated and have been translated to use the latest Change Datamodel.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs.
+  inputs. 
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
