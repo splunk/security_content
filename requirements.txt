@@ -14,7 +14,7 @@ filelock==3.0.12
 gitdb==4.0.5
 humanfriendly==9.0
 identify==1.5.10
-idna==2.10
+idna==3.1
 importlib-metadata==3.3.0
 importlib-resources==4.1.1
 Jinja2==2.11.2
