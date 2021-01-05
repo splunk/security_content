@@ -34,7 +34,6 @@ tags:
   - Cloud Cryptomining
   kill_chain_phases:
   - Actions on Objectives
-  - Weaponization
   mitre_attack_id:
   - T1078.004
   cis20:
