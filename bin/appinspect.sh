@@ -23,10 +23,10 @@ cd $APP_PATH
 mkdir report
 # get a JWT token
 AUTH_TOKEN=$(echo -n "$USERNAME:$PASSWORD" | base64)
-APPINSPECT_TOKEN=$(curl -s --location --request GET 'https://api.splunk.com/2.0/rest/login/splunk' --header "Authorization: Basic $AUTH_TOKEN" | jq '.data | .token')
-
+APPINSPECT_TOKEN=$(curl -s --location --request GET 'https://api.splunk.com/2.0/rest/login/splunk' --header "Authorization: Basic $AUTH_TOKEN" | jq -r '.data | .token')
+sleep 1
 # submit a inspection job EXPECTS app on same directory
-REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
+REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"/home/jhernandez/splunk/security-content/DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
 echo "app inspect request: $REQUEST_ID"
 sleep 5
 STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" | jq -r '.status')
