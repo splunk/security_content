@@ -1,4 +1,4 @@
-ansible==2.10.4
+ansible==2.10.5
 ansible-runner==1.4.6
 apipkg==1.5
 aspy.yaml==1.3.0
@@ -13,8 +13,8 @@ azure-mgmt-core==1.2.2
 azure-mgmt-network==17.0.0
 azure-mgmt-resource==15.0.0
 bcrypt==3.2.0
-boto3==1.16.48
-botocore==1.19.48
+boto3==1.16.49
+botocore==1.19.49
 certifi==2020.12.5
 cffi==1.14.4
 cfgv==2.0.1
@@ -27,7 +27,7 @@ dnspython==2.0.0
 docutils==0.16
 execnet==1.7.1
 gitdb==4.0.5
-GitPython==3.1.11
+GitPython==3.1.12
 identify==1.5.11
 idna==2.8
 importlib-metadata==3.3.0
