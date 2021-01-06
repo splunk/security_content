@@ -146,7 +146,7 @@
                     </div>
                     <div class="killchain_card notfirst">
                         <div class="killchain" style="background-color:#675551;">
-                            <div class="killchain-text" id="weaponize">0</div>
+                            <div class="killchain-text" id="weaponization">0</div>
                         </div>
                         <div>
                             <p class="killchain-label">Weaponization</p>
