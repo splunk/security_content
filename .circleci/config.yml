@@ -210,8 +210,7 @@ jobs:
           name: submit package to appinspect API
           command: |
             cd security-content/bin
-            #./appinspect.sh $APPINSPECT_TOKEN ~/
-            exit 0
+            ./appinspect.sh ~/ $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
       - store_artifacts:
           path: ~/report
           destination: report/
