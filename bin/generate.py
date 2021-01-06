@@ -265,7 +265,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
             for response_task_name in response_task_names:
                 str = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
                 story['workbench_panels'].append(str)
-            story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+        story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
 
     workbench_panel_objects = []
     for response_task in response_tasks:
@@ -300,6 +300,8 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
     output = template.render(response_tasks=workbench_panel_objects)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
+
+    return workbench_panel_objects
 
 
 def parse_data_models_from_search(search):
@@ -597,7 +599,7 @@ def main(args):
     macros = sorted(macros, key=lambda m: m['name'])
     macros_path = generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH)
 
-    generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH)
+    workbench_panels_objects = generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH)
 
 
     if VERBOSE:
@@ -606,6 +608,7 @@ def main(args):
         print("{0} response tasks have been successfully written to {1}".format(len(response_tasks), detection_path))
         print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
+        print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
         print("security content generation completed..")
 
 
