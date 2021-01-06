@@ -9,7 +9,7 @@ how_to_implement: To successfully implement this search, you need to be monitori
 type: ESCU
 references:
   - https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html
-  - https://www.microsoft.com/security/blog/2020/12/18/analyzing-solorigate-the-compromised-dll-file-that-started-a-sophisticated-cyberattack-and-how-microsoft-defender-helps-protect
+  - https://www.guidepointsecurity.com/supernova-solarwinds-net-webshell-analysis/
 author: John Stoner, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Web.Web where
   web.url=*logoimagehandler.ashx*codes* OR
