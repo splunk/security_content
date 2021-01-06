@@ -46,7 +46,7 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -62,7 +62,7 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     template = j2_env.get_template('collections.j2')
     output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -179,7 +179,7 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
     template = j2_env.get_template('analytic_stories.j2')
     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
     output = template.render(stories=stories, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -223,7 +223,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     output = template.render(stories=stories, detections=detections,
                              response_tasks=response_tasks,
                              baselines=baselines, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -248,7 +248,7 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
     template = j2_env.get_template('macros.j2')
     output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
     output = template.render(macros=all_macros, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -291,14 +291,14 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
     template = j2_env.get_template('es_investigations.j2')
     output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
     output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')
     output = template.render(response_tasks=workbench_panel_objects)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
 
@@ -466,32 +466,28 @@ def prepare_stories(stories, detections):
                         for mitre_attack_id in detection['tags']['mitre_attack_id']:
                             sto_to_mitre_attack_ids[story].add(mitre_attack_id)
                     else:
-                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
-                            sto_to_mitre_attack_ids[story] = {mitre_attack_id}
+                        sto_to_mitre_attack_ids[story] = set(detection['tags']['mitre_attack_id'])
 
                 if 'kill_chain_phases' in detection['tags']:
                     if story in sto_to_kill_chain_phases.keys():
                         for kill_chain in detection['tags']['kill_chain_phases']:
                             sto_to_kill_chain_phases[story].add(kill_chain)
                     else:
-                        for kill_chain in detection['tags']['kill_chain_phases']:
-                            sto_to_kill_chain_phases[story] = {kill_chain}
+                        sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
 
                 if 'cis20' in detection['tags']:
                     if story in sto_to_ciss.keys():
                         for cis in detection['tags']['cis20']:
                             sto_to_ciss[story].add(cis)
                     else:
-                        for cis in detection['tags']['cis20']:
-                            sto_to_ciss[story] = {cis}
+                        sto_to_ciss[story] = set(detection['tags']['cis20'])                           
 
                 if 'nist' in detection['tags']:
                     if story in sto_to_nists.keys():
                         for nist in detection['tags']['nist']:
                             sto_to_nists[story].add(nist)
                     else:
-                        for nist in detection['tags']['nist']:
-                            sto_to_nists[story] = {nist}
+                        sto_to_nists[story] = set(detection['tags']['nist'])
 
     for story in stories:
         story['detections'] = sorted(sto_to_det[story['name']])

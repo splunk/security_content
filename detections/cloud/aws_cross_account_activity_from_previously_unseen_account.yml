@@ -3,7 +3,7 @@ id: 21193641-cb96-4a2c-a707-d9b9a7f7792b
 version: 1
 date: '2020-05-28'
 description: This search looks for AssumeRole events where an IAM role in a different
-  account is requested for the first time.
+  account is requested for the first time.  This search is deprecated and have been translated to use the latest Authentication Datamodel.
 how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
   provider. You should run the baseline search `Previously Seen AWS Cross Account
   Activity - Initial` to build the initial table of source IP address, geographic
