@@ -24,6 +24,7 @@ known_false_positives: Administrators may create jobs on remote systems, but thi
 tags:
   analytics_story:
   - Lateral Movement
+  - Sunburst Malware
   mitre_attack_id:
   - T1053.005
   kill_chain_phases:
