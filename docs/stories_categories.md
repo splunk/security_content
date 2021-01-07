@@ -99,6 +99,7 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Installation
 
 ###### CIS
 * CIS 12
@@ -143,10 +144,13 @@ The search in this story can help you to detect if attackers are abusing your co
 * Actions on Objectives
 
 ###### CIS
+* CIS 11
 * CIS 12
 
 ##### NIST
+* DE.AE
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
@@ -192,6 +196,7 @@ Attackers will often attempt to manipulate client communications for nefarious p
 * DE.AE
 * DE.CM
 * ID.AM
+* PR.AC
 * PR.DS
 * PR.IP
 * PR.PT
@@ -481,12 +486,18 @@ This Analytic Story focuses on detecting signs of MiTM attacks enabled by [EvilG
 
 ##### Kill Chain Phases
 * Command and Control
+* Delivery
 
 ###### CIS
 * CIS 7
+* CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
+* ID.AM
+* PR.DS
+* PR.IP
 
 ##### References
 * https://github.com/kgretzky/evilginx2
@@ -546,6 +557,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
 * PR.AC
 * PR.IP
@@ -583,6 +595,8 @@ Exfiltration comes in many flavors.  Adversaries can collect data over encrypted
 
 ##### NIST
 * DE.AE
+* DE.CM
+* PR.DS
 
 ##### References
 * https://attack.mitre.org/tactics/TA0010/
@@ -733,6 +747,7 @@ The searches in this Analytic Story help you detect and investigate activities t
 * CIS 13
 * CIS 3
 * CIS 8
+* CIS 9
 
 ##### NIST
 * DE.AE
@@ -774,6 +789,7 @@ A client is able to perform a remote code execution on an exposed and vulnerable
 
 ###### CIS
 * CIS 11
+* CIS 8
 
 ##### NIST
 * DE.CM
@@ -822,6 +838,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 ###### CIS
 * CIS 16
 * CIS 3
+* CIS 5
 * CIS 8
 * CIS 9
 
@@ -829,7 +846,9 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * DE.AE
 * DE.CM
 * PR.AC
+* PR.AT
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
@@ -873,6 +892,7 @@ In the event a system is suspected of having been compromised via a malicious we
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Installation
 
 ###### CIS
 * CIS 3
@@ -918,11 +938,14 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Installation
 
 ###### CIS
+* CIS 7
 * CIS 8
 
 ##### NIST
+* ID.AM
 * PR.DS
 
 ##### References
@@ -1029,10 +1052,16 @@ This Analytic Story contains a search designed to identify attempts by attackers
 * Delivery
 
 ###### CIS
+* CIS 13
 * CIS 18
+* CIS 4
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.DS
+* PR.IP
+* PR.PT
 
 ##### References
 * https://capec.mitre.org/data/definitions/66.html
@@ -1134,13 +1163,16 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 ##### ATT&CK
 * T1036.003
+* T1059.001
 * T1059.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Command and Control
 * Exploitation
 
 ###### CIS
+* CIS 3
 * CIS 8
 
 ##### NIST
@@ -1714,6 +1746,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 ##### NIST
 * DE.CM
+* ID.AM
 * PR.DS
 * PR.PT
 
@@ -1760,11 +1793,14 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Delivery
+* Reconnaissance
 
 ###### CIS
 * CIS 1
 
 ##### NIST
+* ID.AM
 * PR.DS
 
 ##### References
@@ -1826,11 +1862,14 @@ It is important to investigate any software identified as suspicious, in order t
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Command and Control
+* Installation
 
 ###### CIS
 * CIS 2
 
 ##### NIST
+* ID.AM
 * PR.DS
 
 ##### References
@@ -1866,6 +1905,7 @@ Microsoft releases updates for Windows systems on a monthly cadence. They should
 
 ##### NIST
 * PR.MA
+* PR.PT
 
 ##### References
 * https://learn.cisecurity.org/20-controls-download
@@ -1906,12 +1946,15 @@ A traditional security best practice is to control the ports, protocols, and ser
 ###### CIS
 * CIS 12
 * CIS 13
+* CIS 8
 * CIS 9
 
 ##### NIST
 * DE.AE
 * DE.CM
 * PR.AC
+* PR.DS
+* PR.PT
 
 ##### References
 * http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
@@ -1963,8 +2006,10 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 ##### NIST
 * ID.AM
+* PR.AC
 * PR.DS
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
@@ -1993,12 +2038,17 @@ Various legacy protocols operate by default in the clear, without the protection
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Reconnaissance
 
 ###### CIS
 * CIS 14
+* CIS 9
 
 ##### NIST
+* DE.AE
+* PR.AC
 * PR.DS
+* PR.PT
 
 ##### References
 * https://www.monkey.org/~dugsong/dsniff/
@@ -2531,6 +2581,9 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 
 #### Detections
 * High Number of Login Failures from a single source
+* O365 Disable MFA
+* O365 Excessive Authentication Failures Alert
+* O365 PST export alert
 * O365 Suspicious Admin Email Forwarding
 * O365 Suspicious Rights Delegation
 * O365 Suspicious User Email Forwarding
@@ -2540,12 +2593,17 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 #### Mappings
 
 ##### ATT&CK
+* T1110
 * T1110.001
+* T1114
 * T1114.002
 * T1114.003
+* T1556
 
 ##### Kill Chain Phases
+* Actions on Objective
 * Actions on Objectives
+* Not Applicable
 
 ###### CIS
 * CIS 16
@@ -2705,12 +2763,15 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 ##### ATT&CK
 
 ##### Kill Chain Phases
+* Actions on Objectives
 * Command and Control
 
 ###### CIS
 * CIS 11
 
 ##### NIST
+* DE.AE
+* DE.CM
 * PR.AC
 
 ##### References
@@ -2752,6 +2813,8 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 ##### NIST
 * DE.AE
 * DE.DP
+* PR.AC
+* PR.DS
 
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
@@ -3000,11 +3063,15 @@ Searches in this Analytic Story leverage the capabilities of OSquery to address 
 
 ##### Kill Chain Phases
 * Command and Control
+* Installation
 
 ###### CIS
+* CIS 4
 * CIS 8
 
 ##### NIST
+* DE.CM
+* DE.DP
 * PR.PT
 
 ##### References
@@ -3117,14 +3184,18 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 * Command and Control
 
 ###### CIS
+* CIS 12
 * CIS 13
 * CIS 7
 * CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
 * DE.DP
+* PR.DS
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
@@ -3230,6 +3301,7 @@ Among other searches in this Analytic Story is a detection search that looks for
 ##### ATT&CK
 * T1021.001
 * T1021.002
+* T1059.001
 * T1059.003
 * T1070.005
 * T1071.002
@@ -3283,12 +3355,14 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 #### Mappings
 
 ##### ATT&CK
+* T1059.001
 * T1059.003
 * T1543.003
 * T1569.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Command and Control
 * Installation
 
 ###### CIS
@@ -3527,6 +3601,7 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Command and Control
 * Delivery
 * Installation
 * Reconnaissance
@@ -3545,6 +3620,7 @@ This Analytic Story includes searches designed to help detect and investigate si
 ##### NIST
 * DE.AE
 * DE.CM
+* ID.AM
 * ID.RA
 * PR.AC
 * PR.DS
@@ -3686,6 +3762,7 @@ The Windows operating system uses a services architecture to allow for running c
 * Installation
 
 ###### CIS
+* CIS 2
 * CIS 3
 * CIS 5
 * CIS 8
@@ -3694,8 +3771,10 @@ The Windows operating system uses a services architecture to allow for running c
 ##### NIST
 * DE.AE
 * DE.CM
+* ID.AM
 * PR.AC
 * PR.AT
+* PR.DS
 * PR.IP
 * PR.PT
 
@@ -3763,6 +3842,7 @@ It can also be very helpful to examine various behaviors of the process of inter
 * CIS 18
 * CIS 3
 * CIS 4
+* CIS 7
 
 ##### NIST
 * DE.AE
@@ -3818,10 +3898,17 @@ It can also be helpful to examine various behaviors of and the parent of the pro
 * Reconnaissance
 
 ###### CIS
+* CIS 12
 * CIS 18
+* CIS 4
 
 ##### NIST
+* DE.AE
 * DE.CM
+* ID.RA
+* PR.IP
+* PR.MA
+* PR.PT
 
 ##### References
 * http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
@@ -3854,6 +3941,9 @@ Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow 
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.IP
+* RS.MI
 
 ##### References
 * https://meltdownattack.com/
@@ -3892,9 +3982,16 @@ It is important to ensure that your Splunk deployment is being kept up to date a
 
 ###### CIS
 * CIS 18
+* CIS 3
+* CIS 4
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.AC
+* PR.IP
+* PR.PT
+* RS.MI
 
 ##### References
 * http://www.splunk.com/view/SP-CAAAPQ6#announce
@@ -3928,9 +4025,16 @@ A detection search within this Analytic Story looks for vulnerabilities describe
 
 ###### CIS
 * CIS 18
+* CIS 3
+* CIS 4
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.AC
+* PR.IP
+* PR.PT
+* RS.MI
 
 ##### References
 * https://nvd.nist.gov/vuln/detail/CVE-2018-11409
