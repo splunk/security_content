@@ -137,10 +137,10 @@ jobs:
             cd security-content
             # check if tag is set, get build number from the tag if set
             if [ -z "${CIRCLE_TAG}" ]; then
-                CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
+                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" package/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
             else
-                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d+.\d+.\d+")
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
             fi
             # update build number and version
@@ -210,7 +210,7 @@ jobs:
           name: submit package to appinspect API
           command: |
             cd security-content/bin
-            ./appinspect.sh $APPINSPECT_TOKEN ~/
+            ./appinspect.sh ~/ $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
       - store_artifacts:
           path: ~/report
           destination: report/

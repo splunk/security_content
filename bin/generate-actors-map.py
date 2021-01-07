@@ -11,7 +11,7 @@ from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
 
-VERSION = "3.0"
+VERSION = "4.1"
 NAME = "Detection Priority by Threat Actors"
 DESCRIPTION = "security-content detection priorty by common techniques used from threat actors"
 DOMAIN = "mitre-enterprise"
@@ -144,7 +144,7 @@ def generate_navigator_layer(matched_techniques, max_count, output):
         layer_technique = {
             "techniqueID": technique["ID"],
             "score" : technique["score"],
-            "showSubtechniques": True
+            "showSubtechniques": False
         }
 
 

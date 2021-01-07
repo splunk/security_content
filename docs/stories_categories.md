@@ -314,6 +314,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [SQL Injection](#SQL-Injection)
 
+* [Sunburst Malware](#Sunburst-Malware)
+
 * [Suspicious Command-Line Executions](#Suspicious-Command-Line-Executions)
 
 * [Suspicious DNS Traffic](#Suspicious-DNS-Traffic)
@@ -800,7 +802,6 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * Detect Activity Related to Pass the Hash Attacks
 * Kerberoasting spn request with RC4 encryption
 * Remote Desktop Network Traffic
-* Remote Desktop Process Running On System
 * Schtasks scheduling job on remote system
 
 #### Data Models
@@ -872,7 +873,6 @@ In the event a system is suspected of having been compromised via a malicious we
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
-* Installation
 
 ###### CIS
 * CIS 3
@@ -907,7 +907,6 @@ Following is a typical series of events, according to an [article by Trend Micro
 This Analytic Story focuses on detecting signs that a malicious payload has been injected into your environment. For example, one search detects outlook.exe writing a .zip file. Another looks for suspicious .lnk files launching processes.
 
 #### Detections
-* Detect Oulook exe writing a  zip file
 * Suspicious LNK file launching a process
 
 #### Data Models
@@ -915,19 +914,15 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 #### Mappings
 
 ##### ATT&CK
-* T1566.001
 * T1566.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
-* Installation
 
 ###### CIS
-* CIS 7
 * CIS 8
 
 ##### NIST
-* ID.AM
 * PR.DS
 
 ##### References
@@ -1043,6 +1038,76 @@ This Analytic Story contains a search designed to identify attempts by attackers
 * https://capec.mitre.org/data/definitions/66.html
 * https://www.incapsula.com/web-application-security/sql-injection.html
 
+### Sunburst Malware
+* id = 758196b5-2e21-424f-a50c-6e421ce926c2
+* date = 2020-12-14
+* version = 1
+
+#### Description
+Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
+
+#### Narrative
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from the Sunburst malware. The threat actor behind sunburst compromised the SolarWinds.Orion.Core.BusinessLayer.dll, is a SolarWinds digitally-signed component of the Orion software framework that contains a backdoor that communicates via HTTP to third party servers. The detections in this Analytic Story are focusing on the dll loading events, file create events and network events to detect This malware.
+
+#### Detections
+* Detect Outbound SMB Traffic
+* Detect Prohibited Applications Spawning cmd exe
+* First Time Seen Running Windows Service
+* Malicious PowerShell Process - Encoded Command
+* Sc exe Manipulating Windows Services
+* Scheduled Task Deleted Or Created via CMD
+* Schtasks scheduling job on remote system
+* Sunburst Correlation DLL and Network Event
+* TOR Traffic
+* Windows AdFind Exe
+
+#### Data Models
+* Endpoint
+* Network_Traffic
+
+#### Mappings
+
+##### ATT&CK
+* T1018
+* T1027
+* T1053.005
+* T1059.003
+* T1071.001
+* T1071.002
+* T1203
+* T1543.003
+* T1569.002
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Command and Control
+* Exploitation
+* Installation
+
+###### CIS
+* CIS 12
+* CIS 2
+* CIS 3
+* CIS 5
+* CIS 6
+* CIS 7
+* CIS 8
+* CIS 9
+
+##### NIST
+* DE.AE
+* DE.CM
+* ID.AM
+* PR.AC
+* PR.AT
+* PR.DS
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+* https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
+
 ### Suspicious Command-Line Executions
 * id = f4368ddf-d59f-4192-84f6-778ac5a3ffc7
 * date = 2020-02-03
@@ -1068,17 +1133,14 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 #### Mappings
 
 ##### ATT&CK
-* T1036
-* T1059.001
+* T1036.003
 * T1059.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
-* Command and Control
 * Exploitation
 
 ###### CIS
-* CIS 3
 * CIS 8
 
 ##### NIST
@@ -1350,9 +1412,7 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 * Remote Process Instantiation via WMI
 * Remote WMI Command Attempt
 * Script Execution via WMI
-* WMI Permanent Event Subscription
 * WMI Permanent Event Subscription - Sysmon
-* WMI Temporary Event Subscription
 
 #### Data Models
 * Endpoint
@@ -1361,6 +1421,7 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 
 ##### ATT&CK
 * T1047
+* T1546.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1630,7 +1691,6 @@ Monitor for and investigate activities that may be associated with a Windows pri
 Privilege escalation is a "land-and-expand" technique, wherein an adversary gains an initial foothold on a host and then exploits its weaknesses to increase his privileges. The motivation is simple: certain actions on a Windows machine--such as installing software--may require higher-level privileges than those the attacker initially acquired. By increasing his privilege level, the attacker can gain the control required to carry out his malicious ends. This Analytic Story provides searches to detect and investigate behaviors that attackers may use to elevate their privileges in your environment.
 
 #### Detections
-* Child Processes of Spoolsv exe
 * Overwriting Accessibility Binaries
 * Registry Keys Used For Privilege Escalation
 * Uncommon Processes On Endpoint
@@ -1641,14 +1701,12 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 #### Mappings
 
 ##### ATT&CK
-* T1068
 * T1204.002
 * T1546.008
 * T1546.012
 
 ##### Kill Chain Phases
 * Actions on Objectives
-* Exploitation
 
 ###### CIS
 * CIS 2
@@ -1656,7 +1714,6 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 ##### NIST
 * DE.CM
-* ID.AM
 * PR.DS
 * PR.PT
 
@@ -1665,8 +1722,6 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 
 ## Best Practices
-
-* [Account Monitoring and Controls](#Account-Monitoring-and-Controls)
 
 * [Asset Tracking](#Asset-Tracking)
 
@@ -1681,43 +1736,6 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * [Router and Infrastructure Security](#Router-and-Infrastructure-Security)
 
 * [Use of Cleartext Protocols](#Use-of-Cleartext-Protocols)
-
-### Account Monitoring and Controls
-* id = 8892a655-6205-55f7-abba-06460e38c8ae
-* date = 2017-09-06
-* version = 1
-
-#### Description
-A common attack technique is to leverage user accounts to gain unauthorized access to the target's network. This Analytic Story minimizes opportunities for attack by helping you actively manage creation/use/dormancy/deletion--the lifecycle of system and application accounts.
-
-#### Narrative
-Monitoring user accounts within your enterprise is a critical analytic function that helps ensure that credential and access policies/procedures are properly implemented and are being enforced. Proactive ad-hoc hunting, as well as routine monitoring, can ensure user or system accounts are not being abused by unauthorized individuals or processes. In the event of a network event or breach, user-authentication logs are a key resource in determining if or how an account might have been compromised or co-opted, leading to suspicious or malicious activity.
-
-#### Detections
-* Detect Excessive Account Lockouts From Endpoint
-* Detect Excessive User Account Lockouts
-* Identify New User Accounts
-* Short Lived Windows Accounts
-
-#### Data Models
-* Change
-
-#### Mappings
-
-##### ATT&CK
-* T1078.002
-* T1078.003
-* T1136.001
-
-##### Kill Chain Phases
-
-###### CIS
-* CIS 16
-
-##### NIST
-* PR.IP
-
-##### References
 
 ### Asset Tracking
 * id = 91c676cf-0b23-438d-abee-f6335e1fce77
@@ -2011,6 +2029,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Kubernetes Sensitive Object Access Activity](#Kubernetes-Sensitive-Object-Access-Activity)
 
 * [Kubernetes Sensitive Role Activity](#Kubernetes-Sensitive-Role-Activity)
+
+* [Office 365 Detections](#Office-365-Detections)
 
 * [Suspicious AWS EC2 Activities](#Suspicious-AWS-EC2-Activities)
 
@@ -2498,6 +2518,45 @@ Kubernetes is the most used container orchestration platform, this orchestration
 ##### References
 * https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
 
+### Office 365 Detections
+* id = 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
+* date = 2020-12-16
+* version = 1
+
+#### Description
+This story is focused around detecting Office 365 Attacks.
+
+#### Narrative
+More and more companies are using Microsofts Office 365 cloud offering. Therefore, we see more and more attacks against Office 365. This story provides various detections for Office 365 attacks.
+
+#### Detections
+* High Number of Login Failures from a single source
+* O365 Suspicious Admin Email Forwarding
+* O365 Suspicious Rights Delegation
+* O365 Suspicious User Email Forwarding
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1110.001
+* T1114.002
+* T1114.003
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+
+##### NIST
+* DE.AE
+* DE.DP
+
+##### References
+* https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
+
 ### Suspicious AWS EC2 Activities
 * id = 2e8948a5-5239-406b-b56b-6c50f1268af3
 * date = 2018-02-09
@@ -2932,7 +2991,6 @@ Searches in this Analytic Story leverage the capabilities of OSquery to address 
 
 #### Detections
 * Osquery pack - ColdRoot detection
-* Processes Tapping Keyboard Events
 
 #### Data Models
 
@@ -2944,11 +3002,9 @@ Searches in this Analytic Story leverage the capabilities of OSquery to address 
 * Command and Control
 
 ###### CIS
-* CIS 4
 * CIS 8
 
 ##### NIST
-* DE.DP
 * PR.PT
 
 ##### References
@@ -2982,7 +3038,7 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 * SMB Traffic Spike
 * SMB Traffic Spike - MLTK
 * Sc exe Manipulating Windows Services
-* Scheduled Task Name Used by Dragonfly Threat Actors
+* Scheduled Task Deleted Or Created via CMD
 * Single Letter Process On Endpoint
 * Suspicious Reg exe Process
 
@@ -3000,6 +3056,7 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 * T1071.002
 * T1112
 * T1136.001
+* T1204.002
 * T1543.003
 * T1547.001
 * T1562.004
@@ -3159,7 +3216,6 @@ Among other searches in this Analytic Story is a detection search that looks for
 * Detect Outbound SMB Traffic
 * First time seen command line argument
 * Remote Desktop Network Traffic
-* Remote Desktop Process Running On System
 * SMB Traffic Spike
 * SMB Traffic Spike - MLTK
 * Suspicious File Write
@@ -3174,8 +3230,8 @@ Among other searches in this Analytic Story is a detection search that looks for
 ##### ATT&CK
 * T1021.001
 * T1021.002
-* T1059.001
 * T1059.003
+* T1070.005
 * T1071.002
 * T1071.004
 
@@ -3278,7 +3334,6 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * SMB Traffic Spike - MLTK
 * Scheduled tasks used in BadRabbit ransomware
 * Schtasks used for forcing a reboot
-* Spike in File Writes
 * Suspicious wevtutil Usage
 * System Processes Run From Unexpected Locations
 * TOR Traffic
@@ -3295,7 +3350,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 
 ##### ATT&CK
 * T1021.002
-* T1036
+* T1036.003
 * T1047
 * T1048
 * T1053.005
@@ -3382,7 +3437,6 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 * Remote Desktop Network Bruteforce
 * Remote Desktop Network Traffic
 * Ryuk Test Files Detected
-* Spike in File Writes
 * Windows DisableAntiSpyware Registry
 * Windows Security Account Manager Stopped
 * Windows connhost exe started forcefully
@@ -3454,7 +3508,6 @@ This Analytic Story includes searches designed to help detect and investigate si
 * Remote Desktop Network Bruteforce
 * Remote Desktop Network Traffic
 * Samsam Test File Write
-* Spike in File Writes
 
 #### Data Models
 * Endpoint
@@ -3533,7 +3586,7 @@ In the event an unusual process is identified, it is imperative to better unders
 
 ##### ATT&CK
 * T1016
-* T1036
+* T1036.003
 * T1204.002
 * T1218.011
 
