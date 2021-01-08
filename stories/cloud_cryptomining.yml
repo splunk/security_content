@@ -37,7 +37,7 @@ references:
 notable:
   nes_fields: user
   rule_description: Identify behaviors related to potential cryptomining activities from cloud assets
-  ule_title: Cryptomining story notable
+  rule_title: Cryptomining story notable
 search: 'index=risk annotations.analytics_story="Cloud Cryptomining" |  stats sum(risk_score) as risk_sum by user annotations.analytics_story |  where risk_sum > 200'
 tags:
   analytics_story: Cloud Cryptomining
