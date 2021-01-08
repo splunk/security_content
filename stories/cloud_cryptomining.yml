@@ -34,8 +34,20 @@ author: David Dorsey, Splunk
 type: ESCU
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-notable:
-  nes_fields: user
+scheduling:
+  cron_schedule: '59 * * * *'
+  earliest_time: -70m@m
+  latest_time: -10m@m
+  schedule_window: auto
+alert_action:
+  email:
+    message: "Splunk Alert Crypto Story Test"
+    subject: "Splunk Alert Crypto Story Test"
+    to: "jzadeh@splunk.com"
+  index: risk
+  notable:
+  nes_fields:
+    - user
   rule_description: Identify behaviors related to potential cryptomining activities from cloud assets
   rule_title: Cryptomining story notable
 search: 'index=risk annotations.analytics_story="Cloud Cryptomining" |  stats sum(risk_score) as risk_sum by user annotations.analytics_story |  where risk_sum > 200'
