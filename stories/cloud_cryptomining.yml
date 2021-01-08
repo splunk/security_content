@@ -1,7 +1,7 @@
 name: Cloud Cryptomining
 id: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
-version: 1
-date: '2019-10-02'
+version: 2
+date: '2021-01-08'
 description: Monitor your cloud compute instances for activities related to cryptojacking/cryptomining.
   New instances that originate from previously unseen regions, users who launch abnormally
   high numbers of instances, or compute instances started by previously unseen users
@@ -34,6 +34,22 @@ author: David Dorsey, Splunk
 type: ESCU
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+detect:
+  splunk:
+    correlation_rule:
+      notable:
+        nes_fields: user
+        rule_description: Identify behaviors related to potential cryptomining activities from cloud assets
+        rule_title: Cryptomining story notable
+      risk:
+          risk_object:
+          risk_object_type:
+          risk_score:
+      schedule:
+        cron_schedule: 0 * * * *
+        earliest_time: -70m@m
+        latest_time: -10m@m
+      search: "index=risk annotations.analytics_story="Cloud Cryptomining" |  stats sum(risk_score) as risk_sum by user annotations.analytics_story |  where risk_sum > 200"
 tags:
   analytics_story: Cloud Cryptomining
   usecase: Security Monitoring
