@@ -18,9 +18,9 @@ references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions
   where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip
-  All_Sessions.src_mac | dedup All_Sessions.src_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
-  | search NOT [| inputlookup asset_lookup_by_str |rename mac as src_mac | fields
-  + src_mac] | `detect_unauthorized_assets_by_mac_address_filter`'
+  All_Sessions.dest_mac | dedup All_Sessions.dest_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
+  | search NOT [| inputlookup asset_lookup_by_str |rename mac as dest_mac | fields
+  + dest_mac] | `detect_unauthorized_assets_by_mac_address_filter`'
 known_false_positives: This search might be prone to high false positives. Please
   consider this when conducting analysis or investigations. Authorized devices may
   be detected as unauthorized. If this is the case, verify the MAC address of the

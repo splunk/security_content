@@ -11,7 +11,7 @@ from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
 
-VERSION = "3.0"
+VERSION = "4.1"
 NAME = "Detection Coverage"
 DESCRIPTION = "security-content detection coverage"
 DOMAIN = "mitre-enterprise"
