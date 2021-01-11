@@ -1,14 +1,21 @@
-name: Weekly Model Rebuild 90 Day Lookback
-id: 4b329568-bcff-49fa-8c85-92e95f0f270d
-date: '2020-09-07'
+name: Analytic Story Search
+id: e8767588-ed7e-48da-b342-0b5475416883
+date: '2021-01-11'
 description: This configuration file applies to all baselines with tag deployments Weekly Model Rebuild 90 Day Lookback
 author: David Dorsey
 scheduling:
-  cron_schedule: '0 2 * * 0'
-  earliest_time: -90d@d
-  latest_time: -1d@d
+  cron_schedule: '59 * * * *'
+  earliest_time: -70m@m
+  latest_time: -10m@m
   schedule_window: auto
+alert_action:
+  notable:
+    rule_description: Identify behaviors related to potential cryptomining activities from cloud assets
+    rule_title: Cryptomining story notable
+    nes_fields:
+      - user
 tags:
+  detection_name: Cloud Cryptomining Story Search
   analytics_story:
     - Cloud Cryptomining
   deployments:

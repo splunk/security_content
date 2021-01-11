@@ -1,27 +1,36 @@
-name: Cloud Cryptoming Story Search
-id:
+name: Cloud Cryptomining Story Search
+id: bdf1d795-abcb-489f-922a-7bf9ceeee573
 version: 1
-date: '2020-08-21'
-description: This search looks for cloud compute instances created by users who have
-  not created them before.
-how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  Run the "Previously Seen Cloud Compute Creations By User" support search to create
-  of baseline of previously seen users.
+date: '2018-10-12'
+description: This search looks for cloud compute instances being created with previously
+  unseen image IDs.
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
+  provider. You should run the baseline search `Previously Seen Cloud Compute Images
+  - Initial` to build the initial table of images observed and times. You must also
+  enable the second baseline search `Previously Seen Cloud Compute Images - Update`
+  to keep this table up to date and to age out old data. You can also provide additional
+  filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter`
+  macro.
 type: ESCU
 references: []
-author: David Dorsey
-scheduling:
-  cron_schedule: '59 * * * *'
-  earliest_time: -70m@m
-  latest_time: -10m@m
-  schedule_window: auto
-alert_action:
-  notable:
-    rule_description: Identify behaviors related to potential cryptomining activities from cloud assets
-    rule_title: Cryptomining Story Notable
-    nes_fields:
-      - user
-search: 'index=risk annotations.analytics_story="Cloud Cryptomining" |  stats sum(risk_score) as risk_sum by user annotations.analytics_story |  where risk_sum > 200'
+author: David Dorsey, Splunk
+search: '| tstats sum(All_Risk.risk_score) as risk_sum from datamodel=Risk.All_Risk where All_Risk.annotations._all="Cloud Cryptomining" by All_Risk.risk_object
+         |  where risk_sum > 1000 | `cloud_cryptomining_story_search_filter`'
+known_false_positives: After a new image is created, the first systems created with
+  that image will cause this alert to fire.  Verify that the image being used was
+  created by a legitimate user.
 tags:
   analytics_story:
-    - Cloud Cryptomining
+  - Cloud Cryptomining
+  cis20:
+  - CIS 1
+  nist:
+  - ID.AM
+  security_domain: endpoint
+  asset_type: Cloud Compute Instance
+  risk_score: 20
+  risk_object_type: user
+  risk_object: user
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
