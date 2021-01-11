@@ -17,7 +17,8 @@ search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy
   | eval count_kms_encrypt_actions=mvcount(mvfilter(match(key_policy_actions,"kms:Encrypt")))
   | eval count_kms_decrypt_actions=mvcount(mvfilter(match(key_policy_actions,"kms:Decrypt")))
   | where count_kms_encrypt_actions>count_kms_decrypt_actions
-  | stats count by eventName eventSource eventID awsRegion userIdentity.principalId
+  | stats count min(_time) as firstTime max(_time) as lastTime by eventName eventSource eventID awsRegion userIdentity.principalId
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter`'
 tags:
   analytics_story:
