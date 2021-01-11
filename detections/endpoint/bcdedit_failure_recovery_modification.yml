@@ -1,5 +1,5 @@
 name: BCDEdit Failure Recovery Modification
-id: null
+id: 809b31d2-5462-11eb-ae93-0242ac130002
 version: 1
 date: '2020-12-21'
 description: This search looks for flags passed to bcdedit.exe modifications to the
