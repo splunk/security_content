@@ -1,22 +1,23 @@
 author: Rod Soto, Patrick Bareiss Splunk
 date: '2021-01-11'
-description: 'This search provides detection of accounts creating KMS keys which allows action kms:Encrypt for specific principals.
-  This is a common ransomware technique which allows the encryption of S3 data for everyone but the decryption action is only allowed to be performed by the compromised account.'
+description: 'This search provides detection of KMS keys which action kms:Encrypt is accessible for everyone (also outside of your organization).
+  This is an identicator that your account is compromised and the attacker uses the encryption key to compromise another company.'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs
 id: c79c164f-4b21-4847-98f9-cf6a9f49179e
-known_false_positives: Not all KMS key creations are malicious.
+known_false_positives: unknown
 name: AWS Detect Users creating keys with encrypt policy without MFA
 references:
    - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
    - https://github.com/d1vious/git-wild-hunt
    - https://www.youtube.com/watch?v=PgzNib37g0M
 search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy
-  | spath input=requestParameters.policy output=key_policy_actions_1 path=Statement{}.Action
-  | spath input=requestParameters.policy output=key_policy_actions_2 path=Statement{}.Action{}
-  | eval key_policy_actions=mvappend(key_policy_actions_1, key_policy_actions_2)
-  | eval count_kms_encrypt_actions=mvcount(mvfilter(match(key_policy_actions,"kms:Encrypt")))
-  | eval count_kms_decrypt_actions=mvcount(mvfilter(match(key_policy_actions,"kms:Decrypt")))
-  | where count_kms_encrypt_actions>count_kms_decrypt_actions
+  | spath input=requestParameters.policy output=key_policy_statements path=Statement{}
+  | mvexpand key_policy_statements
+  | spath input=key_policy_statements output=key_policy_action_1 path=Action
+  | spath input=key_policy_statements output=key_policy_action_2 path=Action{}
+  | eval key_policy_action=mvappend(key_policy_action_1, key_policy_action_2)
+  | spath input=key_policy_statements output=key_policy_principal path=Principal.AWS
+  | search key_policy_action="kms:Encrypt" AND key_policy_principal="*"
   | stats count min(_time) as firstTime max(_time) as lastTime by eventName eventSource eventID awsRegion userIdentity.principalId
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter`'
