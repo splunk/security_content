@@ -154,10 +154,12 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     return output_path
 
 
-def generate_analytics_story_conf(stories, detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH):
+def generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
+
     sto_res = map_response_tasks_to_stories(response_tasks)
+
     sto_bas = map_baselines_to_stories(baselines)
 
     for story in stories:
@@ -168,23 +170,15 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
         if story['name'] in sto_bas:
             story['baselines'] = list(sto_bas[story['name']])
 
-        matched_deployments = get_deployments(story, deployments)
-        if len(matched_deployments):
-            story['deployment'] = matched_deployments[-1]
-            #nes_fields = get_nes_fields(story['search'], story['deployment'])
-            # if len(nes_fields) > 0:
-            #     story['nes_fields'] = nes_fields
-
     stories = prepare_stories(stories, detections)
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
-    j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('analytic_stories.j2')
     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
-    output = template.render(stories=stories, detections=detections, baselines=baselines, response_tasks=response_tasks, time=utc_time)
+    output = template.render(stories=stories, time=utc_time)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
@@ -488,7 +482,7 @@ def prepare_stories(stories, detections):
                         for cis in detection['tags']['cis20']:
                             sto_to_ciss[story].add(cis)
                     else:
-                        sto_to_ciss[story] = set(detection['tags']['cis20'])                           
+                        sto_to_ciss[story] = set(detection['tags']['cis20'])
 
                 if 'nist' in detection['tags']:
                     if story in sto_to_nists.keys():
@@ -598,7 +592,7 @@ def main(args):
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
 
     stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
+    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
