@@ -1,0 +1,27 @@
+name: Cloud Cryptoming Story Search
+id:
+version: 1
+date: '2020-08-21'
+description: This search looks for cloud compute instances created by users who have
+  not created them before.
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
+  Run the "Previously Seen Cloud Compute Creations By User" support search to create
+  of baseline of previously seen users.
+type: ESCU
+references: []
+author: David Dorsey
+scheduling:
+  cron_schedule: '59 * * * *'
+  earliest_time: -70m@m
+  latest_time: -10m@m
+  schedule_window: auto
+alert_action:
+  notable:
+    rule_description: Identify behaviors related to potential cryptomining activities from cloud assets
+    rule_title: Cryptomining Story Notable
+    nes_fields:
+      - user
+search: 'index=risk annotations.analytics_story="Cloud Cryptomining" |  stats sum(risk_score) as risk_sum by user annotations.analytics_story |  where risk_sum > 200'
+tags:
+  analytics_story:
+    - Cloud Cryptomining
