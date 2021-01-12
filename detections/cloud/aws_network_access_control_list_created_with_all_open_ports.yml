@@ -10,12 +10,16 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Patrick Bareiss, Splunk
-search: "`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
-  | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
-  | eval port_range='requestParameters.portRange.to' - 'requestParameters.portRange.from' | where port_range>1024]
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by userName userIdentity.principalId eventName requestParameters.ruleAction requestParameters.egress
-  requestParameters.aclProtocol requestParameters.portRange.to requestParameters.portRange.from src userAgent requestParameters.cidrBlock
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`"
+search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
+  requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
+  | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
+  requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
+  | eval port_range=''requestParameters.portRange.to'' - ''requestParameters.portRange.from''
+  | where port_range>1024] | fillnull | stats count min(_time) as firstTime max(_time)
+  as lastTime by userName userIdentity.principalId eventName requestParameters.ruleAction
+  requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
+  requestParameters.portRange.from src userAgent requestParameters.cidrBlock | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`'
 known_false_positives: It's possible that an admin has created this ACL with all ports
   open for some legitimate purpose however, this should be scoped and not allowed
   in production environment.
@@ -36,3 +40,6 @@ tags:
   risk_score: 10
   risk_object_type: user
   risk_object: userName
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
