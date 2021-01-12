@@ -14,8 +14,9 @@ type: ESCU
 references: []
 author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by userName userIdentity.principalId eventName requestParameters.egress src userAgent
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
+  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by userName
+  userIdentity.principalId eventName requestParameters.egress src userAgent | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
 known_false_positives: It's possible that a user has legitimately deleted a network
   ACL.
 tags:
@@ -35,4 +36,6 @@ tags:
   risk_score: 5
   risk_object_type: user
   risk_object: userName
-  
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json
