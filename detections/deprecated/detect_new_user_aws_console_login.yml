@@ -6,13 +6,13 @@ description: This search looks for CloudTrail events wherein a console login eve
   by a user was recorded within the last hour, then compares the event to a lookup
   file of previously seen users (by ARN values) who have logged into the console.
   The alert is fired if the user has logged into the console for the first time within
-  the last hour
+  the last hour. Deprecated now this search is updated to use the Authentication datamodel.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Run the "Previously seen users in CloudTrail" support search only once to
   create a baseline of previously seen IAM users within the last 30 days. Run "Update
   previously seen users in CloudTrail" hourly (or more frequently depending on how
-  often you run the detection searches) to refresh the baselines.
+  often you run the detection searches) to refresh the baselines. 
 type: ESCU
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | stats
