@@ -482,7 +482,7 @@ def prepare_stories(stories, detections):
                         for cis in detection['tags']['cis20']:
                             sto_to_ciss[story].add(cis)
                     else:
-                        sto_to_ciss[story] = set(detection['tags']['cis20'])                           
+                        sto_to_ciss[story] = set(detection['tags']['cis20'])
 
                 if 'nist' in detection['tags']:
                     if story in sto_to_nists.keys():
@@ -570,6 +570,7 @@ def main(args):
     # process all detections
     detections = []
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
+    detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
     try:
         if VERBOSE:
