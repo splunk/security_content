@@ -682,6 +682,7 @@ if __name__ == "__main__":
     stories = load_objects("stories/*.yml")
     detections = []
     detections = load_objects("detections/*/*.yml")
+    detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
     # complete_stories = generate_stories(REPO_PATH, verbose)
     # complete_detections = generate_detections(REPO_PATH, complete_stories)

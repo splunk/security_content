@@ -562,7 +562,6 @@ def main(args):
     macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
     lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
     baselines = load_objects("baselines/*.yml", VERBOSE, REPO_PATH)
-    detections = load_objects("detections/*.yml", VERBOSE, REPO_PATH)
     responses = load_objects("responses/*.yml", VERBOSE, REPO_PATH)
     response_tasks = load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH)
     deployments = load_objects("deployments/*.yml", VERBOSE, REPO_PATH)
