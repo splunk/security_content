@@ -7,6 +7,6 @@ tests:
   latest_time: 'now'
   attack_data:
   - file_name: o365_bypass_mfa_via_trusted_ip.json
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_email_forwarding_rule.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_bypass_mfa_via_trusted_ip.json
     sourcetype: 'o365:management:activity'
     source: 'o365'
