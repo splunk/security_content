@@ -15,8 +15,6 @@ alert_action:
     nes_fields:
       - user
 tags:
-  detection_name: Cloud Cryptomining Story Search
-  analytics_story:
-    - Cloud Cryptomining
+  analytics_story: all
   deployments:
     - Story Search
