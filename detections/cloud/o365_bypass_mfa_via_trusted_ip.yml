@@ -3,7 +3,7 @@ date: '2021-01-12'
 description: This search detects newly added IP addresses/CIDR blocks to the list of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known to use this technique so that they can bypass the MFA system. 
 how_to_implement: You must install Splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
-id: c783dd98-c703-4252-9e8a-f19d9f5c949e
+id: c783dd98-c703-4252-9e8a-f19d9f66949e
 known_false_positives: Unless it is a special case, it is uncommon to continually update Trusted IPs to MFA configuration.
 name: O365 Bypass MFA via Trusted IP
 references:
