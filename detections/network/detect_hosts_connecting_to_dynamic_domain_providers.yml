@@ -36,9 +36,8 @@ how_to_implement: 'First, you''ll need to ingest data from your DNS operations. 
 type: ESCU
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
-  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host
-  | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `dynamic_dns_providers`
-  | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
+  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
+  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
 known_false_positives: Some users and applications may leverage Dynamic DNS to reach
   out to some domains on the Internet since dynamic DNS by itself is not malicious,
   however this activity must be verified.
@@ -66,3 +65,6 @@ tags:
   - DE.CM
   security_domain: network
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/dyn_dns_site/windows-sysmon.log
