@@ -3,7 +3,7 @@ tests:
 - name: O365 Bypass MFA via Trusted IP
   file: cloud/o365_bypass_mfa_via_trusted_ip.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-30d'
   latest_time: 'now'
   attack_data:
   - file_name: o365_bypass_mfa_via_trusted_ip.json
