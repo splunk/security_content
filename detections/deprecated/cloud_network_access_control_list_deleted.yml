@@ -7,7 +7,8 @@ description: Enforcing network-access controls is one of the defensive mechanism
   has gained control of the console by compromising an admin account, they can
   delete a network ACL and gain access to the instance from anywhere. This search
   will query the Change datamodel to detect users deleting network ACLs.
-how_to_implement: You must be ingesting your cloud infrastructure logs from your 
+  Deprecated because it's a duplicate
+how_to_implement: You must be ingesting your cloud infrastructure logs from your
   cloud provider. You can also provide additional filtering for this search by
   customizing the `cloud_network_access_control_list_deleted_filter` macro.
 type: ESCU
