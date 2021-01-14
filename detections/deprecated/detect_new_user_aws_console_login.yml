@@ -17,7 +17,7 @@ type: ESCU
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | stats
   earliest(_time) as firstTime latest(_time) as lastTime by user | inputlookup append=t
-  previously_seen_users_console_logins  | stats min(firstTime) as firstTime max(lastTime)
+  previously_seen_users_console_logins_cloudtrail  | stats min(firstTime) as firstTime max(lastTime)
   as lastTime by user | eval userStatus=if(firstTime >= relative_time(now(), "-70m@m"),
   "First Time Logging into AWS Console","Previously Seen User") | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
   where userStatus ="First Time Logging into AWS Console"  | `detect_new_user_aws_console_login_filter`'
