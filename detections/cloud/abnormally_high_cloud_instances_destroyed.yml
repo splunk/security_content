@@ -41,6 +41,8 @@ tags:
   nist:
   - DE.DP
   - DE.AE
+  product:
+  - Mustang
   security_domain: Cloud
   asset_type: Cloud Instance
   risk_score: 10

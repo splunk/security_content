@@ -36,6 +36,8 @@ tags:
   nist:
   - DE.DP
   - DE.AE
+  product:
+  - Mustang
   security_domain: network
   asset_type: AWS Instance
   risk_score: 30

@@ -33,6 +33,8 @@ tags:
   - ID.AM
   mitre_attack_id:
   - T1078
+  product:
+  - Mustang
   security_domain: endpoint
   asset_type: AWS Instance
   risk_score: 25
