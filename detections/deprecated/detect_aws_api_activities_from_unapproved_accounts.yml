@@ -6,6 +6,7 @@ description: This search looks for successful CloudTrail activity by user accoun
   that are not listed in the identity table or `aws_service_accounts.csv`. It returns
   event names and count, as well as the first and last time a specific user or service
   is detected, grouped by users.
+  Deprecated because managing this list can be quite hard.
 how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. You must also populate the `identity_lookup_expanded` lookup shipped with
