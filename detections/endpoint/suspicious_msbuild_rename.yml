@@ -1,5 +1,5 @@
 name: Suspicious msbuild rename
-id: 1e7e7df4-5522-11eb-ae93-0242ac130002
+id: 4006adac-5937-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 description: The following analytic identifies renamed instances of msbuild.exe executing. 
