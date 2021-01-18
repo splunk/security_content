@@ -24,7 +24,7 @@ known_false_positives: Although unlikely, some legitimate applications may use a
  copy of msbuild, triggering a false positive.
 tags:
   analytics_story:
-  - 'Trusted Developer Utilities Proxy Execution: MSBuild'
+  - 'Trusted developer utilities proxy execution msbuild'
   mitre_attack_id:
   - T1127.001, T1036.003
   kill_chain_phases:

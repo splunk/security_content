@@ -25,7 +25,7 @@ references:
 - https://github.com/xorrior/RandomPS-Scripts/blob/master/Invoke-ExecuteMSBuild.ps1
 - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
 tags:
-  analytics_story: 'Trusted Developer Utilities Proxy Execution: MSBuild'
+  analytics_story: Trusted developer utilities proxy execution msbuild
   usecase: Advanced Threat Detection
   category:
   - Adversary Tactics
