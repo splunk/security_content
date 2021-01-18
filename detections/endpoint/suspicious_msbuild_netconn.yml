@@ -1,0 +1,38 @@
+name: Suspicious msbuild network connection
+id: 1e7e7df4-5522-11eb-ae93-0242ac130002
+version: 1
+date: '2021-01-12'
+description: The following analytic identifies instances of msbuild.exe performing a network connection.
+Review the code executed for suspicious behavior. The IP and domain should also be analyzed to determine
+legitimacy. 
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+type: ESCU
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+author: Michael Haag, Splunk
+search: '`sysmon` EventID=3 process_name=msbuild.exe
+| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, process_path, DestinationHostname, DestinationIp
+| rename Computer as dest | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| `suspicious_msbuild_netconn_filter`'
+known_false_positives: Although unlikely, some legitimate applications may use a moved
+ copy of msbuild, triggering a false positive.
+tags:
+  analytics_story:
+  - 'Trusted Developer Utilities Proxy Execution: MSBuild'
+  mitre_attack_id:
+  - T1127.001
+  kill_chain_phases:
+  - Exploitation
+  cis20:
+  - CIS 8
+  nist:
+  - PR.PT
+  - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/atomic_red_team/windows-sysmon.log
