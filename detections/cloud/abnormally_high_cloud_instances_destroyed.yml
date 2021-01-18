@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-21'
 description: This search finds for the number successfully destroyed cloud instances for every 4 hour
   block. This is split up between weekdays and the weekend. It then applies the probability densitiy model
-  previously created and alerts on any outliers.
+  previously created and alerts on any outliers. 
 how_to_implement: You must be ingesting your cloud infrastructure logs. You also must run the baseline search
  `Baseline Of Cloud Instances Destroyed` to create the probability density function.
 type: ESCU
@@ -46,4 +46,3 @@ tags:
   risk_score: 10
   risk_object_type: user
   risk_object: user
-
