@@ -11,9 +11,9 @@ type: ESCU
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  by DNS.query |  `drop_dm_object_name("DNS")` | eval query_length
-  = len(query) | table query query_length record_type count | eventstats stdev(query_length)
-  AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
+  by DNS.query |  `drop_dm_object_name("DNS")` | eval query_length = len(query) |
+  table query query_length record_type count | eventstats stdev(query_length) AS stdev
+  avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
   | eval z_score=(query_length-avg)/stdev | `dns_query_length_with_high_standard_deviation_filter` '
 known_false_positives: It's possible there can be long domain names that are legitimate.
 tags:
@@ -34,3 +34,6 @@ tags:
   - DE.CM
   security_domain: network
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
