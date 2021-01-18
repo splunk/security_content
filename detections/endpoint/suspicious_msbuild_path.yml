@@ -3,9 +3,9 @@ id: f5198224-551c-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 description: The following analytic identifies msbuild.exe executing from a non-standard path. 
-Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and 
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319. A moved instance of MSBuild is suspicious,
-however there are instances of build applications that will move or use a copy of MSBuild.
+  Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and 
+  C:\Windows\Microsoft.NET\Framework64\v4.0.30319. A moved instance of MSBuild is suspicious,
+  however there are instances of build applications that will move or use a copy of MSBuild.
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes
   from your endpoints into the `Endpoint` datamodel in the `Processes` node.

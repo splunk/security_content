@@ -3,12 +3,12 @@ id: a115fba6-5514-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 description: The following analytic identifies wmiprvse.exe spawning msbuild.exe. This
-behavior is indicative of a COM object being utilized to spawn msbuild from wmiprvse.exe.
-It is common for MSBuild.exe to be spawned from devenv.exe while using Visual Studio. In
-this instance, there will be command line arguments and file paths. In a malicious instance,
-MSBuild.exe will spawn from non-standard processes and have no command line arguments. For
-example, MSBuild.exe spawning from explorer.exe, powershell.exe is far less common and should
-be investigated.
+  behavior is indicative of a COM object being utilized to spawn msbuild from wmiprvse.exe.
+  It is common for MSBuild.exe to be spawned from devenv.exe while using Visual Studio. In
+  this instance, there will be command line arguments and file paths. In a malicious instance,
+  MSBuild.exe will spawn from non-standard processes and have no command line arguments. For
+  example, MSBuild.exe spawning from explorer.exe, powershell.exe is far less common and should
+  be investigated.
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes
   from your endpoints into the `Endpoint` datamodel in the `Processes` node.

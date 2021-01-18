@@ -3,8 +3,8 @@ id: 1e7e7df4-5522-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 description: The following analytic identifies instances of msbuild.exe performing a network connection.
-Review the code executed for suspicious behavior. The IP and domain should also be analyzed to determine
-legitimacy. 
+  Review the code executed for suspicious behavior. The IP and domain should also be analyzed to determine
+  legitimacy. 
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
