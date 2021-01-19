@@ -12,14 +12,14 @@ how_to_implement: You must be ingesting data that records process activity from 
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: |
+search: >
   | tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest
   Processes.process | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| eval num_obfuscation = (mvcount(split(process,
-  "`"))-1) + (mvcount(split(process, "^"))-1) + (mvcount(split(process, "'"))-1)
+  "`"))-1) + (mvcount(split(process, "^"))-1) + (mvcount(split(process, "\'"))-1)
   | `malicious_powershell_process_with_obfuscation_techniques_filter`
   | search num_obfuscation > 10
 known_false_positives: These characters might be legitimately on the command-line,
