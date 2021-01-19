@@ -19,7 +19,7 @@ author: Michael Haag, Splunk
 search: '`sysmon` EventID=1 (OriginalFileName=msbuild.exe OR process_name=msbuild.exe)
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine
 | rename Computer as dest | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`'
+  `security_content_ctime(lastTime)`| `suspicious_msbuild_rename_filter`'
 known_false_positives: Although unlikely, some legitimate applications may use a moved
  copy of msbuild, triggering a false positive.
 tags:
