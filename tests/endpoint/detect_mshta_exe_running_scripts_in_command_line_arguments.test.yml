@@ -1,7 +1,7 @@
-name: Detect mshta exe running scripts in command-line arguments Unit Test
+name: Detect mshta inline hta execution Unit Test
 tests:
-- name: Detect mshta exe running scripts in command-line arguments
-  file: endpoint/detect_mshta_exe_running_scripts_in_command_line_arguments.yml
+- name: Detect mshta executing inline protocol handlers
+  file: endpoint/detect_mshta_inline_hta_execution.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
