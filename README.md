@@ -4,7 +4,7 @@
         <img src="https://img.shields.io/github/v/release/splunk/security-content" /></a>
     <a href="https://circleci.com/gh/splunk/security-content/tree/develop">
         <img src="https://img.shields.io/circleci/build/github/splunk/security-content?token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269" /></a>
-    <a href="https://github.com/splunk/security-content">
+    <a href="https://github.com/search?q=repo%3Asplunk%2Fsecurity-content+extension%3Ayml+path%3Adetections&type=Code&ref=advsearch&l=&l=">
         <img src="https://img.shields.io/github/directory-file-count/splunk/security-content/detections?extension=.yml&label=detections" /></a>
     <a href="https://github.com/splunk/security-content">
         <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg" /></a>
