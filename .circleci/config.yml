@@ -385,6 +385,8 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/reporting.py
+      - aws-cli/setup:
+          profile-name: default
       - run:
           name: upload reporting
           command: |
