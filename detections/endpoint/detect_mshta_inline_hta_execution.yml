@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   (Processes.process=*vbscript* OR Processes.process=*javascript* OR Processes.process=*about*) by Processes.user
   Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` 
-  | `detect_mshta_mshta_inline_hta_execution_filter`'
+  | `detect_mshta_inline_hta_execution_filter`'
 known_false_positives: Although unlikely, some legitimate applications may exhibit
   this behavior, triggering a false positive.
 tags:
