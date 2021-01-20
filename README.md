@@ -12,7 +12,7 @@
         <img src="https://img.shields.io/github/downloads/splunk/security-content/total" /></a>
     <a href="https://github.com/splunk/security-content/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/splunk/security-content" /></a>
-    <a href="https://github.com/splunk/security-content">
+    <a href="https://github.com/splunk/security-content/stargazers">
         <img src="https://img.shields.io/github/stars/splunk/security-content?style=social" /></a>
 </p>
 
