@@ -7,7 +7,7 @@
 | develop| [![develop status](https://circleci.com/gh/splunk/security-content/tree/develop.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/develop)|
 | master | [![master status](https://circleci.com/gh/splunk/security-content/tree/master.svg?style=svg&circle-token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269)](https://circleci.com/gh/splunk/security-content/tree/master)|
 
-[![Detection Coverage](https://security-content.s3-us-west-2.amazonaws.com/bin/custom.svg)](https://github.com/splunk/security-content)
+[![Detection Coverage](https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg)](https://github.com/splunk/security-content)
 
 Welcome to the Splunk Security Content
 
