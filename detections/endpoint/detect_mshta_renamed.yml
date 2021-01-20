@@ -1,5 +1,5 @@
 name: Detect mshta renamed
-id: 4006adac-5937-11eb-ae93-0242ac130002
+id: 9fd76376-5b61-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-20'
 description: The following analytic identifies renamed instances of mshta.exe executing.
@@ -20,7 +20,7 @@ search: '`sysmon` EventID=1 (OriginalFileName=mshta.exe AND process_name!=mshta.
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
   parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
   rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `detect_mshta_rename_filter`'
+  `detect_mshta_renamed_filter`'
 known_false_positives: Although unlikely, some legitimate applications may use a moved
   copy of mshta.exe, but never renamed, triggering a false positive.
 tags:
