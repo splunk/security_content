@@ -2,8 +2,12 @@
 
 </p>
 <p align="center">
+    <a href="https://circleci.com/gh/splunk/security-content/tree/develop">
+        <img src="https://img.shields.io/circleci/build/github/splunk/security-content?token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269" /></a>
     <a href="https://github.com/splunk/security-content/graphs/contributors" alt="Contributors">
-        <img src="https://img.shields.io/github/contributors/badges/shields" /></a>
+        <img src="https://img.shields.io/github/contributors/splunk/security-content" /></a>
+    <a href="https://github.com/splunk/security-content">
+        <img src="https://img.shields.io/github/directory-file-count/splunk/security-content/detections?extension=.yml&label=detections" /></a>
     <a href="https://github.com/splunk/security-content">
         <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg" /></a>
 </p>
