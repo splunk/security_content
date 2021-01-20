@@ -1,5 +1,13 @@
 [![Detection Coverage](https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg)](https://github.com/splunk/security-content)
 
+</p>
+<p align="center">
+    <a href="https://github.com/splunk/security-content/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/github/contributors/badges/shields" /></a>
+    <a href="https://github.com/splunk/security-content">
+        <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg" /></a>
+</p>
+
 # Splunk Security Content
 ![security-content](docs/static/logo.png)
 =====
