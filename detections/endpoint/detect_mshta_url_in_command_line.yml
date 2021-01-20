@@ -1,5 +1,5 @@
 name: Detect MSHTA Url in Command Line
-id: 93706e4a-5b50-11eb-ae93-0242ac130002
+id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-20'
 description: This analytic identifies when Microsoft HTML Application Host (mshta.exe)

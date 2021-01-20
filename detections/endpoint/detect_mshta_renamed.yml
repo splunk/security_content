@@ -1,5 +1,5 @@
 name: Detect mshta renamed
-id: 9fd76376-5b61-11eb-ae93-0242ac130002
+id: 8f45fcf0-5b68-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-20'
 description: The following analytic identifies renamed instances of mshta.exe executing.

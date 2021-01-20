@@ -1,5 +1,5 @@
 name: Detect mshta inline hta execution
-id: b89919ed-fe5f-492c-b139-95dqb161039e
+id: a0873b32-5b68-11eb-ae93-0242ac130002
 version: 5
 date: '2021-01-20'
 description: The following analytic identifies "mshta.exe" execution with inline
