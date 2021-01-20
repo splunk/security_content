@@ -1,7 +1,7 @@
 name: Suspicious MSHTA Activity
 id: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
-version: 1
-date: '2020-02-03'
+version: 2
+date: '2021-01-20'
 description: Monitor and detect techniques used by attackers who leverage the mshta.exe
   process to execute malicious code.
 narrative: 'One common adversary tactic is to bypass application white-listing solutions
@@ -18,12 +18,13 @@ narrative: 'One common adversary tactic is to bypass application white-listing s
 
   The searches in this story help you detect and investigate suspicious activity that
   may indicate that an attacker is leveraging mshta.exe to execute malicious code.'
-author: Bhavin Patel, Splunk
+author: Bhavin Patel, Michael Haag, Splunk
 type: ESCU
 references:
+- https://redcanary.com/blog/introducing-atomictestharnesses/
 - https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 - https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
-- https://attack.mitre.org/wiki/Technique/T1170
+- https://attack.mitre.org/techniques/T1218/005/
 tags:
   analytics_story: Suspicious MSHTA Activity
   usecase: Advanced Threat Detection
