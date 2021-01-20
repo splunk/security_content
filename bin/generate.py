@@ -122,6 +122,9 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_object_type'] = detection['tags']['risk_object_type']
         if 'risk_score' in detection['tags']:
             detection['risk_score'] = detection['tags']['risk_score']
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
+            print (detection['product'])
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
