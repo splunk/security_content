@@ -1,5 +1,3 @@
-[![Detection Coverage](https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg)](https://github.com/splunk/security-content)
-
 </p>
 <p align="center">
     <a href="https://circleci.com/gh/splunk/security-content/tree/develop">
