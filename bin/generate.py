@@ -83,9 +83,6 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         if data_model:
             detection['data_model'] = data_model
 
-        if 'product' in detection['tags']:
-            detection['product'] = detection['tags']['product']
-
         matched_deployment = get_deployments(detection, deployments)
         detection['deployment'] = matched_deployment
         nes_fields = get_nes_fields(detection['search'], detection['deployment'])
@@ -127,7 +124,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_score'] = detection['tags']['risk_score']
         if 'product' in detection['tags']:
             detection['product'] = detection['tags']['product']
-            
+
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
