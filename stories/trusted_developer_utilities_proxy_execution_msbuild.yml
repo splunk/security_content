@@ -16,23 +16,7 @@ narrative: 'Adversaries may use MSBuild to proxy execution of code through a tru
   that are configured to allow MSBuild.exe execution.
 
   The searches in this story help you detect and investigate suspicious activity that
-  may indicate that an adversary is leveraging msbuild.exe to execute malicious code.
-  
-  Triage
-  Validate execution
-  - Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further
-  PE metadata.
-  - Determine if script code was executed with MSBuild.
-  Situational Awareness
-  The objective of this step is meant to identify suspicious behavioral indicators related to executed of 
-  Script code by MSBuild.exe.
-  - Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?
-  - Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is
-  MSbuild loading any suspicious .DLLs?
-  - Network connections. Any network connections? Review the reputation of the remote IP or domain.
-  
-  Retrieval of script code
-  Objective of this step is to confirm the executed script code is benign or malicious.'
+  may indicate that an adversary is leveraging msbuild.exe to execute malicious code.'
 author: Michael Haag, Splunk
 type: ESCU
 references:
