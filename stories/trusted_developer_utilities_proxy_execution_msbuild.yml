@@ -21,28 +21,21 @@ narrative: 'Adversaries may use MSBuild to proxy execution of code through a tru
     
   Default paths: c:\windows\microsoft.net\framework\v4.0.30319\, c:\windows\microsoft.net\framework64\v4.0.30319\
   OriginalFileName: msbuild.exe
-  Module loads: microsoft.build.tasks.v4.0.dll OR microsoft.build.tasks.v4.0.ni.dll
-  
-  Triage-
-
-  Validate execution
-
+  Module loads: microsoft.build.tasks.v4.0.dll OR microsoft.build.tasks.v4.0.ni.dll \ 
+  Triage \
+  Validate execution\
   1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further
   PE metadata.
-  2. Determine if script code was executed with MSBuild.
-
-  Situational Awareness
-
+  2. Determine if script code was executed with MSBuild. \
+  Situational Awareness\
   The objective of this step is meant to identify suspicious behavioral indicators related to executed of 
-  Script code by MSBuild.exe. 
-
+  Script code by MSBuild.exe. \
   1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?
   2. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is
   MSbuild loading any suspicious .DLLs?
-  3. Network connections. Any network connections? Review the reputation of the remote IP or domain.
+  3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \
   
-  Retrieval of script code
-
+  Retrieval of script code \
   Objective of this step is to confirm the executed script code is benign or malicious.'
 author: Michael Haag, Splunk
 type: ESCU
