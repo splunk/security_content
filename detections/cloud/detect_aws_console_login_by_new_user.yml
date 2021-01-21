@@ -9,9 +9,8 @@ description: This search looks for CloudTrail events wherein a console login eve
   the last hour
 how_to_implement: You must install and configure the Splunk Add-on for AWS (version
   5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
-  to the Authentication data model for cloud use cases. Run the `Previously Seen Users
-  in CloudTrail` support search only once to create a baseline of previously seen
-  IAM users within the last 30 days. Run `Update previously seen users in CloudTrail`
+  to the Authentication data model for cloud use cases. Run the `Previously Seen Users in CloudTrail - Initial` support search only once to create a baseline of previously seen
+  IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail - Update`
   hourly (or more frequently depending on how often you run the detection searches)
   to refresh the baselines.
 type: ESCU
