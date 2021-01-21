@@ -22,9 +22,9 @@ narrative: 'Adversaries may use MSBuild to proxy execution of code through a tru
   OriginalFileName: msbuild.exe
   Module loads: microsoft.build.tasks.v4.0.dll OR microsoft.build.tasks.v4.0.ni.dll \
   
-  Triage:\
+  Triage: \
 
-  Validate execution\
+  Validate execution \
 
   1. Determine if "MSBuild.exe" executed. Validate the OriginalFileName of "MSBuild.exe" and further
   PE metadata.
@@ -43,7 +43,6 @@ narrative: 'Adversaries may use MSBuild to proxy execution of code through a tru
   Retrieval of script code \
 
   Objective of this step is to confirm the executed script code is benign or malicious.'
-
 author: Michael Haag, Splunk
 type: ESCU
 references:
