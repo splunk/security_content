@@ -3,3 +3,4 @@ description: A list of file extensions that are associated with ransomware
 filename: ransomware_extensions.csv
 min_matches: 1
 name: ransomware_extensions_lookup
+case_sensitive_match: 'false'
