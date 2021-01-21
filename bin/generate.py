@@ -345,7 +345,7 @@ def get_deployments(object, deployments):
         if 'product' in deployment['tags']:
             if type(deployment['tags']['product']) is str:
                 if 'product' in object['tags']:
-                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Mustang':
+                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
                         matched_deployments.append(deployment)
             else:
                 for story in deployment['tags']['product']:

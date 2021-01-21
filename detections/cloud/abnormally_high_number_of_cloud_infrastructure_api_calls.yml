@@ -38,7 +38,7 @@ tags:
   security_domain: network
   asset_type: AWS Instance
   product:
-  - Mustang
+  - Splunk Security Analytics for AWS
   risk_score: 25
   risk_object_type: user
   risk_object: user
