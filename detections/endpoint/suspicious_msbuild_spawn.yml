@@ -1,4 +1,4 @@
-name: Suspicious msbuild spawn
+name: Suspicious MSBuild Spawn
 id: a115fba6-5514-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
@@ -27,7 +27,7 @@ known_false_positives: Although unlikely, some legitimate applications may exhib
   this behavior, triggering a false positive.
 tags:
   analytics_story:
-  - Trusted developer utilities proxy execution msbuild
+  - Trusted Developer Utilities Proxy Execution MSBuild
   mitre_attack_id:
   - T1127.001
   kill_chain_phases:

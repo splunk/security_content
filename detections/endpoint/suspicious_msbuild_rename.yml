@@ -1,4 +1,4 @@
-name: Suspicious msbuild rename
+name: Suspicious MSBuild Rename
 id: 4006adac-5937-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
@@ -25,7 +25,7 @@ known_false_positives: Although unlikely, some legitimate applications may use a
   copy of msbuild, triggering a false positive.
 tags:
   analytics_story:
-  - Trusted developer utilities proxy execution msbuild
+  - Trusted Developer Utilities Proxy Execution MSBuild
   mitre_attack_id:
   - T1127.001, T1036.003
   kill_chain_phases:
