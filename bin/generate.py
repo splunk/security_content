@@ -83,6 +83,9 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         if data_model:
             detection['data_model'] = data_model
 
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
+
         matched_deployment = get_deployments(detection, deployments)
         detection['deployment'] = matched_deployment
         nes_fields = get_nes_fields(detection['search'], detection['deployment'])
@@ -124,8 +127,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_score'] = detection['tags']['risk_score']
         if 'product' in detection['tags']:
             detection['product'] = detection['tags']['product']
-            print (detection['product'])
-
+            
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
@@ -342,6 +344,18 @@ def get_deployments(object, deployments):
                     if story == object['tags']['analytics_story']:
                         matched_deployments.append(deployment)
                         continue
+
+        if 'product' in deployment['tags']:
+            if type(deployment['tags']['product']) is str:
+                if 'product' in object['tags']:
+                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Mustang':
+                        matched_deployments.append(deployment)
+            else:
+                for story in deployment['tags']['product']:
+                    if story == object['tags']['product']:
+                        matched_deployments.append(deployment)
+                        continue
+
 
         if 'detection_name' in deployment['tags']:
             if type(deployment['tags']['detection_name']) is str:
