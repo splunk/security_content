@@ -1,0 +1,59 @@
+name: Rare Parent/Child Relationship
+id: e03aa905-6549-4e34-b304-7a922185b2c4
+version: 1
+date: '2020-01-24'
+description: Identifies Windows programs run from unexpected parent processes. 
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+references: []
+type: SSA
+author: Jose Hernandez, Splunk
+search: '| from read_ssa_enriched_events()
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
+| eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)),
+process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
+dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+
+| where parent_process!=null
+| select parent_process, process_name, timestamp, dest_device_id, dest_user_id
+| where process_name=smss.exe AND NOT (
+                                        (parent_process="smss.exe" OR process_name="csrss.exe") OR
+                                        (parent_process="smss.exe" OR parent_process="svchost.exe" OR process_name="wininit.exe") OR
+                                        (parent_process="smss.exe" OR process_name="winlogon") OR
+                                        (parent_process="smss.exe" OR process_name="lsass.exe") OR
+                                        (parent_process="wininit.exe" OR process_name="LogonUI.exe") OR
+                                        (parent_process="wininit.exe" OR parent_process="winlogon.exe) OR process_name="services.exe") OR
+                                        (parent_process="wininit.exe" OR process_name="svchost.exe") OR
+                                        (parent_process="smss.exe" OR parent_process="svchost.exe") OR
+                                        (parent_process="smss.exe" OR parent_process="svchost.exe" OR process_name="wininit.exe") OR
+                                        (parent_process="MsMpEng.exe" OR parent_process="services.exe" OR process_name="spoolsv.exe") OR
+                                        (parent_process="services.exe" OR process_name="taskhost.exe") OR
+                                        (parent_process="services.exe" OR parent_process="svchost.exe" OR process_name="taskhostw.exe") OR
+                                        (parent_process="services.exe" OR paren_process="svchost.exe" OR process_name="userinit.exe") OR
+                                        (parent_process="dwm.exe" OR parent_process="winlogon.exe")
+                                      )
+| eval start_time = timestamp,
+end_time = timestamp,
+entities = mvappend(dest_device_id, dest_user_id),
+body = "TBD"
+| into write_ssa_detected_events();'
+known_false_positives: > 
+ never before tested.
+tags:
+  mitre_technique_id:
+    - T1093
+  kill_chain_phases:
+    - Exploitation
+  cis20:
+   - CIS 8
+  nist:
+    - PR.PT
+    - DE.CM
+  risk_severity: low
+  security_domain: endpoint
+  required_fields:
+    - process_name
+    - parent_process_name
+    - _time
+    - dest_device_id
+    - dest_user_id
