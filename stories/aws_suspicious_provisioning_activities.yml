@@ -8,7 +8,7 @@ description: Monitor your AWS provisioning activities for behaviors originating 
 narrative: 'Because most enterprise AWS activities originate from familiar geographic
   locations, monitoring for activity from unknown or unusual regions is an important
   security measure. This indicator can be especially useful in environments where
-  it is impossible to whitelist specific IPs (because they vary).\
+  it is impossible to add specific IPs to an allow list because they vary. \
 
   This Analytic Story was designed to provide you with flexibility in the precision
   you employ in specifying legitimate geographic regions. It can be as specific as
