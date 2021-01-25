@@ -15,6 +15,5 @@ alert_action:
     nes_fields:
       - user
 tags:
-  analytics_story: all
   deployments:
     - Story Search

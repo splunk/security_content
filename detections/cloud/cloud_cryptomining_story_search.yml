@@ -14,12 +14,14 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats sum(All_Risk.risk_score) as risk_sum from datamodel=Risk.All_Risk where All_Risk.annotations._all="Cloud Cryptomining" by All_Risk.risk_object
+search:  '| tstats sum(All_Risk.risk_score) as risk_sum from datamodel=Risk.All_Risk where All_Risk.annotations._all="Cloud Cryptomining" by All_Risk.risk_object
          |  where risk_sum > 1000 | `cloud_cryptomining_story_search_filter`'
 known_false_positives: After a new image is created, the first systems created with
   that image will cause this alert to fire.  Verify that the image being used was
   created by a legitimate user.
 tags:
+  deployments:
+  - Story search
   analytics_story:
   - Cloud Cryptomining
   cis20:
