@@ -350,7 +350,7 @@ jobs:
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
       - run:
           name: security content api smoke test
-          command: | 
+          command: |
             API_URL='https://content.splunkresearch.com/detections'
             API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
             echo "Security Content API Status: $API_STATUS"
@@ -358,6 +358,40 @@ jobs:
               echo "Error [Security Content API status: $API_STATUS]"
               exit 1
             fi
+
+  create-report:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - run:
+          name: install python dependencies
+          command: |
+            cd security-content
+            rm -rf venv
+            virtualenv --python=/usr/bin/python3 --clear venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+      - run:
+          name: run reporting
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/reporting.py
+      - aws-cli/setup:
+          profile-name: default
+      - run:
+          name: upload reporting
+          command: |
+            cd security-content
+            aws s3 cp bin/reporting s3://security-content/reporting --recursive --exclude "*" --include "*.svg"
 
 
 workflows:
@@ -393,6 +427,15 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - create-report:
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+          filters:
+            tags:
+              only: /^v.*/
       - update-sources-github:
         # update package and docs in github if is a tag
           requires:
@@ -400,6 +443,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
           filters:
             tags:
               only: /^v.*/
@@ -412,6 +456,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
             - update-sources-github
           filters:
             tags:
@@ -425,6 +470,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
             - update-sources-github
             - publish-github-release
           filters:
@@ -439,6 +485,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
             - update-sources-github
             - publish-github-release
             - attack-range-update
