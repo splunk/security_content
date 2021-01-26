@@ -17,7 +17,7 @@ author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
   process_id, values(Processes.parent_process_id) as parent_process_id values(Processes.process)
   as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process_name=powershell.exe AND (Processes.process="* -ex*" OR Processes.process="*
+  where Processes.process_name=powershell.exe (Processes.process="* -ex*" OR Processes.process="*
   bypass *") by Processes.process_id, Processes.user, Processes.dest | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `malicious_powershell_process___execution_policy_bypass_filter`'
 known_false_positives: There may be legitimate reasons to bypass the PowerShell execution
@@ -41,3 +41,6 @@ tags:
   - PR.IP
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/windows-sysmon.log

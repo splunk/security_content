@@ -5,7 +5,7 @@ date: '2021-01-20'
 description: Monitor and detect techniques used by attackers who leverage the mshta.exe
   process to execute malicious code.
 narrative: 'One common adversary tactic is to bypass application white-listing solutions
-  via the mshta.exe process, which executes Microsoft HTML applications (mshtml.dll) with the .hta
+  via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta
   suffix. In these cases, attackers use the trusted Windows utility to proxy execution
   of malicious files, whether an .hta application, javascript, or VBScript.\
 

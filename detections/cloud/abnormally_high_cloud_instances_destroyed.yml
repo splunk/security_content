@@ -31,7 +31,6 @@ known_false_positives: Many service accounts configured within a cloud infrastru
 tags:
   analytics_story:
   - Suspicious Cloud Instance Activities
-  - Cloud Cryptomining
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
