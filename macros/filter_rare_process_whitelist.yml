@@ -1,6 +1,0 @@
-definition: lookup update=true lookup_rare_process_whitelist_default process as process
-  OUTPUTNEW whitelist | where whitelist="false" | lookup update=true lookup_rare_process_whitelist_local
-  process as process OUTPUT whitelist | where whitelist="false"
-description: This macro is intended to whitelist processes that have been definied
-  as rare
-name: filter_rare_process_whitelist

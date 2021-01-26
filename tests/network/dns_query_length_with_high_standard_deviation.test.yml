@@ -1,0 +1,12 @@
+name: DNS Query Length With High Standard Deviation Unit Test
+tests:
+  - name: DNS Query Length With High Standard Deviation
+    file: network/dns_query_length_with_high_standard_deviation.yml
+    pass_condition: '| stats count | where count > 0'
+    earliest_time: '-24h'
+    latest_time: 'now'
+    attack_data:
+    - file_name: windows-sysmon.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
+      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      sourcetype: xmlwineventlog

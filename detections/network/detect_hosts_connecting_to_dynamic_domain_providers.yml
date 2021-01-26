@@ -5,7 +5,7 @@ date: '2021-01-14'
 description: Malicious actors often abuse legitimate Dynamic DNS services to host
   malicious payloads or interactive command and control nodes. Attackers will automate
   domain resolution changes by routing dynamic domains to countless IP addresses to
-  circumvent firewall blocks, blacklists as well as frustrate a network defenders
+  circumvent firewall blocks, block lists as well as frustrate a network defenders
   analytic and investigative processes. This search will look for DNS queries made
   from within your infrastructure to suspicious dynamic domains.
 how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This
