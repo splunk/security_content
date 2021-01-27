@@ -4,9 +4,9 @@ version: 1
 date: '2021-01-12'
 description: The following analytic identifies msbuild.exe executing from a non-standard
   path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319
-  and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. A moved instance of MSBuild
-  is suspicious, however there are instances of build applications that will move
-  or use a copy of MSBuild.
+  and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio will
+  run a copy of msbuild.exe. A moved instance of MSBuild is suspicious, however there
+  are instances of build applications that will move or use a copy of MSBuild.
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -18,12 +18,12 @@ author: Michael Haag, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msbuild.exe
-  AND (Processes.process_path!=c:\\windows\\microsoft.net\\framework*\\v4.0.30319\\*)
+  AND (Processes.process_path!=c:\\windows\\microsoft.net\\framework*\\v*\\*)
   by Processes.dest Processes.parent_process Processes.user | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `suspicious_msbuild_path_filter`'
-known_false_positives: Some legitimate applications may use a moved copy of msbuild,
-  triggering a false positive. Baselining of MSBuild usage is recommended to better
-  understand it's path usage.
+known_false_positives: Some legitimate applications may use a moved copy of msbuild.exe,
+  triggering a false positive. Baselining of MSBuild.exe usage is recommended to better
+  understand it's path usage. Visual Studio runs an instance out of a path that will need to be filtered on.
 tags:
   analytics_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
