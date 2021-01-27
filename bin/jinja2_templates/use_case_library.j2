@@ -47,7 +47,7 @@ providing_technologies = []
 ### RESPONSE TASKS ###
 
 {% for response_task in response_tasks %}
-[savedsearch://ESCU - {{ response_task.name }}]
+[savedsearch://ESCU - {{ response_task.name }} - Response Task]
 type = investigation
 explanation = none
 {% if response_task.how_to_implement is defined %}
