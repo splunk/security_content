@@ -1,7 +1,7 @@
 name: System Process Running from Unexpected Location - SSA Unit Test
 tests:
   - name: System Process Running from Unexpected Location - SSA
-    file: endpoint/system_process_running_unexpected_location___ssa.yml
+    file: endpoint/ssa___system_process_running_unexpected_location.yml
     pass_condition: '@count_gt(0)'
     description: Test process running from other locations
     attack_data:

@@ -1,7 +1,7 @@
 name: Detect Dump LSASS Memory using comsvcs - SSA Unit Test
 tests:
   - name: Detect Dump LSASS Memory using comsvcs
-    file: endpoint/detect_dump_lsass_memory_using_comsvcs___ssa.yml
+    file: endpoint/ssa___detect_dump_lsass_memory_using_comsvcs.yml
     pass_condition: '@count_gt(0)'
     description: Test credential dumping detections
     attack_data:
