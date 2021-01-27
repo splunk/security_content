@@ -1,7 +1,7 @@
 name: Cloud Cryptomining Story Search
 id: bdf1d795-abcb-489f-922a-7bf9ceeee573
 version: 1
-date: '2018-10-12'
+date: '2020-01-20'
 description: This search looks for cloud compute instances being created with previously
   unseen image IDs.
 how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
@@ -14,14 +14,13 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search:  '| tstats sum(All_Risk.risk_score) as risk_sum from datamodel=Risk.All_Risk where All_Risk.annotations._all="Cloud Cryptomining" by All_Risk.risk_object
-         |  where risk_sum > 1000 | `cloud_cryptomining_story_search_filter`'
+search:  '`risk_index` annotations.analytics_story="Cloud Cryptomining" | stats earliest(_time) as firstTime, latest(_time) as lastTime, sum(risk_score) as story_risk values(search_name) as detections values(vendor_region) as region values(instance_type) as instance_type values(image_id) as image_id values(object_id) as object_ids by risk_object, annotations.analytics_story |  where story_risk > 100 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |  rename annotations.analytics_story as analytic_story | table firstTime, lastTime, analytic_story, detections, story_risk, region, instance_type, image_id, object_ids | `cloud_cryptomining_story_search_filter`'
 known_false_positives: After a new image is created, the first systems created with
   that image will cause this alert to fire.  Verify that the image being used was
   created by a legitimate user.
 tags:
   deployments:
-  - Story search
+  - Story Search
   analytics_story:
   - Cloud Cryptomining
   cis20:
@@ -30,9 +29,3 @@ tags:
   - ID.AM
   security_domain: endpoint
   asset_type: Cloud Compute Instance
-  risk_score: 20
-  risk_object_type: user
-  risk_object: user
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json

@@ -10,9 +10,8 @@ how_to_implement: You must be ingesting your cloud infrastructure logs. You also
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats count as instances_launched values(All_Changes.object_id) as object_id from datamodel=Change where
-   (All_Changes.action=created)
-   AND All_Changes.status=success AND All_Changes.object_category=instance
+search: '| tstats count as instances_launched, values(All_Changes.object_id) as dest, values(All_Changes.vendor_region) as vendor_region
+   from datamodel=Change where (All_Changes.action=created) AND All_Changes.status=success AND All_Changes.object_category=instance
    by All_Changes.user _time span=1h
    | `drop_dm_object_name("All_Changes")`
    | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)
@@ -22,7 +21,7 @@ search: '| tstats count as instances_launched values(All_Changes.object_id) as o
    | where isOutlier=1
    | eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0)
    | eval distance_from_threshold = instances_launched - expected_upper_threshold
-   | table _time, user, instances_launched, expected_upper_threshold, distance_from_threshold, object_id
+   | table _time, user, instances_launched, vendor_region, expected_upper_threshold, distance_from_threshold, dest
    | `abnormally_high_number_of_cloud_instances_launched_filter`'
 known_false_positives: Many service accounts configured within an AWS infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter
