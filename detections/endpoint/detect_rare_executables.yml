@@ -6,11 +6,11 @@ description: This search will return a table of rare processes, the names of the
   running them, and the users who initiated each process.
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts and populating the endpoint data model
-  with the resultant dataset. The macro `filter_rare_process_whitelist` searches two
-  lookup files to whitelist your processes.  These consist of `rare_process_whitelist_default.csv`
-  and `rare_process_whitelist_local.csv`. To add your own processes to the whitelist,
-  add them to `rare_process_whitelist_local.csv`. If you wish to remove an entry from
-  the default lookup file, you will have to modify the macro itself to set the whitelist
+  with the resultant dataset. The macro `filter_rare_process_allow_list` searches two
+  lookup files for allowed processes.  These consist of `rare_process_allow_list_default.csv`
+  and `rare_process_allow_list_local.csv`. To add your own processes to the allow list,
+  add them to `rare_process_allow_list_local.csv`. If you wish to remove an entry from
+  the default lookup file, you will have to modify the macro itself to set the allow_list
   value for that process to false. You can modify the limit parameter and search scheduling
   to better suit your environment.
 type: ESCU
@@ -22,9 +22,9 @@ search: '| tstats `security_content_summariesonly` count values(Processes.dest) 
   as process | rex field=user "(?<user_domain>.*)\\\\(?<user_name>.*)" | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| search [| tstats count from datamodel=Endpoint.Processes
   by Processes.process_name | rare Processes.process_name limit=30 | rename Processes.process_name
-  as process| `filter_rare_process_whitelist`| table process ] | `detect_rare_executables_filter` '
+  as process| `filter_rare_process_allow_list`| table process ] | `detect_rare_executables_filter` '
 known_false_positives: Some legitimate processes may be only rarely executed in your
-  environment. As these are identified, update `rare_process_whitelist_local.csv`
+  environment. As these are identified, update `rare_process_allow_list_local.csv`
   to filter them out of your search results.
 tags:
   analytics_story:
