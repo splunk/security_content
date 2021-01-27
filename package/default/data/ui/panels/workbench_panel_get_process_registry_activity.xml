@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| tstats `security_content_summariesonly` values(Registry.registry_key_name) as registry_key_name, values(Registry.dest) as dest, values(Registry.process_id) as process_id from datamodel=Endpoint.Registry where Registry.process_id=$process_id$ AND Registry.dest=$dest$ by Registry.registry_path, Registry.action, _time | `drop_dm_object_name(Registry)` | sort _time | table _time, process_id, dest, action, registry_key_name, registry_path</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

@@ -1,0 +1,7 @@
+case_sensitive_match: 'false'
+default_match: 'false'
+description: A list of rare processes that are legitimate that is provided by Splunk
+filename: rare_process_allow_list_default.csv
+match_type: WILDCARD(process)
+min_matches: 1
+name: lookup_rare_process_allow_list_default
