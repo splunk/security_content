@@ -10,7 +10,7 @@ azure-core==1.10.0
 azure-identity==1.5.0
 azure-mgmt-compute==18.0.0
 azure-mgmt-core==1.2.2
-azure-mgmt-network==17.0.0
+azure-mgmt-network==17.1.0
 azure-mgmt-resource==15.0.0
 bcrypt==3.2.0
 boto3==1.16.58
@@ -23,7 +23,7 @@ configparser==4.0.2
 contextlib2==0.6.0.post1
 cryptography==3.3.1
 Deprecated==1.2.11
-dnspython==2.0.0
+dnspython==2.1.0
 docutils==0.16
 execnet==1.7.1
 gitdb==4.0.5
