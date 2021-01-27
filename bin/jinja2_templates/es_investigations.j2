@@ -8,14 +8,14 @@ disabled = 0
 {% if story.workbench_panels is defined %}
 panels = {{ story.workbench_panels | tojson }}
 {% else %}
-panels = ["panel://workbench_panel_get_notable_history"]
+panels = ["panel://workbench_panel_get_notable_history___response_task"]
 {% endif %}
 
 {% endfor %}
 
 
 {% for response_task in response_tasks %}
-[panel://workbench_panel_{{ response_task.lowercase_name }}]
+[panel://workbench_panel_{{ response_task.lowercase_name }}___response_task]
 label = {{ response_task.name }}
 description = {{ response_task.description }}
 disabled = 0
