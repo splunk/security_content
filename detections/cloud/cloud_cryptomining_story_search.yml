@@ -21,7 +21,7 @@ known_false_positives: After a new image is created, the first systems created w
   created by a legitimate user.
 tags:
   deployments:
-  - Story search
+  - Story Search
   analytics_story:
   - Cloud Cryptomining
   cis20:
