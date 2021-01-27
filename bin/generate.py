@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 '''
-Generates splunk configurations from manifest files under the security-content repo.
+Generates splunk configurations from manifest files under the security_content repo.
 '''
 
 import glob
@@ -122,6 +122,8 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_object_type'] = detection['tags']['risk_object_type']
         if 'risk_score' in detection['tags']:
             detection['risk_score'] = detection['tags']['risk_score']
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
@@ -193,7 +195,9 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
         story['author_name'], story['author_company'] = parse_author_company(story)
         if story['name'] in sto_det:
             story['detections'] = list(sto_det[story['name']])
+
         if story['name'] in sto_res:
+
             story['response_tasks'] = list(sto_res[story['name']])
             story['searches'] = story['detections'] + story['response_tasks']
         else:
@@ -270,12 +274,13 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
         if 'search' in response_task:
             if 'inputs' in response_task:
                 response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                response_file_name_xml = response_file_name + "___response_task.xml"
                 response_task['lowercase_name'] = response_file_name
                 workbench_panel_objects.append(response_task)
                 j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml 
                 output_path = path.join(OUTPUT_PATH, file_path)
                 response_task['search']= response_task['search'].replace(">","&gt;")
                 response_task['search']= response_task['search'].replace("<","&lt;")
@@ -339,6 +344,18 @@ def get_deployments(object, deployments):
                     if story == object['tags']['analytics_story']:
                         matched_deployments.append(deployment)
                         continue
+
+        if 'product' in deployment['tags']:
+            if type(deployment['tags']['product']) is str:
+                if 'product' in object['tags']:
+                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
+                        matched_deployments.append(deployment)
+            else:
+                for story in deployment['tags']['product']:
+                    if story == object['tags']['product']:
+                        matched_deployments.append(deployment)
+                        continue
+
 
         if 'detection_name' in deployment['tags']:
             if type(deployment['tags']['detection_name']) is str:
@@ -431,9 +448,9 @@ def map_response_tasks_to_stories(response_tasks):
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
                     if 'type' in response_task.keys():
-                        task_name = str(response_task['type'] + ' - ' + response_task['name'])
+                        task_name = str(response_task['type'] + ' - ' + response_task['name'] + ' - Response Task' )
                     else:
-                        task_name = str('ESCU - ' + response_task['name'])
+                        task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     if not (story in sto_res):
                         sto_res[story] = {task_name}
                     else:
@@ -580,10 +597,10 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 def main(args):
 
-    parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
+    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
     It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 

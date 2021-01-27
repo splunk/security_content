@@ -29,7 +29,7 @@ def main(args):
                         help="specify the url of the atack range repository")
     parser.add_argument("-arb", "--attack_range_branch", required=False, default="develop",
                         help="specify the atack range branch")
-    parser.add_argument("-scr", "--security_content_repo", required=False, default="splunk/security-content",
+    parser.add_argument("-scr", "--security_content_repo", required=False, default="splunk/security_content",
                         help="specify the url of the security content repository")
     parser.add_argument("-scb", "--security_content_branch", required=False, default="develop",
                         help="specify the security content branch")
@@ -66,7 +66,7 @@ def main(args):
 
     # clone repositories
     git.Repo.clone_from('https://github.com/' + attack_range_repo, "attack_range", branch=attack_range_branch)
-    security_content_repo_obj = git.Repo.clone_from('https://' + O_AUTH_TOKEN_GITHUB + ':x-oauth-basic@github.com/' + security_content_repo, "security-content", branch=security_content_branch)
+    security_content_repo_obj = git.Repo.clone_from('https://' + O_AUTH_TOKEN_GITHUB + ':x-oauth-basic@github.com/' + security_content_repo, "security_content", branch=security_content_branch)
 
     sys.path.append(os.path.join(os.getcwd(),'attack_range'))
     copyfile('attack_range/attack_range.conf.template', 'attack_range/attack_range.conf')
@@ -81,10 +81,10 @@ def main(args):
     os.chmod(ssh_key_name, 0o600)
 
     # build new version of ESCU
-    sys.path.append(os.path.join(os.getcwd(),'security-content/bin'))
+    sys.path.append(os.path.join(os.getcwd(),'security_content/bin'))
     try:
         module = __import__('generate')
-        module.sys.argv = ['generate', '-p', 'security-content', '-o' 'security-content/package']
+        module.sys.argv = ['generate', '-p', 'security_content', '-o' 'security_content/package']
         results = module.main(module.sys.argv)
     except Exception as e:
         print('Error: ' + str(e))
@@ -111,7 +111,7 @@ def main(args):
         os.system('cd attack_range/terraform/aws && terraform init && cd ../../..')
 
     module = __import__('attack_range')
-    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security-content/tests/' + test_file_name]
+    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security_content/tests/' + test_file_name]
 
     execution_error = False
 
@@ -127,7 +127,7 @@ def main(args):
     response = ec2.delete_key_pair(KeyName=ssh_key_name)
 
     # read_test_file
-    test_file = load_file('security-content/tests/' + test_file_name)
+    test_file = load_file('security_content/tests/' + test_file_name)
 
     # check if was succesful
     if not execution_error:
@@ -143,7 +143,7 @@ def main(args):
         counter = 0
         for test in results:
             if not test['detection_result']['error']:
-                file_path = 'security-content/detections/' + test['detection_result']['detection_file']
+                file_path = 'security_content/detections/' + test['detection_result']['detection_file']
                 detection_obj = load_file(file_path)
                 detection_obj['tags']['automated_detection_testing'] = 'passed'
                 if 'attack_data' in test_file['tests'][counter]:
@@ -171,7 +171,7 @@ def main(args):
             security_content_repo_obj.remotes.origin.pull()
         security_content_repo_obj.git.push('--set-upstream', 'origin', branch_name)
         g = Github(O_AUTH_TOKEN_GITHUB)
-        repo = g.get_repo("splunk/security-content")
+        repo = g.get_repo("splunk/security_content")
         pull_requests = repo.get_pulls(state='open', sort='created', head=branch_name)
         for pr in pull_requests:
             if pr.head.label == str('splunk:' + branch_name):
