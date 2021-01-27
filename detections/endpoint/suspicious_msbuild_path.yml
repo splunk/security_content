@@ -28,7 +28,8 @@ tags:
   analytics_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
   mitre_attack_id:
-  - T1127.001, T1036.003
+  - T1127.001
+  - T1036.003
   kill_chain_phases:
   - Exploitation
   cis20:
