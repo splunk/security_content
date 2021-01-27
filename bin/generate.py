@@ -195,7 +195,9 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
         story['author_name'], story['author_company'] = parse_author_company(story)
         if story['name'] in sto_det:
             story['detections'] = list(sto_det[story['name']])
+
         if story['name'] in sto_res:
+
             story['response_tasks'] = list(sto_res[story['name']])
             story['searches'] = story['detections'] + story['response_tasks']
         else:
@@ -272,12 +274,13 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
         if 'search' in response_task:
             if 'inputs' in response_task:
                 response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                response_file_name_xml = response_file_name + "___response_task.xml"
                 response_task['lowercase_name'] = response_file_name
                 workbench_panel_objects.append(response_task)
                 j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml 
                 output_path = path.join(OUTPUT_PATH, file_path)
                 response_task['search']= response_task['search'].replace(">","&gt;")
                 response_task['search']= response_task['search'].replace("<","&lt;")
@@ -445,9 +448,9 @@ def map_response_tasks_to_stories(response_tasks):
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
                     if 'type' in response_task.keys():
-                        task_name = str(response_task['type'] + ' - ' + response_task['name'])
+                        task_name = str(response_task['type'] + ' - ' + response_task['name'] + ' - Response Task' )
                     else:
-                        task_name = str('ESCU - ' + response_task['name'])
+                        task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     if not (story in sto_res):
                         sto_res[story] = {task_name}
                     else:
