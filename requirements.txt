@@ -40,5 +40,5 @@ taxii2-client==2.2.2
 toml==0.10.2
 typing==3.7.4.3
 urllib3==1.26.3
-virtualenv==20.3.0
+virtualenv==20.4.0
 zipp==3.4.0
