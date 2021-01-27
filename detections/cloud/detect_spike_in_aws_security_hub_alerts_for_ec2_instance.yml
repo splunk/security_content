@@ -1,7 +1,7 @@
 name: Detect Spike in AWS Security Hub Alerts for EC2 Instance
 id: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2021-01-26'
 description: This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub
@@ -9,7 +9,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 type: ESCU
 references: []
 author: Bhavin Patel, Splunk
-search: '`aws_securityhub_firehose` "Resources{}.Type"=AWSEC2Instance 
+search: '`aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance 
 | bucket span=4h _time 
 | stats count AS alerts values(Title) as Title values(Types{}) as Types values(vendor_account) as vendor_account values(vendor_region) as vendor_region values(severity) as severity by _time dest 
 | eventstats avg(alerts) as total_alerts_avg, stdev(alerts) as total_alerts_stdev 
