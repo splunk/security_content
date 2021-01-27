@@ -1,4 +1,4 @@
-name: Detect Baron Samedit CVE-2021-3156
+name: Baron Samedit CVE-2021-3156
 id: 817b0dfc-23ba-4bcc-96cc-2cb77e428fbe
 version: 1
 date: '2021-01-27'
@@ -18,7 +18,7 @@ type: ESCU
 references:
 - https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 tags:
-  analytics_story: Detect Baron Samedit CVE-2021-3156
+  analytics_story: Baron Samedit CVE-2021-3156
   usecase: Advanced Threat Detection
   category:
   - Adversary Tactics
