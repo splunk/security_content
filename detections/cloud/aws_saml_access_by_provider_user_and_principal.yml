@@ -10,7 +10,7 @@ known_false_positives: Attacks using a Golden SAML or SAML assertion hijacks or 
   accessing cloud providers with these assertions looks exactly like normal access, however things such as source IP sourceIPAddress
   user, and principal targeted at receiving cloud provider along with endpoint credential access and abuse detection searches
   can provide the necessary context to detect these attacks.
-name: AWS SAML access by provider user and principal
+name: aws saml access by provider user and principal
 references:
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
