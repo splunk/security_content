@@ -37,6 +37,8 @@ tags:
   - PR.AC
   security_domain: network
   asset_type: AWS Instance
+  product:
+  - Splunk Security Analytics for AWS
   risk_score: 25
   risk_object_type: user
   risk_object: user
