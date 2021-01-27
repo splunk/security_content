@@ -43,6 +43,8 @@ tags:
   risk_score: 15
   risk_object_type: user
   risk_object: user
+  product:
+  - Splunk Security Analytics for AWS
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
