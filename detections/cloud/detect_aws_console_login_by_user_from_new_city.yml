@@ -41,6 +41,8 @@ tags:
   nist:
   - DE.DP
   - DE.AE
+  product:
+  - Splunk Security Analytics for AWS
   security_domain: network
   asset_type: AWS Instance
   risk_score: 5

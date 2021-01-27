@@ -20,8 +20,8 @@ search: '|tstats `security_content_summariesonly` count min(_time) as firstTime 
   | `suspicious_email___uba_anomaly_filter`'
 known_false_positives: This detection model will alert on any sender domain that is
   seen for the first time. This could be a potential false positive. The next step
-  is to investigate and whitelist the URL if you determine that it is a legitimate
-  sender.
+  is to investigate and add the URL to an allow list if you determine that it is a
+  legitimate sender.
 tags:
   analytics_story:
   - Suspicious Emails
