@@ -1,0 +1,48 @@
+name: Trusted Developer Utilities Proxy Execution MSBuild
+id: be3418e2-551b-11eb-ae93-0242ac130002
+version: 1
+date: '2021-01-21'
+description: Monitor and detect techniques used by attackers who leverage the msbuild.exe
+  process to execute malicious code.
+narrative: 'Adversaries may use MSBuild to proxy execution of code through a trusted 
+  Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform
+  used by Visual Studio and is native to Windows. It handles XML formatted project
+  files that define requirements for loading and building various platforms and configurations. \
+
+  The inline task capability of MSBuild that was introduced in .NET version 4 allows
+  for C# code to be inserted into an XML project file. MSBuild will compile and
+  execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is
+  used this way it can execute arbitrary code and bypass application control defenses
+  that are configured to allow MSBuild.exe execution. \
+
+  The searches in this story help you detect and investigate suspicious activity that
+  may indicate that an adversary is leveraging msbuild.exe to execute malicious code. \
+  
+  Triage \
+  Validate execution \
+  1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further
+  PE metadata.
+  2. Determine if script code was executed with MSBuild.
+  Situational Awareness \
+  The objective of this step is meant to identify suspicious behavioral indicators related to executed of 
+  Script code by MSBuild.exe. \
+  1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 
+  2. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is
+  MSbuild loading any suspicious .DLLs?
+  3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \
+  Retrieval of script code \
+  The objective of this step is to confirm the executed script code is benign or malicious.'
+author: Michael Haag, Splunk
+type: ESCU
+references:
+- https://attack.mitre.org/techniques/T1127/001/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+- https://github.com/infosecn1nja/MaliciousMacroMSBuild
+- https://github.com/xorrior/RandomPS-Scripts/blob/master/Invoke-ExecuteMSBuild.ps1
+- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+- https://github.com/MHaggis/CBR-Queries/blob/master/msbuild.md
+tags:
+  analytics_story: Trusted Developer Utilities Proxy Execution MSBuild
+  usecase: Advanced Threat Detection
+  category:
+  - Adversary Tactics
