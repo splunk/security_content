@@ -25,7 +25,7 @@ cryptography==3.3.1
 Deprecated==1.2.11
 dnspython==2.1.0
 docutils==0.16
-execnet==1.7.1
+execnet==1.8.0
 gitdb==4.0.5
 GitPython==3.1.12
 identify==1.5.13
