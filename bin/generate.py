@@ -122,6 +122,8 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_object_type'] = detection['tags']['risk_object_type']
         if 'risk_score' in detection['tags']:
             detection['risk_score'] = detection['tags']['risk_score']
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
@@ -339,6 +341,18 @@ def get_deployments(object, deployments):
                     if story == object['tags']['analytics_story']:
                         matched_deployments.append(deployment)
                         continue
+
+        if 'product' in deployment['tags']:
+            if type(deployment['tags']['product']) is str:
+                if 'product' in object['tags']:
+                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
+                        matched_deployments.append(deployment)
+            else:
+                for story in deployment['tags']['product']:
+                    if story == object['tags']['product']:
+                        matched_deployments.append(deployment)
+                        continue
+
 
         if 'detection_name' in deployment['tags']:
             if type(deployment['tags']['detection_name']) is str:
