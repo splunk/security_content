@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 '''
-Generates splunk configurations from manifest files under the security-content repo.
+Generates splunk configurations from manifest files under the security_content repo.
 '''
 
 import glob
@@ -83,12 +83,11 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         if data_model:
             detection['data_model'] = data_model
 
-        matched_deployments = get_deployments(detection, deployments)
-        if len(matched_deployments):
-            detection['deployment'] = matched_deployments[-1]
-            nes_fields = get_nes_fields(detection['search'], detection['deployment'])
-            if len(nes_fields) > 0:
-                detection['nes_fields'] = nes_fields
+        matched_deployment = get_deployments(detection, deployments)
+        detection['deployment'] = matched_deployment
+        nes_fields = get_nes_fields(detection['search'], detection['deployment'])
+        if len(nes_fields) > 0:
+            detection['nes_fields'] = nes_fields
 
         keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
         mappings = {}
@@ -123,15 +122,16 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_object_type'] = detection['tags']['risk_object_type']
         if 'risk_score' in detection['tags']:
             detection['risk_score'] = detection['tags']['risk_score']
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
             baseline['data_model'] = data_model
 
-        matched_deployments = get_deployments(baseline, deployments)
-        if len(matched_deployments):
-            baseline['deployment'] = matched_deployments[-1]
+        matched_deployment = get_deployments(baseline, deployments)
+        baseline['deployment'] = matched_deployment
 
     for response_task in response_tasks:
         if 'search' in response_task:
@@ -333,12 +333,36 @@ def get_deployments(object, deployments):
     for deployment in deployments:
         if 'analytics_story' in deployment['tags']:
             if type(deployment['tags']['analytics_story']) is str:
-                tags_all_array = [deployment['tags']['analytics_story']]
+                if 'analytics_story' in object['tags']:
+                    if deployment['tags']['analytics_story'] == object['tags']['analytics_story'] or deployment['tags']['analytics_story']=='all':
+                        matched_deployments.append(deployment)
             else:
-                tags_all_array = deployment['tags']['analytics_story']
-            if tags_all_array[0] == 'all':
-                matched_deployments.append(deployment)
-                continue
+                for story in deployment['tags']['analytics_story']:
+                    if story == object['tags']['analytics_story']:
+                        matched_deployments.append(deployment)
+                        continue
+
+        if 'product' in deployment['tags']:
+            if type(deployment['tags']['product']) is str:
+                if 'product' in object['tags']:
+                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
+                        matched_deployments.append(deployment)
+            else:
+                for story in deployment['tags']['product']:
+                    if story == object['tags']['product']:
+                        matched_deployments.append(deployment)
+                        continue
+
+
+        if 'detection_name' in deployment['tags']:
+            if type(deployment['tags']['detection_name']) is str:
+                if deployment['tags']['detection_name'] == object['name']:
+                    matched_deployments.append(deployment)
+            else:
+                for detection in deployment['tags']['detection_name']:
+                    if detection == object['name']:
+                        matched_deployments.append(deployment)
+                        continue
 
         for tag in object['tags'].keys():
             if tag in deployment['tags'].keys():
@@ -358,7 +382,32 @@ def get_deployments(object, deployments):
                             matched_deployments.append(deployment)
                             continue
 
-    return matched_deployments
+    if len(matched_deployments) == 0:
+        default_deployment = {}
+        default_deployment['scheduling'] = {}
+        default_deployment['scheduling']['cron_schedule'] = '0 * * * *'
+        default_deployment['scheduling']['earliest_time'] = '-70m@m'
+        default_deployment['scheduling']['latest_time'] = '-10m@m'
+        default_deployment['scheduling']['schedule_window'] = 'auto'
+        last_deployment = default_deployment
+    else:
+        last_deployment = matched_deployments[-1]
+        last_deployment = replace_vars_in_deployment(last_deployment, object)
+
+    return last_deployment
+
+
+def replace_vars_in_deployment(deployment, object):
+    if 'alert_action' in deployment:
+        if 'email' in deployment['alert_action']:
+            deployment['alert_action']['email']['message']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+            deployment['alert_action']['email']['subject']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+
+        if 'notable' in deployment:
+            deployment['alert_action']['notable']['rule_description']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+            deployment['alert_action']['notable']['rule_title']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+
+    return deployment
 
 
 def get_nes_fields(search, deployment):
@@ -482,7 +531,7 @@ def prepare_stories(stories, detections):
                         for cis in detection['tags']['cis20']:
                             sto_to_ciss[story].add(cis)
                     else:
-                        sto_to_ciss[story] = set(detection['tags']['cis20'])                           
+                        sto_to_ciss[story] = set(detection['tags']['cis20'])
 
                 if 'nist' in detection['tags']:
                     if story in sto_to_nists.keys():
@@ -545,10 +594,10 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 def main(args):
 
-    parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
+    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
     It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
@@ -562,7 +611,6 @@ def main(args):
     macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
     lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
     baselines = load_objects("baselines/*.yml", VERBOSE, REPO_PATH)
-    detections = load_objects("detections/*.yml", VERBOSE, REPO_PATH)
     responses = load_objects("responses/*.yml", VERBOSE, REPO_PATH)
     response_tasks = load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH)
     deployments = load_objects("deployments/*.yml", VERBOSE, REPO_PATH)
@@ -570,6 +618,7 @@ def main(args):
     # process all detections
     detections = []
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
+    detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
     try:
         if VERBOSE:

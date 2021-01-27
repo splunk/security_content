@@ -95,6 +95,7 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 
 ##### ATT&CK
 * T1071.004
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -433,6 +434,7 @@ Because this communication is so critical for an adversary, they often use techn
 * T1071.001
 * T1071.004
 * T1095
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -736,6 +738,7 @@ The searches in this Analytic Story help you detect and investigate activities t
 ##### ATT&CK
 * T1048.003
 * T1071.004
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -818,6 +821,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * Detect Activity Related to Pass the Hash Attacks
 * Kerberoasting spn request with RC4 encryption
 * Remote Desktop Network Traffic
+* Remote Desktop Process Running On System
 * Schtasks scheduling job on remote system
 
 #### Data Models
@@ -927,6 +931,7 @@ Following is a typical series of events, according to an [article by Trend Micro
 This Analytic Story focuses on detecting signs that a malicious payload has been injected into your environment. For example, one search detects outlook.exe writing a .zip file. Another looks for suspicious .lnk files launching processes.
 
 #### Detections
+* Detect Oulook exe writing a  zip file
 * Suspicious LNK file launching a process
 
 #### Data Models
@@ -934,6 +939,7 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 #### Mappings
 
 ##### ATT&CK
+* T1566.001
 * T1566.002
 
 ##### Kill Chain Phases
@@ -1087,12 +1093,14 @@ This Analytic Story supports you to detect Tactics, Techniques and Procedures (T
 * Scheduled Task Deleted Or Created via CMD
 * Schtasks scheduling job on remote system
 * Sunburst Correlation DLL and Network Event
+* Supernova Webshell
 * TOR Traffic
 * Windows AdFind Exe
 
 #### Data Models
 * Endpoint
 * Network_Traffic
+* Web
 
 #### Mappings
 
@@ -1104,19 +1112,24 @@ This Analytic Story supports you to detect Tactics, Techniques and Procedures (T
 * T1071.001
 * T1071.002
 * T1203
+* T1505.003
 * T1543.003
 * T1569.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Exfiltration
 * Exploitation
 * Installation
 
 ###### CIS
 * CIS 12
+* CIS 13
+* CIS 18
 * CIS 2
 * CIS 3
+* CIS 4
 * CIS 5
 * CIS 6
 * CIS 7
@@ -1127,6 +1140,7 @@ This Analytic Story supports you to detect Tactics, Techniques and Procedures (T
 * DE.AE
 * DE.CM
 * ID.AM
+* ID.RA
 * PR.AC
 * PR.AT
 * PR.DS
@@ -1214,6 +1228,7 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 ##### ATT&CK
 * T1048.003
 * T1071.004
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1444,7 +1459,9 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 * Remote Process Instantiation via WMI
 * Remote WMI Command Attempt
 * Script Execution via WMI
+* WMI Permanent Event Subscription
 * WMI Permanent Event Subscription - Sysmon
+* WMI Temporary Event Subscription
 
 #### Data Models
 * Endpoint
@@ -1723,6 +1740,7 @@ Monitor for and investigate activities that may be associated with a Windows pri
 Privilege escalation is a "land-and-expand" technique, wherein an adversary gains an initial foothold on a host and then exploits its weaknesses to increase his privileges. The motivation is simple: certain actions on a Windows machine--such as installing software--may require higher-level privileges than those the attacker initially acquired. By increasing his privilege level, the attacker can gain the control required to carry out his malicious ends. This Analytic Story provides searches to detect and investigate behaviors that attackers may use to elevate their privileges in your environment.
 
 #### Detections
+* Child Processes of Spoolsv exe
 * Overwriting Accessibility Binaries
 * Registry Keys Used For Privilege Escalation
 * Uncommon Processes On Endpoint
@@ -1733,20 +1751,24 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 #### Mappings
 
 ##### ATT&CK
+* T1068
 * T1204.002
 * T1546.008
 * T1546.012
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Exploitation
 
 ###### CIS
 * CIS 2
+* CIS 5
 * CIS 8
 
 ##### NIST
 * DE.CM
 * ID.AM
+* PR.AC
 * PR.DS
 * PR.PT
 
@@ -1937,6 +1959,7 @@ A traditional security best practice is to control the ports, protocols, and ser
 * T1048
 * T1048.003
 * T1071.001
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2581,6 +2604,7 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 
 #### Detections
 * High Number of Login Failures from a single source
+* O365 Bypass MFA via Trusted IP
 * O365 Disable MFA
 * O365 Excessive Authentication Failures Alert
 * O365 PST export alert
@@ -2599,6 +2623,7 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 * T1114.002
 * T1114.003
 * T1556
+* T1562.007
 
 ##### Kill Chain Phases
 * Actions on Objective
@@ -2711,6 +2736,7 @@ Amazon's "shared responsibility" model dictates that the company has responsibil
 Among things to look out for are S3 access from unfamiliar locations and by unfamiliar users. Some of the searches in this Analytic Story help you detect suspicious behavior and others help you investigate more deeply, when the situation warrants.   
 
 #### Detections
+* Detect New Open S3 Buckets over AWS CLI
 * Detect New Open S3 buckets
 * Detect S3 access from a new IP
 * Detect Spike in S3 Bucket deletion
@@ -3054,6 +3080,7 @@ Searches in this Analytic Story leverage the capabilities of OSquery to address 
 
 #### Detections
 * Osquery pack - ColdRoot detection
+* Processes Tapping Keyboard Events
 
 #### Data Models
 
@@ -3178,6 +3205,7 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 
 ##### ATT&CK
 * T1071.001
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -3219,6 +3247,7 @@ The searches in this Analytic Story will help you find executables that are rare
 #### Detections
 * Detect Rare Executables
 * Detect Use of cmd exe to Launch Script Interpreters
+* Detection of tools built by NirSoft
 * Email Attachments With Lots Of Spaces
 * Prohibited Software On Endpoint
 * Registry Keys Used For Persistence
@@ -3236,6 +3265,7 @@ The searches in this Analytic Story will help you find executables that are rare
 ##### ATT&CK
 * T1021.002
 * T1059.003
+* T1072
 * T1547.001
 * T1566.001
 
@@ -3287,6 +3317,7 @@ Among other searches in this Analytic Story is a detection search that looks for
 * Detect Outbound SMB Traffic
 * First time seen command line argument
 * Remote Desktop Network Traffic
+* Remote Desktop Process Running On System
 * SMB Traffic Spike
 * SMB Traffic Spike - MLTK
 * Suspicious File Write
@@ -3398,6 +3429,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Ransomware is an ever-present risk to the enterprise, wherein an infected host encrypts business-critical data, holding it hostage until the victim pays the attacker a ransom. There are many types and varieties of ransomware that can affect an enterprise. Attackers can deploy ransomware to enterprises through spearphishing campaigns and driveby downloads, as well as through traditional remote service-based exploitation. In the case of the WannaCry campaign, there was self-propagating wormable functionality that was used to maximize infection. Fortunately, organizations can apply several techniques--such as those in this Analytic Story--to detect and or mitigate the effects of ransomware.
 
 #### Detections
+* BCDEdit Failure Recovery Modification
 * Common Ransomware Extensions
 * Common Ransomware Notes
 * Deleting Shadow Copies
@@ -3408,6 +3440,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * SMB Traffic Spike - MLTK
 * Scheduled tasks used in BadRabbit ransomware
 * Schtasks used for forcing a reboot
+* Spike in File Writes
 * Suspicious wevtutil Usage
 * System Processes Run From Unexpected Locations
 * TOR Traffic
@@ -3507,10 +3540,12 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) on October 28th called “Ransomware Activity Targeting the Healthcare and Public Health Sector.” This alert details TTPs associated with ongoing and possible imminent attacks against the Healthcare sector, and is a joint advisory in coordination with other U.S. Government agencies. The objective of these malicious campaigns is to infiltrate targets in named sectors and to drop ransomware payloads, which will likely cause disruption of service and increase risk of actual harm to the health and safety of patients at hospitals, even with the aggravant of an ongoing COVID-19 pandemic. This document specifically refers to several crimeware exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. The Ryuk ransomware payload is not new. It has been well documented and identified in multiple variants. Payloads need a carrier, and for Ryuk it has often been exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks such as Emotet or Trickbot.
 
 #### Detections
+* BCDEdit Failure Recovery Modification
 * Common Ransomware Notes
 * Remote Desktop Network Bruteforce
 * Remote Desktop Network Traffic
 * Ryuk Test Files Detected
+* Spike in File Writes
 * Windows DisableAntiSpyware Registry
 * Windows Security Account Manager Stopped
 * Windows connhost exe started forcefully
@@ -3527,6 +3562,7 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 * T1485
 * T1486
 * T1489
+* T1490
 * T1562.001
 
 ##### Kill Chain Phases
@@ -3582,6 +3618,7 @@ This Analytic Story includes searches designed to help detect and investigate si
 * Remote Desktop Network Bruteforce
 * Remote Desktop Network Traffic
 * Samsam Test File Write
+* Spike in File Writes
 
 #### Data Models
 * Endpoint

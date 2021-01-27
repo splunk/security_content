@@ -663,7 +663,7 @@ if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="generates documentation from our content", epilog="""
     This tool converts manifests information to documents in variious format like markdown and wiki markup used by Splunk docs.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     parser.add_argument("-gsd", "--gen_splunk_docs", required=False, default=True, action='store_true',
@@ -682,6 +682,7 @@ if __name__ == "__main__":
     stories = load_objects("stories/*.yml")
     detections = []
     detections = load_objects("detections/*/*.yml")
+    detections.extend(load_objects("detections/*/*/*.yml"))
 
     # complete_stories = generate_stories(REPO_PATH, verbose)
     # complete_detections = generate_detections(REPO_PATH, complete_stories)
