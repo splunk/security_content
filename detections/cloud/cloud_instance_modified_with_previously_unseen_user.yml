@@ -32,6 +32,8 @@ tags:
   - CIS 1
   nist:
   - ID.AM
+  product:
+  - Splunk Security Analytics for AWS
   security_domain: endpoint
   asset_type: AWS Instance
   risk_score: 10
