@@ -4,13 +4,13 @@ version: 2
 date: '2018-09-06'
 description: Detect and investigate hosts in your environment that may be communicating
   with dynamic domain providers. Attackers may leverage these services to help them
-  avoid firewall blocks and blacklists.
+  avoid firewall blocks and deny lists.
 narrative: Dynamic DNS services (DDNS) are legitimate low-cost or free services that
   allow users to rapidly update domain resolutions to IP infrastructure. While their
   usage can be benign, malicious actors can abuse DDNS to host harmful payloads or
   interactive-command-and-control infrastructure. These attackers will manually update
   or automate domain resolution changes by routing dynamic domains to IP addresses
-  that circumvent firewall blocks and blacklists and frustrate a network defender's
+  that circumvent firewall blocks and deny lists and frustrate a network defender's
   analytic and investigative processes. These searches will look for DNS queries made
   from within your infrastructure to suspicious dynamic domains and then investigate
   more deeply, when appropriate. While this list of top-level dynamic domains is not
