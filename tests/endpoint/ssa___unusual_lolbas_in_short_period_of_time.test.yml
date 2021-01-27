@@ -1,7 +1,7 @@
 name: More than usual number of LOLBAS applications in short time period - SSA Unit Test
 tests:
   - name: More than usual number of LOLBAS applications in short time period
-    file: endpoint/unusual_lolbas_in_short_period_of_time___ssa.yml
+    file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
     pass_condition: '@count_gt(0)'
     description: Test more than usual lolbas being executed in a short period of time
     attack_data:
