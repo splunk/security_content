@@ -23,7 +23,8 @@ known_false_positives: At this stage, there are no known false positives. During
   normal operation of re-opening applications on reboot. Therefore, it can be asumed
   that any occurences of this in the process events would be worth investigating.
   In the event that the legitimate modification by the system of these files is in
-  fact logged to the process log, then the process_name of that process can be whitelisted.
+  fact logged to the process log, then the process_name of that process can be added to
+  an allow list.
 tags:
   kill_chain_phases:
   - Installation

@@ -1,0 +1,6 @@
+definition: lookup update=true lookup_rare_process_allow_list_default process as process
+  OUTPUTNEW allow_list | where allow_list="false" | lookup update=true lookup_rare_process_allow_list_local
+  process as process OUTPUT allow_list | where allow_list="false"
+description: This macro is intended to allow_list processes that have been definied
+  as rare
+name: filter_rare_process_allow_list

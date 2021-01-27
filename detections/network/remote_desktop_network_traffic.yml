@@ -3,10 +3,10 @@ id: 272b8407-842d-4b3d-bead-a704584003d3
 version: 3
 date: '2020-07-07'
 description: This search looks for network traffic on TCP/3389, the default port used
-  by remote desktop. While remote desktop traffic is not uncommon on a network, it
-  is usually associated with known hosts. This search allows for whitelisting both
-  source and destination hosts to remove them from the output of the search so you
-  can focus on the uncommon uses of remote desktop on your network.
+  by remote desktop. While remote desktop traffic is not uncommon on a network, it is
+  usually associated with known hosts. This search will ignore common RDP sources and
+  common RDP destinations so you can focus on the uncommon uses of remote desktop on
+  your network.
 how_to_implement: To successfully implement this search you need to identify systems
   that commonly originate remote desktop traffic and that commonly receive remote
   desktop traffic. You can use the included support search "Identify Systems Creating

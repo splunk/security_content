@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 '''
-Generates splunk configurations from manifest files under the security-content repo.
+Generates splunk configurations from manifest files under the security_content repo.
 '''
 
 import glob
@@ -122,6 +122,8 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_object_type'] = detection['tags']['risk_object_type']
         if 'risk_score' in detection['tags']:
             detection['risk_score'] = detection['tags']['risk_score']
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
@@ -339,6 +341,18 @@ def get_deployments(object, deployments):
                     if story == object['tags']['analytics_story']:
                         matched_deployments.append(deployment)
                         continue
+
+        if 'product' in deployment['tags']:
+            if type(deployment['tags']['product']) is str:
+                if 'product' in object['tags']:
+                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
+                        matched_deployments.append(deployment)
+            else:
+                for story in deployment['tags']['product']:
+                    if story == object['tags']['product']:
+                        matched_deployments.append(deployment)
+                        continue
+
 
         if 'detection_name' in deployment['tags']:
             if type(deployment['tags']['detection_name']) is str:
@@ -580,10 +594,10 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 def main(args):
 
-    parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
+    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
     It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
