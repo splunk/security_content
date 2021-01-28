@@ -6,11 +6,11 @@ how_to_implement: You must install splunk Microsoft Office 365 add-on. This sear
 id: b2c81cc6-6040-11eb-ae93-0242ac130002
 known_false_positives: The creation of a new Federation is not necessarily malicious, however this events need to be followed closely,
   as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
-name: o365 add app role assignment grant user
+name: O365 Add App Role Assignment Grant User
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
-search: sourcetype="o365:management:activity"  Workload=AzureActiveDirectory | spath Operation | search Operation="Add app role assignment grant to user."
+search: '`o365_management_activity`  Workload=AzureActiveDirectory | spath Operation | search Operation="Add app role assignment grant to user."
   | table ActorIpAddress Actor{}.ID Actor{}.Type dest ResultStatus
   | `o365_add_app_role_assignment_grant_user_filter`'
 tags:
@@ -23,8 +23,5 @@ tags:
   mitre_attack_id:
   - T1136.003
   security_domain: threat
-  automated_detection_testing: n/a
-  dataset:
-  - TBU
 type: ESCU
 version: 1

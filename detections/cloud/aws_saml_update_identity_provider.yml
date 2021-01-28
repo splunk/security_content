@@ -6,13 +6,13 @@ how_to_implement: You must install splunk AWS add on and Splunk App for AWS. Thi
   search works with cloudtrail logs.
 id: 2f0604c6-6030-11eb-ae93-0242ac130002
 known_false_positives: Updating a SAML provider or creating a new one may not necessarily be malicious however it needs to be closely monitored.
-name: AWS SAML access by provider user and principal
+name: AWS SAML Update identity provider
 references:
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
-search: sourcetype="aws:cloudtrail" eventtype=aws_cloudtrail_iam_change federation | spath eventSource | search eventSource="iam.amazonaws.com"
+search: '`cloudtrail` federation | spath eventSource | search eventSource="iam.amazonaws.com"
   | spath eventName | search eventName=UpdateSAMLProvider | spath "requestParameters.sAMLProviderArn" | search "*"
   | spath "userIdentity.sessionContext.sessionIssuer.arn" | search "userIdentity.sessionContext.sessionIssuer.arn"="*" | spath "userIdentity.accessKeyId" | search "userIdentity.accessKeyId"=* | spath "userIdentity.principalId" | search "userIdentity.principalId"="*"   | table  eventType eventName requestParameters.sAMLProviderArn userIdentity.sessionContext.sessionIssuer.arn sourceIPAddress userIdentity.accessKeyId userIdentity.principalId
   |`aws_saml_update_identity_provider_filter`'
@@ -23,8 +23,5 @@ tags:
   mitre_attack_id:
   - T1078
   security_domain: threat
-  automated_detection_testing: n/a
-  dataset:
-  - TBU
 type: ESCU
 version: 1

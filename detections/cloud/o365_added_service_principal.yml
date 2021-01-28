@@ -6,13 +6,13 @@ how_to_implement: You must install splunk Microsoft Office 365 add-on. This sear
 id: 1668812a-6047-11eb-ae93-0242ac130002
 known_false_positives: The creation of a new Federation is not necessarily malicious, however these events need to be followed closely,
   as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
-name: o365 add app role assignment grant user
+name: O365 Added Service Principal
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.sygnia.co/golden-saml-advisory
-search: sourcetype="o365:management:activity"  Workload=AzureActiveDirectory signature="Add service principal credentials."
+search: '`o365_management_activity` Workload=AzureActiveDirectory signature="Add service principal credentials."
   | spath "Actor{}.ID" | search "Actor{}.ID"="*" | spath "ModifiedProperties{}.Name" | search "ModifiedProperties{}.Name"="TargetId.ServicePrincipalNames"
   | spath "ExtendedProperties{}.Value" | search "ExtendedProperties{}.Value"=ServicePrincipal | spath "ModifiedProperties{}.NewValue" | search "ModifiedProperties{}.NewValue"="*"
   | spath "Target{}.ID" | search "Target{}.ID"="*" | table ActorIpAddress Actor{}.ID signature ModifiedProperties{}.Name ModifiedProperties{}.NewValue Target{}.ID
@@ -27,8 +27,5 @@ tags:
   mitre_attack_id:
   - T1136.003
   security_domain: threat
-  automated_detection_testing: n/a
-  dataset:
-  - TBU
 type: ESCU
 version: 1

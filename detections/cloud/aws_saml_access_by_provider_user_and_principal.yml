@@ -10,13 +10,13 @@ known_false_positives: Attacks using a Golden SAML or SAML assertion hijacks or 
   accessing cloud providers with these assertions looks exactly like normal access, however things such as source IP sourceIPAddress
   user, and principal targeted at receiving cloud provider along with endpoint credential access and abuse detection searches
   can provide the necessary context to detect these attacks.
-name: aws saml access by provider user and principal
+name: AWS SAML Access by Provider User and Principal
 references:
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
-search: sourcetype="aws:cloudtrail" Assumerolewithsaml | spath "requestParameters.principalArn" | search "requestParameters.principalArn"=*
+search: '`cloudtrail` Assumerolewithsaml | spath "requestParameters.principalArn" | search "requestParameters.principalArn"=*
    | spath "requestParameters.roleArn" | search "requestParameters.roleArn"=* | spath "requestParameters.roleSessionName"
    | search "requestParameters.roleSessionName"=* | spath recipientAccountId | search recipientAccountId=*
    | spath "responseElements.assumedRoleUser.arn" | search "responseElements.assumedRoleUser.arn"=*
@@ -32,8 +32,5 @@ tags:
   mitre_attack_id:
   - T1078
   security_domain: threat
-  automated_detection_testing: n/a
-  dataset:
-  - TBU
 type: ESCU
 version: 1

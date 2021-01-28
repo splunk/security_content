@@ -10,7 +10,7 @@ known_false_positives: Logon errors may not be malicious in nature however it ma
 name: O365 Excessive SSO logon errors
 references:
 - https://stealthbits.com/blog/bypassing-mfa-with-pass-the-cookie/
-search: sourcetype="o365:management:activity"  Workload=AzureActiveDirectory ActorIpAddress=* UserAgent=* LogonError=SsoArtifactInvalidOrExpired
+search: '`o365_management_activity` Workload=AzureActiveDirectory ActorIpAddress=* UserAgent=* LogonError=SsoArtifactInvalidOrExpired
   | spath UserId | search UserId="*" | table ActorIpAddress UserAgent LogonError UserId
   |stats count by LogonError ActorIpAddress UserAgent UserId
   | `o365_excessive_sso_logon_errors_filter`'
@@ -24,8 +24,5 @@ tags:
   mitre_attack_id:
   - T1556
   security_domain: threat
-  automated_detection_testing: n/a
-  dataset:
-  - TBU
 type: ESCU
 version: 1
