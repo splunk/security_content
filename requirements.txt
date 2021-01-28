@@ -23,7 +23,7 @@ MarkupSafe==1.1.1
 more-itertools==8.6.0
 nodeenv==1.5.0
 pathlib2==2.3.5
-pre-commit==2.9.3
+pre-commit==2.10.0
 pyrsistent==0.17.3
 python-dateutil==2.8.1
 pytz==2020.5
