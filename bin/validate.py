@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 '''
-Validates Manifest file under the security-content repo for correctness.
+Validates Manifest file under the security_content repo for correctness.
 '''
 
 import glob

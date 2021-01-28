@@ -11,12 +11,14 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
   field in the Endpoint data model.
 author: Bhavin Patel, Splunk
 inputs:
-- process_name
+- parent_process_name
 - dest
 search: '| tstats `summariesonly` count values(Processes.process) as process min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name
-  = $process_name$ Processes.dest = $dest$ by Processes.user Processes.parent_process_name  Processes.process_name  |
-  `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`'
+    as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest
+| `drop_dm_object_name("Processes")` 
+| search  parent_process_name= $parent_process_name$ |search dest = $dest$
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`'
 tags:
   analytics_story:
   - Collection and Staging

@@ -1,3 +1,0 @@
-definition: search *
-description: Use this macro to add additional filter for create or delete windows shares
-name: create_or_delete_windows_shares_filter

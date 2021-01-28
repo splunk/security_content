@@ -94,11 +94,13 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 #### Mappings
 
 ##### ATT&CK
-* T1071.004
+* T1048.003
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Installation
 
 ###### CIS
 * CIS 12
@@ -143,10 +145,13 @@ The search in this story can help you to detect if attackers are abusing your co
 * Actions on Objectives
 
 ###### CIS
+* CIS 11
 * CIS 12
 
 ##### NIST
+* DE.AE
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.us-cert.gov/ncas/alerts/TA13-088A
@@ -192,6 +197,7 @@ Attackers will often attempt to manipulate client communications for nefarious p
 * DE.AE
 * DE.CM
 * ID.AM
+* PR.AC
 * PR.DS
 * PR.IP
 * PR.PT
@@ -221,7 +227,6 @@ To get started, run the detection search to identify parent processes of `netsh.
 #### Mappings
 
 ##### ATT&CK
-* T1059.003
 * T1562.004
 
 ##### Kill Chain Phases
@@ -250,7 +255,7 @@ Monitor your environment for activity consistent with common attack techniques b
 #### Narrative
 The Federal Bureau of Investigations (FBI) defines Internet fraud as the use of Internet services or software with Internet access to defraud victims or to otherwise take advantage of them. According to the Bureau, Internet crime schemes are used to steal millions of dollars each year from victims and continue to plague the Internet through various methods. The agency includes phishing scams, data breaches, Denial of Service (DOS) attacks, email account compromise, malware, spoofing, and ransomware in this category.\
 These crimes are not the fraud itself, but rather the attack techniques commonly employed by fraudsters in their pursuit of data that enables them to commit malicious actssuch as obtaining and using stolen credit cards. They represent a serious problem that is steadily increasing and not likely to go away anytime soon.\
-hen developing a strategy for preventing fraud in your environment, its important to  look across all of your web services for evidence that attackers are abusing enterprise resources to enumerate systems, harvest data for secondary fraudulent activity, or abuse terms of service.This Analytic Story looks for evidence of common Internet attack techniques that could be indicative of web fraud in your environmentincluding account harvesting, anomalous user clickspeed, and password sharing across accounts, to name just a few.\
+When developing a strategy for preventing fraud in your environment, its important to  look across all of your web services for evidence that attackers are abusing enterprise resources to enumerate systems, harvest data for secondary fraudulent activity, or abuse terms of service.This Analytic Story looks for evidence of common Internet attack techniques that could be indicative of web fraud in your environmentincluding account harvesting, anomalous user clickspeed, and password sharing across accounts, to name just a few.\
 The account-harvesting search focuses on web pages used for user-account registration. It detects the creation of a large number of user accounts using the same email domain name, a type of activity frequently seen in advance of a fraud campaign.\
 The anomalous clickspeed search looks for users who are moving through your website at a faster-than-normal speed or with a perfect click cadence (high periodicity or low standard deviation), which could indicate that the user is a script, not an actual human.\
 Another search detects incidents wherein a single password is used across multiple accounts, which may indicate that a fraudster has infiltrated your environment and embedded a common password within a script.
@@ -295,6 +300,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [Credential Dumping](#Credential-Dumping)
 
+* [Data Exfiltration](#Data-Exfiltration)
+
 * [Detect Zerologon Attack](#Detect-Zerologon-Attack)
 
 * [Disabling Security Tools](#Disabling-Security-Tools)
@@ -313,6 +320,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [SQL Injection](#SQL-Injection)
 
+* [Sunburst Malware](#Sunburst-Malware)
+
 * [Suspicious Command-Line Executions](#Suspicious-Command-Line-Executions)
 
 * [Suspicious DNS Traffic](#Suspicious-DNS-Traffic)
@@ -328,6 +337,10 @@ Another search detects incidents wherein a single password is used across multip
 * [Suspicious WMI Use](#Suspicious-WMI-Use)
 
 * [Suspicious Zoom Child Processes](#Suspicious-Zoom-Child-Processes)
+
+* [Trusted Developer Utilities Proxy Execution](#Trusted-Developer-Utilities-Proxy-Execution)
+
+* [Trusted Developer Utilities Proxy Execution MSBuild](#Trusted-Developer-Utilities-Proxy-Execution-MSBuild)
 
 * [Windows Defense Evasion Tactics](#Windows-Defense-Evasion-Tactics)
 
@@ -425,6 +438,7 @@ Because this communication is so critical for an adversary, they often use techn
 * T1071.001
 * T1071.004
 * T1095
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -478,12 +492,18 @@ This Analytic Story focuses on detecting signs of MiTM attacks enabled by [EvilG
 
 ##### Kill Chain Phases
 * Command and Control
+* Delivery
 
 ###### CIS
 * CIS 7
+* CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
+* ID.AM
+* PR.DS
+* PR.IP
 
 ##### References
 * https://github.com/kgretzky/evilginx2
@@ -543,6 +563,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
 * PR.AC
 * PR.IP
@@ -550,6 +571,41 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 ##### References
 * https://attack.mitre.org/wiki/Technique/T1003
 * https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+
+### Data Exfiltration
+* id = 66b0fe0c-1351-11eb-adc1-0242ac120002
+* date = 2020-10-21
+* version = 1
+
+#### Description
+The stealing of data by an adversary.
+
+#### Narrative
+Exfiltration comes in many flavors.  Adversaries can collect data over encrypted or non-encrypted channels.  They can utilise Command and Control channels that are already in place to exfiltrate data.  They can use both standard data transfer protocols such as FTP, SCP, etc to exfiltrate data.  Or they can use non-standard protocols such as DNS, ICMP, etc with specially crafted fields to try and circumvent security technologies in place.
+
+#### Detections
+* Detect SNICat SNI Exfiltration
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1041
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 13
+
+##### NIST
+* DE.AE
+* DE.CM
+* PR.DS
+
+##### References
+* https://attack.mitre.org/tactics/TA0010/
 
 ### Detect Zerologon Attack
 * id = 5d14a962-569e-4578-939f-f386feb63ce4
@@ -610,7 +666,7 @@ This attack is a privilege escalation technique, where attacker targets a Netlog
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious `reg.exe` processes, processes launching netsh, and many others.
 
 #### Narrative
-Attackers employ a variety of tactics in order to avoid detection and operate without barriers. This often involves modifying the configuration of security tools to get around them or explicitly disabling them to prevent them from running. This Analytic Story includes searches that look for activity consistent with attackers attempting to disable various security mechanisms. Such activity may involve monitoring for suspicious registry activity, as this is where much of the configuration for Windows and various other programs reside, or explicitly attempting to shut down security-related services. Other times, attackers attempt various tricks to prevent specific programs from running, such as adding the certificates with which the security tools are signed to a blacklist (which would prevent them from running).
+Attackers employ a variety of tactics in order to avoid detection and operate without barriers. This often involves modifying the configuration of security tools to get around them or explicitly disabling them to prevent them from running. This Analytic Story includes searches that look for activity consistent with attackers attempting to disable various security mechanisms. Such activity may involve monitoring for suspicious registry activity, as this is where much of the configuration for Windows and various other programs reside, or explicitly attempting to shut down security-related services. Other times, attackers attempt various tricks to prevent specific programs from running, such as adding the certificates with which the security tools are signed to a block list (which would prevent them from running).
 
 #### Detections
 * Attempt To Add Certificate To Untrusted Store
@@ -686,6 +742,7 @@ The searches in this Analytic Story help you detect and investigate activities t
 ##### ATT&CK
 * T1048.003
 * T1071.004
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -697,6 +754,7 @@ The searches in this Analytic Story help you detect and investigate activities t
 * CIS 13
 * CIS 3
 * CIS 8
+* CIS 9
 
 ##### NIST
 * DE.AE
@@ -738,6 +796,7 @@ A client is able to perform a remote code execution on an exposed and vulnerable
 
 ###### CIS
 * CIS 11
+* CIS 8
 
 ##### NIST
 * DE.CM
@@ -787,6 +846,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 ###### CIS
 * CIS 16
 * CIS 3
+* CIS 5
 * CIS 8
 * CIS 9
 
@@ -794,7 +854,9 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 * DE.AE
 * DE.CM
 * PR.AC
+* PR.AT
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
@@ -838,6 +900,7 @@ In the event a system is suspected of having been compromised via a malicious we
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Installation
 
 ###### CIS
 * CIS 3
@@ -864,7 +927,7 @@ Detect signs of malicious payloads that may indicate that your environment has b
 #### Narrative
 Despite its simplicity, phishing remains the most pervasive and dangerous cyberthreat. In fact, research shows that as many as [91% of all successful attacks](https://digitalguardian.com/blog/91-percent-cyber-attacks-start-phishing-email-heres-how-protect-against-phishing) are initiated via a phishing email. \
 As most people know, these emails use fraudulent domains, [email scraping](https://www.cyberscoop.com/emotet-trojan-phishing-scraping-templates-cofense-geodo/), familiar contact names inserted as senders, and other tactics to lure targets into clicking a malicious link, opening an attachment with a [nefarious payload](https://www.cyberscoop.com/emotet-trojan-phishing-scraping-templates-cofense-geodo/), or entering sensitive personal information that perpetrators may intercept. This attack technique requires a relatively low level of skill and allows adversaries to easily cast a wide net. Worse, because its success relies on the gullibility of humans, it's impossible to completely "automate" it out of your environment. However, you can use ES and ESCU to detect and investigate potentially malicious payloads injected into your environment subsequent to a phishing attack. \
-hile any kind of file may contain a malicious payload, some are more likely to be perceived as benign (and thus more often escape notice) by the average victim&#151;especially when the attacker sends an email that seems to be from one of their contacts. An example is Microsoft Office files. Most corporate users are familiar with documents with the following suffixes: .doc/.docx (MS Word), .xls/.xlsx (MS Excel), and .ppt/.pptx (MS PowerPoint), so they may click without a second thought, slashing a hole in their organizations' security. \
+While any kind of file may contain a malicious payload, some are more likely to be perceived as benign (and thus more often escape notice) by the average victim&#151;especially when the attacker sends an email that seems to be from one of their contacts. An example is Microsoft Office files. Most corporate users are familiar with documents with the following suffixes: .doc/.docx (MS Word), .xls/.xlsx (MS Excel), and .ppt/.pptx (MS PowerPoint), so they may click without a second thought, slashing a hole in their organizations' security. \
 Following is a typical series of events, according to an [article by Trend Micro](https://blog.trendmicro.com/trendlabs-security-intelligence/rising-trend-attackers-using-lnk-files-download-malware/):\
 1. Attacker sends a phishing email. Recipient downloads the attached file, which is typically a .docx or .zip file with an embedded .lnk file\
 1. The .lnk file executes a PowerShell script\
@@ -999,14 +1062,98 @@ This Analytic Story contains a search designed to identify attempts by attackers
 * Delivery
 
 ###### CIS
+* CIS 13
 * CIS 18
+* CIS 4
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.DS
+* PR.IP
+* PR.PT
 
 ##### References
 * https://capec.mitre.org/data/definitions/66.html
 * https://www.incapsula.com/web-application-security/sql-injection.html
+
+### Sunburst Malware
+* id = 758196b5-2e21-424f-a50c-6e421ce926c2
+* date = 2020-12-14
+* version = 1
+
+#### Description
+Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
+
+#### Narrative
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from the Sunburst malware. The threat actor behind sunburst compromised the SolarWinds.Orion.Core.BusinessLayer.dll, is a SolarWinds digitally-signed component of the Orion software framework that contains a backdoor that communicates via HTTP to third party servers. The detections in this Analytic Story are focusing on the dll loading events, file create events and network events to detect This malware.
+
+#### Detections
+* Detect Outbound SMB Traffic
+* Detect Prohibited Applications Spawning cmd exe
+* First Time Seen Running Windows Service
+* Malicious PowerShell Process - Encoded Command
+* Sc exe Manipulating Windows Services
+* Scheduled Task Deleted Or Created via CMD
+* Schtasks scheduling job on remote system
+* Sunburst Correlation DLL and Network Event
+* Supernova Webshell
+* TOR Traffic
+* Windows AdFind Exe
+
+#### Data Models
+* Endpoint
+* Network_Traffic
+* Web
+
+#### Mappings
+
+##### ATT&CK
+* T1018
+* T1027
+* T1053.005
+* T1059.003
+* T1071.001
+* T1071.002
+* T1203
+* T1505.003
+* T1543.003
+* T1569.002
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Command and Control
+* Exfiltration
+* Exploitation
+* Installation
+
+###### CIS
+* CIS 12
+* CIS 13
+* CIS 18
+* CIS 2
+* CIS 3
+* CIS 4
+* CIS 5
+* CIS 6
+* CIS 7
+* CIS 8
+* CIS 9
+
+##### NIST
+* DE.AE
+* DE.CM
+* ID.AM
+* ID.RA
+* PR.AC
+* PR.AT
+* PR.DS
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+* https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
 
 ### Suspicious Command-Line Executions
 * id = f4368ddf-d59f-4192-84f6-778ac5a3ffc7
@@ -1033,7 +1180,7 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 #### Mappings
 
 ##### ATT&CK
-* T1036
+* T1036.003
 * T1059.001
 * T1059.003
 
@@ -1085,6 +1232,7 @@ Although DNS is one of the fundamental underlying protocols that make the Intern
 ##### ATT&CK
 * T1048.003
 * T1071.004
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1159,21 +1307,26 @@ Once a phishing message has been detected, the next steps are to answer the foll
 
 ### Suspicious MSHTA Activity
 * id = 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
-* date = 2020-02-03
-* version = 1
+* date = 2021-01-20
+* version = 2
 
 #### Description
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 #### Narrative
-One common adversary tactic is to bypass application white-listing solutions via the mshta.exe process, which executes Microsoft HTML applications with the .hta suffix. In these cases, attackers use the trusted Windows utility to eproxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
-One example of a notable mshta.exe attack was the Kovter malware (https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5) that was implicated in ransomware and click-fraud attacks. Kovter utilized .hta to execute a series of javascript commands, each progressively more dangerous. According to the Mitre Parternship Network (https://attack.mitre.org/wiki/Technique/T1170), FIN7 has leveraged mshta.exe, as has the MuddyWater group, who used it to execute its POWERSTATS payload (which then used the utility to execute additional payloads).\
-The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code.
+One common adversary tactic is to bypass application white-listing solutions via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta suffix. In these cases, attackers use the trusted Windows utility to proxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code. \
+Triage \ Validate execution \ 1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. 2. Determine if script code was executed with MSHTA. \ Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSHTA.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is MSHTA loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
 
 #### Detections
+* Detect MSHTA Url in Command Line
 * Detect Prohibited Applications Spawning cmd exe
-* Detect mshta exe running scripts in command-line arguments
+* Detect Rundll32 Inline HTA Execution
+* Detect mshta inline hta execution
+* Detect mshta renamed
 * Registry Keys Used For Persistence
+* Suspicious mshta child process
+* Suspicious mshta spawn
 
 #### Data Models
 * Endpoint
@@ -1198,9 +1351,10 @@ The searches in this story help you detect and investigate suspicious activity t
 * PR.PT
 
 ##### References
+* https://redcanary.com/blog/introducing-atomictestharnesses/
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
+* https://attack.mitre.org/techniques/T1218/005/
 * https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
-* https://attack.mitre.org/wiki/Technique/T1170
 
 ### Suspicious Okta Activity
 * id = 9cbd34af-8f39-4476-a423-bacd126c750b
@@ -1270,10 +1424,13 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 #### Mappings
 
 ##### ATT&CK
-* T1112
 * T1546.001
 * T1546.011
+* T1546.012
 * T1547.001
+* T1547.010
+* T1548.002
+* T1564.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1322,8 +1479,8 @@ In the event that unauthorized WMI execution occurs, it will be important for an
 #### Mappings
 
 ##### ATT&CK
-* T1021.001
 * T1047
+* T1546.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1384,6 +1541,92 @@ Current detections focus on finding new child processes of this application on a
 * https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
 * https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
 
+### Trusted Developer Utilities Proxy Execution
+* id = 270a67a6-55d8-11eb-ae93-0242ac130002
+* date = 2021-01-12
+* version = 1
+
+#### Description
+Monitor and detect behaviors used by attackers who leverage trusted developer utilities to execute malicious code.
+
+#### Narrative
+Adversaries may take advantage of trusted developer utilities to proxy execution of malicious payloads. There are many utilities used for software development related tasks that can be used to execute code in various forms to assist in development, debugging, and reverse engineering. These utilities may often be signed with legitimate certificates that allow them to execute on a system and proxy execution of malicious code through a trusted process that effectively bypasses application control solutions.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging microsoft.workflow.compiler.exe to execute malicious code.
+
+#### Detections
+* Suspicious microsoft workflow compiler rename
+* Suspicious microsoft workflow compiler usage
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1127
+* T1127, T1036.003
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://attack.mitre.org/techniques/T1127/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
+* https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
+
+### Trusted Developer Utilities Proxy Execution MSBuild
+* id = be3418e2-551b-11eb-ae93-0242ac130002
+* date = 2021-01-21
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
+
+#### Narrative
+Adversaries may use MSBuild to proxy execution of code through a trusted Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio and is native to Windows. It handles XML formatted project files that define requirements for loading and building various platforms and configurations. \
+The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# code to be inserted into an XML project file. MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application control defenses that are configured to allow MSBuild.exe execution. \
+The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging msbuild.exe to execute malicious code. \
+Triage \ Validate execution \ 1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further PE metadata. 2. Determine if script code was executed with MSBuild. Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSBuild.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is MSbuild loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
+
+#### Detections
+* Suspicious MSBuild Rename
+* Suspicious MSBuild Spawn
+* Suspicious msbuild path
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1036.003
+* T1127.001
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://attack.mitre.org/techniques/T1127/001/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+* https://github.com/infosecn1nja/MaliciousMacroMSBuild
+* https://github.com/xorrior/RandomPS-Scripts/blob/master/Invoke-ExecuteMSBuild.ps1
+* https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+* https://github.com/MHaggis/CBR-Queries/blob/master/msbuild.md
+
 ### Windows Defense Evasion Tactics
 * id = 56e24a28-5003-4047-b2db-e8f3c4618064
 * date = 2018-05-31
@@ -1410,6 +1653,8 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 ##### ATT&CK
 * T1112
 * T1222.001
+* T1548.002
+* T1564.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1550,7 +1795,10 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * T1543.003
 * T1546.011
 * T1547.001
+* T1547.010
+* T1564.001
 * T1574.009
+* T1574.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1602,7 +1850,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * T1068
 * T1204.002
 * T1546.008
-* T1547.001
+* T1546.012
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1610,11 +1858,13 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 ###### CIS
 * CIS 2
+* CIS 5
 * CIS 8
 
 ##### NIST
 * DE.CM
 * ID.AM
+* PR.AC
 * PR.DS
 * PR.PT
 
@@ -1623,8 +1873,6 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 
 ## Best Practices
-
-* [Account Monitoring and Controls](#Account-Monitoring-and-Controls)
 
 * [Asset Tracking](#Asset-Tracking)
 
@@ -1639,43 +1887,6 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * [Router and Infrastructure Security](#Router-and-Infrastructure-Security)
 
 * [Use of Cleartext Protocols](#Use-of-Cleartext-Protocols)
-
-### Account Monitoring and Controls
-* id = 8892a655-6205-55f7-abba-06460e38c8ae
-* date = 2017-09-06
-* version = 1
-
-#### Description
-A common attack technique is to leverage user accounts to gain unauthorized access to the target's network. This Analytic Story minimizes opportunities for attack by helping you actively manage creation/use/dormancy/deletion--the lifecycle of system and application accounts.
-
-#### Narrative
-Monitoring user accounts within your enterprise is a critical analytic function that helps ensure that credential and access policies/procedures are properly implemented and are being enforced. Proactive ad-hoc hunting, as well as routine monitoring, can ensure user or system accounts are not being abused by unauthorized individuals or processes. In the event of a network event or breach, user-authentication logs are a key resource in determining if or how an account might have been compromised or co-opted, leading to suspicious or malicious activity.
-
-#### Detections
-* Detect Excessive Account Lockouts From Endpoint
-* Detect Excessive User Account Lockouts
-* Identify New User Accounts
-* Short Lived Windows Accounts
-
-#### Data Models
-* Change
-
-#### Mappings
-
-##### ATT&CK
-* T1078.002
-* T1078.003
-* T1136.001
-
-##### Kill Chain Phases
-
-###### CIS
-* CIS 16
-
-##### NIST
-* PR.IP
-
-##### References
 
 ### Asset Tracking
 * id = 91c676cf-0b23-438d-abee-f6335e1fce77
@@ -1700,11 +1911,14 @@ This Analytic Story is designed to help you develop a better understanding of wh
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Delivery
+* Reconnaissance
 
 ###### CIS
 * CIS 1
 
 ##### NIST
+* ID.AM
 * PR.DS
 
 ##### References
@@ -1766,11 +1980,14 @@ It is important to investigate any software identified as suspicious, in order t
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Command and Control
+* Installation
 
 ###### CIS
 * CIS 2
 
 ##### NIST
+* ID.AM
 * PR.DS
 
 ##### References
@@ -1806,6 +2023,7 @@ Microsoft releases updates for Windows systems on a monthly cadence. They should
 
 ##### NIST
 * PR.MA
+* PR.PT
 
 ##### References
 * https://learn.cisecurity.org/20-controls-download
@@ -1837,6 +2055,7 @@ A traditional security best practice is to control the ports, protocols, and ser
 * T1048
 * T1048.003
 * T1071.001
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1846,12 +2065,15 @@ A traditional security best practice is to control the ports, protocols, and ser
 ###### CIS
 * CIS 12
 * CIS 13
+* CIS 8
 * CIS 9
 
 ##### NIST
 * DE.AE
 * DE.CM
 * PR.AC
+* PR.DS
+* PR.PT
 
 ##### References
 * http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
@@ -1903,8 +2125,10 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 ##### NIST
 * ID.AM
+* PR.AC
 * PR.DS
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
@@ -1933,12 +2157,17 @@ Various legacy protocols operate by default in the clear, without the protection
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Reconnaissance
 
 ###### CIS
 * CIS 14
+* CIS 9
 
 ##### NIST
+* DE.AE
+* PR.AC
 * PR.DS
+* PR.PT
 
 ##### References
 * https://www.monkey.org/~dugsong/dsniff/
@@ -1969,6 +2198,8 @@ Various legacy protocols operate by default in the clear, without the protection
 * [Kubernetes Sensitive Object Access Activity](#Kubernetes-Sensitive-Object-Access-Activity)
 
 * [Kubernetes Sensitive Role Activity](#Kubernetes-Sensitive-Role-Activity)
+
+* [Office 365 Detections](#Office-365-Detections)
 
 * [Suspicious AWS EC2 Activities](#Suspicious-AWS-EC2-Activities)
 
@@ -2039,7 +2270,7 @@ Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomin
 #### Narrative
 Cryptomining is an intentionally difficult, resource-intensive business. Its complexity was designed into the process to ensure that the number of blocks mined each day would remain steady. So, it's par for the course that ambitious, but unscrupulous, miners make amassing the computing power of large enterprises--a practice known as cryptojacking--a top priority. \
 Cryptojacking has attracted an increasing amount of media attention since its explosion in popularity in the fall of 2017. The attacks have moved from in-browser exploits and mobile phones to enterprise cloud services, such as Amazon Web Services (AWS). It's difficult to determine exactly how widespread the practice has become, since bad actors continually evolve their ability to escape detection, including employing unlisted endpoints, moderating their CPU usage, and hiding the mining pool's IP address behind a free CDN. \
-hen malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \
+When malicious miners appropriate a cloud instance, often spinning up hundreds of new instances, the costs can become astronomical for the account holder. So, it is critically important to monitor your systems for suspicious activities that could indicate that your network has been infiltrated. \
 This Analytic Story is focused on detecting suspicious new instances in your EC2 environment to help prevent such a disaster. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 #### Detections
@@ -2158,7 +2389,7 @@ AWS Security Hub collects and consolidates findings from AWS security services e
 Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.
 
 #### Narrative
-Because most enterprise AWS activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).\
+Because most enterprise AWS activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to add specific IPs to an allow list because they vary. \
 This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
 
 #### Detections
@@ -2245,7 +2476,6 @@ When malicious miners appropriate a cloud instance, often spinning up hundreds o
 This Analytic Story is focused on detecting suspicious new instances in your cloud environment to help prevent cryptominers from gaining a foothold. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 #### Detections
-* Abnormally High Number Of Cloud Instances Destroyed
 * Abnormally High Number Of Cloud Instances Launched
 * Cloud Compute Instance Created By Previously Unseen User
 * Cloud Compute Instance Created In Previously Unused Region
@@ -2456,6 +2686,55 @@ Kubernetes is the most used container orchestration platform, this orchestration
 ##### References
 * https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
 
+### Office 365 Detections
+* id = 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
+* date = 2020-12-16
+* version = 1
+
+#### Description
+This story is focused around detecting Office 365 Attacks.
+
+#### Narrative
+More and more companies are using Microsofts Office 365 cloud offering. Therefore, we see more and more attacks against Office 365. This story provides various detections for Office 365 attacks.
+
+#### Detections
+* High Number of Login Failures from a single source
+* O365 Bypass MFA via Trusted IP
+* O365 Disable MFA
+* O365 Excessive Authentication Failures Alert
+* O365 PST export alert
+* O365 Suspicious Admin Email Forwarding
+* O365 Suspicious Rights Delegation
+* O365 Suspicious User Email Forwarding
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1110
+* T1110.001
+* T1114
+* T1114.002
+* T1114.003
+* T1556
+* T1562.007
+
+##### Kill Chain Phases
+* Actions on Objective
+* Actions on Objectives
+* Not Applicable
+
+###### CIS
+* CIS 16
+
+##### NIST
+* DE.AE
+* DE.DP
+
+##### References
+* https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
+
 ### Suspicious AWS EC2 Activities
 * id = 2e8948a5-5239-406b-b56b-6c50f1268af3
 * date = 2018-02-09
@@ -2552,6 +2831,7 @@ Amazon's "shared responsibility" model dictates that the company has responsibil
 Among things to look out for are S3 access from unfamiliar locations and by unfamiliar users. Some of the searches in this Analytic Story help you detect suspicious behavior and others help you investigate more deeply, when the situation warrants.   
 
 #### Detections
+* Detect New Open S3 Buckets over AWS CLI
 * Detect New Open S3 buckets
 * Detect S3 access from a new IP
 * Detect Spike in S3 Bucket deletion
@@ -2604,12 +2884,15 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 ##### ATT&CK
 
 ##### Kill Chain Phases
+* Actions on Objectives
 * Command and Control
 
 ###### CIS
 * CIS 11
 
 ##### NIST
+* DE.AE
+* DE.CM
 * PR.AC
 
 ##### References
@@ -2651,6 +2934,8 @@ This Analytic Story has data model versions of cloud searches leveraging Authent
 ##### NIST
 * DE.AE
 * DE.DP
+* PR.AC
+* PR.DS
 
 ##### References
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
@@ -2704,7 +2989,7 @@ Monitoring your cloud infrastructure logs allows you enable governance, complian
 Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
 
 #### Narrative
-Because most enterprise cloud infrastructure activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).\
+Because most enterprise cloud infrastructure activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to add specific IPs to an allow list because they vary.\
 This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
 
 #### Detections
@@ -2900,12 +3185,14 @@ Searches in this Analytic Story leverage the capabilities of OSquery to address 
 
 ##### Kill Chain Phases
 * Command and Control
+* Installation
 
 ###### CIS
 * CIS 4
 * CIS 8
 
 ##### NIST
+* DE.CM
 * DE.DP
 * PR.PT
 
@@ -2940,7 +3227,7 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 * SMB Traffic Spike
 * SMB Traffic Spike - MLTK
 * Sc exe Manipulating Windows Services
-* Scheduled Task Name Used by Dragonfly Threat Actors
+* Scheduled Task Deleted Or Created via CMD
 * Single Letter Process On Endpoint
 * Suspicious Reg exe Process
 
@@ -2958,6 +3245,7 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 * T1071.002
 * T1112
 * T1136.001
+* T1204.002
 * T1543.003
 * T1547.001
 * T1562.004
@@ -2995,10 +3283,10 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 * version = 2
 
 #### Description
-Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.
+Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
 #### Narrative
-Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow users to rapidly update domain resolutions to IP infrastructure. While their usage can be benign, malicious actors can abuse DDNS to host harmful payloads or interactive-command-and-control infrastructure. These attackers will manually update or automate domain resolution changes by routing dynamic domains to IP addresses that circumvent firewall blocks and blacklists and frustrate a network defender's analytic and investigative processes. These searches will look for DNS queries made from within your infrastructure to suspicious dynamic domains and then investigate more deeply, when appropriate. While this list of top-level dynamic domains is not exhaustive, it can be dynamically updated as new suspicious dynamic domains are identified.
+Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow users to rapidly update domain resolutions to IP infrastructure. While their usage can be benign, malicious actors can abuse DDNS to host harmful payloads or interactive-command-and-control infrastructure. These attackers will manually update or automate domain resolution changes by routing dynamic domains to IP addresses that circumvent firewall blocks and deny lists and frustrate a network defender's analytic and investigative processes. These searches will look for DNS queries made from within your infrastructure to suspicious dynamic domains and then investigate more deeply, when appropriate. While this list of top-level dynamic domains is not exhaustive, it can be dynamically updated as new suspicious dynamic domains are identified.
 
 #### Detections
 * Detect hosts connecting to dynamic domain providers
@@ -3012,20 +3300,25 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 
 ##### ATT&CK
 * T1071.001
+* T1189
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
 
 ###### CIS
+* CIS 12
 * CIS 13
 * CIS 7
 * CIS 8
 
 ##### NIST
+* DE.AE
 * DE.CM
 * DE.DP
+* PR.DS
 * PR.IP
+* PR.PT
 
 ##### References
 * https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
@@ -3134,8 +3427,10 @@ Among other searches in this Analytic Story is a detection search that looks for
 ##### ATT&CK
 * T1021.001
 * T1021.002
+* T1048.003
 * T1059.001
 * T1059.003
+* T1070.005
 * T1071.002
 * T1071.004
 
@@ -3172,7 +3467,6 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 #### Narrative
 In May of 2018, the attack group Orangeworm was implicated for installing a custom backdoor called Trojan.Kwampirs within large international healthcare corporations in the United States, Europe, and Asia. This malware provides the attackers with remote access to the target system, decrypting and extracting a copy of its main DLL payload from its resource section. Before writing the payload to disk, it inserts a randomly generated string into the middle of the decrypted payload in an attempt to evade hash-based detections.\
 Awareness of the Orangeworm group first surfaced in January, 2015. It has conducted targeted attacks against related industries, as well, such as pharmaceuticals and healthcare IT solution providers.\
-Although the group's motivation is unknown, its goal may be stealing patient information to sell on the black market. Another possible explanation is corporate espionage. \
 Healthcare may be a promising target, because it is notoriously behind in technology, often using older operating systems and neglecting to patch computers. Even so, the group was able to evade detection for a full three years. Sources say that the malware spread quickly within the target networks, infecting computers used to control medical devices, such as MRI and X-ray machines.\
 This Analytic Story is designed to help you detect and investigate suspicious activities that may be indicative of an Orangeworm attack. One detection search looks for command-line arguments. Another monitors for uses of sc.exe, a non-essential Windows file that can manipulate Windows services. One of the investigative searches helps you get more information on web hosts that you suspect have been compromised.
 
@@ -3187,12 +3481,14 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 #### Mappings
 
 ##### ATT&CK
+* T1059.001
 * T1059.003
 * T1543.003
 * T1569.002
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Command and Control
 * Installation
 
 ###### CIS
@@ -3228,6 +3524,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Ransomware is an ever-present risk to the enterprise, wherein an infected host encrypts business-critical data, holding it hostage until the victim pays the attacker a ransom. There are many types and varieties of ransomware that can affect an enterprise. Attackers can deploy ransomware to enterprises through spearphishing campaigns and driveby downloads, as well as through traditional remote service-based exploitation. In the case of the WannaCry campaign, there was self-propagating wormable functionality that was used to maximize infection. Fortunately, organizations can apply several techniques--such as those in this Analytic Story--to detect and or mitigate the effects of ransomware.
 
 #### Detections
+* BCDEdit Failure Recovery Modification
 * Common Ransomware Extensions
 * Common Ransomware Notes
 * Deleting Shadow Copies
@@ -3245,6 +3542,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * USN Journal Deletion
 * Unusually Long Command Line
 * Unusually Long Command Line - MLTK
+* WBAdmin Delete System Backups
 * Windows Event Log Cleared
 
 #### Data Models
@@ -3254,9 +3552,9 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 #### Mappings
 
 ##### ATT&CK
-* T1021.001
 * T1021.002
-* T1036
+* T1036.003
+* T1047
 * T1048
 * T1053.005
 * T1070
@@ -3338,11 +3636,14 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) on October 28th called “Ransomware Activity Targeting the Healthcare and Public Health Sector.” This alert details TTPs associated with ongoing and possible imminent attacks against the Healthcare sector, and is a joint advisory in coordination with other U.S. Government agencies. The objective of these malicious campaigns is to infiltrate targets in named sectors and to drop ransomware payloads, which will likely cause disruption of service and increase risk of actual harm to the health and safety of patients at hospitals, even with the aggravant of an ongoing COVID-19 pandemic. This document specifically refers to several crimeware exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. The Ryuk ransomware payload is not new. It has been well documented and identified in multiple variants. Payloads need a carrier, and for Ryuk it has often been exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks such as Emotet or Trickbot.
 
 #### Detections
+* BCDEdit Failure Recovery Modification
 * Common Ransomware Notes
+* NLTest Domain Trust Discovery
 * Remote Desktop Network Bruteforce
 * Remote Desktop Network Traffic
 * Ryuk Test Files Detected
 * Spike in File Writes
+* WBAdmin Delete System Backups
 * Windows DisableAntiSpyware Registry
 * Windows Security Account Manager Stopped
 * Windows connhost exe started forcefully
@@ -3356,14 +3657,17 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 ##### ATT&CK
 * T1021.001
 * T1059.003
+* T1482
 * T1485
 * T1486
 * T1489
+* T1490
 * T1562.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Delivery
+* Exploitation
 * Reconnaissance
 
 ###### CIS
@@ -3425,11 +3729,11 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 ##### ATT&CK
 * T1021.001
-* T1059.001
-* T1059.003
+* T1021.002
 * T1082
 * T1204.002
 * T1485
+* T1486
 * T1490
 
 ##### Kill Chain Phases
@@ -3494,7 +3798,8 @@ In the event an unusual process is identified, it is imperative to better unders
 #### Mappings
 
 ##### ATT&CK
-* T1036
+* T1016
+* T1036.003
 * T1204.002
 * T1218.011
 
@@ -3544,7 +3849,7 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 #### Mappings
 
 ##### ATT&CK
-* T1036
+* T1036.003
 * T1546.001
 
 ##### Kill Chain Phases
@@ -3586,14 +3891,15 @@ The Windows operating system uses a services architecture to allow for running c
 
 ##### ATT&CK
 * T1543.003
-* T1547.001
 * T1569.002
+* T1574.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Installation
 
 ###### CIS
+* CIS 2
 * CIS 3
 * CIS 5
 * CIS 8
@@ -3602,8 +3908,10 @@ The Windows operating system uses a services architecture to allow for running c
 ##### NIST
 * DE.AE
 * DE.CM
+* ID.AM
 * PR.AC
 * PR.AT
+* PR.DS
 * PR.IP
 * PR.PT
 
@@ -3638,7 +3946,7 @@ The exploit involved manipulating the `Content-Type HTTP` header to execute comm
 This Analytic Story contains two different searches that help to identify activity that may be related to this issue. The first search looks for characteristics of the `Content-Type` header consistent with attempts to exploit the vulnerability. This should be a relatively pertinent indicator, as the `Content-Type` header is generally consistent and does not have a large degree of variation.\
 The second search looks for the execution of various commands typically entered on the command shell when an attacker first lands on a system. These commands are not generally executed on web servers during the course of day-to-day operation, but they may be used when the system is undergoing maintenance or troubleshooting.\
 First, it is helpful is to understand how often the notable event is generated, as well as the commonalities in some of these events. This may help determine whether this is a common occurrence that is of a lesser concern or a rare event that may require more extensive investigation. It can also help to understand whether the issue is restricted to a single user or system or is broader in scope.\
-hen looking at the target of the behavior illustrated by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to see what other events involving the target have occurred in the recent past. This can help tie different events together and give further situational awareness regarding the target.\
+When looking at the target of the behavior illustrated by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to see what other events involving the target have occurred in the recent past. This can help tie different events together and give further situational awareness regarding the target.\
 Various types of information for external systems should be reviewed and (potentially) collected if the incident is, indeed, judged to be malicious. Information like this can be useful in generating your own threat intelligence to create alerts in the future.\
 Looking at the country, responsible party, and fully qualified domain names associated with the external IP address--as well as the registration information associated with those domain names, if they are frequently visited by others--can help you answer the question of "who," in regard to the external system. Answering that can help qualify the event and may serve useful for tracking. In addition, there are various sources that can provide some reputation information on the IP address or domain name, which can assist in determining if the event is malicious in nature. Finally, determining whether or not there are other events associated with the IP address may help connect some dots or show other events that should be brought into scope.\
 Gathering various data elements on the system of interest can sometimes help quickly determine that something suspicious may be happening. Some of these items include determining who else may have recently logged into the system, whether any unusual scheduled tasks exist, whether the system is communicating on suspicious ports, whether there are modifications to sensitive registry keys, and whether there are any known vulnerabilities on the system. This information can often highlight other activity commonly seen in attack scenarios or give more information about how the system may have been targeted.\
@@ -3671,6 +3979,7 @@ It can also be very helpful to examine various behaviors of the process of inter
 * CIS 18
 * CIS 3
 * CIS 4
+* CIS 7
 
 ##### NIST
 * DE.AE
@@ -3695,7 +4004,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 #### Narrative
 This Analytic Story looks for probing and exploitation attempts targeting JBoss application servers. While the vulnerabilities associated with this story are rather dated, they were leveraged in a spring 2016 campaign in connection with the Samsam ransomware variant. Incidents involving this ransomware are unique, in that they begin with attacks against vulnerable services, rather than the phishing or drive-by attacks more common with ransomware. In this case, vulnerable JBoss applications appear to be the target of choice.\
 It is helpful to understand how often a notable event generated by this story occurs, as well as the commonalities between some of these events, both of which may provide clues about whether this is a common occurrence of minimal concern or a rare event that may require more extensive investigation. It may also help to understand whether the issue is restricted to a single user/system or whether it is broader in scope.\
-hen looking at the target of the behavior uncovered by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to identify other recent events involving the target. This can help tie different events together and give further situational awareness regarding the target host.\
+When looking at the target of the behavior uncovered by the event, you should note the sensitivity of the user and or/system to help determine the potential impact. It is also helpful to identify other recent events involving the target. This can help tie different events together and give further situational awareness regarding the target host.\
 Various types of information for external systems should be reviewed and, potentially, collected if the incident is, indeed, judged to be malicious. This data may be useful for generating your own threat intelligence, so you can create future alerts.\
 The following factors may assist you in determining whether the event is malicious: \
 1. Country of origin\
@@ -3726,10 +4035,17 @@ It can also be helpful to examine various behaviors of and the parent of the pro
 * Reconnaissance
 
 ###### CIS
+* CIS 12
 * CIS 18
+* CIS 4
 
 ##### NIST
+* DE.AE
 * DE.CM
+* ID.RA
+* PR.IP
+* PR.MA
+* PR.PT
 
 ##### References
 * http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
@@ -3762,6 +4078,9 @@ Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that allow 
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.IP
+* RS.MI
 
 ##### References
 * https://meltdownattack.com/
@@ -3800,9 +4119,16 @@ It is important to ensure that your Splunk deployment is being kept up to date a
 
 ###### CIS
 * CIS 18
+* CIS 3
+* CIS 4
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.AC
+* PR.IP
+* PR.PT
+* RS.MI
 
 ##### References
 * http://www.splunk.com/view/SP-CAAAPQ6#announce
@@ -3836,9 +4162,16 @@ A detection search within this Analytic Story looks for vulnerabilities describe
 
 ###### CIS
 * CIS 18
+* CIS 3
+* CIS 4
 
 ##### NIST
 * DE.CM
+* ID.RA
+* PR.AC
+* PR.IP
+* PR.PT
+* RS.MI
 
 ##### References
 * https://nvd.nist.gov/vuln/detail/CVE-2018-11409

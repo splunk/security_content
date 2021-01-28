@@ -11,8 +11,7 @@ author: Jose Hernandez, Splunk
 inputs:
 - src
 search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web
-  by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`| where
-  like(src, "$src$") and like(http_method, "POST")'
+  by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`| search http_method, "POST" | search src=$src$'
 tags:
   analytics_story:
   - Apache Struts Vulnerability

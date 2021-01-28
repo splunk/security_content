@@ -1,0 +1,13 @@
+name: AWS Network Access Control List Created with All Open Ports Unit Test
+tests:
+- name: AWS Network Access Control List Created with All Open Ports
+  file: cloud/aws_network_access_control_list_created_with_all_open_ports.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_cloudtrail_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True

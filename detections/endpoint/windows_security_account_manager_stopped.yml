@@ -2,8 +2,8 @@ name: Windows Security Account Manager Stopped
 id: 69c12d59-d951-431e-ab77-ec426b8d65e6
 version: 1
 date: '2020-11-06'
-description: The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. 
-  This is consistent with Ryuk infections across a fleet of endpoints. 
+description: The search looks for a Windows Security Account Manager (SAM) was stopped
+  via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 how_to_implement: You must be ingesting data that records the process-system activity
   from your hosts to populate the Endpoint Processes data-model object. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
@@ -12,15 +12,16 @@ type: ESCU
 references: []
 author: Rod Soto, Jose Hernandez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe" "Processes.process"="*stop \"samss\"*") BY "Processes.dest", "Processes.user", "Processes.process"
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` 
+  as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe"
+  "Processes.process"="*stop \"samss\"*") BY "Processes.dest", "Processes.user", "Processes.process"
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `windows_security_account_manager_stopped_filter`'
-known_false_positives: SAM is a critical windows service, stopping it would cause major issues on an endpoint this makes false positive rare. AlthoughNo false positives have been identified.
+known_false_positives: SAM is a critical windows service, stopping it would cause
+  major issues on an endpoint this makes false positive rare. AlthoughNo false positives
+  have been identified.
 tags:
   mitre_attack_id:
-    - T1489
+  - T1489
   analytics_story:
   - Ryuk Ransomware
   kill_chain_phases:
@@ -32,3 +33,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log

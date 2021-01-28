@@ -41,7 +41,7 @@ def populate_coverage(types):
             if test.endswith('.yml') or test.endswith('yaml'):
                 with open(os.path.join(root, test), 'r') as test_fh:
                     test_desc = yaml.safe_load(test_fh)
-                    for t in test_desc['detections']:
+                    for t in test_desc['tests']:
                         detection_desc = parse_detection(get_path("../detections/%s" % t['file']))
                         detection_type = detection_desc['type']
                         if detection_type in types:

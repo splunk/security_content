@@ -1,29 +1,38 @@
 name: Suspicious MSHTA Activity
 id: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
-version: 1
-date: '2020-02-03'
+version: 2
+date: '2021-01-20'
 description: Monitor and detect techniques used by attackers who leverage the mshta.exe
   process to execute malicious code.
 narrative: 'One common adversary tactic is to bypass application white-listing solutions
-  via the mshta.exe process, which executes Microsoft HTML applications with the .hta
-  suffix. In these cases, attackers use the trusted Windows utility to eproxy execution
+  via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta
+  suffix. In these cases, attackers use the trusted Windows utility to proxy execution
   of malicious files, whether an .hta application, javascript, or VBScript.\
 
-  One example of a notable mshta.exe attack was the Kovter malware (https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5)
-  that was implicated in ransomware and click-fraud attacks. Kovter utilized .hta
-  to execute a series of javascript commands, each progressively more dangerous. According
-  to the Mitre Parternship Network (https://attack.mitre.org/wiki/Technique/T1170),
-  FIN7 has leveraged mshta.exe, as has the MuddyWater group, who used it to execute
-  its POWERSTATS payload (which then used the utility to execute additional payloads).\
-
   The searches in this story help you detect and investigate suspicious activity that
-  may indicate that an attacker is leveraging mshta.exe to execute malicious code.'
-author: Bhavin Patel, Splunk
+  may indicate that an attacker is leveraging mshta.exe to execute malicious code. \
+  
+  Triage \
+  Validate execution \
+  1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further
+  PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect.
+  2. Determine if script code was executed with MSHTA. \
+  Situational Awareness \
+  The objective of this step is meant to identify suspicious behavioral indicators related to executed of 
+  Script code by MSHTA.exe. \
+  1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 
+  2. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is
+  MSHTA loading any suspicious .DLLs?
+  3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \
+  Retrieval of script code \
+  The objective of this step is to confirm the executed script code is benign or malicious.'
+author: Bhavin Patel, Michael Haag, Splunk
 type: ESCU
 references:
+- https://redcanary.com/blog/introducing-atomictestharnesses/
 - https://redcanary.com/blog/windows-registry-attacks-threat-detection/
+- https://attack.mitre.org/techniques/T1218/005/
 - https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
-- https://attack.mitre.org/wiki/Technique/T1170
 tags:
   analytics_story: Suspicious MSHTA Activity
   usecase: Advanced Threat Detection

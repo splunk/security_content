@@ -1,21 +1,21 @@
 
 {% for story in stories %}
-[panel_group://workbench_panel_group_{{ story.lowercase_name}}]
+[panel_group://workbench_panel_group_{{ story.lowercase_name}}]
 label = {{ story.name }}
 description = {{ story.description }}
 disabled = 0
 
 {% if story.workbench_panels is defined %}
-panels = {{ story.workbench_panels | tojson }}
+panels = {{ story.workbench_panels | tojson }}
 {% else %}
-panels = ["panel://workbench_panel_get_notable_info"]
+panels = ["panel://workbench_panel_get_notable_history___response_task"]
 {% endif %}
 
 {% endfor %}
 
 
 {% for response_task in response_tasks %}
-[panel://workbench_panel_{{ response_task.lowercase_name }}]
+[panel://workbench_panel_{{ response_task.lowercase_name }}___response_task]
 label = {{ response_task.name }}
 description = {{ response_task.description }}
 disabled = 0
@@ -23,20 +23,28 @@ tokens = {\
 {% for token in response_task.inputs %}
 {% if token == 'user' %}
     "user": {\
-      "valuePrefix": "",\
-      "valueSuffix": "",\
-      "delimiter": " OR ",\
+      "valuePrefix": "\"",\
+      "valueSuffix": "\"",\
+      "delimiter": " OR {{ token }}=",\
       "valueType": "primitive",\
       "value": "identity",\
-      "default": "_1!=1"\
-    }{% else %}
-    "{{ token }}": {\
-      "valuePrefix": "",\
-      "valueSuffix": "",\
-      "delimiter": " OR ",\
+      "default": "null"\
+    }{% elif token == 'dest'%}
+    "dest": {\
+      "valuePrefix": "\"",\
+      "valueSuffix": "\"",\
+      "delimiter": " OR {{ token }}=",\
       "valueType": "primitive",\
       "value": "asset",\
-      "default": "_1!=1"\
+      "default": "null"\
+    }{% else %}
+    "{{ token }}": {\
+      "valuePrefix": "\"",\
+      "valueSuffix": "\"",\
+      "delimiter": " OR {{ token }}=",\
+      "valueType": "primitive",\
+      "value": "file",\
+      "default": "null"\
     }{% endif %}{{ "," if not loop.last }}\
 {% endfor %}
 }\

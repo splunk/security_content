@@ -3,10 +3,10 @@ This PR was created by Automated Detection Testing Service :robot:
 Tested detections:
 
 {% for result in results %}
-{{ result.detection }} {% if result.error == 0 %}:white_check_mark:{% else %}:x:{% endif %}
+{{ result.detection_result.detection_name }} {% if result.detection_result.error == 0 %}:white_check_mark:{% else %}:x:{% endif %}
 
-- diskUsage: {{ result.results.diskUsage }}
-- runDuration: {{ result.results.runDuration }}s
-- scanCount: {{ result.results.scanCount }}
+- diskUsage: {{ result.detection_result.diskUsage }}
+- runDuration: {{ result.detection_result.runDuration }}s
+- scanCount: {{ result.detection_result.scanCount }}
 
 {% endfor %}

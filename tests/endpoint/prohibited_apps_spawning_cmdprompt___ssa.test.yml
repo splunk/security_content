@@ -1,9 +1,0 @@
-name: Detect Prohibited Applications Spawning cmd exe - SSA
-detections:
-  - name: Detect Prohibited Applications Spawning cmd exe
-    file: endpoint/prohibited_apps_spawning_cmdprompt___ssa.yml
-    pass_condition: ''
-description: Test prohibited apps spawning cmd.exe
-attack_data:
-  - file_name: unit_test_detect_prohibited_applications_spawning_cmd_exe.json
-    data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/unit_test_detect_prohibited_applications_spawning_cmd_exe.json

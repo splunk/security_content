@@ -20,7 +20,7 @@ narrative: 'Cryptomining is an intentionally difficult, resource-intensive busin
   unlisted endpoints, moderating their CPU usage, and hiding the mining pool''s IP
   address behind a free CDN. \
 
-  hen malicious miners appropriate a cloud instance, often spinning up hundreds of
+  When malicious miners appropriate a cloud instance, often spinning up hundreds of
   new instances, the costs can become astronomical for the account holder. So, it
   is critically important to monitor your systems for suspicious activities that could
   indicate that your network has been infiltrated. \

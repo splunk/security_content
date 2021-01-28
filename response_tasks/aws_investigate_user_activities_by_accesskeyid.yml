@@ -10,7 +10,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 author: David Dorsey, Splunk
 inputs:
 - accessKeyId
-search: '| search sourcetype=aws:cloudtrail userIdentity.accessKeyId=$accessKeyId$
+search: '| search sourcetype=aws:cloudtrail | rename userIdentity.accessKeyId as accessKeyId| search accessKeyId=$accessKeyId$
   | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip |
   table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage'
 tags:

@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| search sourcetype=aws:cloudtrail responseElements.instancesSet.items{}.instanceId=$dest$ |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId as instanceId, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress, responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture as architecture, responseElements.instancesSet.items{}.keyName as keyName | table arn, awsRegion, instanceId, architecture, privateIpAddress, amiID, keyName</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

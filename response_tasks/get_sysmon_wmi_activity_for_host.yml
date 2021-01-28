@@ -12,7 +12,7 @@ inputs:
 - process
 - dest
 search: sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode>18
-  EventCode<22 host=$dest$ | rename host as dest | table _time, dest, user, Name,
+  EventCode<22 | rename host as dest | search dest=$dest$| table _time, dest, user, Name,
   Operation, EventType, Type, Query, Consumer, Filter
 tags:
   analytics_story:

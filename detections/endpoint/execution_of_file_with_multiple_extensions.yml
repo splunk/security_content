@@ -1,7 +1,7 @@
 name: Execution of File with Multiple Extensions
 id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2020-11-18'
 description: This search looks for processes launched from files that have double
   extensions in the file name. This is typically done to obscure the "real" file extension
   and make it appear as though the file being accessed is a data file, as opposed
@@ -23,7 +23,7 @@ tags:
   analytics_story:
   - Windows File Extension and Association Abuse
   mitre_attack_id:
-  - T1036
+  - T1036.003
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -35,3 +35,6 @@ tags:
   - PR.IP
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log

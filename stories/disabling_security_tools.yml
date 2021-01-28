@@ -14,7 +14,7 @@ narrative: Attackers employ a variety of tactics in order to avoid detection and
   Windows and various other programs reside, or explicitly attempting to shut down
   security-related services. Other times, attackers attempt various tricks to prevent
   specific programs from running, such as adding the certificates with which the security
-  tools are signed to a blacklist (which would prevent them from running).
+  tools are signed to a block list (which would prevent them from running).
 author: Rico Valdez, Splunk
 type: ESCU
 references:

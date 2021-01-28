@@ -7,13 +7,13 @@ how_to_implement: To successfully implement this search you need to be ingesting
   logs from your various systems and populating the Authentication data model.
 author: Patrick Bareiss, Splunk
 inputs:
-- dest
+- user
 search: '| tstats count `security_content_summariesonly` earliest(_time) as first_login
   latest(_time) as last_login dc(Authentication.dest) AS distinct_count_dest values(Authentication.dest)
   AS Authentication.dest values(Authentication.app) AS Authentication.app  from datamodel=Authentication
   where Authentication.action=failure by Authentication.user | where distinct_count_dest
   > 1 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
-  | `drop_dm_object_name("Authentication")`'
+  | `drop_dm_object_name("Authentication")` | search user=$user$'
 tags:
   analytics_story:
   - Credential Dumping

@@ -1,0 +1,10 @@
+name: Rare Parent/Child Process Relationship - SSA Unit Test
+tests:
+  - name: Access LSASS Memory for Dump Creation
+    file: endpoint/ssa___rare_parent_process_relationship_lolbas.yml
+    pass_condition: '@count_gt(0)'
+    description: Test detection looking for LOLBAS processes spawned by other processes that are rarely seen together
+    attack_data:
+      - file_name: T1059.all.labeled.lolbas-test.json
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
+

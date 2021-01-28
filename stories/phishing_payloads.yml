@@ -18,7 +18,7 @@ narrative: 'Despite its simplicity, phishing remains the most pervasive and dang
   However, you can use ES and ESCU to detect and investigate potentially malicious
   payloads injected into your environment subsequent to a phishing attack. \
 
-  hile any kind of file may contain a malicious payload, some are more likely to be
+  While any kind of file may contain a malicious payload, some are more likely to be
   perceived as benign (and thus more often escape notice) by the average victim&#151;especially
   when the attacker sends an email that seems to be from one of their contacts. An
   example is Microsoft Office files. Most corporate users are familiar with documents

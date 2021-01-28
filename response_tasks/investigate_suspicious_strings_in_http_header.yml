@@ -15,7 +15,7 @@ author: Bhavin Patel, Splunk
 inputs:
 - src_ip
 - dest_ip
-search: '| search sourcetype=stream:http src_ip="$src_ip$" dest_ip="$dest_ip$" | eval
+search: '| search sourcetype=stream:http | search src_ip=$src_ip$ | search dest_ip=$dest_ip$ | eval
   cs_content_type_length = len(cs_content_type) | search cs_content_type_length >
   100 | rex field="cs_content_type" (?<suspicious_strings>cmd.exe) | eval suspicious_strings_found=if(match(cs_content_type,
   "application"), "True", "False")  | rename suspicious_strings_found AS "Suspicious

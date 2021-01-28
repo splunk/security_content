@@ -1,0 +1,12 @@
+name: Sc exe Manipulating Windows Services Unit Test
+tests:
+- name: Sc exe Manipulating Windows Services
+  file: endpoint/sc_exe_manipulating_windows_services.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
