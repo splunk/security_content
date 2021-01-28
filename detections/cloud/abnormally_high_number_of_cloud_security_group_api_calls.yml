@@ -36,6 +36,8 @@ tags:
   - DE.DP
   - DE.CM
   - PR.AC
+  product:
+  - Splunk Security Analytics for AWS
   security_domain: network
   asset_type: AWS Instance
   risk_score: 25

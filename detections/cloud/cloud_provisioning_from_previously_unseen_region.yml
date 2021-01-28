@@ -47,6 +47,8 @@ tags:
   - ID.AM
   mitre_attack_id:
   - T1078
+  product:
+  - Splunk Security Analytics for AWS
   security_domain: endpoint
   asset_type: AWS Instance
   risk_score: 5
