@@ -20,11 +20,12 @@ search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(
   Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_mimikatz_using_loaded_images_filter`'
 known_false_positives: Other tools can import the same DLLs. These tools should be
-  part of a whtelist.
+  part of a whitelist.
 tags:
   analytics_story:
   - Credential Dumping
   - Detect Zerologon Attack
+  - Cloud Federated Credential Abuse
   mitre_attack_id:
   - T1003.001
   kill_chain_phases:

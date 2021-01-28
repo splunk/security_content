@@ -25,7 +25,7 @@ tags:
   kill_chain_phases:
   - Actions on Objective
   mitre_attack_id:
-  - T1136
+  - T1136.003
   security_domain: threat
   automated_detection_testing: n/a
   dataset:

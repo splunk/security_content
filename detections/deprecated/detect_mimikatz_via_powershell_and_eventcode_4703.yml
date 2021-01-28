@@ -25,6 +25,8 @@ known_false_positives: The activity may be legitimate. PowerShell is often used 
   in those cases. In these cases, false positives should be fairly obvious and you
   may need to tweak the search to eliminate noise.
 tags:
+  analytics_story:
+  - Cloud Federated Credential Abuse
   mitre_attack_id:
   - T1003.001
   kill_chain_phases:

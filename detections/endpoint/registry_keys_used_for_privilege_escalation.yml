@@ -28,6 +28,7 @@ tags:
   analytics_story:
   - Windows Privilege Escalation
   - Suspicious Windows Registry Activities
+  - Cloud Federated Credential Abuse
   mitre_attack_id:
   - T1546.012
   kill_chain_phases:

@@ -30,6 +30,7 @@ tags:
   analytics_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Unusual Processes
+  - Cloud Federated Credential Abuse
   kill_chain_phases:
   - Installation
   - Command and Control
