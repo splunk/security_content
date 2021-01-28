@@ -2,16 +2,17 @@ name: Ntdsutil export ntds
 id: da63bc76-61ae-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-28'
-description: Monitor for signs that Ntdsutil is being used to Extract Active Directory database - NTDS.dit,
-  typically used for offline password cracking.
-  It may be used in normal circumstances with no command line arguments or shorthand variations
-  of more common arguments. Ntdsutil.exe is typically seen run on a Windows Server. 
-  Typical command used to dump ntds.dit \
-  
+description: 'Monitor for signs that Ntdsutil is being used to Extract Active Directory
+  database - NTDS.dit, typically used for offline password cracking. It may be used
+  in normal circumstances with no command line arguments or shorthand variations of
+  more common arguments. Ntdsutil.exe is typically seen run on a Windows Server. Typical
+  command used to dump ntds.dit \
+
   ntdsutil "ac i ntds" "ifm" "create full C:\Temp" q q \
-  
-  This technique uses "Install from Media" (IFM), which will extract a copy of the Active Directory database.
-  A successful export of the Active Directory database will yield a file modification named ntds.dit to the destination.
+
+  This technique uses "Install from Media" (IFM), which will extract a copy of the
+  Active Directory database. A successful export of the Active Directory database
+  will yield a file modification named ntds.dit to the destination.'
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints, to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
@@ -29,8 +30,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.parent_process Processes.process_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `ntdsutil_export_ntds_filter`'
-known_false_positives: Highly possible Server Administrators will troubleshoot
-  with ntdsutil.exe, generating false positives.
+known_false_positives: Highly possible Server Administrators will troubleshoot with
+  ntdsutil.exe, generating false positives.
 tags:
   analytics_story:
   - Credential Dumping
@@ -47,3 +48,4 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
