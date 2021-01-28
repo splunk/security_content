@@ -21,3 +21,5 @@ tags:
   - Cloud Cryptomining
   detections:
   - Cloud Compute Instance Created By Previously Unseen User
+  deployments:
+  - Daily Cache Updates

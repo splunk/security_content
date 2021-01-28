@@ -20,4 +20,4 @@ tags:
   detections:
   - Cloud API Calls From Previously Unseen User Roles
   deployments:
-  - Hourly Cache Updates
+  - 90 Day Baseline

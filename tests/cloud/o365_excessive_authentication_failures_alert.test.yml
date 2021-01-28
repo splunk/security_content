@@ -1,0 +1,12 @@
+name: O365 Excessive Authentication Failures Alert Unit Test
+tests:
+- name: O365 Excessive Authentication Failures Alert
+  file: cloud/o365_excessive_authentication_failures_alert.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: o365_brute_force_login.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
+    sourcetype: 'o365:management:activity'
+    source: 'o365'

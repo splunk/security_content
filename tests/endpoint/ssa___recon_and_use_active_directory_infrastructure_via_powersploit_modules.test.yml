@@ -1,0 +1,10 @@
+name: Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules - SSA Unit test
+tests:
+  - name: Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules
+    file: endpoint/ssa___recon_and_use_active_directory_infrastructure_via_powersploit_modules.yml
+    pass_condition: '@count_gt(0)'
+    description: Test reconnaissance and access to active directory infrastrucutre detections
+    attack_data:
+      - file_name: logAllPowerSploitModulesWithOldNames.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+

@@ -33,4 +33,4 @@ tags:
   security_domain: endpoint
   automated_detection_testing: passed
   dataset:
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1082/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/atomic_red_team/windows-sysmon.log

@@ -35,3 +35,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/cmd_spawns_cscript/windows-sysmon.log

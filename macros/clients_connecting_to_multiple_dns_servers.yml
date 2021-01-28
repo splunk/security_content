@@ -1,3 +1,0 @@
-description: Use this macro to add additional filters for monitoring clients connecting to multiple dns servers 
-name: clients_connecting_to_multiple_dns_servers_output_filter
-definition: search *

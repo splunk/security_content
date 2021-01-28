@@ -1,7 +1,7 @@
 name: AWS Network Access Control List Deleted
 id: ada0f478-84a8-4641-a3f1-d82362d6fd75
-version: 1
-date: '2017-01-10'
+version: 2
+date: '2021-01-12'
 description: Enforcing network-access controls is one of the defensive mechanisms
   used by cloud administrators to restrict access to a cloud instance. After the attacker
   has gained control of the AWS console by compromising an admin account, they can
@@ -12,16 +12,18 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs.
 type: ESCU
 references: []
-author: Bhavin Patel, Splunk
-search: '`cloudtrail` eventName=DeleteNetworkAcl|rename userIdentity.arn as arn  |
-  stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage)
-  values(errorCode) values(userAgent) values(userIdentity.*) by src userName arn eventName
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `aws_network_access_control_list_deleted_filter`'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
+  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by userName
+  userIdentity.principalId eventName requestParameters.egress src userAgent | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
 known_false_positives: It's possible that a user has legitimately deleted a network
   ACL.
 tags:
   analytics_story:
   - AWS Network ACL Activity
+  mitre_attack_id:
+  - T1562.007
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -34,4 +36,6 @@ tags:
   risk_score: 5
   risk_object_type: user
   risk_object: userName
-
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json

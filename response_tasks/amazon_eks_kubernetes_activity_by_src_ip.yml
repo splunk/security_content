@@ -11,10 +11,9 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 author: Rod Soto, Splunk
 inputs:
 - src_ip
-search: sourcetype="aws:cloudwatchlogs:eks" sourceIPs{}=$src_ip$|rename sourceIPs{}
-  as src_ip | stats count min(_time) as firstTime max(_time) as lastTime values(user.username)
-  values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision
-  src_ip
+search: sourcetype="aws:cloudwatchlogs:eks" |rename sourceIPs{}
+  as src_ip |search src_ip=$src_ip$ | stats count min(_time) as firstTime max(_time) as lastTime values(user.username)
+  values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision src_ip
 tags:
   analytics_story:
   - Kubernetes Scanning Activity

@@ -1,10 +1,12 @@
 name: Attempt To Stop Security Service Unit Test
-detections:
+tests:
 - name: Attempt To Stop Security Service
   file: endpoint/attempt_to_stop_security_service.yml
   pass_condition: '| stats count | where count > 0'
-attack_data:
-- file_name: windows-sysmon.log
-  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1562.001_custom_f3b70c45-3f9f-493d-b0b0-6be2ad9f158b/windows-sysmon.log
-  source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-  sourcetype: xmlwineventlog
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_defend_service_stop/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

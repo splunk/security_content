@@ -1,17 +1,18 @@
 name: Reg exe Manipulating Windows Services Registry Keys
 id: 8470d755-0c13-45b3-bd63-387a373c10cf
-version: 4
-date: '2020-07-21'
+version: 5
+date: '2020-11-26'
 description: The search looks for reg.exe modifying registry keys that define Windows
   services and their configurations.
 type: ESCU
 references: []
 author: Rico Valdez, Splunk
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name
-  values(Processes.parent_process_name) as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
-  where Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add* Processes.process=*Services*
-  by Processes.process_id Processes.dest Processes.process | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
+  as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
+  where Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add*
+  Processes.process=*Services* by Processes.process_id Processes.dest Processes.process
+  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `reg_exe_manipulating_windows_services_registry_keys_filter`'
 known_false_positives: It is unusual for a service to be created or modified by directly
   manipulating the registry. However, there may be legitimate instances of this behavior.
@@ -21,7 +22,7 @@ tags:
   - Windows Service Abuse
   - Windows Persistence Techniques
   mitre_attack_id:
-  - T1547.001
+  - T1574.011
   kill_chain_phases:
   - Installation
   cis20:
@@ -36,3 +37,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log

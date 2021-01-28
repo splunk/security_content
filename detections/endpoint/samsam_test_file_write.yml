@@ -18,6 +18,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` | `samsam_test_file_write_filter`'
 known_false_positives: No false positives have been identified.
 tags:
+  mitre_attack_id:
+  - T1486
   analytics_story:
   - SamSam Ransomware
   kill_chain_phases:
@@ -29,3 +31,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/sam_sam_note/windows-sysmon.log

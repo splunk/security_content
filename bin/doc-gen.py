@@ -56,32 +56,28 @@ def prepare_content(stories, detections):
                         for mitre_attack_id in detection['tags']['mitre_attack_id']:
                             sto_to_mitre_attack_ids[story].add(mitre_attack_id)
                     else:
-                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
-                            sto_to_mitre_attack_ids[story] = {mitre_attack_id}
+                        sto_to_mitre_attack_ids[story] = set(detection['tags']['mitre_attack_id'])
 
                 if 'kill_chain_phases' in detection['tags']:
                     if story in sto_to_kill_chain_phases.keys():
                         for kill_chain in detection['tags']['kill_chain_phases']:
                             sto_to_kill_chain_phases[story].add(kill_chain)
                     else:
-                        for kill_chain in detection['tags']['kill_chain_phases']:
-                            sto_to_kill_chain_phases[story] = {kill_chain}
+                        sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
 
                 if 'cis20' in detection['tags']:
                     if story in sto_to_ciss.keys():
                         for cis in detection['tags']['cis20']:
                             sto_to_ciss[story].add(cis)
                     else:
-                        for cis in detection['tags']['cis20']:
-                            sto_to_ciss[story] = {cis}
+                        sto_to_ciss[story] = set(detection['tags']['cis20'])
 
                 if 'nist' in detection['tags']:
                     if story in sto_to_nists.keys():
                         for nist in detection['tags']['nist']:
                             sto_to_nists[story].add(nist)
                     else:
-                        for nist in detection['tags']['nist']:
-                            sto_to_nists[story] = {nist}
+                        sto_to_nists[story] = set(detection['tags']['nist'])
 
     for story in stories:
         story['detections'] = sorted(sto_to_det[story['name']])
@@ -667,7 +663,7 @@ if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="generates documentation from our content", epilog="""
     This tool converts manifests information to documents in variious format like markdown and wiki markup used by Splunk docs.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     parser.add_argument("-gsd", "--gen_splunk_docs", required=False, default=True, action='store_true',
@@ -686,6 +682,7 @@ if __name__ == "__main__":
     stories = load_objects("stories/*.yml")
     detections = []
     detections = load_objects("detections/*/*.yml")
+    detections.extend(load_objects("detections/*/*/*.yml"))
 
     # complete_stories = generate_stories(REPO_PATH, verbose)
     # complete_detections = generate_detections(REPO_PATH, complete_stories)

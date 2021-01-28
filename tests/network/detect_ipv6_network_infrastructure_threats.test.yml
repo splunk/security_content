@@ -1,12 +1,12 @@
 name: IPv6 Network Infrastructure Threats
-detections:
+tests:
   - name: Detect IPv6 Network Infrastructure Threats
     file: network/detect_ipv6_network_infrastructure_threats.yml
     pass_condition: '| stats count | where count > 0'
-description: Test IPv6 Network Infrastructure Threats detection
-simulation_technique: 'T1557.002'
-attack_data:
-  - file_name: cisco_ios.log
-    data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1557.002/cisco_ios.log
-    source: udp:514
-    sourcetype: cisco:ios
+    earliest_time: '-24h'
+    latest_time: 'now'
+    attack_data:
+    - file_name: cisco_ios.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1557.002/cisco_ios/cisco_ios.log
+      source: udp:514
+      sourcetype: cisco:ios

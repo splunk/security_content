@@ -3,7 +3,7 @@ id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
 version: 1
 date: '2019-12-03'
 description: This search looks for reading loaded Images unique to credential dumping
-  with Mimikatz.
+  with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon Event Code.
 how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
   includes EventCode 7 with powershell.exe. This search uses an input macro named
   `sysmon`. We strongly recommend that you specify your environment-specific configurations

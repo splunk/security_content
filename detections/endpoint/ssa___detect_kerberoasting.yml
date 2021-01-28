@@ -12,7 +12,7 @@ author: Xiao Lin, Splunk
 search: ' | from read_ssa_enriched_events()
 | eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id")
 | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17"
-| first_time_event cache_partitions=1 input_columns="EventCode,TicketOptions,TicketEncryptionType,ServiceName,ServiceID"
+| first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"]
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID
 | eval start_time=_time, end_time=_time, body="TBD", entities="TBD"
 | select start_time, end_time, entities, body 

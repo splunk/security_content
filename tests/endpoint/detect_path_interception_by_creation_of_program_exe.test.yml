@@ -1,10 +1,12 @@
 name: Detect Path Interception By Creation Of program exe Unit Test
-detections:
+tests:
 - name: Detect Path Interception By Creation Of program exe
   file: endpoint/detect_path_interception_by_creation_of_program_exe.yml
   pass_condition: '| stats count | where count = 1'
-attack_data:
-- file_name: windows-sysmon.log
-  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1574.009/windows-sysmon.log
-  source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-  sourcetype: xmlwineventlog
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.009/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

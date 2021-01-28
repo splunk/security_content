@@ -17,7 +17,7 @@ narrative: 'The Federal Bureau of Investigations (FBI) defines Internet fraud as
   actssuch as obtaining and using stolen credit cards. They represent a serious problem
   that is steadily increasing and not likely to go away anytime soon.\
 
-  hen developing a strategy for preventing fraud in your environment, its important
+  When developing a strategy for preventing fraud in your environment, its important
   to  look across all of your web services for evidence that attackers are abusing
   enterprise resources to enumerate systems, harvest data for secondary fraudulent
   activity, or abuse terms of service.This Analytic Story looks for evidence of common

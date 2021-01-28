@@ -1,10 +1,12 @@
 name: Common Ransomware Extensions Unit Test
-detections:
+tests:
 - name: Common Ransomware Extensions
   file: endpoint/common_ransomware_extensions.yml
   pass_condition: '| stats count | where count > 0'
-attack_data:
-- file_name: windows-sysmon.log
-  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1485_custom_215ee4f9-c027-4ea1-a882-d97b887d233d/windows-sysmon.log
-  source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-  sourcetype: xmlwineventlog
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_extensions/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

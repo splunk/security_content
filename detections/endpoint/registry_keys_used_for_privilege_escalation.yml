@@ -1,7 +1,7 @@
 name: Registry Keys Used For Privilege Escalation
 id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
-version: 3
-date: '2020-07-21'
+version: 4
+date: '2020-11-27'
 description: This search looks for modifications to registry keys that can be used
   to elevate privileges. The registry keys under "Image File Execution Options" are
   used to intercept calls to an executable and can be used to attach malicious binaries
@@ -16,12 +16,12 @@ type: ESCU
 references:
 - https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options/
 author: David Dorsey, Splunk
-search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
-  as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
+  max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows
   NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_key_name=GlobalFlag
-  OR Registry.registry_key_name=Debugger) by Registry.dest  Registry.user | `security_content_ctime(lastTime)`  |
-  `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `registry_keys_used_for_privilege_escalation_filter`'
+  OR Registry.registry_key_name=Debugger) by Registry.dest  Registry.user Registry.registry_path
+  Registry.registry_key_name | `security_content_ctime(lastTime)`  | `security_content_ctime(firstTime)`
+  | `drop_dm_object_name(Registry)` | `registry_keys_used_for_privilege_escalation_filter`'
 known_false_positives: There are many legitimate applications that must execute upon
   system startup and will use these registry keys to accomplish that task.
 tags:
@@ -29,7 +29,7 @@ tags:
   - Windows Privilege Escalation
   - Suspicious Windows Registry Activities
   mitre_attack_id:
-  - T1547.001
+  - T1546.012
   kill_chain_phases:
   - Actions on Objectives
   cis20:
@@ -39,3 +39,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-sysmon.log

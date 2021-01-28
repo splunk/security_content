@@ -19,3 +19,5 @@ tags:
   - Cloud Cryptomining
   detections:
   - Cloud Compute Instance Created With Previously Unseen Image
+  deployments:
+  - 90 Day Baseline

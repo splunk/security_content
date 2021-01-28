@@ -15,3 +15,5 @@ tags:
   - Suspicious Cloud Authentication Activities 
   detections:
   - AWS Cross Account Activity From Previously Unseen Account 
+  deployments:
+  - 90 Day Baseline

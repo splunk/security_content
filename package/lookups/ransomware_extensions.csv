@@ -18,7 +18,6 @@ Extensions,Name
 .locked,ApocalypseVM
 .locky,AutoLocky
 .adr,BaksoCrypt
-,Bandarchor
 .bart.zip,Bart
 .bart,Bart
 .perl,Bart
@@ -106,7 +105,7 @@ Extensions,Name
 .kostya,Kostya
 .kratos,KratosCrypt
 .LeChiffre,LeChiffre
-.locky
+.locky,Locky
 .zepto,Locky
 .odin,Locky
 .shit,Locky
@@ -117,9 +116,7 @@ Extensions,Name
 .lock93,Lock93
 .crime,Lortok
 .oor,LowLevel04
-,Mabouia
 .magic,Magic
-,MaktubLocker
 .Lock,MIRCOP
 .fucked,MireWare
 .fuck,MireWare
@@ -266,7 +263,6 @@ Extensions,Name
 .vault,VaultCrypt
 .xort,VaultCrypt
 .trun,VaultCrypt
-,VenisRansomware
 .Venusf,VenusLocker
 .Venusp,VenusLocker
 .CrySiS,Virus-Encoder

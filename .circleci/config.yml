@@ -23,7 +23,7 @@ apt-run: &apt-install
   name: install system packages
   command: |
     sudo apt update -qq
-    sudo apt install -y python-dev python3-dev -qq
+    sudo apt install -y python-dev python3-dev jq -qq
     # install go for other testing tools
     # but first lets clean up the env
     if  [ -f goinstall.sh ]; then
@@ -137,10 +137,10 @@ jobs:
             cd security-content
             # check if tag is set, get build number from the tag if set
             if [ -z "${CIRCLE_TAG}" ]; then
-                CONTENT_VERSION=$(grep -oP "(\d.\d.\d+$)" package/default/content-version.conf)
+                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" package/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
             else
-                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d.\d.\d+")
+                CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d+.\d+.\d+")
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
             fi
             # update build number and version
@@ -199,32 +199,30 @@ jobs:
           at: ~/
       - run: *apt-install
       - run:
-          name: grab appinspect
+          name: checkout repo
           command: |
-            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.tar.gz -o appinspect-lastest.tar.gz
-            mkdir appinspect-latest
-            tar -zxf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                cd security-content
+                git fetch origin pull/${CIRCLE_PR_NUMBER}/head:${CIRCLE_BRANCH}
+                git checkout ${CIRCLE_BRANCH}
+            elif [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
       - run:
-          name: install app inspect
+          name: submit package to appinspect API
           command: |
-            cd appinspect-latest
-            rm -rf venv
-            sudo pip install --upgrade pip setuptools
-            sudo pip install virtualenv
-            virtualenv --python=/usr/bin/python3 --clear venv
-            source venv/bin/activate
-            pip install .
-      - run:
-          name: run app inspect
-          command: |
-            cd appinspect-latest
-            source venv/bin/activate
-            splunk-appinspect inspect ~/DA-ESS-ContentUpdate-latest.tar.gz --included-tags=cloud --max-messages=all
+            cd security-content/bin
+            ./appinspect.sh ~/ $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
+      - store_artifacts:
+          path: ~/report
+          destination: report/
       - persist_to_workspace:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-
   update-sources-github:
     executor: content-executor
     steps:
@@ -352,7 +350,7 @@ jobs:
             aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
       - run:
           name: security content api smoke test
-          command: | 
+          command: |
             API_URL='https://content.splunkresearch.com/detections'
             API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
             echo "Security Content API Status: $API_STATUS"
@@ -360,6 +358,40 @@ jobs:
               echo "Error [Security Content API status: $API_STATUS]"
               exit 1
             fi
+
+  create-report:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - run:
+          name: install python dependencies
+          command: |
+            cd security-content
+            rm -rf venv
+            virtualenv --python=/usr/bin/python3 --clear venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+      - run:
+          name: run reporting
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/reporting.py
+      - aws-cli/setup:
+          profile-name: default
+      - run:
+          name: upload reporting
+          command: |
+            cd security-content
+            aws s3 cp bin/reporting s3://security-content/reporting --recursive --exclude "*" --include "*.svg"
 
 
 workflows:
@@ -395,6 +427,15 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - create-report:
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+            - run-appinspect
+          filters:
+            tags:
+              only: /^v.*/
       - update-sources-github:
         # update package and docs in github if is a tag
           requires:
@@ -402,6 +443,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
           filters:
             tags:
               only: /^v.*/
@@ -414,6 +456,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
             - update-sources-github
           filters:
             tags:
@@ -427,6 +470,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
             - update-sources-github
             - publish-github-release
           filters:
@@ -441,6 +485,7 @@ workflows:
             - build-sources
             - build-package
             - run-appinspect
+            - create-report
             - update-sources-github
             - publish-github-release
             - attack-range-update

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 '''
-Generates splunk configurations from manifest files under the security-content repo.
+Generates splunk configurations from manifest files under the security_content repo.
 '''
 
 import glob
@@ -46,7 +46,7 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -62,7 +62,7 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     template = j2_env.get_template('collections.j2')
     output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -83,12 +83,11 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         if data_model:
             detection['data_model'] = data_model
 
-        matched_deployments = get_deployments(detection, deployments)
-        if len(matched_deployments):
-            detection['deployment'] = matched_deployments[-1]
-            nes_fields = get_nes_fields(detection['search'], detection['deployment'])
-            if len(nes_fields) > 0:
-                detection['nes_fields'] = nes_fields
+        matched_deployment = get_deployments(detection, deployments)
+        detection['deployment'] = matched_deployment
+        nes_fields = get_nes_fields(detection['search'], detection['deployment'])
+        if len(nes_fields) > 0:
+            detection['nes_fields'] = nes_fields
 
         keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
         mappings = {}
@@ -106,7 +105,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         # we are duplicating the code block above for now and just changing variable names to make future
         # changes to this data structure separate from the mappings generation
         # @todo expose the JSON data structure for newer risk type
-        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytics_story']
         savedsearch_annotations = {}
         for key in annotation_keys:
             if key == 'mitre_attack':
@@ -123,15 +122,16 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_object_type'] = detection['tags']['risk_object_type']
         if 'risk_score' in detection['tags']:
             detection['risk_score'] = detection['tags']['risk_score']
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
             baseline['data_model'] = data_model
 
-        matched_deployments = get_deployments(baseline, deployments)
-        if len(matched_deployments):
-            baseline['deployment'] = matched_deployments[-1]
+        matched_deployment = get_deployments(baseline, deployments)
+        baseline['deployment'] = matched_deployment
 
     for response_task in response_tasks:
         if 'search' in response_task:
@@ -179,7 +179,7 @@ def generate_analytics_story_conf(stories, detections, response_tasks, baselines
     template = j2_env.get_template('analytic_stories.j2')
     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
     output = template.render(stories=stories, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -195,7 +195,9 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
         story['author_name'], story['author_company'] = parse_author_company(story)
         if story['name'] in sto_det:
             story['detections'] = list(sto_det[story['name']])
+
         if story['name'] in sto_res:
+
             story['response_tasks'] = list(sto_res[story['name']])
             story['searches'] = story['detections'] + story['response_tasks']
         else:
@@ -223,7 +225,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     output = template.render(stories=stories, detections=detections,
                              response_tasks=response_tasks,
                              baselines=baselines, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -248,7 +250,7 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
     template = j2_env.get_template('macros.j2')
     output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
     output = template.render(macros=all_macros, time=utc_time)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
     return output_path
@@ -265,19 +267,20 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
             for response_task_name in response_task_names:
                 str = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
                 story['workbench_panels'].append(str)
-            story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+        story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
 
     workbench_panel_objects = []
     for response_task in response_tasks:
         if 'search' in response_task:
             if 'inputs' in response_task:
                 response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                response_file_name_xml = response_file_name + "___response_task.xml"
                 response_task['lowercase_name'] = response_file_name
                 workbench_panel_objects.append(response_task)
                 j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name + ".xml"
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml 
                 output_path = path.join(OUTPUT_PATH, file_path)
                 response_task['search']= response_task['search'].replace(">","&gt;")
                 response_task['search']= response_task['search'].replace("<","&lt;")
@@ -291,15 +294,17 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
     template = j2_env.get_template('es_investigations.j2')
     output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
     output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')
     output = template.render(response_tasks=workbench_panel_objects)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
+
+    return workbench_panel_objects
 
 
 def parse_data_models_from_search(search):
@@ -331,12 +336,36 @@ def get_deployments(object, deployments):
     for deployment in deployments:
         if 'analytics_story' in deployment['tags']:
             if type(deployment['tags']['analytics_story']) is str:
-                tags_all_array = [deployment['tags']['analytics_story']]
+                if 'analytics_story' in object['tags']:
+                    if deployment['tags']['analytics_story'] == object['tags']['analytics_story'] or deployment['tags']['analytics_story']=='all':
+                        matched_deployments.append(deployment)
             else:
-                tags_all_array = deployment['tags']['analytics_story']
-            if tags_all_array[0] == 'all':
-                matched_deployments.append(deployment)
-                continue
+                for story in deployment['tags']['analytics_story']:
+                    if story == object['tags']['analytics_story']:
+                        matched_deployments.append(deployment)
+                        continue
+
+        if 'product' in deployment['tags']:
+            if type(deployment['tags']['product']) is str:
+                if 'product' in object['tags']:
+                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
+                        matched_deployments.append(deployment)
+            else:
+                for story in deployment['tags']['product']:
+                    if story == object['tags']['product']:
+                        matched_deployments.append(deployment)
+                        continue
+
+
+        if 'detection_name' in deployment['tags']:
+            if type(deployment['tags']['detection_name']) is str:
+                if deployment['tags']['detection_name'] == object['name']:
+                    matched_deployments.append(deployment)
+            else:
+                for detection in deployment['tags']['detection_name']:
+                    if detection == object['name']:
+                        matched_deployments.append(deployment)
+                        continue
 
         for tag in object['tags'].keys():
             if tag in deployment['tags'].keys():
@@ -356,7 +385,32 @@ def get_deployments(object, deployments):
                             matched_deployments.append(deployment)
                             continue
 
-    return matched_deployments
+    if len(matched_deployments) == 0:
+        default_deployment = {}
+        default_deployment['scheduling'] = {}
+        default_deployment['scheduling']['cron_schedule'] = '0 * * * *'
+        default_deployment['scheduling']['earliest_time'] = '-70m@m'
+        default_deployment['scheduling']['latest_time'] = '-10m@m'
+        default_deployment['scheduling']['schedule_window'] = 'auto'
+        last_deployment = default_deployment
+    else:
+        last_deployment = matched_deployments[-1]
+        last_deployment = replace_vars_in_deployment(last_deployment, object)
+
+    return last_deployment
+
+
+def replace_vars_in_deployment(deployment, object):
+    if 'alert_action' in deployment:
+        if 'email' in deployment['alert_action']:
+            deployment['alert_action']['email']['message']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+            deployment['alert_action']['email']['subject']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+
+        if 'notable' in deployment:
+            deployment['alert_action']['notable']['rule_description']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+            deployment['alert_action']['notable']['rule_title']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
+
+    return deployment
 
 
 def get_nes_fields(search, deployment):
@@ -394,9 +448,9 @@ def map_response_tasks_to_stories(response_tasks):
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
                     if 'type' in response_task.keys():
-                        task_name = str(response_task['type'] + ' - ' + response_task['name'])
+                        task_name = str(response_task['type'] + ' - ' + response_task['name'] + ' - Response Task' )
                     else:
-                        task_name = str('ESCU - ' + response_task['name'])
+                        task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     if not (story in sto_res):
                         sto_res[story] = {task_name}
                     else:
@@ -466,32 +520,28 @@ def prepare_stories(stories, detections):
                         for mitre_attack_id in detection['tags']['mitre_attack_id']:
                             sto_to_mitre_attack_ids[story].add(mitre_attack_id)
                     else:
-                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
-                            sto_to_mitre_attack_ids[story] = {mitre_attack_id}
+                        sto_to_mitre_attack_ids[story] = set(detection['tags']['mitre_attack_id'])
 
                 if 'kill_chain_phases' in detection['tags']:
                     if story in sto_to_kill_chain_phases.keys():
                         for kill_chain in detection['tags']['kill_chain_phases']:
                             sto_to_kill_chain_phases[story].add(kill_chain)
                     else:
-                        for kill_chain in detection['tags']['kill_chain_phases']:
-                            sto_to_kill_chain_phases[story] = {kill_chain}
+                        sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
 
                 if 'cis20' in detection['tags']:
                     if story in sto_to_ciss.keys():
                         for cis in detection['tags']['cis20']:
                             sto_to_ciss[story].add(cis)
                     else:
-                        for cis in detection['tags']['cis20']:
-                            sto_to_ciss[story] = {cis}
+                        sto_to_ciss[story] = set(detection['tags']['cis20'])
 
                 if 'nist' in detection['tags']:
                     if story in sto_to_nists.keys():
                         for nist in detection['tags']['nist']:
                             sto_to_nists[story].add(nist)
                     else:
-                        for nist in detection['tags']['nist']:
-                            sto_to_nists[story] = {nist}
+                        sto_to_nists[story] = set(detection['tags']['nist'])
 
     for story in stories:
         story['detections'] = sorted(sto_to_det[story['name']])
@@ -547,10 +597,10 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 def main(args):
 
-    parser = argparse.ArgumentParser(description="generates splunk conf files out of security-content manifests", epilog="""
+    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
     This tool converts manifests to the source files to be used by products like Splunk Enterprise.
     It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-content repo")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
@@ -564,7 +614,6 @@ def main(args):
     macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
     lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
     baselines = load_objects("baselines/*.yml", VERBOSE, REPO_PATH)
-    detections = load_objects("detections/*.yml", VERBOSE, REPO_PATH)
     responses = load_objects("responses/*.yml", VERBOSE, REPO_PATH)
     response_tasks = load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH)
     deployments = load_objects("deployments/*.yml", VERBOSE, REPO_PATH)
@@ -572,6 +621,7 @@ def main(args):
     # process all detections
     detections = []
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
+    detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
     try:
         if VERBOSE:
@@ -601,7 +651,7 @@ def main(args):
     macros = sorted(macros, key=lambda m: m['name'])
     macros_path = generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH)
 
-    generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH)
+    workbench_panels_objects = generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH)
 
 
     if VERBOSE:
@@ -610,6 +660,7 @@ def main(args):
         print("{0} response tasks have been successfully written to {1}".format(len(response_tasks), detection_path))
         print("{0} baselines have been successfully written to {1}".format(len(baselines), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(macros), macros_path))
+        print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
         print("security content generation completed..")
 
 

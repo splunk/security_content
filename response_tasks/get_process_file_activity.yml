@@ -8,13 +8,12 @@ how_to_implement: To successfully implement this search you must be ingesting en
   data and populating the Endpoint data model.
 author: David Dorsey, Splunk
 inputs:
-- process_id
+- process_name
 - dest
 search: '| tstats `security_content_summariesonly` values(Filesystem.file_name) as
-  file_name values(Filesystem.dest) as dest, values(Filesystem.process_id) as process_id
-  from datamodel=Endpoint.Filesystem where Filesystem.dest=$dest$ Filesystem.process_id=$process_id$
-  by Filesystem.file_path, Filesystem.action, _time | `drop_dm_object_name(Filesystem)`  |
-  sort _time | table _time, process_id, dest, action, file_name, file_path'
+  file_name values(Filesystem.dest) as dest, values(Filesystem.process_name) as process_name
+  from datamodel=Endpoint.Filesystem
+  by Filesystem.dest Filesystem.process_name Filesystem.file_path, Filesystem.action, _time | `drop_dm_object_name(Filesystem)`  | search dest=$dest$  | search process_name=$process_name$ | table _time, process_name, dest, action, file_name, file_path'
 tags:
   analytics_story:
   - DHS Report TA18-074A

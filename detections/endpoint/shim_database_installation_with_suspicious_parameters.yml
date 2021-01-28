@@ -1,7 +1,7 @@
 name: Shim Database Installation With Suspicious Parameters
 id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
-version: 3
-date: '2020-07-22'
+version: 4
+date: '2020-11-23'
 description: This search detects the process execution and arguments required to silently
   create a shim database.  The sdbinst.exe application is used to install shim database
   files (.sdb). A shim is a small library which transparently intercepts an API, changes
@@ -17,10 +17,9 @@ references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process_name = sdbinst.exe Processes.process="*-p*" Processes.process="*-q*"
-  by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `shim_database_installation_with_suspicious_parameters_filter`'
+  where Processes.process_name = sdbinst.exe by Processes.process_name Processes.parent_process_name
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `shim_database_installation_with_suspicious_parameters_filter`'
 known_false_positives: None identified
 tags:
   analytics_story:
@@ -35,3 +34,6 @@ tags:
   - DE.CM
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log

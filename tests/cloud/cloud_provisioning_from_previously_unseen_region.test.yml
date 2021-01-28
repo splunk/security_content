@@ -1,0 +1,24 @@
+name: Cloud Provisioning Activity From Previously Unseen Region Unit Test
+tests:
+- name: Cloud Provisioning Activity From Previously Unseen Region
+  file: cloud/cloud_provisioning_from_previously_unseen_region.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  baselines:
+  - name: Previously Seen Cloud Provisioning Activity Sources - Initial
+    file: baselines/previously_seen_cloud_provisioning_activity_sources_initial.yml
+    pass_condition: '| stats count | where count > 0'
+    earliest_time: '-30d'
+    latest_time: '-1d'
+  - name: Previously Seen Cloud Provisioning Activity Sources - Update
+    file: baselines/previously_seen_cloud_provisioning_activity_sources_update.yml
+    pass_condition: '| stats count | where count > 0'
+    earliest_time: '-30d'
+    latest_time: '-1d'
+  attack_data:
+  - file_name: cloudtrail_behavioural_detections.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True

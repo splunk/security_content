@@ -28,6 +28,7 @@ tags:
   analytics_story:
   - Windows Service Abuse
   - Orangeworm Attack Group
+  - Sunburst Malware
   mitre_attack_id:
   - T1569.002
   kill_chain_phases:

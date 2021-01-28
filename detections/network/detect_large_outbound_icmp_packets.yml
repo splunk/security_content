@@ -30,8 +30,8 @@ known_false_positives: ICMP packets are used in a variety of ways to help troubl
   that a large ICMP packet could be perfectly legitimate. If large ICMP packets are
   associated with command and control traffic, there will typically be a large number
   of these packets observed over time. If the search is providing a large number of
-  false positives, you can modify the search to adjust the byte threshold or whitelist
-  specific IP addresses, as necessary.
+  false positives, you can modify the macro `detect_large_outbound_icmp_packets_filter`
+  to adjust the byte threshold or add specific IP addresses to an allow list.
 tags:
   analytics_story:
   - Command and Control

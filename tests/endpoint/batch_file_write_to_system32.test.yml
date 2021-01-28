@@ -1,10 +1,12 @@
 name: Batch File Write to System32 Unit Test
-detections:
+tests:
 - name: Batch File Write to System32
   file: endpoint/batch_file_write_to_system32.yml
   pass_condition: '| stats count | where count > 0'
-attack_data:
-- file_name: windows-sysmon.log
-  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1204.002_custom_b0162b8c-686d-4d97-83fe-7e80ac679cf4/windows-sysmon.log
-  source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-  sourcetype: xmlwineventlog
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

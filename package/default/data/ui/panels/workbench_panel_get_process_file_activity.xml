@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| tstats `security_content_summariesonly` values(Filesystem.file_name) as file_name values(Filesystem.dest) as dest, values(Filesystem.process_id) as process_id from datamodel=Endpoint.Filesystem where Filesystem.dest=$dest$ Filesystem.process_id=$process_id$ by Filesystem.file_path, Filesystem.action, _time | `drop_dm_object_name(Filesystem)`  | sort _time | table _time, process_id, dest, action, file_name, file_path</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

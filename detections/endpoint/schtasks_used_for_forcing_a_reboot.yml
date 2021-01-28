@@ -1,7 +1,7 @@
 name: Schtasks used for forcing a reboot
 id: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
-version: 3
-date: '2020-07-21'
+version: 4
+date: '2020-12-07'
 description: This search looks for flags passed to schtasks.exe on the command-line
   that indicate that a forced reboot of system is scheduled.
 how_to_implement: To successfully implement this search you need to be ingesting logs
@@ -12,10 +12,10 @@ references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process_name = schtasks.exe Processes.process="*shutdown*" Processes.process="*/r*"
-  Processes.process="*/f*" by Processes.process_name Processes.parent_process_name
-  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `schtasks_used_for_forcing_a_reboot_filter`'
+  where Processes.process_name=schtasks.exe Processes.process="*shutdown*" Processes.process="*/create
+  *" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `schtasks_used_for_forcing_a_reboot_filter`'
 known_false_positives: Administrators may create jobs on systems forcing reboots to
   perform updates, maintenance, etc.
 tags:
@@ -32,3 +32,6 @@ tags:
   - PR.IP
   security_domain: endpoint
   asset_type: Endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log

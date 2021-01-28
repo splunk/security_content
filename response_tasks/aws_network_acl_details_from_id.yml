@@ -10,8 +10,7 @@ how_to_implement: In order to implement this search, you must install the AWS Ap
 author: Bhavin Patel, Splunk
 inputs:
 - networkAclId
-search: '| search sourcetype=aws:description id=$networkAclId$ | table id account_id
-  vpc_id network_acl_entries{}.*'
+search: '| search sourcetype=aws:description| rename id as networkAclId | search  networkAclId=$networkAclId$ | table id account_id vpc_id network_acl_entries{}.*'
 tags:
   analytics_story:
   - AWS Network ACL Activity

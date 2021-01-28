@@ -1,10 +1,12 @@
-name: Detect mshta exe running scripts in command-line arguments Unit Test
-detections:
-- name: Detect mshta exe running scripts in command-line arguments
-  file: endpoint/detect_mshta_exe_running_scripts_in_command_line_arguments.yml
+name: Detect mshta inline hta execution Unit Test
+tests:
+- name: Detect mshta executing inline protocol handlers
+  file: endpoint/detect_mshta_inline_hta_execution.yml
   pass_condition: '| stats count | where count > 0'
-attack_data:
-- file_name: windows-sysmon.log
-  data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1218.005/windows-sysmon.log
-  source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-  sourcetype: xmlwineventlog
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

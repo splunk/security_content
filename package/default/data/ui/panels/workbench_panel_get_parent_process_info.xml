@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| tstats `summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name = $process_name$ Processes.dest = $dest$ by Processes.user Processes.parent_process_name  Processes.process_name  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

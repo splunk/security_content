@@ -2,30 +2,25 @@ name: Abnormally High Number Of Cloud Infrastructure API Calls
 id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 version: 1
 date: '2020-09-07'
-description: This search will detect a spike in the number of API calls made to
-  your cloud infrastructure environment by a user.
-how_to_implement: You must be ingesting your cloud infrastructure logs. You also must run the baseline search
- `Baseline Of Cloud Infrastructure API Calls Per User` to create the probability density function.
+description: This search will detect a spike in the number of API calls made to your
+  cloud infrastructure environment by a user.
+how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
+  run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to
+  create the probability density function.
 type: ESCU
 references: []
 author: David Dorsey, Splunk
-search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time span=1h 
-| `drop_dm_object_name("All_Changes")` 
-| eval HourOfDay=strftime(_time, "%H") 
-| eval HourOfDay=floor(HourOfDay/4)*4 
-| eval DayOfWeek=strftime(_time, "%w") 
-| eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) 
-| join user HourOfDay isWeekend 
-    [ summary cloud_excessive_api_calls_v1] 
-| where cardinality >=16
-| apply cloud_excessive_api_calls_v1 threshold=0.005 
-| rename "IsOutlier(api_calls)" as isOutlier
-| where isOutlier=1 
-| eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0) 
-| where api_calls > expected_upper_threshold 
-| eval distance_from_threshold = api_calls - expected_upper_threshold 
-| table _time, user, command, api_calls, expected_upper_threshold, distance_from_threshold 
-| `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`'
+search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change
+  where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time
+  span=1h | `drop_dm_object_name("All_Changes")` | eval HourOfDay=strftime(_time,
+  "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w")
+  | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) | join user HourOfDay
+  isWeekend [ summary cloud_excessive_api_calls_v1] | where cardinality >=16 | apply
+  cloud_excessive_api_calls_v1 threshold=0.005 | rename "IsOutlier(api_calls)" as
+  isOutlier | where isOutlier=1 | eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges,
+  -1), ":"), 0) | where api_calls > expected_upper_threshold | eval distance_from_threshold
+  = api_calls - expected_upper_threshold | table _time, user, command, api_calls,
+  expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`'
 known_false_positives: ''
 tags:
   analytics_story:
@@ -42,7 +37,11 @@ tags:
   - PR.AC
   security_domain: network
   asset_type: AWS Instance
+  product:
+  - Splunk Security Analytics for AWS
   risk_score: 25
   risk_object_type: user
   risk_object: user
-
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json

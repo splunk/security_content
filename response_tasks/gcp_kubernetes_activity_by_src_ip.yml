@@ -11,9 +11,8 @@ how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or late
   to filter out FPs.
 author: Rod Soto, Splunk
 inputs:
-- src_user
-search: sourcetype="google:gcp:pubsub:message" data.protoPayload.requestMetadata.callerIp={src_ip}
-  | rename data.protoPayload.requestMetadata.callerIp as src_ip | stats count min(_time)
+- src_ip
+search: sourcetype="google:gcp:pubsub:message" | rename data.protoPayload.requestMetadata.callerIp as src_ip | search src_ip =$src_ip$ | stats count min(_time)
   as firstTime max(_time) as lastTime values(data.protoPayload.methodName) as method_names
   values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent)
   as http_user_agent values(data.protoPayload.authenticationInfo.principalEmail) as

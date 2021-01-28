@@ -23,6 +23,7 @@ known_false_positives: System administrators may use this option, but it's not c
 tags:
   analytics_story:
   - Malicious PowerShell
+  - Sunburst Malware
   mitre_attack_id:
   - T1027
   kill_chain_phases:
@@ -40,4 +41,4 @@ tags:
   asset_type: Endpoint
   automated_detection_testing: passed
   dataset:
-  - https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1027/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log
