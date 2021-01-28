@@ -14,15 +14,16 @@ author: Ignacio Bermudez Corrales, Splunk
 search: '| from read_ssa_enriched_events()
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
 | eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)),
+parent_process_name=mvindex(split(parent_process, "\\"), -1),
 process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
 dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
 dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
-
-| where parent_process!=null
-| select parent_process, process_name, timestamp, dest_device_id, dest_user_id
-| conditional_anomaly conditional="parent_process" target="process_name"
+| where parent_process_name!=null
+| select parent_process_name, process_name, timestamp, dest_device_id, dest_user_id
+| conditional_anomaly conditional="parent_process_name" target="process_name"
 | rename output as input
-| adaptive_threshold algorithm="quantile" entity="parent_process" window=604800000L
+| where input < 1
+| adaptive_threshold algorithm="quantile" entity="parent_process_name" window=604800000L
 | where label AND quantile<0.1 AND (process_name="powershell.exe" OR
                                       process_name="regsvcs.exe" OR
                                       process_name="ftp.exe" OR
