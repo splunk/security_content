@@ -13,8 +13,8 @@ azure-mgmt-core==1.2.2
 azure-mgmt-network==17.1.0
 azure-mgmt-resource==15.0.0
 bcrypt==3.2.0
-boto3==1.16.60
-botocore==1.19.60
+boto3==1.16.61
+botocore==1.19.61
 certifi==2020.12.5
 cffi==1.14.4
 cfgv==2.0.1
