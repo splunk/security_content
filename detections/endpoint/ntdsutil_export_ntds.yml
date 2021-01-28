@@ -1,4 +1,4 @@
-name: Ntdsutil Export NTDS
+name: Ntdsutil export ntds
 id: da63bc76-61ae-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-28'
@@ -28,7 +28,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process=*ntds* Processes.process=*create*) by Processes.dest Processes.user
   Processes.parent_process Processes.process_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `ntdsutil_dump_ntds_filter`'
+  `security_content_ctime(lastTime)` | `ntdsutil_export_ntds_filter`'
 known_false_positives: Highly possible Server Administrators will troubleshoot
   with ntdsutil.exe, generating false positives.
 tags:
