@@ -6,11 +6,11 @@ description: 'Adversaries may abuse Regsvr32.exe to proxy execution of malicious
   Regsvr32.exe is a command-line program used to register and unregister object linking
   and embedding controls, including dynamic link libraries (DLLs), on Windows systems.
   Regsvr32.exe is also a Microsoft signed binary.This variation of the technique is
-  often referred to as a "Squiblydoo" attack.
+  often referred to as a "Squiblydoo" attack. \
   
   Upon investigating, look for network connections to remote destinations (internal or external). 
-  Be cautious to modify the query to look for `scrobj.dll`, the `.dll` is not required to load scrobj.
-  `scrobj.dll` will be loaded by `regsvr32.exe` upon execution. '
+  Be cautious to modify the query to look for "scrobj.dll", the ".dll" is not required to load scrobj.
+  "scrobj.dll" will be loaded by "regsvr32.exe" upon execution. '
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints, to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
