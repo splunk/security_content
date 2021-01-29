@@ -1,0 +1,40 @@
+name: Suspicious Regsvr32 Activity
+id: b8bee41e-624f-11eb-ae93-0242ac130002
+version: 1
+date: '2021-01-29'
+description: Monitor and detect techniques used by attackers who leverage the regsvr32.exe
+  process to execute malicious code.
+narrative: 'One common adversary tactic is to bypass application control solutions
+  via the regsvr32.exe process. This particular bypass was popularized with "SquiblyDoo"
+  using the `scrobj.dll` dll to load `.sct` scriptlets. This technique is still widely used
+  by adversaries to bypass detection and prevention controls. 
+  The file extension of the DLL is irrelevant (it may load a .txt for example). 
+
+  The searches in this story help you detect and investigate suspicious activity that
+  may indicate that an adversary is leveraging regsvr32.exe to execute malicious code. 
+  
+  Triage \
+  Validate execution \
+  1. Determine if regsvr32.exe executed. Validate the OriginalFileName of regsvr32.exe and further
+  PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect.
+  2. Determine if script code was executed with regsvr32. \
+  Situational Awareness \
+  The objective of this step is meant to identify suspicious behavioral indicators related to executed of 
+  Script code by regsvr32.exe. \
+  1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 
+  2. Module loads. Are the known regsvr32.exe modules being loaded by a non-standard application? Is
+  regsvr32 loading any suspicious .DLLs?
+  3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \
+  Retrieval of script code \
+  The objective of this step is to confirm the executed script code is benign or malicious.'
+author: Michael Haag, Splunk
+type: ESCU
+references:
+- https://attack.mitre.org/techniques/T1218/010/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
+- https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+tags:
+  analytics_story: Suspicious Regsvr32 Activity
+  usecase: Advanced Threat Detection
+  category:
+  - Adversary Tactics

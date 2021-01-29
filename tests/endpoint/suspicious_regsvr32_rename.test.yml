@@ -1,0 +1,12 @@
+name: Suspicious regsvr32 rename
+tests:
+- name: Detect renamed regsvr32 execution
+  file: endpoint/suspicious_regsvr32_rename.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
