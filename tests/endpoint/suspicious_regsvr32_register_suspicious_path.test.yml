@@ -1,7 +1,7 @@
-name: Detect Regsvr32 Register Path Unit Test
+name: Detect Regsvr32 Register Suspicious Path Unit Test
 tests:
 - name: Detect regsvr32 Registering DLLs from non-standard paths
-  file: endpoint/detect_regsvr32_register_suspicious_path.yml
+  file: endpoint/suspicious_regsvr32_register_suspicious_path.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
