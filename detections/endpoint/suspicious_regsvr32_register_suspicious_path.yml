@@ -2,14 +2,15 @@ name: Suspicious Regsvr32 Register Suspicious Path
 id: 62732736-6250-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-28'
-description: 'Adversaries may abuse Regsvr32.exe to proxy execution of malicious code
-  by using non-standard file extensions to load malciious DLLs. 
-  Upon investigating, look for network connections to remote destinations (internal or external).
-  Review additional parrallel processes and child processes for additional activity.'
+description: Adversaries may abuse Regsvr32.exe to proxy execution of malicious code
+  by using non-standard file extensions to load malciious DLLs. Upon investigating,
+  look for network connections to remote destinations (internal or external). Review
+  additional parrallel processes and child processes for additional activity.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints, to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
-  field in the Endpoint data model. Tune the query by filtering additional extensions found to be used by  legitimate processes.
+  field in the Endpoint data model. Tune the query by filtering additional extensions
+  found to be used by  legitimate processes.
 type: ESCU
 references:
 - https://attack.mitre.org/techniques/T1218/010/
@@ -20,13 +21,13 @@ references:
 author: Michael Haag, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=regsvr32.exe
- (Processes.process=*appdata* OR Processes.process=*programdata* OR Processes.process=*windows\temp*)
- (Processes.process!=*.dll Processes.process!=*.ax Processes.process!=*.ocx)
-  by Processes.dest Processes.user
-  Processes.parent_process Processes.process_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `suspicious_regsvr32_register_suspicious_path_filter`'
-known_false_positives: Limited false positives with the query restricted to specified paths. Add more world writeable paths as tuning continues.
+  (Processes.process=*appdata* OR Processes.process=*programdata* OR Processes.process=*windows\temp*)
+  (Processes.process!=*.dll Processes.process!=*.ax Processes.process!=*.ocx) by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `suspicious_regsvr32_register_suspicious_path_filter`'
+known_false_positives: Limited false positives with the query restricted to specified
+  paths. Add more world writeable paths as tuning continues.
 tags:
   analytics_story:
   - Suspicious Regsvr32 Activity
@@ -43,3 +44,4 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
