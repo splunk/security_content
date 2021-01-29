@@ -6,10 +6,9 @@ description: Monitor and detect techniques used by attackers who leverage the re
   process to execute malicious code.
 narrative: 'One common adversary tactic is to bypass application control solutions
   via the regsvr32.exe process. This particular bypass was popularized with "SquiblyDoo"
-  using the `scrobj.dll` dll to load `.sct` scriptlets. This technique is still widely used
+  using the "scrobj.dll" dll to load .sct scriptlets. This technique is still widely used
   by adversaries to bypass detection and prevention controls. 
   The file extension of the DLL is irrelevant (it may load a .txt for example). 
-
   The searches in this story help you detect and investigate suspicious activity that
   may indicate that an adversary is leveraging regsvr32.exe to execute malicious code.'
 author: Michael Haag, Splunk
