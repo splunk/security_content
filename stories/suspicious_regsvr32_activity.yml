@@ -11,22 +11,7 @@ narrative: 'One common adversary tactic is to bypass application control solutio
   The file extension of the DLL is irrelevant (it may load a .txt for example). 
 
   The searches in this story help you detect and investigate suspicious activity that
-  may indicate that an adversary is leveraging regsvr32.exe to execute malicious code. 
-  
-  Triage \
-  Validate execution \
-  1. Determine if regsvr32.exe executed. Validate the OriginalFileName of regsvr32.exe and further
-  PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect.
-  2. Determine if script code was executed with regsvr32. \
-  Situational Awareness \
-  The objective of this step is meant to identify suspicious behavioral indicators related to executed of 
-  Script code by regsvr32.exe. \
-  1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 
-  2. Module loads. Are the known regsvr32.exe modules being loaded by a non-standard application? Is
-  regsvr32 loading any suspicious .DLLs?
-  3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \
-  Retrieval of script code \
-  The objective of this step is to confirm the executed script code is benign or malicious.'
+  may indicate that an adversary is leveraging regsvr32.exe to execute malicious code.'
 author: Michael Haag, Splunk
 type: ESCU
 references:
