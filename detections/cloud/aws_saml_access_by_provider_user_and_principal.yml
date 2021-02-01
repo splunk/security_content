@@ -16,15 +16,10 @@ references:
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
-search: '`cloudtrail` Assumerolewithsaml | spath "requestParameters.principalArn" | search "requestParameters.principalArn"=*
-   | spath "requestParameters.roleArn" | search "requestParameters.roleArn"=* | spath "requestParameters.roleSessionName"
-   | search "requestParameters.roleSessionName"=* | spath recipientAccountId | search recipientAccountId=*
-   | spath "responseElements.assumedRoleUser.arn" | search "responseElements.assumedRoleUser.arn"=*
-   | spath "responseElements.assumedRoleUser.assumedRoleId" | search "responseElements.assumedRoleUser.assumedRoleId"=*
-   | spath "responseElements.issuer" | search "responseElements.issuer"=* | spath sourceIPAddress | search sourceIPAddress=*
-   | spath userAgent | search userAgent=*
-   | table requestParameters.principalArn requestParameters.roleArn requestParameters.roleSessionName recipientAccountId recipientAccountId responseElements.issuer sourceIPAddress userAgent
-   |`aws_saml_access_by_provider_user_and_principal_filter`'
+search: '`cloudtrail` eventName=Assumerolewithsaml
+  | stats count min(_time) as firstTime max(_time) as lastTime by requestParameters.principalArn requestParameters.roleArn requestParameters.roleSessionName recipientAccountId responseElements.issuer sourceIPAddress userAgent
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  |`aws_saml_access_by_provider_user_and_principal_filter`'
 tags:
   analytics_story:
   - Cloud Federated Credential Abuse

@@ -12,9 +12,9 @@ references:
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
-search: '`cloudtrail` federation | spath eventSource | search eventSource="iam.amazonaws.com"
-  | spath eventName | search eventName=UpdateSAMLProvider | spath "requestParameters.sAMLProviderArn" | search "*"
-  | spath "userIdentity.sessionContext.sessionIssuer.arn" | search "userIdentity.sessionContext.sessionIssuer.arn"="*" | spath "userIdentity.accessKeyId" | search "userIdentity.accessKeyId"=* | spath "userIdentity.principalId" | search "userIdentity.principalId"="*"   | table  eventType eventName requestParameters.sAMLProviderArn userIdentity.sessionContext.sessionIssuer.arn sourceIPAddress userIdentity.accessKeyId userIdentity.principalId
+search: '`cloudtrail` eventName=UpdateSAMLProvider
+  | stats count min(_time) as firstTime max(_time) as lastTime by eventType eventName requestParameters.sAMLProviderArn userIdentity.sessionContext.sessionIssuer.arn sourceIPAddress userIdentity.accessKeyId userIdentity.principalId
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`aws_saml_update_identity_provider_filter`'
 tags:
   analytics_story:

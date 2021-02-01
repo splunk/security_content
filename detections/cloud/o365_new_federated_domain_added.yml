@@ -13,8 +13,9 @@ references:
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.sygnia.co/golden-saml-advisory
 - https://o365blog.com/post/aadbackdoor/
-search: '`o365_management_activity` Workload=Exchange | spath Operation | search Operation="Add-FederatedDomain"
-  | spath "Parameters{}.Value" | search "Parameters{}.Value"="*"| table ObjectId Operation OrganizationName OriginatingServer UserId UserKey Parameters{}.Value
+search: '`o365_management_activity` Workload=Exchange Operation="Add-FederatedDomain"
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Parameters{}.Value) as Parameters.Value by ObjectId Operation OrganizationName OriginatingServer UserId UserKey
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `o365_new_federated_domain_added_filter`'
 tags:
   analytics_story:

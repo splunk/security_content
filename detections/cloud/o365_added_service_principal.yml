@@ -13,9 +13,9 @@ references:
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.sygnia.co/golden-saml-advisory
 search: '`o365_management_activity` Workload=AzureActiveDirectory signature="Add service principal credentials."
-  | spath "Actor{}.ID" | search "Actor{}.ID"="*" | spath "ModifiedProperties{}.Name" | search "ModifiedProperties{}.Name"="TargetId.ServicePrincipalNames"
-  | spath "ExtendedProperties{}.Value" | search "ExtendedProperties{}.Value"=ServicePrincipal | spath "ModifiedProperties{}.NewValue" | search "ModifiedProperties{}.NewValue"="*"
-  | spath "Target{}.ID" | search "Target{}.ID"="*" | table ActorIpAddress Actor{}.ID signature ModifiedProperties{}.Name ModifiedProperties{}.NewValue Target{}.ID
+  | stats min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(ModifiedProperties{}.Name) as ModifiedProperties.Name
+  values(ModifiedProperties{}.NewValue) as ModifiedProperties.NewValue values(Target{}.ID) as Target.ID by ActorIpAddress signature
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `o365_added_service_principal_filter`'
 tags:
   analytics_story:

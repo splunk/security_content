@@ -10,8 +10,9 @@ name: O365 Add App Role Assignment Grant User
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
-search: '`o365_management_activity`  Workload=AzureActiveDirectory | spath Operation | search Operation="Add app role assignment grant to user."
-  | table ActorIpAddress Actor{}.ID Actor{}.Type dest ResultStatus
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user."
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID) as Actor.ID values(Actor{}.Type) as Actor.Type by ActorIpAddress dest ResultStatus
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `o365_add_app_role_assignment_grant_user_filter`'
 tags:
   analytics_story:
