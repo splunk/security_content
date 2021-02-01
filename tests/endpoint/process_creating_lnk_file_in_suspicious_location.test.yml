@@ -1,7 +1,7 @@
 name: Process Creating LNK file in Suspicious location Unit Test
 tests:
 - name: Process Creating LNK file in Suspicious Location 
-  file: endpoint/process_creating_lnk_in_suspicious_location.yml
+  file: endpoint/process_creating_lnk_file_in_suspicious_location.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
