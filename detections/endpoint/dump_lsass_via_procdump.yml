@@ -2,14 +2,15 @@ name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
 version: 1
 date: '2021-02-01'
-description: Detect procdump.exe dumping the lsass process. This query looks for both -mm and -ma usage. 
-  -mm will produce a mini dump file and -ma will write a dump file with all process memory. Both are highly suspect
-  and should be reviewed. This query does not monitor for the internal name (procdump) of the PE or look for procdump64.exe.
+description: 'Detect procdump.exe dumping the lsass process. This query looks for
+  both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump
+  file with all process memory. Both are highly suspect and should be reviewed. This
+  query does not monitor for the internal name (procdump) of the PE or look for procdump64.exe.
   Modify the query as needed.\
 
-  During triage, confirm this is procdump.exe executing. If it is the first time a Sysinternals utility has been ran, 
-  there will always be a -accepteula on the command line.
-  Review other endpoint data sources for cross process (injection) into lsass.exe.
+  During triage, confirm this is procdump.exe executing. If it is the first time a
+  Sysinternals utility has been ran, there will always be a -accepteula on the command
+  line. Review other endpoint data sources for cross process (injection) into lsass.exe.'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -21,9 +22,9 @@ references:
 author: Michael Haag, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=procdump.exe
-  (Processes.process=*-ma* OR Processes.process=*-mm*) Processes.process=*lsass* by Processes.user Processes.process_name
-  Processes.process Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `dump_lsass_via_procdump_filter`'
+  (Processes.process=*-ma* OR Processes.process=*-mm*) Processes.process=*lsass* by
+  Processes.user Processes.process_name Processes.process Processes.dest | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `dump_lsass_via_procdump_filter`'
 known_false_positives: None identified.
 tags:
   analytics_story:
@@ -42,3 +43,4 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
