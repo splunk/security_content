@@ -12,7 +12,7 @@ author: Patrick Bareiss, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=services.exe
   by Processes.user Processes.process_name Processes.process Processes.dest | `drop_dm_object_name(Processes)`
-  | rex field=process "^.*\\\\(?<service_process>.*\.(?:exe|bat|com|ps1))" | eval
+  | rex field=process "^.*?\\(?<service_process>[^\\]*\.(?:exe|bat|com|ps1))" | eval
   process_name = lower(process_name) | eval service_process = lower(service_process)|
   where process_name != service_process | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_path_interception_by_creation_of_program_exe_filter`'
