@@ -14,7 +14,7 @@ search: '| from read_ssa_enriched_events()
        dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null),
        process_name=ucast(map_get(input_event, "process_name"), "string", null),
        cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)),
-       cmd_line_norm=replace(cmd_line, /\w:\\[^\s]+/, "PATH"),
+       cmd_line_norm=replace(cmd_line, /\w:\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"),
        cmd_line_norm=replace(cmd_line_norm, /\d+/, "N")
 | where process_name="cmd.exe" AND
         match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true
