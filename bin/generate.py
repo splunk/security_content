@@ -431,7 +431,8 @@ def map_detection_to_stories(detections):
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
                 if 'type' in detection.keys():
-                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
+                    if detection['type'] == 'batch':
+                        rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
                 else:
                     rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
                 if not (story in sto_det):
@@ -448,7 +449,8 @@ def map_response_tasks_to_stories(response_tasks):
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
                     if 'type' in response_task.keys():
-                        task_name = str(response_task['type'] + ' - ' + response_task['name'] + ' - Response Task' )
+                        if response_task['type'] == 'batch':
+                            task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     else:
                         task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     if not (story in sto_res):
@@ -465,7 +467,8 @@ def map_baselines_to_stories(baselines):
             if 'analytics_story' in baseline['tags']:
                 for story in baseline['tags']['analytics_story']:
                     if 'type' in baseline.keys():
-                        baseline_name = str(baseline['type'] + ' - ' + baseline['name'])
+                        if baseline['type'] == 'batch':
+                            baseline_name = str('ESCU - ' + baseline['name'])
                     else:
                         baseline_name = str('ESCU - ' + baseline['name'])
                     if not (story in sto_bas):
@@ -499,7 +502,8 @@ def prepare_stories(stories, detections):
         if 'analytics_story' in detection['tags']:
             for story in detection['tags']['analytics_story']:
                 if 'type' in detection.keys():
-                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
+                    if detection['type'] == 'batch':
+                        rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
                 else:
                     rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
 
