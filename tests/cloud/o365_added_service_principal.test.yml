@@ -1,0 +1,12 @@
+name: O365 Added Service Principal Unit Test
+tests:
+- name: O365 Added Service Principal
+  file: cloud/o365_added_service_principal.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: o365_management_activity.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_add_service_principal/o365_add_service_principal.json
+    sourcetype: 'o365:management:activity'
+    source: 'o365'

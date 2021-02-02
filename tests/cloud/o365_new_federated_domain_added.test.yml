@@ -1,0 +1,12 @@
+name: O365 New Federated Domain Added Unit Test
+tests:
+- name: O365 New Federated Domain Added
+  file: cloud/o365_new_federated_domain_added.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: o365_management_activity.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/oo365_new_federated_domain.json
+    sourcetype: 'o365:management:activity'
+    source: 'o365'
