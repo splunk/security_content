@@ -26,7 +26,7 @@ pathlib2==2.3.5
 pre-commit==2.9.3
 pyrsistent==0.17.3
 python-dateutil==2.8.1
-pytz==2020.5
+pytz==2021.1
 PyYAML==5.4.1
 requests==2.25.1
 scandir==1.10.0
