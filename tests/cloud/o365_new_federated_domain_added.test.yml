@@ -10,3 +10,4 @@ tests:
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/oo365_new_federated_domain.json
     sourcetype: 'o365:management:activity'
     source: 'exchange'
+    update_timestamp: True
