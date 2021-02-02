@@ -14,7 +14,7 @@ azure-mgmt-network==17.1.0
 azure-mgmt-resource==15.0.0
 bcrypt==3.2.0
 boto3==1.16.61
-botocore==1.19.62
+botocore==1.19.63
 certifi==2020.12.5
 cffi==1.14.4
 cfgv==2.0.1
@@ -74,7 +74,7 @@ tabulate==0.8.7
 termcolor==1.1.0
 toml==0.10.2
 urllib3==1.26.3
-virtualenv==20.4.0
+virtualenv==20.4.2
 wcwidth==0.2.5
 wget==3.2
 wrapt==1.12.1
