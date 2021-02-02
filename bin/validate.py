@@ -79,7 +79,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     if verbose:
         print("validating object {0}".format(object['name']))
     for object in objects['detections']:
-        if object['type'] == 'ESCU':
+        if object['type'] == 'batch':
             errors = errors + validate_detection_search(object, objects['macros'])
 
     for object in objects['baselines']:
