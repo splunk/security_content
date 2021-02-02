@@ -280,7 +280,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                 j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml 
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
                 output_path = path.join(OUTPUT_PATH, file_path)
                 response_task['search']= response_task['search'].replace(">","&gt;")
                 response_task['search']= response_task['search'].replace("<","&lt;")
@@ -637,7 +637,7 @@ def main(args):
     detections = sorted(detections, key=lambda d: d['name'])
 
     # only use ESCU detections to the configurations
-    detections = [object for object in detections if object["type"].lower() == "escu"]
+    detections = [object for object in detections if object["type"].lower() == "batch"]
 
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
