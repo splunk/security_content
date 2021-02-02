@@ -127,13 +127,12 @@
       "default": "",
       "description": "type of detection",
       "examples": [
-        "ESCU"
+        "streaming"
       ],
       "items": {
         "enum": [
-          "ESCU",
-          "SSE",
-          "RBA"
+          "batch",
+          "streaming"
         ],
         "type": "string"
       },
