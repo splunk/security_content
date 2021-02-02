@@ -18,7 +18,7 @@ how_to_implement: To successfully implement this search, we must ensure that DNS
   field. You will also need to enable the `cim_corporate_web_domain_search()` macro
   which will essentially filter out the DNS queries made to the corporate web domains
   to reduce alert fatigue.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` dc("DNS.query") as count  from

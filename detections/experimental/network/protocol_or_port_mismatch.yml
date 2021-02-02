@@ -12,7 +12,7 @@ how_to_implement: Running this search properly requires a technology that can in
   network traffic and identify common protocols. Technologies such as Bro and Palo
   Alto Networks firewalls are two examples that will identify protocols via inspection,
   and not just assume a specific protocol based on the transport protocol and ports.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

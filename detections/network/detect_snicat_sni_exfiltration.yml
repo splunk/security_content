@@ -9,7 +9,7 @@ how_to_implement: You must be ingesting Zeek SSL data into Splunk.
   These commands are LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito.  You can go
   further once this has been detected, and run other searches to decode the SNI data to prove
   or disprove if any data exfiltration has taken place.
-type: ESCU
+type: batch
 references:
 - https://www.mnemonic.no/blog/introducing-snicat/
 - https://github.com/mnemonic-no/SNIcat

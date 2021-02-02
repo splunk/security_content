@@ -5,7 +5,7 @@ date: '2017-09-19'
 description: This search allows you to look for evidence of exploitation for CVE-2016-4859,
   the Splunk Open Redirect Vulnerability.
 how_to_implement: No extra steps needed to implement this search.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: index=_internal sourcetype=splunk_web_access return_to="/%09/*" | `open_redirect_in_splunk_web_filter`

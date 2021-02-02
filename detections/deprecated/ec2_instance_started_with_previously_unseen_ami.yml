@@ -8,7 +8,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. This search works best when you run the "Previously Seen EC2 AMIs" support
   search once to create a history of previously seen AMIs.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances

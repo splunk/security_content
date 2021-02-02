@@ -8,7 +8,7 @@ description: 'The malware sunburst will load the malicious dll by SolarWinds.Bus
 how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please tune your sysmon
   config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll is captured by Sysmon. Additionally,
   you need sysmon logs for Event ID 22, DNS Query. We suggest to run this detection at least once a day over the last 14 days.
-type: ESCU
+type: batch
 references:
 - https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
 author: Patrick Bareiss, Splunk

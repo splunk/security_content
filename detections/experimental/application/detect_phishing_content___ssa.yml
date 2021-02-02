@@ -17,7 +17,7 @@ description: Malicious mails can conduct phishing that induces readers to open a
 how_to_implement: Events are fed to DSP contains at least email's sender, subject and its
   message body.
 references: [ ]
-type: SSA
+type: streaming
 author: Xiao Lin, Splunk
 search: '| from read_ssa_enriched_events()
 | eval eventLine=concat(ucast(map_get(input_event, "From"), "string", " "), " ", ucast(map_get(input_event, "Subject"), "string", " "), " ", ucast(map_get(input_event, "Content"), "string", " "), "                                                                                                                                "), _time=map_get(input_event, "_time")

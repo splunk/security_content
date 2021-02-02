@@ -10,7 +10,7 @@ how_to_implement: You must be ingesting data that records the filesystem activit
   from your hosts to populate the Endpoint file-system data model node. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
   you want to collect data.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

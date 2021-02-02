@@ -15,7 +15,7 @@ how_to_implement: You must install and configure the Splunk Add-on for AWS (vers
   to refresh the baselines. You
   can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_region_filter`
   macro.
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src

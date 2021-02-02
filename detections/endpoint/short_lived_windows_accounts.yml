@@ -7,7 +7,7 @@ description: This search detects accounts that were created and deleted in a sho
 how_to_implement: 'This search requires you to have enabled your Group Management
   Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More
   information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/'
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as

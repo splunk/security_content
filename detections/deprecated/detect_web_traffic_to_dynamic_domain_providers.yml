@@ -21,7 +21,7 @@ how_to_implement: 'This search requires you to be ingesting web-traffic logs. Yo
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
   Deprecated because duplicate.'
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Web.url) as url min(_time)

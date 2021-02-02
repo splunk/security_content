@@ -7,7 +7,7 @@ description: This search looks for unusually long strings in the Content-Type ht
 how_to_implement: This particular search leverages data extracted from Stream:HTTP.
   You must configure the http stream using the Splunk Stream App on your Splunk Stream
   deployment server to extract the cs_content_type field.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`stream_http` | eval cs_content_type_length = len(cs_content_type) | where

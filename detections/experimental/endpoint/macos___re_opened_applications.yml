@@ -9,7 +9,7 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest p
   pack enabled. Also the [TA-OSquery](https://github.com/splunk/TA-osquery) must be
   deployed across your indexers and universal forwarders in order to have the data
   populate the Endpoint data model.
-type: ESCU
+type: batch
 references: []
 author: Jamie Windley, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

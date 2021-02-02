@@ -10,7 +10,7 @@ description: This search looks for the execution of `nltest.exe` with command-li
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-type: ESCU
+type: batch
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md
 - https://malware.news/t/lets-learn-trickbot-implements-network-collector-module-leveraging-cmd-wmi-ldap/19104

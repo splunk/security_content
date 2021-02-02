@@ -7,7 +7,7 @@ description: This search allows you to identify DNS requests and compute the sta
   standard deviation to show you those queries that are unusually large for your environment.
 how_to_implement: To successfully implement this search, you will need to ensure that
   DNS data is populating the Network_Resolution data model.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution

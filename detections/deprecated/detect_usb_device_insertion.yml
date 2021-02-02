@@ -14,7 +14,7 @@ how_to_implement: To successfully implement this search, you must ingest Windows
   minimize the alert volume, this search leverages the Assets and Identity framework
   to filter out events from those assets not marked high priority in the Enterprise
   Security Assets and Identity Framework.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count earliest(_time) AS earliest

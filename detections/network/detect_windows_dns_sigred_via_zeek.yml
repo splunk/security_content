@@ -8,7 +8,7 @@ how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk.
   SIG and KEY records via bro:dns:json and TCP payload over 65KB in size via
   bro:conn:json.  The Network Resolution and Network Traffic datamodels are in use
   for this search.
-type: ESCU
+type: batch
 references:
 - https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
 author: Shannon Davis, Splunk

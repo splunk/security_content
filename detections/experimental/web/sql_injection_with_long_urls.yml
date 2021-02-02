@@ -8,7 +8,7 @@ how_to_implement: To successfully implement this search, you need to be monitori
   network communications to your web servers or ingesting your HTTP logs and populating
   the Web data model. You must also identify your web servers in the Enterprise Security
   assets table.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Web where

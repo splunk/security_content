@@ -6,7 +6,7 @@ description: The search is used to detect systems that are still vulnerable to t
   Spectre and Meltdown vulnerabilities.
 how_to_implement: The search requires that you are ingesting your vulnerability-scanner
   data and that it reports the CVE of the vulnerability identified.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)

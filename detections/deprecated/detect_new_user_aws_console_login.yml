@@ -13,7 +13,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   create a baseline of previously seen IAM users within the last 30 days. Run "Update
   previously seen users in CloudTrail" hourly (or more frequently depending on how
   often you run the detection searches) to refresh the baselines. 
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | stats
   earliest(_time) as firstTime latest(_time) as lastTime by user | inputlookup append=t

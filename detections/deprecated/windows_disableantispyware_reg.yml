@@ -8,7 +8,7 @@ how_to_implement: You must be ingesting data that records the process-system act
   from your hosts to populate the Endpoint Processes data-model object. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
   you want to collect data.
-type: ESCU
+type: batch
 references: []
 author: Rod Soto, Jose Hernandez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

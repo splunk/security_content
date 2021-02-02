@@ -9,7 +9,7 @@ how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or late
   then configure stackdriver and set a subpub subscription to be imported to Splunk.
   You must also install Cloud Infrastructure data model. Please also customize the
   `container_implant_gcp_detection_filter` macro to filter out the false positives.
-type: ESCU
+type: batch
 references: []
 author: Rod Soto, Rico Valdez, Splunk
 search: '|tstats count min(_time) as firstTime max(_time) as lastTime  FROM datamodel=Cloud_Infrastructure.Storage

@@ -16,7 +16,7 @@ how_to_implement: To successfully implement this search you need to identify sys
   to add the "common_rdp_source" or "common_rdp_destination" category to that system
   depending on the usage, using the Enterprise Security Assets and Identities framework.  This
   can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

@@ -7,7 +7,7 @@ description: This search provides information of unauthenticated requests via us
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch
   EKS Logs inputs.
-type: ESCU
+type: batch
 references: []
 author: Rod Soto, Splunk
 search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" userAgent!="AWS

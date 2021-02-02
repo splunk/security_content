@@ -11,7 +11,7 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   Seen AWS Cross Account Activity - Update` to keep this table up to date and to age
   out old data. You can also provide additional filtering for this search by customizing
   the `aws_cross_account_activity_from_previously_unseen_account_filter` macro.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication

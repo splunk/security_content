@@ -11,7 +11,7 @@ how_to_implement: You need to ingest data from your DNS logs. Specifically you m
   which can aid you in future investigations. You also need to have run the search
   "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that
   will be checked for.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)

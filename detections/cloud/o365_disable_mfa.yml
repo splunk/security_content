@@ -26,5 +26,5 @@ tags:
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
-type: ESCU
+type: batch
 version: 1

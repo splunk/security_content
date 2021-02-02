@@ -11,7 +11,7 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
   data model in the Processes node. The command-line arguments are mapped to the "process"
   field in the Endpoint data model. Update the `children_of_spoolsv_filter` macro
   to filter out legitimate child processes spawned by spoolsv.exe.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)

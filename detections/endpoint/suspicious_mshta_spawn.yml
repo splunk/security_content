@@ -9,7 +9,7 @@ description: The following analytic identifies wmiprvse.exe spawning mshta.exe. 
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-type: ESCU
+type: batch
 references:
 - https://codewhitesec.blogspot.com/2018/07/lethalhta.html
 - https://github.com/redcanaryco/AtomicTestHarnesses

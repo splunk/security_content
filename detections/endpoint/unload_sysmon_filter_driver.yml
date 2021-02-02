@@ -11,7 +11,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
   update this macro to filter out false positives.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)

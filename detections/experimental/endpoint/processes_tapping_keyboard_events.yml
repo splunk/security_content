@@ -11,7 +11,7 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest d
   pack enabled. Also the [TA-OSquery](https://github.com/d1vious/TA-osquery) must
   be deployed across your indexers and universal forwarders in order to have the osquery
   data populate the Alerts data model.
-type: ESCU
+type: batch
 references: []
 author: Jose Hernandez, Splunk
 search: '| from datamodel Alerts.Alerts | search app=osquery:results name=pack_osx-attacks_Keyboard_Event_Taps

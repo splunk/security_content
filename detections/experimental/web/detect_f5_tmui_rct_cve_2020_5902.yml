@@ -9,7 +9,7 @@ have SSL enabled on their management interfaces, detections via wire data may no
 you are decrypting SSL traffic in order to inspect it.  I am using a regex string from a Cloudflare
 mitigation technique to try and always catch the offending string (..;), along with the other exploit of using
 (hsqldb;).'
-type: ESCU
+type: batch
 references:
 - https://www.ptsecurity.com/ww-en/about/news/f5-fixes-critical-vulnerability-discovered-by-positive-technologies-in-big-ip-application-delivery-controller/
 - https://support.f5.com/csp/article/K52145254

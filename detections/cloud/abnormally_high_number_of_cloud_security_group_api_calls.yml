@@ -7,7 +7,7 @@ description: This search will detect a spike in the number of API calls made to 
 how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
   run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to
   create the probability density function model.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats count as security_group_api_calls values(All_Changes.command) as

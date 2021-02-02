@@ -5,7 +5,7 @@ date: '2021-01-12'
 description: This search looks for CloudTrail events where a user has created an open/public
   S3 bucket.
 how_to_implement: You must install the AWS App for Splunk.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw

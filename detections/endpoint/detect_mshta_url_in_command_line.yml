@@ -12,7 +12,7 @@ description: This analytic identifies when Microsoft HTML Application Host (msht
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-type: ESCU
+type: batch
 references:
 - https://github.com/redcanaryco/AtomicTestHarnesses
 - https://redcanary.com/blog/introducing-atomictestharnesses/

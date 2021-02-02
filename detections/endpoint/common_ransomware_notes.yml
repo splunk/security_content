@@ -9,7 +9,7 @@ how_to_implement: You must be ingesting data that records file-system activity f
   populated via endpoint detection-and-response products, such as Carbon Black, or
   via other endpoint data sources, such as Sysmon. The data used for this search is
   typically generated via logs that report file-system reads and writes.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

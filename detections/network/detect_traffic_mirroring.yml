@@ -9,7 +9,7 @@ how_to_implement: This search uses a standard SPL query on logs from Cisco Netwo
   (https://splunkbase.splunk.com/app/1467) is used to
   parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on.
   Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
-type: ESCU
+type: batch
 references: []
 author: Mikael Bjerkeland, Splunk
 search: '`cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP")

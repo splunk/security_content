@@ -13,7 +13,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   the default lookup file, you will have to modify the macro itself to set the allow_list
   value for that process to false. You can modify the limit parameter and search scheduling
   to better suit your environment.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.dest) as

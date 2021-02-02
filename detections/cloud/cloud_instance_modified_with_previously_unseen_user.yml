@@ -8,7 +8,7 @@ how_to_implement: This search has a dependency on other searches to create and u
   a baseline of users observed to be associated with this activity. The search "Previously
   Seen Cloud Instance Modifications By User - Update" should be enabled for this detection
   to properly work.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime,

@@ -10,7 +10,7 @@ how_to_implement: This search uses a standard SPL query on logs from Cisco Netwo
   The search also requires that the Cisco Networks Add-on for Splunk 
   (https://splunkbase.splunk.com/app/1467) is used to
   parse the logs from the Cisco network devices.
-type: ESCU
+type: batch
 references: []
 author: Mikael Bjerkeland, Splunk
 search: '`cisco_networks` (facility="PM" mnemonic="ERR_DISABLE" disable_cause="psecure-violation") 

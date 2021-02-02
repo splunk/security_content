@@ -8,7 +8,7 @@ description: This detection looks for emails that are suspicious because of thei
 how_to_implement: You must be ingesting data from email logs and have Splunk integrated
   with UBA. This anomaly is raised by a UBA detection model called  "SuspiciousEmailDetectionModel."
   Ensure that this model is enabled on your UBA instance.
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(All_UEBA_Events.category) as category from datamodel=UEBA where

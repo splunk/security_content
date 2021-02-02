@@ -8,7 +8,7 @@ how_to_implement: To successfully implement this search you need to obtain data 
   your backup solution, either from the backup logs on your endpoints or from a central
   server responsible for performing the backups. If you do not use Netbackup, you
   can modify this search for your specific backup solution.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '`netbackup` | stats latest(_time) as latestTime by COMPUTERNAME, MESSAGE

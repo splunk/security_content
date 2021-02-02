@@ -6,7 +6,7 @@ description: This search provides information of unauthenticated requests via us
   agent, and authentication data against Kubernetes cluster's pods
 how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
   then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
-type: ESCU
+type: batch
 references: []
 author: Rod Soto, Splunk
 search: '`google_gcp_pubsub_message` category=kube-audit |spath input=properties.log |search responseStatus.code=401 |table sourceIPs{} userAgent verb requestURI responseStatus.reason properties.pod | `gcp_kubernetes_cluster_pod_scan_detection_filter`'

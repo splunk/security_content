@@ -6,7 +6,7 @@ description: This search looks for a spike in number of of AWS security Hub aler
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub
   inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`aws_securityhub_firehose` "findings{}.Resources{}.Type"=AWSEC2Instance 

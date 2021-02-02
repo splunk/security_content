@@ -9,7 +9,7 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
   including parent-child relationships from your endpoints to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
   field in the Endpoint data model.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

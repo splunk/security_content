@@ -16,7 +16,7 @@ how_to_implement: 'In order to run this search effectively, we highly recommend 
   this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata.
   This search also requires you to be ingesting your network traffic and populating
   the Network_Traffic data model'
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Stuart Hopkins from Splunk
 search: '| tstats `security_content_summariesonly` earliest(_time) as start_time latest(_time) as end_time values(All_Traffic.action) as action values(All_Traffic.app) as app values(All_Traffic.dest_ip) as dest_ip values(All_Traffic.dest_port) as dest_port values(sourcetype) as sourcetype count from datamodel=Network_Traffic where ((All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app="smb") AND NOT (All_Traffic.action="blocked" OR All_Traffic.dest_category="internal" OR All_Traffic.dest_ip=10.0.0.0/8 OR All_Traffic.dest_ip=172.16.0.0/12 OR All_Traffic.dest_ip=192.168.0.0/16 OR All_Traffic.dest_ip=100.64.0.0/10)) by All_Traffic.src_ip

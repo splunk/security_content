@@ -10,7 +10,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-type: ESCU
+type: batch
 references:
 - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md

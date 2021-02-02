@@ -8,7 +8,7 @@ how_to_implement: To successfully implement this search, you must populate the `
   such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for
   this search is typically generated via logs that report reads and writes to the
   registry. Deprecated because I don't think the logic is right.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)

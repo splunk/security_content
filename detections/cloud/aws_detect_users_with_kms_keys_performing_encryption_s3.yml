@@ -27,5 +27,5 @@ tags:
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
-type: ESCU
+type: batch
 version: 1

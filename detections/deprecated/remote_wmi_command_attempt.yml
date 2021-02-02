@@ -9,7 +9,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   ingesting logs with both the process name and command line from your endpoints.
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model. Deprecated because duplicate of Remote Process Instantiation via WMI.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

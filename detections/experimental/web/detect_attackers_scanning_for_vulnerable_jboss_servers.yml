@@ -7,7 +7,7 @@ description: This search looks for specific GET or HEAD requests to web servers 
   JexBoss is described as the exploit tool of choice for this malicious activity.
 how_to_implement: You must be ingesting data from the web server or network traffic
   that contains web specific information, and populating the Web data model.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

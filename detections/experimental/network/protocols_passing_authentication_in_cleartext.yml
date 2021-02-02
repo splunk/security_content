@@ -8,7 +8,7 @@ description: This search looks for cleartext protocols at risk of leaking creden
   run on different assigned ports in those cases.
 how_to_implement: This search requires you to be ingesting your network traffic, and
   populating the Network_Traffic data model.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

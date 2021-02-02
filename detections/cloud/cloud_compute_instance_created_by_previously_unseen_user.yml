@@ -7,7 +7,7 @@ description: This search looks for cloud compute instances created by users who 
 how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
   Run the "Previously Seen Cloud Compute Creations By User" support search to create
   of baseline of previously seen users.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime,

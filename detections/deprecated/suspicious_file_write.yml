@@ -13,7 +13,7 @@ how_to_implement: You must be ingesting data that records the filesystem activit
   to watch for, as well as a note to communicate why that file name is being monitored.
   This lookup file can be edited to add or remove file the file names you want to
   monitor.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count values(Filesystem.action)

@@ -10,7 +10,7 @@ description: This search looks for processes launching netsh.exe. Netsh is a com
   executing commands via the command line.
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
-type: ESCU
+type: batch
 references: []
 author: Josef Kuepker, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

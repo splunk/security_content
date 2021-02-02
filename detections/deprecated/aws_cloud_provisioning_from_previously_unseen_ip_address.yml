@@ -10,7 +10,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. This search works best when you run the "Previously Seen AWS Provisioning
   Activity Sources" support search once to create a history of previously seen locations
   that have provisioned AWS resources.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) [search `cloudtrail` (eventName=Run*

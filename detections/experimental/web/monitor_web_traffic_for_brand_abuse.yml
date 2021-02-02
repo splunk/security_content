@@ -8,7 +8,7 @@ how_to_implement: You need to ingest data from your web traffic. This can be acc
   by indexing data from a web proxy, or using a network traffic analysis tool, such
   as Bro or Splunk Stream. You also need to have run the search "ESCU - DNSTwist Domain
   Names", which creates the permutations of the domain that will be checked for.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(Web.url) as urls min(_time)

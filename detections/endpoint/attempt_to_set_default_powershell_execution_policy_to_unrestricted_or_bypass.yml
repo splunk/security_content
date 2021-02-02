@@ -8,7 +8,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   hosts to populate the Endpoint data model in the Registry node. You must also be
   ingesting logs with the fields registry_path, registry_key_name, and registry_value_name
   from your endpoints.
-type: ESCU
+type: batch
 references: []
 author: Patrick Bareiss, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

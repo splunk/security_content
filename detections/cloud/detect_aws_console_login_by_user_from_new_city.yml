@@ -13,7 +13,7 @@ how_to_implement: You must install and configure the Splunk Add-on for AWS (vers
   IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail - Update`
   hourly (or more frequently depending on how often you run the detection searches)
   to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_city_filter` macro.
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src

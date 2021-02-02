@@ -8,7 +8,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch
   EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection`
   macro to filter out the false positives.
-type: ESCU
+type: batch
 references: []
 author: Rod Soto, Splunk
 search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" verb=list objectRef.resource=pods

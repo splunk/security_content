@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-12'
 description: Detect system information discovery techniques used by attackers to understand
   configurations of the system to further exploit it.
-type: ESCU
+type: batch
 references:
 - https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 author: Patrick Bareiss, Splunk

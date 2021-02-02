@@ -13,7 +13,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   historical baseline of all command-line arguments. You must also validate this list.
   For the search to do accurate calculation, ensure the search scheduling is the same
   value as the `relative_time` evaluation function.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)

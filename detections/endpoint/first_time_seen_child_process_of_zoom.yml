@@ -12,7 +12,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   Seen Zoom Child Processes - Update` to keep this table up to date and to age out
   old child processes. Please update the `previously_seen_zoom_child_processes_window`
   macro to adjust the time window.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime values(Processes.parent_process_name)

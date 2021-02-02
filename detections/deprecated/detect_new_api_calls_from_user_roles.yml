@@ -9,7 +9,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. This search works best when you run the "Previously seen API call per user
   roles in CloudTrail" support search once to create a history of previously seen
   user roles.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole

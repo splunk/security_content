@@ -7,7 +7,7 @@ description: This search allows you to look for evidence of exploitation for CVE
 how_to_implement: The REST endpoint that exposes system information is also necessary
   for the proper operation of Splunk clustering and instrumentation. Whitelisting
   your Splunk systems will reduce false positives.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: index=_internal sourcetype=splunkd_ui_access server-info | search clientip!=127.0.0.1

@@ -9,7 +9,7 @@ how_to_implement: To successfully implement this search, you must ensure the net
   router devices are categorized as "router" in the Assets and identity table. You
   must also populate the Authentication data model with logs related to users authenticating
   to routing infrastructure.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count earliest(_time) as earliest

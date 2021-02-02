@@ -6,7 +6,7 @@ description: This search detects Okta login failures due to bad credentials for 
   users originating from the same ip address.
 how_to_implement: This search is specific to Okta and requires Okta logs are being
   ingested in your Splunk deployment.
-type: ESCU
+type: batch
 author: Rico Valdez, Splunk
 search: '`okta` outcome.reason=INVALID_CREDENTIALS | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city

@@ -12,7 +12,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   ingesting logs with both the process name and command line from your endpoints.
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

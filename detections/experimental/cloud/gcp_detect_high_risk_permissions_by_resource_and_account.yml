@@ -19,5 +19,5 @@ tags:
   mitre_attack_id:
   - T1078
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

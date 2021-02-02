@@ -15,7 +15,7 @@ how_to_implement: 'In order to run this search effectively, we highly recommend 
   More information on updating this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata.
   This search also requires you to be ingesting your network traffic and populating
   the Network_Traffic data model'
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime

@@ -8,7 +8,7 @@ how_to_implement: You must be ingesting data that records filesystem and process
   from your hosts to populate the Endpoint data model. This is typically populated
   via endpoint detection-and-response products, such as Carbon Black, or endpoint
   data sources, such as Sysmon.
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe

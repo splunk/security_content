@@ -5,7 +5,7 @@ date: '2020-07-21'
 description: Detect failed Okta SSO events
 how_to_implement: This search is specific to Okta and requires Okta logs are being
   ingested in your Splunk deployment.
-type: ESCU
+type: batch
 author: Rico Valdez, Splunk
 search: '`okta` displayMessage="User attempted unauthorized access to app" | stats  min(_time)
   as firstTime max(_time) as lastTime values(app) as Apps count by user, result ,displayMessage,

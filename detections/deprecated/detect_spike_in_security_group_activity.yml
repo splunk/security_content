@@ -15,7 +15,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   when you run the "Baseline of Security Group Activity by ARN" support search once
   to create a history of previously seen Security Group Activity. To add or remove
   API event names for security groups, edit the macro `security_group_api_calls`.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` `security_group_api_calls` [search `cloudtrail` `security_group_api_calls`

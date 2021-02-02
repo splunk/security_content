@@ -14,7 +14,7 @@ how_to_implement: You must be ingesting data that records the file-system activi
   use on the command line and surround with asterisks (*****), so that they work properly
   when searching the command line. The file should be updated with the names of any
   services you would like to monitor for attempts to stop the service.,
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

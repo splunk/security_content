@@ -14,7 +14,7 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide
   additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_ip_address_filter`
   macro.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime, values(All_Changes.object_id)

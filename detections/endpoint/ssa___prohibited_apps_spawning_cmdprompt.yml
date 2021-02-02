@@ -8,7 +8,7 @@ This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawni
 how_to_implement: "You must be ingesting sysmon logs. 
 This search has been modified to process raw sysmon data from attack_range's nxlogs on DSP."
 author: Ignacio Bermudez Corrales, Splunk
-type: SSA
+type: streaming
 search: '| from read_ssa_enriched_events()
 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))

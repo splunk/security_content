@@ -11,7 +11,7 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window`
   macro. You can also provide additional filtering for this search by customizing
   the `cloud_api_calls_from_previously_unseen_user_roles_filter`
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change

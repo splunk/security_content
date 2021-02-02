@@ -7,7 +7,7 @@ description: "This search looks for command-line arguments that use a `/c` param
 This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel."
 how_to_implement: "You must be populating the endpoint data model for SSA and specifically the process_name and the process fields"
 author: Ignacio Bermudez Corrales, Splunk
-type: SSA
+type: streaming
 search: '| from read_ssa_enriched_events()
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
 | eval dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),

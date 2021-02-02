@@ -9,7 +9,7 @@ how_to_implement: In order to implement this search, you must populate the Endpo
   and response products, such as Carbon Black or endpoint data sources such as Sysmon.
   The data used for this search is typically generated via logs that report reads
   and writes to the file system.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem

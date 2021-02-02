@@ -7,7 +7,7 @@ description: This search looks for flags passed to schtasks.exe on the command-l
 how_to_implement: To successfully implement this search you need to be ingesting logs
   with both the process name and command-line from your endpoints. If you are using
   Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

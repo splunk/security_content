@@ -8,7 +8,7 @@ how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or late
   then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
   You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection
   to filter out FPs.
-type: ESCU
+type: batch
 references: []
 author: Rod Soto, Splunk
 search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerIp!=127.0.0.1

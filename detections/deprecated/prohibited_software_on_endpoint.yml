@@ -14,7 +14,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   `interesting processes` table. To include the process names marked as "prohibited",
   which is included with ES Content Updates, run the included search <code>Add Prohibited
   Processes to Enterprise Security</code>.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

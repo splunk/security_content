@@ -6,7 +6,7 @@ description: This search detects logins from the same user from different states
   a 24 hour period.
 how_to_implement: This search is specific to Okta and requires Okta logs are being
   ingested in your Splunk deployment.
-type: ESCU
+type: batch
 author: Rico Valdez, Splunk
 search: '`okta` displayMessage="User login to Okta" client.geographicalContext.city!=null
   | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city)

@@ -7,7 +7,7 @@ how_to_implement: You must be ingesting Splunk Stream DNS and Splunk Stream TCP.
   We are detecting SIG and KEY records via stream:dns and TCP payload over 65KB
   in size via stream:tcp.  Replace the macro definitions ('stream:dns' and 'stream:tcp')
   with configurations for your Splunk environment.
-type: ESCU
+type: batch
 references:
 - https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
 author: Shannon Davis, Splunk

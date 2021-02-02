@@ -7,7 +7,7 @@ how_to_implement: To successfully implement this search, you must be collecting 
   data using Sysmon version 6.1 or greater and have Sysmon configured to generate
   alerts for WMI activity. In addition, you must have at least version 6.0.4 of the
   Sysmon TA installed to properly parse the fields.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,

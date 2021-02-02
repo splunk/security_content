@@ -8,7 +8,7 @@ description: This search looks for flags passed to wbadmin.exe (Windows Backup A
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints to populate the Endpoint
   data model in the Processes node. Tune based on parent process names.
-type: ESCU
+type: batch
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
 - https://thedfirreport.com/2020/10/08/ryuks-return/

@@ -9,7 +9,7 @@ how_to_implement: This search needs Sysmon Logs with a Sysmon configuration, whi
   (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
   with configurations for your Splunk environment. The search also uses a post-filter
   macro designed to filter out known false positives.
-type: ESCU
+type: batch
 references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 author: Patrick Bareiss, Splunk

@@ -14,7 +14,7 @@ how_to_implement: Start with a dataset that allows you to see clickstream data f
   such as scraping, crawling, application DDOS, credit-card testing, account takeover,
   etc. Common data sources used for this detection are customized Apache logs, customized
   IIS, and Splunk Stream.
-type: ESCU
+type: batch
 references:
 - https://en.wikipedia.org/wiki/Session_ID
 - https://en.wikipedia.org/wiki/Session_(computer_science)

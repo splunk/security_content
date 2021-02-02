@@ -7,7 +7,7 @@ description: This search looks for RDP application network traffic and filters a
   average traffic.
 how_to_implement: You must ensure that your network traffic data is populating the
   Network_Traffic data model.
-type: ESCU
+type: batch
 references: []
 author: Jose Hernandez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

@@ -11,7 +11,7 @@ description: Enforcing network-access controls is one of the defensive mechanism
 how_to_implement: You must be ingesting your cloud infrastructure logs from your
   cloud provider. You can also provide additional filtering for this search by
   customizing the `cloud_network_access_control_list_deleted_filter` macro.
-type: ESCU
+type: batch
 references: []
 author: Peter Gael, Splunk
 search: '`cloudtrail` eventName=DeleteNetworkAcl|rename userIdentity.arn as arn  |

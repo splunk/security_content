@@ -9,7 +9,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Run the "Previously seen AWS Regions" support search only once to create
   of baseline of previously seen regions.  This search is deprecated and have been translated to use the latest Change Datamodel.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as earliest

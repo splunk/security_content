@@ -14,7 +14,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   considered a spike. This search works best when you run the "Baseline of Blocked
   Outbound Connection" support search once to create a history of previously seen
   blocked outbound connections.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12

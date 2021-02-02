@@ -8,7 +8,7 @@ how_to_implement: This search requires audit computer account management to be e
   (index, source, sourcetype, etc.) for Windows Event Logs. Replace the macro definition
   with configurations for your Splunk environment. The search also uses a post-filter
   macro designed to filter out known false positives.
-type: ESCU
+type: batch
 references:
 - https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
 author: Rod Soto, Jose Hernandez, Splunk

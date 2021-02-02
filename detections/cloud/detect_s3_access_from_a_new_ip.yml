@@ -9,7 +9,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   logs' inputs. This search works best when you run the "Previously Seen S3 Bucket
   Access by Remote IP" support search once to create a history of previously seen
   remote IPs and bucket names.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_status=200

@@ -9,7 +9,7 @@ description: An attacker may use LOLBAS tools spawned from vulnerable applicatio
   The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 references: []
-type: SSA
+type: streaming
 author: Ignacio Bermudez Corrales, Splunk
 search: '| from read_ssa_enriched_events()
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))

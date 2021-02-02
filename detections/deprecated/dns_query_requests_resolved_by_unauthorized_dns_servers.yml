@@ -9,7 +9,7 @@ how_to_implement: To successfully implement this search you will need to ensure 
   DNS data is populating the Network_Resolution data model. It also requires that
   your DNS servers are identified correctly in the Assets and Identity table of Enterprise
   Security.
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src

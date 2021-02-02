@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-08'
 description: This search looks for newly created accounts that have been elevated
   to local administrators.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)

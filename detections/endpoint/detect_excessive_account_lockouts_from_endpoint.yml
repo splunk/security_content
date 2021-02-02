@@ -18,7 +18,7 @@ how_to_implement: "You must ingest your Windows security event logs in the `Chan
   \ Actions when configuring this detection search, and set the corresponding Playbook\
   \ to active. \\\n(Playbook Link:`https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/`).\\\
   \n"
-type: ESCU
+type: batch
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where

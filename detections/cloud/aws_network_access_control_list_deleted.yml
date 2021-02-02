@@ -10,7 +10,7 @@ description: Enforcing network-access controls is one of the defensive mechanism
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false

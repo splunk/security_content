@@ -7,7 +7,7 @@ description: This search finds for the number successfully created cloud instanc
   previously created and alerts on any outliers.
 how_to_implement: You must be ingesting your cloud infrastructure logs. You also must run the baseline search
  `Baseline Of Cloud Instances Launched` to create the probability density function.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats count as instances_launched values(All_Changes.object_id) as object_id from datamodel=Change where

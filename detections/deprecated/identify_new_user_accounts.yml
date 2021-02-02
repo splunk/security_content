@@ -8,7 +8,7 @@ description: This detection search will help profile user accounts in your envir
 how_to_implement: To successfully implement this search, you need to be populating
   the Enterprise Security Identity_Management data model in the assets and identity
   framework.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800,

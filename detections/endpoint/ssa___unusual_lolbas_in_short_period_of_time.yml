@@ -8,7 +8,7 @@ description:
   over a window of time, by building profiles per machine.
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 references: [https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries]
-type: SSA
+type: streaming
 author: Ignacio Bermudez Corrales, Splunk
 search: ' | from read_ssa_enriched_events()
 | eval device=ucast(map_get(input_event, "dest_device_id"), "string", null),

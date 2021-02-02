@@ -14,5 +14,5 @@ tags:
   kill_chain_phases:
     - Reconnaissance
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

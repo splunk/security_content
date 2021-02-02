@@ -13,7 +13,7 @@ description: This search looks for processes launching netsh.exe to execute vari
 how_to_implement: To successfully implement this search, you must be ingesting logs
   with the process name, command-line arguments, and parent processes from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes

@@ -6,7 +6,7 @@ description: This detection identifies use of DSInternals modules that enable or
 how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
 references: 
 - https://github.com/MichaelGrafnetter/DSInternals
-type: SSA
+type: streaming
 author: Stanislav Miskovic, Splunk
 search: '| from read_ssa_enriched_events()
 

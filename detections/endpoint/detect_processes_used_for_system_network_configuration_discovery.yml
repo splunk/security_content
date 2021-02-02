@@ -10,7 +10,7 @@ how_to_implement: You must be ingesting data that records registry activity from
   endpoint data sources, such as Sysmon. The data used for this search is usually
   generated via logs that report reads and writes to the registry or that are populated
   via Windows event logs, after enabling process tracking in your Windows audit settings.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

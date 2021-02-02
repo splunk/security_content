@@ -12,7 +12,7 @@ how_to_implement: We start with a dataset that provides visibility into the emai
   reasons.  After we have the username and email domain, we look for numerous account
   creations per email domain.  Common data sources used for this detection are customized
   Apache logs or Splunk Stream.
-type: ESCU
+type: batch
 references:
 - https://splunkbase.splunk.com/app/2734/
 - https://splunkbase.splunk.com/app/1809/

@@ -10,7 +10,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   products, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
   The data used for this search is typically generated via logs that report file-system
   reads and writes.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

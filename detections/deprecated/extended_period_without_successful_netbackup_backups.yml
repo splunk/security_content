@@ -10,7 +10,7 @@ how_to_implement: To successfully implement this search you need to first obtain
   you can modify this search for your backup solution. Depending on how often you
   backup your systems, you may want to modify how far in the past to look for a successful
   backup, other than the default of seven days.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '`netbackup` MESSAGE="Disk/Partition backup completed successfully." | stats

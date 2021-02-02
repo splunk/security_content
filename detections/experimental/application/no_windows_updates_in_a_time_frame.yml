@@ -13,7 +13,7 @@ how_to_implement: To successfully implement this search, it requires that the 'U
   wish to monitor. The Windows add-on should be also be installed and configured to
   properly parse Windows events in Splunk. There may be other data sources which can
   populate this data model, including vulnerability management systems.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates

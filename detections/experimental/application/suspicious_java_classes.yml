@@ -8,7 +8,7 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest d
   from your web-traffic appliances that serve or sit in the path of your Struts application
   servers. This can be accomplished by indexing data from a web proxy, or by using
   network traffic-analysis tools, such as Splunk Stream or Bro.
-type: ESCU
+type: batch
 references: []
 author: Jose Hernandez, Splunk
 search: '`stream_http` http_method=POST http_content_length>1 | regex form_data="(?i)java\.lang\.(?:runtime|processbuilder)"

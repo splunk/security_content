@@ -6,7 +6,7 @@ description: This search detects a potential kerberoasting attack via service pr
   name requests
 how_to_implement: The test data is converted from Windows Security Event logs generated
   from Attach Range simulation and used in SPL search and extended to SPL2
-type: SSA
+type: streaming
 references: [Initial ESCU implementation by Jose Hernandez and Patrick Bareiss]
 author: Xiao Lin, Splunk
 search: ' | from read_ssa_enriched_events()

@@ -9,7 +9,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. This search works best when you run the "Previously Seen EC2 Launches By
   User" support search once to create a history of previously seen ARNs. To add or
   remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '`cloudtrail` `ec2_modification_api_calls` [search `cloudtrail` `ec2_modification_api_calls`

@@ -8,7 +8,7 @@ how_to_implement: You must be ingesting Zeek DCE-RPC data into Splunk.
   when all three RPC operations (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app
   via bro:rpc:json.  These three operations are then correlated on the Zeek UID field.
 description: This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vulnerability via Zeek RPC
-type: ESCU
+type: batch
 references:
 - https://www.secura.com/blog/zero-logon
 - https://github.com/SecuraBV/CVE-2020-1472

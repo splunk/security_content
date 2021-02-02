@@ -15,7 +15,7 @@ how_to_implement: You must be ingesting endpoint data that monitors command line
   as the associated support search, so that the model created by the support search
   is available for use. You should periodically re-run the support search to rebuild
   the model with the latest data available in your environment.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

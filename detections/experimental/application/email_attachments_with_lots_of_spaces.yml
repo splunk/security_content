@@ -18,7 +18,7 @@ how_to_implement: "You need to ingest data from emails. Specifically, the sender
   \ will gather further information about the file attachment and its network behaviors.\
   \ If Phantom finds malicious behavior and an analyst approves of the results, the\
   \ email will be deleted from the user's inbox."
-type: ESCU
+type: batch
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count values(All_Email.recipient)
   as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email

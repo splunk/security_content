@@ -4,7 +4,7 @@ version: 5
 date: '2020-11-26'
 description: The search looks for reg.exe modifying registry keys that define Windows
   services and their configurations.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

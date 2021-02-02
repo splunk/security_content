@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-05'
 description: This search looks for GCP PubSub events where a user has created an open/public GCP Storage bucket.
 how_to_implement: 'This search relies on the Splunk Add-on for Google Cloud Platform, setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview).'
-type: ESCU
+type: batch
 references: []
 author: Shannon Davis, Splunk
 search: '`google_gcp_pubsub_message` data.resource.type=gcs_bucket data.protoPayload.methodName=storage.setIamPermissions

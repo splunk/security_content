@@ -6,7 +6,7 @@ description: This search detects a potential kerberoasting attack via service pr
   name requests
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   and include the windows security event logs that contain kerberos
-type: ESCU
+type: batch
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
 - https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity

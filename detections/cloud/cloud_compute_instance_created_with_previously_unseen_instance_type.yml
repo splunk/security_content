@@ -10,7 +10,7 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   Types - Update` to keep this table up to date and to age out old data. You can also
   provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`
   macro.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)

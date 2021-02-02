@@ -18,7 +18,7 @@ how_to_implement: "You need to ingest data from your DNS logs in the Network_Res
   \ Actions when configuring this detection search, and set the corresponding Playbook\
   \ to active. \\\n(Playbook link:`https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/`).\\\
   \n"
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by

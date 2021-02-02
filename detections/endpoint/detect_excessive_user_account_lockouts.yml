@@ -8,7 +8,7 @@ how_to_implement: ou must ingest your Windows security event logs in the `Change
   datamodel under the nodename is `Account_Management`, for this search to execute
   successfully. Please consider updating the cron schedule and the count of lockouts
   you want to monitor, according to your environment.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

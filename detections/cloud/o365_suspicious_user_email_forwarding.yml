@@ -4,7 +4,7 @@ version: 1
 date: '2020-12-16'
 description: This search detects when multiple user configured a forwarding rule to
   the same destination.
-type: ESCU
+type: batch
 author: Patrick Bareiss, Splunk
 search: '`o365_management_activity` Operation=Set-Mailbox | spath input=Parameters
   | rename Identity AS src_user | search ForwardingSmtpAddress=* | stats dc(src_user)

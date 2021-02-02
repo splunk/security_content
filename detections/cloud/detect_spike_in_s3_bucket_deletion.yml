@@ -14,7 +14,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   the mean that the value must be to be considered a spike. This search works best
   when you run the "Baseline of S3 Bucket deletion activity by ARN" support search
   once to create a baseline of previously seen S3 bucket-deletion activity.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` eventName=DeleteBucket [search `cloudtrail` eventName=DeleteBucket

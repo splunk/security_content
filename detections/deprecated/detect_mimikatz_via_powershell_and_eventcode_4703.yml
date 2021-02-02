@@ -11,7 +11,7 @@ how_to_implement: 'You must be ingesting Windows Security logs. You must also en
   on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/.
   Finally, please make sure that the local administrator group name is "Administrators"
   to be able to look for the right group membership changes.'
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe | rex

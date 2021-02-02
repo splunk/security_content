@@ -12,7 +12,7 @@ how_to_implement: To successfully implement this search you need to ingest data 
   this query requires that the DNS data model is populated with information regarding
   the DNS record type that is being returned as well as the data in the answer section
   of the protocol.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

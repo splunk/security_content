@@ -9,7 +9,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list
   of processes that should not be spawning cmd.exe. You can modify this lookup to
   better suit your environment.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

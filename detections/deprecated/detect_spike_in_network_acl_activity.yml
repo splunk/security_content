@@ -14,7 +14,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   when you run the "Baseline of Network ACL Activity by ARN" support search once to
   create a lookup file of previously seen Network ACL Activity. To add or remove API
   event names related to network ACLs, edit the macro `network_acl_events`.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '`cloudtrail` `network_acl_events` [search `cloudtrail` `network_acl_events`

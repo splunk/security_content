@@ -7,7 +7,7 @@ how_to_implement: You must be ingesting Windows Security logs from devices of in
 references: 
 - https://github.com/gentilkiwi/mimikatz
 - https://en.wikipedia.org/wiki/Microsoft_Detours
-type: SSA
+type: streaming
 author: Stanislav Miskovic, Splunk
 search: '| from read_ssa_enriched_events()
 

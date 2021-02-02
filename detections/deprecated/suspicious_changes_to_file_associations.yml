@@ -9,7 +9,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   on registry changes that include the name of the process responsible for the changes
   from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry`
   nodes.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

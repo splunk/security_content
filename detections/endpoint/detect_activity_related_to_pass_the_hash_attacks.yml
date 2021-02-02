@@ -6,7 +6,7 @@ description: This search looks for specific authentication events from the Windo
   Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 how_to_implement: To successfully implement this search, you must ingest your Windows
   Security Event logs and leverage the latest TA for Windows.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 Logon_Process=NtLmSsp

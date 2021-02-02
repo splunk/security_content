@@ -6,7 +6,7 @@ description: This search looks for Windows events that indicate one of the Windo
   event logs has been purged.
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts.
-type: ESCU
+type: batch
 references: []
 author: Rico Valdez, Splunk
 search: (`wineventlog_security` (EventCode=1102 OR EventCode=1100)) OR (`wineventlog_system`

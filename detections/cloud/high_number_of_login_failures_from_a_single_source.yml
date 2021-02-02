@@ -3,7 +3,7 @@ id: 7f398cfb-918d-41f4-8db8-2e2474e02222
 version: 1
 date: '2020-12-16'
 description: This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
-type: ESCU
+type: batch
 author: Bhavin Patel, Splunk
 search: '`o365_management_activity` Operation=UserLoginFailed  record_type=AzureActiveDirectoryStsLogon app=AzureActiveDirectory
   | stats count dc(user) as accounts_locked values(user) as user values(LogonError) as LogonError

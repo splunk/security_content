@@ -10,7 +10,7 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest d
   into an environment. This is necessary so that the search can identify an 'action'
   taken on the traffic of interest. The search requires the Network_Traffic data model
   be populated.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

@@ -5,7 +5,7 @@ date: '2020-07-21'
 description: Detect Okta user lockout events
 how_to_implement: This search is specific to Okta and requires Okta logs are being
   ingested in your Splunk deployment.
-type: ESCU
+type: batch
 author: Rico Valdez, Splunk
 search: '`okta` displayMessage="Max sign in attempts exceeded" | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city

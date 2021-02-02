@@ -10,7 +10,7 @@ how_to_implement: You must be ingesting data that records process activity from 
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model. In addition, web servers will need to be identified in the Assets and Identity
   Framework of Enterprise Security.
-type: ESCU
+type: batch
 references: []
 author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

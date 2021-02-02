@@ -13,7 +13,7 @@ how_to_implement: This search uses the Network_Sessions data model shipped with 
   file located in SA-IdentityManagement, which will contain a list of known authorized
   organizational assets including their MAC addresses. Ensure that all inventoried
   systems have their MAC address populated.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions

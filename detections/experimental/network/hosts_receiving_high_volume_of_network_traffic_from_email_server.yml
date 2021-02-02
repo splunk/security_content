@@ -12,7 +12,7 @@ how_to_implement: This search requires you to be ingesting your network traffic 
   The "deviation_threshold" field is a multiplying factor to control how much variation
   you're willing to tolerate. The "minimum_data_samples" field is the minimum number
   of connections of data samples required for the statistic to be valid.
-type: ESCU
+type: batch
 references: []
 author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_in) as bytes_in

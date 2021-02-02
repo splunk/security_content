@@ -10,7 +10,7 @@ how_to_implement: This search uses a standard SPL query on logs from Cisco Netwo
   The search also requires that the Cisco Networks Add-on for Splunk 
   (https://splunkbase.splunk.com/app/1467) is used to
   parse the logs from the Cisco network devices.
-type: ESCU
+type: batch
 references: 
 - https://www.ciscolive.com/c/dam/r/ciscolive/emea/docs/2019/pdf/BRKSEC-3200.pdf
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-ra-guard.html
