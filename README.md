@@ -7,7 +7,7 @@
     <a href="https://github.com/search?q=repo%3Asplunk%2Fsecurity_content+extension%3Ayml+path%3Adetections&type=Code&ref=advsearch&l=&l=">
         <img src="https://img.shields.io/github/directory-file-count/splunk/security_content/detections?extension=.yml&label=detections" /></a>
     <a href="https://github.com/splunk/security_content">
-        <img src="https://security_content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg" /></a>
+        <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_coverage.svg" /></a>
     <a href="https://github.com/splunk/security_content">
         <img src="https://img.shields.io/github/downloads/splunk/security_content/total" /></a>
     <a href="https://github.com/splunk/security_content/graphs/contributors" alt="Contributors">
