@@ -1,11 +1,10 @@
-name: Dump LSASS via procdump
-id: 3742ebfe-64c2-11eb-ae93-0242ac130002
+name: Dump LSASS via procdump Rename 
+id: 21276daa-663d-11eb-ae93-0242ac130002
 version: 1
 date: '2021-02-01'
-description: 'Detect procdump.exe dumping the lsass process. This query looks for
-  both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump
-  file with all process memory. Both are highly suspect and should be reviewed. This
-  query does not monitor for the internal name (OriginalFileName=procdump) of the PE or look for procdump64.exe.
+description: 'Detect a renamed instance of procdump.exe dumping the lsass process.
+  This query looks for both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump
+  file with all process memory. Both are highly suspect and should be reviewed. 
   Modify the query as needed.\
 
   During triage, confirm this is procdump.exe executing. If it is the first time a
@@ -20,11 +19,12 @@ references:
 - https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
 author: Michael Haag, Splunk
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=procdump.exe
-  (Processes.process=*-ma* OR Processes.process=*-mm*) Processes.process=*lsass* by
-  Processes.user Processes.process_name Processes.process Processes.dest | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `dump_lsass_via_procdump_filter`'
+search: '`sysmon` OriginalFileName=procdump  process_name!=procdump*.exe  EventID=1 (CommandLine=*-ma* OR CommandLine=*-mm*) CommandLine=*lsass* 
+  | rename Computer as dest 
+  |  stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name, process_name, OriginalFileName, CommandLine
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `dump_lsass_via_procdump_rename_filter`'
 known_false_positives: None identified.
 tags:
   analytics_story:
@@ -43,4 +43,3 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
-  automated_detection_testing: passed
