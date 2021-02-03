@@ -16,6 +16,7 @@ search: '| from read_ssa_enriched_events()
        cmd_line=ucast(map_get(input_event, "process"), "string", null),
        cmd_line_norm=lower(cmd_line),
        cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, "GUID"),
+       cmd_line_norm=replace(cmd_line_norm, /(?<=\s)+\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"),
        cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"),
        cmd_line_norm=replace(cmd_line_norm, /\d+/, "N")
 | where process_name="cmd.exe" AND
