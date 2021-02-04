@@ -1,6 +1,4 @@
-name: Systems Ready for Spectre-Meltdown Windows Patch
-id: fc0edc95-ff2b-48b0-9f6f-63da3789fd61
-version: 1
+author: David Dorsey, Splunk
 date: '2018-01-08'
 description: Some AV applications can cause the Spectre/Meltdown patch for Windows
   not to install successfully. This registry key is supposed to be created by the
@@ -9,7 +7,8 @@ description: Some AV applications can cause the Spectre/Meltdown patch for Windo
 how_to_implement: You need to be ingesting logs with both the process name and command-line
   from your endpoints. If you are using Sysmon, you must have at least version 6.0.4
   of the Sysmon TA.
-author: David Dorsey, Splunk
+id: fc0edc95-ff2b-48b0-9f6f-63da3789fd61
+name: Systems Ready for Spectre-Meltdown Windows Patch
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry
   AND (All_Changes.object_path="HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat*")
@@ -21,3 +20,9 @@ tags:
   - Spectre And Meltdown Vulnerabilities
   detections:
   - Spectre and Meltdown Vulnerable Systems
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

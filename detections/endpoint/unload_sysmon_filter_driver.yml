@@ -1,6 +1,4 @@
-name: Unload Sysmon Filter Driver
-id: c77162d3-f93c-45cc-80c8-22f665664g9f
-version: 3
+author: Bhavin Patel, Splunk
 date: '2020-07-22'
 description: Attackers often disable security tools to avoid detection. This search
   looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop
@@ -11,9 +9,10 @@ how_to_implement: You must be ingesting data that records process activity from 
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
   update this macro to filter out false positives.
-type: ESCU
+id: c77162d3-f93c-45cc-80c8-22f665664g9f
+known_false_positives: ''
+name: Unload Sysmon Filter Driver
 references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
   as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fltMC.exe
   AND Processes.process=*unload* AND Processes.process=*SysmonDrv*  by Processes.process_name
@@ -21,20 +20,25 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   |`unload_sysmon_filter_driver_filter`| table firstTime lastTime dest user count
   process_name process_id parent_process_name process'
-known_false_positives: ''
 tags:
   analytics_story:
   - Disabling Security Tools
-  mitre_attack_id:
-  - T1562.001
-  kill_chain_phases:
-  - Actions on Objectives
-  cis20:
-  - CIS 8
-  nist:
-  - DE.CM
-  security_domain: endpoint
   asset_type: ''
   automated_detection_testing: passed
+  cis20:
+  - CIS 8
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1562.001
+  nist:
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 3

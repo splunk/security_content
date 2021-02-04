@@ -1,13 +1,15 @@
-name: Detect New Open S3 buckets
-id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
-version: 2
+author: Bhavin Patel, Patrick Bareiss, Splunk
 date: '2021-01-12'
 description: This search looks for CloudTrail events where a user has created an open/public
   S3 bucket.
 how_to_implement: You must install the AWS App for Splunk.
-type: ESCU
+id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has legitimately created a public bucket for a specific purpose.
+  That said, AWS strongly advises against granting full control to the "All Users"
+  group.
+name: Detect New Open S3 buckets
 references: []
-author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw
   "(?<json_field>{.+})" | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
   | search grantees=* | mvexpand grantees | spath input=grantees output=uri path=Grantee.URI
@@ -17,28 +19,30 @@ search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex 
   max(_time) as lastTime by userName userIdentity.principalId userAgent uri permission
   bucketName | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_new_open_s3_buckets_filter` '
-known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately created a public bucket for a specific purpose.
-  That said, AWS strongly advises against granting full control to the "All Users"
-  group.
 tags:
   analytics_story:
   - Suspicious AWS S3 Activities
+  asset_type: S3 Bucket
+  automated_detection_testing: passed
+  cis20:
+  - CIS 13
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1530
-  cis20:
-  - CIS 13
   nist:
   - PR.DS
   - PR.AC
   - DE.CM
-  security_domain: network
-  asset_type: S3 Bucket
-  risk_score: 20
-  risk_object_type: system
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: src
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+  risk_object_type: system
+  risk_score: 20
+  security_domain: network
+type: ESCU
+version: 2
