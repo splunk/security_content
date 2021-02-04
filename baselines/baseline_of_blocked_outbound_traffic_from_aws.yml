@@ -1,6 +1,4 @@
-name: Baseline of blocked outbound traffic from AWS
-id: fc0edd96-ff2b-48b0-9f1f-63da3782fd63
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-05-07'
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation of the number of outbound connections blocked in your VPC flow logs by
@@ -10,7 +8,8 @@ description: This search establishes, on a per-hour basis, the average and the s
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your `VPC flow
   logs.`.
-author: Bhavin Patel, Splunk
+id: fc0edd96-ff2b-48b0-9f1f-63da3782fd63
+name: Baseline of blocked outbound traffic from AWS
 search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12
   OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)
   | bucket _time span=1h | stats count as numberOfBlockedConnections by _time, src_ip
@@ -26,3 +25,9 @@ tags:
   - Suspicious AWS Traffic
   detections:
   - Detect Spike in blocked Outbound Traffic from your AWS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

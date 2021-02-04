@@ -1,6 +1,4 @@
-name: SQL Injection with Long URLs
-id: e0aad4cf-0790-423b-8328-7564d0d938f9
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-07-21'
 description: This search looks for long URLs that have several SQL commands visible
   within them.
@@ -8,9 +6,12 @@ how_to_implement: To successfully implement this search, you need to be monitori
   network communications to your web servers or ingesting your HTTP logs and populating
   the Web data model. You must also identify your web servers in the Enterprise Security
   assets table.
-type: ESCU
+id: e0aad4cf-0790-423b-8328-7564d0d938f9
+known_false_positives: It's possible that legitimate traffic will have long URLs or
+  long user agent strings and that common SQL commands may be found within the URL.
+  Please investigate as appropriate.
+name: SQL Injection with Long URLs
 references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count from datamodel=Web where
   Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length
   > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name("Web")`
@@ -25,25 +26,28 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Web wher
   "full%20join")) + mvcount(split(url, "select")) + mvcount(split(url, "distinct"))
   + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url,
   "xp_cmdshell")) - 24 | where num_sql_cmds > 3 | `sql_injection_with_long_urls_filter`'
-known_false_positives: It's possible that legitimate traffic will have long URLs or
-  long user agent strings and that common SQL commands may be found within the URL.
-  Please investigate as appropriate.
 tags:
   analytics_story:
   - SQL Injection
-  mitre_attack_id:
-  - T1190
-  kill_chain_phases:
-  - Delivery
+  asset_type: Database Server
   cis20:
   - CIS 4
   - CIS 13
   - CIS 18
+  kill_chain_phases:
+  - Delivery
+  mitre_attack_id:
+  - T1190
   nist:
   - PR.DS
   - ID.RA
   - PR.PT
   - PR.IP
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Database Server
+type: ESCU
+version: 2

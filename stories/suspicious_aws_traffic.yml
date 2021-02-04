@@ -1,10 +1,10 @@
-name: Suspicious AWS Traffic
-id: 2e8948a5-5239-406b-b56b-6c50f2168af3
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-05-07'
 description: Leverage these searches to monitor your AWS network traffic for evidence
   of anomalous activity and suspicious behaviors, such as a spike in blocked outbound
   traffic in your virtual private cloud (VPC).
+id: 2e8948a5-5239-406b-b56b-6c50f2168af3
+name: Suspicious AWS Traffic
 narrative: "A virtual private cloud (VPC) is an on-demand managed cloud-computing\
   \ service that isolates computing resources for each client. Inside the VPC container,\
   \ the environment resembles a physical network. \\\nAmazon's VPC service enables\
@@ -20,12 +20,16 @@ narrative: "A virtual private cloud (VPC) is an on-demand managed cloud-computin
   \ in and out of your network and to alert you to suspicious activities.\\\nThe searches\
   \ in this Analytic Story will monitor your AWS network traffic for evidence of anomalous\
   \ activity and suspicious behaviors."
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
 tags:
   analytics_story: Suspicious AWS Traffic
-  usecase: Security Monitoring
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
+type: ESCU
+version: 1

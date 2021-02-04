@@ -1,6 +1,4 @@
-name: Cloud Compute Instance Created With Previously Unseen Image
-id: bc24922d-987c-4645-b288-f8c73ec194c4
-version: 1
+author: David Dorsey, Splunk
 date: '2018-10-12'
 description: This search looks for cloud compute instances being created with previously
   unseen image IDs.
@@ -11,9 +9,12 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   to keep this table up to date and to age out old data. You can also provide additional
   filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter`
   macro.
-type: ESCU
+id: bc24922d-987c-4645-b288-f8c73ec194c4
+known_false_positives: After a new image is created, the first systems created with
+  that image will cause this alert to fire.  Verify that the image being used was
+  created by a legitimate user.
+name: Cloud Compute Instance Created With Previously Unseen Image
 references: []
-author: David Dorsey, Splunk
 search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
@@ -22,23 +23,25 @@ search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime 
   | where enough_data=1 | eval firstTimeSeenImage=min(firstTimeSeen) | where isnull(firstTimeSeenImage)
   OR firstTimeSeenImage > relative_time(now(), "-24h@h") | table firstTime, user,
   image_id, count, dest | `security_content_ctime(firstTime)` | `cloud_compute_instance_created_with_previously_unseen_image_filter`'
-known_false_positives: After a new image is created, the first systems created with
-  that image will cause this alert to fire.  Verify that the image being used was
-  created by a legitimate user.
 tags:
   analytics_story:
   - Cloud Cryptomining
+  asset_type: Cloud Compute Instance
+  automated_detection_testing: passed
   cis20:
   - CIS 1
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
   nist:
   - ID.AM
   product:
   - Splunk Security Analytics for AWS
-  security_domain: endpoint
-  asset_type: Cloud Compute Instance
-  risk_score: 20
-  risk_object_type: user
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: user
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  risk_object_type: user
+  risk_score: 20
+  security_domain: endpoint
+type: ESCU
+version: 1

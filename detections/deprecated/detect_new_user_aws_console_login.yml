@@ -1,6 +1,4 @@
-name: Detect new user AWS Console Login
-id: ada0f478-84a8-4641-a3f3-d82362dffd75
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-07-21'
 description: This search looks for CloudTrail events wherein a console login event
   by a user was recorded within the last hour, then compares the event to a lookup
@@ -12,29 +10,35 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   inputs. Run the "Previously seen users in CloudTrail" support search only once to
   create a baseline of previously seen IAM users within the last 30 days. Run "Update
   previously seen users in CloudTrail" hourly (or more frequently depending on how
-  often you run the detection searches) to refresh the baselines. 
-type: ESCU
-author: Bhavin Patel, Splunk
-search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | stats
-  earliest(_time) as firstTime latest(_time) as lastTime by user | inputlookup append=t
-  previously_seen_users_console_logins_cloudtrail  | stats min(firstTime) as firstTime max(lastTime)
-  as lastTime by user | eval userStatus=if(firstTime >= relative_time(now(), "-70m@m"),
-  "First Time Logging into AWS Console","Previously Seen User") | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
-  where userStatus ="First Time Logging into AWS Console"  | `detect_new_user_aws_console_login_filter`'
+  often you run the detection searches) to refresh the baselines.
+id: ada0f478-84a8-4641-a3f3-d82362dffd75
 known_false_positives: When a legitimate new user logins for the first time, this
   activity will be detected. Check how old the account is and verify that the user
   activity is legitimate.
+name: Detect new user AWS Console Login
+search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | stats
+  earliest(_time) as firstTime latest(_time) as lastTime by user | inputlookup append=t
+  previously_seen_users_console_logins_cloudtrail  | stats min(firstTime) as firstTime
+  max(lastTime) as lastTime by user | eval userStatus=if(firstTime >= relative_time(now(),
+  "-70m@m"), "First Time Logging into AWS Console","Previously Seen User") | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
+  where userStatus ="First Time Logging into AWS Console"  | `detect_new_user_aws_console_login_filter`'
 tags:
   analytics_story:
   - Suspicious AWS Login Activities
+  asset_type: AWS Instance
+  cis20:
+  - CIS 16
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1078.004
-  cis20:
-  - CIS 16
   nist:
   - DE.DP
   - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: AWS Instance
+type: ESCU
+version: 2

@@ -1,30 +1,29 @@
-name: Unusually Long Content-Type Length
-id: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-10-13'
 description: This search looks for unusually long strings in the Content-Type http
   header that the client sends the server.
 how_to_implement: This particular search leverages data extracted from Stream:HTTP.
   You must configure the http stream using the Splunk Stream App on your Splunk Stream
   deployment server to extract the cs_content_type field.
-type: ESCU
+id: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
+known_false_positives: Very few legitimate Content-Type fields will have a length
+  greater than 100 characters.
+name: Unusually Long Content-Type Length
 references: []
-author: Bhavin Patel, Splunk
 search: '`stream_http` | eval cs_content_type_length = len(cs_content_type) | where
   cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length
   cs_content_type url | `unusually_long_content_type_length_filter`'
-known_false_positives: Very few legitimate Content-Type fields will have a length
-  greater than 100 characters.
 tags:
   analytics_story:
   - Apache Struts Vulnerability
-  kill_chain_phases:
-  - Delivery
+  asset_type: Web Server
   cis20:
   - CIS 3
   - CIS 4
   - CIS 18
   - CIS 12
+  kill_chain_phases:
+  - Delivery
   nist:
   - ID.RA
   - RS.MI
@@ -33,5 +32,10 @@ tags:
   - DE.AE
   - PR.MA
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Web Server
+type: ESCU
+version: 1

@@ -1,13 +1,12 @@
-name: Previously Seen EC2 Modifications By User
-id: 4d69091b-d975-4267-85df-888bd41034eb
-version: 1
+author: David Dorsey, Splunk
 date: '2018-04-05'
 description: This search builds a table of previously seen ARNs that have launched
   a EC2 instance.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
-author: David Dorsey, Splunk
+id: 4d69091b-d975-4267-85df-888bd41034eb
+name: Previously Seen EC2 Modifications By User
 search: '`cloudtrail` `ec2_modification_api_calls` errorCode=success | spath output=arn
   userIdentity.arn | stats earliest(_time) as firstTime latest(_time) as lastTime
   by arn | outputlookup previously_seen_ec2_modifications_by_user | stats count'
@@ -16,3 +15,9 @@ tags:
   - Unusual AWS EC2 Modifications
   detections:
   - EC2 Instance Modified With Previously Unseen User
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

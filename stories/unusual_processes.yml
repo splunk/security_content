@@ -1,11 +1,11 @@
-name: Unusual Processes
-id: f4368e3f-d59f-4192-84f6-748ac5a3ddb6
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-02-04'
 description: Quickly identify systems running new or unusual processes in your environment
   that could be indicators of suspicious activity. Processes run from unusual locations,
   those with conspicuously long command lines, and rare executables are all examples
   of activities that may warrant deeper investigation.
+id: f4368e3f-d59f-4192-84f6-748ac5a3ddb6
+name: Unusual Processes
 narrative: 'Being able to profile a host''s processes within your environment can
   help you more quickly identify processes that seem out of place when compared to
   the rest of the population of hosts or asset types.\
@@ -19,14 +19,18 @@ narrative: 'Being able to profile a host''s processes within your environment ca
   how that process was able to execute on the host, when it first executed, and whether
   other hosts are affected. This extra information may provide clues that can help
   the analyst further investigate any suspicious activity.'
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html
 - https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
 - https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
 tags:
   analytics_story: Unusual Processes
-  usecase: Advanced Threat Detection
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 2
