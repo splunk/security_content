@@ -1,15 +1,16 @@
-name: Suspicious writes to windows Recycle Bin
-id: b5541828-8ffd-4070-9d95-b3da4de924cb
-version: 4
+author: Rico Valdez, Splunk
 date: '2020-07-22'
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.
 how_to_implement: To successfully implement this search you need to be ingesting information
   on filesystem and process logs responsible for the changes from your endpoints into
   the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
-type: ESCU
+id: b5541828-8ffd-4070-9d95-b3da4de924cb
+known_false_positives: Because the Recycle Bin is a hidden folder in modern versions
+  of Windows, it would be unusual for a process other than explorer.exe to write to
+  it. Incidents should be investigated as appropriate.
+name: Suspicious writes to windows Recycle Bin
 references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name)
   as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*"
@@ -19,20 +20,23 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name
   != "explorer.exe" by Processes.process_id Processes.dest| `drop_dm_object_name("Processes")`
   | table process_id dest] | `suspicious_writes_to_windows_recycle_bin_filter`'
-known_false_positives: Because the Recycle Bin is a hidden folder in modern versions
-  of Windows, it would be unusual for a process other than explorer.exe to write to
-  it. Incidents should be investigated as appropriate.
 tags:
   analytics_story:
   - Collection and Staging
-  mitre_attack_id:
-  - T1036
-  cis20:
-  - CIS 8
-  nist:
-  - DE.CM
-  security_domain: endpoint
   asset_type: Windows
   automated_detection_testing: passed
+  cis20:
+  - CIS 8
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
+  mitre_attack_id:
+  - T1036
+  nist:
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 4

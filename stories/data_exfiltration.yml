@@ -1,20 +1,24 @@
-name: Data Exfiltration
-id: 66b0fe0c-1351-11eb-adc1-0242ac120002
-version: 1
+author: Shannon Davis, Splunk
 date: '2020-10-21'
 description: The stealing of data by an adversary.
-narrative: Exfiltration comes in many flavors.  Adversaries can collect data
-  over encrypted or non-encrypted channels.  They can utilise Command and Control
-  channels that are already in place to exfiltrate data.  They can use both standard
-  data transfer protocols such as FTP, SCP, etc to exfiltrate data.  Or they can use
-  non-standard protocols such as DNS, ICMP, etc with specially crafted fields to
-  try and circumvent security technologies in place.
-author: Shannon Davis, Splunk
-type: ESCU
+id: 66b0fe0c-1351-11eb-adc1-0242ac120002
+name: Data Exfiltration
+narrative: Exfiltration comes in many flavors.  Adversaries can collect data over
+  encrypted or non-encrypted channels.  They can utilise Command and Control channels
+  that are already in place to exfiltrate data.  They can use both standard data transfer
+  protocols such as FTP, SCP, etc to exfiltrate data.  Or they can use non-standard
+  protocols such as DNS, ICMP, etc with specially crafted fields to try and circumvent
+  security technologies in place.
 references:
 - https://attack.mitre.org/tactics/TA0010/
 tags:
   analytics_story: Data Exfiltration
-  usecase: Advanced Threat Detection
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

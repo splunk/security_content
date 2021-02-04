@@ -1,6 +1,4 @@
-name: Cloud Compute Instance Created With Previously Unseen Instance Type
-id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
-version: 1
+author: David Dorsey, Splunk
 date: '2020-09-12'
 description: Find EC2 instances being created with previously unseen instance types.
 how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
@@ -10,9 +8,12 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   Types - Update` to keep this table up to date and to age out old data. You can also
   provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`
   macro.
-type: ESCU
+id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
+known_false_positives: It is possible that an admin will create a new system using
+  a new instance type that has never been used before. Verify with the creator that
+  they intended to create the system with the new instance type.
+name: Cloud Compute Instance Created With Previously Unseen Instance Type
 references: []
-author: David Dorsey, Splunk
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
@@ -22,23 +23,25 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values
   | where isnull(firstTimeSeenInstanceType) OR firstTimeSeenInstanceType > relative_time(now(),
   "-24h@h") | table firstTime, user, dest, count, instance_type | `security_content_ctime(firstTime)`
   | `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`'
-known_false_positives: It is possible that an admin will create a new system using
-  a new instance type that has never been used before. Verify with the creator that
-  they intended to create the system with the new instance type.
 tags:
   analytics_story:
   - Cloud Cryptomining
+  asset_type: Cloud Compute Instance
+  automated_detection_testing: passed
   cis20:
   - CIS 1
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
   nist:
   - ID.AM
   product:
   - Splunk Security Analytics for AWS
-  security_domain: endpoint
-  asset_type: Cloud Compute Instance
-  risk_score: 20
-  risk_object_type: user
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: user
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  risk_object_type: user
+  risk_score: 20
+  security_domain: endpoint
+type: ESCU
+version: 1

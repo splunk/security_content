@@ -1,13 +1,12 @@
-name: Monitor Unsuccessful Backups
-id: b2178fed-592f-492b-b851-74161678aa56
-version: 1
+author: David Dorsey, Splunk
 date: '2017-09-12'
 description: This search is intended to give you a feel for how often backup failures
   happen in your environments.  Fluctuations in these numbers will allow you to determine
   when you should investigate.
 how_to_implement: To successfully implement this search you must be ingesting your
   backup logs.
-author: David Dorsey, Splunk
+id: b2178fed-592f-492b-b851-74161678aa56
+name: Monitor Unsuccessful Backups
 search: '`netbackup` "An error occurred, failed to backup." | bucket _time span=1d
   | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time, MESSAGE'
 tags:
@@ -15,3 +14,9 @@ tags:
   - Monitor Backup Solution
   detections:
   - Unsuccessful Netbackup backups
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

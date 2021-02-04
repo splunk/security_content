@@ -1,29 +1,32 @@
-name: Previously Seen Running Windows Services - Update
-id: 2e3bdd68-1863-46ee-81f8-87273eee7f1c
-version: 3
+author: David Dorsey, Splunk
 date: '2020-06-23'
-description: This search returns the first and last time a Windows service was seen across your enterprise
-    within the last hour. It then updates this information with historical data and filters out
-    Windows services pairs that have not been seen within the specified time window.
-    This updated table is then cached.
+description: This search returns the first and last time a Windows service was seen
+  across your enterprise within the last hour. It then updates this information with
+  historical data and filters out Windows services pairs that have not been seen within
+  the specified time window. This updated table is then cached.
 how_to_implement: While this search does not require you to adhere to Splunk CIM,
   you must be ingesting your Windows security-event logs for it to execute successfully.
   Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
-author: David Dorsey, Splunk
-search: '`wineventlog_system` EventCode=7036 |
-    rex field=Message "The (?<service>[-\(\)\s\w]+) service entered the (?<state>\w+) state" |
-    where state="running" |
-    stats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen by service |
-    inputlookup previously_seen_running_windows_services append=t |
-    stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen by service |
-    where lastTimeSeen > relative_time(now(), "`previously_seen_windows_service_forget_window`") |
-    outputlookup previously_seen_running_windows_services'
+id: 2e3bdd68-1863-46ee-81f8-87273eee7f1c
+name: Previously Seen Running Windows Services - Update
+search: '`wineventlog_system` EventCode=7036 | rex field=Message "The (?<service>[-\(\)\s\w]+)
+  service entered the (?<state>\w+) state" | where state="running" | stats earliest(_time)
+  as firstTimeSeen, latest(_time) as lastTimeSeen by service | inputlookup previously_seen_running_windows_services
+  append=t | stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen
+  by service | where lastTimeSeen > relative_time(now(), "`previously_seen_windows_service_forget_window`")
+  | outputlookup previously_seen_running_windows_services'
 tags:
   analytics_story:
   - Orangeworm Attack Group
   - Windows Service Abuse
   - Sunburst Malware
-  detections:
-  - First Time Seen Running Windows Service
   deployments:
   - Hourly Cache Updates
+  detections:
+  - First Time Seen Running Windows Service
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 3

@@ -1,14 +1,15 @@
-name: Excessive DNS Failures
-id: 104658f4-afdc-499e-9719-17243f9826f1
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-07-21'
 description: This search identifies DNS query failures by counting the number of DNS
   responses that do not indicate success, and trigger on more than 50 occurrences.
 how_to_implement: To successfully implement this search you must ensure that DNS data
   is populating the Network_Resolution data model.
-type: ESCU
+id: 104658f4-afdc-499e-9719-17243f9826f1
+known_false_positives: It is possible legitimate traffic can trigger this rule. Please
+  investigate as appropriate. The threshold for generating an event can also be customized
+  to better suit your environment.
+name: Excessive DNS Failures
 references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values("DNS.query") as queries
   from datamodel=Network_Resolution where nodename=DNS "DNS.reply_code"!="No Error"
   "DNS.reply_code"!="NoError" DNS.reply_code!="unknown" NOT "DNS.query"="*.arpa" "DNS.query"="*.*"
@@ -16,24 +17,27 @@ search: '| tstats `security_content_summariesonly` count values("DNS.query") as 
   domain as query OUTPUT domain| where isnull(domain)| lookup update=true alexa_lookup_by_str
   domain as query OUTPUT rank| where isnull(rank)| stats sum(count) as count mode(queries)
   as queries by src| `get_asset(src)`| where count>50 | `excessive_dns_failures_filter`'
-known_false_positives: It is possible legitimate traffic can trigger this rule. Please
-  investigate as appropriate. The threshold for generating an event can also be customized
-  to better suit your environment.
 tags:
   analytics_story:
   - Suspicious DNS Traffic
   - Command and Control
-  mitre_attack_id:
-  - T1071.004
-  kill_chain_phases:
-  - Command and Control
+  asset_type: Endpoint
   cis20:
   - CIS 8
   - CIS 9
   - CIS 12
+  kill_chain_phases:
+  - Command and Control
+  mitre_attack_id:
+  - T1071.004
   nist:
   - PR.PT
   - DE.AE
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 2
