@@ -1,28 +1,33 @@
-name: Previously Seen Cloud Provisioning Activity Sources - Initial
-id: 4ce865fc-f43e-4521-a8ed-ab8af99052d7
-version: 1
+author: Rico Valdez, Splunk
 date: '2020-08-19'
 description: This search builds a table of the first and last times seen for every
   IP address (along with its physical location) previously associated with cloud-provisioning
-  activity. This is broadly defined as any event that runs or creates something. This table is
-  then cached.
-how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud provider.
-author: Rico Valdez, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change 
-  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success 
-  by All_Changes.src | `drop_dm_object_name("All_Changes")`
-  | iplocation src | where isnotnull(Country)
-  | eventstats min(firstTimeSeen) as globalFirstTime
-  | eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
-  | table src, City, Country, Region, firstTimeSeen, lastTimeSeen, enough_data
-  | outputlookup previously_seen_cloud_provisioning_activity_sources'
+  activity. This is broadly defined as any event that runs or creates something. This
+  table is then cached.
+how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
+  provider.
+id: 4ce865fc-f43e-4521-a8ed-ab8af99052d7
+name: Previously Seen Cloud Provisioning Activity Sources - Initial
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created)
+  All_Changes.status=success by All_Changes.src | `drop_dm_object_name("All_Changes")`
+  | iplocation src | where isnotnull(Country) | eventstats min(firstTimeSeen) as globalFirstTime
+  | eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0)
+  | table src, City, Country, Region, firstTimeSeen, lastTimeSeen, enough_data | outputlookup
+  previously_seen_cloud_provisioning_activity_sources'
 tags:
   analytics_story:
   - Suspicious Cloud Provisioning Activities
+  deployments:
+  - 90 Day Baseline
   detections:
   - Cloud Provisioning Activity From Previously Unseen IP Address
   - Cloud Provisioning Activity From Previously Unseen City
   - Cloud Provisioning Activity From Previously Unseen Country
   - Cloud Provisioning Activity From Previously Unseen Region
-  deployments:
-  - 90 Day Baseline
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

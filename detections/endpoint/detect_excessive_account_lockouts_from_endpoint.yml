@@ -1,6 +1,4 @@
-name: Detect Excessive Account Lockouts From Endpoint
-id: c026e3dd-7e18-4abb-8f41-929e836efe74
-version: 5
+author: David Dorsey, Splunk
 date: '2020-11-09'
 description: This search identifies endpoints that have caused a relatively high number
   of account lockouts in a short period.
@@ -18,28 +16,34 @@ how_to_implement: "You must ingest your Windows security event logs in the `Chan
   \ Actions when configuring this detection search, and set the corresponding Playbook\
   \ to active. \\\n(Playbook Link:`https://my.phantom.us/4.1/playbook/excessive-account-lockouts-enrichment-and-response/`).\\\
   \n"
-type: ESCU
-author: David Dorsey, Splunk
+id: c026e3dd-7e18-4abb-8f41-929e836efe74
+known_false_positives: It's possible that a widely used system, such as a kiosk, could
+  cause a large number of account lockouts.
+name: Detect Excessive Account Lockouts From Endpoint
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where
   nodename=All_Changes.Account_Management All_Changes.result="lockout" by All_Changes.dest
   All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`|
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search
   count > 5 | `detect_excessive_account_lockouts_from_endpoint_filter`'
-known_false_positives: It's possible that a widely used system, such as a kiosk, could
-  cause a large number of account lockouts.
 tags:
   analytics_story:
   - Account Monitoring and Controls
-  mitre_attack_id:
-  - T1078.002
-  cis20:
-  - CIS 16
-  nist:
-  - PR.IP
-  security_domain: access
   asset_type: Windows
   automated_detection_testing: passed
+  cis20:
+  - CIS 16
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
+  mitre_attack_id:
+  - T1078.002
+  nist:
+  - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: access
+type: ESCU
+version: 5

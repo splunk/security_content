@@ -1,6 +1,4 @@
-name: Previously Seen AWS Provisioning Activity Sources
-id: ac88e6a0-4fba-4dfd-b7b9-8964df7d1aee
-version: 1
+author: David Dorsey, Splunk
 date: '2018-03-16'
 description: This search builds a table of the first and last times seen for every
   IP address (along with its physical location) previously associated with cloud-provisioning
@@ -8,7 +6,8 @@ description: This search builds a table of the first and last times seen for eve
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-author: David Dorsey, Splunk
+id: ac88e6a0-4fba-4dfd-b7b9-8964df7d1aee
+name: Previously Seen AWS Provisioning Activity Sources
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
   | stats earliest(_time) as firstTime, latest(_time) as lastTime by sourceIPAddress,
   City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
@@ -21,3 +20,9 @@ tags:
   - AWS Cloud Provisioning From Previously Unseen City
   - AWS Cloud Provisioning From Previously Unseen Country
   - AWS Cloud Provisioning From Previously Unseen Region
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

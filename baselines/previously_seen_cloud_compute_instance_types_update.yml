@@ -1,26 +1,28 @@
-name: Previously Seen Cloud Compute Instance Types - Update
-id: 7b7ef9ab-acb9-4e07-af76-4cf1e722885c
-version: 1
-date: '2020-9-03'
+author: David Dorsey, Splunk
+date: 2020-9-03
 description: This search builds a table of previously seen cloud compute instance
   types
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-    where All_Changes.action=created 
-    by All_Changes.Instance_Changes.instance_type 
-| `drop_dm_object_name("All_Changes.Instance_Changes")` 
-| where instance_type != "unknown"
-| inputlookup append=t previously_seen_cloud_compute_instance_types 
-| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by instance_type 
-| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_instance_type_forget_window`) 
-| eventstats min(firstTimeSeen) as globalFirstTime 
-| eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) 
-| outputlookup previously_seen_cloud_compute_instance_types'
+id: 7b7ef9ab-acb9-4e07-af76-4cf1e722885c
+name: Previously Seen Cloud Compute Instance Types - Update
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type
+  | `drop_dm_object_name("All_Changes.Instance_Changes")` | where instance_type !=
+  "unknown" | inputlookup append=t previously_seen_cloud_compute_instance_types |
+  stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by instance_type
+  | where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_instance_type_forget_window`)
+  | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
+  <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_instance_types'
 tags:
   analytics_story:
   - Cloud Cryptomining
-  detections:
-  - Cloud Compute Instance Created With Previously Unseen Instance Type
   deployments:
   - Daily Cache Updates
+  detections:
+  - Cloud Compute Instance Created With Previously Unseen Instance Type
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

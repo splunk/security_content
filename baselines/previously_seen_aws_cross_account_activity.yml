@@ -1,6 +1,4 @@
-name: Previously Seen AWS Cross Account Activity
-id: 1cc22b09-c867-416e-a511-cb36ac44aee2
-version: 1
+author: David Dorsey, Splunk
 date: '2018-06-04'
 description: This search looks for **AssumeRole** events where the requesting account
   differs from the requested account, then writes these relationships to a lookup
@@ -9,7 +7,8 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`,
   a lookup file created by this support search.
-author: David Dorsey, Splunk
+id: 1cc22b09-c867-416e-a511-cb36ac44aee2
+name: Previously Seen AWS Cross Account Activity
 search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId path=userIdentity.accountId
   | spath output=requestedAccountId path=resources{}.accountId | search requestingAccountId=*
   | where requestingAccountId!=requestedAccountId | stats earliest(_time) as firstTime
@@ -20,3 +19,9 @@ tags:
   - AWS Cross Account Activity
   detections:
   - AWS Cross Account Activity From Previously Unseen Account
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

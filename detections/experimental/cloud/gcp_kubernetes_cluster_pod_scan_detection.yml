@@ -1,22 +1,29 @@
-name: GCP Kubernetes cluster pod scan detection
-id: 19b53215-4a16-405b-8087-9e6acf619842
-version: 1
+author: Rod Soto, Splunk
 date: '2020-07-17'
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster's pods
 how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
   then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
-type: ESCU
+id: 19b53215-4a16-405b-8087-9e6acf619842
+known_false_positives: Not all unauthenticated requests are malicious, but frequency,
+  User Agent, source IPs and pods  will provide context.
+name: GCP Kubernetes cluster pod scan detection
 references: []
-author: Rod Soto, Splunk
-search: '`google_gcp_pubsub_message` category=kube-audit |spath input=properties.log |search responseStatus.code=401 |table sourceIPs{} userAgent verb requestURI responseStatus.reason properties.pod | `gcp_kubernetes_cluster_pod_scan_detection_filter`'
-known_false_positives: Not all unauthenticated requests are malicious, but frequency, User Agent, source IPs and pods  will provide context.
+search: '`google_gcp_pubsub_message` category=kube-audit |spath input=properties.log
+  |search responseStatus.code=401 |table sourceIPs{} userAgent verb requestURI responseStatus.reason
+  properties.pod | `gcp_kubernetes_cluster_pod_scan_detection_filter`'
 tags:
   analytics_story:
   - Kubernetes Scanning Activity
+  asset_type: GCP Kubernetes cluster
   kill_chain_phases:
   - Reconnaissance
   mitre_attack_id:
   - T1526
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: threat
-  asset_type: GCP Kubernetes cluster
+type: ESCU
+version: 1
