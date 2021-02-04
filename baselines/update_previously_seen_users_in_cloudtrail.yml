@@ -1,21 +1,22 @@
-name: Update previously seen users in CloudTrail
-id: 06c036e6-d6d7-4daa-bd76-411c3d356031
-version: 1
+author: Jason Brewer, Splunk
 date: '2018-04-30'
 description: This search looks for CloudTrail events where a user logs into the console,
   then updates the baseline of the latest and earliest times, City, Region, and Country
-  we have encountered this user in our dataset, grouped by ARN, within the last hour. NOTE - This baseline search is deprecated and has been updated to use the Authentication Datamodel
+  we have encountered this user in our dataset, grouped by ARN, within the last hour.
+  NOTE - This baseline search is deprecated and has been updated to use the Authentication
+  Datamodel
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Please validate the user name entries in `previously_seen_users_console_logins_cloudtrail`,
   which is a lookup file created as a result of running this support search.
-author: Jason Brewer, Splunk
+id: 06c036e6-d6d7-4daa-bd76-411c3d356031
+name: Update previously seen users in CloudTrail
 search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation
   src | eval City=if(City LIKE "",src,City),Region=if(Region LIKE "",src,Region) |
   stats earliest(_time) AS firstTime latest(_time) AS lastTime by user src City Region
-  Country | inputlookup append=t previously_seen_users_console_logins_cloudtrail | stats
-  min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region Country
-  | outputlookup previously_seen_users_console_logins_cloudtrail'
+  Country | inputlookup append=t previously_seen_users_console_logins_cloudtrail |
+  stats min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region
+  Country | outputlookup previously_seen_users_console_logins_cloudtrail'
 tags:
   analytics_story:
   - Suspicious AWS Login Activities
@@ -24,3 +25,9 @@ tags:
   - Detect AWS Console Login by User from New Region
   - Detect AWS Console Login by User from New City
   - Detect new user AWS Console Login
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

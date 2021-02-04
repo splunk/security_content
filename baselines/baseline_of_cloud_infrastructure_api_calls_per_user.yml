@@ -1,37 +1,40 @@
-name: Baseline Of Cloud Infrastructure API Calls Per User
-id: 1da5d5ea-4382-447d-98a9-87c358c95fcb
-version: 1
+author: David Dorsey, Splunk
 date: '2020-09-07'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
-  for how many API calls are performed by each user. By default, the search uses
-  the last 90 days of data to build the model and the model is rebuilt weekly. The
-  model created by this search is then used in the corresponding detection search,
-  which identifies subsequent outliers in the number of instances created in a 
-  small time window.
-how_to_implement: 'You must have Enterprise Security 6.0 or later, if not you will need
-  to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is installed,
-  along with any required dependencies. Depending on the number of users in your environment,
-  you may also need to adjust the value for max_inputs in the MLTK settings for the
-  DensityFunction algorithm, then ensure that the search completes in a reasonable
-  timeframe. By default, the search builds the model using the past 90 days of data.
-  You can modify the search window to build the model over a longer period of time,
-  which may give you better results. You may also want to periodically re-run this
-  search to rebuild the model with the latest data.'
-author: David Dorsey, Splunk
-search: '| tstats count as api_calls from datamodel=Change where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time span=1h 
-| `drop_dm_object_name("All_Changes")` 
-| eval HourOfDay=strftime(_time, "%H") 
-| eval HourOfDay=floor(HourOfDay/4)*4 
-| eval DayOfWeek=strftime(_time, "%w") 
-| eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) 
-| table _time api_calls, user, HourOfDay, isWeekend 
-| eventstats dc(api_calls) as api_calls by user, HourOfDay, isWeekend 
-| where api_calls >= 1 
-| fit DensityFunction api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_api_calls_v1 dist=norm show_density=true'
+  for how many API calls are performed by each user. By default, the search uses the
+  last 90 days of data to build the model and the model is rebuilt weekly. The model
+  created by this search is then used in the corresponding detection search, which
+  identifies subsequent outliers in the number of instances created in a small time
+  window.
+how_to_implement: You must have Enterprise Security 6.0 or later, if not you will
+  need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is
+  installed, along with any required dependencies. Depending on the number of users
+  in your environment, you may also need to adjust the value for max_inputs in the
+  MLTK settings for the DensityFunction algorithm, then ensure that the search completes
+  in a reasonable timeframe. By default, the search builds the model using the past
+  90 days of data. You can modify the search window to build the model over a longer
+  period of time, which may give you better results. You may also want to periodically
+  re-run this search to rebuild the model with the latest data.
+id: 1da5d5ea-4382-447d-98a9-87c358c95fcb
+name: Baseline Of Cloud Infrastructure API Calls Per User
+search: '| tstats count as api_calls from datamodel=Change where All_Changes.user!=unknown
+  All_Changes.status=success by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")`
+  | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval
+  DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek
+  <= 5, 0, 1) | table _time api_calls, user, HourOfDay, isWeekend | eventstats dc(api_calls)
+  as api_calls by user, HourOfDay, isWeekend | where api_calls >= 1 | fit DensityFunction
+  api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_api_calls_v1 dist=norm
+  show_density=true'
 tags:
   analytics_story:
   - Suspicious Cloud User Activities
-  detections:
-  - Abnormally High Number Of Cloud Infrastructure API Calls
   deployments:
   - Weekly Model Rebuild 90 Day Lookback
+  detections:
+  - Abnormally High Number Of Cloud Infrastructure API Calls
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1
