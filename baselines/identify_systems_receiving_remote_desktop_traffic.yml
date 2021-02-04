@@ -1,14 +1,19 @@
-name: Identify Systems Receiving Remote Desktop Traffic
-id: baaeea15-fe8a-4090-92c2-5b60943bb608
-version: 1
+author: David Dorsey, Splunk
 date: '2017-09-15'
 description: This search counts the numbers of times the system has created remote
   desktop traffic
 how_to_implement: To successfully implement this search you must ingest network traffic
   and populate the Network_Traffic data model. If a system receives a lot of remote
   desktop traffic, you can apply the category common_rdp_destination to it.
-author: David Dorsey, Splunk
+id: baaeea15-fe8a-4090-92c2-5b60943bb608
+name: Identify Systems Receiving Remote Desktop Traffic
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic
   where All_Traffic.dest_port=3389 by All_Traffic.dest | `drop_dm_object_name("All_Traffic")`
   | sort - count'
-tags: {}
+tags:
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

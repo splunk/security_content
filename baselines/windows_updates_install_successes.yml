@@ -1,13 +1,18 @@
-name: Windows Updates Install Successes
-id: 6a80535c-86a6-4b54-894c-4b446d0c701d
-version: 1
+author: David Dorsey, Splunk
 date: '2017-09-14'
 description: This search is intended to give you a feel for how often successful Windows
   updates are applied in your environments. Fluctuations in these numbers will allow
   you to determine when you should be concerned.
 how_to_implement: You must be ingesting your Windows Update Logs
-author: David Dorsey, Splunk
+id: 6a80535c-86a6-4b54-894c-4b446d0c701d
+name: Windows Updates Install Successes
 search: '| tstats `security_content_summariesonly` dc(Updates.dest) as count FROM
   datamodel=Updates where Updates.vendor_product="Microsoft Windows" AND Updates.status=installed
   by _time span=1d'
-tags: {}
+tags:
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

@@ -1,10 +1,10 @@
-name: Netsh Abuse
-id: 2b1800dd-92f9-47ec-a981-fdf1351e5f65
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-01-05'
 description: Detect activities and various techniques associated with the abuse of
   `netsh.exe`, which can disable local firewall settings or set up a remote connection
   to a host from an infected system.
+id: 2b1800dd-92f9-47ec-a981-fdf1351e5f65
+name: Netsh Abuse
 narrative: 'It is a common practice for attackers of all types to leverage native
   Windows tools and functionality to execute commands for malicious reasons. One such
   tool on Windows OS is `netsh.exe`,a command-line scripting utility that allows you
@@ -14,14 +14,18 @@ narrative: 'It is a common practice for attackers of all types to leverage nativ
   host from an infected system.\
 
   To get started, run the detection search to identify parent processes of `netsh.exe`.'
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://docs.microsoft.com/en-us/previous-versions/tn-archive/bb490939(v=technet.10)
 - https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html
 - http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html
 tags:
   analytics_story: Netsh Abuse
-  usecase: Advanced Threat Detection
   category:
   - Abuse
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

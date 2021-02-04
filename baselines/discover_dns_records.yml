@@ -1,6 +1,4 @@
-name: Discover DNS records
-id: c096f721-8842-42ce-bfc7-74bd8c72b7c3
-version: 1
+author: Jose Hernandez, Splunk
 date: '2019-02-14'
 description: The search takes corporate and common cloud provider domains configured
   under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv`
@@ -10,7 +8,8 @@ how_to_implement: To successfully implement this search, you must be ingesting D
   logs, and populating the Network_Resolution data model. Also make sure that the
   cim_corporate_web_domains and cim_corporate_email_domains lookups are populated
   with the domains owned by your corporation
-author: Jose Hernandez, Splunk
+id: c096f721-8842-42ce-bfc7-74bd8c72b7c3
+name: Discover DNS records
 search: '| inputlookup cim_corporate_email_domains.csv | inputlookup append=T cim_corporate_web_domains.csv
   | inputlookup append=T cim_cloud_domains.csv | eval domain = trim(replace(domain,
   "\*", "")) | join domain [|tstats `security_content_summariesonly` count values(DNS.record_type)
@@ -24,3 +23,9 @@ tags:
   - DNS Hijacking
   detections:
   - DNS record changed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

@@ -1,6 +1,4 @@
-name: Execution of File With Spaces Before Extension
-id: ab0353e6-a956-420b-b724-a8b4846d5d5a
-version: 3
+author: Rico Valdez, Splunk
 date: '2020-11-19'
 description: This search looks for processes launched from files with at least five
   spaces in the name before the extension. This is typically done to obfuscate the
@@ -9,28 +7,34 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   that records process activity from your hosts to populate the endpoint data model
   in the processes node. If you are using Sysmon, you must have at least version 6.0.4
   of the Sysmon TA.
-type: ESCU
+id: ab0353e6-a956-420b-b724-a8b4846d5d5a
+known_false_positives: None identified.
+name: Execution of File With Spaces Before Extension
 references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process_path)
   as process_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process = "*     .*" by Processes.dest Processes.user Processes.process
   Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | `execution_of_file_with_spaces_before_extension_filter`'
-known_false_positives: None identified.
 tags:
   analytics_story:
   - Windows File Extension and Association Abuse
-  mitre_attack_id:
-  - T1036.003
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 3
   - CIS 8
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1036.003
   nist:
   - DE.CM
   - PR.PT
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
+type: ESCU
+version: 3

@@ -1,11 +1,11 @@
-name: DNS Amplification Attacks
-id: e8afd39e-3294-11e6-b39d-a45e60c6700
-version: 1
+author: Bhavin Patel, Splunk
 date: '2016-09-13'
 description: DNS poses a serious threat as a Denial of Service (DOS) amplifier, if
   it responds to `ANY` queries. This Analytic Story can help you detect attackers
   who may be abusing your company's DNS infrastructure to launch amplification attacks,
   causing Denial of Service to other victims.
+id: e8afd39e-3294-11e6-b39d-a45e60c6700
+name: DNS Amplification Attacks
 narrative: 'The Domain Name System (DNS) is the protocol used to map domain names
   to IP addresses. It has been proven to work very well for its intended function.
   However if DNS is misconfigured, servers can be abused by attackers to levy amplification
@@ -23,13 +23,17 @@ narrative: 'The Domain Name System (DNS) is the protocol used to map domain name
   The search in this story can help you to detect if attackers are abusing your company''s
   DNS infrastructure to launch DNS amplification attacks causing Denial of Service
   to other victims.'
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://www.us-cert.gov/ncas/alerts/TA13-088A
 - https://www.imperva.com/learn/application-security/dns-amplification/
 tags:
   analytics_story: DNS Amplification Attacks
-  usecase: Security Monitoring
   category:
   - Abuse
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
+type: ESCU
+version: 1

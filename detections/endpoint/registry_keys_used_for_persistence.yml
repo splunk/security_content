@@ -1,6 +1,4 @@
-name: Registry Keys Used For Persistence
-id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 5
+author: David Dorsey, Splunk
 date: '2020-11-27'
 description: The search looks for modifications to registry keys that can be used
   to launch an application or service at system startup.
@@ -10,9 +8,11 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   products, such as Carbon Black or endpoint data sources, such as Sysmon. The data
   used for this search is typically generated via logs that report reads and writes
   to the registry.
-type: ESCU
+id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
+known_false_positives: There are many legitimate applications that must execute on
+  system startup and will use these registry keys to accomplish that task.
+name: Registry Keys Used For Persistence
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*currentversion\\run*
@@ -23,8 +23,6 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
   NT\\CurrentVersion\\Image File Execution Options*" OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*)
   by Registry.dest Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `registry_keys_used_for_persistence_filter`'
-known_false_positives: There are many legitimate applications that must execute on
-  system startup and will use these registry keys to accomplish that task.
 tags:
   analytics_story:
   - Suspicious Windows Registry Activities
@@ -34,18 +32,24 @@ tags:
   - Ransomware
   - Windows Persistence Techniques
   - 'Emotet Malware  DHS Report TA18-201A '
-  mitre_attack_id:
-  - T1547.001
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1547.001
   nist:
   - PR.PT
   - DE.CM
   - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
+type: ESCU
+version: 5

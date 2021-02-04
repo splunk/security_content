@@ -1,10 +1,10 @@
-name: Windows Privilege Escalation
-id: 644e22d3-598a-429c-a007-16fdb802cae5
-version: 2
+author: David Dorsey, Splunk
 date: '2020-02-04'
 description: Monitor for and investigate activities that may be associated with a
   Windows privilege-escalation attack, including unusual processes running on endpoints,
   modified registry keys, and more.
+id: 644e22d3-598a-429c-a007-16fdb802cae5
+name: Windows Privilege Escalation
 narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an adversary
   gains an initial foothold on a host and then exploits its weaknesses to increase
   his privileges. The motivation is simple: certain actions on a Windows machine--such
@@ -13,12 +13,16 @@ narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an ad
   control required to carry out his malicious ends. This Analytic Story provides searches
   to detect and investigate behaviors that attackers may use to elevate their privileges
   in your environment.'
-author: David Dorsey, Splunk
-type: ESCU
 references:
 - https://attack.mitre.org/tactics/TA0004/
 tags:
   analytics_story: Windows Privilege Escalation
-  usecase: Advanced Threat Detection
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 2

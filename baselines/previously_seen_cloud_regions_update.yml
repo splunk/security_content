@@ -1,6 +1,4 @@
-name: Previously Seen Cloud Regions - Update
-id: 512f928a-a461-41b4-8984-db4dd2c472e4
-version: 1
+author: David Dorsey, Splunk
 date: '2020-09-02'
 description: This search looks for cloud compute events where a compute instance is
   started and creates a baseline of most recent time, `lastTime` and the first time
@@ -8,23 +6,26 @@ description: This search looks for cloud compute events where a compute instance
   last 30 days
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed.
-author: David Dorsey, Splunk
-
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-  where All_Changes.action=created by All_Changes.vendor_region
-  | `drop_dm_object_name("All_Changes")` | inputlookup append=t previously_seen_cloud_regions 
-  | stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by vendor_region
-  | where lastTimeSeen > relative_time(now(), `previously_seen_cloud_region_forget_window`)
-  | eventstats min(firstTimeSeen) as globalFirstTime
-  | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
-  | outputlookup previously_seen_cloud_regions | stats count'
-
+id: 512f928a-a461-41b4-8984-db4dd2c472e4
+name: Previously Seen Cloud Regions - Update
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region
+  | `drop_dm_object_name("All_Changes")` | inputlookup append=t previously_seen_cloud_regions
+  | stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by
+  vendor_region | where lastTimeSeen > relative_time(now(), `previously_seen_cloud_region_forget_window`)
+  | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
+  <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_regions
+  | stats count'
 tags:
   analytics_story:
   - Cloud Cryptomining
-  detections:
-  - Cloud Compute Instance Created In Previously Unused Region
   deployments:
   - Daily Cache Updates
-
-
+  detections:
+  - Cloud Compute Instance Created In Previously Unused Region
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

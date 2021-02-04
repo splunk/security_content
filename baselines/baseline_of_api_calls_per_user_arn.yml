@@ -1,6 +1,4 @@
-name: Baseline of API Calls per User ARN
-id: fc0edc96-ff2b-48b0-9f6f-63da3783fd63
-version: 1
+author: David Dorsey, Splunk
 date: '2018-04-09'
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation of the number of API calls made by each user. Also recorded is the number
@@ -9,7 +7,8 @@ description: This search establishes, on a per-hour basis, the average and the s
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs.
-author: David Dorsey, Splunk
+id: fc0edc96-ff2b-48b0-9f6f-63da3783fd63
+name: Baseline of API Calls per User ARN
 search: '`cloudtrail` eventType=AwsApiCall | spath output=arn path=userIdentity.arn
   | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls)
   as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls,
@@ -20,3 +19,9 @@ tags:
   - AWS User Monitoring
   detections:
   - Detect Spike in AWS API Activity
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1
