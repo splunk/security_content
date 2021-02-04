@@ -17,15 +17,27 @@ known_false_positives: Legitimate programs can also use command-line arguments t
   is being executed. We recommend customizing the `first_time_seen_cmd_line_filter`
   macro to exclude legitimate parent_process_name
 name: First time seen command line argument - SSA
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)) | eval dest_user_id=ucast(map_get(input_event, "dest_user_id"),
-  "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string",
-  null), process_name=ucast(map_get(input_event, "process_name"), "string", null),
-  cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)) | where process_name="cmd.exe"
-  AND match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true | select cmd_line,
-  timestamp, dest_device_id, dest_user_id | first_time_event input_columns=["cmd_line"]
-  | where first_time_cmd_line | eval start_time = timestamp, end_time = timestamp,
-  entities = mvappend(dest_device_id, dest_user_id), body = "TBD" | into write_ssa_detected_events();'
+search: '| from read_ssa_enriched_events()
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
+| eval dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+       dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null),
+       process_name=ucast(map_get(input_event, "process_name"), "string", null),
+       cmd_line=ucast(map_get(input_event, "process"), "string", null),
+       cmd_line_norm=lower(cmd_line),
+       cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, "GUID"),
+       cmd_line_norm=replace(cmd_line_norm, /(?<=\s)+\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext" */
+       cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */
+       cmd_line_norm=replace(cmd_line_norm, /\d+/, "N")
+| where process_name="cmd.exe" AND
+        match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true
+| select cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id
+| first_time_event input_columns=["cmd_line_norm"]
+| where first_time_cmd_line_norm
+| eval start_time = timestamp,
+       end_time = timestamp,
+       entities = mvappend(dest_device_id, dest_user_id),
+       body = "TBD"
+| into write_ssa_detected_events();'
 tags:
   cis20:
   - CIS 3
