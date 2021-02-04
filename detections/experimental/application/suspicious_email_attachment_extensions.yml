@@ -1,6 +1,4 @@
-name: Suspicious Email Attachment Extensions
-id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
-version: 3
+author: David Dorsey, Splunk
 date: '2020-07-22'
 description: This search looks for emails that have attachments with suspicious file
   extensions.
@@ -16,28 +14,34 @@ how_to_implement: "You need to ingest data from emails. Specifically, the sender
   \ gather further information about the file attachment and its network behaviors.\
   \ If Phantom finds malicious behavior and an analyst approves of the results, the\
   \ email will be deleted from the user's inbox."
-type: ESCU
-author: David Dorsey, Splunk
+id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
+known_false_positives: None identified
+name: Suspicious Email Attachment Extensions
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
   All_Email.file_name All_Email.message_id | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments`
   | `suspicious_email_attachment_extensions_filter` '
-known_false_positives: None identified
 tags:
   analytics_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Emails
-  mitre_attack_id:
-  - T1566.001
-  kill_chain_phases:
-  - Delivery
+  asset_type: Endpoint
   cis20:
   - CIS 3
   - CIS 7
   - CIS 12
+  kill_chain_phases:
+  - Delivery
+  mitre_attack_id:
+  - T1566.001
   nist:
   - DE.AE
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 3

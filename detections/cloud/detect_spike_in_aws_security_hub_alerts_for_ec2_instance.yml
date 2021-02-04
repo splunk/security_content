@@ -1,35 +1,34 @@
-name: Detect Spike in AWS Security Hub Alerts for EC2 Instance
-id: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
-version: 2
-date: '2020-07-21'
-description: This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub
-  inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
-type: ESCU
-references: []
 author: Bhavin Patel, Splunk
-search: '`aws_securityhub_firehose` "findings{}.Resources{}.Type"=AWSEC2Instance 
-| rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*) 
-| rename instance as dest 
-| bucket span=4h _time 
-| stats count AS alerts by _time dest 
-| eventstats avg(alerts)
-    as total_launched_avg, stdev(alerts) as total_launched_stdev 
-| eval
-    threshold_value = 4
-| eval isOutlier=if(alerts > total_launched_avg+(total_launched_stdev
-    * threshold_value), 1, 0) 
-| search isOutlier=1 
-| table _time dest alerts|`detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter`'
+date: '2020-07-21'
+description: This search looks for a spike in number of of AWS security Hub alerts
+  for an EC2 instance in 4 hours intervals
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security
+  Hub inputs. The threshold_value should be tuned to your environment and schedule
+  these searches according to the bucket span interval.
+id: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
 known_false_positives: None
+name: Detect Spike in AWS Security Hub Alerts for EC2 Instance
+references: []
+search: '`aws_securityhub_firehose` "findings{}.Resources{}.Type"=AWSEC2Instance |
+  rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*) | rename instance
+  as dest | bucket span=4h _time | stats count AS alerts by _time dest | eventstats
+  avg(alerts) as total_launched_avg, stdev(alerts) as total_launched_stdev | eval
+  threshold_value = 4 | eval isOutlier=if(alerts > total_launched_avg+(total_launched_stdev
+  * threshold_value), 1, 0) | search isOutlier=1 | table _time dest alerts|`detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter`'
 tags:
   analytics_story:
   - AWS Security Hub Alerts
+  asset_type: AWS Instance
   cis20:
   - CIS 13
   nist:
   - DE.DP
   - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: AWS Instance
+type: ESCU
+version: 2
