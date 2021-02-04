@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| tstats `security_content_summariesonly` values(Registry.registry_path) as registry_path values(Registry.registry_key_name) as registry_key_name count FROM datamodel=Endpoint.Registry where Registry.dest = "$dest$" by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | join [| tstats `security_content_summariesonly` count values(Processes.user) as user values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name = reg.exe by Processes.process_id | `drop_dm_object_name("Processes")`]</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>

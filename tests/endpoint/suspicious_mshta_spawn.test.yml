@@ -1,7 +1,7 @@
-name: Detect mshta inline hta execution Unit Test
+name: Detect mshta spawn unit test
 tests:
-- name: Detect mshta executing inline protocol handlers
-  file: endpoint/detect_mshta_inline_hta_execution.yml
+- name: Detect mshta spawn
+  file: endpoint/suspicious_mshta_spawn.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

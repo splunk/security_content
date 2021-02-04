@@ -1,7 +1,7 @@
-name: Detect mshta inline hta execution Unit Test
+name: Detect rundll32 inline hta execution Test
 tests:
-- name: Detect mshta executing inline protocol handlers
-  file: endpoint/detect_mshta_inline_hta_execution.yml
+- name: Detect rundll32 executing hta with inline protocols
+  file: endpoint/detect_rundll32_inline_hta_execution.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

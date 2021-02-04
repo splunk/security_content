@@ -8,12 +8,12 @@ attrs==20.3.0
 azure-common==1.1.26
 azure-core==1.10.0
 azure-identity==1.5.0
-azure-mgmt-compute==18.0.0
+azure-mgmt-compute==18.1.0
 azure-mgmt-core==1.2.2
-azure-mgmt-network==17.0.0
+azure-mgmt-network==17.1.0
 azure-mgmt-resource==15.0.0
 bcrypt==3.2.0
-boto3==1.16.58
+boto3==1.16.60
 botocore==1.19.60
 certifi==2020.12.5
 cffi==1.14.4
@@ -23,9 +23,9 @@ configparser==4.0.2
 contextlib2==0.6.0.post1
 cryptography==3.3.1
 Deprecated==1.2.11
-dnspython==2.0.0
+dnspython==2.1.0
 docutils==0.16
-execnet==1.7.1
+execnet==1.8.0
 gitdb==4.0.5
 GitPython==3.1.12
 identify==1.5.13
@@ -63,7 +63,7 @@ python-daemon==2.2.4
 python-dateutil==2.8.1
 python-terraform==0.10.1
 pywinrm==0.4.1
-PyYAML==5.4
+PyYAML==5.4.1
 requests==2.25.1
 requests-ntlm==1.1.0
 s3transfer==0.3.4
@@ -74,7 +74,7 @@ tabulate==0.8.7
 termcolor==1.1.0
 toml==0.10.2
 urllib3==1.26.3
-virtualenv==20.2.2
+virtualenv==20.4.0
 wcwidth==0.2.5
 wget==3.2
 wrapt==1.12.1

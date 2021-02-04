@@ -34,6 +34,9 @@ action.escu.modification_date = {{ detection.date }}
 action.escu.confidence = high
 action.escu.full_search_name = {{ detection.type | default('ESCU') }} - {{ detection.name }} - Rule
 action.escu.search_type = detection
+{% if detection.product is defined %}
+action.escu.product = {{ detection.product | tojson }}
+{% endif %}
 {% if detection.providing_technologies is defined %}
 action.escu.providing_technologies = {{ detection.providing_technologies | tojson }}
 {% else %}
@@ -146,7 +149,7 @@ search = {{ baseline.search }}
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = investigative
-action.escu.full_search_name = {{ response_task.type | default('ESCU') }} - {{ response_task.name }}
+action.escu.full_search_name = {{ response_task.type | default('ESCU') }} - {{ response_task.name }} - Response Task
 description = {{ response_task.description }}
 action.escu.creation_date = {{ response_task.date }}
 action.escu.modification_date = {{ response_task.date }}

@@ -16,7 +16,7 @@ humanfriendly==9.1
 identify==1.5.13
 idna==2.10
 importlib-metadata==3.4.0
-importlib-resources==4.1.1
+importlib-resources==5.1.0
 Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
@@ -27,7 +27,7 @@ pre-commit==2.9.3
 pyrsistent==0.17.3
 python-dateutil==2.8.1
 pytz==2020.5
-PyYAML==5.4
+PyYAML==5.4.1
 requests==2.25.1
 scandir==1.10.0
 semantic-version==2.8.5
@@ -40,5 +40,5 @@ taxii2-client==2.2.2
 toml==0.10.2
 typing==3.7.4.3
 urllib3==1.26.3
-virtualenv==20.2.2
+virtualenv==20.4.0
 zipp==3.4.0
