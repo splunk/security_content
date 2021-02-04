@@ -9,7 +9,7 @@ how_to_implement: While this search does not require you to adhere to Splunk CIM
   for this search to work. You should also schedule at the same interval as this search
   the second baseline search `Previously Seen Running Windows Services - Update` to
   keep this table up to date and to age out old Windows Services. Please update the
-  `previously_seen_windows_service_window` macro to adjust the time window. Please
+  `previously_seen_windows_services_window` macro to adjust the time window. Please
   ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
 id: 823136f2-d755-4b6d-ae04-372b486a5808
 known_false_positives: A previously unseen service is not necessarily malicious. Verify
