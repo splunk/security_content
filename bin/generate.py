@@ -339,22 +339,25 @@ def get_deployments(object, deployments):
                 if 'analytics_story' in object['tags']:
                     if deployment['tags']['analytics_story'] == object['tags']['analytics_story'] or deployment['tags']['analytics_story']=='all':
                         matched_deployments.append(deployment)
+
             else:
                 for story in deployment['tags']['analytics_story']:
                     if story == object['tags']['analytics_story']:
                         matched_deployments.append(deployment)
                         continue
 
-        if 'product' in deployment['tags']:
-            if type(deployment['tags']['product']) is str:
-                if 'product' in object['tags']:
-                    if deployment['tags']['product'] == object['tags']['product'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
-                        matched_deployments.append(deployment)
-            else:
-                for story in deployment['tags']['product']:
-                    if story == object['tags']['product']:
-                        matched_deployments.append(deployment)
-                        continue
+        # Remove this check since deployment files are numbered and detections for Splunk Security Analytics for AWS will only get risk configs. 
+
+        # if 'product' in deployment['tags']:
+        #     if type(deployment['tags']['product']) is str:
+        #         if 'product' in object['tags']:
+        #             if deployment['tags']['product'] == object['tags']['product'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
+        #                 matched_deployments.append(deployment)
+        #     else:
+        #         for story in deployment['tags']['product']:
+        #             if story == object['tags']['product']:
+        #                 matched_deployments.append(deployment)
+        #                 continue
 
 
         if 'detection_name' in deployment['tags']:
