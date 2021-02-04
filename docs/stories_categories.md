@@ -292,6 +292,8 @@ Another search detects incidents wherein a single password is used across multip
 
 ## Adversary Tactics
 
+* [Baron Samedit CVE-2021-3156](#Baron-Samedit-CVE-2021-3156)
+
 * [Collection and Staging](#Collection-and-Staging)
 
 * [Command and Control](#Command-and-Control)
@@ -351,6 +353,43 @@ Another search detects incidents wherein a single password is used across multip
 * [Windows Persistence Techniques](#Windows-Persistence-Techniques)
 
 * [Windows Privilege Escalation](#Windows-Privilege-Escalation)
+
+### Baron Samedit CVE-2021-3156
+* id = 817b0dfc-23ba-4bcc-96cc-2cb77e428fbe
+* date = 2021-01-27
+* version = 1
+
+#### Description
+Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys Research Team, this vulnerability has been found to affect sudo across multiple Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and prior). As this vulnerability was committed to code in July 2011, there will be many distributions affected. Successful exploitation of this vulnerability allows any unprivileged user to gain root privileges on the vulnerable host.
+
+#### Narrative
+A non-privledged user is able to execute the sudoedit command to trigger a buffer overflow. After the successful buffer overflow, they are then able to gain root privileges on the affected host. The conditions needed to be run are a trailing "\" along with shell and edit flags. Monitoring the /var/log directory on Linux hosts using the Splunk Universal Forwarder will allow you to pick up this behavior when using the provided detection.
+
+#### Detections
+* Detect Baron Samedit CVE-2021-3156
+* Detect Baron Samedit CVE-2021-3156 Segfault
+* Detect Baron Samedit CVE-2021-3156 via OSQuery
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1068
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 12
+* CIS 16
+* CIS 8
+
+##### NIST
+* DE.CM
+
+##### References
+* https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 
 ### Collection and Staging
 * id = 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
@@ -936,7 +975,7 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 
 #### Detections
 * Detect Oulook exe writing a  zip file
-* Suspicious LNK file launching a process
+* Process Creating LNK file in Suspicious Location
 
 #### Data Models
 
