@@ -3,11 +3,11 @@ id: 7360137f-abad-473e-8189-acbdaa34d114
 version: 1
 date: '2021-02-04'
 description: The following analytic identifies renamed instances of rundll32.exe executing.
-  rundll32.exe is natively found in C:\Windows\system32 and
-  C:\Windows\syswow64. During investigation, validate it is the legitimate rundll32.exe
-  executing and what script content it is loading. This query relies on the OriginalFileName
-  from Sysmon, or internal name from the PE meta data. Expand the query as needed by looking
-  for specific command line arguments outlined in other analytics.
+  rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During
+  investigation, validate it is the legitimate rundll32.exe executing and what script
+  content it is loading. This query relies on the OriginalFileName from Sysmon, or
+  internal name from the PE meta data. Expand the query as needed by looking for specific
+  command line arguments outlined in other analytics.
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -41,4 +41,5 @@ tags:
   security_domain: endpoint
   asset_type: Endpoint
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
