@@ -1,32 +1,36 @@
-name: Okta User Logins From Multiple Cities
-id: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
-version: 2
+author: Rico Valdez, Splunk
 date: '2020-07-21'
 description: This search detects logins from the same user from different states in
   a 24 hour period.
 how_to_implement: This search is specific to Okta and requires Okta logs are being
   ingested in your Splunk deployment.
-type: ESCU
-author: Rico Valdez, Splunk
-search: '`okta` displayMessage="User login to Okta" client.geographicalContext.city!=null
-  | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city)
-  as locations values(client.geographicalContext.city) as cities values(client.geographicalContext.state)
-  as states by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `okta_user_logins_from_multiple_cities_filter` | search locations > 1'
+id: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
 known_false_positives: Users in your enviornment may legitmately be travelling and
   loggin in from different locations. This search is useful for those users that should
   *not* be travelling for some reason, such as the COVID-19 pandemic. The search also
   relies on the geographical information being populated in the Okta logs. It is also
   possible that a connection from another region may be attributed to a login from
   a remote VPN endpoint.
+name: Okta User Logins From Multiple Cities
+search: '`okta` displayMessage="User login to Okta" client.geographicalContext.city!=null
+  | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city)
+  as locations values(client.geographicalContext.city) as cities values(client.geographicalContext.state)
+  as states by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `okta_user_logins_from_multiple_cities_filter` | search locations > 1'
 tags:
   analytics_story:
   - Suspicious Okta Activity
-  mitre_attack_id:
-  - T1078.001
+  asset_type: Infrastructure
   cis20:
   - CIS 16
+  mitre_attack_id:
+  - T1078.001
   nist:
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: access
-  asset_type: Infrastructure
+type: ESCU
+version: 2

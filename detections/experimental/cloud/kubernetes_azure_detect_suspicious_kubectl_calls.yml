@@ -1,23 +1,31 @@
-author: "Rod Soto, Splunk"
-date: "2020-05-26"
-description: "This search provides information on rare Kubectl calls with IP, verb namespace and object access context"
-how_to_implement: "You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audit data diagnostics"
+author: Rod Soto, Splunk
+date: '2020-05-26'
+description: This search provides information on rare Kubectl calls with IP, verb
+  namespace and object access context
+how_to_implement: You must install the Add-on for Microsoft Cloud Services and Configure
+  Kube-Audit data diagnostics
 id: 4b6d1ba8-0000-4cec-87e6-6cbbd71651b5
-known_false_positives: "Kubectl calls are not malicious by nature. However source IP, verb and Object can reveal potential malicious activity, specially suspicious IPs and sensitive objects such as configmaps or secrets"
-name: "Kubernetes Azure detect suspicious kubectl calls"
+known_false_positives: Kubectl calls are not malicious by nature. However source IP,
+  verb and Object can reveal potential malicious activity, specially suspicious IPs
+  and sensitive objects such as configmaps or secrets
+name: Kubernetes Azure detect suspicious kubectl calls
 references: []
-search: "`kubernetes_azure` category=kube-audit | spath input=properties.log
-  | spath input=responseObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
-  | search userAgent=kubectl* sourceIPs{}!=127.0.0.1 sourceIPs{}!=::1
-  | table sourceIPs{} verb userAgent user.groups{} objectRef.resource objectRef.namespace requestURI
-  | rare sourceIPs{} verb userAgent user.groups{} objectRef.resource objectRef.namespace requestURI
-  |`kubernetes_azure_detect_suspicious_kubectl_calls_filter`"
+search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | spath
+  input=responseObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
+  | search userAgent=kubectl* sourceIPs{}!=127.0.0.1 sourceIPs{}!=::1 | table sourceIPs{}
+  verb userAgent user.groups{} objectRef.resource objectRef.namespace requestURI |
+  rare sourceIPs{} verb userAgent user.groups{} objectRef.resource objectRef.namespace
+  requestURI |`kubernetes_azure_detect_suspicious_kubectl_calls_filter`'
 tags:
   analytics_story:
-    - "Kubernetes Sensitive Object Access Activity"
-  asset_type: "Azure AKS Kubernetes cluster"
+  - Kubernetes Sensitive Object Access Activity
+  asset_type: Azure AKS Kubernetes cluster
   kill_chain_phases:
-    - Lateral Movement
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: threat
 type: ESCU
 version: 1
