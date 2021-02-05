@@ -339,6 +339,7 @@ jobs:
           name: update api sources
           command: |
             cd security-content
+            aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
             aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
             aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
             aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
