@@ -26,5 +26,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

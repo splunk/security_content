@@ -33,5 +33,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 2

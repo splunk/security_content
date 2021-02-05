@@ -28,5 +28,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Compliance
-type: ESCU
+type: batch
 version: 1
