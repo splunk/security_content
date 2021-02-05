@@ -1,6 +1,4 @@
-name: Get All AWS Activity From City
-id: 0abeeb40-1255-4b68-91d1-7a7eb410c4b8
-version: 1
+author: David Dorsey, Splunk
 date: '2018-03-19'
 description: This search retrieves all the activity from a specific city and will
   create a table containing the time, city, ARN, username, the type of user, the source
@@ -9,9 +7,10 @@ description: This search retrieves all the activity from a specific city and wil
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-author: David Dorsey, Splunk
+id: 0abeeb40-1255-4b68-91d1-7a7eb410c4b8
 inputs:
 - City
+name: Get All AWS Activity From City
 search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search
   City=$City$ | spath output=user path=userIdentity.arn | spath output=awsUserName
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
@@ -20,3 +19,7 @@ search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | searc
 tags:
   analytics_story:
   - AWS Suspicious Provisioning Activities
+  product:
+  - Splunk Phantom
+type: response
+version: 1

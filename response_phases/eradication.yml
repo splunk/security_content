@@ -1,24 +1,25 @@
-name: Eradication
-id: d3b80e0e-4e85-4259-a13c-69ef20987e1c
-sla_type: minutes
-sla:
-description: The eradication phase is focused on removing any further exposure from vulnerabiliies, malware or activities that produced the incident.
-tags:
-  analytics_story:
-    NIST SP 800-61r2 Response Plan
-  usecase:
-    Advanced Threat Detection
-  nist:
-    RS.RP
-references:
-  - 3.3 Containment, Eradication, and Recovery -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-response_task:
-  - id: 70362de1-bfef-4a0f-893f-3e0d605ed9b7
-    name: mitigate_or_remediate_any_vulnerabilities
-  - id: 26cd22c6-4b67-4dc5-b8d1-f5ef9b5d8226
-    name: remove_malicious_content
-  - id: b678705c-12a6-428b-a631-ed579332bc99
-    name: validate_hosts_eradicated
-date: '2020-07-17'
-version: 1
 author: ButterCup, Splunk
+date: '2020-07-17'
+description: The eradication phase is focused on removing any further exposure from
+  vulnerabiliies, malware or activities that produced the incident.
+id: d3b80e0e-4e85-4259-a13c-69ef20987e1c
+name: Eradication
+references:
+- 3.3 Containment, Eradication, and Recovery -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+response_task:
+- id: 70362de1-bfef-4a0f-893f-3e0d605ed9b7
+  name: mitigate_or_remediate_any_vulnerabilities
+- id: 26cd22c6-4b67-4dc5-b8d1-f5ef9b5d8226
+  name: remove_malicious_content
+- id: b678705c-12a6-428b-a631-ed579332bc99
+  name: validate_hosts_eradicated
+sla: null
+sla_type: minutes
+tags:
+  analytics_story: NIST SP 800-61r2 Response Plan
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+  usecase: Advanced Threat Detection
+type: response
+version: 1

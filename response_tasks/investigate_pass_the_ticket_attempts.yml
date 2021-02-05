@@ -1,6 +1,4 @@
-name: Investigate Pass the Ticket Attempts
-id: 990007ad-d798-4b29-ab2f-f0034144c937
-version: 1
+author: Patrick Bareiss, Splunk
 date: '2019-12-10'
 description: This search hunts for dumped kerberos ticket from LSASS memory.
 how_to_implement: To successfully implement this search you need to be ingesting windows
@@ -9,13 +7,18 @@ how_to_implement: To successfully implement this search you need to be ingesting
   source, sourcetype, etc.) for Windows Security logs. Replace the macro definition
   with configurations for your Splunk environment. The search also uses a post-filter
   macro designed to filter out known false positives.
-author: Patrick Bareiss, Splunk
+id: 990007ad-d798-4b29-ab2f-f0034144c937
 inputs:
 - dest
+name: Investigate Pass the Ticket Attempts
 search: '`wineventlog_security` EventCode=4768 OR EventCode=4769 | rex field=user
   "(?<new_user>[^\@]+)" | stats count BY new_user, dest, EventCode | stats max(count)
-  AS max_count sum(count) AS sum_count BY new_user, dest| search dest=$dest$ | where sum_count/max_count!=2
-  | rename new_user AS user '
+  AS max_count sum(count) AS sum_count BY new_user, dest| search dest=$dest$ | where
+  sum_count/max_count!=2 | rename new_user AS user '
 tags:
   analytics_story:
   - Credential Dumping
+  product:
+  - Splunk Phantom
+type: response
+version: 1

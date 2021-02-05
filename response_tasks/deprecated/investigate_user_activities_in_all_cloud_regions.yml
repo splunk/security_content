@@ -1,17 +1,20 @@
-name: Investigate User Activities In All Cloud Regions
-id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a
-version: 2
+author: David Dorsey, Splunk
 date: '2019-04-30'
 description: This search lists all the logged cloud infrastructure activities by a
   specific cloud user
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed.
-author: David Dorsey, Splunk
+id: 2ef6310f-8e79-42af-b20b-b4eeaba9608a
 inputs:
 - region
 - src_user
+name: Investigate User Activities In All Cloud Regions
 search: '| from datamodel:Cloud_Infrastructure.Compute | search user=$src_user$ |
   fields - _*'
 tags:
   analytics_story:
   - Cloud Cryptomining
+  product:
+  - Splunk Phantom
+type: response
+version: 2

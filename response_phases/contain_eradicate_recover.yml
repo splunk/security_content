@@ -1,31 +1,43 @@
-name: Containment, Eradication, Recovery
-id: 15442b70-49a1-4e4b-afea-bc1acd63f4bc
-sla_type: minutes
-sla:
-description: The containment, eradication and recovery phase is for the acquiring, preserving, securing, and documenting of evidence that leads to the appropriate containment or mititgation of the incident. Eradication is focused on removing any future threats from vulnerabiliies, malware or activities that produced the incident. Recovery is the restoration of normal operations for system(s) and customers affected by the incident.
-references:
-  - 3.3 Containment, Eradication, and Recovery -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-response_task:
-  - id: 3d481dd1-4f30-4262-a846-78af6bdce11c
-    name: identify_additional_affected_hosts
-  - id: 735335a5-7ac0-4bdf-b1d3-6f4a6767d02f
-    name: contain_incident
-  - id: edb7867c-2e81-4356-a422-92781f4fa34c
-    name: implement_additional_monitoring
-  - id: f28177ae-78de-43c9-8692-e972e8a0aa62
-    name: identify_vunlerabilities
-  - id: 70362de1-bfef-4a0f-893f-3e0d605ed9b7
-    name: mitigate_or_remediate_any_vulnerabilities
-  - id: 26cd22c6-4b67-4dc5-b8d1-f5ef9b5d8226
-    name: remove_malicious_content
-  - id: b678705c-12a6-428b-a631-ed579332bc99
-    name: validate_hosts_eradicated
-  - id: bb515cf6-40b5-4005-af04-6f63439df7b4
-    name: restore_systems_to_operational_status
-  - id: 8218bcf6-739b-4f76-8952-eb133480ad8d
-    name: validate_restored_hosts
-  - id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
-    name: implement_monitoring
-date: '2020-07-30'
-version: 2
 author: ButterCup, Splunk
+date: '2020-07-30'
+description: The containment, eradication and recovery phase is for the acquiring,
+  preserving, securing, and documenting of evidence that leads to the appropriate
+  containment or mititgation of the incident. Eradication is focused on removing any
+  future threats from vulnerabiliies, malware or activities that produced the incident.
+  Recovery is the restoration of normal operations for system(s) and customers affected
+  by the incident.
+id: 15442b70-49a1-4e4b-afea-bc1acd63f4bc
+name: Containment, Eradication, Recovery
+references:
+- 3.3 Containment, Eradication, and Recovery -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+response_task:
+- id: 3d481dd1-4f30-4262-a846-78af6bdce11c
+  name: identify_additional_affected_hosts
+- id: 735335a5-7ac0-4bdf-b1d3-6f4a6767d02f
+  name: contain_incident
+- id: edb7867c-2e81-4356-a422-92781f4fa34c
+  name: implement_additional_monitoring
+- id: f28177ae-78de-43c9-8692-e972e8a0aa62
+  name: identify_vunlerabilities
+- id: 70362de1-bfef-4a0f-893f-3e0d605ed9b7
+  name: mitigate_or_remediate_any_vulnerabilities
+- id: 26cd22c6-4b67-4dc5-b8d1-f5ef9b5d8226
+  name: remove_malicious_content
+- id: b678705c-12a6-428b-a631-ed579332bc99
+  name: validate_hosts_eradicated
+- id: bb515cf6-40b5-4005-af04-6f63439df7b4
+  name: restore_systems_to_operational_status
+- id: 8218bcf6-739b-4f76-8952-eb133480ad8d
+  name: validate_restored_hosts
+- id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
+  name: implement_monitoring
+sla: null
+sla_type: minutes
+tags:
+  analytics_story: NIST SP 800-61r2 Response Plan
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+  usecase: Advanced Threat Detection
+type: response
+version: 2

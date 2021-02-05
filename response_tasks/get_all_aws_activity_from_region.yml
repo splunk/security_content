@@ -1,6 +1,4 @@
-name: Get All AWS Activity From Region
-id: 5b794bef-1743-4f6f-804a-43915a2702ff
-version: 1
+author: David Dorsey, Splunk
 date: '2018-03-19'
 description: This search retrieves all the activity from a specific geographic region
   and will create a table containing the time, geographic region, ARN, username, the
@@ -9,9 +7,10 @@ description: This search retrieves all the activity from a specific geographic r
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-author: David Dorsey, Splunk
+id: 5b794bef-1743-4f6f-804a-43915a2702ff
 inputs:
 - Region
+name: Get All AWS Activity From Region
 search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search
   Region=$Region$ | spath output=user path=userIdentity.arn | spath output=awsUserName
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
@@ -20,3 +19,7 @@ search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | searc
 tags:
   analytics_story:
   - AWS Suspicious Provisioning Activities
+  product:
+  - Splunk Phantom
+type: response
+version: 1

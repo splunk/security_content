@@ -1,17 +1,20 @@
-name: Get Logon Rights Modifications For User
-id: 552bc86c-f72c-4d44-b3f2-06ede13af7bb
-version: 2
+author: David Dorsey, Splunk
 date: '2019-02-27'
 description: This search allows you to retrieve any modifications to logon rights
   for a specific user account.
 how_to_implement: To successfully implement this search you must be ingesting your
   Windows event logs
-author: David Dorsey, Splunk
+id: 552bc86c-f72c-4d44-b3f2-06ede13af7bb
 inputs:
 - user
+name: Get Logon Rights Modifications For User
 search: '| search eventtype=wineventlog_security (signature_id=4718 OR signature_id=4717)
   user=$user$ | rename user as "Account Modified" | table _time, dest, "Account Modified",
   Access_Right, signature'
 tags:
   analytics_story:
   - Account Monitoring and Controls
+  product:
+  - Splunk Phantom
+type: response
+version: 2

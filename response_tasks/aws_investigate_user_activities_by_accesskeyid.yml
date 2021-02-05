@@ -1,18 +1,22 @@
-name: AWS Investigate User Activities By AccessKeyId
-id: 703b65a4-a0ae-4171-965d-45507506c64f
-version: 1
+author: David Dorsey, Splunk
 date: '2018-06-08'
 description: This search retrieves the times, ARN, source IPs, AWS regions, event
   names, and the result of the event for specific credentials.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-author: David Dorsey, Splunk
+id: 703b65a4-a0ae-4171-965d-45507506c64f
 inputs:
 - accessKeyId
-search: '| search sourcetype=aws:cloudtrail | rename userIdentity.accessKeyId as accessKeyId| search accessKeyId=$accessKeyId$
-  | spath output=user path=userIdentity.arn  | rename sourceIPAddress as src_ip |
-  table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage'
+name: AWS Investigate User Activities By AccessKeyId
+search: '| search sourcetype=aws:cloudtrail | rename userIdentity.accessKeyId as accessKeyId|
+  search accessKeyId=$accessKeyId$ | spath output=user path=userIdentity.arn  | rename
+  sourceIPAddress as src_ip | table _time, user, src_ip, awsRegion, eventName, errorCode,
+  errorMessage'
 tags:
   analytics_story:
   - AWS Cross Account Activity
+  product:
+  - Splunk Phantom
+type: response
+version: 1

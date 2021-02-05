@@ -1,15 +1,14 @@
-name: Get Risk Modifiers For Endpoint
-id: fdcfb369-1725-4c24-824a-22972d7f0d65
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-10-19'
 description: 'For the last 7 days, the search will query the Risk data model in Splunk
   Enterprise Security and calculate the count, sum of the risk\_scores, names of the
   correlation searches that contributed to create a risk score for a specific endpoint(machine\_name) '
 how_to_implement: Enable the correlation searches included in Splunk Enterprise Security
   that include Risk Analysis alert actions by leveraging the Risk Analysis Framework
-author: Bhavin Patel, Splunk
+id: fdcfb369-1725-4c24-824a-22972d7f0d65
 inputs:
 - dest
+name: Get Risk Modifiers For Endpoint
 search: '| from datamodel:Risk.All_Risk | search risk_object_type=system risk_object=$dest$
   | stats count sum(risk_score) as risk_score values(search_name)  min(_time) as firstTime
   max(_time) as lastTime by risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
@@ -63,3 +62,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  product:
+  - Splunk Phantom
+type: response
+version: 1

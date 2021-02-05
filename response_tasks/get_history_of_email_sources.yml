@@ -1,6 +1,4 @@
-name: Get History Of Email Sources
-id: ddc7af28-c34d-4392-af93-7f29a4e8806c
-version: 1
+author: Rico Valdez, Splunk
 date: '2019-02-21'
 description: This search returns a list of all email sources seen in the 48 hours
   prior to the notable event to 24 hours after, and the number of emails from each
@@ -8,9 +6,10 @@ description: This search returns a list of all email sources seen in the 48 hour
 how_to_implement: To successfully implement this search you must ingest your email
   logs or capture unencrypted email communications within network traffic, and populate
   the Email data model.
-author: Rico Valdez, Splunk
+id: ddc7af28-c34d-4392-af93-7f29a4e8806c
 inputs:
 - src
+name: Get History Of Email Sources
 search: '|tstats `security_content_summariesonly` values(All_Email.dest) as dest values(All_Email.recipient)
   as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email
   by All_Email.src |`drop_dm_object_name(All_Email)` | `security_content_ctime(firstTime)`
@@ -25,3 +24,7 @@ tags:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
   - SamSam Ransomware
+  product:
+  - Splunk Phantom
+type: response
+version: 1

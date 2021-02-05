@@ -1,15 +1,14 @@
-name: Get Process Registry Activity
-id: d8362a34-b78a-4364-9733-59b505f5b8d5
-version: 2
+author: David Dorsey, Splunk
 date: '2019-11-06'
 description: This search returns the registry activity for a specific process on a
   specific endpoint
 how_to_implement: To successfully implement this search you must be ingesting endpoint
   data and populating the Endpoint data model.
-author: David Dorsey, Splunk
+id: d8362a34-b78a-4364-9733-59b505f5b8d5
 inputs:
 - process_id
 - dest
+name: Get Process Registry Activity
 search: '| tstats `security_content_summariesonly` values(Registry.registry_key_name)
   as registry_key_name, values(Registry.dest) as dest, values(Registry.process_id)
   as process_id from datamodel=Endpoint.Registry where Registry.process_id=$process_id$
@@ -19,3 +18,7 @@ tags:
   analytics_story:
   - DHS Report TA18-074A
   - Suspicious Zoom Child Processes
+  product:
+  - Splunk Phantom
+type: response
+version: 2

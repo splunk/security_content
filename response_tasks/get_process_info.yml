@@ -1,23 +1,20 @@
-name: Get Process Info
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
-version: 2
+author: Bhavin Patel, Splunk
 date: '2019-04-01'
 description: This search queries the Endpoint data model to give you details about
   the process running on a host which is under investigation. To gather the process
   info, enter the values for the process name in question and the destination IP address.
 how_to_implement: To successfully implement this search you must be ingesting endpoint
   data and populating the Endpoint data model.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
 inputs:
 - process_name
 - dest
+name: Get Process Info
 search: '| tstats `summariesonly` count values(Processes.process) as process min(_time)
-    as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest
-| `drop_dm_object_name("Processes")` 
-| search  process_name= $process_name$ 
-| search dest = $dest$
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`'
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user
+  Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name("Processes")`
+  | search  process_name= $process_name$ | search dest = $dest$ | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`'
 tags:
   analytics_story:
   - AWS Network ACL Activity
@@ -50,3 +47,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  product:
+  - Splunk Phantom
+type: response
+version: 2

@@ -1,6 +1,4 @@
-name: AWS Network Interface details via resourceId
-id: f3fb4d1c-5f33-4b01-b541-c3ah9534c241
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-05-07'
 description: This search queries AWS configuration logs and returns the information
   about a specific network interface via network interface ID. The information will
@@ -9,9 +7,10 @@ description: This search queries AWS configuration logs and returns the informat
 how_to_implement: In order to implement this search, you must install the AWS App
   for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
   and configure your AWS configuration inputs
-author: Bhavin Patel, Splunk
+id: f3fb4d1c-5f33-4b01-b541-c3ah9534c241
 inputs:
 - resourceId
+name: AWS Network Interface details via resourceId
 search: '| search sourcetype=aws:config resourceId=$resourceId$ | table _time ARN
   relationships{}.resourceType relationships{}.name relationships{}.resourceId  configuration.privateIpAddresses{}.privateIpAddress
   configuration.privateIpAddresses{}.association.publicIp'
@@ -20,3 +19,7 @@ tags:
   - AWS Network ACL Activity
   - Command and Control
   - Suspicious AWS Traffic
+  product:
+  - Splunk Phantom
+type: response
+version: 1

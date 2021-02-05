@@ -1,20 +1,23 @@
-name: Get Sysmon WMI Activity for Host
-id: 155e0571-7db6-42f2-aa62-9a3a4cf35c94
-version: 1
+author: Rico Valdez, Splunk
 date: '2018-10-23'
 description: This search queries Sysmon WMI events for the host of interest.
 how_to_implement: To successfully implement this search, you must be collecting Sysmon
   data using Sysmon version 6.1 or greater and have Sysmon configured to generate
   events for WMI activity. In addition, you must have at least version 6.0.4 of the
   Sysmon TA installed to properly parse the fields.
-author: Rico Valdez, Splunk
+id: 155e0571-7db6-42f2-aa62-9a3a4cf35c94
 inputs:
 - process
 - dest
+name: Get Sysmon WMI Activity for Host
 search: sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode>18
-  EventCode<22 | rename host as dest | search dest=$dest$| table _time, dest, user, Name,
-  Operation, EventType, Type, Query, Consumer, Filter
+  EventCode<22 | rename host as dest | search dest=$dest$| table _time, dest, user,
+  Name, Operation, EventType, Type, Query, Consumer, Filter
 tags:
   analytics_story:
   - Ransomware
   - Suspicious WMI Use
+  product:
+  - Splunk Phantom
+type: response
+version: 1

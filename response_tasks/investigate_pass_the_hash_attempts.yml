@@ -1,6 +1,4 @@
-name: Investigate Pass the Hash Attempts
-id: ed3fff45-cba6-4990-983f-6fac72bee659
-version: 1
+author: Patrick Bareiss, Splunk
 date: '2019-12-10'
 description: This search hunts for dumped NTLM hashes used for pass the hash.
 how_to_implement: To successfully implement this search you need be ingesting windows
@@ -9,12 +7,18 @@ how_to_implement: To successfully implement this search you need be ingesting wi
   source, sourcetype, etc.) for Windows Security logs. Replace the macro definition
   with configurations for your Splunk environment. The search also uses a post-filter
   macro designed to filter out known false positives.
-author: Patrick Bareiss, Splunk
+id: ed3fff45-cba6-4990-983f-6fac72bee659
 inputs:
 - dest
+name: Investigate Pass the Hash Attempts
 search: '`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate
   | stats count earliest(_time) as first_login latest(_time) as last_login by src_user
-  dest | `security_content_ctime(first_login)` | `security_content_ctime(last_login)` | search dest=$dest$'
+  dest | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
+  | search dest=$dest$'
 tags:
   analytics_story:
   - Credential Dumping
+  product:
+  - Splunk Phantom
+type: response
+version: 1

@@ -1,13 +1,12 @@
-name: Get User Information from Identity Table
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-09-20'
 description: Gather more information about the user identified in the Notable Event.
 how_to_implement: To successfully implement this search you must have populated the
   identity table with information about your users.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd74
 inputs:
 - user
+name: Get User Information from Identity Table
 search: '| `identities` | search identity=$user$ | table _time, identity, first, last,
   email, category, watchlist'
 tags:
@@ -56,3 +55,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  product:
+  - Splunk Phantom
+type: response
+version: 1

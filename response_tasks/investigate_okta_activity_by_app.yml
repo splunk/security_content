@@ -1,15 +1,18 @@
-name: Investigate Okta Activity by app
-id: 420eb1b8-2992-45d1-80cf-0b1b2759524d
-version: 1
+author: Rico Valdez, Splunk
 date: '2020-04-02'
 description: This search returns all okta events associated with a specific app
 how_to_implement: You must be ingesting Okta logs
-author: Rico Valdez, Splunk
+id: 420eb1b8-2992-45d1-80cf-0b1b2759524d
 inputs:
 - app
+name: Investigate Okta Activity by app
 search: eventtype=okta_log app=$app$ | rename client.geographicalContext.country as
   country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
 tags:
   analytics_story:
   - Suspicious Okta Activity
+  product:
+  - Splunk Phantom
+type: response
+version: 1

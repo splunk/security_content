@@ -1,23 +1,23 @@
-name: Get EC2 Instance Details by instanceId
-id: f3db4d1b-5f33-4b01-c541-c7ah9514c242
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-02-12'
 description: This search queries AWS description logs and returns all the information
   about a specific instance via the instanceId field
 how_to_implement: In order to implement this search, you must install the AWS App
   for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
   and configure your AWS description inputs.
-author: Bhavin Patel, Splunk
+id: f3db4d1b-5f33-4b01-c541-c7ah9514c242
 inputs:
 - instanceId
+name: Get EC2 Instance Details by instanceId
 search: '| search sourcetype="aws:description" source="*:ec2_instances"| dedup id
-  sortby -_time |rename id as instanceId|  search instanceId=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value,"
-  = "), ip_address=if((ip_address == "null"),private_ip_address,ip_address) | table
-  id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time,
-  state, vpc_id, subnet_id, tags | rename aws_account_id as "Account ID", id as ID,
-  instance_type as Type, ip_address as "IP Address", key_name as "Key Pair", launch_time
-  as "Launch Time", placement as "Availability Zone", state as State, subnet_id as
-  Subnet, "tags.Name" as Name, vpc_id as VPC'
+  sortby -_time |rename id as instanceId|  search instanceId=$instanceId$ | spath
+  output=tags path=tags | eval tags=mvzip(key,value," = "), ip_address=if((ip_address
+  == "null"),private_ip_address,ip_address) | table id, tags.Name, aws_account_id,
+  placement, instance_type, key_name, ip_address, launch_time, state, vpc_id, subnet_id,
+  tags | rename aws_account_id as "Account ID", id as ID, instance_type as Type, ip_address
+  as "IP Address", key_name as "Key Pair", launch_time as "Launch Time", placement
+  as "Availability Zone", state as State, subnet_id as Subnet, "tags.Name" as Name,
+  vpc_id as VPC'
 tags:
   analytics_story:
   - AWS Cryptomining
@@ -25,3 +25,7 @@ tags:
   - Suspicious AWS EC2 Activities
   - Unusual AWS EC2 Modifications
   - AWS Security Hub Alerts
+  product:
+  - Splunk Phantom
+type: response
+version: 1

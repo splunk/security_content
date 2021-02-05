@@ -1,6 +1,4 @@
-name: Get Web Session Information via session id
-id: bc91a8cf-35e7-4bb2-1120-e756cc06fd89
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-10-08'
 description: This search helps an analyst investigate a notable event to find out
   more about a specific web session. The search looks for a specific web session ID
@@ -9,11 +7,16 @@ description: This search helps an analyst investigate a notable event to find ou
 how_to_implement: This search leverages data extracted from Stream:HTTP. You must
   configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment
   server.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-1120-e756cc06fd89
 inputs:
 - session_id
-search: '| search sourcetype=stream:http session_id  = $session_id$ | stats values(url) values(http_user_agent)
-  by src_ip status'
+name: Get Web Session Information via session id
+search: '| search sourcetype=stream:http session_id  = $session_id$ | stats values(url)
+  values(http_user_agent) by src_ip status'
 tags:
   analytics_story:
   - Web Fraud Detection
+  product:
+  - Splunk Phantom
+type: response
+version: 1

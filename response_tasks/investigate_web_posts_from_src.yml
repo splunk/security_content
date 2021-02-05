@@ -1,17 +1,21 @@
-name: Investigate Web POSTs From src
-id: f5c39fac-205c-4e07-9004-8fd61ea3431a
-version: 1
+author: Jose Hernandez, Splunk
 date: '2018-12-06'
 description: 'This investigative search retrieves POST requests from a specified source
   IP or hostname. Identifying the POST requests, as well as their associated destination
   URLs and user agent(s), may help you scope and characterize the suspicious traffic. '
 how_to_implement: To successfully implement this search, you must be ingesting your
   web-traffic logs and populating the web data model.
-author: Jose Hernandez, Splunk
+id: f5c39fac-205c-4e07-9004-8fd61ea3431a
 inputs:
 - src
+name: Investigate Web POSTs From src
 search: '| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web
-  by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`| search http_method, "POST" | search src=$src$'
+  by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`| search
+  http_method, "POST" | search src=$src$'
 tags:
   analytics_story:
   - Apache Struts Vulnerability
+  product:
+  - Splunk Phantom
+type: response
+version: 1

@@ -1,15 +1,14 @@
-name: Get Notable Info
-id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-09-20'
 description: This search queries the notable index to retrieve detailed information
   captured within the notable. Every notable has a unique ID associated with it, which
   is used to point us directly to the notable event under investigation.
 how_to_implement: If you are using Enterprise Security you are likely already creating
   notable events with your correlation rules. No additional configuration is necessary.
-author: Bhavin Patel, Splunk
+id: f3fb4d1b-5f33-4b01-b541-c7af9534c242
 inputs:
 - event_id
+name: Get Notable Info
 search: '| search `notable_by_id($event_id$)` | table time, rule_name, dest, dest_asset_id,
   dest_owner, priority, severity, owner, status_description'
 tags:
@@ -71,3 +70,7 @@ tags:
   - Kubernetes Sensitive Object Access Activity
   - F5 TMUI RCE CVE-2020-5902
   - Windows DNS SIGRed CVE-2020-1350
+  product:
+  - Splunk Phantom
+type: response
+version: 1
