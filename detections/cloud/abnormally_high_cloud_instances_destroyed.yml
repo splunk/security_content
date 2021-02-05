@@ -47,5 +47,5 @@ tags:
   risk_object_type: user
   risk_score: 10
   security_domain: Cloud
-type: ESCU
+type: batch
 version: 1

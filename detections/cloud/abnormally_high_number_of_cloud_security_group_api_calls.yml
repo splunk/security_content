@@ -47,5 +47,5 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: network
-type: ESCU
+type: batch
 version: 1

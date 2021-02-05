@@ -9,7 +9,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security
   Hub inputs. The threshold_value should be tuned to your environment and schedule
   these searches according to the bucket span interval.
-type: ESCU
+type: batch
 references: []
 known_false_positives: None
 name: Detect Spike in AWS Security Hub Alerts for EC2 Instance

@@ -51,5 +51,5 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

@@ -65,5 +65,5 @@ tags:
   - process_name
   risk_severity: low
   security_domain: endpoint
-type: SSA
+type: streaming
 version: 1

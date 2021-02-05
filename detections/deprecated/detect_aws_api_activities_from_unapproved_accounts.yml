@@ -66,5 +66,5 @@ tags:
   risk_object_type: user
   risk_score: 15
   security_domain: access
-type: ESCU
+type: batch
 version: 2
