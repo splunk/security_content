@@ -1,18 +1,28 @@
-author: "Rod Soto, Splunk"
-date: "2020-05-20"
-description: "This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets"
-how_to_implement: "You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audit data diagnostics"
+author: Rod Soto, Splunk
+date: '2020-05-20'
+description: This search provides information on Kubernetes accounts accessing sensitve
+  objects such as configmpas or secrets
+how_to_implement: You must install the Add-on for Microsoft Cloud Services and Configure
+  Kube-Audit data diagnostics
 id: 1bba382b-07fd-4ffa-b390-8002739b76e8
-known_false_positives: "Sensitive object access is not necessarily malicious but user and object context can provide guidance for detection."
-name: "Kubernetes Azure detect sensitive object access"
+known_false_positives: Sensitive object access is not necessarily malicious but user
+  and object context can provide guidance for detection.
+name: Kubernetes Azure detect sensitive object access
 references: []
-search: "`kubernetes_azure` category=kube-audit | spath input=properties.log| search objectRef.resource=secrets OR configmaps user.username=system.anonymous OR annotations.authorization.k8s.io/decision=allow  |table user.username user.groups{} objectRef.resource objectRef.namespace objectRef.name annotations.authorization.k8s.io/reason |dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_object_access_filter`"
+search: '`kubernetes_azure` category=kube-audit | spath input=properties.log| search
+  objectRef.resource=secrets OR configmaps user.username=system.anonymous OR annotations.authorization.k8s.io/decision=allow  |table
+  user.username user.groups{} objectRef.resource objectRef.namespace objectRef.name
+  annotations.authorization.k8s.io/reason |dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_object_access_filter`'
 tags:
   analytics_story:
-    - "Kubernetes Sensitive Object Access Activity"
-  asset_type: "Azure AKS Kubernetes cluster"
+  - Kubernetes Sensitive Object Access Activity
+  asset_type: Azure AKS Kubernetes cluster
   kill_chain_phases:
-    - Lateral Movement
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: threat
 type: batch
 version: 1

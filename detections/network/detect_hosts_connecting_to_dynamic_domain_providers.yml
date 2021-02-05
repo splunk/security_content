@@ -1,6 +1,4 @@
-name: Detect hosts connecting to dynamic domain providers
-id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
-version: 3
+author: Bhavin Patel, Splunk
 date: '2021-01-14'
 description: Malicious actors often abuse legitimate Dynamic DNS services to host
   malicious payloads or interactive command and control nodes. Attackers will automate
@@ -33,14 +31,14 @@ how_to_implement: 'First, you''ll need to ingest data from your DNS operations. 
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-type: batch
-author: Bhavin Patel, Splunk
-search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
-  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
-  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
+id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 known_false_positives: Some users and applications may leverage Dynamic DNS to reach
   out to some domains on the Internet since dynamic DNS by itself is not malicious,
   however this activity must be verified.
+name: Detect hosts connecting to dynamic domain providers
+search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
+  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
+  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
 tags:
   analytics_story:
   - Data Protection
@@ -49,22 +47,28 @@ tags:
   - Suspicious DNS Traffic
   - Dynamic DNS
   - Command and Control
-  mitre_attack_id:
-  - T1189
-  kill_chain_phases:
-  - Command and Control
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 12
   - CIS 13
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/dyn_dns_site/windows-sysmon.log
+  kill_chain_phases:
+  - Command and Control
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1189
   nist:
   - PR.DS
   - PR.PT
   - DE.AE
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/dyn_dns_site/windows-sysmon.log
+type: ESCU
+version: 3

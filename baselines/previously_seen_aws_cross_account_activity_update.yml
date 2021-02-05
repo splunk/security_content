@@ -1,27 +1,33 @@
-name: Previously Seen AWS Cross Account Activity - Update
-id: dd6fb3a9-4906-48cb-8626-c88a25a056c3
-version: 1
+author: Rico Valdez, Splunk
 date: '2020-08-15'
 description: This search looks for **AssumeRole** events where the requesting account
   differs from the requested account, then writes these relationships to a lookup
   file.
-how_to_implement: You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later)
-  and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`,
-  a lookup file created by this support search.
-author: Rico Valdez, Splunk
-search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role 
-| `drop_dm_object_name(Authentication)` 
-| rex field=user_role "arn:aws:sts:*:(?<dest_account>.*):" 
-| where vendor_account != dest_account 
-| rename vendor_account as requestingAccountId dest_account as requestedAccountId 
-| inputlookup append=t previously_seen_aws_cross_account_activity 
-| stats min(firstTime) as firstTime max(lastTime) as lastTime by requestingAccountId requestedAccountId 
-| outputlookup previously_seen_aws_cross_account_activity'
+how_to_implement: You must install and configure the Splunk Add-on for AWS (version
+  5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
+  to the Authentication data model for cloud use cases. Validate the user name entries
+  in `previously_seen_aws_cross_account_activity.csv`, a lookup file created by this
+  support search.
+id: dd6fb3a9-4906-48cb-8626-c88a25a056c3
+name: Previously Seen AWS Cross Account Activity - Update
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
+  where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user
+  Authentication.src Authentication.user_role | `drop_dm_object_name(Authentication)`
+  | rex field=user_role "arn:aws:sts:*:(?<dest_account>.*):" | where vendor_account
+  != dest_account | rename vendor_account as requestingAccountId dest_account as requestedAccountId
+  | inputlookup append=t previously_seen_aws_cross_account_activity | stats min(firstTime)
+  as firstTime max(lastTime) as lastTime by requestingAccountId requestedAccountId
+  | outputlookup previously_seen_aws_cross_account_activity'
 tags:
   analytics_story:
-  - Suspicious Cloud Authentication Activities 
-  detections:
-  - AWS Cross Account Activity From Previously Unseen Account
+  - Suspicious Cloud Authentication Activities
   deployments:
   - Daily Cache Updates
-
+  detections:
+  - AWS Cross Account Activity From Previously Unseen Account
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

@@ -1,6 +1,4 @@
-name: Clients Connecting to Multiple DNS Servers
-id: 74ec6f18-604b-4202-a567-86b2066be3ce
-version: 3
+author: David Dorsey, Splunk
 date: '2020-07-21'
 description: This search allows you to identify the endpoints that have connected
   to more than five DNS servers and made DNS Queries over the time frame of the search.
@@ -17,31 +15,37 @@ how_to_implement: 'This search requires that DNS data is being ingested and popu
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-type: batch
-author: David Dorsey, Splunk
+id: 74ec6f18-604b-4202-a567-86b2066be3ce
+known_false_positives: It's possible that an enterprise has more than five DNS servers
+  that are configured in a round-robin rotation. Please customize the search, as appropriate.
+name: Clients Connecting to Multiple DNS Servers
 search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest
   dc(DNS.dest) as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
   by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count > 5 |
   `clients_connecting_to_multiple_dns_servers_filter` '
-known_false_positives: It's possible that an enterprise has more than five DNS servers
-  that are configured in a round-robin rotation. Please customize the search, as appropriate.
 tags:
   analytics_story:
   - DNS Hijacking
   - Command and Control
   - Suspicious DNS Traffic
   - Host Redirection
-  mitre_attack_id:
-  - T1048.003
-  kill_chain_phases:
-  - Command and Control
+  asset_type: Endpoint
   cis20:
   - CIS 9
   - CIS 12
   - CIS 13
+  kill_chain_phases:
+  - Command and Control
+  mitre_attack_id:
+  - T1048.003
   nist:
   - PR.PT
   - DE.AE
   - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 3

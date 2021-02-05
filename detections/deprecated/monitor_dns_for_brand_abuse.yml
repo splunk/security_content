@@ -1,6 +1,4 @@
-name: Monitor DNS For Brand Abuse
-id: 24dd17b1-e2fb-4c31-878c-d4f746595bfa
-version: 1
+author: David Dorsey, Splunk
 date: '2017-09-23'
 description: This search looks for DNS requests for faux domains similar to the domains
   that you want to have monitored for abuse.
@@ -11,18 +9,24 @@ how_to_implement: You need to ingest data from your DNS logs. Specifically you m
   which can aid you in future investigations. You also need to have run the search
   "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that
   will be checked for.
-type: batch
+id: 24dd17b1-e2fb-4c31-878c-d4f746595bfa
+known_false_positives: None at this time
+name: Monitor DNS For Brand Abuse
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)
   as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name("DNS")`
   | `security_content_ctime(firstTime)`| `brand_abuse_dns` | `monitor_dns_for_brand_abuse_filter`'
-known_false_positives: None at this time
 tags:
   analytics_story:
   - Brand Monitoring
+  asset_type: Endpoint
   kill_chain_phases:
   - Delivery
   - Actions on Objectives
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 1

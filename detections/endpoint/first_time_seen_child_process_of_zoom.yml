@@ -1,6 +1,4 @@
-name: First Time Seen Child Process of Zoom
-id: e91bd102-d630-4e76-ab73-7e3ba22c5961
-version: 1
+author: David Dorsey, Splunk
 date: '2020-05-20'
 description: This search looks for child processes spawned by zoom.exe or zoom.us
   that has not previously been seen.
@@ -12,9 +10,12 @@ how_to_implement: You must be ingesting data that records process activity from 
   Seen Zoom Child Processes - Update` to keep this table up to date and to age out
   old child processes. Please update the `previously_seen_zoom_child_processes_window`
   macro to adjust the time window.
-type: batch
+id: e91bd102-d630-4e76-ab73-7e3ba22c5961
+known_false_positives: A new child process of zoom isn't malicious by that fact alone.
+  Further investigation of the actions of the child process is needed to verify any
+  malicious behavior is taken.
+name: First Time Seen Child Process of Zoom
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime values(Processes.parent_process_name)
   as parent_process_name values(Processes.parent_process_id) as parent_process_id
   values(Processes.process_name) as process_name values(Processes.process) as process
@@ -25,25 +26,28 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime value
   OR firstTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_window`")
   | `security_content_ctime(firstTime)` | table firstTime dest, process_id, process_name,
   parent_process_id, parent_process_name |`first_time_seen_child_process_of_zoom_filter`'
-known_false_positives: A new child process of zoom isn't malicious by that fact alone.
-  Further investigation of the actions of the child process is needed to verify any
-  malicious behavior is taken.
 tags:
   analytics_story:
   - Suspicious Zoom Child Processes
-  mitre_attack_id:
-  - T1068
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1068
   nist:
   - PR.PT
   - DE.CM
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log
+type: ESCU
+version: 1

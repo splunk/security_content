@@ -1,26 +1,28 @@
-name: Previously Seen Cloud Compute Images - Update
-id: 6f1ca5dc-e445-401c-9845-a96d2b6ba184
-version: 1
+author: David Dorsey, Splunk
 date: '2020-08-12'
 description: This search builds a table of previously seen images used to launch cloud
   compute instances
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-    where All_Changes.action=created by All_Changes.Instance_Changes.image_id 
-| `drop_dm_object_name("All_Changes")` 
-| `drop_dm_object_name("Instance_Changes")` 
-| where image_id != "unknown" 
-| inputlookup append=t previously_seen_cloud_compute_images 
-| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by image_id 
-| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_images_forget_window`) 
-| eventstats min(firstTimeSeen) as globalFirstTime 
-| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
-| outputlookup previously_seen_cloud_compute_images'
+id: 6f1ca5dc-e445-401c-9845-a96d2b6ba184
+name: Previously Seen Cloud Compute Images - Update
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id
+  | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
+  | where image_id != "unknown" | inputlookup append=t previously_seen_cloud_compute_images
+  | stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by
+  image_id | where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_images_forget_window`)
+  | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
+  <= relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_images'
 tags:
   analytics_story:
   - Cloud Cryptomining
-  detections:
-  - Cloud Compute Instance Created With Previously Unseen Image
   deployments:
   - Daily Cache Updates
+  detections:
+  - Cloud Compute Instance Created With Previously Unseen Image
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

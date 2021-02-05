@@ -21,11 +21,15 @@ tags:
   analytics_story:
   - Ransomware Cloud
   asset_type: S3 Bucket
-  mitre_attack_id:
-  - T1486
-  security_domain: threat
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
-type: batch
+  mitre_attack_id:
+  - T1486
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat
+type: ESCU
 version: 1

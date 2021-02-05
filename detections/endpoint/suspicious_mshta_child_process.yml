@@ -1,6 +1,4 @@
-name: Suspicious mshta child process
-id: 60023bb6-5500-11eb-ae93-0242ac130002
-version: 1
+author: Michael Haag, Splunk
 date: '2021-01-12'
 description: The following analytic identifies child processes spawning from  "mshta.exe".
   The search will return the first time and last time these command-line arguments
@@ -10,11 +8,13 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-type: batch
+id: 60023bb6-5500-11eb-ae93-0242ac130002
+known_false_positives: Although unlikely, some legitimate applications may exhibit
+  this behavior, triggering a false positive.
+name: Suspicious mshta child process
 references:
 - https://github.com/redcanaryco/AtomicTestHarnesses
 - https://redcanary.com/blog/introducing-atomictestharnesses/
-author: Michael Haag, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=mshta.exe
@@ -25,22 +25,26 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   OR Processes.process_name=cmd.exe) by Processes.dest Processes.parent_process Processes.user
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_mshta_child_process_filter`'
-known_false_positives: Although unlikely, some legitimate applications may exhibit
-  this behavior, triggering a false positive.
 tags:
   analytics_story:
   - Suspicious MSHTA Activity
-  mitre_attack_id:
-  - T1218.005
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.005
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
-  automated_detection_testing: passed
+type: ESCU
+version: 1

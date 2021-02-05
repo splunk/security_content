@@ -1,57 +1,52 @@
-name: Reconnaissance and Access to Shared Resources via PowerSploit modules
-id: 6b7ca431-6b1e-4b40-9589-21cb368e369e
-version: 1
-date: '2020-11-06'
-description: This detection identifies access to PowerSploit modules that discover and access network and distributed file system shares.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: streaming
 author: Stanislav Miskovic, Splunk
+date: '2020-11-06'
+description: This detection identifies access to PowerSploit modules that discover
+  and access network and distributed file system shares.
+eli5: This detection identifies use of PowerSploit modules that discover and access
+  network and distributed file system shares.
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+id: 6b7ca431-6b1e-4b40-9589-21cb368e369e
+known_false_positives: None identified.
+name: Reconnaissance and Access to Shared Resources via PowerSploit modules
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-          match_regex(cmd_line, /(?i)Find-DomainShare/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-ShareFinder/)=true OR
-          match_regex(cmd_line, /(?i)Find-InterestingDomainShareFile/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-FileFinder/)=true OR
-          match_regex(cmd_line, /(?i)Find-InterestingFile/)=true OR
-          match_regex(cmd_line, /(?i)Get-DomainDFSShare/)=true OR
-          match_regex(cmd_line, /(?i)Get-DFSshare/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetShare/)=true 
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)Find-DomainShare/)=true OR match_regex(cmd_line,
+  /(?i)Invoke-ShareFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainShareFile/)=true
+  OR match_regex(cmd_line, /(?i)Invoke-FileFinder/)=true OR match_regex(cmd_line,
+  /(?i)Find-InterestingFile/)=true OR match_regex(cmd_line, /(?i)Get-DomainDFSShare/)=true
+  OR match_regex(cmd_line, /(?i)Get-DFSshare/)=true OR match_regex(cmd_line, /(?i)Get-NetShare/)=true
+  )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies use of PowerSploit modules that discover and access network and distributed file system shares."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
 tags:
-  required_fields:
-    - _time
-    - process
-    - dest_device_id
-    - dest_user_id
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
+  - Actions on Objectives
   mitre_technique_id:
-    - T1021.002
-    - T1135
-    - T1039
+  - T1021.002
+  - T1135
+  - T1039
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - _time
+  - process
+  - dest_device_id
+  - dest_user_id
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-
+type: SSA
+version: 1

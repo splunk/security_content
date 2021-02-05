@@ -1,6 +1,4 @@
-name: No Windows Updates in a time frame
-id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-09-15'
 description: This search looks for Windows endpoints that have not generated an event
   indicating a successful Windows update in the last 60 days. Windows updates are
@@ -13,9 +11,10 @@ how_to_implement: To successfully implement this search, it requires that the 'U
   wish to monitor. The Windows add-on should be also be installed and configured to
   properly parse Windows events in Splunk. There may be other data sources which can
   populate this data model, including vulnerability management systems.
-type: batch
+id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
+known_false_positives: None identified
+name: No Windows Updates in a time frame
 references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates
   where Updates.status=Installed Updates.vendor_product="Microsoft Windows" by Updates.dest
   Updates.status Updates.vendor_product | rename Updates.dest as Host | rename Updates.status
@@ -23,14 +22,19 @@ search: '| tstats `security_content_summariesonly` max(_time) as lastTime from d
   <= relative_time(now(), "-60d@d"), 1, 0)  | `security_content_ctime(lastTime)`  |
   search isOutlier=1 | rename lastTime as "Last Update Time", | table Host, "Update
   Status", Product, "Last Update Time" | `no_windows_updates_in_a_time_frame_filter`'
-known_false_positives: None identified
 tags:
   analytics_story:
   - Monitor for Updates
+  asset_type: Endpoint
   cis20:
   - CIS 18
   nist:
   - PR.PT
   - PR.MA
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
+type: ESCU
+version: 1

@@ -1,6 +1,4 @@
-name: Monitor Web Traffic For Brand Abuse
-id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
-version: 1
+author: David Dorsey, Splunk
 date: '2017-09-23'
 description: This search looks for Web requests to faux domains similar to the one
   that you want to have monitored for abuse.
@@ -8,21 +6,27 @@ how_to_implement: You need to ingest data from your web traffic. This can be acc
   by indexing data from a web proxy, or using a network traffic analysis tool, such
   as Bro or Splunk Stream. You also need to have run the search "ESCU - DNSTwist Domain
   Names", which creates the permutations of the domain that will be checked for.
-type: batch
+id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
+known_false_positives: None at this time
+name: Monitor Web Traffic For Brand Abuse
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(Web.url) as urls min(_time)
   as firstTime from datamodel=Web by Web.src | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `brand_abuse_web` | `monitor_web_traffic_for_brand_abuse_filter`'
-known_false_positives: None at this time
 tags:
   analytics_story:
   - Brand Monitoring
-  kill_chain_phases:
-  - Delivery
+  asset_type: Endpoint
   cis20:
   - CIS 7
+  kill_chain_phases:
+  - Delivery
   nist:
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 1

@@ -1,6 +1,4 @@
-name: Detect Mimikatz Via PowerShell And EventCode 4703
-id: 98917be2-bfc8-475a-8618-a9bb06575188
-version: 2
+author: Rico Valdez, Splunk
 date: '2019-02-27'
 description: This search looks for PowerShell requesting privileges consistent with
   credential dumping. Deprecated, looks like things changed from a logging perspective.
@@ -11,31 +9,37 @@ how_to_implement: 'You must be ingesting Windows Security logs. You must also en
   on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/.
   Finally, please make sure that the local administrator group name is "Administrators"
   to be able to look for the right group membership changes.'
-type: batch
+id: 98917be2-bfc8-475a-8618-a9bb06575188
+known_false_positives: The activity may be legitimate. PowerShell is often used by
+  administrators to perform various tasks, and it's possible this event could be generated
+  in those cases. In these cases, false positives should be fairly obvious and you
+  may need to tweak the search to eliminate noise.
+name: Detect Mimikatz Via PowerShell And EventCode 4703
 references: []
-author: Rico Valdez, Splunk
 search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe | rex
   field=Message "Enabled Privileges:\s+(?<privs>\w+)\s+Disabled Privileges:" | where
   privs="SeDebugPrivilege" | stats count min(_time) as firstTime max(_time) as lastTime
   by dest, Process_Name, privs, Process_ID, Message | rename privs as "Enabled Privilege"
   | rename Process_Name as process |  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_mimikatz_via_powershell_and_eventcode_4703_filter`'
-known_false_positives: The activity may be legitimate. PowerShell is often used by
-  administrators to perform various tasks, and it's possible this event could be generated
-  in those cases. In these cases, false positives should be fairly obvious and you
-  may need to tweak the search to eliminate noise.
 tags:
-  mitre_attack_id:
-  - T1003.001
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Windows
   cis20:
   - CIS 3
   - CIS 5
   - CIS 16
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1003.001
   nist:
   - PR.IP
   - PR.AC
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: access
-  asset_type: Windows
+type: ESCU
+version: 2

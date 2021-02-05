@@ -1,10 +1,9 @@
-name: Detect Spike in AWS API Activity
-id: ada0f478-84a8-4641-a3f1-d32362d4bd55
-version: 2
+author: David Dorsey, Splunk
 date: '2020-07-21'
 description: This search will detect users creating spikes of API activity in your
   AWS environment.  It will also update the cache file that factors in the latest
-  data. This search is deprecated and have been translated to use the latest Change Datamodel.
+  data. This search is deprecated and have been translated to use the latest Change
+  Datamodel.
 how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit
@@ -31,9 +30,10 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-type: batch
+id: ada0f478-84a8-4641-a3f1-d32362d4bd55
+known_false_positives: ''
+name: Detect Spike in AWS API Activity
 references: []
-author: David Dorsey, Splunk
 search: '`cloudtrail` eventType=AwsApiCall [search `cloudtrail` eventType=AwsApiCall
   | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup
   api_call_by_user_baseline append=t | fields - latestCount | stats values(*) as *
@@ -48,23 +48,27 @@ search: '`cloudtrail` eventType=AwsApiCall [search `cloudtrail` eventType=AwsApi
   | table userIdentity.arn] | spath output=user userIdentity.arn | stats values(eventName)
   as eventName, count as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user
   | `detect_spike_in_aws_api_activity_filter`'
-known_false_positives: ''
 tags:
   analytics_story:
   - AWS User Monitoring
+  asset_type: AWS Instance
+  cis20:
+  - CIS 16
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1078.004
-  cis20:
-  - CIS 16
   nist:
   - DE.DP
   - DE.CM
   - PR.AC
-  security_domain: network
-  asset_type: AWS Instance
-  risk_score: 10
-  risk_object_type: user
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: user
-
+  risk_object_type: user
+  risk_score: 10
+  security_domain: network
+type: ESCU
+version: 2

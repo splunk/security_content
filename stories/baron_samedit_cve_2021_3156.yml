@@ -1,24 +1,29 @@
-name: Baron Samedit CVE-2021-3156
-id: 817b0dfc-23ba-4bcc-96cc-2cb77e428fbe
-version: 1
-date: '2021-01-27'
-description: Uncover activity consistent with CVE-2021-3156.
-  Discovered by the Qualys Research Team, this vulnerability has been found to affect sudo across
-  multiple Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and prior).
-  As this vulnerability was committed to code in July 2011, there will be many distributions affected.
-  Successful exploitation of this vulnerability allows any unprivileged user to gain root privileges
-  on the vulnerable host.
-narrative: 'A non-privledged user is able to execute the sudoedit command to trigger a buffer overflow.
-  After the successful buffer overflow, they are then able to gain root privileges on the affected host.
-  The conditions needed to be run are a trailing "\" along with shell and edit flags.
-  Monitoring the /var/log directory on Linux hosts using the Splunk Universal Forwarder will allow you
-  to pick up this behavior when using the provided detection.'
 author: Shannon Davis, Splunk
-type: ESCU
+date: '2021-01-27'
+description: Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys
+  Research Team, this vulnerability has been found to affect sudo across multiple
+  Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and
+  prior). As this vulnerability was committed to code in July 2011, there will be
+  many distributions affected. Successful exploitation of this vulnerability allows
+  any unprivileged user to gain root privileges on the vulnerable host.
+id: 817b0dfc-23ba-4bcc-96cc-2cb77e428fbe
+name: Baron Samedit CVE-2021-3156
+narrative: A non-privledged user is able to execute the sudoedit command to trigger
+  a buffer overflow. After the successful buffer overflow, they are then able to gain
+  root privileges on the affected host. The conditions needed to be run are a trailing
+  "\" along with shell and edit flags. Monitoring the /var/log directory on Linux
+  hosts using the Splunk Universal Forwarder will allow you to pick up this behavior
+  when using the provided detection.
 references:
 - https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 tags:
   analytics_story: Baron Samedit CVE-2021-3156
-  usecase: Advanced Threat Detection
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

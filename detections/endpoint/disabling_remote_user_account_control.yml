@@ -1,6 +1,4 @@
-name: Disabling Remote User Account Control
-id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
-version: 4
+author: David Dorsey, Patrick Bareiss, Splunk
 date: '2020-11-18'
 description: The search looks for modifications to registry keys that control the
   enforcement of Windows User Account Control (UAC).
@@ -10,31 +8,37 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   products, such as Carbon Black, or via other endpoint data sources, such as Sysmon.
   The data used for this search is typically generated via logs that report registry
   modifications.
-type: batch
+id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
+known_false_positives: This registry key may be modified via administrators to implement
+  a change in system policy. This type of change should be a very rare occurrence.
+name: Disabling Remote User Account Control
 references: []
-author: David Dorsey, Patrick Bareiss, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA*
   Registry.registry_value_name="DWORD (0x00000000)" by Registry.dest, Registry.registry_key_name
   Registry.user Registry.registry_path Registry.registry_value_name Registry.action
   | `drop_dm_object_name(Registry)` | `disabling_remote_user_account_control_filter`'
-known_false_positives: This registry key may be modified via administrators to implement
-  a change in system policy. This type of change should be a very rare occurrence.
 tags:
   analytics_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
-  mitre_attack_id:
-  - T1548.002
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1548.002
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+type: ESCU
+version: 4

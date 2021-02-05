@@ -1,10 +1,10 @@
-name: AWS User Monitoring
-id: 2e8948a5-5239-406b-b56b-6c50f1269af3
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-03-12'
 description: Detect and investigate dormant user accounts for your AWS environment
   that have become active again. Because inactive and ad-hoc accounts are common attack
   targets, it's critical to enable governance within your environment.
+id: 2e8948a5-5239-406b-b56b-6c50f1269af3
+name: AWS User Monitoring
 narrative: 'It seems obvious that it is critical to monitor and control the users
   who have access to your cloud infrastructure. Nevertheless, it''s all too common
   for enterprises to lose track of ad-hoc accounts, leaving their servers vulnerable
@@ -25,13 +25,17 @@ narrative: 'It seems obvious that it is critical to monitor and control the user
   The detection searches in this Analytic Story are designed to help you uncover AWS
   API activities from users not listed in the identity table, as well as similar activities
   from disabled accounts.'
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 - https://redlock.io/blog/cryptojacking-tesla
 tags:
   analytics_story: AWS User Monitoring
-  usecase: Security Monitoring
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
+type: ESCU
+version: 1

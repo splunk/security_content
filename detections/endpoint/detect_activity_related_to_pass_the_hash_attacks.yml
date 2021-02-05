@@ -1,39 +1,43 @@
-name: Detect Activity Related to Pass the Hash Attacks
-id: f5939373-8054-40ad-8c64-cec478a22a4b
-version: 5
+author: Bhavin Patel, Patrick Bareiss, Splunk
 date: '2020-10-15'
 description: This search looks for specific authentication events from the Windows
   Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 how_to_implement: To successfully implement this search, you must ingest your Windows
   Security Event logs and leverage the latest TA for Windows.
-type: batch
+id: f5939373-8054-40ad-8c64-cec478a22a4b
+known_false_positives: Legitimate logon activity by authorized NTLM systems may be
+  detected by this search. Please investigate as appropriate.
+name: Detect Activity Related to Pass the Hash Attacks
 references: []
-author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 Logon_Process=NtLmSsp
   WorkstationName=WORKSTATION NOT AccountName="ANONYMOUS LOGON") OR (Logon_Type=9
   Logon_Process=seclogo) | fillnull | stats count min(_time) as firstTime max(_time)
   as lastTime by EventCode, Logon_Type, WorkstationName, user, dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `detect_activity_related_to_pass_the_hash_attacks_filter` '
-known_false_positives: Legitimate logon activity by authorized NTLM systems may be
-  detected by this search. Please investigate as appropriate.
 tags:
   analytics_story:
   - Lateral Movement
-  mitre_attack_id:
-  - T1550.002
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
   - CIS 16
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1550.002
   nist:
   - PR.PT
   - PR.AT
   - PR.AC
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: access
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log
+type: ESCU
+version: 5

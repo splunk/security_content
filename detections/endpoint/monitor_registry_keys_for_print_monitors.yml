@@ -1,6 +1,4 @@
-name: Monitor Registry Keys for Print Monitors
-id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-11-23'
 description: This search looks for registry activity associated with modifications
   to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this
@@ -13,33 +11,39 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   products, such as Carbon Black, or via other endpoint data sources, such as Sysmon.
   The data used for this search is typically generated via logs that report registry
   modifications.
-type: batch
+id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
+known_false_positives: You will encounter noise from legitimate print-monitor registry
+  entries.
+name: Monitor Registry Keys for Print Monitors
 references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND
   Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by Registry.dest,
   Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_name
   Registry.action | `drop_dm_object_name(Registry)` | `monitor_registry_keys_for_print_monitors_filter`'
-known_false_positives: You will encounter noise from legitimate print-monitor registry
-  entries.
 tags:
   analytics_story:
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
-  mitre_attack_id:
-  - T1547.010
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 5
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1547.010
   nist:
   - PR.PT
   - DE.CM
   - PR.AC
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/windows-sysmon.log
+type: ESCU
+version: 2

@@ -1,58 +1,52 @@
-name: Reconnaissance and Access to Computers and Domains via PowerSploit modules
-id: fe1c4c5a-09f3-4b43-8129-560a7f38a08b
-version: 1
-date: '2020-11-06'
-description: This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: streaming
 author: Stanislav Miskovic, Splunk
+date: '2020-11-06'
+description: This detection identifies access to PowerSploit modules that discover
+  computers, servers and domains that can be accessed or taken over.
+eli5: This detection identifies use of PowerSploit modules that discover computers,
+  servers and domains that can be accessed or taken over.
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+id: fe1c4c5a-09f3-4b43-8129-560a7f38a08b
+known_false_positives: None identified.
+name: Reconnaissance and Access to Computers and Domains via PowerSploit modules
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-           match_regex(cmd_line, /(?i)Get-ComputerDetail/)=true OR
-           match_regex(cmd_line, /(?i)Get-Domain/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetDomain/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainComputer/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetComputer/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainController/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetDomainController/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainFileServer/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetFileServer/)=true
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)Get-ComputerDetail/)=true OR match_regex(cmd_line,
+  /(?i)Get-Domain/)=true OR match_regex(cmd_line, /(?i)Get-NetDomain/)=true OR match_regex(cmd_line,
+  /(?i)Get-DomainComputer/)=true OR match_regex(cmd_line, /(?i)Get-NetComputer/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainController/)=true OR match_regex(cmd_line,
+  /(?i)Get-NetDomainController/)=true OR match_regex(cmd_line, /(?i)Get-DomainFileServer/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetFileServer/)=true )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies use of PowerSploit modules that discover computers, servers and domains that can be accessed or taken over."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
 tags:
-  required_fields:
-    - _time
-    - process
-    - dest_device_id
-    - dest_user_id
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
+  - Actions on Objectives
   mitre_technique_id:
-    - T1592
-    - T1590
-    - T1087
+  - T1592
+  - T1590
+  - T1087
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - _time
+  - process
+  - dest_device_id
+  - dest_user_id
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-
+type: SSA
+version: 1

@@ -1,6 +1,4 @@
-name: DNS Query Length Outliers - MLTK
-id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
-version: 2
+author: Rico Valdez, Splunk
 date: '2020-01-22'
 description: This search allows you to identify DNS requests that are unusually large
   for the record type being requested in your environment.
@@ -32,9 +30,12 @@ how_to_implement: 'To successfully implement this search, you will need to ensur
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-type: batch
+id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
+known_false_positives: If you are seeing more results than desired, you may consider
+  reducing the value for threshold in the search. You should also periodically re-run
+  the support search to re-build the ML model on the latest data.
+name: DNS Query Length Outliers - MLTK
 references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as start_time
   max(_time) as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
   by DNS.query DNS.record_type | search DNS.record_type=* |  `drop_dm_object_name(DNS)`
@@ -42,24 +43,27 @@ search: '| tstats `security_content_summariesonly` count min(_time) as start_tim
   query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename "IsOutlier(query_length)"
   as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time
   query record_type count src dest query_length | `dns_query_length_outliers___mltk_filter` '
-known_false_positives: If you are seeing more results than desired, you may consider
-  reducing the value for threshold in the search. You should also periodically re-run
-  the support search to re-build the ML model on the latest data.
 tags:
   analytics_story:
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
   - Command and Control
-  mitre_attack_id:
-  - T1071.004
-  kill_chain_phases:
-  - Command and Control
+  asset_type: Endpoint
   cis20:
   - CIS 8
   - CIS 12
+  kill_chain_phases:
+  - Command and Control
+  mitre_attack_id:
+  - T1071.004
   nist:
   - PR.PT
   - DE.AE
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 2

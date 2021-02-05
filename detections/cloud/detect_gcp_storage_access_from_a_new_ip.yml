@@ -1,48 +1,56 @@
-name: Detect GCP Storage access from a new IP
-id: ccc3246a-daa1-11ea-87d0-0242ac130022
-version: 1
-date: '2020-08-10'
-description: This search looks at GCP Storage bucket-access logs and detects new or previously
-  unseen remote IP addresses that have successfully accessed a GCP Storage bucket.
-how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platform, setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview). In order to capture public GCP Storage Bucket access logs, you must also enable storage bucket logging to your PubSub Topic as per https://cloud.google.com/storage/docs/access-logs.  These logs are deposited into the nominated Storage Bucket on an hourly basis and typically show up by 15 minutes past the hour.  It is recommended to configure any saved searches or correlation searches in Enterprise Security to run on an hourly basis at 30 minutes past the hour (cron definition of 30 * * * *).  A lookup table (previously_seen_gcp_storage_access_from_remote_ip.csv) stores the previously seen access requests, and is used by this search to determine any newly seen IP addresses accessing the Storage Buckets.
-type: batch
-references: []
 author: Shannon Davis, Splunk
-search: '`google_gcp_pubsub_message`
-| multikv
-| rename sc_status_ as status
-| rename cs_object_ as bucket_name
-| rename c_ip_ as remote_ip
-| rename cs_uri_ as request_uri
-| rename cs_method_ as operation
-| search status="\"200\""
-| stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip operation request_uri
-| table firstTime, lastTime, bucket_name, remote_ip, operation, request_uri
-| inputlookup append=t previously_seen_gcp_storage_access_from_remote_ip.csv
-| stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name remote_ip operation request_uri
-| outputlookup previously_seen_gcp_storage_access_from_remote_ip.csv
-| eval newIP=if(firstTime >= relative_time(now(),"-70m@m"), 1, 0)
-| where newIP=1
-| eval first_time=strftime(firstTime,"%m/%d/%y %H:%M:%S")
-| eval last_time=strftime(lastTime,"%m/%d/%y %H:%M:%S")
-| table  first_time last_time bucket_name remote_ip operation request_uri
-| `detect_gcp_storage_access_from_a_new_ip_filter`'
-known_false_positives: GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow it),
-  as long as it can make a successful connection. This will be a false postive, since the search is looking
-  for a new IP within the past two hours.
+date: '2020-08-10'
+description: This search looks at GCP Storage bucket-access logs and detects new or
+  previously unseen remote IP addresses that have successfully accessed a GCP Storage
+  bucket.
+how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platform,
+  setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and
+  logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview).
+  In order to capture public GCP Storage Bucket access logs, you must also enable
+  storage bucket logging to your PubSub Topic as per https://cloud.google.com/storage/docs/access-logs.  These
+  logs are deposited into the nominated Storage Bucket on an hourly basis and typically
+  show up by 15 minutes past the hour.  It is recommended to configure any saved searches
+  or correlation searches in Enterprise Security to run on an hourly basis at 30 minutes
+  past the hour (cron definition of 30 * * * *).  A lookup table (previously_seen_gcp_storage_access_from_remote_ip.csv)
+  stores the previously seen access requests, and is used by this search to determine
+  any newly seen IP addresses accessing the Storage Buckets.
+id: ccc3246a-daa1-11ea-87d0-0242ac130022
+known_false_positives: GCP Storage buckets can be accessed from any IP (if the ACLs
+  are open to allow it), as long as it can make a successful connection. This will
+  be a false postive, since the search is looking for a new IP within the past two
+  hours.
+name: Detect GCP Storage access from a new IP
+references: []
+search: '`google_gcp_pubsub_message` | multikv | rename sc_status_ as status | rename
+  cs_object_ as bucket_name | rename c_ip_ as remote_ip | rename cs_uri_ as request_uri
+  | rename cs_method_ as operation | search status="\"200\"" | stats earliest(_time)
+  as firstTime latest(_time) as lastTime by bucket_name remote_ip operation request_uri
+  | table firstTime, lastTime, bucket_name, remote_ip, operation, request_uri | inputlookup
+  append=t previously_seen_gcp_storage_access_from_remote_ip.csv | stats min(firstTime)
+  as firstTime, max(lastTime) as lastTime by bucket_name remote_ip operation request_uri
+  | outputlookup previously_seen_gcp_storage_access_from_remote_ip.csv | eval newIP=if(firstTime
+  >= relative_time(now(),"-70m@m"), 1, 0) | where newIP=1 | eval first_time=strftime(firstTime,"%m/%d/%y
+  %H:%M:%S") | eval last_time=strftime(lastTime,"%m/%d/%y %H:%M:%S") | table  first_time
+  last_time bucket_name remote_ip operation request_uri | `detect_gcp_storage_access_from_a_new_ip_filter`'
 tags:
   analytics_story:
   - Suspicious GCP Storage Activities
+  asset_type: GCP Storage Bucket
+  cis20:
+  - CIS 13
+  - CIS 14
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1530
-  cis20:
-  - CIS 13
-  - CIS 14
   nist:
   - PR.DS
   - PR.AC
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: GCP Storage Bucket
+type: ESCU
+version: 1

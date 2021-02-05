@@ -1,6 +1,4 @@
-name: Detect processes used for System Network Configuration Discovery
-id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-11-10'
 description: This search looks for fast execution of processes used for system network
   configuration discovery on the endpoint.
@@ -10,9 +8,12 @@ how_to_implement: You must be ingesting data that records registry activity from
   endpoint data sources, such as Sysmon. The data used for this search is usually
   generated via logs that report reads and writes to the registry or that are populated
   via Windows event logs, after enabling process tracking in your Windows audit settings.
-type: batch
+id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
+known_false_positives: It is uncommon for normal users to execute a series of commands
+  used for network discovery. System administrators often use scripts to execute these
+  commands. These can generate false positives.
+name: Detect processes used for System Network Configuration Discovery
 references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.process_name
@@ -20,25 +21,28 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   | `drop_dm_object_name(Processes)` | search `system_network_configuration_discovery_tools`
   | transaction dest connected=false maxpause=5m |where eventcount>=5 | table firstTime
   lastTime dest user process_name process parent_process eventcount | `detect_processes_used_for_system_network_configuration_discovery_filter`'
-known_false_positives: It is uncommon for normal users to execute a series of commands
-  used for network discovery. System administrators often use scripts to execute these
-  commands. These can generate false positives.
 tags:
   analytics_story:
   - Unusual Processes
-  mitre_attack_id:
-  - T1016
+  asset_type: Endpoint
+  automated_detection_testing: passed
+  cis20:
+  - CIS 2
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log
   kill_chain_phases:
   - Installation
   - Command and Control
   - Actions on Objectives
-  cis20:
-  - CIS 2
+  mitre_attack_id:
+  - T1016
   nist:
   - ID.AM
   - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log
+type: ESCU
+version: 2

@@ -1,6 +1,4 @@
-name: AWS Network Access Control List Deleted
-id: ada0f478-84a8-4641-a3f1-d82362d6fd75
-version: 2
+author: Bhavin Patel, Patrick Bareiss, Splunk
 date: '2021-01-12'
 description: Enforcing network-access controls is one of the defensive mechanisms
   used by cloud administrators to restrict access to a cloud instance. After the attacker
@@ -10,32 +8,38 @@ description: Enforcing network-access controls is one of the defensive mechanism
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-type: batch
+id: ada0f478-84a8-4641-a3f1-d82362d6fd75
+known_false_positives: It's possible that a user has legitimately deleted a network
+  ACL.
+name: AWS Network Access Control List Deleted
 references: []
-author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by userName
   userIdentity.principalId eventName requestParameters.egress src userAgent | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
-known_false_positives: It's possible that a user has legitimately deleted a network
-  ACL.
 tags:
   analytics_story:
   - AWS Network ACL Activity
-  mitre_attack_id:
-  - T1562.007
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: AWS Instance
+  automated_detection_testing: passed
   cis20:
   - CIS 11
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1562.007
   nist:
   - DE.DP
   - DE.AE
-  security_domain: network
-  asset_type: AWS Instance
-  risk_score: 5
-  risk_object_type: user
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: userName
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json
+  risk_object_type: user
+  risk_score: 5
+  security_domain: network
+type: ESCU
+version: 2

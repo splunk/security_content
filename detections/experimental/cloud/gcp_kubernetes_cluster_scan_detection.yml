@@ -1,6 +1,4 @@
-name: GCP Kubernetes cluster scan detection
-id: db5957ec-0144-4c56-b512-9dccbe7a2d26
-version: 1
+author: Rod Soto, Splunk
 date: '2020-04-15'
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster
@@ -8,9 +6,11 @@ how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or late
   then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
   You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection
   to filter out FPs.
-type: batch
+id: db5957ec-0144-4c56-b512-9dccbe7a2d26
+known_false_positives: Not all unauthenticated requests are malicious, but frequency,
+  User Agent and source IPs will provide context.
+name: GCP Kubernetes cluster scan detection
 references: []
-author: Rod Soto, Splunk
 search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerIp!=127.0.0.1
   data.protoPayload.requestMetadata.callerIp!=::1 "data.labels.authorization.k8s.io/decision"=forbid
   "data.protoPayload.status.message"=PERMISSION_DENIED data.protoPayload.authenticationInfo.principalEmail="system:anonymous"
@@ -20,14 +20,18 @@ search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerIp!
   as http_user_agent by src_ip data.resource.labels.cluster_name | rename data.resource.labels.cluster_name
   as cluster_name| `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`  |
   `gcp_kubernetes_cluster_scan_detection_filter` '
-known_false_positives: Not all unauthenticated requests are malicious, but frequency,
-  User Agent and source IPs will provide context.
 tags:
   analytics_story:
   - Kubernetes Scanning Activity
+  asset_type: GCP Kubernetes cluster
   kill_chain_phases:
   - Reconnaissance
   mitre_attack_id:
   - T1526
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: threat
-  asset_type: GCP Kubernetes cluster
+type: ESCU
+version: 1

@@ -1,33 +1,32 @@
-name: Detect ARP Poisoning
-id: b44bebd6-bd39-467b-9321-73971bcd7aac
-version: 1
-date: '2020-08-11'
-description: By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organization's 
-  network devices, we will be able to detect ARP Poisoning attacks in the Infrastructure.
-how_to_implement: This search uses a standard SPL query on logs from Cisco Network
-  devices. The network devices must be configured with DHCP Snooping
-  (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html)
-  and Dynamic ARP Inspection
-  (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-2_2_e/security/configuration_guide/b_sec_1522e_2960x_cg/b_sec_1522e_2960x_cg_chapter_01111.html)
-  and log with a severity level of minimum "5 - notification".
-  The search also requires that the Cisco Networks Add-on for Splunk 
-  (https://splunkbase.splunk.com/app/1467) is used to
-  parse the logs from the Cisco network devices.
-type: batch
-references: []
 author: Mikael Bjerkeland, Splunk
+date: '2020-08-11'
+description: By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the
+  organization's network devices, we will be able to detect ARP Poisoning attacks
+  in the Infrastructure.
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network
+  devices. The network devices must be configured with DHCP Snooping (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html)
+  and Dynamic ARP Inspection (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-2_2_e/security/configuration_guide/b_sec_1522e_2960x_cg/b_sec_1522e_2960x_cg_chapter_01111.html)
+  and log with a severity level of minimum "5 - notification". The search also requires
+  that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
+  is used to parse the logs from the Cisco network devices.
+id: b44bebd6-bd39-467b-9321-73971bcd7aac
+known_false_positives: This search might be prone to high false positives if DHCP
+  Snooping or ARP inspection has been incorrectly configured, or if a device normally
+  sends many ARP packets (unlikely).
+name: Detect ARP Poisoning
+references: []
 search: '`cisco_networks` facility="PM" mnemonic="ERR_DISABLE" disable_cause="arp-inspection"
-  | eval src_interface=src_int_prefix_long+src_int_suffix
-  | stats min(_time) AS firstTime max(_time) AS lastTime count
-  BY host src_interface
-  | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
+  | eval src_interface=src_int_prefix_long+src_int_suffix | stats min(_time) AS firstTime
+  max(_time) AS lastTime count BY host src_interface | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
   `detect_arp_poisoning_filter`'
-known_false_positives: This search might be prone to high false positives if
-  DHCP Snooping or ARP inspection has been incorrectly configured,
-  or if a device normally sends many ARP packets (unlikely).
 tags:
   analytics_story:
   - Router and Infrastructure Security
+  asset_type: Infrastructure
+  cis20:
+  - CIS 1
+  - CIS 11
+  detection_name: Detect ARP Poisoning
   kill_chain_phases:
   - Reconnaissance
   - Delivery
@@ -36,13 +35,13 @@ tags:
   - T1200
   - T1498
   - T1557.002
-  cis20:
-  - CIS 1
-  - CIS 11
   nist:
   - ID.AM
   - PR.DS
-  detection_name: Detect ARP Poisoning
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Infrastructure
-  
+type: ESCU
+version: 1

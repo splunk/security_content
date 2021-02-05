@@ -1,6 +1,4 @@
-name: USN Journal Deletion
-id: b6e0ff70-b122-4227-9368-4cf322ab43c3
-version: 2
+author: David Dorsey, Splunk
 date: '2018-12-03'
 description: The fsutil.exe application is a legitimate Windows utility used to perform
   tasks related to the file allocation table (FAT) and NTFS file systems. The update
@@ -11,36 +9,42 @@ how_to_implement: You must be ingesting data that records process activity from 
   ingesting logs with both the process name and command line from your endpoints.
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model.
-type: batch
+id: b6e0ff70-b122-4227-9368-4cf322ab43c3
+known_false_positives: None identified
+name: USN Journal Deletion
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | search process="*deletejournal*" AND process="*usn*" | `usn_journal_deletion_filter`'
-known_false_positives: None identified
 tags:
   analytics_story:
   - Windows Log Manipulation
   - Ransomware
-  mitre_attack_id:
-  - T1070
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 6
   - CIS 8
   - CIS 10
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1070
   nist:
   - DE.CM
   - PR.PT
   - DE.AE
   - DE.DP
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/atomic_red_team/windows-sysmon.log
+type: ESCU
+version: 2

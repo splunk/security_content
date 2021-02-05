@@ -1,0 +1,4 @@
+definition: sourcetype="aws:securityhub:finding"
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: aws_securityhub_finding

@@ -1,85 +1,69 @@
-name: Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
-id: 63422f8e-766c-468f-8133-2ba6795e263b
-version: 1
-date: '2020-11-05'
-description: This detection identifies access to PowerSploit modules that discover accounts, groups and policies that can be accessed or taken over.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: streaming
 author: Stanislav Miskovic, Splunk
+date: '2020-11-05'
+description: This detection identifies access to PowerSploit modules that discover
+  accounts, groups and policies that can be accessed or taken over.
+eli5: This detection identifies use of PowerSploit modules that discover accounts,
+  groups and policies that can be accessed or taken over.
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+id: 63422f8e-766c-468f-8133-2ba6795e263b
+known_false_positives: None identified.
+name: Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-           match_regex(cmd_line, /(?i)Find-DomainLocalGroupMember/)=true OR
-           match_regex(cmd_line, /(?i)Invoke-EnumerateLocalAdmin/)=true OR
-           match_regex(cmd_line, /(?i)Find-DomainUserEvent/)=true OR
-           match_regex(cmd_line, /(?i)Invoke-EventHunter/)=true OR
-           match_regex(cmd_line, /(?i)Find-DomainUserLocation/)=true OR
-           match_regex(cmd_line, /(?i)Invoke-UserHunter/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainForeignGroupMember/)=true OR
-           match_regex(cmd_line, /(?i)Find-ForeignGroup/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainForeignUser/)=true OR
-           match_regex(cmd_line, /(?i)Find-ForeignUser/)=true OR 
-           match_regex(cmd_line, /(?i)Get-DomainGPO/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetGPO/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainGPOComputerLocalGroupMapping/)=true OR
-           match_regex(cmd_line, /(?i)Find-GPOComputerAdmin/)=true OR 
-           match_regex(cmd_line, /(?i)Get-DomainGPOLocalGroup/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetGPOGroup/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainGPOUserLocalGroupMapping/)=true OR
-           match_regex(cmd_line, /(?i)Find-GPOLocation/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainGroup/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetGroup/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainGroupMember/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetGroupMember/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainManagedSecurityGroup/)=true OR
-           match_regex(cmd_line, /(?i)Find-ManagedSecurityGroups/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainOU/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetOU/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainUser/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetUser/)=true OR
-           match_regex(cmd_line, /(?i)Get-DomainUserEvent/)=true OR
-           match_regex(cmd_line, /(?i)Get-UserEvent/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetLocalGroup/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetLocalGroupMember/)=true OR
-           match_regex(cmd_line, /(?i)Get-NetLoggedon/)=true OR 
-           match_regex(cmd_line, /(?i)Get-RegLoggedOn/)=true OR
-           match_regex(cmd_line, /(?i)Get-WMIRegLastLoggedOn/)=true OR
-           match_regex(cmd_line, /(?i)Get-LastLoggedOn/)=true 
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)Find-DomainLocalGroupMember/)=true OR match_regex(cmd_line,
+  /(?i)Invoke-EnumerateLocalAdmin/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserEvent/)=true
+  OR match_regex(cmd_line, /(?i)Invoke-EventHunter/)=true OR match_regex(cmd_line,
+  /(?i)Find-DomainUserLocation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserHunter/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainForeignGroupMember/)=true OR match_regex(cmd_line,
+  /(?i)Find-ForeignGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignUser/)=true
+  OR match_regex(cmd_line, /(?i)Find-ForeignUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPO/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetGPO/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOComputerLocalGroupMapping/)=true
+  OR match_regex(cmd_line, /(?i)Find-GPOComputerAdmin/)=true OR match_regex(cmd_line,
+  /(?i)Get-DomainGPOLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGPOGroup/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainGPOUserLocalGroupMapping/)=true OR match_regex(cmd_line,
+  /(?i)Find-GPOLocation/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroup/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroupMember/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetGroupMember/)=true OR match_regex(cmd_line,
+  /(?i)Get-DomainManagedSecurityGroup/)=true OR match_regex(cmd_line, /(?i)Find-ManagedSecurityGroups/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainOU/)=true OR match_regex(cmd_line, /(?i)Get-NetOU/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainUser/)=true OR match_regex(cmd_line, /(?i)Get-NetUser/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainUserEvent/)=true OR match_regex(cmd_line,
+  /(?i)Get-UserEvent/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroup/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetLocalGroupMember/)=true OR match_regex(cmd_line,
+  /(?i)Get-NetLoggedon/)=true OR match_regex(cmd_line, /(?i)Get-RegLoggedOn/)=true
+  OR match_regex(cmd_line, /(?i)Get-WMIRegLastLoggedOn/)=true OR match_regex(cmd_line,
+  /(?i)Get-LastLoggedOn/)=true )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies use of PowerSploit modules that discover accounts, groups and policies that can be accessed or taken over."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
 tags:
-  required_fields:
-    - _time
-    - process
-    - dest_device_id
-    - dest_user_id
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
+  - Actions on Objectives
   mitre_technique_id:
-    - T1078
-    - T1087
-    - T1484
+  - T1078
+  - T1087
+  - T1484
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - _time
+  - process
+  - dest_device_id
+  - dest_user_id
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-
+type: SSA
+version: 1

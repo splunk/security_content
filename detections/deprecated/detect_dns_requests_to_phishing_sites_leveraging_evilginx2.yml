@@ -1,6 +1,4 @@
-name: Detect DNS requests to Phishing Sites leveraging EvilGinx2
-id: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-07-21'
 description: This search looks for DNS requests for phishing domains that are leveraging
   EvilGinx tools to mimic websites.
@@ -18,8 +16,11 @@ how_to_implement: "You need to ingest data from your DNS logs in the Network_Res
   \ Actions when configuring this detection search, and set the corresponding Playbook\
   \ to active. \\\n(Playbook link:`https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/`).\\\
   \n"
-type: batch
-author: Bhavin Patel, Splunk
+id: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
+known_false_positives: If a known good domain is not listed in the legit_domains.csv
+  file, then the search could give you false postives. Please update that lookup file
+  to filter out DNS requests to legitimate domains.
+name: Detect DNS requests to Phishing Sites leveraging EvilGinx2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by
   DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| rex field=query ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
@@ -30,25 +31,28 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   [| tstats count `security_content_summariesonly` values(Web.url) as url from datamodel=Web.Web
   by Web.dest Web.site | rename "Web.*" as * | rex field=site ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
   | table dest domain url] | table count src dest query answer domain url | `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter`'
-known_false_positives: If a known good domain is not listed in the legit_domains.csv
-  file, then the search could give you false postives. Please update that lookup file
-  to filter out DNS requests to legitimate domains.
 tags:
   analytics_story:
   - Common Phishing Frameworks
-  mitre_attack_id:
-  - T1566.003
-  kill_chain_phases:
-  - Delivery
-  - Command and Control
+  asset_type: Endpoint
   cis20:
   - CIS 8
   - CIS 7
+  kill_chain_phases:
+  - Delivery
+  - Command and Control
+  mitre_attack_id:
+  - T1566.003
   nist:
   - ID.AM
   - PR.DS
   - PR.IP
   - DE.AE
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 2

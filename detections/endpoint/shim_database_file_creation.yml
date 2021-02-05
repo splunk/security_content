@@ -1,6 +1,4 @@
-name: Shim Database File Creation
-id: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
-version: 3
+author: David Dorsey, Splunk
 date: '2020-12-08'
 description: This search looks for shim database files being written to default directories.
   The sdbinst.exe application is used to install shim database files (.sdb). According
@@ -11,30 +9,36 @@ how_to_implement: You must be ingesting data that records the filesystem activit
   from your hosts to populate the Endpoint file-system data model node. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
   you want to collect data.
-type: batch
+id: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
+known_false_positives: Because legitimate shim files are created and used all the
+  time, this event, in itself, is not suspicious. However, if there are other correlating
+  events, it may warrant further investigation.
+name: Shim Database File Creation
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count values(Filesystem.action)
   values(Filesystem.file_hash) as file_hash values(Filesystem.file_path) as file_path  min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=*Windows\\AppPatch\\Custom*
   by Filesystem.file_name Filesystem.dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   |`drop_dm_object_name(Filesystem)` | `shim_database_file_creation_filter`'
-known_false_positives: Because legitimate shim files are created and used all the
-  time, this event, in itself, is not suspicious. However, if there are other correlating
-  events, it may warrant further investigation.
 tags:
   analytics_story:
   - Windows Persistence Techniques
-  mitre_attack_id:
-  - T1546.011
-  kill_chain_phases:
-  - Actions on Objectives
-  cis20:
-  - CIS 8
-  nist:
-  - DE.CM
-  security_domain: endpoint
   asset_type: Endpoint
   automated_detection_testing: passed
+  cis20:
+  - CIS 8
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1546.011
+  nist:
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 3

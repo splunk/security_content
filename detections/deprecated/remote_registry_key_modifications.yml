@@ -1,6 +1,4 @@
-name: Remote Registry Key modifications
-id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
-version: 3
+author: Bhavin Patel, Splunk
 date: '2020-03-02'
 description: This search monitors for remote modifications to registry keys.
 how_to_implement: To successfully implement this search, you must populate the `Endpoint`
@@ -8,27 +6,33 @@ how_to_implement: To successfully implement this search, you must populate the `
   such as Carbon Black, or endpoint data sources, such as Sysmon. The data used for
   this search is typically generated via logs that report reads and writes to the
   registry. Deprecated because I don't think the logic is right.
-type: batch
+id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
+known_false_positives: This technique may be legitimately used by administrators to
+  modify remote registries, so it's important to filter these events out.
+name: Remote Registry Key modifications
 references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path="\\\\*"  by
   Registry.dest , Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `remote_registry_key_modifications_filter`'
-known_false_positives: This technique may be legitimately used by administrators to
-  modify remote registries, so it's important to filter these events out.
 tags:
   analytics_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 8
+  kill_chain_phases:
+  - Actions on Objectives
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
+type: ESCU
+version: 3

@@ -1,6 +1,4 @@
-name: Protocol or Port Mismatch
-id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
-version: 2
+author: Rico Valdez, Splunk
 date: '2020-07-21'
 description: This search looks for network traffic on common ports where a higher
   layer protocol does not match the port that is being used. For example, this search
@@ -12,9 +10,10 @@ how_to_implement: Running this search properly requires a technology that can in
   network traffic and identify common protocols. Technologies such as Bro and Palo
   Alto Networks firewalls are two examples that will identify protocols via inspection,
   and not just assume a specific protocol based on the transport protocol and ports.
-type: batch
+id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
+known_false_positives: None identified
+name: Protocol or Port Mismatch
 references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where (All_Traffic.app=dns NOT All_Traffic.dest_port=53)
   OR ((All_Traffic.app=web-browsing OR All_Traffic.app=http) NOT (All_Traffic.dest_port=80
@@ -23,20 +22,25 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   NOT All_Traffic.dest_port=25) by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.app,
   All_Traffic.dest_port |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name("All_Traffic")` | `protocol_or_port_mismatch_filter`'
-known_false_positives: None identified
 tags:
   analytics_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Command and Control
-  mitre_attack_id:
-  - T1048.003
-  kill_chain_phases:
-  - Command and Control
+  asset_type: Endpoint
   cis20:
   - CIS 9
   - CIS 12
+  kill_chain_phases:
+  - Command and Control
+  mitre_attack_id:
+  - T1048.003
   nist:
   - DE.AE
   - PR.AC
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 2

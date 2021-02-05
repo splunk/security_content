@@ -1,38 +1,40 @@
-name: Detect Zerologon via Zeek
-id: bf7a06ec-f703-11ea-adc1-0242ac120002
-version: 1
+author: Shannon Davis, Splunk
 date: '2020-09-15'
-description: This search detects Zerologon attempts via Zeek DCE-RPC data.
-how_to_implement: You must be ingesting Zeek DCE-RPC data into Splunk.
-  Zeek data should also be getting ingested in JSON format.  We are detecting
-  when all three RPC operations (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app
+description: This search detects attempts to run exploits for the Zerologon CVE-2020-1472
+  vulnerability via Zeek RPC
+how_to_implement: You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should
+  also be getting ingested in JSON format.  We are detecting when all three RPC operations
+  (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app
   via bro:rpc:json.  These three operations are then correlated on the Zeek UID field.
-description: This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vulnerability via Zeek RPC
-type: batch
+id: bf7a06ec-f703-11ea-adc1-0242ac120002
+known_false_positives: unknown
+name: Detect Zerologon via Zeek
 references:
 - https://www.secura.com/blog/zero-logon
 - https://github.com/SecuraBV/CVE-2020-1472
 - https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
-author: Shannon Davis, Splunk
 search: '`zeek_rpc` operation IN (NetrServerPasswordSet2,NetrServerReqChallenge,NetrServerAuthenticate3)
-| bin span=5m _time
-| stats values(operation) dc(operation) as opscount count(eval(operation=="NetrServerReqChallenge")) as challenge
-count(eval(operation=="NetrServerAuthenticate3")) as authcount count(eval(operation=="NetrServerPasswordSet2")) as passcount
-count as totalcount by _time,src_ip,dest_ip
-| search opscount=3 authcount>4 passcount>0
-| search `detect_zerologon_via_zeek_filter`'
-known_false_positives: unknown
+  | bin span=5m _time | stats values(operation) dc(operation) as opscount count(eval(operation=="NetrServerReqChallenge"))
+  as challenge count(eval(operation=="NetrServerAuthenticate3")) as authcount count(eval(operation=="NetrServerPasswordSet2"))
+  as passcount count as totalcount by _time,src_ip,dest_ip | search opscount=3 authcount>4
+  passcount>0 | search `detect_zerologon_via_zeek_filter`'
 tags:
   analytics_story:
   - Detect Zerologon Attack
-  mitre_attack_id:
-  - T1190
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Network
   cis20:
   - CIS 8
   - CIS 11
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1190
   nist:
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Network
+type: ESCU
+version: 1

@@ -1,11 +1,11 @@
-name: Windows File Extension and Association Abuse
-id: 30552a76-ac78-48e4-b3c0-de4e34e9563d
-version: 1
+author: Rico Valdez, Splunk
 date: '2018-01-26'
 description: Detect and investigate suspected abuse of file extensions and Windows
   file associations. Some of the malicious behaviors involved may include inserting
   spaces before file extensions or prepending the file extension with a different
   one, among other techniques.
+id: 30552a76-ac78-48e4-b3c0-de4e34e9563d
+name: Windows File Extension and Association Abuse
 narrative: "Attackers use a variety of techniques to entice users to run malicious\
   \ code or to persist on an endpoint. One way to accomplish these goals is to leverage\
   \ file extensions and the mechanism Windows uses to associate files with specific\
@@ -31,13 +31,17 @@ narrative: "Attackers use a variety of techniques to entice users to run malicio
   \ the fact that something suspicious has occurred.\\\nRun the searches in this story\
   \ to detect and investigate suspicious behavior that may indicate abuse or manipulation\
   \ of Windows file extensions and/or associations."
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/
 - https://attack.mitre.org/wiki/Technique/T1042
 tags:
   analytics_story: Windows File Extension and Association Abuse
-  usecase: Advanced Threat Detection
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

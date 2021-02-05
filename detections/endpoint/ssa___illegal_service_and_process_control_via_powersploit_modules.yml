@@ -1,63 +1,61 @@
-name: Illegal Service and Process Control via PowerSploit modules
-id: 0e910e5b-309d-4bc3-8af2-0030c02aa353
-version: 1
-date: '2020-11-09'
-description: "This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc."
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: streaming
 author: Stanislav Miskovic, Splunk
+date: '2020-11-09'
+description: This detection identifies access to PowerSploit modules that enable illegal
+  control of services and processes, such as installing or spoofing of malicious services,
+  injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands,
+  modifying access to service objects, etc.
+eli5: This detection identifies access to PowerSploit modules that enable illegal
+  control of services and processes, such as installing or spoofing of malicious services,
+  injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands,
+  modifying access to service objects, etc.
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+id: 0e910e5b-309d-4bc3-8af2-0030c02aa353
+known_false_positives: None identified.
+name: Illegal Service and Process Control via PowerSploit modules
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-          match_regex(cmd_line, /(?i)Install-SSP/)=true OR
-          match_regex(cmd_line, /(?i)Set-CriticalProcess/)=true OR
-          match_regex(cmd_line, /(?i)Install-ServiceBinary/)=true OR
-          match_regex(cmd_line, /(?i)Restore-ServiceBinary/)=true OR
-          match_regex(cmd_line, /(?i)Write-ServiceBinary/)=true OR
-          match_regex(cmd_line, /(?i)Set-ServiceBinaryPath/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-ReflectivePEInjection/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-DllInjection/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-ServiceAbuse/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-Shellcode/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-WScriptUACBypass/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-WmiCommand/)=true OR
-          match_regex(cmd_line, /(?i)Write-HijackDll/)=true OR
-          match_regex(cmd_line, /(?i)Add-ServiceDacl/)=true 
-        )
- 
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)Install-SSP/)=true OR match_regex(cmd_line,
+  /(?i)Set-CriticalProcess/)=true OR match_regex(cmd_line, /(?i)Install-ServiceBinary/)=true
+  OR match_regex(cmd_line, /(?i)Restore-ServiceBinary/)=true OR match_regex(cmd_line,
+  /(?i)Write-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Set-ServiceBinaryPath/)=true
+  OR match_regex(cmd_line, /(?i)Invoke-ReflectivePEInjection/)=true OR match_regex(cmd_line,
+  /(?i)Invoke-DllInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-ServiceAbuse/)=true
+  OR match_regex(cmd_line, /(?i)Invoke-Shellcode/)=true OR match_regex(cmd_line, /(?i)Invoke-WScriptUACBypass/)=true
+  OR match_regex(cmd_line, /(?i)Invoke-WmiCommand/)=true OR match_regex(cmd_line,
+  /(?i)Write-HijackDll/)=true OR match_regex(cmd_line, /(?i)Add-ServiceDacl/)=true
+  )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc."
-known_false_positives:
-  "None identified."
+
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
 tags:
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
+  - Actions on Objectives
   mitre_technique_id:
-    - T1055
-    - T1106
-    - T1569
+  - T1055
+  - T1106
+  - T1569
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - dest_device_id
+  - dest_user_id
+  - process
+  - _time
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-  required_fields:
-    - dest_device_id
-    - dest_user_id
-    - process
-    - _time
+type: SSA
+version: 1
