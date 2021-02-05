@@ -1,14 +1,15 @@
-name: Detect Rundll32 Application Control Bypass - advpack
-id: 4aefadfe-9abd-4bf8-b3fd-867e9ef95bf8
+name: Detect Rundll32 Application Control Bypass - syssetup
+id: 71b9bf37-cde1-45fb-b899-1b0aa6fa1183
 version: 1
 date: '2021-02-04'
-description: The following analytic identifies rundll32.exe loading advpack.dll and
-  ieadvpack.dll by calling the LaunchINFSection function on the command line. This particular technique
-  will load script code from a file. Upon a successful execution, the following module
-  loads may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify
+description: The following analytic identifies rundll32.exe loading syssetup.dll
+  by calling the LaunchINFSection function on the command line. This particular technique will load
+  script code from a file. Upon a successful execution, the following module loads
+  may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify
   script content origination. Generally, a child process will spawn from rundll32.exe,
-  but that may be bypassed based on script code contents. Rundll32.exe is natively
-  found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, review any
+  but that may be bypassed based on script code contents. 
+  Rundll32.exe is natively found in C:\Windows\system32 and
+  C:\Windows\syswow64. During investigation, review any
   network connections and obtain the script content executed. It's possible other files are on disk.
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -18,16 +19,17 @@ references:
 - https://attack.mitre.org/techniques/T1218/011/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
 - https://lolbas-project.github.io/lolbas/Binaries/Rundll32
-- https://lolbas-project.github.io/lolbas/Libraries/Advpack/
+- https://lolbas-project.github.io/lolbas/Libraries/Syssetup/
 - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 author: Michael Haag, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
-  Processes.process=*advpack* by Processes.user Processes.process_name
+  Processes.process=*syssetup* by Processes.user Processes.process_name
   Processes.process Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `detect_rundll32_application_control_bypass___advpack_filter`'
-known_false_positives: Although unlikely, some legitimate applications may use advpack.dll or ieadvpack.dll, triggering a false positive. 
+  | `detect_rundll32_application_control_bypass___syssetup_filter`'
+known_false_positives: Although unlikely, some legitimate applications may use syssetup.dll,
+  triggering a false positive.
 tags:
   analytics_story:
   - Suspicious Rundll32 Activity
@@ -43,5 +45,4 @@ tags:
   security_domain: endpoint
   asset_type: Endpoint
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
-  automated_detection_testing: passed
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/windows-sysmon.log
