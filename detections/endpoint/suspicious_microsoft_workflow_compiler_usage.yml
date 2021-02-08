@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   by Processes.dest Processes.parent_process Processes.user | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_microsoft_workflow_compiler_usage_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Trusted Developer Utilities Proxy Execution
   asset_type: Endpoint
   automated_detection_testing: passed

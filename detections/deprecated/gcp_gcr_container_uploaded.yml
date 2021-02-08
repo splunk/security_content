@@ -19,7 +19,7 @@ search: '|tstats count min(_time) as firstTime max(_time) as lastTime  FROM data
   Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg
   Storage.object_path | `drop_dm_object_name("Storage")`  | `gcp_gcr_container_uploaded_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Container Implantation Monitoring and Investigation
   asset_type: GCP GCR Container
   mitre_attack_id:

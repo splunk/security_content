@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) AS earl
   (All_Changes.src_priority=high) by All_Changes.dest | `drop_dm_object_name("All_Changes")`|
   `security_content_ctime(earliest)`| `security_content_ctime(latest)`  | `detect_usb_device_insertion_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Data Protection
   asset_type: Endpoint
   cis20:

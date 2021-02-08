@@ -23,7 +23,7 @@ search: '`cloudtrail` eventName=TerminateInstances errorCode=success | bucket sp
   num_standard_deviations_away, total_terminations_avg, total_terminations_stdev |
   `abnormally_high_aws_instances_terminated_by_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance
   cis20:

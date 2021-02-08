@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   |`unload_sysmon_filter_driver_filter`| table firstTime lastTime dest user count
   process_name process_id parent_process_name process'
 tags:
-  analytics_story:
+  analytic_story:
   - Disabling Security Tools
   asset_type: ''
   automated_detection_testing: passed

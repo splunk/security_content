@@ -15,7 +15,7 @@ search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | s
   annotations.authorization.k8s.io/reason |stats count by user.username annotations.authorization.k8s.io/reason
   | rare user.username annotations.authorization.k8s.io/reason |`kubernetes_azure_detect_rbac_authorization_by_account_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Role Activity
   asset_type: Azure AKS Kubernetes cluster
   kill_chain_phases:

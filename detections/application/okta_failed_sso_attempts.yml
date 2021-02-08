@@ -12,7 +12,7 @@ search: '`okta` displayMessage="User attempted unauthorized access to app" | sta
   src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `okta_failed_sso_attempts_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
   asset_type: Infrastructure
   cis20:

@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `schtasks_scheduling_job_on_remote_system_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Lateral Movement
   - Sunburst Malware
   asset_type: Endpoint

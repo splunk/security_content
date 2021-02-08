@@ -18,7 +18,7 @@ search: '`wmi` EventCode=5860 Temporary | rex field=Message "NotificationQuery =
   | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName, query  |
   `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `wmi_temporary_event_subscription_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
   cis20:

@@ -18,7 +18,7 @@ search: '`cloudtrail` eventName=RunInstances errorCode=success `abnormally_high_
   apply ec2_excessive_runinstances_v1  | rename "IsOutlier(instances_launched)" as
   isOutlier  | where isOutlier=1'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance

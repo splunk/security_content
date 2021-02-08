@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   where process_name != service_process | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_path_interception_by_creation_of_program_exe_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
   automated_detection_testing: passed

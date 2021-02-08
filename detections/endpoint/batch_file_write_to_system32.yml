@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   rex field=file_name "(?<file_extension>\.[^\.]+)$" | search file_path=*system32*
   AND file_extension=.bat | `batch_file_write_to_system32_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed

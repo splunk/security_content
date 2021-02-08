@@ -14,7 +14,7 @@ search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | s
   responseStatus.code=401 | table  sourceIPs{} userAgent verb requestURI responseStatus.reason
   properties.pod |`kubernetes_azure_pod_scan_fingerprint_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
   asset_type: Azure AKS Kubernetes cluster
   kill_chain_phases:

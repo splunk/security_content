@@ -17,7 +17,7 @@ search: '`google_gcp_pubsub_message` type.googleapis.com/google.cloud.audit.Audi
   |table protoPayload.@type protoPayload.status.details{}.@type protoPayload.status.details{}.violations{}.callerIp
   protoPayload.status.details{}.violations{}.type protoPayload.status.message  | `gcp_detect_oauth_token_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
   kill_chain_phases:

@@ -17,7 +17,7 @@ search: '`okta` outcome.reason=INVALID_CREDENTIALS | rename client.geographicalC
   city  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   |  search distinct_users > 5| `multiple_okta_users_with_invalid_credentails_from_the_same_ip_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
   asset_type: Infrastructure
   cis20:

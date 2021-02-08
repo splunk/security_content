@@ -11,7 +11,7 @@ search: '`o365_management_activity` Operation=Add-MailboxPermission | spath inpu
   as firstTime latest(_time) as lastTime by user src_user dest_user Operation AccessRights
   |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`o365_suspicious_rights_delegation_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed

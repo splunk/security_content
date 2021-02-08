@@ -21,7 +21,7 @@ search: '`google_gcp_pubsub_message` data.protoPayload.authorizationInfo{}.permi
   data.protoPayload.response.bindings{}.members{} data.resource.labels.project_id
   | `gcp_detect_high_risk_permissions_by_resource_and_account_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
   kill_chain_phases:

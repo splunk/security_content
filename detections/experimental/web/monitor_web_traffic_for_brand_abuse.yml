@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` values(Web.url) as urls min(_
   as firstTime from datamodel=Web by Web.src | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `brand_abuse_web` | `monitor_web_traffic_for_brand_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   asset_type: Endpoint
   cis20:

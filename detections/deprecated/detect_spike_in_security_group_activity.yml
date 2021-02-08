@@ -34,7 +34,7 @@ search: '`cloudtrail` `security_group_api_calls` [search `cloudtrail` `security_
   | stats values(eventName) as eventNames, count as numberOfApiCalls, dc(eventName)
   as uniqueApisCalled by user | `detect_spike_in_security_group_activity_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   asset_type: AWS Instance
   cis20:

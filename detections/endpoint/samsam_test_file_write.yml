@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Filesystem.file_path | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `samsam_test_file_write_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed

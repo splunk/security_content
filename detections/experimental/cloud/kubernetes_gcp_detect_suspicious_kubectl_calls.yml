@@ -16,7 +16,7 @@ search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerSup
   data.protoPayload.authorizationInfo{}.granted object_path |dedup src_ip src_user
   |`kubernetes_gcp_detect_suspicious_kubectl_calls_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: GCP GKE Kubernetes cluster
   kill_chain_phases:

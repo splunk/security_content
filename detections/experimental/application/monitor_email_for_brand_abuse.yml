@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` values(All_Email.recipient) a
   brandMonitoring_lookup domain as email_domain OUTPUT domain_abuse | search domain_abuse=true
   | table message_id, src_user, email_domain, recipients, firstTime, lastTime | `monitor_email_for_brand_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - Suspicious Emails
   asset_type: Endpoint

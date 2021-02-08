@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | `attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Malicious PowerShell
   - Credential Dumping
   asset_type: Endpoint

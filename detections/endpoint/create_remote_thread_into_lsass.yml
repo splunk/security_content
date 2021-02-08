@@ -18,7 +18,7 @@ search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as f
   Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `create_remote_thread_into_lsass_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Windows
   automated_detection_testing: passed

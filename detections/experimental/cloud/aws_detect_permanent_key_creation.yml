@@ -15,7 +15,7 @@ search: '`aws_cloudwatchlogs_eks` CreateAccessKey | spath eventName | search eve
   action status responseElements.accessKey.createDate responseElements.accessKey.status
   responseElements.accessKey.accessKeyId |`aws_detect_permanent_key_creation_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
   kill_chain_phases:

@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   search (process=*-EncodedCommand* OR process=*-enc*) process=*-Exec* | `malicious_powershell_process___multiple_suspicious_command_line_arguments_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Malicious PowerShell
   asset_type: Endpoint
   cis20:

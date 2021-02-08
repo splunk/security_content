@@ -9,7 +9,7 @@ name: Open Redirect in Splunk Web
 references: []
 search: index=_internal sourcetype=splunk_web_access return_to="/%09/*" | `open_redirect_in_splunk_web_filter`
 tags:
-  analytics_story:
+  analytic_story:
   - Splunk Enterprise Vulnerability
   asset_type: Splunk Server
   cis20:

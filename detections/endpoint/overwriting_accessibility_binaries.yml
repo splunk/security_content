@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Filesystem.file_name Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `overwriting_accessibility_binaries_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Privilege Escalation
   asset_type: Endpoint
   automated_detection_testing: passed

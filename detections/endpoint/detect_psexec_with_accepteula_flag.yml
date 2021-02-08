@@ -26,7 +26,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   Processes.dest  Processes.parent_process_name | `drop_dm_object_name(Processes)`|
   `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_psexec_with_accepteula_flag_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - DHS Report TA18-074A
   asset_type: Endpoint

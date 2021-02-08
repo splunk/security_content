@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_software_download_to_network_device_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
   asset_type: Infrastructure
   cis20:

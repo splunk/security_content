@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
   DNS.dest | `drop_dm_object_name("DNS")` | `dns_query_requests_resolved_by_unauthorized_dns_servers_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   - Command and Control
   - Suspicious DNS Traffic

@@ -16,7 +16,7 @@ search: '`aws_cloudwatchlogs_eks` ASIA  userIdentity.type=IAMUser| spath eventNa
   | search eventName=GetSessionToken | table sourceIPAddress eventTime userIdentity.arn
   userName userAgent user_type status region | `aws_detect_sts_get_session_token_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
   kill_chain_phases:

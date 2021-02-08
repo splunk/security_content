@@ -26,7 +26,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | table firstTime, lastTime, lnk_pid, process_id, user, dest, file_name, file_path,
   process_name, process, process_path, file_hash | `process_creating_lnk_file_in_suspicious_location_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Phishing Payloads
   asset_type: Endpoint
   automated_detection_testing: passed

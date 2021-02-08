@@ -22,7 +22,7 @@ search: '`aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance | bucket sp
   * threshold_value), 1, 0) | search isOutlier=1 | table _time dest alerts Title Types
   vendor_account vendor_region severity isOutlier total_alerts_avg | `detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Security Hub Alerts
   asset_type: AWS Instance
   cis20:

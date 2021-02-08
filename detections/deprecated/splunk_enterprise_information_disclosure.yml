@@ -16,7 +16,7 @@ search: index=_internal sourcetype=splunkd_ui_access server-info | search client
   as uri, values(useragent) as http_user_agent, values(user) as user by src_ip, dest
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_enterprise_information_disclosure_filter`
 tags:
-  analytics_story:
+  analytic_story:
   - Splunk Enterprise Vulnerability CVE-2018-11409
   asset_type: Splunk Server
   cis20:

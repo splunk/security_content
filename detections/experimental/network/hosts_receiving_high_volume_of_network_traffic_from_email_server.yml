@@ -31,7 +31,7 @@ search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_in) as 
   | table src_ip, _time, bytes_in, avg_bytes_in, per_source_avg_bytes_in, num_standard_deviations_away_from_server_average,
   num_standard_deviations_away_from_client_average | `hosts_receiving_high_volume_of_network_traffic_from_email_server_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
   asset_type: Endpoint
   cis20:

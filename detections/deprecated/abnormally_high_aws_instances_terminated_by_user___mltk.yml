@@ -18,7 +18,7 @@ search: '`cloudtrail` eventName=TerminateInstances errorCode=success `abnormally
   apply ec2_excessive_terminateinstances_v1  | rename "IsOutlier(instances_terminated)"
   as isOutlier  | where isOutlier=1'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance
   cis20:

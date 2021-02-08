@@ -33,7 +33,7 @@ search: '`google_gcp_pubsub_message` | multikv | rename sc_status_ as status | r
   %H:%M:%S") | eval last_time=strftime(lastTime,"%m/%d/%y %H:%M:%S") | table  first_time
   last_time bucket_name remote_ip operation request_uri | `detect_gcp_storage_access_from_a_new_ip_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious GCP Storage Activities
   asset_type: GCP Storage Bucket
   cis20:

@@ -17,7 +17,7 @@ search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | s
   rare sourceIPs{} verb userAgent user.groups{} objectRef.resource objectRef.namespace
   requestURI |`kubernetes_azure_detect_suspicious_kubectl_calls_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: Azure AKS Kubernetes cluster
   kill_chain_phases:

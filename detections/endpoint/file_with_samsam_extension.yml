@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR file_extension=.berkshire OR file_extension=.satoshi OR file_extension=.sophos
   OR file_extension=.keyxml | `file_with_samsam_extension_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed

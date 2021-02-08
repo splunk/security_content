@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `script_execution_via_wmi_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
   automated_detection_testing: passed

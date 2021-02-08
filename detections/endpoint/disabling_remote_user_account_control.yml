@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Registry.user Registry.registry_path Registry.registry_value_name Registry.action
   | `drop_dm_object_name(Registry)` | `disabling_remote_user_account_control_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   asset_type: Endpoint

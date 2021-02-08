@@ -16,7 +16,7 @@ search: '`aws_cloudwatchlogs_eks` attach policy| spath requestParameters.policyA
   eventName errorCode errorMessage status action requestParameters.policyArn userIdentity.sessionContext.attributes.mfaAuthenticated
   userIdentity.sessionContext.attributes.creationDate  | `aws_detect_attach_to_role_policy_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
   kill_chain_phases:

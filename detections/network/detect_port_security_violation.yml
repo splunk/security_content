@@ -29,7 +29,7 @@ search: '`cisco_networks` (facility="PM" mnemonic="ERR_DISABLE" disable_cause="p
   src_mac values(src_vlan) AS src_vlan values(action) AS action count by host src_interface
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_port_security_violation_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
   asset_type: Infrastructure
   cis20:

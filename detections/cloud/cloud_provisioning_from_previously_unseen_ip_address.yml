@@ -36,7 +36,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime, value
   | table firstTime, src, user, object_id, command | `cloud_provisioning_activity_from_previously_unseen_ip_address_filter`
   | `security_content_ctime(firstTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Provisioning Activities
   asset_type: AWS Instance
   automated_detection_testing: passed

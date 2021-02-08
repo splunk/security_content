@@ -15,7 +15,7 @@ search: '`wmi` EventCode=5861 Binding | rex field=Message "Consumer =\s+(?<consu
   Message | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | rename ComputerName as dest | `wmi_permanent_event_subscription_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
   cis20:

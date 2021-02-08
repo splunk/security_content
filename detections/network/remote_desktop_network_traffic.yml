@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `remote_desktop_network_traffic_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - Ryuk Ransomware
   - Hidden Cobra Malware

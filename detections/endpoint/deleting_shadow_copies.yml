@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `deleting_shadow_copies_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Log Manipulation
   - SamSam Ransomware
   - Ransomware

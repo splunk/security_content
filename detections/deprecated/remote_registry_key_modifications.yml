@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
   Registry.dest , Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `remote_registry_key_modifications_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques

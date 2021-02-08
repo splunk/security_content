@@ -14,7 +14,7 @@ search: '`aws_cloudwatchlogs_eks` userAgent=kubectl* sourceIPs{}!=127.0.0.1 sour
   src_user=system:anonymous  | table  src_ip src_user verb userAgent requestURI  |
   stats  count by src_ip src_user verb userAgent requestURI |`kubernetes_aws_detect_suspicious_kubectl_calls_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: AWS EKS Kubernetes cluster
   kill_chain_phases:

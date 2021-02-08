@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.dest) 
   by Processes.process_name | rare Processes.process_name limit=30 | rename Processes.process_name
   as process| `filter_rare_process_allow_list`| table process ] | `detect_rare_executables_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Unusual Processes
   asset_type: Endpoint

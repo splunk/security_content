@@ -21,7 +21,7 @@ search: '`aws_securityhub_finding` "findings{}.Resources{}.Type"= AwsIamUser | r
 | search isOutlier=1
 | table _time user alerts |`detect_spike_in_aws_security_hub_alerts_for_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Security Hub Alerts
   asset_type: AWS Instance
   cis20:

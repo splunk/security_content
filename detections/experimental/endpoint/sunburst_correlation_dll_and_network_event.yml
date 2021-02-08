@@ -19,7 +19,7 @@ search: '(`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.
   host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `sunburst_correlation_dll_and_network_event_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Sunburst Malware
   asset_type: Windows
   cis20:

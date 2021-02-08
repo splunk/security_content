@@ -34,7 +34,7 @@ search: '| tstats `security_content_summariesonly` earliest(_time) as start_time
   All_Traffic.src_ip | `drop_dm_object_name("All_Traffic")` | `security_content_ctime(start_time)`
   | `security_content_ctime(end_time)` | `detect_outbound_smb_traffic_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   - DHS Report TA18-074A
   - Sunburst Malware

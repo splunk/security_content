@@ -16,7 +16,7 @@ search: '`cloudtrail` user_type=AssumedRole userIdentity.sessionContext.sessionI
   requestParameters.roleName responseElements.role.roleName responseElements.role.createDate
   | `aws_detect_sts_assume_role_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
   kill_chain_phases:

@@ -25,7 +25,7 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest | table
   _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_instance_type_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   asset_type: AWS Instance
   cis20:

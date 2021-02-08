@@ -17,7 +17,7 @@ search: '`netbackup` MESSAGE="Disk/Partition backup completed successfully." | s
   | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(),
   "-7d@d"), 1, 0) | search isOutlier=1 | table latestTime, dest | `extended_period_without_successful_netbackup_backups_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor Backup Solution
   asset_type: Endpoint
   cis20:

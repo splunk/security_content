@@ -29,7 +29,7 @@ search: '| tstats `security_content_summariesonly` count values(Web.url) as url 
   | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `dynamic_dns_web_traffic`
   | `detect_web_traffic_to_dynamic_domain_providers_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Dynamic DNS
   asset_type: Endpoint
   cis20:

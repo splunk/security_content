@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments`
   | `suspicious_email_attachment_extensions_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Emails
   asset_type: Endpoint

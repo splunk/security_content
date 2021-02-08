@@ -33,7 +33,7 @@ search: '`cloudtrail` `network_acl_events` [search `cloudtrail` `network_acl_eve
   | stats values(eventName) as eventNames, count as numberOfApiCalls, dc(eventName)
   as uniqueApisCalled by user | `detect_spike_in_network_acl_activity_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   asset_type: AWS Instance
   cis20:

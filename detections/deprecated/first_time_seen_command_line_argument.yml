@@ -31,7 +31,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   "-70m@m"), 1, 0) | where newCmdLineArgument=1 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | table process] | `first_time_seen_command_line_argument_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - Suspicious Command-Line Executions
   - Orangeworm Attack Group

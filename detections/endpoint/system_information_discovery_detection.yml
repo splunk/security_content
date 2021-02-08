@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by user, dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `system_information_discovery_detection_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Discovery Techniques
   asset_type: Windows
   automated_detection_testing: passed

@@ -24,7 +24,7 @@ search: ' | tstats `security_content_summariesonly` count min(_time) as firstTim
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_adfind_exe_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Sunburst Malware
   asset_type: Endpoint
   cis20:

@@ -17,7 +17,7 @@ search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName=
   LOGON" LogonType=3 | stats count values(host) as host, values(TargetDomainName)
   as Domain, values(user) as user | `detect_computer_changed_with_anonymous_account_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Detect Zerologon Attack
   asset_type: Windows
   cis20:

@@ -20,7 +20,7 @@ search: '`cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRU
   AS message_type values(src_mac) AS src_mac BY host | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
   `detect_rogue_dhcp_server_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
   asset_type: Infrastructure
   cis20:

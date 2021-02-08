@@ -44,7 +44,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as start_tim
   as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time
   query record_type count src dest query_length | `dns_query_length_outliers___mltk_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
   - Command and Control

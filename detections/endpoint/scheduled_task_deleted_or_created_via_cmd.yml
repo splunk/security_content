@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.parent_process_name Processes.dest | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `scheduled_task_deleted_or_created_via_cmd_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - Sunburst Malware
   asset_type: Endpoint

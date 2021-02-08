@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `dump_lsass_via_comsvcs_dll_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Endpoint
   automated_detection_testing: passed

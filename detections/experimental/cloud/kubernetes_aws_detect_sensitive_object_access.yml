@@ -14,7 +14,7 @@ search: '`aws_cloudwatchlogs_eks` objectRef.resource=secrets OR configmaps sourc
   objectRef.namespace objectRef.name annotations.authorization.k8s.io/reason |dedup
   user.username user.groups{} |`aws_eks_kubernetes_cluster_sensitive_object_access_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: AWS EKS Kubernetes cluster
   kill_chain_phases:

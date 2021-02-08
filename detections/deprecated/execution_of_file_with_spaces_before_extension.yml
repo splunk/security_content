@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | `execution_of_file_with_spaces_before_extension_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows File Extension and Association Abuse
   asset_type: Endpoint
   cis20:

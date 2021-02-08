@@ -23,7 +23,7 @@ search: '`cloudtrail` `ec2_modification_api_calls` [search `cloudtrail` `ec2_mod
   | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=dest responseElements.instancesSet.items{}.instanceId
   | spath output=user userIdentity.arn | table _time, user, dest | `ec2_instance_modified_with_previously_unseen_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Unusual AWS EC2 Modifications
   asset_type: AWS Instance
   cis20:

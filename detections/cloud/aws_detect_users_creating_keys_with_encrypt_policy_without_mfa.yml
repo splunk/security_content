@@ -23,7 +23,7 @@ search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath inpu
   eventID awsRegion userIdentity.principalId | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` |`aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware Cloud
   asset_type: AWS Account
   automated_detection_testing: passed

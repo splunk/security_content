@@ -32,7 +32,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`| rex
   field=file_name "(?<file_extension>\.[^\.]+)$" | `ransomware_extensions` | `common_ransomware_extensions_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - Ryuk Ransonware
   - Ransomware

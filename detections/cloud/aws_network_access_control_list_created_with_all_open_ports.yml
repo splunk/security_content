@@ -22,7 +22,7 @@ search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetwor
   requestParameters.portRange.from src userAgent requestParameters.cidrBlock | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   asset_type: AWS Instance
   automated_detection_testing: passed

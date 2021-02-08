@@ -15,7 +15,7 @@ search: '`aws_cloudwatchlogs_eks` annotations.authorization.k8s.io/reason=* | ta
   count by user.username annotations.authorization.k8s.io/reason | rare user.username
   annotations.authorization.k8s.io/reason |`kubernetes_aws_detect_rbac_authorization_by_account_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Role Activity
   asset_type: AWS EKS Kubernetes cluster
   kill_chain_phases:

@@ -16,7 +16,7 @@ search: (`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ 
   Image, file_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `suspicious_writes_to_system_volume_information_filter`
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
   asset_type: Windows
   cis20:

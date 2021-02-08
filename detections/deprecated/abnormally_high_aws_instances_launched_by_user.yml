@@ -22,7 +22,7 @@ search: '`cloudtrail` eventName=RunInstances errorCode=success | bucket span=10m
   / total_launched_stdev, 2) | table _time, userName, instances_launched, num_standard_deviations_away,
   total_launched_avg, total_launched_stdev | `abnormally_high_aws_instances_launched_by_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance

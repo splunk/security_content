@@ -19,7 +19,7 @@ search: '`zeek_rpc` operation IN (NetrServerPasswordSet2,NetrServerReqChallenge,
   as passcount count as totalcount by _time,src_ip,dest_ip | search opscount=3 authcount>4
   passcount>0 | search `detect_zerologon_via_zeek_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Detect Zerologon Attack
   asset_type: Network
   cis20:

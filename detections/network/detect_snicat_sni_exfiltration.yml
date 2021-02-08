@@ -19,7 +19,7 @@ search: '`zeek_ssl` | rex field=server_name "(?<snicat>(LIST|LS|SIZE|LD|CB|CD|EX
   | stats count by src_ip dest_ip server_name snicat | where count>0 | table src_ip
   dest_ip server_name snicat | `detect_snicat_sni_exfiltration_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Data Exfiltration
   asset_type: Network
   cis20:

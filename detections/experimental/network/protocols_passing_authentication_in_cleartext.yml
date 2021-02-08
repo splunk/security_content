@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `protocols_passing_authentication_in_cleartext_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Use of Cleartext Protocols
   asset_type: Endpoint
   cis20:

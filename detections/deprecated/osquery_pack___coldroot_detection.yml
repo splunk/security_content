@@ -14,7 +14,7 @@ search: '| from datamodel Alerts.Alerts | search app=osquery:results (name=pack_
   OR name=pack_osx-attacks_OSX_ColdRoot_RAT_Files) | rename columns.path as path |
   bucket _time span=30s | stats count(path) by _time, host, user, path | `osquery_pack___coldroot_detection_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - ColdRoot MacOS RAT
   asset_type: Endpoint
   cis20:

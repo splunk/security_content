@@ -36,7 +36,7 @@ search: '| tstats `security_content_summariesonly` dc("DNS.query") as count  fro
   message) | eval length=len(message) | stats sum(length) as length by src ] | stats
   sum(length) as length by src | where length > 10000 | `detection_of_dns_tunnels_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Data Protection
   - Suspicious DNS Traffic
   - Command and Control

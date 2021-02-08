@@ -40,7 +40,7 @@ search: '| tstats `security_content_summariesonly` count values(DNS.answer) as a
   min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
   | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Data Protection
   - Prohibited Traffic Allowed or Protocol Mismatch
   - DNS Hijacking

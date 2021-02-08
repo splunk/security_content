@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")`
   | `tor_traffic_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
   - Command and Control

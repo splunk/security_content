@@ -12,7 +12,7 @@ search: '`okta` displayMessage="Max sign in attempts exceeded" | rename client.g
   as country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | table _time, user, country, state, city, src_ip | `okta_account_lockout_events_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
   asset_type: Infrastructure
   cis20:

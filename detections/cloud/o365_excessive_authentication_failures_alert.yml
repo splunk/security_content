@@ -16,7 +16,7 @@ search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthentica
   values(src_ip) AS src_ip by user | where count > 10 |`security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `o365_excessive_authentication_failures_alert_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed

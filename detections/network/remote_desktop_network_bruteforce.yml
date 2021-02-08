@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count avg p50
   stdev | `remote_desktop_network_bruteforce_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - Ryuk Ransomware
   asset_type: Endpoint

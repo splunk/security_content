@@ -27,7 +27,7 @@ search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(
   outlook_id process_name parent_process_name file_name  file_path | where file_name
   != "" | `detect_oulook_exe_writing_a__zip_file_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Phishing Payloads
   asset_type: Endpoint
   cis20:

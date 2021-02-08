@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count values(Filesystem.actio
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)`
   | `suspicious_writes` | `suspicious_file_write_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   asset_type: Endpoint
   cis20:

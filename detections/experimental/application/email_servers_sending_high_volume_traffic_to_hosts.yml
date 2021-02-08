@@ -31,7 +31,7 @@ search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_out) as
   2) | table dest_ip, _time, bytes_out, avg_bytes_out, per_source_avg_bytes_out, num_standard_deviations_away_from_server_average,
   num_standard_deviations_away_from_client_average | `email_servers_sending_high_volume_traffic_to_hosts_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
   asset_type: Endpoint
   cis20:

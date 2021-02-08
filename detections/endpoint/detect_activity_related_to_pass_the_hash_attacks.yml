@@ -15,7 +15,7 @@ search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 Logon_Process=NtLmS
   as lastTime by EventCode, Logon_Type, WorkstationName, user, dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `detect_activity_related_to_pass_the_hash_attacks_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Lateral Movement
   asset_type: Endpoint
   automated_detection_testing: passed

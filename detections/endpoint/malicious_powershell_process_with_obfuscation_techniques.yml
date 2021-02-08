@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   + (mvcount(split(process, "^"))-1) + (mvcount(split(process, "''"))-1) | `malicious_powershell_process_with_obfuscation_techniques_filter`
   | search num_obfuscation > 10 '
 tags:
-  analytics_story:
+  analytic_story:
   - Malicious PowerShell
   asset_type: Endpoint
   automated_detection_testing: passed

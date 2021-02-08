@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.user) 
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`create_local_admin_accounts_using_net_exe_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   asset_type: Endpoint
   automated_detection_testing: passed

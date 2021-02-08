@@ -20,7 +20,7 @@ search: '| from datamodel Alerts.Alerts | search app=osquery:results name=pack_o
   | rename columns.cmdline as cmd, columns.name as process_name, columns.pid as process_id|
   dedup host,process_name | table host,process_name, cmd, process_id | `processes_tapping_keyboard_events_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - ColdRoot MacOS RAT
   asset_type: Endpoint
   cis20:
