@@ -137,11 +137,7 @@ def validate_standard_fields(object, uuids):
         if 'product' not in object['tags']:
             errors.append("ERROR: a `product` tag is required for object: %s" % object['name'])
 
-        # check detections have mitre_ids
-        if 'search' in object and 'known_false_positives' in object:
-            if 'mitre_attack_id' not in object['tags']:
-                errors.append("ERROR: a `mitre_attack_id` tag is required detection object: %s" % object['name'])
-
+        # check risk score values
         for k,v in object['tags'].items():
 
             if k == 'risk_score':
