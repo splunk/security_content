@@ -31,7 +31,7 @@ The default value is:
 ## tags Examples
 
 ```yaml
-analytics_story: suspicious_aws_ec2_activities
+analytic_story: suspicious_aws_ec2_activities
 custom_key: custom_value
 
 ```

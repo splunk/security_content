@@ -315,7 +315,7 @@ The default value is:
 ### tags Examples
 
 ```yaml
-analytics_story: credential_dumping
+analytic_story: credential_dumping
 kill_chain_phases: Action on Objectives
 mitre_attack_id: T1078.004
 cis20: CIS 13

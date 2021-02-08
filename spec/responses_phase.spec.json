@@ -79,7 +79,7 @@
       "description": "An array of key value pairs for tagging",
       "examples": [
         {
-          "analytics_story": "credential_dumping"
+          "analytic_story": "credential_dumping"
         }
       ],
       "minItems": 1,

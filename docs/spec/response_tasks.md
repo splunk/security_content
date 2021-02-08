@@ -327,7 +327,7 @@ The default value is:
 ### tags Examples
 
 ```yaml
-analytics_story: credential_dumping
+analytic_story: credential_dumping
 
 ```
 

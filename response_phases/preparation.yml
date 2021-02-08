@@ -26,7 +26,7 @@ response_task:
 sla: null
 sla_type: minutes
 tags:
-  analytics_story: NIST SP 800-61r2 Response Plan
+  analytic_story: NIST SP 800-61r2 Response Plan
   nist: RS.RP
   product:
   - Splunk Phantom
