@@ -1,11 +1,11 @@
-name: SamSam Ransomware
-id: c4b89506-fbcf-4cb7-bfd6-527e54789604
-version: 1
+author: Rico Valdez, Splunk
 date: '2018-12-13'
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the SamSam ransomware, including looking for file writes associated
   with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware
   extensions, suspicious psexec use, and more.
+id: c4b89506-fbcf-4cb7-bfd6-527e54789604
+name: SamSam Ransomware
 narrative: 'The first version of the SamSam ransomware (a.k.a. Samas or SamsamCrypt)
   was launched in 2015 by a group of Iranian threat actors. The malicious software
   has affected and continues to affect thousands of victims and has raised almost
@@ -40,14 +40,18 @@ narrative: 'The first version of the SamSam ransomware (a.k.a. Samas or SamsamCr
   of the SamSam ransomware, such as the creation of fileswrites to system32, writes
   with tell-tale extensions, batch files written to system32, and evidence of brute-force
   attacks via RDP.'
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/
 - https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
 - https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
 tags:
   analytics_story: SamSam Ransomware
-  usecase: Advanced Threat Detection
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

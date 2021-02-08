@@ -1,21 +1,27 @@
-name: Ransomware Cloud
-id: f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
-version: 1
+author: Rod Soto, David Dorsey, Splunk
 date: '2020-10-27'
 description: Leverage searches that allow you to detect and investigate unusual activities
-  that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
+  that might relate to ransomware. These searches include cloud related objects that
+  may be targeted by malicious actors via cloud providers own encryption features.
+id: f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
+name: Ransomware Cloud
 narrative: Ransomware is an ever-present risk to the enterprise, wherein an infected
   host encrypts business-critical data, holding it hostage until the victim pays the
   attacker a ransom. There are many types and varieties of ransomware that can affect
-  an enterprise.Cloud ransomware can be deployed by obtaining high privilege credentials from targeted users or resources.
-author: Rod Soto, David Dorsey, Splunk
-type: ESCU
+  an enterprise.Cloud ransomware can be deployed by obtaining high privilege credentials
+  from targeted users or resources.
 references:
 - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
 - https://github.com/d1vious/git-wild-hunt
 - https://www.youtube.com/watch?v=PgzNib37g0M
 tags:
   analytics_story: Ransomware Cloud
-  usecase: Advanced Threat Detection
   category:
-  - Malware 
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

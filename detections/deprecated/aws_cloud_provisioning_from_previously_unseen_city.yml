@@ -1,28 +1,15 @@
-name: AWS Cloud Provisioning From Previously Unseen City
-id: 344a1778-0b25-490c-adb1-de8beddf59cd
-version: 1
+author: David Dorsey, Splunk
 date: '2018-03-16'
 description: 'This search looks for AWS provisioning activities from previously unseen
   cities.  Provisioning activities are defined broadly as any event that begins with
-  "Run" or "Create." This search is deprecated and have been translated to use the latest Change Datamodel. '
+  "Run" or "Create." This search is deprecated and have been translated to use the
+  latest Change Datamodel. '
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. This search works best when you run the "Previously Seen AWS Provisioning
   Activity Sources" support search once to create a history of previously seen locations
   that have provisioned AWS resources.
-type: ESCU
-references: []
-author: David Dorsey, Splunk
-search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
-  | search City=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
-  sourceIPAddress | search City=* | stats earliest(_time) as firstTime, latest(_time)
-  as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv
-  | stats min(firstTime) as firstTime max(lastTime) as lastTime by sourceIPAddress,
-  City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
-  | stats min(firstTime) as firstTime max(lastTime) as lastTime by City | eval newCity=if(firstTime
-  >= relative_time(now(), "-70m@m"), 1, 0) | where newCity=1 | table City] | spath
-  output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user,
-  src_ip, City, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_city_filter`'
+id: 344a1778-0b25-490c-adb1-de8beddf59cd
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
@@ -34,17 +21,35 @@ known_false_positives: "This is a strictly behavioral search, so we define \"fal
   \ free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution\
   \ (particularly small countries in less economically powerful regions), this may\
   \ be much less valuable to you."
+name: AWS Cloud Provisioning From Previously Unseen City
+references: []
+search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
+  | search City=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
+  sourceIPAddress | search City=* | stats earliest(_time) as firstTime, latest(_time)
+  as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv
+  | stats min(firstTime) as firstTime max(lastTime) as lastTime by sourceIPAddress,
+  City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
+  | stats min(firstTime) as firstTime max(lastTime) as lastTime by City | eval newCity=if(firstTime
+  >= relative_time(now(), "-70m@m"), 1, 0) | where newCity=1 | table City] | spath
+  output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user,
+  src_ip, City, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_city_filter`'
 tags:
   analytics_story:
   - AWS Suspicious Provisioning Activities
-  mitre_attack_id:
-  - T1535
+  asset_type: AWS Instance
   cis20:
   - CIS 1
+  mitre_attack_id:
+  - T1535
   nist:
   - ID.AM
-  security_domain: endpoint
-  asset_type: AWS Instance
-  risk_score: 25
-  risk_object_type: user
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: user
+  risk_object_type: user
+  risk_score: 25
+  security_domain: endpoint
+type: ESCU
+version: 1

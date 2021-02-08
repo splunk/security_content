@@ -1,6 +1,4 @@
-name: Email Attachments With Lots Of Spaces
-id: 56e877a6-1455-4479-ada6-0550dc1e22f8
-version: 2
+author: David Dorsey, Splunk
 date: '2017-09-19'
 description: Attackers often use spaces as a means to obfuscate an attachment's file
   extension. This search looks for messages with email attachments that have many
@@ -18,24 +16,30 @@ how_to_implement: "You need to ingest data from emails. Specifically, the sender
   \ will gather further information about the file attachment and its network behaviors.\
   \ If Phantom finds malicious behavior and an analyst approves of the results, the\
   \ email will be deleted from the user's inbox."
-type: ESCU
-author: David Dorsey, Splunk
+id: 56e877a6-1455-4479-ada6-0550dc1e22f8
+known_false_positives: None at this time
+name: Email Attachments With Lots Of Spaces
 search: '| tstats `security_content_summariesonly` count values(All_Email.recipient)
   as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email
   where All_Email.file_name="*" by All_Email.src_user, All_Email.file_name All_Email.message_id
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")`
   | eval space_ratio = (mvcount(split(file_name," "))-1)/len(file_name) | search space_ratio
   >= 0.1 |  rex field=recipient_address "(?<recipient_user>.*)@" | `email_attachments_with_lots_of_spaces_filter`'
-known_false_positives: None at this time
 tags:
   analytics_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Emails
-  kill_chain_phases:
-  - Delivery
+  asset_type: Endpoint
   cis20:
   - CIS 7
+  kill_chain_phases:
+  - Delivery
   nist:
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint
+type: ESCU
+version: 2

@@ -1,6 +1,4 @@
-name: Shim Database Installation With Suspicious Parameters
-id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
-version: 4
+author: David Dorsey, Splunk
 date: '2020-11-23'
 description: This search detects the process execution and arguments required to silently
   create a shim database.  The sdbinst.exe application is used to install shim database
@@ -12,28 +10,34 @@ how_to_implement: You must be ingesting data that records process activity from 
   ingesting logs with both the process name and command line from your endpoints.
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model.
-type: ESCU
+id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
+known_false_positives: None identified
+name: Shim Database Installation With Suspicious Parameters
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = sdbinst.exe by Processes.process_name Processes.parent_process_name
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `shim_database_installation_with_suspicious_parameters_filter`'
-known_false_positives: None identified
 tags:
   analytics_story:
   - Windows Persistence Techniques
-  mitre_attack_id:
-  - T1546.011
-  kill_chain_phases:
-  - Actions on Objectives
-  cis20:
-  - CIS 8
-  nist:
-  - DE.CM
-  security_domain: endpoint
   asset_type: Endpoint
   automated_detection_testing: passed
+  cis20:
+  - CIS 8
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1546.011
+  nist:
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 4
