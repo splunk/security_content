@@ -15,7 +15,7 @@ search: '`cloudtrail` eventName=AssumeRole | spath output=requestingAccountId pa
   latest(_time) as lastTime by requestingAccountId, requestedAccountId | outputlookup
   previously_seen_aws_cross_account_activity | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   detections:
   - AWS Cross Account Activity From Previously Unseen Account

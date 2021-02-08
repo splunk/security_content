@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as start_tim
   user!=unknown | `security_content_ctime(start_time)`| `security_content_ctime(end_time)`|
   eval processlen=len(process) | fit DensityFunction processlen by user into cmdline_pdfmodel'
 tags:
-  analytics_story:
+  analytic_story:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
   - Suspicious Command-Line Executions

@@ -27,7 +27,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   DayOfWeek=strftime(_time, "%A") | `drop_dm_object_name("All_Traffic")` | fit DensityFunction
   count by "HourOfDay,DayOfWeek" into smb_pdfmodel'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - Disabling Security Tools
   - 'Emotet Malware  DHS Report TA18-201A '

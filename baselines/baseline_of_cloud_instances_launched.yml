@@ -28,7 +28,7 @@ search: '| tstats count as instances_launched from datamodel=Change where (All_C
   instances_launched by "HourOfDay,isWeekend" into cloud_excessive_instances_created_v1
   dist=expon show_density=true'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   - Suspicious Cloud Instance Activities
   deployments:

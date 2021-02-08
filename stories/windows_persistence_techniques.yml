@@ -16,7 +16,7 @@ references:
 - https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
 - https://www.youtube.com/watch?v=dq2Hv7J9fvk
 tags:
-  analytics_story: Windows Persistence Techniques
+  analytic_story: Windows Persistence Techniques
   category:
   - Adversary Tactics
   product:

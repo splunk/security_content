@@ -19,7 +19,7 @@ search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=17
   avgBlockedConnections, stdevBlockedConnections | outputlookup baseline_blocked_outbound_connections
   | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Command and Control
   - Suspicious AWS Traffic

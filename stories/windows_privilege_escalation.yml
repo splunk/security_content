@@ -16,7 +16,7 @@ narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an ad
 references:
 - https://attack.mitre.org/tactics/TA0004/
 tags:
-  analytics_story: Windows Privilege Escalation
+  analytic_story: Windows Privilege Escalation
   category:
   - Adversary Tactics
   product:

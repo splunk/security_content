@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTimeSeen m
   `drop_dm_object_name(Processes)` | table dest, process_name, firstTimeSeen, lastTimeSeen
   | outputlookup zoom_first_time_child_process'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Zoom Child Processes
   deployments:
   - 90 Day Baseline

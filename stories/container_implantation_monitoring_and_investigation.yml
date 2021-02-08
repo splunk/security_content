@@ -18,7 +18,7 @@ narrative: Container Registrys provide a way for organizations to keep customize
 references:
 - https://github.com/splunk/cloud-datamodel-security-research
 tags:
-  analytics_story: Container Implantation Monitoring and Investigation
+  analytic_story: Container Implantation Monitoring and Investigation
   category:
   - Cloud Security
   product:

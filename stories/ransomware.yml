@@ -19,7 +19,7 @@ references:
 - https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 - https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 tags:
-  analytics_story: Ransomware
+  analytic_story: Ransomware
   category:
   - Malware
   product:

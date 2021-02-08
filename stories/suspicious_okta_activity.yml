@@ -28,7 +28,7 @@ references:
 - https://owasp.org/www-community/attacks/Credential_stuffing
 - https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
 tags:
-  analytics_story: Suspicious Okta Activity
+  analytic_story: Suspicious Okta Activity
   category:
   - Adversary Tactics
   product:

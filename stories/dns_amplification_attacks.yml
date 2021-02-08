@@ -27,7 +27,7 @@ references:
 - https://www.us-cert.gov/ncas/alerts/TA13-088A
 - https://www.imperva.com/learn/application-security/dns-amplification/
 tags:
-  analytics_story: DNS Amplification Attacks
+  analytic_story: DNS Amplification Attacks
   category:
   - Abuse
   product:

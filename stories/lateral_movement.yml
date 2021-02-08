@@ -32,7 +32,7 @@ narrative: "Once attackers gain a foothold within an enterprise, they will seek 
 references:
 - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 tags:
-  analytics_story: Lateral Movement
+  analytic_story: Lateral Movement
   category:
   - Adversary Tactics
   product:

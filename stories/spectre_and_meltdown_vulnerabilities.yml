@@ -11,7 +11,7 @@ narrative: Meltdown and Spectre exploit critical vulnerabilities in modern CPUs 
 references:
 - https://meltdownattack.com/
 tags:
-  analytics_story: Spectre And Meltdown Vulnerabilities
+  analytic_story: Spectre And Meltdown Vulnerabilities
   category:
   - Vulnerability
   product:

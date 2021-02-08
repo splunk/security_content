@@ -26,7 +26,7 @@ references:
 - https://www.secura.com/blog/zero-logon
 - https://nvd.nist.gov/vuln/detail/CVE-2020-1472
 tags:
-  analytics_story: Detect Zerologon Attack
+  analytic_story: Detect Zerologon Attack
   category:
   - Adversary Tactics
   product:

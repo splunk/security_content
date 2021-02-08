@@ -14,7 +14,7 @@ search: '`aws_s3_accesslogs` http_status=200  | stats  earliest(_time) as earlie
   latest(_time) as latest by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip
   | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   detections:
   - Detect S3 access from a new IP

@@ -17,7 +17,7 @@ references:
 - https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 - https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
 tags:
-  analytics_story: Suspicious Cloud Authentication Activities
+  analytic_story: Suspicious Cloud Authentication Activities
   category:
   - Cloud Security
   product:

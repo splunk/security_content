@@ -24,7 +24,7 @@ references:
 - https://zeltser.com/security-incident-log-review-checklist/
 - http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html
 tags:
-  analytics_story: Windows Log Manipulation
+  analytic_story: Windows Log Manipulation
   category:
   - Adversary Tactics
   product:

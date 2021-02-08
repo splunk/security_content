@@ -31,7 +31,7 @@ references:
 - https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia
 - https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/
 tags:
-  analytics_story: Orangeworm Attack Group
+  analytic_story: Orangeworm Attack Group
   category:
   - Malware
   product:

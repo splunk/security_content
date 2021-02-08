@@ -29,7 +29,7 @@ references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 - https://redlock.io/blog/cryptojacking-tesla
 tags:
-  analytics_story: AWS User Monitoring
+  analytic_story: AWS User Monitoring
   category:
   - Cloud Security
   product:

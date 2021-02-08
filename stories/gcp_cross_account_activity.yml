@@ -28,7 +28,7 @@ narrative: 'Google Cloud Platform (GCP) admins manage access to GCP resources an
 references:
 - https://cloud.google.com/iam/docs/understanding-service-accounts
 tags:
-  analytics_story: GCP Cross Account Activity
+  analytic_story: GCP Cross Account Activity
   category:
   - Cloud Security
   product:

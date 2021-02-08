@@ -11,7 +11,7 @@ search: '`cloudtrail` `ec2_modification_api_calls` errorCode=success | spath out
   userIdentity.arn | stats earliest(_time) as firstTime latest(_time) as lastTime
   by arn | outputlookup previously_seen_ec2_modifications_by_user | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - Unusual AWS EC2 Modifications
   detections:
   - EC2 Instance Modified With Previously Unseen User

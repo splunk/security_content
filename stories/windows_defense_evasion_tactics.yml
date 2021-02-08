@@ -13,7 +13,7 @@ narrative: Defense evasion is a tactic--identified in the MITRE ATT&CK framework
 references:
 - https://attack.mitre.org/wiki/Defense_Evasion
 tags:
-  analytics_story: Windows Defense Evasion Tactics
+  analytic_story: Windows Defense Evasion Tactics
   category:
   - Adversary Tactics
   product:

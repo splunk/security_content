@@ -28,7 +28,7 @@ references:
 - https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
 - https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
 tags:
-  analytics_story: Brand Monitoring
+  analytic_story: Brand Monitoring
   category:
   - Abuse
   product:

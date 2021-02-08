@@ -24,7 +24,7 @@ references:
 - https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
 - https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
 tags:
-  analytics_story: Unusual Processes
+  analytic_story: Unusual Processes
   category:
   - Malware
   product:

@@ -33,7 +33,7 @@ narrative: 'Cryptomining is an intentionally difficult, resource-intensive busin
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytics_story: Cloud Cryptomining
+  analytic_story: Cloud Cryptomining
   category:
   - Cloud Security
   product:

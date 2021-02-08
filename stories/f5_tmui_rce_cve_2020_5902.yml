@@ -20,7 +20,7 @@ references:
 - https://support.f5.com/csp/article/K52145254
 - https://blog.cloudflare.com/cve-2020-5902-helping-to-protect-against-the-f5-tmui-rce-vulnerability/
 tags:
-  analytics_story: F5 TMUI RCE CVE-2020-5902
+  analytic_story: F5 TMUI RCE CVE-2020-5902
   category:
   - Adversary Tactics
   product:

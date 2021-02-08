@@ -22,7 +22,7 @@ references:
 - http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 - https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
 tags:
-  analytics_story: Dynamic DNS
+  analytic_story: Dynamic DNS
   category:
   - Malware
   product:

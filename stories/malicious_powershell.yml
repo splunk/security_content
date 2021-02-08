@@ -64,7 +64,7 @@ references:
 - https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 tags:
-  analytics_story: Malicious PowerShell
+  analytic_story: Malicious PowerShell
   category:
   - Adversary Tactics
   product:

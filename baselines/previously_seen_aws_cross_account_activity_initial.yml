@@ -18,7 +18,7 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   | table requestingAccountId requestedAccountId firstTime lastTime | outputlookup
   previously_seen_aws_cross_account_activity'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Authentication Activities
   deployments:
   - 90 Day Baseline

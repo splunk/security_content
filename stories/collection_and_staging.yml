@@ -21,7 +21,7 @@ references:
 - https://attack.mitre.org/wiki/Collection
 - https://attack.mitre.org/wiki/Technique/T1074
 tags:
-  analytics_story: Collection and Staging
+  analytic_story: Collection and Staging
   category:
   - Adversary Tactics
   product:

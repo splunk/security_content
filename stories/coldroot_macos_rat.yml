@@ -36,7 +36,7 @@ references:
 - https://objective-see.com/blog/blog_0x2A.html
 - https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/
 tags:
-  analytics_story: ColdRoot MacOS RAT
+  analytic_story: ColdRoot MacOS RAT
   category:
   - Malware
   product:

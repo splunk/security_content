@@ -12,7 +12,7 @@ name: Previously Seen AWS Regions
 search: '`cloudtrail` StartInstances | stats earliest(_time) as earliest latest(_time)
   as latest by awsRegion | outputlookup previously_seen_aws_regions.csv | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   detections:

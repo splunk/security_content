@@ -11,7 +11,7 @@ search: '`cloudtrail` eventName=RunInstances errorCode=success | rename requestP
   as amiID | stats earliest(_time) as firstTime latest(_time) as lastTime by amiID
   | outputlookup previously_seen_ec2_amis.csv | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   detections:
   - EC2 Instance Started With Previously Unseen AMI

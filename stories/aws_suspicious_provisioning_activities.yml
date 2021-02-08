@@ -22,7 +22,7 @@ narrative: 'Because most enterprise AWS activities originate from familiar geogr
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytics_story: AWS Suspicious Provisioning Activities
+  analytic_story: AWS Suspicious Provisioning Activities
   category:
   - Cloud Security
   product:

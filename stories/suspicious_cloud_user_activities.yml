@@ -17,7 +17,7 @@ references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 - https://redlock.io/blog/cryptojacking-tesla
 tags:
-  analytics_story: Suspicious Cloud User Activities
+  analytic_story: Suspicious Cloud User Activities
   category:
   - Cloud Security
   product:

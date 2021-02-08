@@ -16,7 +16,7 @@ search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user |
   stats earliest(_time) as firstTime latest(_time) as lastTime by user src City Region
   Country | outputlookup previously_seen_users_console_logins_cloudtrail | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS Login Activities
   detections:
   - Detect AWS Console Login by User from New Country

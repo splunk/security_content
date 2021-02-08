@@ -22,7 +22,7 @@ references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 - https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
 tags:
-  analytics_story: Suspicious AWS S3 Activities
+  analytic_story: Suspicious AWS S3 Activities
   category:
   - Cloud Security
   product:

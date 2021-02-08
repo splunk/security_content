@@ -59,7 +59,7 @@ references:
 - http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 - https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
 tags:
-  analytics_story: DNS Hijacking
+  analytic_story: DNS Hijacking
   category:
   - Adversary Tactics
   product:

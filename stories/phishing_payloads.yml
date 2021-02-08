@@ -44,7 +44,7 @@ narrative: 'Despite its simplicity, phishing remains the most pervasive and dang
 references:
 - https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
 tags:
-  analytics_story: Phishing Payloads
+  analytic_story: Phishing Payloads
   category:
   - Adversary Tactics
   product:

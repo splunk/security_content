@@ -24,7 +24,7 @@ narrative: 'It is a common practice for attackers of all types to leverage targe
 references:
 - https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
 tags:
-  analytics_story: Suspicious Emails
+  analytic_story: Suspicious Emails
   category:
   - Adversary Tactics
   product:

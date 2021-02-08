@@ -30,7 +30,7 @@ narrative: 'The frequency of nation-state cyber attacks has increased significan
 references:
 - https://www.us-cert.gov/ncas/alerts/TA18-074A
 tags:
-  analytics_story: DHS Report TA18-074A
+  analytic_story: DHS Report TA18-074A
   category:
   - Malware
   product:

@@ -15,7 +15,7 @@ search: '`cloudtrail` eventName=DeleteBucket | spath output=arn path=userIdentit
   stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints,
   avgApiCalls, stdevApiCalls | outputlookup s3_deletion_baseline | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   detections:
   - Detect Spike in S3 Bucket deletion

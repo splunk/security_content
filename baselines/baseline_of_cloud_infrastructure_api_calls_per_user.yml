@@ -26,7 +26,7 @@ search: '| tstats count as api_calls from datamodel=Change where All_Changes.use
   api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_api_calls_v1 dist=norm
   show_density=true'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud User Activities
   deployments:
   - Weekly Model Rebuild 90 Day Lookback

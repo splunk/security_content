@@ -31,7 +31,7 @@ references:
 - https://attack.mitre.org/techniques/T1218/005/
 - https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
 tags:
-  analytics_story: Suspicious MSHTA Activity
+  analytic_story: Suspicious MSHTA Activity
   category:
   - Adversary Tactics
   product:

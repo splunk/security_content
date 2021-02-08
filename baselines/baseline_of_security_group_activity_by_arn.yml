@@ -16,7 +16,7 @@ search: '`cloudtrail` `security_group_api_calls` | spath output=arn path=userIde
   avgApiCalls, stdevApiCalls | outputlookup security_group_activity_baseline | stats
   count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   detections:
   - Detect Spike in Security Group Activity

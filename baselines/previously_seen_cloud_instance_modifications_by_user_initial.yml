@@ -12,7 +12,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
   <= relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_instance_modifications_by_user'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Instance Activities
   deployments:
   - 90 Day Baseline

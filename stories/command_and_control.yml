@@ -26,7 +26,7 @@ references:
 - https://attack.mitre.org/wiki/Command_and_Control
 - https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
 tags:
-  analytics_story: Command and Control
+  analytic_story: Command and Control
   category:
   - Adversary Tactics
   product:

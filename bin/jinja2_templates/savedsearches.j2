@@ -42,8 +42,8 @@ action.escu.providing_technologies = {{ detection.providing_technologies | tojso
 {% else %}
 action.escu.providing_technologies = []
 {% endif %}
-{% if detection.tags.analytics_story is defined %}
-action.escu.analytic_story = {{ detection.tags.analytics_story | tojson }}
+{% if detection.tags.analytic_story is defined %}
+action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
 {% if detection.tags.risk_object is defined %}
 action.risk = 1
 action.risk.param._risk_object = {{ detection.tags.risk_object }}
@@ -106,8 +106,8 @@ action.escu.full_search_name = {{ baseline.type | default('ESCU') }} - {{ baseli
 description = {{ baseline.description }}
 action.escu.creation_date = {{ baseline.date }}
 action.escu.modification_date = {{ baseline.date }}
-{% if baseline.tags.analytics_story is defined %}
-action.escu.analytic_story = {{ baseline.tags.analytics_story | tojson }}
+{% if baseline.tags.analytic_story is defined %}
+action.escu.analytic_story = {{ baseline.tags.analytic_story | tojson }}
 {% else %}
 action.escu.analytic_story = []
 {% endif %}
@@ -154,7 +154,7 @@ description = {{ response_task.description }}
 action.escu.creation_date = {{ response_task.date }}
 action.escu.modification_date = {{ response_task.date }}
 {% if response_task.tags is defined %}
-action.escu.analytic_story = {{ response_task.tags.analytics_story | tojson }}
+action.escu.analytic_story = {{ response_task.tags.analytic_story | tojson }}
 {% else %}
 action.escu.analytic_story = []
 {% endif %}

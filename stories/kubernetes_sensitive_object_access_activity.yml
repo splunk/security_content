@@ -12,7 +12,7 @@ narrative: Kubernetes is the most used container orchestration platform, this or
 references:
 - https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
 tags:
-  analytics_story: Kubernetes Sensitive Object Access Activity
+  analytic_story: Kubernetes Sensitive Object Access Activity
   category:
   - Cloud Security
   product:

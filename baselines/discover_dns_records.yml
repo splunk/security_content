@@ -19,7 +19,7 @@ search: '| inputlookup cim_corporate_email_domains.csv | inputlookup append=T ci
   delim=" " answer |  makemv delim=" " type | sort -count | table count,domain,type,query,answer
   | outputlookup createinapp=true discovered_dns_records'
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   detections:
   - DNS record changed

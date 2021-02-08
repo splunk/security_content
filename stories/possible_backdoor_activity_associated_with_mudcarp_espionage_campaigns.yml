@@ -78,7 +78,7 @@ references:
 - https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 - http://blog.amossys.fr/badflick-is-not-so-bad.html
 tags:
-  analytics_story: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  analytic_story: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   category:
   - Adversary Tactics
   product:

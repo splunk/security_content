@@ -22,7 +22,7 @@ narrative: 'Because most enterprise cloud infrastructure activities originate fr
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytics_story: Suspicious Cloud Provisioning Activities
+  analytic_story: Suspicious Cloud Provisioning Activities
   category:
   - Cloud Security
   product:
