@@ -346,7 +346,7 @@ def get_deployments(object, deployments):
                         matched_deployments.append(deployment)
                         continue
 
-        # Remove this check since deployment files are numbered and detections for Splunk Security Analytics for AWS will only get risk configs. 
+        # Remove this check since deployment files are numbered and detections for Splunk Security Analytics for AWS will only get risk configs.
 
         # if 'product' in deployment['tags']:
         #     if type(deployment['tags']['product']) is str:
@@ -452,7 +452,7 @@ def map_response_tasks_to_stories(response_tasks):
             if 'analytics_story' in response_task['tags']:
                 for story in response_task['tags']['analytics_story']:
                     if 'type' in response_task.keys():
-                        if response_task['type'] == 'batch':
+                        if response_task['type'] == 'response':
                             task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     else:
                         task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
