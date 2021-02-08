@@ -31,7 +31,7 @@ playbook:
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/dns_hijack_enrichment.json
   url_python: https://github.com/phantomcyber/playbooks/blob/4.6/dns_hijack_enrichment.py
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   product:
   - Splunk Phantom

@@ -15,7 +15,7 @@ search: '|tstats `security_content_summariesonly` values(All_Email.dest) as dest
   by All_Email.src |`drop_dm_object_name(All_Email)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | search src=$src$'
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Hidden Cobra Malware
   - Lateral Movement

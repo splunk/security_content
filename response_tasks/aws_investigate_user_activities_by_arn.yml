@@ -14,7 +14,7 @@ name: AWS Investigate User Activities By ARN
 search: '| search sourcetype=aws:cloudtrail | search user=$user$| table _time userIdentity.type
   userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - AWS Network ACL Activity
   - Cloud Cryptomining

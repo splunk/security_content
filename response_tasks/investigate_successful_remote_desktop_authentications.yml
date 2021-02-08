@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | search dest=$dest$ | table firstTime lastTime src src_nt_domain dest user app
   count | sort count'
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   - Lateral Movement
   - SamSam Ransomware

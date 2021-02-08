@@ -11,7 +11,7 @@ inputs:
 name: Get Emails From Specific Sender
 search: '| from datamodel Email.All_Email | search src_user=$src_user$'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - Suspicious Emails
   - Web Fraud Detection

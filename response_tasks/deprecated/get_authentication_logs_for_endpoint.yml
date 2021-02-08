@@ -12,7 +12,7 @@ search: '| tstats count from datamodel=Authentication where Authentication.dest=
   by _time, Authentication.dest, Authentication.user, Authentication.app, Authentication.action
   | `drop_dm_object_name("Authentication")`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Account Monitoring and Controls
   - Apache Struts Vulnerability

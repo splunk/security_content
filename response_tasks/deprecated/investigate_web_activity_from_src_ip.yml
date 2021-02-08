@@ -11,7 +11,7 @@ inputs:
 name: Investigate Web Activity From src ip
 search: '| from datamodel Web.Web | search src=$src_ip$'
 tags:
-  analytics_story:
+  analytic_story:
   - ColdRoot MacOS RAT
   - Dynamic DNS
   - Splunk Enterprise Vulnerability CVE-2018-11409

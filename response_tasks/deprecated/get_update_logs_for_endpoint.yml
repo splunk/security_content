@@ -10,7 +10,7 @@ name: Get Update Logs For Endpoint
 search: '| from datamodel Updates.Updates  | search (vendor_product="Microsoft Windows"
   OR vendor_product="OSX:Update" OR vendor_product="Linux:Update") dest=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Monitor for Unauthorized Software
   - Ransomware

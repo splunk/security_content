@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` values(Registry.registry_key_
   AND Registry.dest=$dest$ by Registry.registry_path, Registry.action, _time | `drop_dm_object_name(Registry)`
   | sort _time | table _time, process_id, dest, action, registry_key_name, registry_path'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - Suspicious Zoom Child Processes
   product:

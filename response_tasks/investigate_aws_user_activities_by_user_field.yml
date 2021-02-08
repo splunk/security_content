@@ -14,7 +14,7 @@ name: Investigate AWS User Activities by user field
 search: '| search sourcetype=aws:cloudtrail user=$user$ | table _time userIdentity.type
   userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType '
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   - Suspicious Cloud Authentication Activities
   product:

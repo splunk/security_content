@@ -14,7 +14,7 @@ search: '| search sourcetype=aws:cloudtrail vendor_region=$vendor_region$| renam
   requestParameters.instancesSet.items{}.instanceId as instanceId | stats values(eventName)
   by user instanceId vendor_region'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Cloud Cryptomining
   - Suspicious AWS EC2 Activities

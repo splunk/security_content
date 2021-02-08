@@ -17,7 +17,7 @@ search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | searc
   sourceIPAddress as src_ip | table _time, City, user, userName, userType, src_ip,
   awsRegion, eventName, errorCode'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Suspicious Provisioning Activities
   product:
   - Splunk Phantom

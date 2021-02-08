@@ -18,7 +18,7 @@ search: '|tstats count min(_time) as firstTime max(_time) as lastTime FROM datam
   as unique_ua_count by src_user, image_id, src, user_type | where unique_ua_count
   > 1'
 tags:
-  analytics_story:
+  analytic_story:
   - Container Implantation Monitoring and Investigation
   product:
   - Splunk Phantom

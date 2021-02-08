@@ -10,7 +10,7 @@ name: Get Backup Logs For Endpoint
 search: '| search sourcetype="netbackup_logs" COMPUTERNAME=$dest$ | rename COMPUTERNAME
   as dest, MESSAGE as signature | table _time, dest, signature'
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware
   - SamSam Ransomware
   product:

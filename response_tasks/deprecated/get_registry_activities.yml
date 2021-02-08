@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` values(Registry.registry_path
   values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes
   where Processes.process_name = reg.exe by Processes.process_id | `drop_dm_object_name("Processes")`]'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - 'Emotet Malware  DHS Report TA18-201A '
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns

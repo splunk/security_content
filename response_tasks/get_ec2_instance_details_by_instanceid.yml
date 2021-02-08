@@ -19,7 +19,7 @@ search: '| search sourcetype="aws:description" source="*:ec2_instances"| dedup i
   as "Availability Zone", state as State, subnet_id as Subnet, "tags.Name" as Name,
   vpc_id as VPC'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Cloud Cryptomining
   - Suspicious AWS EC2 Activities

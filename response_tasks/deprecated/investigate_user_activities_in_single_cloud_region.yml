@@ -12,7 +12,7 @@ name: Investigate User Activities In Single Cloud Region
 search: '| from datamodel:Cloud_Infrastructure.Compute | search region=$region$ user=$src_user$
   | fields - _*'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   product:
   - Splunk Phantom

@@ -12,7 +12,7 @@ name: Get Notable History
 search: '| search `notable` | search dest=$dest$ | table _time, dest, rule_name, owner,
   priority, severity, status_description'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   - AWS Cryptomining
   - AWS Network ACL Activity

@@ -14,7 +14,7 @@ search: '| search sourcetype=aws:cloudtrail dest=$dest$ |rename userIdentity.arn
   as architecture, responseElements.instancesSet.items{}.keyName as keyName | table
   arn, awsRegion, dest, architecture, privateIpAddress, amiID, keyName'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Cloud Cryptomining
   - Suspicious AWS EC2 Activities

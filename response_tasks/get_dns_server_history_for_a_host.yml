@@ -14,7 +14,7 @@ search: '| search tag=dns src_ip=$src_ip$ dest_port=53 | streamstats time_window
   count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort
   -count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Command and Control
   - DNS Hijacking

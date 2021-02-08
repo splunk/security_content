@@ -6,7 +6,7 @@ description: Quarantine the infected hosts in order to stop the malware from spr
 id: 60c4cfa5-81b7-44e2-9ad4-71524e4a3e78
 name: Quarantaine Infected Host
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware
   product:
   - Splunk Phantom

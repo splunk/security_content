@@ -10,7 +10,7 @@ inputs:
 name: All backup logs for host
 search: '| search sourcetype="netbackup_logs" dest=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor Backup Solution
   product:
   - Splunk Phantom

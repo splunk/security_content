@@ -14,7 +14,7 @@ search: '| search sourcetype=aws:cloudtrail | rename userIdentity.accessKeyId as
   sourceIPAddress as src_ip | table _time, user, src_ip, awsRegion, eventName, errorCode,
   errorMessage'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   product:
   - Splunk Phantom

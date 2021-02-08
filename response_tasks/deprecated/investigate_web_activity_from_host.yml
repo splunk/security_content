@@ -11,7 +11,7 @@ inputs:
 name: Investigate Web Activity From Host
 search: '| from datamodel Web.Web | search src=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - DHS Report TA18-074A
   - Disabling Security Tools

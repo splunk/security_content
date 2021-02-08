@@ -13,7 +13,7 @@ search: '| search sourcetype=aws:cloudtrail userIdentity.arn=$src_user$ | spath 
   path=userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user, src_ip,
   awsRegion, eventName, errorCode, errorMessage'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   - Suspicious Cloud Instance Activities
   - Suspicious Cloud Provisioning Activities

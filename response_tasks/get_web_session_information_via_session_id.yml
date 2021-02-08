@@ -14,7 +14,7 @@ name: Get Web Session Information via session id
 search: '| search sourcetype=stream:http session_id  = $session_id$ | stats values(url)
   values(http_user_agent) by src_ip status'
 tags:
-  analytics_story:
+  analytic_story:
   - Web Fraud Detection
   product:
   - Splunk Phantom

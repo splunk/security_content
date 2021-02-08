@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) max(_time) a
   Ports.process_id Ports.src Ports.dest_port | `drop_dm_object_name(Ports)` | search
   dest_port=$dest_port$ | rename src as dest]'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Command and Control
   - DHS Report TA18-074A

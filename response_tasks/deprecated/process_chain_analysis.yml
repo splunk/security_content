@@ -22,7 +22,7 @@ search: '`sysmon` EventCode=1 NOT process=*Splunk* | rename process_guid AS out_
   process_name parent_process_guid parent_process_name grandparent_process_guid grandparent_process_name
   | head 1 | fields - count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Collection and Staging
   - Command and Control

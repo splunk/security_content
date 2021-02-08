@@ -18,7 +18,7 @@ playbook:
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/excessive_account_lockouts_enrichment_and_response.json
   url_python: https://github.com/phantomcyber/playbooks/blob/4.6/excessive_account_lockouts_enrichment_and_response.py
 tags:
-  analytics_story:
+  analytic_story:
   - Account Monitoring and Controls
   product:
   - Splunk Phantom

@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` values(Web.url) as url from d
   by Web.src,Web.http_user_agent,Web.http_method | `drop_dm_object_name("Web")`| search
   http_method, "POST" | search src=$src$'
 tags:
-  analytics_story:
+  analytic_story:
   - Apache Struts Vulnerability
   product:
   - Splunk Phantom

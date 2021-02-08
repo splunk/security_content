@@ -21,7 +21,7 @@ search: '| search sourcetype=stream:http | search src_ip=$src_ip$ | search dest_
   Content-Type Found" | fields "Suspicious Content-Type Found", dest_ip, src_ip, suspicious_strings,
   cs_content_type, cs_content_type_length, url'
 tags:
-  analytics_story:
+  analytic_story:
   - Apache Struts Vulnerability
   product:
   - Splunk Phantom

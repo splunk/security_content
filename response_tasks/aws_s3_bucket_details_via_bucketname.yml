@@ -16,7 +16,7 @@ search: '| search sourcetype=aws:config | rename resourceId as bucketName |searc
   bucketName=$bucketName$ | table resourceCreationTime bucketName vendor_region action
   aws_account_id supplementaryConfiguration.AccessControlList'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   product:
   - Splunk Phantom

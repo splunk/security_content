@@ -16,7 +16,7 @@ search: '| tstats `summariesonly` count values(Processes.process) as process min
   | search  process_name= $process_name$ | search dest = $dest$ | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Collection and Staging
   - Command and Control

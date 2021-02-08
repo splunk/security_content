@@ -10,7 +10,7 @@ name: Investigate Cloud Compute Instance Activities
 search: '| from datamodel:Cloud_Infrastructure.Compute | search dest=$dest$ | fields
   - _*'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   product:
   - Splunk Phantom

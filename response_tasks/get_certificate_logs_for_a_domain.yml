@@ -17,7 +17,7 @@ search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as la
   | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - Common Phishing Frameworks
   product:
   - Splunk Phantom

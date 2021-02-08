@@ -10,7 +10,7 @@ inputs:
 name: Get Email Info
 search: '| from datamodel Email.All_Email | search message_id=$message_id$'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - Suspicious Emails
   product:

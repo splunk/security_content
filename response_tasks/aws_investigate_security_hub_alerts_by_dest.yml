@@ -15,7 +15,7 @@ search: sourcetype="aws:securityhub:firehose" "findings{}.Resources{}.Type"=AWSE
   as Remediation |  table dest Title ProductArn Description FirstObservedAt RecordState
   Remediation
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Compute Instance
   - Cloud Cryptomining
   - Suspicious AWS EC2 Activities

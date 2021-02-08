@@ -21,7 +21,7 @@ playbook:
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json
   url_python: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py
 tags:
-  analytics_story:
+  analytic_story:
   - Common Phishing Frameworks
   product:
   - Splunk Phantom

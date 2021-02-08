@@ -18,7 +18,7 @@ search: '| tstats `summariesonly` count values(Processes.process) as process min
   | search  parent_process_name= $parent_process_name$ |search dest = $dest$ | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
   - Command and Control
   - DHS Report TA18-074A

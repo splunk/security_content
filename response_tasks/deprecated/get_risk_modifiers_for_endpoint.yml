@@ -13,7 +13,7 @@ search: '| from datamodel:Risk.All_Risk | search risk_object_type=system risk_ob
   | stats count sum(risk_score) as risk_score values(search_name)  min(_time) as firstTime
   max(_time) as lastTime by risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Account Monitoring and Controls
   - Apache Struts Vulnerability

@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` values(Filesystem.file_name) 
   search process_name=$process_name$ | table _time, process_name, dest, action, file_name,
   file_path'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - Suspicious Zoom Child Processes
   product:

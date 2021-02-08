@@ -12,7 +12,7 @@ name: AWS Network ACL Details from ID
 search: '| search sourcetype=aws:description| rename id as networkAclId | search  networkAclId=$networkAclId$
   | table id account_id vpc_id network_acl_entries{}.*'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Command and Control
   - Suspicious AWS Traffic

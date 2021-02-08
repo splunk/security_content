@@ -18,7 +18,7 @@ search: '| tstats count `security_content_summariesonly` earliest(_time) as firs
   | `security_content_ctime(last_login)` | `drop_dm_object_name("Authentication")`
   | search dest=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   product:
   - Splunk Phantom

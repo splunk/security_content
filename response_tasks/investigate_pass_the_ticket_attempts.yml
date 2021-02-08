@@ -16,7 +16,7 @@ search: '`wineventlog_security` EventCode=4768 OR EventCode=4769 | rex field=use
   AS max_count sum(count) AS sum_count BY new_user, dest| search dest=$dest$ | where
   sum_count/max_count!=2 | rename new_user AS user '
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   product:
   - Splunk Phantom

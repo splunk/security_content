@@ -16,7 +16,7 @@ search: '`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackag
   dest | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
   | search dest=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   product:
   - Splunk Phantom

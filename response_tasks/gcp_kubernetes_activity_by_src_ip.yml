@@ -19,7 +19,7 @@ search: sourcetype="google:gcp:pubsub:message" | rename data.protoPayload.reques
   user values(data.protoPayload.status.message) by src_ip data.resource.labels.cluster_name
   data.resource.type
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
   product:
   - Splunk Phantom

@@ -10,7 +10,7 @@ inputs:
 name: Investigate Network Traffic From src ip
 search: '| from datamodel Network_Traffic.All_Traffic | search src_ip=$src_ip$'
 tags:
-  analytics_story:
+  analytic_story:
   - ColdRoot MacOS RAT
   - Splunk Enterprise Vulnerability CVE-2018-11409
   product:

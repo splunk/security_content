@@ -15,7 +15,7 @@ search: sourcetype="aws:cloudwatchlogs:eks" |rename sourceIPs{} as src_ip |searc
   values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision
   src_ip
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
   product:
   - Splunk Phantom

@@ -10,7 +10,7 @@ name: Get User Information from Identity Table
 search: '| `identities` | search identity=$user$ | table _time, identity, first, last,
   email, category, watchlist'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - AWS Network ACL Activity
   - Account Monitoring and Controls

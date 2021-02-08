@@ -14,7 +14,7 @@ search: sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCo
   EventCode<22 | rename host as dest | search dest=$dest$| table _time, dest, user,
   Name, Operation, EventType, Type, Query, Consumer, Filter
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware
   - Suspicious WMI Use
   product:

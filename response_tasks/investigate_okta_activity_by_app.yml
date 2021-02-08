@@ -10,7 +10,7 @@ search: eventtype=okta_log app=$app$ | rename client.geographicalContext.country
   country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
   product:
   - Splunk Phantom
