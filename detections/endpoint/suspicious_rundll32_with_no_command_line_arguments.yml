@@ -2,15 +2,16 @@ name: Suspicious Rundll32 no CommandLine Arguments
 id: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
 version: 1
 date: '2021-02-09'
-description: The following analytic identifies rundll32.exe with no command line arguments. 
-  It is unusual for rundll32.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including CobaltStrike. 
-  During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. 
-  Rundll32.exe is natively found in C:\Windows\system32 and
-  C:\Windows\syswow64.
+description: The following analytic identifies rundll32.exe with no command line arguments.
+  It is unusual for rundll32.exe to execute with no command line arguments present.
+  This particular behavior is common with malicious software, including CobaltStrike.
+  During investigation, identify any network connections and parallel processes. Identify
+  any suspicious module loads related to credential dumping or file writes. Rundll32.exe
+  is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 type: ESCU
 references:
 - https://attack.mitre.org/techniques/T1218/011/
@@ -20,13 +21,10 @@ references:
 - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 author: Michael Haag, Splunk
 search: '`sysmon` EventID=1 (process_name=rundll32.exe OR OriginalFileName=RUNDLL32.EXE)
-| regex CommandLine="(rundll32\.exe.{0,4}$)"
-| stats count min(_time) as firstTime max(_time) as lastTime by dest, User,
-  ParentImage,ParentCommandLine, process_name, OriginalFileName, process_path, CommandLine
-| rename Computer as dest 
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`
-| `suspicious_rundll32_no_commandline_arguments_filter`'
+  | regex CommandLine="(rundll32\.exe.{0,4}$)" | stats count min(_time) as firstTime
+  max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
+  OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_rundll32_no_commandline_arguments_filter`'
 known_false_positives: Although unlikely, some legitimate applications may use a moved
   copy of rundll32, triggering a false positive.
 tags:
@@ -44,4 +42,5 @@ tags:
   security_domain: endpoint
   asset_type: Endpoint
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
