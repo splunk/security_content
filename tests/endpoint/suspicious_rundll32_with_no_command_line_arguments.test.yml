@@ -1,0 +1,12 @@
+name: Suspicious rundll32 with no command line arguments Unit Test
+tests:
+- name: Suspicious Rundll32 with no Command Line Arguments
+  file: endpoint/suspicious_rundll32__with_no_command_line_arguments.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
