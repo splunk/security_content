@@ -1,7 +1,7 @@
 name: Suspicious rundll32 with no command line arguments Unit Test
 tests:
 - name: Suspicious Rundll32 with no Command Line Arguments
-  file: endpoint/suspicious_rundll32__with_no_command_line_arguments.yml
+  file: endpoint/suspicious_rundll32_with_no_command_line_arguments.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
