@@ -17,7 +17,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
 - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
 author: Michael Haag, Splunk
-search: '`sysmon` EventID=1 (OriginalFileName=REGSVR32.EXE OR process_name=regsvr32.exe)
+search: '`sysmon` EventID=1 OriginalFileName=REGSVR32.EXE NOT process_name=regsvr32.exe
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
   parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
   rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
