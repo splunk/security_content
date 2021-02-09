@@ -1,68 +1,62 @@
-name: Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules
-id: db08ac40-ee14-43e9-9a75-dddd059ef812
-version: 1
-date: '2020-11-06'
-description: This detection identifies access to PowerSploit modules for reconnaissance and access to elements of Active Directory infrastructure, such as domain identifiers, AD sites and forests, and trust relations.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: SSA
 author: Stanislav Miskovic, Splunk
+date: '2020-11-06'
+description: This detection identifies access to PowerSploit modules for reconnaissance
+  and access to elements of Active Directory infrastructure, such as domain identifiers,
+  AD sites and forests, and trust relations.
+eli5: This detection identifies use of PowerSploit modules for reconnaissance and
+  access to Active Directory infrastructure - identifiers, sites, forests and trust
+  relations.
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+id: db08ac40-ee14-43e9-9a75-dddd059ef812
+known_false_positives: None identified.
+name: Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit
+  modules
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-          match_regex(cmd_line, /(?i)Get-DomainSID/)=true OR          
-          match_regex(cmd_line, /(?i)Get-DomainSite/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetSite/)=true OR
-          match_regex(cmd_line, /(?i)Get-DomainSubnet/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetSubnet/)=true OR
-          match_regex(cmd_line, /(?i)Get-DomainTrust/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true OR
-          match_regex(cmd_line, /(?i)Get-DomainTrustMapping/)=true OR
-          match_regex(cmd_line, /(?i)Invoke-MapDomainTrust/)=true OR
-          match_regex(cmd_line, /(?i)Get-Forest/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetForest/)=true OR
-          match_regex(cmd_line, /(?i)Get-ForestDomain/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true OR
-          match_regex(cmd_line, /(?i)Get-ForestGlobalCatalog/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetForestCatalog/)=true OR
-          match_regex(cmd_line, /(?i)Get-ForestTrust/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true 
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)Get-DomainSID/)=true OR match_regex(cmd_line,
+  /(?i)Get-DomainSite/)=true OR match_regex(cmd_line, /(?i)Get-NetSite/)=true OR match_regex(cmd_line,
+  /(?i)Get-DomainSubnet/)=true OR match_regex(cmd_line, /(?i)Get-NetSubnet/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true
+  OR match_regex(cmd_line, /(?i)Get-DomainTrustMapping/)=true OR match_regex(cmd_line,
+  /(?i)Invoke-MapDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-Forest/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetForest/)=true OR match_regex(cmd_line, /(?i)Get-ForestDomain/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true OR match_regex(cmd_line,
+  /(?i)Get-ForestGlobalCatalog/)=true OR match_regex(cmd_line, /(?i)Get-NetForestCatalog/)=true
+  OR match_regex(cmd_line, /(?i)Get-ForestTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true
+  )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies use of PowerSploit modules for reconnaissance and access to Active Directory infrastructure - identifiers, sites, forests and trust relations."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
 tags:
-  required_fields:
-    - _time
-    - process
-    - dest_device_id
-    - dest_user_id
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
+  - Actions on Objectives
   mitre_technique_id:
-    - T1199
-    - T1482
-    - T1590
-    - T1591
-    - T1595
+  - T1199
+  - T1482
+  - T1590
+  - T1591
+  - T1595
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - _time
+  - process
+  - dest_device_id
+  - dest_user_id
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-
+type: SSA
+version: 1

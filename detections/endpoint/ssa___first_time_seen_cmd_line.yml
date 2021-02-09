@@ -1,29 +1,10 @@
-name: First time seen command line argument - SSA
-id: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
-version: 1
-date: '2020-6-25'
-description: "This search looks for command-line arguments that use a `/c` parameter
-  to execute a command that has not previously been seen. 
-This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel."
-how_to_implement: "You must be populating the endpoint data model for SSA and specifically the process_name and the process fields"
 author: Ignacio Bermudez Corrales, Splunk
-type: SSA
-search: '| from read_ssa_enriched_events()
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
-| eval dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
-       dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null),
-       process_name=ucast(map_get(input_event, "process_name"), "string", null),
-       cmd_line=lower(ucast(map_get(input_event, "process"), "string", null))
-| where process_name="cmd.exe" AND
-        match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true
-| select cmd_line, timestamp, dest_device_id, dest_user_id
-| first_time_event input_columns=["cmd_line"]
-| where first_time_cmd_line
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend(dest_device_id, dest_user_id),
-       body = "TBD"
-| into write_ssa_detected_events();'
+date: '2021-2-1'
+description: This search looks for command-line arguments that use a `/c` parameter
+  to execute a command that has not previously been seen. This is an implementation
+  on SPL2 of the rule `First time seen command line argument` by @bpatel.
+id: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
+how_to_implement: "You must be populating the endpoint data model for SSA and specifically the process_name and the process fields"
 eli5: "The subsearch returns all events where `cmd.exe` was used with a `/c` parameter
   in the command-line arguments to execute other commands/programs. It appends the
   historical data to those results in the lookup file. Next, it recalculates the `firstTime`
@@ -31,34 +12,61 @@ eli5: "The subsearch returns all events where `cmd.exe` was used with a `/c` par
   file to update the local cache. It returns only those events that have first been
   seen in the past one hour. This is combined with the main search to return the time,
   user, destination, process, parent process, and value of the command-line argument."
-known_false_positives: "Legitimate programs can also use command-line arguments to
+known_false_positives: Legitimate programs can also use command-line arguments to
   execute. Please verify the command-line arguments to check what command/program
-  is being executed. We recommend customizing the `first_time_seen_cmd_line_filter` macro to exclude legitimate parent_process_name"
+  is being executed. We recommend customizing the `first_time_seen_cmd_line_filter`
+  macro to exclude legitimate parent_process_name
+name: First time seen command line argument - SSA
+search: '| from read_ssa_enriched_events()
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
+| eval dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+       dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null),
+       process_name=ucast(map_get(input_event, "process_name"), "string", null),
+       cmd_line=ucast(map_get(input_event, "process"), "string", null),
+       cmd_line_norm=lower(cmd_line),
+       cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, "GUID"),
+       cmd_line_norm=replace(cmd_line_norm, /(?<=\s)+\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext" */
+       cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */
+       cmd_line_norm=replace(cmd_line_norm, /\d+/, "N")
+| where process_name="cmd.exe" AND
+        match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true
+| select cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id
+| first_time_event input_columns=["cmd_line_norm"]
+| where first_time_cmd_line_norm
+| eval start_time = timestamp,
+       end_time = timestamp,
+       entities = mvappend(dest_device_id, dest_user_id),
+       body = "TBD"
+| into write_ssa_detected_events();'
 tags:
   cis20:
-    - CIS 3
-    - CIS 8
+  - CIS 3
+  - CIS 8
   kill_chain_phases:
-    - Command and Control
-    - Actions on Objectives
+  - Command and Control
+  - Actions on Objectives
   mitre_attack:
-    - Execution
-    - Scripting
-    - Persistence
-    - Command-Line Interface
+  - Execution
+  - Scripting
+  - Persistence
+  - Command-Line Interface
   mitre_technique_id:
-    - T1059
-    - T1117
-    - T1202
+  - T1059
+  - T1117
+  - T1202
   nist:
-    - PR.PT
-    - DE.CM
-    - PR.IP
+  - PR.PT
+  - DE.CM
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - process_name
+  - _time
+  - dest_device_id
+  - dest_user_id
+  - process
   risk_severity: low
   security_domain: endpoint
-  required_fields:
-    - process_name
-    - _time
-    - dest_device_id
-    - dest_user_id
-    - process
+type: SSA
+version: 2

@@ -74,7 +74,7 @@ Attackers can leverage a variety of resources to compromise or exfiltrate enterp
 ====Tags====
 
 =====ATT&CK=====
-* T1071.004
+* T1048.003
 * T1189
 
 =====Kill Chain Phases=====
@@ -302,6 +302,49 @@ version = 1
 
 
 ==Adversary Tactics==
+
+===Baron Samedit CVE-2021-3156===
+
+Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys Research Team, this vulnerability has been found to affect sudo across multiple Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and prior). As this vulnerability was committed to code in July 2011, there will be many distributions affected. Successful exploitation of this vulnerability allows any unprivileged user to gain root privileges on the vulnerable host.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+A non-privledged user is able to execute the sudoedit command to trigger a buffer overflow. After the successful buffer overflow, they are then able to gain root privileges on the affected host. The conditions needed to be run are a trailing "\" along with shell and edit flags. Monitoring the /var/log directory on Linux hosts using the Splunk Universal Forwarder will allow you to pick up this behavior when using the provided detection.
+
+====Detections====
+* Detect Baron Samedit CVE-2021-3156
+* Detect Baron Samedit CVE-2021-3156 Segfault
+* Detect Baron Samedit CVE-2021-3156 via OSQuery
+
+====Data Models====
+
+====Tags====
+
+=====ATT&CK=====
+* T1068
+
+=====Kill Chain Phases=====
+* Exploitation
+
+=====CIS=====
+* CIS 12
+* CIS 16
+* CIS 8
+
+=====NIST=====
+* DE.CM
+
+====References====
+* https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
+date = 2021-01-27
+
+version = 1
+
+</div>
+</div>
 
 ===Collection and Staging===
 
@@ -652,7 +695,7 @@ Looks for activities and techniques associated with the disabling of security to
 <div class="mw-collapsible-content">
 
 ====Narrative====
-Attackers employ a variety of tactics in order to avoid detection and operate without barriers. This often involves modifying the configuration of security tools to get around them or explicitly disabling them to prevent them from running. This Analytic Story includes searches that look for activity consistent with attackers attempting to disable various security mechanisms. Such activity may involve monitoring for suspicious registry activity, as this is where much of the configuration for Windows and various other programs reside, or explicitly attempting to shut down security-related services. Other times, attackers attempt various tricks to prevent specific programs from running, such as adding the certificates with which the security tools are signed to a blacklist (which would prevent them from running).
+Attackers employ a variety of tactics in order to avoid detection and operate without barriers. This often involves modifying the configuration of security tools to get around them or explicitly disabling them to prevent them from running. This Analytic Story includes searches that look for activity consistent with attackers attempting to disable various security mechanisms. Such activity may involve monitoring for suspicious registry activity, as this is where much of the configuration for Windows and various other programs reside, or explicitly attempting to shut down security-related services. Other times, attackers attempt various tricks to prevent specific programs from running, such as adding the certificates with which the security tools are signed to a block list (which would prevent them from running).
 
 ====Detections====
 * Attempt To Add Certificate To Untrusted Store
@@ -952,7 +995,7 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 
 ====Detections====
 * Detect Oulook exe writing a  zip file
-* Suspicious LNK file launching a process
+* Process Creating LNK file in Suspicious Location
 
 ====Data Models====
 
@@ -1372,14 +1415,19 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 <div class="mw-collapsible-content">
 
 ====Narrative====
-One common adversary tactic is to bypass application white-listing solutions via the mshta.exe process, which executes Microsoft HTML applications with the .hta suffix. In these cases, attackers use the trusted Windows utility to eproxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
-One example of a notable mshta.exe attack was the Kovter malware (https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5) that was implicated in ransomware and click-fraud attacks. Kovter utilized .hta to execute a series of javascript commands, each progressively more dangerous. According to the Mitre Parternship Network (https://attack.mitre.org/wiki/Technique/T1170), FIN7 has leveraged mshta.exe, as has the MuddyWater group, who used it to execute its POWERSTATS payload (which then used the utility to execute additional payloads).\
-The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code.
+One common adversary tactic is to bypass application white-listing solutions via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta suffix. In these cases, attackers use the trusted Windows utility to proxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code. \
+Triage \ Validate execution \ 1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. 2. Determine if script code was executed with MSHTA. \ Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSHTA.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is MSHTA loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
 
 ====Detections====
+* Detect MSHTA Url in Command Line
 * Detect Prohibited Applications Spawning cmd exe
-* Detect mshta exe running scripts in command-line arguments
+* Detect Rundll32 Inline HTA Execution
+* Detect mshta inline hta execution
+* Detect mshta renamed
 * Registry Keys Used For Persistence
+* Suspicious mshta child process
+* Suspicious mshta spawn
 
 ====Data Models====
 * Endpoint
@@ -1404,13 +1452,14 @@ The searches in this story help you detect and investigate suspicious activity t
 * PR.PT
 
 ====References====
+* https://redcanary.com/blog/introducing-atomictestharnesses/
 * https://redcanary.com/blog/windows-registry-attacks-threat-detection/
+* https://attack.mitre.org/techniques/T1218/005/
 * https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
-* https://attack.mitre.org/wiki/Technique/T1170
 
-date = 2020-02-03
+date = 2021-01-20
 
-version = 1
+version = 2
 
 </div>
 </div>
@@ -1618,6 +1667,104 @@ Current detections focus on finding new child processes of this application on a
 * https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
 
 date = 2020-04-13
+
+version = 1
+
+</div>
+</div>
+
+===Trusted Developer Utilities Proxy Execution===
+
+Monitor and detect behaviors used by attackers who leverage trusted developer utilities to execute malicious code.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Adversaries may take advantage of trusted developer utilities to proxy execution of malicious payloads. There are many utilities used for software development related tasks that can be used to execute code in various forms to assist in development, debugging, and reverse engineering. These utilities may often be signed with legitimate certificates that allow them to execute on a system and proxy execution of malicious code through a trusted process that effectively bypasses application control solutions.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging microsoft.workflow.compiler.exe to execute malicious code.
+
+====Detections====
+* Suspicious microsoft workflow compiler rename
+* Suspicious microsoft workflow compiler usage
+
+====Data Models====
+* Endpoint
+
+====Tags====
+
+=====ATT&CK=====
+* T1127
+* T1127, T1036.003
+
+=====Kill Chain Phases=====
+* Exploitation
+
+=====CIS=====
+* CIS 8
+
+=====NIST=====
+* DE.CM
+* PR.PT
+
+====References====
+* https://attack.mitre.org/techniques/T1127/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
+* https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
+
+date = 2021-01-12
+
+version = 1
+
+</div>
+</div>
+
+===Trusted Developer Utilities Proxy Execution MSBuild===
+
+Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Narrative====
+Adversaries may use MSBuild to proxy execution of code through a trusted Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio and is native to Windows. It handles XML formatted project files that define requirements for loading and building various platforms and configurations. \
+The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# code to be inserted into an XML project file. MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application control defenses that are configured to allow MSBuild.exe execution. \
+The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging msbuild.exe to execute malicious code. \
+Triage \ Validate execution \ 1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further PE metadata. 2. Determine if script code was executed with MSBuild. Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSBuild.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is MSbuild loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
+
+====Detections====
+* Suspicious MSBuild Rename
+* Suspicious MSBuild Spawn
+* Suspicious msbuild path
+
+====Data Models====
+* Endpoint
+
+====Tags====
+
+=====ATT&CK=====
+* T1036.003
+* T1127.001
+
+=====Kill Chain Phases=====
+* Exploitation
+
+=====CIS=====
+* CIS 8
+
+=====NIST=====
+* DE.CM
+* PR.PT
+
+====References====
+* https://attack.mitre.org/techniques/T1127/001/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+* https://github.com/infosecn1nja/MaliciousMacroMSBuild
+* https://github.com/xorrior/RandomPS-Scripts/blob/master/Invoke-ExecuteMSBuild.ps1
+* https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+* https://github.com/MHaggis/CBR-Queries/blob/master/msbuild.md
+
+date = 2021-01-21
 
 version = 1
 
@@ -2421,7 +2568,7 @@ Monitor your AWS provisioning activities for behaviors originating from unfamili
 <div class="mw-collapsible-content">
 
 ====Narrative====
-Because most enterprise AWS activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).\
+Because most enterprise AWS activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to add specific IPs to an allow list because they vary. \
 This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
 
 ====Detections====
@@ -2520,7 +2667,6 @@ When malicious miners appropriate a cloud instance, often spinning up hundreds o
 This Analytic Story is focused on detecting suspicious new instances in your cloud environment to help prevent cryptominers from gaining a foothold. It contains detection searches that will detect when a previously unused instance type or AMI is used. It also contains support searches to build lookup files to ensure proper execution of the detection searches.
 
 ====Detections====
-* Abnormally High Number Of Cloud Instances Destroyed
 * Abnormally High Number Of Cloud Instances Launched
 * Cloud Compute Instance Created By Previously Unseen User
 * Cloud Compute Instance Created In Previously Unused Region
@@ -3112,7 +3258,7 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 <div class="mw-collapsible-content">
 
 ====Narrative====
-Because most enterprise cloud infrastructure activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to whitelist specific IPs (because they vary).\
+Because most enterprise cloud infrastructure activities originate from familiar geographic locations, monitoring for activity from unknown or unusual regions is an important security measure. This indicator can be especially useful in environments where it is impossible to add specific IPs to an allow list because they vary.\
 This Analytic Story was designed to provide you with flexibility in the precision you employ in specifying legitimate geographic regions. It can be as specific as an IP address or a city, or as broad as a region (think state) or an entire country. By determining how precise you want your geographical locations to be and monitoring for new locations that haven't previously accessed your environment, you can detect adversaries as they begin to probe your environment. Since there are legitimate reasons for activities from unfamiliar locations, this is not a standalone indicator. Nevertheless, location can be a relevant piece of information that you may wish to investigate further.
 
 ====Detections====
@@ -3413,13 +3559,13 @@ version = 2
 
 ===Dynamic DNS===
 
-Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and blacklists.
+Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
 
 ====Narrative====
-Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow users to rapidly update domain resolutions to IP infrastructure. While their usage can be benign, malicious actors can abuse DDNS to host harmful payloads or interactive-command-and-control infrastructure. These attackers will manually update or automate domain resolution changes by routing dynamic domains to IP addresses that circumvent firewall blocks and blacklists and frustrate a network defender's analytic and investigative processes. These searches will look for DNS queries made from within your infrastructure to suspicious dynamic domains and then investigate more deeply, when appropriate. While this list of top-level dynamic domains is not exhaustive, it can be dynamically updated as new suspicious dynamic domains are identified.
+Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow users to rapidly update domain resolutions to IP infrastructure. While their usage can be benign, malicious actors can abuse DDNS to host harmful payloads or interactive-command-and-control infrastructure. These attackers will manually update or automate domain resolution changes by routing dynamic domains to IP addresses that circumvent firewall blocks and deny lists and frustrate a network defender's analytic and investigative processes. These searches will look for DNS queries made from within your infrastructure to suspicious dynamic domains and then investigate more deeply, when appropriate. While this list of top-level dynamic domains is not exhaustive, it can be dynamically updated as new suspicious dynamic domains are identified.
 
 ====Detections====
 * Detect hosts connecting to dynamic domain providers
@@ -3572,6 +3718,7 @@ Among other searches in this Analytic Story is a detection search that looks for
 =====ATT&CK=====
 * T1021.001
 * T1021.002
+* T1048.003
 * T1059.001
 * T1059.003
 * T1070.005
@@ -3617,7 +3764,6 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 ====Narrative====
 In May of 2018, the attack group Orangeworm was implicated for installing a custom backdoor called Trojan.Kwampirs within large international healthcare corporations in the United States, Europe, and Asia. This malware provides the attackers with remote access to the target system, decrypting and extracting a copy of its main DLL payload from its resource section. Before writing the payload to disk, it inserts a randomly generated string into the middle of the decrypted payload in an attempt to evade hash-based detections.\
 Awareness of the Orangeworm group first surfaced in January, 2015. It has conducted targeted attacks against related industries, as well, such as pharmaceuticals and healthcare IT solution providers.\
-Although the group's motivation is unknown, its goal may be stealing patient information to sell on the black market. Another possible explanation is corporate espionage. \
 Healthcare may be a promising target, because it is notoriously behind in technology, often using older operating systems and neglecting to patch computers. Even so, the group was able to evade detection for a full three years. Sources say that the malware spread quickly within the target networks, infecting computers used to control medical devices, such as MRI and X-ray machines.\
 This Analytic Story is designed to help you detect and investigate suspicious activities that may be indicative of an Orangeworm attack. One detection search looks for command-line arguments. Another monitors for uses of sc.exe, a non-essential Windows file that can manipulate Windows services. One of the investigative searches helps you get more information on web hosts that you suspect have been compromised.
 
@@ -3699,6 +3845,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * USN Journal Deletion
 * Unusually Long Command Line
 * Unusually Long Command Line - MLTK
+* WBAdmin Delete System Backups
 * Windows Event Log Cleared
 
 ====Data Models====
@@ -3806,10 +3953,12 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 ====Detections====
 * BCDEdit Failure Recovery Modification
 * Common Ransomware Notes
+* NLTest Domain Trust Discovery
 * Remote Desktop Network Bruteforce
 * Remote Desktop Network Traffic
 * Ryuk Test Files Detected
 * Spike in File Writes
+* WBAdmin Delete System Backups
 * Windows DisableAntiSpyware Registry
 * Windows Security Account Manager Stopped
 * Windows connhost exe started forcefully
@@ -3823,6 +3972,7 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 =====ATT&CK=====
 * T1021.001
 * T1059.003
+* T1482
 * T1485
 * T1486
 * T1489
@@ -3832,6 +3982,7 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 =====Kill Chain Phases=====
 * Actions on Objectives
 * Delivery
+* Exploitation
 * Reconnaissance
 
 =====CIS=====

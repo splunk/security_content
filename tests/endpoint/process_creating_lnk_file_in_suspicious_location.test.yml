@@ -1,7 +1,7 @@
-name: Suspicious LNK file launching a process Unit Test
+name: Process Creating LNK file in Suspicious location Unit Test
 tests:
-- name: Suspicious LNK file launching a process
-  file: endpoint/suspicious_lnk_file_launching_a_process.yml
+- name: Process Creating LNK file in Suspicious Location 
+  file: endpoint/process_creating_lnk_file_in_suspicious_location.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
