@@ -10,28 +10,28 @@ narrative: 'One common adversary tactic is to bypass application control solutio
   The searches in this story help you detect and investigate suspicious activity that
   may indicate that an adversary is leveraging rundll32.exe to execute malicious code.
   
-  Triage\
+  Triage \
   Validate execution \
   1. Determine if rundll32.exe executed. Validate the OriginalFileName of rundll32.exe and further
-  PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect.\
+  PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. \
   
-  1. Determine if script code was executed with rundll32.\
+  1. Determine if script code was executed with rundll32. \
   
   Situational Awareness\
   The objective of this step is meant to identify suspicious behavioral indicators related to executed of 
-  Script code by rundll32.exe.\
+  Script code by rundll32.exe. \
 
-  1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?\
+  1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? \
 
-  1. Module loads.  Is rundll32 loading any suspicious .DLLs? Unsigned or signed from non-standard paths.\
+  1. Module loads.  Is rundll32 loading any suspicious .DLLs? Unsigned or signed from non-standard paths. \
 
-  1. Network connections. Any network connections? Review the reputation of the remote IP or domain.\
+  1. Network connections. Any network connections? Review the reputation of the remote IP or domain. \
 
-  1. Command Line Arguments. If there are no command line arguments, it is possible rundll32.exe was injected into by another process.\
+  1. Command Line Arguments. If there are no command line arguments, it is possible rundll32.exe was injected into by another process. \
   
-  1. File Modifications. Identify any suspicious file modifications.\
+  1. File Modifications. Identify any suspicious file modifications. \
 
-  Retrieval of Script Code\
+  Retrieval of Script Code \
   The objective of this step is to confirm the executed script code is benign or malicious.'
 author: Michael Haag, Splunk
 type: ESCU
