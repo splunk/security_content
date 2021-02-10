@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` max(_time) as lastTime from d
   search isOutlier=1 | rename lastTime as "Last Update Time", | table Host, "Update
   Status", Product, "Last Update Time" | `no_windows_updates_in_a_time_frame_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor for Updates
   asset_type: Endpoint
   cis20:
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

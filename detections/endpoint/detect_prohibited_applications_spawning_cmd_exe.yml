@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` |search [`prohibited_apps_launching_cmd`] | `detect_prohibited_applications_spawning_cmd_exe_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
   - Suspicious Zoom Child Processes
@@ -42,5 +42,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 5

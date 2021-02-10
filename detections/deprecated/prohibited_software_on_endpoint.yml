@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`
   | `prohibited_softwares` | `prohibited_software_on_endpoint_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor for Unauthorized Software
   - 'Emotet Malware  DHS Report TA18-201A '
   - SamSam Ransomware
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

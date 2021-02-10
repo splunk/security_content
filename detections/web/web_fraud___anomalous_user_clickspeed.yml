@@ -28,7 +28,7 @@ search: '`stream_http` http_content_type=text* | rex field=cookie "form_key=(?<s
   ClickSpeedAvg by session_id | where count>5 AND (ClickSpeedStdDev<.5 OR ClickSpeedAvg<.5)
   | `web_fraud___anomalous_user_clickspeed_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Web Fraud Detection
   asset_type: account
   cis20:
@@ -45,5 +45,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

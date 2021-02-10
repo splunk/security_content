@@ -19,7 +19,7 @@ search: '`cloudtrail` eventName=DeleteNetworkAcl|rename userIdentity.arn as arn 
   values(errorCode) values(userAgent) values(userIdentity.*) by src userName arn eventName
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `cloud_network_access_control_list_deleted_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Network ACL Activity
   asset_type: Instance
   cis20:
@@ -34,5 +34,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

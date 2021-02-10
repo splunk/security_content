@@ -9,7 +9,7 @@ narrative: More and more companies are using Microsofts Office 365 cloud offerin
 references:
 - https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
 tags:
-  analytics_story: Office 365 Detections
+  analytic_story: Office 365 Detections
   category:
   - Cloud Security
   product:
@@ -17,5 +17,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

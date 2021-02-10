@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count values("DNS.query") as 
   domain as query OUTPUT rank| where isnull(rank)| stats sum(count) as count mode(queries)
   as queries by src| `get_asset(src)`| where count>50 | `excessive_dns_failures_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious DNS Traffic
   - Command and Control
   asset_type: Endpoint
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

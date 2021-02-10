@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   as flow_id] | `detect_windows_dns_sigred_via_zeek_filter` | stats count by flow_id
   | where count>1 | fields - count '
 tags:
-  analytics_story:
+  analytic_story:
   - Windows DNS SIGRed CVE-2020-1350
   asset_type: Endpoint
   cis20:
@@ -34,5 +34,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

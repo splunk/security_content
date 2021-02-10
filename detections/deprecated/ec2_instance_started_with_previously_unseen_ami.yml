@@ -25,7 +25,7 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   as arn, requestParameters.instancesSet.items{}.imageId as amiID | table firstTime,
   lastTime, arn, amiID, dest, instanceType | `ec2_instance_started_with_previously_unseen_ami_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   asset_type: AWS Instance
   cis20:
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

@@ -1,20 +1,19 @@
-name: Get Risk Modifiers For User
-id: fdcfb369-1725-4c24-824a-22972d7f0d55
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-10-19'
 description: 'For the last 7 days, the search will query the Risk data model in Splunk
   Enterprise Security and calculate the count, sum of the risk_scores, names of the
   correlation searches that contributed to create a risk score for a specific user '
 how_to_implement: Enable the correlation searches included in Splunk Enterprise Security
   that include Risk Analysis alert actions by leveraging the Risk Analysis Framework
-author: Bhavin Patel, Splunk
+id: fdcfb369-1725-4c24-824a-22972d7f0d55
 inputs:
 - user
+name: Get Risk Modifiers For User
 search: '| from datamodel:Risk.All_Risk | search risk_object_type=user risk_object=$user$
   | stats count sum(risk_score) as risk_score values(search_name)  min(_time) as firstTime
   max(_time) as lastTime by risk_object |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` '
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Account Monitoring and Controls
   - Apache Struts Vulnerability
@@ -57,3 +56,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  product:
+  - Splunk Phantom
+type: response
+version: 1

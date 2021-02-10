@@ -23,7 +23,7 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn
   as user | table _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance
@@ -38,5 +38,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

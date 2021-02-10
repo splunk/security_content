@@ -15,7 +15,7 @@ narrative: This Analytic Story is designed to help you develop a better understa
 references:
 - https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
 tags:
-  analytics_story: Asset Tracking
+  analytic_story: Asset Tracking
   category:
   - Best Practices
   product:
@@ -23,5 +23,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   | eval query_length = len(query) | fit DensityFunction query_length by record_type
   into dns_query_pdfmodel'
 tags:
-  analytics_story:
+  analytic_story:
   - Command and Control
   - Hidden Cobra Malware
   - Suspicious DNS Traffic

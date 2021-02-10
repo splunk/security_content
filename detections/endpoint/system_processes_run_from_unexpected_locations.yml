@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_hash| `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `is_windows_system_file` | `system_processes_run_from_unexpected_locations_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Command-Line Executions
   - Unusual Processes
   - Ransomware
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 5

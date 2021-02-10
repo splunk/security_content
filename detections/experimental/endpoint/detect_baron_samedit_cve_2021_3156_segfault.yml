@@ -15,7 +15,7 @@ references:
 search: '`linux_hosts` | search sudoedit segfault | stats count min(_time) as firstTime
   max(_time) as lastTime by host | search count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Baron Samedit CVE-2021-3156
   asset_type: Endpoint
   cis20:
@@ -33,5 +33,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

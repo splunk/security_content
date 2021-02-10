@@ -26,7 +26,7 @@ search: '| tstats count as instances_destroyed values(All_Changes.object_id) as 
   table _time, user, instances_destroyed, expected_upper_threshold, distance_from_threshold,
   object_id | `abnormally_high_number_of_cloud_instances_destroyed_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Instance Activities
   asset_type: Cloud Instance
   cis20:
@@ -47,5 +47,5 @@ tags:
   risk_object_type: user
   risk_score: 10
   security_domain: Cloud
-type: ESCU
+type: batch
 version: 1

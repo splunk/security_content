@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count values(Filesystem.file_
   | `drop_dm_object_name("Filesystem")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `email_files_written_outside_of_the_outlook_directory_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
   asset_type: Endpoint
   cis20:
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

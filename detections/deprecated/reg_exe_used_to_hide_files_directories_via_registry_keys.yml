@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)`| regex process = "(/d\s+2)" | `reg_exe_used_to_hide_files_directories_via_registry_keys_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

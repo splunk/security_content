@@ -18,7 +18,7 @@ search: '`google_gcp_pubsub_message` data.protoPayload.request.function.timeout=
   data.protoPayload.authorizationInfo{}.permission data.protoPayload.request.location
   http_user_agent | `gcp_detect_gcploit_framework_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
   kill_chain_phases:
@@ -30,5 +30,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

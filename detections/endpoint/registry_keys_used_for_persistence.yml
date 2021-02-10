@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
   by Registry.dest Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `registry_keys_used_for_persistence_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Windows Registry Activities
   - Suspicious MSHTA Activity
   - DHS Report TA18-074A
@@ -51,5 +51,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 5

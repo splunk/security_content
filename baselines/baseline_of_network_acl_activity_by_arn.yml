@@ -16,7 +16,7 @@ search: '`cloudtrail` `network_acl_events` | spath output=arn path=userIdentity.
   avgApiCalls, stdevApiCalls | outputlookup network_acl_activity_baseline | stats
   count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   detections:
   - Detect Spike in Network ACL Activity

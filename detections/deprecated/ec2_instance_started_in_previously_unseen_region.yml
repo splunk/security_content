@@ -21,7 +21,7 @@ search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as ear
   | `security_content_ctime(latest)` | where regionStatus="Instance Started in a New
   Region" | `ec2_instance_started_in_previously_unseen_region_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance
@@ -42,5 +42,5 @@ tags:
   risk_object_type: system
   risk_score: 10
   security_domain: network
-type: ESCU
+type: batch
 version: 1

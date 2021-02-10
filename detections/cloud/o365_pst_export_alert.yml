@@ -16,7 +16,7 @@ search: '`o365_management_activity` Category=ThreatManagement Name="eDiscovery s
   lastTime by Source Severity AlertEntityId Operation Name |`security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `o365_pst_export_alert_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed
@@ -31,5 +31,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

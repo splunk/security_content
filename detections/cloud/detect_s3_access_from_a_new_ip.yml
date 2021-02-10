@@ -22,7 +22,7 @@ search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_s
   | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip
   | table _time bucket_name src_ip City Country operation request_uri | `detect_s3_access_from_a_new_ip_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
   cis20:
@@ -44,5 +44,5 @@ tags:
   risk_object_type: system
   risk_score: 10
   security_domain: network
-type: ESCU
+type: batch
 version: 1

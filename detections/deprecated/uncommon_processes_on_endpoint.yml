@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_on_endpoint_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Privilege Escalation
   - Unusual Processes
   asset_type: Endpoint
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

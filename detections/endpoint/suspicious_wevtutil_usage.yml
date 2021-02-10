@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
   | `suspicious_wevtutil_usage_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Log Manipulation
   - Ransomware
   asset_type: ''
@@ -48,5 +48,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

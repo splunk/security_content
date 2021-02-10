@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   | search NOT [| inputlookup asset_lookup_by_str |rename mac as dest_mac | fields
   + dest_mac] | `detect_unauthorized_assets_by_mac_address_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Asset Tracking
   asset_type: Infrastructure
   cis20:
@@ -42,5 +42,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

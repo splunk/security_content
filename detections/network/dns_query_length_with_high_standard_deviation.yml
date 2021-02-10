@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
   | eval z_score=(query_length-avg)/stdev | `dns_query_length_with_high_standard_deviation_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
   - Command and Control
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 3

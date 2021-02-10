@@ -21,7 +21,7 @@ search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(
   Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_mimikatz_using_loaded_images_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   - Detect Zerologon Attack
   asset_type: Windows
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

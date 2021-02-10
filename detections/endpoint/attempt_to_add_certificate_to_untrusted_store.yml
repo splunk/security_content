@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `attempt_to_add_certificate_to_untrusted_store_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Disabling Security Tools
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -42,5 +42,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 6

@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   != "explorer.exe" by Processes.process_id Processes.dest| `drop_dm_object_name("Processes")`
   | table process_id dest] | `suspicious_writes_to_windows_recycle_bin_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
   asset_type: Windows
   automated_detection_testing: passed
@@ -38,5 +38,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

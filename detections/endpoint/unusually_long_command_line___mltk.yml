@@ -32,7 +32,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | search isOutlier > 0 | table firstTime lastTime user dest process_name process
   processlen count | `unusually_long_command_line___mltk_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Command-Line Executions
   - Unusual Processes
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
@@ -50,5 +50,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

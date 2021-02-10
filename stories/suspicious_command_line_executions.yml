@@ -20,7 +20,7 @@ references:
 - https://www.microsoft.com/en-us/wdsi/threats/macro-malware
 - https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
 tags:
-  analytics_story: Suspicious Command-Line Executions
+  analytic_story: Suspicious Command-Line Executions
   category:
   - Adversary Tactics
   product:
@@ -28,5 +28,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 2

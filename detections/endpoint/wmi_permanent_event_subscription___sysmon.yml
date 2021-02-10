@@ -13,7 +13,7 @@ references: []
 search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
   EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

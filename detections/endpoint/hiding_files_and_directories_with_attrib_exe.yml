@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) values(Proce
   Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
   `hiding_files_and_directories_with_attrib_exe_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Defense Evasion Tactics
   - Windows Persistence Techniques
   asset_type: ''
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

@@ -12,7 +12,7 @@ name: Count of assets by category
 search: '| from datamodel Identity_Management.All_Assets | stats count values(nt_host)
   by category | sort -count'
 tags:
-  analytics_story:
+  analytic_story:
   - Asset Tracking
   detections:
   - Detect Unauthorized Assets by MAC address

@@ -22,7 +22,7 @@ search: '`google_gcp_pubsub_message` data.protoPayload.request.policy.bindings{}
   data.protoPayload.authorizationInfo{}.resource data.protoPayload.response.bindings{}.role
   data.protoPayload.response.bindings{}.members{} | `gcp_detect_accounts_with_high_risk_roles_by_project_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
   kill_chain_phases:
@@ -34,5 +34,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

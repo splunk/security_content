@@ -22,7 +22,7 @@ search: '| tstats count as security_group_api_calls values(All_Changes.command) 
   - expected_upper_threshold | table _time, user, command, security_group_api_calls,
   expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_security_group_api_calls_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Instance
   automated_detection_testing: passed
@@ -47,5 +47,5 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: network
-type: ESCU
+type: batch
 version: 1

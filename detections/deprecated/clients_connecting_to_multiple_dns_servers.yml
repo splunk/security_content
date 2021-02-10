@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS de
   by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count > 5 |
   `clients_connecting_to_multiple_dns_servers_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   - Command and Control
   - Suspicious DNS Traffic
@@ -47,5 +47,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 3

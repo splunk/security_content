@@ -1,19 +1,18 @@
-name: Get Authentication Logs For Endpoint
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-11-01'
 description: This search returns all users that have attempted to access a particular
   endpoint.
 how_to_implement: To successfully implement this search you need to be ingesting authentication
   logs from your various systems and populating the Authentication data model.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd76
 inputs:
 - dest
+name: Get Authentication Logs For Endpoint
 search: '| tstats count from datamodel=Authentication where Authentication.dest=$dest$
   by _time, Authentication.dest, Authentication.user, Authentication.app, Authentication.action
   | `drop_dm_object_name("Authentication")`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Account Monitoring and Controls
   - Apache Struts Vulnerability
@@ -55,3 +54,7 @@ tags:
   - Windows Privilege Escalation
   - Windows Service Abuse
   - Suspicious Zoom Child Processes
+  product:
+  - Splunk Phantom
+type: response
+version: 1

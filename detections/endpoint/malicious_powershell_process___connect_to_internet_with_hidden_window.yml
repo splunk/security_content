@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `malicious_powershell_process___connect_to_internet_with_hidden_window_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Malicious PowerShell
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   asset_type: Endpoint
@@ -49,5 +49,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 5

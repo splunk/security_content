@@ -25,7 +25,7 @@ references:
 - https://www.crowdstrike.com/blog/big-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
 - https://us-cert.cisa.gov/ncas/alerts/aa20-302a
 tags:
-  analytics_story: Ryuk Ransomware
+  analytic_story: Ryuk Ransomware
   category:
   - Malware
   product:
@@ -33,5 +33,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

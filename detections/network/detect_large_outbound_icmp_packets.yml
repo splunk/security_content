@@ -31,7 +31,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) as firs
   | search ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)
   | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` | `detect_large_outbound_icmp_packets_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Command and Control
   asset_type: Endpoint
   cis20:
@@ -48,5 +48,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

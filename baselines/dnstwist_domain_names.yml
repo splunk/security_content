@@ -11,7 +11,7 @@ name: DNSTwist Domain Names
 search: '| dnstwist domainlist=domains.csv | `remove_valid_domains` | eval domain_abuse="true"
   | table domain, domain_abuse | outputlookup brandMonitoring_lookup | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - Suspicious Emails
   detections:

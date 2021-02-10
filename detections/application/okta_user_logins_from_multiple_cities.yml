@@ -18,7 +18,7 @@ search: '`okta` displayMessage="User login to Okta" client.geographicalContext.c
   as states by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `okta_user_logins_from_multiple_cities_filter` | search locations > 1'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
   asset_type: Infrastructure
   cis20:
@@ -32,5 +32,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: ESCU
+type: batch
 version: 2

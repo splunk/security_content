@@ -10,7 +10,7 @@ name: Monitor Unsuccessful Backups
 search: '`netbackup` "An error occurred, failed to backup." | bucket _time span=1d
   | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time, MESSAGE'
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor Backup Solution
   detections:
   - Unsuccessful Netbackup backups

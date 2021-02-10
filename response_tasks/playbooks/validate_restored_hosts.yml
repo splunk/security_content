@@ -1,28 +1,34 @@
-name: Validate restored hosts
-id: 8218bcf6-739b-4f76-8952-eb133480ad8d
-tags:
-  nist:
-    RS.RP
-description: |
-   Validate each reimaged system was completed by validating new image creation date. ** win: systeminfo | find Original ** linux: ls -ld /var/log/installer ** macOS: /var/log/install.log.# (oldest date of entry). If more surgical, antivirus package or enterprise detection and response removal process has successfully completed and system is showing no signs of indicators of the incident.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - run query
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  1. If single instance, validate the reimage process was completed by validating new image creation date
-    a. win - 'systeminfo | find Original''
-    b. linux - 'ls -ld /var/log/installer'
-    c. macOS - /var/log/install.log.# (oldest))
-  2. Review existing monitoring to ensure host is working as expected and within normal parameters
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - run query
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Validate each reimaged system was completed by validating new image
+  creation date. ** win: systeminfo | find Original ** linux: ls -ld /var/log/installer
+  ** macOS: /var/log/install.log.# (oldest date of entry). If more surgical, antivirus
+  package or enterprise detection and response removal process has successfully completed
+  and system is showing no signs of indicators of the incident.
+
+  '
+id: 8218bcf6-739b-4f76-8952-eb133480ad8d
+name: Validate restored hosts
+references:
+- 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: "1. If single instance, validate the reimage process was completed by validating\
+  \ new image creation date\n  a. win - 'systeminfo | find Original''\n  b. linux\
+  \ - 'ls -ld /var/log/installer'\n  c. macOS - /var/log/install.log.# (oldest))\n\
+  2. Review existing monitoring to ensure host is working as expected and within normal\
+  \ parameters\n"

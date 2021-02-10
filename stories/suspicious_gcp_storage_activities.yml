@@ -15,7 +15,7 @@ references:
 - https://cloud.google.com/blog/products/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
 - https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/
 tags:
-  analytics_story: Suspicious GCP Storage Activities
+  analytic_story: Suspicious GCP Storage Activities
   category:
   - Cloud Security
   product:
@@ -23,5 +23,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

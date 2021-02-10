@@ -23,7 +23,7 @@ narrative: "A virtual private cloud (VPC) is an on-demand managed cloud-computin
 references:
 - https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
 tags:
-  analytics_story: Suspicious AWS Traffic
+  analytic_story: Suspicious AWS Traffic
   category:
   - Cloud Security
   product:
@@ -31,5 +31,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

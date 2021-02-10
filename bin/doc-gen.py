@@ -37,8 +37,8 @@ def prepare_content(stories, detections):
     sto_to_nists = {}
     sto_to_det = {}
     for detection in detections:
-        if 'analytics_story' in detection['tags']:
-            for story in detection['tags']['analytics_story']:
+        if 'analytic_story' in detection['tags']:
+            for story in detection['tags']['analytic_story']:
                 if story in sto_to_det.keys():
                     sto_to_det[story].add(detection['name'])
                 else:

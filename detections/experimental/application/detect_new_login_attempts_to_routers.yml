@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) as earl
   "-30d@d"), 1, 0) | where isOutlier=1| `security_content_ctime(earliest)`| `security_content_ctime(latest)`
   | `drop_dm_object_name("Authentication")` | `detect_new_login_attempts_to_routers_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
   asset_type: Endpoint
   cis20:
@@ -33,5 +33,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

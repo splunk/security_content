@@ -28,7 +28,7 @@ narrative: 'Amazon Web Services (AWS) admins manage access to AWS resources and 
 references:
 - https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 tags:
-  analytics_story: AWS Cross Account Activity
+  analytic_story: AWS Cross Account Activity
   category:
   - Cloud Security
   product:
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

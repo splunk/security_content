@@ -16,7 +16,7 @@ search: '`stream_http` http_method=POST http_content_length>1 | regex form_data=
   as http_user_agent by src, dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_java_classes_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Apache Struts Vulnerability
   asset_type: Endpoint
   cis20:
@@ -31,5 +31,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

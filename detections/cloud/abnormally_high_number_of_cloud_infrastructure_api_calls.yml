@@ -21,7 +21,7 @@ search: '| tstats count as api_calls values(All_Changes.command) as command from
   = api_calls - expected_upper_threshold | table _time, user, command, api_calls,
   expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Instance
   automated_detection_testing: passed
@@ -46,5 +46,5 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: network
-type: ESCU
+type: batch
 version: 1

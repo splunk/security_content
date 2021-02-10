@@ -12,7 +12,7 @@ references:
 - https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 search: '`osquery_process` | search "columns.cmdline"="sudoedit -s \\*" | `detect_baron_samedit_cve_2021_3156_via_osquery_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Baron Samedit CVE-2021-3156
   asset_type: Endpoint
   cis20:
@@ -30,5 +30,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `shim_database_installation_with_suspicious_parameters_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

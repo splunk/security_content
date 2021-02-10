@@ -18,7 +18,7 @@ references:
 - https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
 - https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
 tags:
-  analytics_story: Suspicious Zoom Child Processes
+  analytic_story: Suspicious Zoom Child Processes
   category:
   - Adversary Tactics
   product:
@@ -26,5 +26,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

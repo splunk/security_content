@@ -18,7 +18,7 @@ search: '| tstats count min(_time) as firstTime max(_time) as lastTime FROM data
   Compute.region Compute.msg Compute.user_type | `drop_dm_object_name("Compute")`
   | `new_container_uploaded_to_aws_ecr_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Container Implantation Monitoring and Investigation
   asset_type: AWS ECR container
   mitre_attack_id:
@@ -28,5 +28,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

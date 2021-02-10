@@ -55,5 +55,5 @@ tags:
   - UEBA for Security Cloud
   risk_severity: low
   security_domain: mail server
-type: SSA
+type: streaming
 version: 1

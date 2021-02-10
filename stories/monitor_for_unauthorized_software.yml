@@ -20,7 +20,7 @@ narrative: 'It is critical to identify unauthorized software and processes runni
 references:
 - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 tags:
-  analytics_story: Monitor for Unauthorized Software
+  analytic_story: Monitor for Unauthorized Software
   category:
   - Best Practices
   product:
@@ -28,5 +28,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Compliance
-type: ESCU
+type: batch
 version: 1

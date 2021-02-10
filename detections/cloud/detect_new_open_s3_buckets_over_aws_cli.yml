@@ -20,7 +20,7 @@ search: '`cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR r
   requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_new_open_s3_buckets_over_aws_cli_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
   automated_detection_testing: passed
@@ -44,5 +44,5 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
-type: ESCU
+type: batch
 version: 1

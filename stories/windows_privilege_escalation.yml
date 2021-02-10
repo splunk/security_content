@@ -16,7 +16,7 @@ narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an ad
 references:
 - https://attack.mitre.org/tactics/TA0004/
 tags:
-  analytics_story: Windows Privilege Escalation
+  analytic_story: Windows Privilege Escalation
   category:
   - Adversary Tactics
   product:
@@ -24,5 +24,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 2

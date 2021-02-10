@@ -22,7 +22,7 @@ search: '`google_gcp_pubsub_message` data.resource.type=gcs_bucket data.protoPay
   | search (member=allUsers AND action=ADD) | table  _time, bucketName, src, user,
   location, action, role, member | search `detect_new_open_gcp_storage_buckets_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious GCP Storage Activities
   asset_type: GCP Storage Bucket
   cis20:
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

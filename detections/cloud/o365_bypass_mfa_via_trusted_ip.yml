@@ -22,7 +22,7 @@ search: '`o365_management_activity` signature="Set Company Information." Modifie
   status user_id action | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `o365_bypass_mfa_via_trusted_ip_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

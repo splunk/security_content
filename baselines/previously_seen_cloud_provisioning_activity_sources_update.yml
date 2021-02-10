@@ -21,7 +21,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   <= relative_time(now(), "-7d@d"), 1, 0) | table src, City, Country, Region, firstTimeSeen,
   lastTimeSeen, enough_data | outputlookup previously_seen_cloud_provisioning_activity_sources'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Provisioning Activities
   deployments:
   - Daily Cache Updates

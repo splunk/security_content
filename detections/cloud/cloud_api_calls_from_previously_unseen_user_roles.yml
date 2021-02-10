@@ -23,7 +23,7 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   object, command |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `cloud_api_calls_from_previously_unseen_user_roles_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Instance
   automated_detection_testing: passed
@@ -44,5 +44,5 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

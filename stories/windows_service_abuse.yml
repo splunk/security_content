@@ -19,7 +19,7 @@ references:
 - https://attack.mitre.org/wiki/Technique/T1050
 - https://attack.mitre.org/wiki/Technique/T1031
 tags:
-  analytics_story: Windows Service Abuse
+  analytic_story: Windows Service Abuse
   category:
   - Malware
   product:
@@ -27,5 +27,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 3

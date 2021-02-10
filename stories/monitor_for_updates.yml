@@ -21,7 +21,7 @@ narrative: 'It is a common best practice to ensure that endpoints are being patc
 references:
 - https://learn.cisecurity.org/20-controls-download
 tags:
-  analytics_story: Monitor for Updates
+  analytic_story: Monitor for Updates
   category:
   - Best Practices
   product:
@@ -29,5 +29,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Compliance
-type: ESCU
+type: batch
 version: 1

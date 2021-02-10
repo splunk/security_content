@@ -15,7 +15,7 @@ search: '`o365_management_activity` Operation="Disable Strong Authentication." |
   user status signature dest ResultStatus |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
   | `o365_disable_mfa_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed
@@ -30,5 +30,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

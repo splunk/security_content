@@ -20,7 +20,7 @@ search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_eve
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine),
   body = "TBD" | into write_ssa_detected_events();'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Endpoint
   cis20:
@@ -42,5 +42,5 @@ tags:
   - process
   risk_severity: low
   security_domain: endpoint
-type: SSA
+type: streaming
 version: 1

@@ -24,7 +24,7 @@ search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime 
   OR firstTimeSeenImage > relative_time(now(), "-24h@h") | table firstTime, user,
   image_id, count, dest | `security_content_ctime(firstTime)` | `cloud_compute_instance_created_with_previously_unseen_image_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   asset_type: Cloud Compute Instance
   automated_detection_testing: passed
@@ -43,5 +43,5 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

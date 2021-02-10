@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.process_name Processes.parent_process_name Processes.dest  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_mshta_url_in_command_line_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious MSHTA Activity
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -45,5 +45,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

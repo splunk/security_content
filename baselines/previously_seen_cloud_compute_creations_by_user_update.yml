@@ -14,7 +14,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   "-90d@d") | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data
   = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_creations_by_user'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   deployments:
   - Daily Cache Updates

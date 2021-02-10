@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process_id) 
   bypass *") by Processes.process_id, Processes.user, Processes.dest | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `malicious_powershell_process___execution_policy_bypass_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -46,5 +46,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

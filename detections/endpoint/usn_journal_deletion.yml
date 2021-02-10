@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | search process="*deletejournal*" AND process="*usn*" | `usn_journal_deletion_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Log Manipulation
   - Ransomware
   asset_type: Endpoint
@@ -46,5 +46,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

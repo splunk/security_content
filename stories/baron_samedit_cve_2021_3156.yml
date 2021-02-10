@@ -17,7 +17,7 @@ narrative: A non-privledged user is able to execute the sudoedit command to trig
 references:
 - https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 tags:
-  analytics_story: Baron Samedit CVE-2021-3156
+  analytic_story: Baron Samedit CVE-2021-3156
   category:
   - Adversary Tactics
   product:
@@ -25,5 +25,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

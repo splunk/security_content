@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Account Monitoring and Controls
   asset_type: Windows
   automated_detection_testing: passed
@@ -35,5 +35,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: ESCU
+type: batch
 version: 3

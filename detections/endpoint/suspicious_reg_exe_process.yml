@@ -26,7 +26,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | rename parent_process_id as process_id |dedup
   process_id| table process_id dest] | `suspicious_reg_exe_process_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Defense Evasion Tactics
   - Disabling Security Tools
   - DHS Report TA18-074A
@@ -47,5 +47,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

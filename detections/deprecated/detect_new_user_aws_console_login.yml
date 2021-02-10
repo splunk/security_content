@@ -23,7 +23,7 @@ search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user |
   "-70m@m"), "First Time Logging into AWS Console","Previously Seen User") | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
   where userStatus ="First Time Logging into AWS Console"  | `detect_new_user_aws_console_login_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS Login Activities
   asset_type: AWS Instance
   cis20:
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

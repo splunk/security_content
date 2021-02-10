@@ -38,7 +38,7 @@ references:
 - https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
 - https://github.com/MHaggis/CBR-Queries/blob/master/msbuild.md
 tags:
-  analytics_story: Trusted Developer Utilities Proxy Execution MSBuild
+  analytic_story: Trusted Developer Utilities Proxy Execution MSBuild
   category:
   - Adversary Tactics
   product:
@@ -46,5 +46,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Command-Line Executions
   asset_type: Endpoint
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

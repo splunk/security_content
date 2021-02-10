@@ -14,7 +14,7 @@ search: '`stream_http` | eval cs_content_type_length = len(cs_content_type) | wh
   cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length
   cs_content_type url | `unusually_long_content_type_length_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Apache Struts Vulnerability
   asset_type: Web Server
   cis20:
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

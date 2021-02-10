@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Web.url = "*invoker*") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - JBoss Vulnerability
   - SamSam Ransomware
   asset_type: Web Server
@@ -29,5 +29,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

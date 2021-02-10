@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) as firs
   | table firstTime, user, dest, count vendor_region | `security_content_ctime(firstTime)`
   | `cloud_compute_instance_created_by_previously_unseen_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   asset_type: Cloud Compute Instance
   automated_detection_testing: passed
@@ -42,5 +42,5 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

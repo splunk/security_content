@@ -22,7 +22,7 @@ search: '`sysmon` EventID=1 (OriginalFileName=msbuild.exe OR process_name=msbuil
   rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `suspicious_msbuild_rename_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -43,5 +43,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

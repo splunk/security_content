@@ -19,7 +19,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
 - https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
 tags:
-  analytics_story: Trusted Developer Utilities Proxy Execution
+  analytic_story: Trusted Developer Utilities Proxy Execution
   category:
   - Adversary Tactics
   product:
@@ -27,5 +27,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

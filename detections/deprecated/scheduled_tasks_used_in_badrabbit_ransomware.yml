@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | search (process=*rhaegal* OR process=*drogon* OR *viserion_*) | `scheduled_tasks_used_in_badrabbit_ransomware_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware
   asset_type: Endpoint
   cis20:
@@ -35,5 +35,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

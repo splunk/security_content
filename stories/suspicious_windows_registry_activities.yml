@@ -17,7 +17,7 @@ references:
 - https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 - https://attack.mitre.org/wiki/Technique/T1112
 tags:
-  analytics_story: Suspicious Windows Registry Activities
+  analytic_story: Suspicious Windows Registry Activities
   category:
   - Adversary Tactics
   product:
@@ -25,5 +25,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

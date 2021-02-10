@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OUTPUT app is_prohibited note transport | search is_prohibited=true | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `prohibited_network_traffic_allowed_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
   - Command and Control
@@ -41,5 +41,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

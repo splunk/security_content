@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.parent_process_name Processes.process_name | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `processes_created_by_netsh_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Netsh Abuse
   asset_type: Endpoint
   cis20:
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 5

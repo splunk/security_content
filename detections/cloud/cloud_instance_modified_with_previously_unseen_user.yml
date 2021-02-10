@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) as firs
   OR firstTimeSeenUser > relative_time(now(), "-24h@h") | table firstTime user command
   object_id count | `security_content_ctime(firstTime)` | `cloud_instance_modified_by_previously_unseen_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Instance Activities
   asset_type: AWS Instance
   automated_detection_testing: passed
@@ -43,5 +43,5 @@ tags:
   risk_object_type: user
   risk_score: 10
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

@@ -11,7 +11,7 @@ narrative: Meltdown and Spectre exploit critical vulnerabilities in modern CPUs 
 references:
 - https://meltdownattack.com/
 tags:
-  analytics_story: Spectre And Meltdown Vulnerabilities
+  analytic_story: Spectre And Meltdown Vulnerabilities
   category:
   - Vulnerability
   product:
@@ -19,5 +19,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

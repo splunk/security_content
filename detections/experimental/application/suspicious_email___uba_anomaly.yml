@@ -21,7 +21,7 @@ search: '|tstats `security_content_summariesonly` count min(_time) as firstTime 
   | `drop_dm_object_name(UEBA_Anomalies)`| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `suspicious_email___uba_anomaly_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Emails
   asset_type: Endpoint
   cis20:
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 3

@@ -26,7 +26,7 @@ search: '`cloudtrail` eventName=TerminateInstances errorCode=success `ec2_excess
   | bucket span=10m _time | stats count as instances_terminated by _time src_user
   | fit DensityFunction instances_terminated threshold=0.0005 into ec2_excessive_terminateinstances_v1'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS EC2 Activities
   detections:
   - Abnormally High AWS Instances Terminated by User - MLTK

@@ -19,7 +19,7 @@ search: '(`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.
   host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `sunburst_correlation_dll_and_network_event_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Sunburst Malware
   asset_type: Windows
   cis20:
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

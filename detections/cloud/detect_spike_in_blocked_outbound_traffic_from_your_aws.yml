@@ -38,7 +38,7 @@ search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=17
   count as numberOfBlockedConnections, dc(dest_ip) as uniqueDestConnections by src_ip
   | `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Suspicious AWS Traffic
   - Command and Control
@@ -60,5 +60,5 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
-type: ESCU
+type: batch
 version: 1

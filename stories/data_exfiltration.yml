@@ -12,7 +12,7 @@ narrative: Exfiltration comes in many flavors.  Adversaries can collect data ove
 references:
 - https://attack.mitre.org/tactics/TA0010/
 tags:
-  analytics_story: Data Exfiltration
+  analytic_story: Data Exfiltration
   category:
   - Adversary Tactics
   product:
@@ -20,5 +20,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

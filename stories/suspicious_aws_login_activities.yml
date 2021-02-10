@@ -13,7 +13,7 @@ narrative: It is important to monitor and control who has access to your AWS inf
 references:
 - https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
 tags:
-  analytics_story: Suspicious AWS Login Activities
+  analytic_story: Suspicious AWS Login Activities
   category:
   - Cloud Security
   product:
@@ -21,5 +21,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

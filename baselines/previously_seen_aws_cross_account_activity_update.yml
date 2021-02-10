@@ -19,7 +19,7 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   as firstTime max(lastTime) as lastTime by requestingAccountId requestedAccountId
   | outputlookup previously_seen_aws_cross_account_activity'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Authentication Activities
   deployments:
   - Daily Cache Updates

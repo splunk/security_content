@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | table
   process_id dest registry_path]| `suspicious_changes_to_file_associations_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Windows Registry Activities
   - Windows File Extension and Association Abuse
   asset_type: Endpoint
@@ -43,5 +43,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

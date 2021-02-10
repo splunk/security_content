@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.dest  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `remote_wmi_command_attempt_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
   cis20:
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

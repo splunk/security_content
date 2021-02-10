@@ -16,7 +16,7 @@ narrative: A traditional security best practice is to control the ports, protoco
 references:
 - http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
 tags:
-  analytics_story: Prohibited Traffic Allowed or Protocol Mismatch
+  analytic_story: Prohibited Traffic Allowed or Protocol Mismatch
   category:
   - Best Practices
   product:
@@ -24,5 +24,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

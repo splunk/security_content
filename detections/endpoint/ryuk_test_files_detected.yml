@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   BY "Filesystem.dest", "Filesystem.user", "Filesystem.file_path" | `drop_dm_object_name(Filesystem)`
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ryuk_test_files_detected_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

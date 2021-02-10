@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `windows_connhost_exe_started_forcefully_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
   cis20:
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

@@ -26,7 +26,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   IP" "Destination IP" "DNS Answer" "DNS Record Type"  "Answer Length" Count "First
   Time" "Last Time" | `detect_long_dns_txt_record_response_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious DNS Traffic
   - Command and Control
   asset_type: Endpoint
@@ -48,5 +48,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

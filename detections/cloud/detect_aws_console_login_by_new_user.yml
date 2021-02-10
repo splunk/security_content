@@ -25,7 +25,7 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   Time Logging into AWS Console" |  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `detect_aws_console_login_by_new_user_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Authentication Activities
   asset_type: AWS Instance
   automated_detection_testing: passed
@@ -47,5 +47,5 @@ tags:
   risk_object_type: user
   risk_score: 30
   security_domain: network
-type: ESCU
+type: batch
 version: 1

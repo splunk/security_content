@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `windows_security_account_manager_stopped_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -38,5 +38,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

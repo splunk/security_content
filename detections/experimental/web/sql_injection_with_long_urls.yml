@@ -27,7 +27,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Web wher
   + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url,
   "xp_cmdshell")) - 24 | where num_sql_cmds > 3 | `sql_injection_with_long_urls_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - SQL Injection
   asset_type: Database Server
   cis20:
@@ -49,5 +49,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

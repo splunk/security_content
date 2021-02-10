@@ -45,7 +45,7 @@ references:
 - https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
 - https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
 tags:
-  analytics_story: SamSam Ransomware
+  analytic_story: SamSam Ransomware
   category:
   - Malware
   product:
@@ -53,5 +53,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

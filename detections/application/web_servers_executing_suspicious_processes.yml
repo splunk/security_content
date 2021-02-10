@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.process Processes.process_name, Processes.dest Processes.user| `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `web_servers_executing_suspicious_processes_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Apache Struts Vulnerability
   asset_type: Web Server
   cis20:
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

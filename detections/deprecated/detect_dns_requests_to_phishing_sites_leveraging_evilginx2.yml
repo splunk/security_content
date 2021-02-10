@@ -32,7 +32,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Web.dest Web.site | rename "Web.*" as * | rex field=site ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
   | table dest domain url] | table count src dest query answer domain url | `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Common Phishing Frameworks
   asset_type: Endpoint
   cis20:
@@ -54,5 +54,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

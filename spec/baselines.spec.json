@@ -74,7 +74,7 @@
       "description": "An array of key value pairs for tagging",
       "examples": [
         {
-          "analytics_story": "suspicious_aws_ec2_activities",
+          "analytic_story": "suspicious_aws_ec2_activities",
           "custom_key": "custom_value"
         }
       ],

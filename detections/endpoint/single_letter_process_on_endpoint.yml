@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   AND endExe=1 | table count, firstTime, lastTime, dest, user, process, process_name
   | `single_letter_process_on_endpoint_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

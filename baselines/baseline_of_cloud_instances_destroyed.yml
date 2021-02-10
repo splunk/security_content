@@ -28,7 +28,7 @@ search: '| tstats count as instances_destroyed from datamodel=Change where All_C
   instances_destroyed by "HourOfDay,isWeekend" into cloud_excessive_instances_destroyed_v1
   dist=expon show_density=true'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Instance Activities
   - Cloud Cryptomining
   deployments:

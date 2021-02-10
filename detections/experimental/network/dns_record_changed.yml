@@ -30,7 +30,7 @@ search: '| inputlookup discovered_dns_records | rename answer as discovered_answ
   | makemv current_answer  | mvexpand current_answer | makemv discovered_answer |
   eval n=mvfind(discovered_answer, current_answer) | where isnull(n) | `dns_record_changed_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   asset_type: Endpoint
   cis20:
@@ -53,5 +53,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 3

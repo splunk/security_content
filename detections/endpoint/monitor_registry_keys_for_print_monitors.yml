@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_name
   Registry.action | `drop_dm_object_name(Registry)` | `monitor_registry_keys_for_print_monitors_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
   asset_type: Endpoint
@@ -45,5 +45,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

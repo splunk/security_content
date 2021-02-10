@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count values(Filesystem.actio
   by Filesystem.file_name Filesystem.dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   |`drop_dm_object_name(Filesystem)` | `shim_database_file_creation_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Persistence Techniques
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

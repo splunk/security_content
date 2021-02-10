@@ -18,7 +18,7 @@ search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR
   TargetProcessId, SourceImage, SourceProcessId | rename Computer as dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Windows
   automated_detection_testing: passed
@@ -38,5 +38,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 2

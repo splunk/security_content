@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTimeSeen m
   lastTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_forget_window`")
   | outputlookup zoom_first_time_child_process'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Zoom Child Processes
   deployments:
   - Hourly Cache Updates

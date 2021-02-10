@@ -15,7 +15,7 @@ narrative: Having backups is a standard best practice that helps ensure continui
 references:
 - https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
 tags:
-  analytics_story: Monitor Backup Solution
+  analytic_story: Monitor Backup Solution
   category:
   - Best Practices
   product:
@@ -23,5 +23,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Compliance
-type: ESCU
+type: batch
 version: 1

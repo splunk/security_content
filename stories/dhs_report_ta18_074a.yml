@@ -30,7 +30,7 @@ narrative: 'The frequency of nation-state cyber attacks has increased significan
 references:
 - https://www.us-cert.gov/ncas/alerts/TA18-074A
 tags:
-  analytics_story: DHS Report TA18-074A
+  analytic_story: DHS Report TA18-074A
   category:
   - Malware
   product:
@@ -38,5 +38,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 2

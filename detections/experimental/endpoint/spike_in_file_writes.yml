@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   count, null))) as stdev by "dest" | eval upperBound=(avg+stdev*4), isOutlier=if((count
   > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - Ryuk Ransomware
   - Ransomware
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

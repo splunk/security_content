@@ -14,7 +14,7 @@ search: '`kubernetes_azure` category=kube-audit | spath input=properties.log| se
   user.username user.groups{} objectRef.resource objectRef.namespace objectRef.name
   annotations.authorization.k8s.io/reason |dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_object_access_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: Azure AKS Kubernetes cluster
   kill_chain_phases:
@@ -24,5 +24,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

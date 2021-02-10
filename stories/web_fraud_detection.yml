@@ -41,7 +41,7 @@ references:
 - https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
 - https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
 tags:
-  analytics_story: Web Fraud Detection
+  analytic_story: Web Fraud Detection
   category:
   - Abuse
   product:
@@ -49,5 +49,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Fraud Detection
-type: ESCU
+type: batch
 version: 1

@@ -11,7 +11,7 @@ search: '`o365_management_activity` Operation=Set-Mailbox | spath input=Paramete
   AS src_user values(user) AS user by ForwardingAddress | where count_src_user > 1
   |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`o365_suspicious_admin_email_forwarding_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed
@@ -31,5 +31,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

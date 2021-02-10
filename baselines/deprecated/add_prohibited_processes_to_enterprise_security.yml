@@ -11,7 +11,7 @@ search: '| inputlookup prohibited_processes | search note!=ESCU* | inputlookup a
   is_required is_secure | fillnull value=true is_prohibited | outputlookup prohibited_processes
   | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Monitor for Unauthorized Software
   - SamSam Ransomware

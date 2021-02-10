@@ -30,7 +30,7 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   Region" AND userStatus != "Old User" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | table firstTime lastTime user Region  userStatus userRegion  | `detect_aws_console_login_by_user_from_new_region_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS Login Activities
   - Suspicious Cloud Authentication Activities
   asset_type: AWS Instance
@@ -55,5 +55,5 @@ tags:
   risk_object_type: user
   risk_score: 5
   security_domain: network
-type: ESCU
+type: batch
 version: 1

@@ -20,7 +20,7 @@ search: '`cisco_networks` facility="PM" mnemonic="ERR_DISABLE" disable_cause="ar
   max(_time) AS lastTime count BY host src_interface | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
   `detect_arp_poisoning_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
   asset_type: Infrastructure
   cis20:
@@ -43,5 +43,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

@@ -44,7 +44,7 @@ search: '`cloudtrail` errorCode=success | rename userName as identity | search N
   user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_aws_api_activities_from_unapproved_accounts_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   asset_type: AWS Instance
   cis20:
@@ -66,5 +66,5 @@ tags:
   risk_object_type: user
   risk_score: 15
   security_domain: access
-type: ESCU
+type: batch
 version: 2

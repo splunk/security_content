@@ -19,7 +19,7 @@ references:
 - https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
 - https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
 tags:
-  analytics_story: Router and Infrastructure Security
+  analytic_story: Router and Infrastructure Security
   category:
   - Best Practices
   product:
@@ -27,5 +27,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

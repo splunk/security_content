@@ -27,7 +27,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime value
   | `security_content_ctime(firstTime)` | table firstTime dest, process_id, process_name,
   parent_process_id, parent_process_name |`first_time_seen_child_process_of_zoom_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Zoom Child Processes
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -49,5 +49,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

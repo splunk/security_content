@@ -31,7 +31,7 @@ references:
 - https://attack.mitre.org/techniques/T1218/005/
 - https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
 tags:
-  analytics_story: Suspicious MSHTA Activity
+  analytic_story: Suspicious MSHTA Activity
   category:
   - Adversary Tactics
   product:
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 2

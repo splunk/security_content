@@ -32,7 +32,7 @@ search: '`cloudtrail` eventName=DeleteBucket [search `cloudtrail` eventName=Dele
   path=requestParameters.bucketName | stats values(bucketName) as bucketName, count
   as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user | `detect_spike_in_s3_bucket_deletion_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
   cis20:
@@ -53,5 +53,5 @@ tags:
   risk_object_type: user
   risk_score: 10
   security_domain: network
-type: ESCU
+type: batch
 version: 1

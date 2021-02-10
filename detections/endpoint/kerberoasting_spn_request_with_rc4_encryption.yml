@@ -16,7 +16,7 @@ search: '`wineventlog_security` EventCode=4769 Ticket_Options=0x40810000 Ticket_
   Ticket_Encryption_Type, Ticket_Options | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `kerberoasting_spn_request_with_rc4_encryption_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Lateral Movement
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

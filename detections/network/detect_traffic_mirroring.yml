@@ -23,7 +23,7 @@ search: '`cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR 
   count BY host facility mnemonic | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | `detect_traffic_mirroring_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
   asset_type: Infrastructure
   cis20:
@@ -45,5 +45,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

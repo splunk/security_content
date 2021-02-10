@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   null))) as stdev by src | eval upperBound=(avg+stdev*2), isOutlier=if(count > upperBound
   AND num_data_samples >=50, 1, 0) | where isOutlier=1 | table src count | `smb_traffic_spike_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Hidden Cobra Malware
   - Ransomware
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 3

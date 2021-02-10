@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   |lookup security_services_lookup service as process OUTPUTNEW category, description
   | search category=security | `attempt_to_stop_security_service_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Disabling Security Tools
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -49,5 +49,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

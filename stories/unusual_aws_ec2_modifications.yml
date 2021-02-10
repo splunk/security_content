@@ -17,7 +17,7 @@ narrative: "A common attack technique is to infiltrate a cloud instance and make
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytics_story: Unusual AWS EC2 Modifications
+  analytic_story: Unusual AWS EC2 Modifications
   category:
   - Cloud Security
   product:
@@ -25,5 +25,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

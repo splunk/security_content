@@ -17,7 +17,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_regions
   | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   deployments:
   - Daily Cache Updates

@@ -14,7 +14,7 @@ narrative: Various legacy protocols operate by default in the clear, without the
 references:
 - https://www.monkey.org/~dugsong/dsniff/
 tags:
-  analytics_story: Use of Cleartext Protocols
+  analytic_story: Use of Cleartext Protocols
   category:
   - Best Practices
   product:
@@ -22,5 +22,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
+type: batch
 version: 1

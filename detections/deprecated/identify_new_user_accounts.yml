@@ -17,7 +17,7 @@ search: '| from datamodel Identity_Management.All_Identities  | eval empStatus=c
   `security_content_ctime(endDate)` | `security_content_ctime(startDate)`| table identity
   empStatus endDate startDate | `identify_new_user_accounts_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Account Monitoring and Controls
   asset_type: Domain Server
   cis20:
@@ -31,5 +31,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: ESCU
+type: batch
 version: 1

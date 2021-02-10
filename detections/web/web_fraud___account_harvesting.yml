@@ -32,7 +32,7 @@ search: '`stream_http` http_content_type=text* uri="/magento2/customer/account/l
   as UniqueUsernames list(Username) as src_user by email_domain | where UniqueUsernames>
   25 | `web_fraud___account_harvesting_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Web Fraud Detection
   asset_type: Account
   cis20:
@@ -49,5 +49,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

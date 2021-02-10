@@ -1,31 +1,38 @@
-name: Contain Incident
-id: 735335a5-7ac0-4bdf-b1d3-6f4a6767d02f
-tags:
-  nist:
-    RS.RP
-description: |
-  Use atomic indicators to block and contain malicious activity. Use host and network protection tools to block, pause, drop, or quarantine affected machines.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - block ip
-    - block domain
-    - block url
-    - block process
-    - terminate process
-    - quarantine host
-    - quarantine device
-  playbooks:
-    - scm: community
-      playook: quarantine device and block external network access
-references:
-  - 3.3.1 Choosing a Containment Strategy - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Determine the appropriate containment technique either with soft block (localized blocking of a specific indictors) or hard block (regionalized blocking, quarantine whole hosts, net blocks, etc) techniques
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - block ip
+  - block domain
+  - block url
+  - block process
+  - terminate process
+  - quarantine host
+  - quarantine device
+  is_note_required: false
+  playbooks:
+  - playook: quarantine device and block external network access
+    scm: community
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Use atomic indicators to block and contain malicious activity. Use host
+  and network protection tools to block, pause, drop, or quarantine affected machines.
+
+  '
+id: 735335a5-7ac0-4bdf-b1d3-6f4a6767d02f
+name: Contain Incident
+references:
+- 3.3.1 Choosing a Containment Strategy - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Determine the appropriate containment technique either with soft block
+  (localized blocking of a specific indictors) or hard block (regionalized blocking,
+  quarantine whole hosts, net blocks, etc) techniques
+
+  '

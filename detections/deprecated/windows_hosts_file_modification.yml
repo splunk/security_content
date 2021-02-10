@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | search Filesystem.file_name=hosts AND Filesystem.file_path=*Windows\\System32\\*
   | `drop_dm_object_name(Filesystem)` | `windows_hosts_file_modification_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Host Redirection
   asset_type: Endpoint
   cis20:
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

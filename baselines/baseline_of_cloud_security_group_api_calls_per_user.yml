@@ -25,7 +25,7 @@ search: '| tstats count as security_group_api_calls from datamodel=Change where 
   by "user,HourOfDay,isWeekend" into cloud_excessive_security_group_api_calls_v1 dist=norm
   show_density=true'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud User Activities
   deployments:
   - Weekly Model Rebuild 90 Day Lookback

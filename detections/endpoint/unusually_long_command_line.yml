@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `unusually_long_command_line_filter` |eval threshold = 3 | where maxlen > ((threshold*stdevperhost)
   + avgperhost)'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Command-Line Executions
   - Unusual Processes
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 5

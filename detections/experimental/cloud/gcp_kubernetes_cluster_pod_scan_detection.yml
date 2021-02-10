@@ -13,7 +13,7 @@ search: '`google_gcp_pubsub_message` category=kube-audit |spath input=properties
   |search responseStatus.code=401 |table sourceIPs{} userAgent verb requestURI responseStatus.reason
   properties.pod | `gcp_kubernetes_cluster_pod_scan_detection_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
   asset_type: GCP Kubernetes cluster
   kill_chain_phases:
@@ -25,5 +25,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

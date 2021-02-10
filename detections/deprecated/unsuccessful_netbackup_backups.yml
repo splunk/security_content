@@ -15,7 +15,7 @@ search: '`netbackup` | stats latest(_time) as latestTime by COMPUTERNAME, MESSAG
   | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest, signature
   | `unsuccessful_netbackup_backups_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor Backup Solution
   asset_type: Endpoint
   cis20:
@@ -27,5 +27,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

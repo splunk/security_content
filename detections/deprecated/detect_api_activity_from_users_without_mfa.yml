@@ -43,7 +43,7 @@ search: '`cloudtrail` userIdentity.sessionContext.attributes.mfaAuthenticated=fa
   as eventName by userIdentity.arn userIdentity.type user | `security_content_ctime(firstTime)`  |
   `security_content_ctime(lastTime)` | `detect_api_activity_from_users_without_mfa_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   asset_type: AWS Instance
   cis20:
@@ -59,5 +59,5 @@ tags:
   risk_object_type: user
   risk_score: 10
   security_domain: network
-type: ESCU
+type: batch
 version: 1

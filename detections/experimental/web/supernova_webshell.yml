@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Web.Web 
   Web.src Web.dest Web.url Web.vendor_product Web.user Web.http_user_agent _time span=1s
   | `supernova_webshell_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Sunburst Malware
   cis20:
   - CIS 4
@@ -39,5 +39,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

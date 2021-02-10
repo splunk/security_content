@@ -15,7 +15,7 @@ search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=A
   | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
   | outputlookup previously_seen_api_calls_from_user_roles | stats count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   detections:
   - Detect new API calls from user roles

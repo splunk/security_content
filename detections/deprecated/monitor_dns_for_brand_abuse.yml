@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min
   as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name("DNS")`
   | `security_content_ctime(firstTime)`| `brand_abuse_dns` | `monitor_dns_for_brand_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   asset_type: Endpoint
   kill_chain_phases:
@@ -28,5 +28,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

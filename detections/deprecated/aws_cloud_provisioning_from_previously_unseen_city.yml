@@ -34,7 +34,7 @@ search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceI
   output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user,
   src_ip, City, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_city_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Suspicious Provisioning Activities
   asset_type: AWS Instance
   cis20:
@@ -51,5 +51,5 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1

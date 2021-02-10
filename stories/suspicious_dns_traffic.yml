@@ -19,7 +19,7 @@ references:
 - http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680
 - https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454
 tags:
-  analytics_story: Suspicious DNS Traffic
+  analytic_story: Suspicious DNS Traffic
   category:
   - Adversary Tactics
   product:
@@ -27,5 +27,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

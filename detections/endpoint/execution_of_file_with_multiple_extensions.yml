@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.dest Processes.user Processes.process Processes.parent_process | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | `execution_of_file_with_multiple_extensions_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Windows File Extension and Association Abuse
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -40,5 +40,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

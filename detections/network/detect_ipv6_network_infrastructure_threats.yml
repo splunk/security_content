@@ -31,7 +31,7 @@ search: '`cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","M
   action count | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
   | `detect_ipv6_network_infrastructure_threats_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
   asset_type: Infrastructure
   cis20:
@@ -54,5 +54,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 1

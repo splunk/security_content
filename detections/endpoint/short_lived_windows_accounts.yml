@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` values(All_Changes.result_id)
   | transaction user connected=false maxspan=240m | table firstTime lastTime count
   user dest result_id | `short_lived_windows_accounts_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Account Monitoring and Controls
   asset_type: Windows
   automated_detection_testing: passed
@@ -37,5 +37,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: ESCU
+type: batch
 version: 2

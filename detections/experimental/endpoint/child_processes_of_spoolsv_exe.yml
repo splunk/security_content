@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `child_processes_of_spoolsv_exe_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Privilege Escalation
   asset_type: Endpoint
   cis20:
@@ -41,5 +41,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 3

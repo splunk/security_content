@@ -25,7 +25,7 @@ references:
 - https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
 - https://support.microsoft.com/en-au/help/4569509/windows-dns-server-remote-code-execution-vulnerability
 tags:
-  analytics_story: Windows DNS SIGRed CVE-2020-1350
+  analytic_story: Windows DNS SIGRed CVE-2020-1350
   category:
   - Adversary Tactics
   product:
@@ -33,5 +33,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
+type: batch
 version: 1

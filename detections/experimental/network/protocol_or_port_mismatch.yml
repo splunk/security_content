@@ -23,7 +23,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   All_Traffic.dest_port |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name("All_Traffic")` | `protocol_or_port_mismatch_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Command and Control
   asset_type: Endpoint
@@ -42,5 +42,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
+type: batch
 version: 2

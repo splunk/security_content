@@ -12,7 +12,7 @@ search: '`o365_management_activity` Operation=UserLoginFailed  record_type=Azure
   values(signature) as signature values(UserAgent) as UserAgent by src_ip record_type
   Operation app | search accounts_locked >= 5| `high_number_of_login_failures_from_a_single_source_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   cis20:
@@ -29,5 +29,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

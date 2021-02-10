@@ -15,7 +15,7 @@ search: '`google_gcp_pubsub_message` data.labels.authorization.k8s.io/reason=Clu
   data.labels.authorization.k8s.io/reason | rare src_user data.labels.authorization.k8s.io/reason
   |`kubernetes_gcp_detect_rbac_authorizations_by_account_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Role Activity
   asset_type: GCP GKE Kubernetes cluster
   kill_chain_phases:
@@ -25,5 +25,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
+type: batch
 version: 1

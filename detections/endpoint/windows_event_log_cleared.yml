@@ -14,7 +14,7 @@ search: (`wineventlog_security` (EventCode=1102 OR EventCode=1100)) OR (`wineven
   dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_event_log_cleared_filter`
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Log Manipulation
   - Ransomware
   asset_type: Endpoint
@@ -41,5 +41,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 4

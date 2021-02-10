@@ -27,7 +27,7 @@ search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=
   Activity" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `aws_cross_account_activity_from_previously_unseen_account_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Authentication Activities
   asset_type: AWS Instance
   automated_detection_testing: passed
@@ -50,5 +50,5 @@ tags:
   risk_object_type: user
   risk_score: 15
   security_domain: network
-type: ESCU
+type: batch
 version: 1

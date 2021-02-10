@@ -19,7 +19,7 @@ search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_tim
   | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `unsigned_image_loaded_by_lsass_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Windows
   cis20:
@@ -36,5 +36,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
+type: batch
 version: 1
