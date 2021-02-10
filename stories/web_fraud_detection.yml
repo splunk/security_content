@@ -1,9 +1,9 @@
-name: Web Fraud Detection
-id: 31337aaa-bc22-4752-b599-ef112dq1dq7a
-version: 1
+author: Jim Apger, Splunk
 date: '2018-10-08'
 description: Monitor your environment for activity consistent with common attack techniques
   bad actors use when attempting to compromise web servers or other web-related assets.
+id: 31337aaa-bc22-4752-b599-ef112dq1dq7a
+name: Web Fraud Detection
 narrative: 'The Federal Bureau of Investigations (FBI) defines Internet fraud as the
   use of Internet services or software with Internet access to defraud victims or
   to otherwise take advantage of them. According to the Bureau, Internet crime schemes
@@ -37,13 +37,17 @@ narrative: 'The Federal Bureau of Investigations (FBI) defines Internet fraud as
   Another search detects incidents wherein a single password is used across multiple
   accounts, which may indicate that a fraudster has infiltrated your environment and
   embedded a common password within a script.'
-author: Jim Apger, Splunk
-type: ESCU
 references:
 - https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
 - https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
 tags:
   analytics_story: Web Fraud Detection
-  usecase: Fraud Detection
   category:
   - Abuse
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Fraud Detection
+type: ESCU
+version: 1

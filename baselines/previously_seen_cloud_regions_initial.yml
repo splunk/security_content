@@ -1,6 +1,4 @@
-name: Previously Seen Cloud Regions - Initial
-id: b5e232db-dec6-4db8-aaa1-dd5474521e40
-version: 1
+author: David Dorsey, Splunk
 date: '2020-09-02'
 description: This search looks for cloud compute events where a compute instance is
   started and creates a baseline of most recent time, `lastTime` and the first time
@@ -8,18 +6,23 @@ description: This search looks for cloud compute events where a compute instance
   last 30 days
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed.
-author: David Dorsey, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-  where All_Changes.action=created by All_Changes.vendor_region
-  | `drop_dm_object_name("All_Changes")` 
-  | eventstats min(firstTimeSeen) as globalFirstTime
+id: b5e232db-dec6-4db8-aaa1-dd5474521e40
+name: Previously Seen Cloud Regions - Initial
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region
+  | `drop_dm_object_name("All_Changes")` | eventstats min(firstTimeSeen) as globalFirstTime
   | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
   | outputlookup previously_seen_cloud_regions'
 tags:
   analytics_story:
   - Cloud Cryptomining
-  detections:
-  - Cloud Compute Instance Created In Previously Unused Region
   deployments:
   - 90 Day Baseline
-
+  detections:
+  - Cloud Compute Instance Created In Previously Unused Region
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

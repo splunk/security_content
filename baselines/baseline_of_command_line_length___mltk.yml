@@ -1,6 +1,4 @@
-name: Baseline of Command Line Length - MLTK
-id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
-version: 1
+author: Rico Valdez, Splunk
 date: '2019-05-08'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the length of the command lines observed for each user in the environment.
@@ -17,7 +15,8 @@ how_to_implement: You must be ingesting endpoint data and populating the Endpoin
   a longer period of time, which may give you better results. You may also want to
   periodically re-run this search to rebuild the model with the latest data. More
   information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
-author: Rico Valdez, Splunk
+id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
+name: Baseline of Command Line Length - MLTK
 search: '| tstats `security_content_summariesonly` count min(_time) as start_time
   max(_time) as end_time FROM datamodel=Endpoint.Processes by Processes.user Processes.dest
   Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | search
@@ -33,3 +32,9 @@ tags:
   detections:
   - Detect Prohibited Applications Spawning cmd.exe
   - Unusually Long Command Line - MLTK
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

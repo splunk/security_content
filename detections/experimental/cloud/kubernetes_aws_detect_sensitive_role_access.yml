@@ -1,18 +1,28 @@
-author: "Rod Soto, Splunk"
-date: "2020-06-23"
-description: "This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets"
-how_to_implement: "You must install splunk AWS add on and Splunk App for AWS. This search works with cloudwatch logs."
+author: Rod Soto, Splunk
+date: '2020-06-23'
+description: This search provides information on Kubernetes accounts accessing sensitve
+  objects such as configmpas or secrets
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with cloudwatch logs.
 id: b6013a7b-85e0-4a45-b051-10b252d69569
-known_false_positives: "Sensitive role resource access is necessary for cluster operation, however source IP, namespace and user group may indicate possible malicious use. "
-name: "Kubernetes AWS detect sensitive role access"
+known_false_positives: 'Sensitive role resource access is necessary for cluster operation,
+  however source IP, namespace and user group may indicate possible malicious use. '
+name: Kubernetes AWS detect sensitive role access
 references: []
-search: "`aws_cloudwatchlogs_eks` objectRef.resource=clusterroles OR clusterrolebindings sourceIPs{}!=::1 sourceIPs{}!=127.0.0.1  | table sourceIPs{} user.username user.groups{} objectRef.namespace requestURI annotations.authorization.k8s.io/reason | dedup user.username user.groups{} |`kubernetes_aws_detect_sensitive_role_access_filter`"
+search: '`aws_cloudwatchlogs_eks` objectRef.resource=clusterroles OR clusterrolebindings
+  sourceIPs{}!=::1 sourceIPs{}!=127.0.0.1  | table sourceIPs{} user.username user.groups{}
+  objectRef.namespace requestURI annotations.authorization.k8s.io/reason | dedup user.username
+  user.groups{} |`kubernetes_aws_detect_sensitive_role_access_filter`'
 tags:
   analytics_story:
-    - "Kubernetes Sensitive Role Activity"
-  asset_type: "AWS EKS Kubernetes cluster"
+  - Kubernetes Sensitive Role Activity
+  asset_type: AWS EKS Kubernetes cluster
   kill_chain_phases:
-    - Lateral Movement
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: threat
 type: ESCU
 version: 1

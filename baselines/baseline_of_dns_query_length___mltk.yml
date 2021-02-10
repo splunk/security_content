@@ -1,6 +1,4 @@
-name: Baseline of DNS Query Length - MLTK
-id: c914844c-0ff5-4efc-8d44-c063443129ba
-version: 1
+author: Rico Valdez, Splunk
 date: '2019-05-08'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the length of the DNS queries for each DNS record type observed
@@ -15,7 +13,8 @@ how_to_implement: To successfully implement this search, you will need to ensure
   period of time, which may give you better results. You may also want to periodically
   re-run this search to rebuild the model with the latest data. More information on
   the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
-author: Rico Valdez, Splunk
+id: c914844c-0ff5-4efc-8d44-c063443129ba
+name: Baseline of DNS Query Length - MLTK
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   by DNS.query DNS.record_type | search DNS.record_type=* | `drop_dm_object_name("DNS")`
   | eval query_length = len(query) | fit DensityFunction query_length by record_type
@@ -27,3 +26,9 @@ tags:
   - Suspicious DNS Traffic
   detections:
   - DNS Query Length Outliers - MLTK
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

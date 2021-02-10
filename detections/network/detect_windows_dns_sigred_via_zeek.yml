@@ -1,36 +1,38 @@
-name: Detect Windows DNS SIGRed via Zeek
-id: c5c622e4-d073-11ea-87d0-0242ac130003
-version: 1
+author: Shannon Davis, Splunk
 date: '2020-07-28'
 description: This search detects SIGRed via Zeek DNS and Zeek Conn data.
-how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk.
-  Zeek data should also be getting ingested in JSON format.  We are detecting
-  SIG and KEY records via bro:dns:json and TCP payload over 65KB in size via
-  bro:conn:json.  The Network Resolution and Network Traffic datamodels are in use
-  for this search.
-type: ESCU
+how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek
+  data should also be getting ingested in JSON format.  We are detecting SIG and KEY
+  records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The
+  Network Resolution and Network Traffic datamodels are in use for this search.
+id: c5c622e4-d073-11ea-87d0-0242ac130003
+known_false_positives: unknown
+name: Detect Windows DNS SIGRed via Zeek
 references:
 - https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
-author: Shannon Davis, Splunk
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where DNS.query_type IN (SIG,KEY) by DNS.flow_id
-| rename DNS.flow_id as flow_id
-| append [| tstats  `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.bytes_in>65000 by All_Traffic.flow_id | rename All_Traffic.flow_id as flow_id]
-| `detect_windows_dns_sigred_via_zeek_filter`
-| stats count by flow_id
-| where count>1
-| fields - count '
-known_false_positives: unknown
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+  where DNS.query_type IN (SIG,KEY) by DNS.flow_id | rename DNS.flow_id as flow_id
+  | append [| tstats  `security_content_summariesonly` count from datamodel=Network_Traffic
+  where All_Traffic.bytes_in>65000 by All_Traffic.flow_id | rename All_Traffic.flow_id
+  as flow_id] | `detect_windows_dns_sigred_via_zeek_filter` | stats count by flow_id
+  | where count>1 | fields - count '
 tags:
   analytics_story:
   - Windows DNS SIGRed CVE-2020-1350
-  mitre_attack_id:
-  - T1203
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
   cis20:
   - CIS 8
   - CIS 16
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1203
   nist:
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
+type: ESCU
+version: 1

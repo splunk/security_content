@@ -1,6 +1,4 @@
-name: Baseline of SMB Traffic - MLTK
-id: df98763b-0b08-4281-8ef9-08db7ac572a9
-version: 1
+author: Rico Valdez, Splunk
 date: '2019-05-08'
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the number of SMB connections observed each hour for every day of
@@ -21,7 +19,8 @@ how_to_implement: You must be ingesting network traffic and populating the Netwo
   which may give you better results. You may also want to periodically re-run this
   search to rebuild the model with the latest data. More information on the algorithm
   used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
-author: Rico Valdez, Splunk
+id: df98763b-0b08-4281-8ef9-08db7ac572a9
+name: Baseline of SMB Traffic - MLTK
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic
   where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb
   by _time span=10m, All_Traffic.src | eval HourOfDay=strftime(_time, "%H") | eval
@@ -38,3 +37,9 @@ tags:
   detections:
   - Processes launching netsh
   - SMB Traffic Spike - MLTK
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+type: batch
+version: 1

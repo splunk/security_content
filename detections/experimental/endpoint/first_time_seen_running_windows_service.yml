@@ -1,46 +1,49 @@
-name: First Time Seen Running Windows Service
-id: 823136f2-d755-4b6d-ae04-372b486a5808
-version: 4
-date: '2020-07-21'
-description: This search looks for the first and last time a Windows service is seen running
-  in your environment. This table is then cached.
-how_to_implement: While this search does not require you to adhere to Splunk CIM,
-  you must be ingesting your Windows system event logs in order for this search
-  to execute successfully. You should run the baseline search
-  `Previously Seen Running Windows Services - Initial` to build the initial table of child
-  processes and hostnames for this search to work. You should also schedule at the same interval
-  as this search the second baseline search `Previously Seen Running Windows Services - Update` to
-  keep this table up to date and to age out old Windows Services. Please update the
-  `previously_seen_windows_service_window` macro to adjust the time window.
-  Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
-type: ESCU
-references: []
 author: David Dorsey, Splunk
-search: '`wineventlog_system` EventCode=7036 |
-    rex field=Message "The (?<service>[-\(\)\s\w]+) service entered the (?<state>\w+) state" |
-    where state="running" |
-    lookup previously_seen_running_windows_services service as service OUTPUT firstTimeSeen |
-    where isnull(firstTimeSeen) OR firstTimeSeen > relative_time(now(), `previously_seen_windows_services_window`) |
-    table _time dest service | `first_time_seen_running_windows_service_filter`'
+date: '2020-07-21'
+description: This search looks for the first and last time a Windows service is seen
+  running in your environment. This table is then cached.
+how_to_implement: While this search does not require you to adhere to Splunk CIM,
+  you must be ingesting your Windows system event logs in order for this search to
+  execute successfully. You should run the baseline search `Previously Seen Running
+  Windows Services - Initial` to build the initial table of child processes and hostnames
+  for this search to work. You should also schedule at the same interval as this search
+  the second baseline search `Previously Seen Running Windows Services - Update` to
+  keep this table up to date and to age out old Windows Services. Please update the
+  `previously_seen_windows_services_window` macro to adjust the time window. Please
+  ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
+id: 823136f2-d755-4b6d-ae04-372b486a5808
 known_false_positives: A previously unseen service is not necessarily malicious. Verify
   that the service is legitimate and that was installed by a legitimate process.
+name: First Time Seen Running Windows Service
+references: []
+search: '`wineventlog_system` EventCode=7036 | rex field=Message "The (?<service>[-\(\)\s\w]+)
+  service entered the (?<state>\w+) state" | where state="running" | lookup previously_seen_running_windows_services
+  service as service OUTPUT firstTimeSeen | where isnull(firstTimeSeen) OR firstTimeSeen
+  > relative_time(now(), `previously_seen_windows_services_window`) | table _time
+  dest service | `first_time_seen_running_windows_service_filter`'
 tags:
   analytics_story:
   - Windows Service Abuse
   - Orangeworm Attack Group
   - Sunburst Malware
-  mitre_attack_id:
-  - T1569.002
-  kill_chain_phases:
-  - Installation
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 2
   - CIS 9
+  kill_chain_phases:
+  - Installation
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1569.002
   nist:
   - ID.AM
   - PR.DS
   - PR.AC
   - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
+type: ESCU
+version: 4

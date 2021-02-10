@@ -1,11 +1,11 @@
-name: Suspicious Command-Line Executions
-id: f4368ddf-d59f-4192-84f6-778ac5a3ffc7
-version: 2
+author: Bhavin Patel, Splunk
 date: '2020-02-03'
 description: Leveraging the Windows command-line interface (CLI) is one of the most
   common attack techniques--one that is also detailed in the MITRE ATT&CK framework.
   Use this Analytic Story to help you identify unusual or suspicious use of the CLI
   on Windows systems.
+id: f4368ddf-d59f-4192-84f6-778ac5a3ffc7
+name: Suspicious Command-Line Executions
 narrative: The ability to execute arbitrary commands via the Windows CLI is a primary
   goal for the adversary. With access to the shell, an attacker can easily run scripts
   and interact with the target system. Often, attackers may only have limited access
@@ -15,14 +15,18 @@ narrative: The ability to execute arbitrary commands via the Windows CLI is a pr
   suspicious use and investigate, as appropriate. This Analytic Story contains various
   searches to help identify this suspicious activity, as well as others to aid you
   in deeper investigation.
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://attack.mitre.org/wiki/Technique/T1059
 - https://www.microsoft.com/en-us/wdsi/threats/macro-malware
 - https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
 tags:
   analytics_story: Suspicious Command-Line Executions
-  usecase: Advanced Threat Detection
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 2
