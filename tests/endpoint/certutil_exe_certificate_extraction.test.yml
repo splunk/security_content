@@ -3,7 +3,7 @@ tests:
 - name: Certutil exe certificate extraction
   file: endpoint/certutil_exe_certificate_extraction.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-2d'
   latest_time: 'now'
   attack_data:
   - file_name: windows-sysmon.log
