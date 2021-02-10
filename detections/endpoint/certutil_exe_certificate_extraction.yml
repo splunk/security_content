@@ -8,8 +8,11 @@ description: This search looks for arguments to certutil.exe indicating the mani
 type: ESCU
 references: []
 author: Rod Soto, Splunk
-search: 'source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" app="C:\\Windows\\System32\\certutil.exe"
-   CommandLine="certutil.exe  -exportPFX powershellcert.pfx" | table User app CommandLine process_current_directory
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
+  as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process = "* -exportPFX *"
+   by Processes.parent_process Processes.process_name Processes.process
+  Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)`
    | `certutil_exe_certificate_extraction_filter`'
 known_false_positives: Unless there are specific use cases, manipulating or exporting certificates using certutil is
    uncommon. Extraction of certificate has been observed during attacks such as Golden SAML and other campaigns
@@ -18,12 +21,7 @@ tags:
   analytics_story:
   - Windows Persistence Techniques
   - Cloud Federated Credential Abuse
-  mitre_attack_id:
-  - T1552.004
   kill_chain_phases:
   - Installation
   security_domain: endpoint
   asset_type: Endpoint
-  automated_detection_testing: n/a
-  dataset:
-  - TBU
