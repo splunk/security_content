@@ -22,7 +22,7 @@ tags:
   analytic_story:
   - Windows Privilege Escalation
   - Unusual Processes
-  asset_type: Endpoint
+  - Cloud Federated Credential Abuse
   cis20:
   - CIS 2
   kill_chain_phases:
