@@ -23,6 +23,8 @@ search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe |
   | rename Process_Name as process |  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_mimikatz_via_powershell_and_eventcode_4703_filter`'
 tags:
+  analytics_story:
+  - Cloud Federated Credential Abuse
   asset_type: Windows
   cis20:
   - CIS 3
