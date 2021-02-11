@@ -1,13 +1,14 @@
 name: Weekly Model Rebuild 90 Day Lookback
 id: 4b329568-bcff-49fa-8c85-92e95f0f270d
 date: '2020-09-07'
-description: This configuration file applies to all baselines with tag deployments Weekly Model Rebuild 90 Day Lookback
 author: David Dorsey
+description: This configuration file applies to all baselines with tag deployments
+  Weekly Model Rebuild 90 Day Lookback
 scheduling:
-  cron_schedule: '0 2 * * 0'
+  cron_schedule: 0 2 * * 0
   earliest_time: -90d@d
   latest_time: -1d@d
   schedule_window: auto
 tags:
   deployments:
-    - Weekly Model Rebuild 90 Day Lookback
+  - Weekly Model Rebuild 90 Day Lookback
