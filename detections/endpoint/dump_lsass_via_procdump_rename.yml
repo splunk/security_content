@@ -1,0 +1,46 @@
+name: Dump LSASS via procdump Rename
+id: 21276daa-663d-11eb-ae93-0242ac130002
+version: 1
+date: '2021-02-01'
+description: 'Detect a renamed instance of procdump.exe dumping the lsass process.
+  This query looks for both -mm and -ma usage. -mm will produce a mini dump file and
+  -ma will write a dump file with all process memory. Both are highly suspect and
+  should be reviewed. Modify the query as needed.\
+
+  During triage, confirm this is procdump.exe executing. If it is the first time a
+  Sysinternals utility has been ran, it is possible there will be a -accepteula on
+  the command line. Review other endpoint data sources for cross process (injection)
+  into lsass.exe.'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+type: ESCU
+references:
+- https://attack.mitre.org/techniques/T1003/001/
+- https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
+author: Michael Haag, Splunk
+search: '`sysmon` OriginalFileName=procdump  process_name!=procdump*.exe  EventID=1
+  (CommandLine=*-ma* OR CommandLine=*-mm*) CommandLine=*lsass* | rename Computer as
+  dest |  stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,
+  process_name, OriginalFileName, CommandLine | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `dump_lsass_via_procdump_rename_filter`'
+known_false_positives: None identified.
+tags:
+  analytics_story:
+  - Credential Dumping
+  mitre_attack_id:
+  - T1003.001
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  nist:
+  - DE.CM
+  security_domain: endpoint
+  asset_type: Endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
