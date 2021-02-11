@@ -1,7 +1,19 @@
-author: Rico Valdez, Splunk
+name: DNS Query Length Outliers - MLTK
+id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
+version: 2
 date: '2020-01-22'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: Network_Resolution
 description: This search allows you to identify DNS requests that are unusually large
   for the record type being requested in your environment.
+search: '| tstats `security_content_summariesonly` count min(_time) as start_time
+  max(_time) as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
+  by DNS.query DNS.record_type | search DNS.record_type=* |  `drop_dm_object_name(DNS)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
+  query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename "IsOutlier(query_length)"
+  as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time
+  query record_type count src dest query_length | `dns_query_length_outliers___mltk_filter` '
 how_to_implement: 'To successfully implement this search, you will need to ensure
   that DNS data is populating the Network_Resolution data model. In addition, the
   Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your
@@ -30,19 +42,10 @@ how_to_implement: 'To successfully implement this search, you will need to ensur
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 known_false_positives: If you are seeing more results than desired, you may consider
   reducing the value for threshold in the search. You should also periodically re-run
   the support search to re-build the ML model on the latest data.
-name: DNS Query Length Outliers - MLTK
 references: []
-search: '| tstats `security_content_summariesonly` count min(_time) as start_time
-  max(_time) as end_time values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
-  by DNS.query DNS.record_type | search DNS.record_type=* |  `drop_dm_object_name(DNS)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
-  query_length = len(query) | apply dns_query_pdfmodel threshold=0.01 | rename "IsOutlier(query_length)"
-  as isOutlier | search isOutlier > 0 | sort -query_length | table start_time end_time
-  query record_type count src dest query_length | `dns_query_length_outliers___mltk_filter` '
 tags:
   analytic_story:
   - Hidden Cobra Malware
@@ -65,5 +68,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: batch
-version: 2

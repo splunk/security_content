@@ -1,15 +1,12 @@
-author: David Dorsey, Splunk
+name: Short Lived Windows Accounts
+id: b25f6f62-0782-43c1-b403-083231ffd97d
+version: 2
 date: '2020-07-06'
+author: David Dorsey, Splunk
+type: batch
+datamodel: Change
 description: This search detects accounts that were created and deleted in a short
   time period.
-how_to_implement: 'This search requires you to have enabled your Group Management
-  Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More
-  information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/'
-id: b25f6f62-0782-43c1-b403-083231ffd97d
-known_false_positives: It is possible that an administrator created and deleted an
-  account in a short time period.  Verifying activity with an administrator is advised.
-name: Short Lived Windows Accounts
-references: []
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
   result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
   where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h
@@ -17,6 +14,12 @@ search: '| tstats `security_content_summariesonly` values(All_Changes.result_id)
   | `drop_dm_object_name("All_Changes")` | search result_id = 4720 result_id=4726
   | transaction user connected=false maxspan=240m | table firstTime lastTime count
   user dest result_id | `short_lived_windows_accounts_filter`'
+how_to_implement: 'This search requires you to have enabled your Group Management
+  Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More
+  information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/'
+known_false_positives: It is possible that an administrator created and deleted an
+  account in a short time period.  Verifying activity with an administrator is advised.
+references: []
 tags:
   analytic_story:
   - Account Monitoring and Controls
@@ -37,5 +40,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: batch
-version: 2

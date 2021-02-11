@@ -1,20 +1,23 @@
-author: Jose Hernandez, Patrick Bareiss, Splunk
+name: Kerberoasting spn request with RC4 encryption
+id: 5cc67381-44fa-4111-8a37-7a230943f027
+version: 3
 date: '2020-10-16'
+author: Jose Hernandez, Patrick Bareiss, Splunk
+type: batch
+datamodel: ''
 description: This search detects a potential kerberoasting attack via service principal
   name requests
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  and include the windows security event logs that contain kerberos
-id: 5cc67381-44fa-4111-8a37-7a230943f027
-known_false_positives: Older systems that support kerberos RC4 by default NetApp may
-  generate false positives
-name: Kerberoasting spn request with RC4 encryption
-references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
-- https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
 search: '`wineventlog_security` EventCode=4769 Ticket_Options=0x40810000 Ticket_Encryption_Type=0x17
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
   Ticket_Encryption_Type, Ticket_Options | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `kerberoasting_spn_request_with_rc4_encryption_filter`'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  and include the windows security event logs that contain kerberos
+known_false_positives: Older systems that support kerberos RC4 by default NetApp may
+  generate false positives
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
+- https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
 tags:
   analytic_story:
   - Lateral Movement
@@ -36,5 +39,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 3

@@ -1,17 +1,13 @@
-author: Bhavin Patel, Splunk
+name: O365 Bypass MFA via Trusted IP
+id: c783dd98-c703-4252-9e8a-f19d9f66949e
+version: 1
 date: '2021-01-12'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: ''
 description: This search detects newly added IP addresses/CIDR blocks to the list
   of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known
   to use this technique so that they can bypass the MFA system.
-how_to_implement: You must install Splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
-id: c783dd98-c703-4252-9e8a-f19d9f66949e
-known_false_positives: Unless it is a special case, it is uncommon to continually
-  update Trusted IPs to MFA configuration.
-name: O365 Bypass MFA via Trusted IP
-references:
-- https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
-- https://attack.mitre.org/techniques/T1562/007/
 search: '`o365_management_activity` signature="Set Company Information." ModifiedProperties{}.Name=StrongAuthenticationPolicy
   | rex max_match=100 field=ModifiedProperties{}.NewValue "(?<ip_addresses_new_added>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})"
   | rex max_match=100 field=ModifiedProperties{}.OldValue "(?<ip_addresses_old>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})"
@@ -21,6 +17,13 @@ search: '`o365_management_activity` signature="Set Company Information." Modifie
   as ip_addresses_old by user ip_addresses_new_added signature vendor_product vendor_account
   status user_id action | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `o365_bypass_mfa_via_trusted_ip_filter`'
+how_to_implement: You must install Splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
+known_false_positives: Unless it is a special case, it is uncommon to continually
+  update Trusted IPs to MFA configuration.
+references:
+- https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
+- https://attack.mitre.org/techniques/T1562/007/
 tags:
   analytic_story:
   - Office 365 Detections
@@ -37,5 +40,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: batch
-version: 1

@@ -1,18 +1,12 @@
-author: David Dorsey, Splunk
+name: Registry Keys Used For Persistence
+id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
+version: 5
 date: '2020-11-27'
+author: David Dorsey, Splunk
+type: batch
+datamodel: ''
 description: The search looks for modifications to registry keys that can be used
   to launch an application or service at system startup.
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  products, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
-id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-known_false_positives: There are many legitimate applications that must execute on
-  system startup and will use these registry keys to accomplish that task.
-name: Registry Keys Used For Persistence
-references: []
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*currentversion\\run*
@@ -23,6 +17,15 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
   NT\\CurrentVersion\\Image File Execution Options*" OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*)
   by Registry.dest Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `registry_keys_used_for_persistence_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  products, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: There are many legitimate applications that must execute on
+  system startup and will use these registry keys to accomplish that task.
+references: []
 tags:
   analytic_story:
   - Suspicious Windows Registry Activities
@@ -51,5 +54,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 5

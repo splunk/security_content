@@ -1,18 +1,11 @@
-author: David Dorsey, Splunk
-date: '2020-09-04'
-description: This search looks for new commands from each user role.
-how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
-  provider.  You should run the baseline search `Previously Seen Cloud API Calls Per
-  User Role - Initial` to build the initial table of user roles, commands, and times.
-  You must also enable the second baseline search `Previously Seen Cloud API Calls
-  Per User Role - Update` to keep this table up to date and to age out old data. You
-  can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window`
-  macro. You can also provide additional filtering for this search by customizing
-  the `cloud_api_calls_from_previously_unseen_user_roles_filter`
-id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
-known_false_positives: .
 name: Cloud API Calls From Previously Unseen User Roles
-references: []
+id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
+version: 1
+date: '2020-09-04'
+author: David Dorsey, Splunk
+type: batch
+datamodel: Change
+description: This search looks for new commands from each user role.
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,
   All_Changes.command All_Changes.object | `drop_dm_object_name("All_Changes")` |
@@ -22,6 +15,16 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from d
   OR firstTimeSeenUserApiCall > relative_time(now(),"-24h@h") | table firstTime, user,
   object, command |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `cloud_api_calls_from_previously_unseen_user_roles_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
+  provider.  You should run the baseline search `Previously Seen Cloud API Calls Per
+  User Role - Initial` to build the initial table of user roles, commands, and times.
+  You must also enable the second baseline search `Previously Seen Cloud API Calls
+  Per User Role - Update` to keep this table up to date and to age out old data. You
+  can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window`
+  macro. You can also provide additional filtering for this search by customizing
+  the `cloud_api_calls_from_previously_unseen_user_roles_filter`
+known_false_positives: .
+references: []
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
@@ -44,5 +47,3 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: endpoint
-type: batch
-version: 1

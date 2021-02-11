@@ -1,24 +1,27 @@
-author: Patrick Bareiss, Splunk
+name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
+id: c2590137-0b08-4985-9ec5-6ae23d92f63d
+version: 6
 date: '2020-11-06'
+author: Patrick Bareiss, Splunk
+type: batch
+datamodel: Endpoint
 description: Monitor for changes of the ExecutionPolicy in the registry to the values
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Registry node. You must also be
-  ingesting logs with the fields registry_path, registry_key_name, and registry_value_name
-  from your endpoints.
-id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-known_false_positives: Administrators may attempt to change the default execution
-  policy on a system for a variety of reasons. However, setting the policy to "unrestricted"
-  or "bypass" as this search is designed to identify, would be unusual. Hits should
-  be reviewed and investigated as appropriate.
-name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell*
   Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted
   OR Registry.registry_value_name=Bypass) by Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | `attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Registry node. You must also be
+  ingesting logs with the fields registry_path, registry_key_name, and registry_value_name
+  from your endpoints.
+known_false_positives: Administrators may attempt to change the default execution
+  policy on a system for a variety of reasons. However, setting the policy to "unrestricted"
+  or "bypass" as this search is designed to identify, would be unusual. Hits should
+  be reviewed and investigated as appropriate.
+references: []
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -42,5 +45,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 6

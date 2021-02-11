@@ -1,16 +1,12 @@
-author: Bhavin Patel, Patrick Bareiss, Splunk
+name: AWS Network Access Control List Created with All Open Ports
+id: ada0f478-84a8-4641-a3f1-d82362d6bd75
+version: 2
 date: '2021-01-11'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+type: batch
+datamodel: ''
 description: The search looks for CloudTrail events to detect if any network ACLs
   were created with all the ports open to a specified CIDR.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail
-  inputs.
-id: ada0f478-84a8-4641-a3f1-d82362d6bd75
-known_false_positives: It's possible that an admin has created this ACL with all ports
-  open for some legitimate purpose however, this should be scoped and not allowed
-  in production environment.
-name: AWS Network Access Control List Created with All Open Ports
-references: []
 search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
   requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
   | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
@@ -21,6 +17,13 @@ search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetwor
   requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
   requestParameters.portRange.from src userAgent requestParameters.cidrBlock | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail
+  inputs.
+known_false_positives: It's possible that an admin has created this ACL with all ports
+  open for some legitimate purpose however, this should be scoped and not allowed
+  in production environment.
+references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
@@ -45,5 +48,3 @@ tags:
   risk_object_type: user
   risk_score: 10
   security_domain: network
-type: batch
-version: 2

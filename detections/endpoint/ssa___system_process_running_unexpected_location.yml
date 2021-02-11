@@ -1,16 +1,16 @@
-author: Ignacio Bermudez Corrales, Splunk
+name: System Process Running from Unexpected Location - SSA
+id: 28179107-099a-464a-94d3-08301e6c055f
+version: 1
 date: '2020-08-25'
+author: Ignacio Bermudez Corrales, Splunk
+type: streaming
+datamodel: ''
 description: An attacker tries might try to use different version of a system command
   without overriding original, or they might try to avoid some detection running the
   process from a different folder. This detection checks that a list of system processes
   run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes
   has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv
   and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
-how_to_implement: Collect endpoint data such as sysmon or 4688 events.
-id: 28179107-099a-464a-94d3-08301e6c055f
-known_false_positives: None
-name: System Process Running from Unexpected Location - SSA
-references: []
 search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"),
   "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
@@ -227,6 +227,9 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   union $cond_6 | where process_path!="c:\\windows\\system32" AND process_path!="c:\\windows\\syswow64"
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend(device,
   user), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: None
+references: []
 tags:
   cis20:
   - CIS 8
@@ -247,5 +250,3 @@ tags:
   - process_path
   risk_severity: low
   security_domain: endpoint
-type: streaming
-version: 1

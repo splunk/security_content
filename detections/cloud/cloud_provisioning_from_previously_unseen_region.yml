@@ -1,8 +1,23 @@
-author: Rico Valdez, Bhavin Patel, Splunk
+name: Cloud Provisioning Activity From Previously Unseen Region
+id: 5aba1860-9617-4af9-b19d-aecac16fe4f2
+version: 1
 date: '2020-08-16'
+author: Rico Valdez, Bhavin Patel, Splunk
+type: batch
+datamodel: Change
 description: This search looks for cloud provisioning activities from previously unseen
   regions. Provisioning activities are defined broadly as any event that runs or creates
   something.
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
+  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
+  by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
+  `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(Region)
+  | lookup previously_seen_cloud_provisioning_activity_sources Region as Region OUTPUT
+  firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data | where
+  enough_data=1 | eval firstTimeSeenRegion=min(firstTimeSeen) | where isnull(firstTimeSeenRegion)
+  OR firstTimeSeenRegion > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`)
+  | table firstTime, src, Region, user, object, command | `cloud_provisioning_activity_from_previously_unseen_region_filter`
+  | `security_content_ctime(firstTime)`'
 how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
   provider.  You should run the baseline search `Previously Seen Cloud Provisioning
   Activity Sources - Initial` to build the initial table of source IP address, geographic
@@ -12,7 +27,6 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide
   additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_region_filter`
   macro.
-id: 5aba1860-9617-4af9-b19d-aecac16fe4f2
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
@@ -24,18 +38,7 @@ known_false_positives: "This is a strictly behavioral search, so we define \"fal
   \ where the free version of **MaxMind GeoIP** that ships by default with Splunk\
   \ has weak resolution (particularly small countries in less economically powerful\
   \ regions), this may be much less valuable to you."
-name: Cloud Provisioning Activity From Previously Unseen Region
 references: []
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
-  by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
-  `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(Region)
-  | lookup previously_seen_cloud_provisioning_activity_sources Region as Region OUTPUT
-  firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data | where
-  enough_data=1 | eval firstTimeSeenRegion=min(firstTimeSeen) | where isnull(firstTimeSeenRegion)
-  OR firstTimeSeenRegion > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`)
-  | table firstTime, src, Region, user, object, command | `cloud_provisioning_activity_from_previously_unseen_region_filter`
-  | `security_content_ctime(firstTime)`'
 tags:
   analytic_story:
   - Suspicious Cloud Provisioning Activities
@@ -58,5 +61,3 @@ tags:
   risk_object_type: user
   risk_score: 5
   security_domain: endpoint
-type: batch
-version: 1

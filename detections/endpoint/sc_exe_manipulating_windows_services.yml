@@ -1,21 +1,25 @@
-author: Rico Valdez, Splunk
+name: Sc exe Manipulating Windows Services
+id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
+version: 4
 date: '2020-07-21'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for arguments to sc.exe indicating the creation or
   modification of a Windows service.
-id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
-  there may be legitimate instances of this behavior. It is important to validate
-  and investigate as appropriate.
-name: Sc exe Manipulating Windows Services
-how_to_implement: To successfully implement this search you need to be ingesting information
-on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
-references: []
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="*
   config *") by Processes.process_name Processes.parent_process_name Processes.dest
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `sc_exe_manipulating_windows_services_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
+  there may be legitimate instances of this behavior. It is important to validate
+  and investigate as appropriate.
+references: []
 tags:
   analytic_story:
   - Windows Service Abuse
@@ -47,5 +51,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 4

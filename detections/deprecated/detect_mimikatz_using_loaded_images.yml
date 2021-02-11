@@ -1,25 +1,28 @@
-author: Patrick Bareiss, Splunk
+name: Detect Mimikatz Using Loaded Images
+id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
+version: 1
 date: '2019-12-03'
+author: Patrick Bareiss, Splunk
+type: batch
+datamodel: ''
 description: This search looks for reading loaded Images unique to credential dumping
   with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon
   Event Code.
+search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId)
+  as ProcessId by Computer, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
+  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | rename
+  Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `detect_mimikatz_using_loaded_images_filter`'
 how_to_implement: This search needs Sysmon Logs and a sysmon configuration, which
   includes EventCode 7 with powershell.exe. This search uses an input macro named
   `sysmon`. We strongly recommend that you specify your environment-specific configurations
   (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
   with configurations for your Splunk environment. The search also uses a post-filter
   macro designed to filter out known false positives.
-id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
 known_false_positives: Other tools can import the same DLLs. These tools should be
   part of a whtelist.
-name: Detect Mimikatz Using Loaded Images
 references:
 - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
-search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId)
-  as ProcessId by Computer, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
-  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | rename
-  Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `detect_mimikatz_using_loaded_images_filter`'
 tags:
   analytic_story:
   - Credential Dumping
@@ -40,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

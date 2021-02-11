@@ -1,7 +1,16 @@
-author: David Dorsey, Splunk
+name: Prohibited Software On Endpoint
+id: a51bfe1a-94f0-48cc-b4e4-b6ae50145893
+version: 2
 date: '2019-10-11'
+author: David Dorsey, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for applications on the endpoint that you have marked
   as prohibited.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process_name
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`
+  | `prohibited_softwares` | `prohibited_software_on_endpoint_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
   in the processes node. This is typically populated via endpoint detection-and-response
@@ -12,14 +21,8 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   `interesting processes` table. To include the process names marked as "prohibited",
   which is included with ES Content Updates, run the included search <code>Add Prohibited
   Processes to Enterprise Security</code>.
-id: a51bfe1a-94f0-48cc-b4e4-b6ae50145893
 known_false_positives: None identified
-name: Prohibited Software On Endpoint
 references: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process_name
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`
-  | `prohibited_softwares` | `prohibited_software_on_endpoint_filter`'
 tags:
   analytic_story:
   - Monitor for Unauthorized Software
@@ -40,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 2

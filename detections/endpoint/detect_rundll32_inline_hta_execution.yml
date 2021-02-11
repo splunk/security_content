@@ -1,5 +1,10 @@
-author: Michael Haag, Splunk
+name: Detect Rundll32 Inline HTA Execution
+id: 91c79f14-5b41-11eb-ae93-0242ac130002
+version: 1
 date: '2021-01-20'
+author: Michael Haag, Splunk
+type: batch
+datamodel: Endpoint
 description: The following analytic identifies "rundll32.exe" execution with inline
   protocol handlers. "JavaScript", "VBScript", and "About" are the only supported
   options when invoking HTA content directly on the command-line. This type of behavior
@@ -7,17 +12,6 @@ description: The following analytic identifies "rundll32.exe" execution with inl
   The search will return the first time and last time these command-line arguments
   were used for these executions, as well as the target system, the user, process
   "rundll32.exe" and its parent process.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-id: 91c79f14-5b41-11eb-ae93-0242ac130002
-known_false_positives: Although unlikely, some legitimate applications may exhibit
-  this behavior, triggering a false positive.
-name: Detect Rundll32 Inline HTA Execution
-references:
-- https://github.com/redcanaryco/AtomicTestHarnesses
-- https://redcanary.com/blog/introducing-atomictestharnesses/
-- https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
@@ -25,6 +19,15 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_rundll32_inline_hta_execution_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Although unlikely, some legitimate applications may exhibit
+  this behavior, triggering a false positive.
+references:
+- https://github.com/redcanaryco/AtomicTestHarnesses
+- https://redcanary.com/blog/introducing-atomictestharnesses/
+- https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
 tags:
   analytic_story:
   - Suspicious MSHTA Activity
@@ -46,5 +49,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

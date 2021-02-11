@@ -1,14 +1,12 @@
-author: David Dorsey, Splunk
+name: Abnormally High Number Of Cloud Infrastructure API Calls
+id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
+version: 1
 date: '2020-09-07'
+author: David Dorsey, Splunk
+type: batch
+datamodel: Change
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment by a user.
-how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
-  run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to
-  create the probability density function.
-id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
-known_false_positives: ''
-name: Abnormally High Number Of Cloud Infrastructure API Calls
-references: []
 search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change
   where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time
   span=1h | `drop_dm_object_name("All_Changes")` | eval HourOfDay=strftime(_time,
@@ -20,6 +18,11 @@ search: '| tstats count as api_calls values(All_Changes.command) as command from
   -1), ":"), 0) | where api_calls > expected_upper_threshold | eval distance_from_threshold
   = api_calls - expected_upper_threshold | table _time, user, command, api_calls,
   expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_infrastructure_api_calls_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
+  run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to
+  create the probability density function.
+known_false_positives: ''
+references: []
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
@@ -46,5 +49,3 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: network
-type: batch
-version: 1

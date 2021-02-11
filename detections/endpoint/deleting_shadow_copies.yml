@@ -1,18 +1,13 @@
-author: David Dorsey, Splunk
+name: Deleting Shadow Copies
+id: b89919ed-ee5f-492c-b139-95dbb162039e
+version: 4
 date: '2020-11-09'
+author: David Dorsey, Splunk
+type: batch
+datamodel: Endpoint
 description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy
   Service.  Wmic is an interface to the Windows Management Instrumentation.  This
   search looks for either of these tools being used to delete shadow copies.
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the "process"
-  field in the Endpoint data model.
-id: b89919ed-ee5f-492c-b139-95dbb162039e
-known_false_positives: vssadmin.exe and wmic.exe are standard applications shipped
-  with modern versions of windows. They may be used by administrators to legitimately
-  delete old backup copies, although this is typically rare.
-name: Deleting Shadow Copies
-references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe
@@ -20,6 +15,14 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `deleting_shadow_copies_filter`'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints to populate the Endpoint
+  data model in the Processes node. The command-line arguments are mapped to the "process"
+  field in the Endpoint data model.
+known_false_positives: vssadmin.exe and wmic.exe are standard applications shipped
+  with modern versions of windows. They may be used by administrators to legitimately
+  delete old backup copies, although this is typically rare.
+references: []
 tags:
   analytic_story:
   - Windows Log Manipulation
@@ -45,5 +48,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 4

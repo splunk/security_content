@@ -1,28 +1,31 @@
-author: Michael Haag, Splunk
+name: Suspicious msbuild path
+id: f5198224-551c-11eb-ae93-0242ac130002
+version: 1
 date: '2021-01-12'
+author: Michael Haag, Splunk
+type: batch
+datamodel: Endpoint
 description: The following analytic identifies msbuild.exe executing from a non-standard
   path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319
   and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio
   will run a copy of msbuild.exe. A moved instance of MSBuild is suspicious, however
   there are instances of build applications that will move or use a copy of MSBuild.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-id: f5198224-551c-11eb-ae93-0242ac130002
-known_false_positives: Some legitimate applications may use a moved copy of msbuild.exe,
-  triggering a false positive. Baselining of MSBuild.exe usage is recommended to better
-  understand it's path usage. Visual Studio runs an instance out of a path that will
-  need to be filtered on.
-name: Suspicious msbuild path
-references:
-- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msbuild.exe
   AND (Processes.process_path!=c:\\windows\\microsoft.net\\framework*\\v*\\*) by Processes.dest
   Processes.parent_process Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `suspicious_msbuild_path_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Some legitimate applications may use a moved copy of msbuild.exe,
+  triggering a false positive. Baselining of MSBuild.exe usage is recommended to better
+  understand it's path usage. Visual Studio runs an instance out of a path that will
+  need to be filtered on.
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
 tags:
   analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
@@ -45,5 +48,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

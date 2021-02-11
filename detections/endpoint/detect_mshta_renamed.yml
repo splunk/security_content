@@ -1,26 +1,29 @@
-author: Michael Haag, Splunk
+name: Detect mshta renamed
+id: 8f45fcf0-5b68-11eb-ae93-0242ac130002
+version: 1
 date: '2021-01-20'
+author: Michael Haag, Splunk
+type: batch
+datamodel: ''
 description: The following analytic identifies renamed instances of mshta.exe executing.
   Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This
   analytic utilizes the internal name of the PE to identify if is the legitimate mshta
   binary. Further analysis should be performed to review the executed content and
   validation it is the real mshta.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-id: 8f45fcf0-5b68-11eb-ae93-0242ac130002
-known_false_positives: Although unlikely, some legitimate applications may use a moved
-  copy of mshta.exe, but never renamed, triggering a false positive.
-name: Detect mshta renamed
-references:
-- https://github.com/redcanaryco/AtomicTestHarnesses
-- https://redcanary.com/blog/introducing-atomictestharnesses/
 search: '`sysmon` EventID=1 (OriginalFileName=mshta.exe AND process_name!=mshta.exe)
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
   parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
   rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `detect_mshta_renamed_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Although unlikely, some legitimate applications may use a moved
+  copy of mshta.exe, but never renamed, triggering a false positive.
+references:
+- https://github.com/redcanaryco/AtomicTestHarnesses
+- https://redcanary.com/blog/introducing-atomictestharnesses/
 tags:
   analytic_story:
   - Suspicious MSHTA Activity
@@ -41,5 +44,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

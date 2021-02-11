@@ -1,18 +1,13 @@
-author: Bhavin Patel, Splunk
+name: Unload Sysmon Filter Driver
+id: c77162d3-f93c-45cc-80c8-22f665664g9f
+version: 3
 date: '2020-07-22'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: Endpoint
 description: Attackers often disable security tools to avoid detection. This search
   looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop
   sysmon from collecting the data.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
-  update this macro to filter out false positives.
-id: c77162d3-f93c-45cc-80c8-22f665664g9f
-known_false_positives: ''
-name: Unload Sysmon Filter Driver
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
   as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fltMC.exe
   AND Processes.process=*unload* AND Processes.process=*SysmonDrv*  by Processes.process_name
@@ -20,6 +15,14 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   |`unload_sysmon_filter_driver_filter`| table firstTime lastTime dest user count
   process_name process_id parent_process_name process'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro,
+  update this macro to filter out false positives.
+known_false_positives: ''
+references: []
 tags:
   analytic_story:
   - Disabling Security Tools
@@ -40,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 3

@@ -1,19 +1,11 @@
-author: David Dorsey, Splunk
-date: '2020-09-12'
-description: Find EC2 instances being created with previously unseen instance types.
-how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
-  provider. You should run the baseline search `Previously Seen Cloud Compute Instance
-  Types - Initial` to build the initial table of instance types observed and times.
-  You must also enable the second baseline search `Previously Seen Cloud Compute Instance
-  Types - Update` to keep this table up to date and to age out old data. You can also
-  provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`
-  macro.
-id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
-known_false_positives: It is possible that an admin will create a new system using
-  a new instance type that has never been used before. Verify with the creator that
-  they intended to create the system with the new instance type.
 name: Cloud Compute Instance Created With Previously Unseen Instance Type
-references: []
+id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
+version: 1
+date: '2020-09-12'
+author: David Dorsey, Splunk
+type: batch
+datamodel: Change
+description: Find EC2 instances being created with previously unseen instance types.
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
@@ -23,6 +15,17 @@ search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values
   | where isnull(firstTimeSeenInstanceType) OR firstTimeSeenInstanceType > relative_time(now(),
   "-24h@h") | table firstTime, user, dest, count, instance_type | `security_content_ctime(firstTime)`
   | `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
+  provider. You should run the baseline search `Previously Seen Cloud Compute Instance
+  Types - Initial` to build the initial table of instance types observed and times.
+  You must also enable the second baseline search `Previously Seen Cloud Compute Instance
+  Types - Update` to keep this table up to date and to age out old data. You can also
+  provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter`
+  macro.
+known_false_positives: It is possible that an admin will create a new system using
+  a new instance type that has never been used before. Verify with the creator that
+  they intended to create the system with the new instance type.
+references: []
 tags:
   analytic_story:
   - Cloud Cryptomining
@@ -43,5 +46,3 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: endpoint
-type: batch
-version: 1

@@ -1,17 +1,13 @@
-author: Stanislav Miskovic, Splunk
-date: '2020-11-09'
-description: This detection identifies access to PowerSploit modules that enable illegal
-  management of computers and Active Directory elements.
-eli5: This detection identifies access to PowerSploit modules that enable illegal
-  management of computers and Active Directory elements.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: 75760c11-7d48-4968-b828-013b299e8f6d
-known_false_positives: None identified.
 name: Illegal Management of Computers and Active Directory Elements via PowerSploit
   modules
-references:
-- https://github.com/PowerShellMafia/PowerSploit
+id: 75760c11-7d48-4968-b828-013b299e8f6d
+version: 1
+date: '2020-11-09'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: ''
+description: This detection identifies access to PowerSploit modules that enable illegal
+  management of computers and Active Directory elements.
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -24,6 +20,11 @@ search: '| from read_ssa_enriched_events()
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
   asset_type: Windows
   cis20:
@@ -47,5 +48,3 @@ tags:
   - _time
   risk_severity: high
   security_domain: endpoint
-type: streaming
-version: 1

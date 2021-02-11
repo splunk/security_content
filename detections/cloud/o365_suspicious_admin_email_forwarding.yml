@@ -1,15 +1,20 @@
-author: Patrick Bareiss, Splunk
+name: O365 Suspicious Admin Email Forwarding
+id: 7f398cfb-918d-41f4-8db8-2e2474e02c28
+version: 1
 date: '2020-12-16'
+author: Patrick Bareiss, Splunk
+type: batch
+datamodel: ''
 description: This search detects when an admin configured a forwarding rule for multiple
   mailboxes to the same destination.
-id: 7f398cfb-918d-41f4-8db8-2e2474e02c28
-known_false_positives: unknown
-name: O365 Suspicious Admin Email Forwarding
 search: '`o365_management_activity` Operation=Set-Mailbox | spath input=Parameters
   | rename Identity AS src_user | search ForwardingAddress=* | stats dc(src_user)
   AS count_src_user earliest(_time) as firstTime latest(_time) as lastTime values(src_user)
   AS src_user values(user) AS user by ForwardingAddress | where count_src_user > 1
   |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`o365_suspicious_admin_email_forwarding_filter`'
+how_to_implement: ''
+known_false_positives: unknown
+references: []
 tags:
   analytic_story:
   - Office 365 Detections
@@ -31,5 +36,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: batch
-version: 1

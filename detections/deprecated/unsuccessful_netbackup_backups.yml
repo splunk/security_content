@@ -1,19 +1,22 @@
-author: David Dorsey, Splunk
+name: Unsuccessful Netbackup backups
+id: a34aae96-ccf8-4aaa-952c-3ea21444444f
+version: 1
 date: '2017-09-12'
+author: David Dorsey, Splunk
+type: batch
+datamodel: ''
 description: This search gives you the hosts where a backup was attempted and then
   failed.
-how_to_implement: To successfully implement this search you need to obtain data from
-  your backup solution, either from the backup logs on your endpoints or from a central
-  server responsible for performing the backups. If you do not use Netbackup, you
-  can modify this search for your specific backup solution.
-id: a34aae96-ccf8-4aaa-952c-3ea21444444f
-known_false_positives: None identified
-name: Unsuccessful Netbackup backups
-references: []
 search: '`netbackup` | stats latest(_time) as latestTime by COMPUTERNAME, MESSAGE
   | search MESSAGE="An error occurred, failed to backup." | `security_content_ctime(latestTime)`
   | rename COMPUTERNAME as dest, MESSAGE as signature | table latestTime, dest, signature
   | `unsuccessful_netbackup_backups_filter`'
+how_to_implement: To successfully implement this search you need to obtain data from
+  your backup solution, either from the backup logs on your endpoints or from a central
+  server responsible for performing the backups. If you do not use Netbackup, you
+  can modify this search for your specific backup solution.
+known_false_positives: None identified
+references: []
 tags:
   analytic_story:
   - Monitor Backup Solution
@@ -27,5 +30,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

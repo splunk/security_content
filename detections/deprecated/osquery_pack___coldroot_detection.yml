@@ -1,18 +1,21 @@
-author: Rico Valdez, Splunk
+name: Osquery pack - ColdRoot detection
+id: a6fffe5e-05c3-4c04-badc-887607fbb8dc
+version: 1
 date: '2019-01-29'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: ''
 description: This search looks for ColdRoot events from the osx-attacks osquery pack.
+search: '| from datamodel Alerts.Alerts | search app=osquery:results (name=pack_osx-attacks_OSX_ColdRoot_RAT_Launchd
+  OR name=pack_osx-attacks_OSX_ColdRoot_RAT_Files) | rename columns.path as path |
+  bucket _time span=30s | stats count(path) by _time, host, user, path | `osquery_pack___coldroot_detection_filter`'
 how_to_implement: In order to properly run this search, Splunk needs to ingest data
   from your osquery deployed agents with the [osx-attacks.conf](https://github.com/facebook/osquery/blob/experimental/packs/osx-attacks.conf#L599)
   pack enabled. Also the [TA-OSquery](https://github.com/d1vious/TA-osquery) must
   be deployed across your indexers and universal forwarders in order to have the osquery
   data populate the Alerts data model
-id: a6fffe5e-05c3-4c04-badc-887607fbb8dc
 known_false_positives: There are no known false positives.
-name: Osquery pack - ColdRoot detection
 references: []
-search: '| from datamodel Alerts.Alerts | search app=osquery:results (name=pack_osx-attacks_OSX_ColdRoot_RAT_Launchd
-  OR name=pack_osx-attacks_OSX_ColdRoot_RAT_Files) | rename columns.path as path |
-  bucket _time span=30s | stats count(path) by _time, host, user, path | `osquery_pack___coldroot_detection_filter`'
 tags:
   analytic_story:
   - ColdRoot MacOS RAT
@@ -32,5 +35,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: batch
-version: 1

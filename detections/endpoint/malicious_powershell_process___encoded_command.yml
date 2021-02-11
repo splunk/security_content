@@ -1,23 +1,26 @@
-author: David Dorsey, Splunk
+name: Malicious PowerShell Process - Encoded Command
+id: c4db14d9-7909-48b4-a054-aa14d89dbb19
+version: 4
 date: '2020-07-21'
+author: David Dorsey, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for PowerShell processes that have encoded the script
   within the command-line. Malware has been seen using this parameter, as it obfuscates
   the code and makes it relatively easy to pass a script on the command-line.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-known_false_positives: System administrators may use this option, but it's not common.
-name: Malicious PowerShell Process - Encoded Command
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = powershell.exe
   (Processes.process=*-EncodedCommand* OR Processes.process=*-enc*) by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.dest
   Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `malicious_powershell_process___encoded_command_filter`'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: System administrators may use this option, but it's not common.
+references: []
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -44,5 +47,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 4

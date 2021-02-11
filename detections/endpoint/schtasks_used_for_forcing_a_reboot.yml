@@ -1,21 +1,24 @@
-author: Bhavin Patel, Splunk
+name: Schtasks used for forcing a reboot
+id: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
+version: 4
 date: '2020-12-07'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for flags passed to schtasks.exe on the command-line
   that indicate that a forced reboot of system is scheduled.
-how_to_implement: To successfully implement this search you need to be ingesting logs
-  with both the process name and command-line from your endpoints. If you are using
-  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-id: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
-known_false_positives: Administrators may create jobs on systems forcing reboots to
-  perform updates, maintenance, etc.
-name: Schtasks used for forcing a reboot
-references: []
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name=schtasks.exe Processes.process="*shutdown*" Processes.process="*/create
   *" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `schtasks_used_for_forcing_a_reboot_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting logs
+  with both the process name and command-line from your endpoints. If you are using
+  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Administrators may create jobs on systems forcing reboots to
+  perform updates, maintenance, etc.
+references: []
 tags:
   analytic_story:
   - Windows Persistence Techniques
@@ -37,5 +40,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 4

@@ -1,24 +1,15 @@
-author: Bhavin Patel, Splunk
+name: Detect AWS Console Login by User from New Region
+id: 9f31aa8e-e37c-46bc-bce1-8b3be646d026
+version: 1
 date: '2020-10-07'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: Authentication
 description: This search looks for CloudTrail events wherein a console login event
   by a user was recorded within the last hour, then compares the event to a lookup
   file of previously seen users (by ARN values) who have logged into the console.
   The alert is fired if the user has logged into the console for the first time within
   the last hour
-how_to_implement: You must install and configure the Splunk Add-on for AWS (version
-  5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
-  to the Authentication data model for cloud use cases. Run the `Previously Seen Users
-  in CloudTrail - Initial` support search only once to create a baseline of previously
-  seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail
-  - Update` hourly (or more frequently depending on how often you run the detection
-  searches) to refresh the baselines. You can also provide additional filtering for
-  this search by customizing the `detect_aws_console_login_by_user_from_new_region_filter`
-  macro.
-id: 9f31aa8e-e37c-46bc-bce1-8b3be646d026
-known_false_positives: When a legitimate new user logins for the first time, this
-  activity will be detected. Check how old the account is and verify that the user
-  activity is legitimate.
-name: Detect AWS Console Login by User from New Region
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
   | iplocation Authentication.src | `drop_dm_object_name(Authentication)` | table
@@ -29,6 +20,19 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   "-24h@h") OR isnull(earliestseen), "New User","Old User") | where userRegion = "New
   Region" AND userStatus != "Old User" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | table firstTime lastTime user Region  userStatus userRegion  | `detect_aws_console_login_by_user_from_new_region_filter`'
+how_to_implement: You must install and configure the Splunk Add-on for AWS (version
+  5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
+  to the Authentication data model for cloud use cases. Run the `Previously Seen Users
+  in CloudTrail - Initial` support search only once to create a baseline of previously
+  seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail
+  - Update` hourly (or more frequently depending on how often you run the detection
+  searches) to refresh the baselines. You can also provide additional filtering for
+  this search by customizing the `detect_aws_console_login_by_user_from_new_region_filter`
+  macro.
+known_false_positives: When a legitimate new user logins for the first time, this
+  activity will be detected. Check how old the account is and verify that the user
+  activity is legitimate.
+references: []
 tags:
   analytic_story:
   - Suspicious AWS Login Activities
@@ -55,5 +59,3 @@ tags:
   risk_object_type: user
   risk_score: 5
   security_domain: network
-type: batch
-version: 1

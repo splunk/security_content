@@ -1,16 +1,12 @@
-author: Rico Valdez, Splunk
+name: Cloud Compute Instance Created By Previously Unseen User
+id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
+version: 1
 date: '2020-08-21'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: Change
 description: This search looks for cloud compute instances created by users who have
   not created them before.
-how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
-  Run the "Previously Seen Cloud Compute Creations By User" support search to create
-  of baseline of previously seen users.
-id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
-known_false_positives: It's possible that a user will start to create compute instances
-  for the first time, for any number of reasons. Verify with the user launching instances
-  that this is the intended behavior.
-name: Cloud Compute Instance Created By Previously Unseen User
-references: []
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime,
   latest(_time) as lastTime values(All_Changes.object) as dest from datamodel=Change
   where All_Changes.action=created by All_Changes.user All_Changes.vendor_region |
@@ -20,6 +16,13 @@ search: '| tstats `security_content_summariesonly` count earliest(_time) as firs
   | where isnull(firstTimeSeenUser) OR firstTimeSeenUser > relative_time(now(), "-24h@h")
   | table firstTime, user, dest, count vendor_region | `security_content_ctime(firstTime)`
   | `cloud_compute_instance_created_by_previously_unseen_user_filter`'
+how_to_implement: You must be ingesting the appropriate cloud-infrastructure logs
+  Run the "Previously Seen Cloud Compute Creations By User" support search to create
+  of baseline of previously seen users.
+known_false_positives: It's possible that a user will start to create compute instances
+  for the first time, for any number of reasons. Verify with the user launching instances
+  that this is the intended behavior.
+references: []
 tags:
   analytic_story:
   - Cloud Cryptomining
@@ -42,5 +45,3 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: endpoint
-type: batch
-version: 1

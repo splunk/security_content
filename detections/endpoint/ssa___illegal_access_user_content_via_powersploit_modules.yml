@@ -1,18 +1,13 @@
-author: Stanislav Miskovic, Splunk
+name: Illegal Access To User Content via PowerSploit modules
+id: 01fc7d91-eb0c-478e-8633-e4fa4904463a
+version: 1
 date: '2020-11-09'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: ''
 description: This detection identifies access to PowerSploit modules that enable illegaly
   access user content, such as key logging, audio recording, screenshots, tapping
   into http and RDP sessions, etc.
-eli5: This detection identifies access to PowerSploit modules that enable illegaly
-  access user content, such as key logging, audio recording, screenshots, tapping
-  into http and RDP sessions, etc.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: 01fc7d91-eb0c-478e-8633-e4fa4904463a
-known_false_positives: None identified.
-name: Illegal Access To User Content via PowerSploit modules
-references:
-- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -26,6 +21,11 @@ search: '| from read_ssa_enriched_events()
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
   asset_type: Windows
   cis20:
@@ -50,5 +50,3 @@ tags:
   - _time
   risk_severity: high
   security_domain: endpoint
-type: streaming
-version: 1

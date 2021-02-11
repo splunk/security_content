@@ -1,18 +1,12 @@
-author: Jose Hernandez, Splunk
+name: Process Creating LNK file in Suspicious Location
+id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
+version: 4
 date: '2021-01-28'
+author: Jose Hernandez, Splunk
+type: batch
+datamodel: ''
 description: This search looks for a process launching an `*.lnk` file under `C:\User*`
   or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
-how_to_implement: You must be ingesting data that records filesystem and process activity
-  from your hosts to populate the Endpoint data model. This is typically populated
-  via endpoint detection-and-response products, such as Carbon Black, or endpoint
-  data sources, such as Sysmon.
-id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
-known_false_positives: This detection should yield little or no false positive results.
-  It is uncommon for LNK files to be executed from temporary or user directories.
-name: Process Creating LNK file in Suspicious Location
-references:
-- https://attack.mitre.org/techniques/T1566/001/
-- https://www.trendmicro.com/en_us/research/17/e/rising-trend-attackers-using-lnk-files-download-malware.html
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk"
   AND Filesystem.file_path="C:\\Temp*"  by _time span=1h Filesystem.process_id Filesystem.file_name
@@ -25,6 +19,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   process_path process] | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | table firstTime, lastTime, lnk_pid, process_id, user, dest, file_name, file_path,
   process_name, process, process_path, file_hash | `process_creating_lnk_file_in_suspicious_location_filter` '
+how_to_implement: You must be ingesting data that records filesystem and process activity
+  from your hosts to populate the Endpoint data model. This is typically populated
+  via endpoint detection-and-response products, such as Carbon Black, or endpoint
+  data sources, such as Sysmon.
+known_false_positives: This detection should yield little or no false positive results.
+  It is uncommon for LNK files to be executed from temporary or user directories.
+references:
+- https://attack.mitre.org/techniques/T1566/001/
+- https://www.trendmicro.com/en_us/research/17/e/rising-trend-attackers-using-lnk-files-download-malware.html
 tags:
   analytic_story:
   - Phishing Payloads
@@ -48,5 +51,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: batch
-version: 4

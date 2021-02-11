@@ -1,24 +1,13 @@
-author: Bhavin Patel, Splunk
+name: Detect Spike in blocked Outbound Traffic from your AWS
+id: ada0f278-84a8-46w1-a3f1-w32372d4bd53
+version: 1
 date: '2018-05-07'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: ''
 description: This search will detect spike in blocked outbound network connections
   originating from within your AWS environment.  It will also update the cache file
   that factors in the latest data.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your VPC Flow
-  logs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit
-  your environment. The `dataPointThreshold` variable is the number of data points
-  required to meet the definition of "spike." The `deviationThreshold` variable is
-  the number of standard deviations away from the mean that the value must be to be
-  considered a spike. This search works best when you run the "Baseline of Blocked
-  Outbound Connection" support search once to create a history of previously seen
-  blocked outbound connections.
-id: ada0f278-84a8-46w1-a3f1-w32372d4bd53
-known_false_positives: The false-positive rate may vary based on the values of`dataPointThreshold`
-  and `deviationThreshold`. Additionally, false positives may result when AWS administrators
-  roll out policies enforcing network blocks, causing sudden increases in the number
-  of blocked outbound connections.
-name: Detect Spike in blocked Outbound Traffic from your AWS
-references: []
 search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12
   OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)  [search  `cloudwatchlogs_vpcflow`
   action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12 OR src_ip=192.168.0.0/16)
@@ -37,6 +26,20 @@ search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=17
   | stats values(dest_ip) as "Blocked Destination IPs", values(interface_id) as "resourceId"
   count as numberOfBlockedConnections, dc(dest_ip) as uniqueDestConnections by src_ip
   | `detect_spike_in_blocked_outbound_traffic_from_your_aws_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your VPC Flow
+  logs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit
+  your environment. The `dataPointThreshold` variable is the number of data points
+  required to meet the definition of "spike." The `deviationThreshold` variable is
+  the number of standard deviations away from the mean that the value must be to be
+  considered a spike. This search works best when you run the "Baseline of Blocked
+  Outbound Connection" support search once to create a history of previously seen
+  blocked outbound connections.
+known_false_positives: The false-positive rate may vary based on the values of`dataPointThreshold`
+  and `deviationThreshold`. Additionally, false positives may result when AWS administrators
+  roll out policies enforcing network blocks, causing sudden increases in the number
+  of blocked outbound connections.
+references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
@@ -60,5 +63,3 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
-type: batch
-version: 1

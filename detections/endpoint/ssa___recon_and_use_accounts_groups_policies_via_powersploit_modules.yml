@@ -1,16 +1,12 @@
-author: Stanislav Miskovic, Splunk
+name: Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
+id: 63422f8e-766c-468f-8133-2ba6795e263b
+version: 1
 date: '2020-11-05'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: ''
 description: This detection identifies access to PowerSploit modules that discover
   accounts, groups and policies that can be accessed or taken over.
-eli5: This detection identifies use of PowerSploit modules that discover accounts,
-  groups and policies that can be accessed or taken over.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: 63422f8e-766c-468f-8133-2ba6795e263b
-known_false_positives: None identified.
-name: Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
-references:
-- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -42,6 +38,11 @@ search: '| from read_ssa_enriched_events()
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
   asset_type: Windows
   cis20:
@@ -65,5 +66,3 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
-type: streaming
-version: 1

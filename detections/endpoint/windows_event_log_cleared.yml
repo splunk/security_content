@@ -1,18 +1,21 @@
-author: Rico Valdez, Splunk
+name: Windows Event Log Cleared
+id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
+version: 4
 date: '2020-07-06'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: ''
 description: This search looks for Windows events that indicate one of the Windows
   event logs has been purged.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows event logs from your hosts.
-id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-known_false_positives: It is possible that these logs may be legitimately cleared
-  by Administrators.
-name: Windows Event Log Cleared
-references: []
 search: (`wineventlog_security` (EventCode=1102 OR EventCode=1100)) OR (`wineventlog_system`
   EventCode=104) | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
   dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_event_log_cleared_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows event logs from your hosts.
+known_false_positives: It is possible that these logs may be legitimately cleared
+  by Administrators.
+references: []
 tags:
   analytic_story:
   - Windows Log Manipulation
@@ -41,5 +44,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 4

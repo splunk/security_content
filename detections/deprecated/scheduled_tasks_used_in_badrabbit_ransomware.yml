@@ -1,23 +1,26 @@
-author: Bhavin Patel, Splunk
+name: Scheduled tasks used in BadRabbit ransomware
+id: 1297fb80-f42a-4b4a-9c8b-78c066437cf6
+version: 3
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for flags passed to schtasks.exe on the command-line
   that indicate that task names related to the execution of Bad Rabbit ransomware
   were created or deleted. Deprecated because we already have a similar detection
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-id: 1297fb80-f42a-4b4a-9c8b-78c066437cf6
-known_false_positives: No known false positives
-name: Scheduled tasks used in BadRabbit ransomware
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process  from datamodel=Endpoint.Processes
   where Processes.process_name=schtasks.exe (Processes.process= "*create*"  OR Processes.process=
   "*delete*") by Processes.parent_process Processes.process_name Processes.user |
   `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | search (process=*rhaegal* OR process=*drogon* OR *viserion_*) | `scheduled_tasks_used_in_badrabbit_ransomware_filter`'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: No known false positives
+references: []
 tags:
   analytic_story:
   - Ransomware
@@ -35,5 +38,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 3

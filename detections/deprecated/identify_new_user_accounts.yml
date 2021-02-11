@@ -1,21 +1,24 @@
-author: Bhavin Patel, Splunk
+name: Identify New User Accounts
+id: 475b9e27-17e4-46e2-b7e2-648221be3b89
+version: 1
 date: '2017-09-12'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: ''
 description: This detection search will help profile user accounts in your environment
   by identifying newly created accounts that have been added to your network in the
   past week.
-how_to_implement: To successfully implement this search, you need to be populating
-  the Enterprise Security Identity_Management data model in the assets and identity
-  framework.
-id: 475b9e27-17e4-46e2-b7e2-648221be3b89
-known_false_positives: If the Identity_Management data model is not updated regularly,
-  this search could give you false positive alerts. Please consider this and investigate
-  appropriately.
-name: Identify New User Accounts
-references: []
 search: '| from datamodel Identity_Management.All_Identities  | eval empStatus=case((now()-startDate)<604800,
   "Accounts created in last week") | search empStatus="Accounts created in last week"|
   `security_content_ctime(endDate)` | `security_content_ctime(startDate)`| table identity
   empStatus endDate startDate | `identify_new_user_accounts_filter`'
+how_to_implement: To successfully implement this search, you need to be populating
+  the Enterprise Security Identity_Management data model in the assets and identity
+  framework.
+known_false_positives: If the Identity_Management data model is not updated regularly,
+  this search could give you false positive alerts. Please consider this and investigate
+  appropriately.
+references: []
 tags:
   analytic_story:
   - Account Monitoring and Controls
@@ -31,5 +34,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: batch
-version: 1

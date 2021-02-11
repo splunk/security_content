@@ -1,24 +1,30 @@
 #!/bin/python
 from os import path, walk
+import sys
 import argparse
 import yaml
-REPO_PATH = '/home/jhernandez/splunk/security_content/detections'
+import re
 
-def pretty_yaml_detections():
 
-def pretty_yaml(REPO_PATH, VERBOSE, objects):
+def pretty_yaml(REPO_PATH, VERBOSE, content_part):
+
+
+    #for root, dirs, files in walk(REPO_PATH + "/"):
 
     manifest_files = []
     types = ["endpoint", "application", "cloud", "deprecated", "experimental", "network", "web"]
-    for t in types:
-        for root, dirs, files in walk(REPO_PATH + "/" + t):
-    #for root, dirs, files in walk(REPO_PATH + "/"):
-            for file in files:
-                if file.endswith(".yml"):
-                    manifest_files.append((path.join(root, file)))
+    if content_part == 'detections':
+        for t in types:
+            for root, dirs, files in walk(REPO_PATH + "/" + content_part + '/' + t):
+                for file in files:
+                    if file.endswith(".yml"):
+                        manifest_files.append((path.join(root, file)))
+    
     for manifest_file in manifest_files:
         pretty_yaml = dict()
-        print("processing manifest {0}".format(manifest_file))
+        if VERBOSE:
+            print("processing manifest {0}".format(manifest_file))
+
         with open(manifest_file, 'r') as stream:
             try:
                 object = list(yaml.safe_load_all(stream))[0]
@@ -32,29 +38,32 @@ def pretty_yaml(REPO_PATH, VERBOSE, objects):
         pretty_yaml['id'] = object['id']
         pretty_yaml['version'] = object['version']
         pretty_yaml['date'] = object['date']
+        pretty_yaml['author'] = object['author']
+        pretty_yaml['type'] = object['type']
+        pretty_yaml['datamodel'] = object['datamodel']
         pretty_yaml['description'] = object['description']
+        pretty_yaml['search'] = object['search']
         if 'how_to_implement' in object:
             pretty_yaml['how_to_implement'] = object['how_to_implement']
         else:
             pretty_yaml['how_to_implement'] = ''
-        pretty_yaml['type'] = object['type']
-        pretty_yaml['search'] = object['search']
-        pretty_yaml['author'] = object['author']
+        pretty_yaml['known_false_positives'] = object['known_false_positives']
         if 'references' in object:
             pretty_yaml['references'] = object['references']
         else:
             pretty_yaml['references'] = []
-        pretty_yaml['known_false_positives'] = object['known_false_positives']
         pretty_yaml['tags'] = object['tags']
 
 
-        #with open(manifest_file, 'w') as file:
-        #    documents = yaml.dump(object, file, default_flow_style=False, sort_keys=False)
-        print(yaml.dump(pretty_yaml,default_flow_style=False, sort_keys=False))
+        with open(manifest_file, 'w') as file:
+            documents = yaml.dump(pretty_yaml, file, sort_keys=False)
+    return len(manifest_files) 
 
 def main(args):
 
-    parser = argparse.ArgumentParser(description="keeps yamls in security_content sorted and pretty printed with custom sort keys")
+    parser = argparse.ArgumentParser(description="keeps yamls in security_content sorted and pretty printed with custom sort keys, \
+            meant to run quitely for CI, use -v flag to make it bark")
+
     parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     
@@ -65,7 +74,9 @@ def main(args):
 
     pretty_yaml_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments']
     for pretty_yaml_object in pretty_yaml_objects:
-        pretty_yaml(REPO_PATH, VERBOSE, pretty_yaml_object)
+        touch_count = pretty_yaml(REPO_PATH, VERBOSE, pretty_yaml_object)
+        if VERBOSE:
+            print("completed, we made {0} {1} pretty".format(touch_count, pretty_yaml_object))
 
 if __name__ == "__main__":
     main(sys.argv[1:])

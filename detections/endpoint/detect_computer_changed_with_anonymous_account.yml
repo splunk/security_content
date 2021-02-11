@@ -1,21 +1,24 @@
-author: Rod Soto, Jose Hernandez, Splunk
+name: Detect Computer Changed with Anonymous Account
+id: 1400624a-d42d-484d-8843-e6753e6e3645
+version: 1
 date: '2020-09-18'
+author: Rod Soto, Jose Hernandez, Splunk
+type: batch
+datamodel: ''
 description: This search looks for Event Code 4742 (Computer Change) or EventCode
   4624 (An account was successfully logged on) with an anonymous account.
+search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS
+  LOGON" LogonType=3 | stats count values(host) as host, values(TargetDomainName)
+  as Domain, values(user) as user | `detect_computer_changed_with_anonymous_account_filter`'
 how_to_implement: This search requires audit computer account management to be enabled
   on the system in order to generate Event ID 4742. We strongly recommend that you
   specify your environment-specific configurations (index, source, sourcetype, etc.)
   for Windows Event Logs. Replace the macro definition with configurations for your
   Splunk environment. The search also uses a post-filter macro designed to filter
   out known false positives.
-id: 1400624a-d42d-484d-8843-e6753e6e3645
 known_false_positives: None thus far found
-name: Detect Computer Changed with Anonymous Account
 references:
 - https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
-search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS
-  LOGON" LogonType=3 | stats count values(host) as host, values(TargetDomainName)
-  as Domain, values(user) as user | `detect_computer_changed_with_anonymous_account_filter`'
 tags:
   analytic_story:
   - Detect Zerologon Attack
@@ -35,5 +38,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

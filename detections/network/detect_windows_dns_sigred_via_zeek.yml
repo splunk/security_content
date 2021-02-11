@@ -1,21 +1,24 @@
-author: Shannon Davis, Splunk
-date: '2020-07-28'
-description: This search detects SIGRed via Zeek DNS and Zeek Conn data.
-how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek
-  data should also be getting ingested in JSON format.  We are detecting SIG and KEY
-  records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The
-  Network Resolution and Network Traffic datamodels are in use for this search.
-id: c5c622e4-d073-11ea-87d0-0242ac130003
-known_false_positives: unknown
 name: Detect Windows DNS SIGRed via Zeek
-references:
-- https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+id: c5c622e4-d073-11ea-87d0-0242ac130003
+version: 1
+date: '2020-07-28'
+author: Shannon Davis, Splunk
+type: batch
+datamodel: Network_Resolution
+description: This search detects SIGRed via Zeek DNS and Zeek Conn data.
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where DNS.query_type IN (SIG,KEY) by DNS.flow_id | rename DNS.flow_id as flow_id
   | append [| tstats  `security_content_summariesonly` count from datamodel=Network_Traffic
   where All_Traffic.bytes_in>65000 by All_Traffic.flow_id | rename All_Traffic.flow_id
   as flow_id] | `detect_windows_dns_sigred_via_zeek_filter` | stats count by flow_id
   | where count>1 | fields - count '
+how_to_implement: You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek
+  data should also be getting ingested in JSON format.  We are detecting SIG and KEY
+  records via bro:dns:json and TCP payload over 65KB in size via bro:conn:json.  The
+  Network Resolution and Network Traffic datamodels are in use for this search.
+known_false_positives: unknown
+references:
+- https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
 tags:
   analytic_story:
   - Windows DNS SIGRed CVE-2020-1350
@@ -34,5 +37,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

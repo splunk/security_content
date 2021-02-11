@@ -1,22 +1,25 @@
-author: Rico Valdez, Splunk
+name: Execution of File with Multiple Extensions
+id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
+version: 3
 date: '2020-11-18'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for processes launched from files that have double
   extensions in the file name. This is typically done to obscure the "real" file extension
   and make it appear as though the file being accessed is a data file, as opposed
   to executable content.
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node.
-id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
-known_false_positives: None identified.
-name: Execution of File with Multiple Extensions
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process = *.doc.exe
   OR Processes.process = *.htm.exe OR Processes.process = *.html.exe OR Processes.process
   = *.txt.exe OR Processes.process = *.pdf.exe OR Processes.process = *.doc.exe by
   Processes.dest Processes.user Processes.process Processes.parent_process | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | `execution_of_file_with_multiple_extensions_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node.
+known_false_positives: None identified.
+references: []
 tags:
   analytic_story:
   - Windows File Extension and Association Abuse
@@ -40,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 3

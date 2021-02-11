@@ -1,17 +1,13 @@
-author: Stanislav Miskovic, Splunk
-date: '2020-11-09'
-description: This detection identifies use of DSInternals modules for illegal management
-  of Active Directoty elements and policies.
-eli5: This detection identifies use of DSInternals modules for illegal management
-  of Active Directoty elements and policies.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: a587ca9f-c138-47b4-ba51-699f319b8cc5
-known_false_positives: None identified.
 name: Illegal Management of Active Directory Elements and Policies via DSInternals
   modules
-references:
-- https://github.com/MichaelGrafnetter/DSInternals
+id: a587ca9f-c138-47b4-ba51-699f319b8cc5
+version: 1
+date: '2020-11-09'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: ''
+description: This detection identifies use of DSInternals modules for illegal management
+  of Active Directoty elements and policies.
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -23,6 +19,11 @@ search: '| from read_ssa_enriched_events()
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/MichaelGrafnetter/DSInternals
 tags:
   asset_type: Windows
   cis20:
@@ -46,5 +47,3 @@ tags:
   - _time
   risk_severity: high
   security_domain: endpoint
-type: streaming
-version: 1

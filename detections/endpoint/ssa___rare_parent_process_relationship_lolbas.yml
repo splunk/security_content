@@ -1,18 +1,14 @@
-author: Ignacio Bermudez Corrales, Splunk
+name: Rare Parent-Child Process Relationship
+id: e03aa905-6549-4e34-b304-7a922185b2c4
+version: 1
 date: '2020-08-13'
+author: Ignacio Bermudez Corrales, Splunk
+type: streaming
+datamodel: ''
 description: An attacker may use LOLBAS tools spawned from vulnerable applications
   not typically used by system administrators. This search leverages the Splunk Streaming
   ML DSP plugin to find rare parent/child relationships. The list of application has
   been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
-how_to_implement: Collect endpoint data such as sysmon or 4688 events.
-id: e03aa905-6549-4e34-b304-7a922185b2c4
-known_false_positives: 'Some custom tools used by admins could be used rarely to launch
-  remotely applications. This might trigger false positives at the beginning when
-  it hasn''t collected yet enough data to construct the baseline.
-
-  '
-name: Rare Parent-Child Process Relationship
-references: []
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)) | eval parent_process=lower(ucast(map_get(input_event,
   "parent_process_name"), "string", null)), parent_process_name=mvindex(split(parent_process,
@@ -52,6 +48,13 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id,
   dest_user_id), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: 'Some custom tools used by admins could be used rarely to launch
+  remotely applications. This might trigger false positives at the beginning when
+  it hasn''t collected yet enough data to construct the baseline.
+
+  '
+references: []
 tags:
   cis20:
   - CIS 8
@@ -75,5 +78,3 @@ tags:
   - dest_user_id
   risk_severity: low
   security_domain: endpoint
-type: streaming
-version: 1

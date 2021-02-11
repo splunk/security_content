@@ -1,16 +1,12 @@
-author: Stanislav Miskovic, Splunk
+name: Reconnaissance and Access to Accounts and Groups via Mimikatz modules
+id: 1bce67aa-3fc4-4886-9089-67f0bfebbef6
+version: 1
 date: '2020-11-05'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: ''
 description: This detection identifies use of Mimikatz modules for discovery of accounts
   and groups and access to them.
-eli5: This detection identifies use of Mimikatz modules for discovery of accounts
-  and groups and access to them.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: 1bce67aa-3fc4-4886-9089-67f0bfebbef6
-known_false_positives: None identified.
-name: Reconnaissance and Access to Accounts and Groups via Mimikatz modules
-references:
-- https://github.com/gentilkiwi/mimikatz
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -21,6 +17,11 @@ search: '| from read_ssa_enriched_events()
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/gentilkiwi/mimikatz
 tags:
   asset_type: Windows
   cis20:
@@ -44,5 +45,3 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
-type: streaming
-version: 1

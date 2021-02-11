@@ -1,22 +1,25 @@
-author: John Stoner, Splunk
+name: Supernova Webshell
+id: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
+version: 1
 date: '2021-01-06'
+author: John Stoner, Splunk
+type: batch
+datamodel: Web
 description: This search aims to detect the Supernova webshell used in the SUNBURST
   attack.
-how_to_implement: To successfully implement this search, you need to be monitoring
-  web traffic to your Solarwinds Orion. The logs should be ingested into splunk and
-  populating/mapped to the Web data model.
-id: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
-known_false_positives: There might be false positives associted with this detection
-  since items like args as a web argument is pretty generic.
-name: Supernova Webshell
-references:
-- https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html
-- https://www.guidepointsecurity.com/supernova-solarwinds-net-webshell-analysis/
 search: '| tstats `security_content_summariesonly` count from datamodel=Web.Web where
   web.url=*logoimagehandler.ashx*codes* OR Web.url=*logoimagehandler.ashx*clazz* OR
   Web.url=*logoimagehandler.ashx*method* OR Web.url=*logoimagehandler.ashx*args* by
   Web.src Web.dest Web.url Web.vendor_product Web.user Web.http_user_agent _time span=1s
   | `supernova_webshell_filter`'
+how_to_implement: To successfully implement this search, you need to be monitoring
+  web traffic to your Solarwinds Orion. The logs should be ingested into splunk and
+  populating/mapped to the Web data model.
+known_false_positives: There might be false positives associted with this detection
+  since items like args as a web argument is pretty generic.
+references:
+- https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html
+- https://www.guidepointsecurity.com/supernova-solarwinds-net-webshell-analysis/
 tags:
   analytic_story:
   - Sunburst Malware
@@ -39,5 +42,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: batch
-version: 1

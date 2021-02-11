@@ -1,25 +1,14 @@
-author: Ignacio Bermudez Corrales, Splunk
+name: Detect Prohibited Applications Spawning cmd exe - SSA
+id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
+version: 1
 date: 2020-7-13
+author: Ignacio Bermudez Corrales, Splunk
+type: streaming
+datamodel: ''
 description: This search looks for executions of cmd.exe spawned by a process that
   is often abused by attackers and that does not typically launch cmd.exe. This is
   a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe`
   by @bpatel.
-eli5: Obtaining access to the Command-Line Interface (CLI) is typically a primary
-  attacker goal. Once an attacker has obtained the ability to execute code on a target
-  system, they will often further manipulate the system via commands passed to the
-  CLI. It is also unusual for many applications to spawn a command shell during normal
-  operation, while it is often observed if an application has been compromised in
-  some way. As such, it is often beneficial to look for cmd.exe being executed by
-  processes that are often targeted for exploitation, or that would not spawn cmd.exe
-  in any other circumstances. A lookup file is provided to easily modify the processes
-  that are being watched for execution of cmd.exe.
-how_to_implement: You must be ingesting sysmon logs. This search has been modified
-  to process raw sysmon data from attack_range's nxlogs on DSP.
-id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-known_false_positives: There are circumstances where an application may legitimately
-  execute and interact with the Windows command-line interface. Investigate and modify
-  the lookup file, as appropriate.
-name: Detect Prohibited Applications Spawning cmd exe - SSA
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
@@ -36,6 +25,12 @@ search: '| from read_ssa_enriched_events()
 
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
   dest_user_id), body="TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting sysmon logs. This search has been modified
+  to process raw sysmon data from attack_range's nxlogs on DSP.
+known_false_positives: There are circumstances where an application may legitimately
+  execute and interact with the Windows command-line interface. Investigate and modify
+  the lookup file, as appropriate.
+references: []
 tags:
   cis20:
   - CIS 8
@@ -56,5 +51,3 @@ tags:
   - dest_user_id
   risk_severity: low
   security_domain: endpoint
-type: streaming
-version: 1

@@ -1,19 +1,23 @@
-author: David Dorsey, Splunk
+name: Detect New Local Admin account
+id: b25f6f62-0712-43c1-b203-083231ffd97d
+version: 2
 date: '2020-07-08'
+author: David Dorsey, Splunk
+type: batch
+datamodel: ''
 description: This search looks for newly created accounts that have been elevated
   to local administrators.
-id: b25f6f62-0712-43c1-b203-083231ffd97d
-known_false_positives: The activity may be legitimate. For this reason, it's best
-  to verify the account with an administrator and ask whether there was a valid service
-  request for the account creation. If your local administrator group name is not
-  "Administrators", this search may generate an excessive number of false positives
-how_to_implement: 'You must be ingesting Windows event logs using the Splunk Windows TA and collecting event code 4720 and 4732'
-name: Detect New Local Admin account
-references: []
 search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
   | transaction member_id connected=false maxspan=180m | rename member_id as user
   | stats count min(_time) as firstTime max(_time) as lastTime by user dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `detect_new_local_admin_account_filter`'
+how_to_implement: You must be ingesting Windows event logs using the Splunk Windows
+  TA and collecting event code 4720 and 4732
+known_false_positives: The activity may be legitimate. For this reason, it's best
+  to verify the account with an administrator and ask whether there was a valid service
+  request for the account creation. If your local administrator group name is not
+  "Administrators", this search may generate an excessive number of false positives
+references: []
 tags:
   analytic_story:
   - DHS Report TA18-074A
@@ -38,5 +42,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: batch
-version: 2

@@ -1,28 +1,14 @@
-author: David Dorsey, Splunk
+name: AWS Cloud Provisioning From Previously Unseen Country
+id: ceb8d3d8-06cb-49eb-beaf-829526e33ff0
+version: 1
 date: '2018-03-16'
+author: David Dorsey, Splunk
+type: batch
+datamodel: ''
 description: 'This search looks for AWS provisioning activities from previously unseen
   countries. Provisioning activities are defined broadly as any event that begins
   with "Run" or "Create." This search is deprecated and have been translated to use
   the latest Change Datamodel. '
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. This search works best when you run the "Previously Seen AWS Provisioning
-  Activity Sources" support search once to create a history of previously seen locations
-  that have provisioned AWS resources.
-id: ceb8d3d8-06cb-49eb-beaf-829526e33ff0
-known_false_positives: "This is a strictly behavioral search, so we define \"false\
-  \ positive\" slightly differently. Every time this fires, it will accurately reflect\
-  \ the first occurrence in the time period you're searching over plus what is stored\
-  \ in the cache feature. But while there are really no \"false positives\" in a traditional\
-  \ sense, there is definitely lots of noise.\\\n This search will fire any time a\
-  \ new country is seen in the **GeoIP** database for any kind of provisioning activity.\
-  \ If you typically do all provisioning from tools inside of your country, there\
-  \ should be few false positives. If you are located in countries where the free\
-  \ version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution\
-  \ (particularly small countries in less economically powerful regions), this may\
-  \ be much less valuable to you."
-name: AWS Cloud Provisioning From Previously Unseen Country
-references: []
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
   | search Country=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) |
   iplocation sourceIPAddress | search Country=* | stats earliest(_time) as firstTime,
@@ -34,6 +20,23 @@ search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceI
   >= relative_time(now(), "-70m@m"), 1, 0) | where newCountry=1 | table Country] |
   spath output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time,
   user, src_ip, Country, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_country_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen AWS Provisioning
+  Activity Sources" support search once to create a history of previously seen locations
+  that have provisioned AWS resources.
+known_false_positives: "This is a strictly behavioral search, so we define \"false\
+  \ positive\" slightly differently. Every time this fires, it will accurately reflect\
+  \ the first occurrence in the time period you're searching over plus what is stored\
+  \ in the cache feature. But while there are really no \"false positives\" in a traditional\
+  \ sense, there is definitely lots of noise.\\\n This search will fire any time a\
+  \ new country is seen in the **GeoIP** database for any kind of provisioning activity.\
+  \ If you typically do all provisioning from tools inside of your country, there\
+  \ should be few false positives. If you are located in countries where the free\
+  \ version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution\
+  \ (particularly small countries in less economically powerful regions), this may\
+  \ be much less valuable to you."
+references: []
 tags:
   analytic_story:
   - AWS Suspicious Provisioning Activities
@@ -49,5 +52,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

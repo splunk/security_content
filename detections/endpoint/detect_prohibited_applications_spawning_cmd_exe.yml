@@ -1,23 +1,26 @@
-author: Bhavin Patel, Splunk
+name: Detect Prohibited Applications Spawning cmd exe
+id: dcfd6b40-42f9-469d-a433-2e53f7486664
+version: 5
 date: '2020-11-10'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for executions of cmd.exe spawned by a process that
   is often abused by attackers and that does not typically launch cmd.exe.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts and populates the Endpoint data model with the resultant dataset. This search
-  includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list
-  of processes that should not be spawning cmd.exe. You can modify this lookup to
-  better suit your environment.
-id: dcfd6b40-42f9-469d-a433-2e53f7486664
-known_false_positives: There are circumstances where an application may legitimately
-  execute and interact with the Windows command-line interface. Investigate and modify
-  the lookup file, as appropriate.
-name: Detect Prohibited Applications Spawning cmd exe
-references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name=cmd.exe by Processes.parent_process_name Processes.process_name
   Processes.dest Processes.user| `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` |search [`prohibited_apps_launching_cmd`] | `detect_prohibited_applications_spawning_cmd_exe_filter`'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts and populates the Endpoint data model with the resultant dataset. This search
+  includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list
+  of processes that should not be spawning cmd.exe. You can modify this lookup to
+  better suit your environment.
+known_false_positives: There are circumstances where an application may legitimately
+  execute and interact with the Windows command-line interface. Investigate and modify
+  the lookup file, as appropriate.
+references: []
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
@@ -42,5 +45,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 5

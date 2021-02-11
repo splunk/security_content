@@ -1,27 +1,30 @@
-author: David Dorsey, Splunk
+name: Registry Keys Used For Privilege Escalation
+id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
+version: 4
 date: '2020-11-27'
+author: David Dorsey, Splunk
+type: batch
+datamodel: ''
 description: This search looks for modifications to registry keys that can be used
   to elevate privileges. The registry keys under "Image File Execution Options" are
   used to intercept calls to an executable and can be used to attach malicious binaries
   to benign system binaries.
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  products, such as Carbon Black, or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
-id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
-known_false_positives: There are many legitimate applications that must execute upon
-  system startup and will use these registry keys to accomplish that task.
-name: Registry Keys Used For Privilege Escalation
-references:
-- https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options/
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows
   NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_key_name=GlobalFlag
   OR Registry.registry_key_name=Debugger) by Registry.dest  Registry.user Registry.registry_path
   Registry.registry_key_name | `security_content_ctime(lastTime)`  | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `registry_keys_used_for_privilege_escalation_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  products, such as Carbon Black, or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: There are many legitimate applications that must execute upon
+  system startup and will use these registry keys to accomplish that task.
+references:
+- https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options/
 tags:
   analytic_story:
   - Windows Privilege Escalation
@@ -44,5 +47,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 4

@@ -1,19 +1,23 @@
-author: Bhavin Patel, Splunk
+name: DNS Query Requests Resolved by Unauthorized DNS Servers
+id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f6
+version: 3
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: Network_Resolution
 description: This search will detect DNS requests resolved by unauthorized DNS servers.
   Legitimate DNS servers should be identified in the Enterprise Security Assets and
   Identity Framework.
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+  where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
+  DNS.dest | `drop_dm_object_name("DNS")` | `dns_query_requests_resolved_by_unauthorized_dns_servers_filter` '
 how_to_implement: To successfully implement this search you will need to ensure that
   DNS data is populating the Network_Resolution data model. It also requires that
   your DNS servers are identified correctly in the Assets and Identity table of Enterprise
   Security.
-id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f6
 known_false_positives: Legitimate DNS activity can be detected in this search. Investigate,
   verify and update the list of authorized DNS servers as appropriate.
-name: DNS Query Requests Resolved by Unauthorized DNS Servers
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
-  DNS.dest | `drop_dm_object_name("DNS")` | `dns_query_requests_resolved_by_unauthorized_dns_servers_filter` '
+references: []
 tags:
   analytic_story:
   - DNS Hijacking
@@ -41,5 +45,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: batch
-version: 3

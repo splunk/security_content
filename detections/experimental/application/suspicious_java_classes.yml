@@ -1,20 +1,23 @@
-author: Jose Hernandez, Splunk
+name: Suspicious Java Classes
+id: if1fea6da-3c86-4c1d-b255-fc3b2781a491
+version: 1
 date: '2018-12-06'
+author: Jose Hernandez, Splunk
+type: batch
+datamodel: ''
 description: This search looks for suspicious Java classes that are often used to
   exploit remote command execution in common Java frameworks, such as Apache Struts.
-how_to_implement: In order to properly run this search, Splunk needs to ingest data
-  from your web-traffic appliances that serve or sit in the path of your Struts application
-  servers. This can be accomplished by indexing data from a web proxy, or by using
-  network traffic-analysis tools, such as Splunk Stream or Bro.
-id: if1fea6da-3c86-4c1d-b255-fc3b2781a491
-known_false_positives: There are no known false positives.
-name: Suspicious Java Classes
-references: []
 search: '`stream_http` http_method=POST http_content_length>1 | regex form_data="(?i)java\.lang\.(?:runtime|processbuilder)"
   | rename src_ip as src | stats count earliest(_time) as firstTime, latest(_time)
   as lastTime, values(url) as uri, values(status) as status, values(http_user_agent)
   as http_user_agent by src, dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_java_classes_filter`'
+how_to_implement: In order to properly run this search, Splunk needs to ingest data
+  from your web-traffic appliances that serve or sit in the path of your Struts application
+  servers. This can be accomplished by indexing data from a web proxy, or by using
+  network traffic-analysis tools, such as Splunk Stream or Bro.
+known_false_positives: There are no known false positives.
+references: []
 tags:
   analytic_story:
   - Apache Struts Vulnerability
@@ -31,5 +34,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: batch
-version: 1

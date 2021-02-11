@@ -1,25 +1,28 @@
-author: Michael Haag, Splunk
+name: WBAdmin Delete System Backups
+id: cd5aed7e-5cea-11eb-ae93-0242ac130002
+version: 1
 date: '2021-01-22'
+author: Michael Haag, Splunk
+type: batch
+datamodel: Endpoint
 description: This search looks for flags passed to wbadmin.exe (Windows Backup Administrator
   Tool) that delete backup files. This is typically used by ransomware to prevent
   recovery.
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
-  data model in the Processes node. Tune based on parent process names.
-id: cd5aed7e-5cea-11eb-ae93-0242ac130002
-known_false_positives: Administrators may modify the boot configuration.
-name: WBAdmin Delete System Backups
-references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
-- https://thedfirreport.com/2020/10/08/ryuks-return/
-- https://attack.mitre.org/techniques/T1490/
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wbadmin.exe
   Processes.process="*delete*" AND (Processes.process="*catalog*" OR Processes.process="*systemstatebackup*")
   by Processes.process_name Processes.process Processes.parent_process_name Processes.dest
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `wbadmin_delete_system_backups_filter`'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints to populate the Endpoint
+  data model in the Processes node. Tune based on parent process names.
+known_false_positives: Administrators may modify the boot configuration.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
+- https://thedfirreport.com/2020/10/08/ryuks-return/
+- https://attack.mitre.org/techniques/T1490/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin
 tags:
   analytic_story:
   - Ryuk Ransomware
@@ -41,5 +44,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1

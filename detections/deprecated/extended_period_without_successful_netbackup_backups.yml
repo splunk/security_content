@@ -1,21 +1,24 @@
-author: David Dorsey, Splunk
+name: Extended Period Without Successful Netbackup Backups
+id: a34aae96-ccf8-4aef-952c-3ea214444440
+version: 1
 date: '2017-09-12'
+author: David Dorsey, Splunk
+type: batch
+datamodel: ''
 description: This search returns a list of hosts that have not successfully completed
   a backup in over a week. Deprecated because it's a infrastructure monitoring.
+search: '`netbackup` MESSAGE="Disk/Partition backup completed successfully." | stats
+  latest(_time) as latestTime by COMPUTERNAME | `security_content_ctime(latestTime)`
+  | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(),
+  "-7d@d"), 1, 0) | search isOutlier=1 | table latestTime, dest | `extended_period_without_successful_netbackup_backups_filter`'
 how_to_implement: To successfully implement this search you need to first obtain data
   from your backup solution, either from the backup logs on your hosts, or from a
   central server responsible for performing the backups. If you do not use Netbackup,
   you can modify this search for your backup solution. Depending on how often you
   backup your systems, you may want to modify how far in the past to look for a successful
   backup, other than the default of seven days.
-id: a34aae96-ccf8-4aef-952c-3ea214444440
 known_false_positives: None identified
-name: Extended Period Without Successful Netbackup Backups
 references: []
-search: '`netbackup` MESSAGE="Disk/Partition backup completed successfully." | stats
-  latest(_time) as latestTime by COMPUTERNAME | `security_content_ctime(latestTime)`
-  | rename COMPUTERNAME as dest | eval isOutlier=if(latestTime <= relative_time(now(),
-  "-7d@d"), 1, 0) | search isOutlier=1 | table latestTime, dest | `extended_period_without_successful_netbackup_backups_filter`'
 tags:
   analytic_story:
   - Monitor Backup Solution
@@ -29,5 +32,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: batch
-version: 1
