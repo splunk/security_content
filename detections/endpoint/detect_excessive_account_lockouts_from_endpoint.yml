@@ -20,6 +20,7 @@ id: c026e3dd-7e18-4abb-8f41-929e836efe74
 known_false_positives: It's possible that a widely used system, such as a kiosk, could
   cause a large number of account lockouts.
 name: Detect Excessive Account Lockouts From Endpoint
+references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(All_Changes.user) as user from datamodel=Change.All_Changes where
   nodename=All_Changes.Account_Management All_Changes.result="lockout" by All_Changes.dest

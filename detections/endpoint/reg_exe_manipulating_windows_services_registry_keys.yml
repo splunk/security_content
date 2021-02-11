@@ -7,6 +7,12 @@ known_false_positives: It is unusual for a service to be created or modified by 
   manipulating the registry. However, there may be legitimate instances of this behavior.
   It is important to validate and investigate, as appropriate.
 name: Reg exe Manipulating Windows Services Registry Keys
+how_to_implement: To successfully implement this search, you must be ingesting data
+that records registry activity from your hosts to populate the endpoint data model
+in the registry node. This is typically populated via endpoint detection-and-response
+products, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+used for this search is typically generated via logs that report reads and writes
+to the registry.
 references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)

@@ -7,6 +7,7 @@ known_false_positives: The activity may be legitimate. For this reason, it's bes
   to verify the account with an administrator and ask whether there was a valid service
   request for the account creation. If your local administrator group name is not
   "Administrators", this search may generate an excessive number of false positives
+how_to_implement: 'You must be ingesting Windows event logs using the Splunk Windows TA and collecting event code 4720 and 4732'
 name: Detect New Local Admin account
 references: []
 search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
