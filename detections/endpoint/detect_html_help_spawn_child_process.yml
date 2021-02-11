@@ -2,16 +2,12 @@ name: Detect HTML Help Spawn Child Process
 id: 723716de-ee55-4cd4-9759-c44e7e55ba4b
 version: 1
 date: '2021-02-11'
-description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled
-  HTML Help (CHM) that spawns a child process. This particular technique will load
-  Windows script code from compiled help file. CHM files may contain nearly any file
-  type embedded, but only execute html/htm. Upon a successful execution, the following
-  script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode,
-  JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe
-  upon execution. The "htm" and "html" file extensions were the only extensions observed
-  to be supported for the execution of Shortcut commands or WSH script code. During
-  investigation, identify script content origination. Review child process events
-  and investigate further. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) that spawns a child process.
+  This particular technique will load Windows script code from a compiled help file. CHM files may contain nearly any file type embedded, but only execute html/htm.
+  Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution.
+  The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code.
+  During investigation, identify script content origination. Review child process events and investigate further.
+  hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. 
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.

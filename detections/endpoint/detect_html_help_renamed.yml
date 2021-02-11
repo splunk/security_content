@@ -1,14 +1,12 @@
-name: Detect HTML Help URL in Command Line
-id: 8c5835b9-39d9-438b-817c-95f14c69a31e
+name: Detect HTML Help Renamed
+id: 62fed254-513b-460e-953d-79771493a9f3
 version: 1
 date: '2021-02-11'
-description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) file from a remote url.
-  This particular technique will load Windows script code from a compiled help file. CHM files may  contain nearly any file type embedded, but only execute html/htm.
+description: The following analytic identifies a renamed instance of hh.exe (HTML Help) executing a Compiled HTML Help (CHM).
+  This particular technique will load Windows script code from a compiled help file. CHM files may contain nearly any file type embedded, but only execute html/htm.
   Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution.
   The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code.
-  During investigation, identify script content origination.
-  Review reputation of remote IP and domain.
-  Some instances, it is worth decompiling the .chm file to review its original contents.
+  During investigation, identify script content origination. Validate it is the legitimate version of hh.exe by reviewing the PE metadata. 
   hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. 
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -18,19 +16,15 @@ references:
 - https://attack.mitre.org/techniques/T1218/001/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
 - https://lolbas-project.github.io/lolbas/Binaries/Hh/
-- https://blog.sevagas.com/?Hacking-around-HTA-files
-- https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
-- https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
 author: Michael Haag, Splunk
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=hh.exe
-  Processes.process=*http* by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
+search: '`sysmon` EventID=1 OriginalFileName=HH.exe NOT process_name=hh.exe
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
+  parent_process_name, process_name, OriginalFileName, process_path, CommandLine 
+  | rename Computer as dest 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `detect_html_help_url_in_command_line_filter`'
-known_false_positives: Although unlikely, some legitimate applications may retrieve a CHM remotely, filter as needed.
+  | `detect_html_help_renamed_filter`'
+known_false_positives: Although unlikely a renamed instance of hh.exe will be used legitimately, filter as needed.
 tags:
   analytic_story:
   - Suspicious Compiled HTML file Activity
