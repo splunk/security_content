@@ -1,15 +1,15 @@
-author: Bhavin Patel, Splunk
+name: Baseline of blocked outbound traffic from AWS
+id: fc0edd96-ff2b-48b0-9f1f-63da3782fd63
+version: 1
 date: '2018-05-07'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation of the number of outbound connections blocked in your VPC flow logs by
   each source IP address (IP address of your EC2 instances). Also recorded is the
   number of data points for each source IP. This table outputs to a lookup file to
   allow the detection search to operate quickly.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS version (4.4.0 or later), then configure your `VPC flow
-  logs.`.
-id: fc0edd96-ff2b-48b0-9f1f-63da3782fd63
-name: Baseline of blocked outbound traffic from AWS
 search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12
   OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)
   | bucket _time span=1h | stats count as numberOfBlockedConnections by _time, src_ip
@@ -18,6 +18,10 @@ search: '`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=17
   as stdevBlockedConnections by src_ip | table src_ip, latestCount, numDataPoints,
   avgBlockedConnections, stdevBlockedConnections | outputlookup baseline_blocked_outbound_connections
   | stats count'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your `VPC flow
+  logs.`.
+references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
@@ -29,5 +33,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

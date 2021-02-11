@@ -82,6 +82,34 @@
       "type": "object",
       "uniqueItems": true
     },
+    "datamodel": {
+      "$id": "#/properties/datamodel",
+      "default": "",
+      "description": "datamodel used in the search",
+      "examples": [
+        "Endpoint"
+      ],
+      "items": {
+        "enum": [
+          "Endpoint",
+          "Network_Traffic",
+          "Authentication",
+          "Change",
+          "Change_Analysis",
+          "Email",
+          "Endpoint",
+          "Network_Resolution",
+          "Network_Sessions",
+          "Network_Traffic",
+          "UEBA",
+          "Updates",
+          "Vulnerabilities",
+          "Web"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
     "version": {
       "$id": "#/properties/version",
       "default": 0,

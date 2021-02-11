@@ -1,10 +1,18 @@
-author: Jason Brewer, Splunk
+name: Baseline of Excessive AWS Instances Launched by User - MLTK
+id: fa5634df-fb05-4b4b-aba0-6115138bb1ba
+version: 1
 date: '2019-11-14'
+author: Jason Brewer, Splunk
+type: batch
+datamodel: []
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   for how many RunInstances users do in the environment. By default, the search uses
   the last 90 days of data to build the model. The model created by this search is
   then used in the corresponding detection search, which identifies subsequent outliers
   in the number of RunInstances performed by a user in a small time window.
+search: '`cloudtrail` eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
+  | bucket span=10m _time | stats count as instances_launched by _time src_user |
+  fit DensityFunction instances_launched threshold=0.0005 into ec2_excessive_runinstances_v1'
 how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.\
@@ -19,11 +27,7 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
   search to rebuild the model with the latest data.\
 
   More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.'
-id: fa5634df-fb05-4b4b-aba0-6115138bb1ba
-name: Baseline of Excessive AWS Instances Launched by User - MLTK
-search: '`cloudtrail` eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter`
-  | bucket span=10m _time | stats count as instances_launched by _time src_user |
-  fit DensityFunction instances_launched threshold=0.0005 into ec2_excessive_runinstances_v1'
+references: []
 tags:
   analytic_story:
   - AWS Cryptomining
@@ -34,5 +38,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

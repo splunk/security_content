@@ -1,20 +1,15 @@
-author: David Dorsey, Splunk
+name: Baseline Of Cloud Security Group API Calls Per User
+id: 67b84d51-8329-4909-849f-8d38ce54260a
+version: 1
 date: '2020-09-07'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   for how many API calls for security groups are performed by each user. By default,
   the search uses the last 90 days of data to build the model and the model is rebuilt
   weekly.
-how_to_implement: You must have Enterprise Security 6.0 or later, if not you will
-  need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is
-  installed, along with any required dependencies. Depending on the number of users
-  in your environment, you may also need to adjust the value for max_inputs in the
-  MLTK settings for the DensityFunction algorithm, then ensure that the search completes
-  in a reasonable timeframe. By default, the search builds the model using the past
-  90 days of data. You can modify the search window to build the model over a longer
-  period of time, which may give you better results. You may also want to periodically
-  re-run this search to rebuild the model with the latest data.
-id: 67b84d51-8329-4909-849f-8d38ce54260a
-name: Baseline Of Cloud Security Group API Calls Per User
 search: '| tstats count as security_group_api_calls from datamodel=Change where All_Changes.object_category=firewall
   All_Changes.status=success by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")`
   | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval
@@ -24,6 +19,16 @@ search: '| tstats count as security_group_api_calls from datamodel=Change where 
   isWeekend | where security_group_api_calls >= 1 | fit DensityFunction security_group_api_calls
   by "user,HourOfDay,isWeekend" into cloud_excessive_security_group_api_calls_v1 dist=norm
   show_density=true'
+how_to_implement: You must have Enterprise Security 6.0 or later, if not you will
+  need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is
+  installed, along with any required dependencies. Depending on the number of users
+  in your environment, you may also need to adjust the value for max_inputs in the
+  MLTK settings for the DensityFunction algorithm, then ensure that the search completes
+  in a reasonable timeframe. By default, the search builds the model using the past
+  90 days of data. You can modify the search window to build the model over a longer
+  period of time, which may give you better results. You may also want to periodically
+  re-run this search to rebuild the model with the latest data.
+references: []
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
@@ -35,5 +40,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

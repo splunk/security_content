@@ -1,20 +1,24 @@
-author: Bhavin Patel, Splunk
+name: Baseline of Network ACL Activity by ARN
+id: fc0edd96-ff2b-4810-9f1f-63da3783fd63
+version: 1
 date: '2018-05-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation of the number of API calls that were related to network ACLs made by each
   user. Also recorded is the number of data points for each user. This table is then
   outputted to a lookup file to allow the detection search to operate quickly.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs. To add or remove API event names for network ACLs, edit the macro `network_acl_events`.
-id: fc0edd96-ff2b-4810-9f1f-63da3783fd63
-name: Baseline of Network ACL Activity by ARN
 search: '`cloudtrail` `network_acl_events` | spath output=arn path=userIdentity.arn
   | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls)
   as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls,
   stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints,
   avgApiCalls, stdevApiCalls | outputlookup network_acl_activity_baseline | stats
   count'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs. To add or remove API event names for network ACLs, edit the macro `network_acl_events`.
+references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
@@ -24,5 +28,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1
