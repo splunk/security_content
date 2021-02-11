@@ -2,12 +2,17 @@ name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
 version: 1
 date: '2021-02-11'
-description: The following analytic identifies a renamed instance of hh.exe (HTML Help) executing a Compiled HTML Help (CHM).
-  This particular technique will load Windows script code from a compiled help file. CHM files may contain nearly any file type embedded, but only execute html/htm.
-  Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution.
-  The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code.
-  During investigation, identify script content origination. Validate it is the legitimate version of hh.exe by reviewing the PE metadata. 
-  hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. 
+description: The following analytic identifies a renamed instance of hh.exe (HTML
+  Help) executing a Compiled HTML Help (CHM). This particular technique will load
+  Windows script code from a compiled help file. CHM files may contain nearly any
+  file type embedded, but only execute html/htm. Upon a successful execution, the
+  following script engines may be used for execution - JScript, VBScript, VBScript.Encode,
+  JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll
+  loading into hh.exe upon execution. The "htm" and "html" file extensions were the
+  only extensions observed to be supported for the execution of Shortcut commands
+  or WSH script code. During investigation, identify script content origination. Validate
+  it is the legitimate version of hh.exe by reviewing the PE metadata. hh.exe is natively
+  found in C:\Windows\system32 and C:\Windows\syswow64.
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -17,14 +22,12 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
 - https://lolbas-project.github.io/lolbas/Binaries/Hh/
 author: Michael Haag, Splunk
-search: '`sysmon` EventID=1 OriginalFileName=HH.exe NOT process_name=hh.exe
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
-  parent_process_name, process_name, OriginalFileName, process_path, CommandLine 
-  | rename Computer as dest 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `detect_html_help_renamed_filter`'
-known_false_positives: Although unlikely a renamed instance of hh.exe will be used legitimately, filter as needed.
+search: '`sysmon` EventID=1 OriginalFileName=HH.exe NOT process_name=hh.exe | stats
+  count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name,
+  process_name, OriginalFileName, process_path, CommandLine | rename Computer as dest
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_html_help_renamed_filter`'
+known_false_positives: Although unlikely a renamed instance of hh.exe will be used
+  legitimately, filter as needed.
 tags:
   analytic_story:
   - Suspicious Compiled HTML file Activity
@@ -41,3 +44,4 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
