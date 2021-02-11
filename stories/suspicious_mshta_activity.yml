@@ -1,9 +1,11 @@
-author: Bhavin Patel, Michael Haag, Splunk
+name: Suspicious MSHTA Activity
+id: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
+version: 2
 date: '2021-01-20'
+author: Bhavin Patel, Michael Haag, Splunk
+type: batch
 description: Monitor and detect techniques used by attackers who leverage the mshta.exe
   process to execute malicious code.
-id: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
-name: Suspicious MSHTA Activity
 narrative: 'One common adversary tactic is to bypass application white-listing solutions
   via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll)
   with the .hta suffix. In these cases, attackers use the trusted Windows utility
@@ -39,5 +41,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: batch
-version: 2

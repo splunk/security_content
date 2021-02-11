@@ -1,10 +1,12 @@
-author: Bhavin Patel, Splunk
+name: Dynamic DNS
+id: 8169f17b-ef68-4b59-aae8-586907301221
+version: 2
 date: '2018-09-06'
+author: Bhavin Patel, Splunk
+type: batch
 description: Detect and investigate hosts in your environment that may be communicating
   with dynamic domain providers. Attackers may leverage these services to help them
   avoid firewall blocks and deny lists.
-id: 8169f17b-ef68-4b59-aae8-586907301221
-name: Dynamic DNS
 narrative: Dynamic DNS services (DDNS) are legitimate low-cost or free services that
   allow users to rapidly update domain resolutions to IP infrastructure. While their
   usage can be benign, malicious actors can abuse DDNS to host harmful payloads or
@@ -30,5 +32,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 2

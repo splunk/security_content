@@ -1,11 +1,13 @@
-author: Rico Valdez, Splunk
+name: Host Redirection
+id: 2e8948a5-5239-406b-b56b-6c50fe268af4
+version: 1
 date: '2017-09-14'
+author: Rico Valdez, Splunk
+type: batch
 description: Detect evidence of tactics used to redirect traffic from a host to a
   destination other than the one intended--potentially one that is part of an adversary's
   attack infrastructure. An example is redirecting communications regarding patches
   and updates or misleading users into visiting a malicious website.
-id: 2e8948a5-5239-406b-b56b-6c50fe268af4
-name: Host Redirection
 narrative: Attackers will often attempt to manipulate client communications for nefarious
   purposes. In some cases, an attacker may endeavor to modify a local host file to
   redirect communications with resources (such as antivirus or system-update services)
@@ -25,5 +27,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: batch
-version: 1

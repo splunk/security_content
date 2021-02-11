@@ -1,10 +1,12 @@
-author: David Dorsey, Splunk
+name: Unusual AWS EC2 Modifications
+id: 73de57ef-0dfc-411f-b1e7-fa24428aeae0
+version: 1
 date: '2018-04-09'
+author: David Dorsey, Splunk
+type: batch
 description: Identify unusual changes to your AWS EC2 instances that may indicate
   malicious activity. Modifications to your EC2 instances by previously unseen users
   is an example of an activity that may warrant further investigation.
-id: 73de57ef-0dfc-411f-b1e7-fa24428aeae0
-name: Unusual AWS EC2 Modifications
 narrative: "A common attack technique is to infiltrate a cloud instance and make modifications.\
   \ The adversary can then secure access to your infrastructure or hide their activities.\
   \ So it's important to stay alert to changes that may indicate that your environment\
@@ -25,5 +27,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

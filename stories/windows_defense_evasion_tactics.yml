@@ -1,10 +1,12 @@
-author: David Dorsey, Splunk
+name: Windows Defense Evasion Tactics
+id: 56e24a28-5003-4047-b2db-e8f3c4618064
+version: 1
 date: '2018-05-31'
+author: David Dorsey, Splunk
+type: batch
 description: 'Detect tactics used by malware to evade defenses on Windows endpoints.
   A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe`
   and disabling user-account control, among many others '
-id: 56e24a28-5003-4047-b2db-e8f3c4618064
-name: Windows Defense Evasion Tactics
 narrative: Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that
   adversaries employ in a variety of ways to bypass or defeat defensive security measures.
   There are many techniques enumerated by the MITRE ATT&CK framework that are applicable
@@ -21,5 +23,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: batch
-version: 1

@@ -1,8 +1,10 @@
-author: Patrick Bareiss, Splunk
-date: '2020-12-16'
-description: This story is focused around detecting Office 365 Attacks.
-id: 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
 name: Office 365 Detections
+id: 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
+version: 1
+date: '2020-12-16'
+author: Patrick Bareiss, Splunk
+type: batch
+description: This story is focused around detecting Office 365 Attacks.
 narrative: More and more companies are using Microsofts Office 365 cloud offering.
   Therefore, we see more and more attacks against Office 365. This story provides
   various detections for Office 365 attacks.
@@ -17,5 +19,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

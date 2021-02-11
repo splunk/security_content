@@ -1,9 +1,11 @@
-author: Michael Haag, Splunk
+name: Trusted Developer Utilities Proxy Execution MSBuild
+id: be3418e2-551b-11eb-ae93-0242ac130002
+version: 1
 date: '2021-01-21'
+author: Michael Haag, Splunk
+type: batch
 description: Monitor and detect techniques used by attackers who leverage the msbuild.exe
   process to execute malicious code.
-id: be3418e2-551b-11eb-ae93-0242ac130002
-name: Trusted Developer Utilities Proxy Execution MSBuild
 narrative: 'Adversaries may use MSBuild to proxy execution of code through a trusted
   Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform
   used by Visual Studio and is native to Windows. It handles XML formatted project
@@ -46,5 +48,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: batch
-version: 1

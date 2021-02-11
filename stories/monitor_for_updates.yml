@@ -1,10 +1,12 @@
-author: Rico Valdez, Splunk
+name: Monitor for Updates
+id: 9ef8d677-7b52-4213-a038-99cfc7acc2d8
+version: 1
 date: '2017-09-15'
+author: Rico Valdez, Splunk
+type: batch
 description: Monitor your enterprise to ensure that your endpoints are being patched
   and updated. Adversaries notoriously exploit known vulnerabilities that could be
   mitigated by applying routine security patches.
-id: 9ef8d677-7b52-4213-a038-99cfc7acc2d8
-name: Monitor for Updates
 narrative: 'It is a common best practice to ensure that endpoints are being patched
   and updated in a timely manner, in order to reduce the risk of compromise via a
   publicly disclosed vulnerability. Timely application of updates/patches is important
@@ -29,5 +31,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Compliance
-type: batch
-version: 1

@@ -1,10 +1,12 @@
-author: David Dorsey, Splunk
+name: AWS Suspicious Provisioning Activities
+id: 3338b567-3804-4261-9889-cf0ca4753c7f
+version: 1
 date: '2018-03-16'
+author: David Dorsey, Splunk
+type: batch
 description: Monitor your AWS provisioning activities for behaviors originating from
   unfamiliar or unusual locations. These behaviors may indicate that malicious activities
   are occurring somewhere within your network.
-id: 3338b567-3804-4261-9889-cf0ca4753c7f
-name: AWS Suspicious Provisioning Activities
 narrative: 'Because most enterprise AWS activities originate from familiar geographic
   locations, monitoring for activity from unknown or unusual regions is an important
   security measure. This indicator can be especially useful in environments where
@@ -30,5 +32,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

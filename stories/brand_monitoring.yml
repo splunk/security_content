@@ -1,10 +1,12 @@
-author: David Dorsey, Splunk
+name: Brand Monitoring
+id: 91c676cf-0b23-438d-abee-f6335e1fce78
+version: 1
 date: '2017-12-19'
+author: David Dorsey, Splunk
+type: batch
 description: Detect and investigate activity that may indicate that an adversary is
   using faux domains to mislead users into interacting with malicious infrastructure.
   Monitor DNS, email, and web traffic for permutations of your brand name.
-id: 91c676cf-0b23-438d-abee-f6335e1fce78
-name: Brand Monitoring
 narrative: 'While you can educate your users and customers about the risks and threats
   posed by typosquatting, phishing, and corporate espionage, human error is a persistent
   fact of life. Of course, your adversaries are all too aware of this reality and
@@ -36,5 +38,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: batch
-version: 1

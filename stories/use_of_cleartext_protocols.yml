@@ -1,9 +1,11 @@
-author: Bhavin Patel, Splunk
+name: Use of Cleartext Protocols
+id: 826e6431-aeef-41b4-9fc0-6d0985d65a21
+version: 1
 date: '2017-09-15'
+author: Bhavin Patel, Splunk
+type: batch
 description: Leverage searches that detect cleartext network protocols that may leak
   credentials or should otherwise be encrypted.
-id: 826e6431-aeef-41b4-9fc0-6d0985d65a21
-name: Use of Cleartext Protocols
 narrative: Various legacy protocols operate by default in the clear, without the protections
   of encryption. This potentially leaks sensitive information that can be exploited
   by passively sniffing network traffic. Depending on the protocol, this information
@@ -22,5 +24,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

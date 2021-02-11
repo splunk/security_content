@@ -1,10 +1,12 @@
-author: David Dorsey, Splunk
+name: Monitor Backup Solution
+id: abe807c7-1eb6-4304-ac32-6e7aacdb891d
+version: 1
 date: '2017-09-12'
+author: David Dorsey, Splunk
+type: batch
 description: Address common concerns when monitoring your backup processes. These
   searches can help you reduce risks from ransomware, device theft, or denial of physical
   access to a host by backing up data on endpoints.
-id: abe807c7-1eb6-4304-ac32-6e7aacdb891d
-name: Monitor Backup Solution
 narrative: Having backups is a standard best practice that helps ensure continuity
   of business operations.  Having mature backup processes can also help you reduce
   the risks of many security-related incidents and streamline your response processes.
@@ -23,5 +25,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Compliance
-type: batch
-version: 1

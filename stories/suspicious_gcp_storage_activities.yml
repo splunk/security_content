@@ -1,11 +1,13 @@
-author: Shannon Davis, Splunk
+name: Suspicious GCP Storage Activities
+id: 4d656b2e-d6be-11ea-87d0-0242ac130003
+version: 1
 date: '2020-08-05'
+author: Shannon Davis, Splunk
+type: batch
 description: Use the searches in this Analytic Story to monitor your GCP Storage buckets
   for evidence of anomalous activity and suspicious behaviors, such as detecting open
   storage buckets and buckets being accessed from a new IP. The contextual and investigative
   searches will give you more information, when required.
-id: 4d656b2e-d6be-11ea-87d0-0242ac130003
-name: Suspicious GCP Storage Activities
 narrative: Similar to other cloud providers, GCP operates on a shared responsibility
   model. This means the end user, you, are responsible for setting appropriate access
   control lists and permissions on your GCP resources.\ This Analytics Story concentrates
@@ -23,5 +25,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

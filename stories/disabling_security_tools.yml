@@ -1,10 +1,12 @@
-author: Rico Valdez, Splunk
+name: Disabling Security Tools
+id: fcc27099-46a0-46b0-a271-5c7dab56b6f1
+version: 2
 date: '2020-02-04'
+author: Rico Valdez, Splunk
+type: batch
 description: Looks for activities and techniques associated with the disabling of
   security tools on a Windows system, such as suspicious `reg.exe` processes, processes
   launching netsh, and many others.
-id: fcc27099-46a0-46b0-a271-5c7dab56b6f1
-name: Disabling Security Tools
 narrative: Attackers employ a variety of tactics in order to avoid detection and operate
   without barriers. This often involves modifying the configuration of security tools
   to get around them or explicitly disabling them to prevent them from running. This
@@ -28,5 +30,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 2

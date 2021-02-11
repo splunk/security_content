@@ -1,10 +1,12 @@
-author: Rico Valdez, Splunk
+name: Windows Log Manipulation
+id: b6db2c60-a281-48b4-95f1-2cd99ed56835
+version: 2
 date: '2017-09-12'
+author: Rico Valdez, Splunk
+type: batch
 description: Adversaries often try to cover their tracks by manipulating Windows logs.
   Use these searches to help you monitor for suspicious activity surrounding log files--an
   essential component of an effective defense.
-id: b6db2c60-a281-48b4-95f1-2cd99ed56835
-name: Windows Log Manipulation
 narrative: 'Because attackers often modify system logs to cover their tracks and/or
   to thwart the investigative process, log monitoring is an industry-recognized best
   practice. While there are legitimate reasons to manipulate system logs, it is still
@@ -32,5 +34,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 2

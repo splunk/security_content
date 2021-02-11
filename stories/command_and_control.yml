@@ -1,11 +1,13 @@
-author: Rico Valdez, Splunk
+name: Command and Control
+id: 943773c6-c4de-4f38-89a8-0b92f98804d8
+version: 1
 date: '2018-06-01'
+author: Rico Valdez, Splunk
+type: batch
 description: Detect and investigate tactics, techniques, and procedures leveraged
   by attackers to establish and operate command and control channels. Implants installed
   by attackers on compromised endpoints use these channels to receive instructions
   and send data back to the malicious operators.
-id: 943773c6-c4de-4f38-89a8-0b92f98804d8
-name: Command and Control
 narrative: 'Threat actors typically architect and implement an infrastructure to use
   in various ways during the course of their attack campaigns. In some cases, they
   leverage this infrastructure for scanning and performing reconnaissance activities.
@@ -34,5 +36,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

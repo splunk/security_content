@@ -1,10 +1,12 @@
-author: Bhavin Patel, Splunk
+name: Asset Tracking
+id: 91c676cf-0b23-438d-abee-f6335e1fce77
+version: 1
 date: '2017-09-13'
+author: Bhavin Patel, Splunk
+type: batch
 description: Keep a careful inventory of every asset on your network to make it easier
   to detect rogue devices. Unauthorized/unmanaged devices could be an indication of
   malicious behavior that should be investigated further.
-id: 91c676cf-0b23-438d-abee-f6335e1fce77
-name: Asset Tracking
 narrative: This Analytic Story is designed to help you develop a better understanding
   of what authorized and unauthorized devices are part of your enterprise. This story
   can help you better categorize and classify assets, providing critical business
@@ -23,5 +25,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

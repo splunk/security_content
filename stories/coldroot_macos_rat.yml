@@ -1,12 +1,14 @@
-author: Jose Hernandez, Splunk
+name: ColdRoot MacOS RAT
+id: bd91a2bc-d20b-4f44-a982-1bea98e86390
+version: 1
 date: '2019-01-09'
+author: Jose Hernandez, Splunk
+type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example
   of some of these activities are changing sensative binaries in the MacOS sub-system,
   detecting process names and executables associated with the RAT, detecting when
   a keyboard tab is installed on a MacOS machine and more.
-id: bd91a2bc-d20b-4f44-a982-1bea98e86390
-name: ColdRoot MacOS RAT
 narrative: 'Conventional wisdom holds that Apple''s MacOS operating system is significantly
   less vulnerable to attack than Windows machines. While that point is debatable,
   it is true that attacks against MacOS systems are much less common. However, this
@@ -44,5 +46,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: batch
-version: 1

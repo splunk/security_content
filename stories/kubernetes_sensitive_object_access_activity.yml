@@ -1,10 +1,12 @@
-author: Rod Soto, Splunk
+name: Kubernetes Sensitive Object Access Activity
+id: 2574e6d9-7254-4751-8925-0447deeec8ea
+version: 1
 date: '2020-05-20'
+author: Rod Soto, Splunk
+type: batch
 description: This story addresses detection and response of accounts acccesing Kubernetes
   cluster sensitive objects such as configmaps or secrets providing information on
   items such as user user, group. object, namespace and authorization reason.
-id: 2574e6d9-7254-4751-8925-0447deeec8ea
-name: Kubernetes Sensitive Object Access Activity
 narrative: Kubernetes is the most used container orchestration platform, this orchestration
   platform contains sensitive objects within its architecture, specifically configmaps
   and secrets, if accessed by an attacker can lead to further compromise. These searches
@@ -20,5 +22,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

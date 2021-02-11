@@ -1,9 +1,11 @@
-author: David Dorsey, Splunk
+name: Orangeworm Attack Group
+id: bb9f5ed2-916e-4364-bb6d-97c370efcf52
+version: 2
 date: '2020-01-22'
+author: David Dorsey, Splunk
+type: batch
 description: Detect activities and various techniques associated with the Orangeworm
   Attack Group, a group that frequently targets the healthcare industry.
-id: bb9f5ed2-916e-4364-bb6d-97c370efcf52
-name: Orangeworm Attack Group
 narrative: 'In May of 2018, the attack group Orangeworm was implicated for installing
   a custom backdoor called Trojan.Kwampirs within large international healthcare corporations
   in the United States, Europe, and Asia. This malware provides the attackers with
@@ -39,5 +41,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: batch
-version: 2

@@ -186,6 +186,46 @@ def pretty_yaml_deployments(REPO_PATH, VERBOSE, content_part):
 
     return manifest_files
 
+def pretty_yaml_stories(REPO_PATH, VERBOSE, content_part):
+    manifest_files = []
+    for root, dirs, files in walk(REPO_PATH + "/" + content_part + '/'):
+        for file in files:
+            if file.endswith(".yml"):
+                manifest_files.append((path.join(root, file)))
+
+    for manifest_file in manifest_files:
+        pretty_yaml = dict()
+        if VERBOSE:
+            print("processing manifest {0}".format(manifest_file))
+
+        with open(manifest_file, 'r') as stream:
+            try:
+                object = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print("Error reading {0}".format(manifest_file))
+                error = True
+                continue
+
+        pretty_yaml['name'] = object['name']
+        pretty_yaml['id'] = object['id']
+        pretty_yaml['version'] = object['version']
+        pretty_yaml['date'] = object['date']
+        pretty_yaml['author'] = object['author']
+        pretty_yaml['type'] = object['type']
+        pretty_yaml['description'] = object['description']
+        pretty_yaml['narrative'] = object['narrative']
+        if 'references' in object:
+            pretty_yaml['references'] = object['references']
+        else:
+            pretty_yaml['references'] = []
+        pretty_yaml['tags'] = object['tags']
+
+        with open(manifest_file, 'w') as file:
+            documents = yaml.dump(pretty_yaml, file, sort_keys=False)
+
+    return manifest_files
+
 def pretty_yaml(REPO_PATH, VERBOSE, content_part):
     #for root, dirs, files in walk(REPO_PATH + "/"):
     manifest_files = []
@@ -195,7 +235,8 @@ def pretty_yaml(REPO_PATH, VERBOSE, content_part):
         manifest_files = pretty_yaml_baselines(REPO_PATH, VERBOSE, content_part)
     elif content_part == 'deployments':
         manifest_files = pretty_yaml_deployments(REPO_PATH, VERBOSE, content_part)
-
+    elif content_part == 'stories':
+        manifest_files = pretty_yaml_stories(REPO_PATH, VERBOSE, content_part)
     return len(manifest_files)
 
 def main(args):

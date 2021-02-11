@@ -1,11 +1,13 @@
-author: David Dorsey, Splunk
+name: AWS Cryptomining
+id: ced74200-8465-4bc3-bd2c-9a782eec6750
+version: 1
 date: '2018-03-08'
+author: David Dorsey, Splunk
+type: batch
 description: Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining.
   New instances that originate from previously unseen regions, users who launch abnormally
   high numbers of instances, or EC2 instances started by previously unseen users are
   just a few examples of potentially malicious behavior.
-id: ced74200-8465-4bc3-bd2c-9a782eec6750
-name: AWS Cryptomining
 narrative: 'Cryptomining is an intentionally difficult, resource-intensive business.
   Its complexity was designed into the process to ensure that the number of blocks
   mined each day would remain steady. So, it''s par for the course that ambitious,
@@ -41,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

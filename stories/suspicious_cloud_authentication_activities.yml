@@ -1,10 +1,12 @@
-author: Rico Valdez, Splunk
+name: Suspicious Cloud Authentication Activities
+id: 6380ebbb-55c5-4fce-b754-01fd565fb73c
+version: 1
 date: '2020-06-04'
+author: Rico Valdez, Splunk
+type: batch
 description: 'Monitor your cloud authentication events. Searches within this Analytic
   Story leverage the recent cloud updates to the Authentication data model to help
   you stay aware of and investigate suspicious login activity. '
-id: 6380ebbb-55c5-4fce-b754-01fd565fb73c
-name: Suspicious Cloud Authentication Activities
 narrative: 'It is important to monitor and control who has access to your cloud infrastructure.
   Detecting suspicious logins will provide good starting points for investigations.
   Abusive behaviors caused by compromised credentials can lead to direct monetary
@@ -25,5 +27,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1

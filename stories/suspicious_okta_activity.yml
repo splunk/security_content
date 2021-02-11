@@ -1,12 +1,14 @@
-author: Rico Valdez, Splunk
+name: Suspicious Okta Activity
+id: 9cbd34af-8f39-4476-a423-bacd126c750b
+version: 1
 date: '2020-04-02'
+author: Rico Valdez, Splunk
+type: batch
 description: Monitor your Okta environment for suspicious activities. Due to the Covid
   outbreak, many users are migrating over to leverage cloud services more and more.
   Okta is a popular tool to manage multiple users and the web-based applications they
   need to stay productive. The searches in this story will help monitor your Okta
   environment for suspicious activities and associated user behaviors.
-id: 9cbd34af-8f39-4476-a423-bacd126c750b
-name: Suspicious Okta Activity
 narrative: 'Okta is the leading single sign on (SSO) provider, allowing users to authenticate
   once to Okta, and from there access a variety of web-based applications. These applications
   are assigned to users and allow administrators to centrally manage which users are
@@ -36,5 +38,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: batch
-version: 1
