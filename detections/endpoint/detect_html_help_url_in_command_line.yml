@@ -3,7 +3,7 @@ id: 8c5835b9-39d9-438b-817c-95f14c69a31e
 version: 1
 date: '2021-02-11'
 description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) file from a remote url.
-  This particular technique will load Windows script code from compiled help file. CHM files may  contain nearly any file type embedded, but only execute html/htm.
+  This particular technique will load Windows script code from a compiled help file. CHM files may  contain nearly any file type embedded, but only execute html/htm.
   Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution.
   The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code.
   During investigation, identify script content origination.
@@ -24,14 +24,11 @@ references:
 author: Michael Haag, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=hh.exe
-  Processes.process=*http* by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+  Processes.process=*http* by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_html_help_url_in_command_line_filter`'
-known_false_positives: Although unlikely, some legitimate applications may use a moved
-  copy of hh, triggering a false positive.
+known_false_positives: Although unlikely, some legitimate applications may retrieve a CHM remotely, filter as needed.
 tags:
   analytic_story:
   - Suspicious Compiled HTML file Activity
@@ -48,3 +45,4 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
