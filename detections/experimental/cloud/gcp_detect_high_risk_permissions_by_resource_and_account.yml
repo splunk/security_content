@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-09'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of high risk permissions by resource and
   accounts. These are permissions that can allow attackers with compromised accounts
   to move laterally and escalate privileges.

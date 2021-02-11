@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for CloudTrail events wherein a console login event
   by a user was recorded within the last hour, then compares the event to a lookup
   file of previously seen users (by ARN values) who have logged into the console.

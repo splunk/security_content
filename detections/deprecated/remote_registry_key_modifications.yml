@@ -4,7 +4,7 @@ version: 3
 date: '2020-03-02'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search monitors for remote modifications to registry keys.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)

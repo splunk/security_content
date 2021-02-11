@@ -4,7 +4,8 @@ version: 3
 date: '2021-01-14'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: Malicious actors often abuse legitimate Dynamic DNS services to host
   malicious payloads or interactive command and control nodes. Attackers will automate
   domain resolution changes by routing dynamic domains to countless IP addresses to

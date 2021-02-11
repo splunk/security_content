@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Stuart Hopkins from Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for outbound SMB connections made by hosts within your
   network to the Internet. SMB traffic is used for Windows file-sharing activity.
   One of the techniques often used by attackers involves retrieving the credential

@@ -4,7 +4,8 @@ version: 1
 date: '2020-09-04'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search looks for new commands from each user role.
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,

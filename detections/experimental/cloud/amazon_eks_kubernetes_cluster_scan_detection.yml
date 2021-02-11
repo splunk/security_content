@@ -4,7 +4,7 @@ version: 1
 date: '2020-04-15'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster in AWS
 search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" userAgent!="AWS

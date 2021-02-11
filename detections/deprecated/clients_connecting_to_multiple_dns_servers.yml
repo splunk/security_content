@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search allows you to identify the endpoints that have connected
   to more than five DNS servers and made DNS Queries over the time frame of the search.
 search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest

@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-20'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The following analytic identifies "rundll32.exe" execution with inline
   protocol handlers. "JavaScript", "VBScript", and "About" are the only supported
   options when invoking HTA content directly on the command-line. This type of behavior

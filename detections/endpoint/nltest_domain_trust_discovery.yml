@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-25'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for the execution of `nltest.exe` with command-line
   arguments utilized to query for Domain Trust information. Two arguments `/domain
   trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted

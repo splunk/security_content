@@ -4,7 +4,8 @@ version: 1
 date: '2017-01-07'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Vulnerabilities
+datamodel:
+- Vulnerabilities
 description: The search is used to detect systems that are still vulnerable to the
   Spectre and Meltdown vulnerabilities.
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)

@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-28'
 author: Mikael Bjerkeland, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: By enabling Port Security on a Cisco switch you can restrict input to
   an interface by limiting and identifying MAC addresses of the workstations that
   are allowed to access the port. When you assign secure MAC addresses to a secure

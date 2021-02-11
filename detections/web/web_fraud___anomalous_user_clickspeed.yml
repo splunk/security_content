@@ -4,7 +4,7 @@ version: 1
 date: '2018-10-08'
 author: Jim Apger, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search is used to examine web sessions to identify those where the
   clicks are occurring too quickly for a human or are occurring with a near-perfect
   cadence (high periodicity or low standard deviation), resembling a script driven

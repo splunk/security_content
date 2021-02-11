@@ -4,7 +4,8 @@ version: 1
 date: '2019-12-10'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: Monitor for signs that Ntdsutil, Vssadmin, or Wmic has been used to create
   a shadow copy.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

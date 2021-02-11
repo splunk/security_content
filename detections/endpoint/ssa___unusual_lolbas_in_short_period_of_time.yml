@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-25'
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: Attacker activity may compromise executing several LOLBAS applications
   in conjunction to accomplish their objectives. We are looking for more than usual
   LOLBAS applications over a window of time, by building profiles per machine.

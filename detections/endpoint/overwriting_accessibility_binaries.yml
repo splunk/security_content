@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: Microsoft Windows contains accessibility features that can be launched
   with a key combination before a user has logged in. An adversary can modify or replace
   these programs so they can get a command prompt or backdoor without logging in to

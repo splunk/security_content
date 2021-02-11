@@ -4,7 +4,7 @@ version: 1
 date: '2020-12-16'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects when a user has performed an Ediscovery search or
   exported a PST file from the search. This PST file usually has sensitive information
   including email body content

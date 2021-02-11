@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-09'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of accounts with high risk roles by projects.
   Compromised accounts with high risk roles can move laterally or even scalate privileges
   at different projects depending on organization schema.

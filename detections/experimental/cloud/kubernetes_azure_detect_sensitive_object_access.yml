@@ -4,7 +4,7 @@ version: 1
 date: '2020-05-20'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information on Kubernetes accounts accessing sensitve
   objects such as configmpas or secrets
 search: '`kubernetes_azure` category=kube-audit | spath input=properties.log| search

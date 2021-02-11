@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-25'
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: An attacker tries might try to use different version of a system command
   without overriding original, or they might try to avoid some detection running the
   process from a different folder. This detection checks that a list of system processes

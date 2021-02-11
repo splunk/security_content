@@ -4,7 +4,7 @@ version: 1
 date: '2018-10-08'
 author: Jim Apger, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search is used to identify the creation of multiple user accounts
   using the same email domain name.
 search: '`stream_http` http_content_type=text* uri="/magento2/customer/account/loginPost/"

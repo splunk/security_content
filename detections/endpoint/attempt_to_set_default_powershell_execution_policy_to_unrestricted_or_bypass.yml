@@ -4,7 +4,8 @@ version: 6
 date: '2020-11-06'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: Monitor for changes of the ExecutionPolicy in the registry to the values
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

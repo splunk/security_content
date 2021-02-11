@@ -4,7 +4,7 @@ version: 1
 date: '2020-04-15'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster
 search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerIp!=127.0.0.1

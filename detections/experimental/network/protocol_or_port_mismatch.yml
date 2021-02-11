@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for network traffic on common ports where a higher
   layer protocol does not match the port that is being used. For example, this search
   should identify cases where protocols other than HTTP are running on TCP port 80.

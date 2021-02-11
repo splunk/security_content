@@ -4,7 +4,8 @@ version: 1
 date: '2020-10-12'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: Detect system information discovery techniques used by attackers to understand
   configurations of the system to further exploit it.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

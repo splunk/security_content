@@ -4,7 +4,8 @@ version: 1
 date: '2019-04-01'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for suspicious processes on all systems labeled as
   web servers.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

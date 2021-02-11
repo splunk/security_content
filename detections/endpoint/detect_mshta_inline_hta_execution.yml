@@ -4,7 +4,8 @@ version: 5
 date: '2021-01-20'
 author: Bhavin Patel, Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The following analytic identifies "mshta.exe" execution with inline protocol
   handlers. "JavaScript", "VBScript", and "About" are the only supported options when
   invoking HTA content directly on the command-line. The search will return the first

@@ -4,7 +4,7 @@ version: 4
 date: '2020-07-22'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for changes to registry values that control Windows
   file associations, executed by a process that is not typical for legitimate, routine
   changes to this area.

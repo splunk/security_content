@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for successful CloudTrail activity by user accounts
   that are not listed in the identity table or `aws_service_accounts.csv`. It returns
   event names and count, as well as the first and last time a specific user or service

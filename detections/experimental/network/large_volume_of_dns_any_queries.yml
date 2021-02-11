@@ -4,7 +4,8 @@ version: 1
 date: '2017-09-20'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: The search is used to identify attempts to use your DNS Infrastructure
   for DDoS purposes via a DNS amplification attack leveraging ANY queries.
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution

@@ -4,7 +4,7 @@ version: 1
 date: '2017-10-13'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for unusually long strings in the Content-Type http
   header that the client sends the server.
 search: '`stream_http` | eval cs_content_type_length = len(cs_content_type) | where

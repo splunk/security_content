@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: Detect failed Okta SSO events
 search: '`okta` displayMessage="User attempted unauthorized access to app" | stats  min(_time)
   as firstTime max(_time) as lastTime values(app) as Apps count by user, result ,displayMessage,

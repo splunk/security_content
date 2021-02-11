@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The following analytic identifies microsoft.workflow.compiler.exe usage.
   microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319
   and is rarely utilized. When investigating, identify the executed code on disk and

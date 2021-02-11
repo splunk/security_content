@@ -4,7 +4,7 @@ version: 1
 date: '2020-04-15'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection information on unauthenticated requests
   against Kubernetes' Pods API
 search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" verb=list objectRef.resource=pods

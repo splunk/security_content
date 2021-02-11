@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-22'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The wevtutil.exe application is the windows event log utility. This searches
   for wevtutil.exe with parameters for clearing the application, security, setup,
   or system event logs.

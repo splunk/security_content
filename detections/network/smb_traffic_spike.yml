@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-22'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for spikes in the number of Server Message Block (SMB)
   traffic connections.
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic

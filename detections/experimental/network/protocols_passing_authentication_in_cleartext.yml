@@ -4,7 +4,8 @@ version: 2
 date: '2020-11-04'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for cleartext protocols at risk of leaking credentials.
   Currently, this consists of legacy protocols such as telnet, POP3, IMAP, and non-anonymous
   FTP sessions. While some of these protocols can be used over SSL, they typically

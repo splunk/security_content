@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for the execution of the cscript.exe or wscript.exe
   processes, with a parent of cmd.exe. The search will return the count, the first
   and last time this execution was seen on a machine, the user, and the destination

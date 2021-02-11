@@ -4,7 +4,7 @@ version: 3
 date: '2019-04-25'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: The search looks for files created with names that have been linked to
   malicious activity.
 search: '| tstats `security_content_summariesonly` count values(Filesystem.action)

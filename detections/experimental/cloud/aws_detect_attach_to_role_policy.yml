@@ -4,7 +4,7 @@ version: 1
 date: '2020-07-27'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of an user attaching itself to a different
   role trust policy. This can be used for lateral movement and escalation of privileges.
 search: '`aws_cloudwatchlogs_eks` attach policy| spath requestParameters.policyArn

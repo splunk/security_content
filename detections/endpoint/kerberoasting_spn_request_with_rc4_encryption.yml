@@ -4,7 +4,7 @@ version: 3
 date: '2020-10-16'
 author: Jose Hernandez, Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects a potential kerberoasting attack via service principal
   name requests
 search: '`wineventlog_security` EventCode=4769 Ticket_Options=0x40810000 Ticket_Encryption_Type=0x17

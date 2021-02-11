@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-06'
 author: Rod Soto, Jose Hernandez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: 'The search looks for the Console Window Host process (connhost.exe)
   executed using the force flag -ForceV1. This is not regular behavior in the Windows
   OS and is often seen executed by the Ryuk Ransomware. DEPRECATED This event is actually

@@ -4,7 +4,8 @@ version: 3
 date: '2020-12-08'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for process names that consist only of a single letter.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest, Processes.user,

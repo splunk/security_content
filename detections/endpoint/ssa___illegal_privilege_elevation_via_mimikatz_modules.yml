@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies use of Mimikatz modules for illegal privilege
   elevation.
 search: '| from read_ssa_enriched_events()

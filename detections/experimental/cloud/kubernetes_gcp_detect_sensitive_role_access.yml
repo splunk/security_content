@@ -4,7 +4,7 @@ version: 1
 date: '2020-07-11'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information on Kubernetes accounts accessing sensitve
   objects such as configmpas or secrets
 search: '`google_gcp_pubsub_message` data.labels.authorization.k8s.io/reason=ClusterRoleBinding

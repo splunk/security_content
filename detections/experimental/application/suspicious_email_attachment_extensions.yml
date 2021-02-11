@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-22'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Email
+datamodel:
+- Email
 description: This search looks for emails that have attachments with suspicious file
   extensions.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

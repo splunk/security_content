@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: Jose Hernandez, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: The search takes the DNS records and their answers results of the discovered_dns_records
   lookup and finds if any records have changed by searching DNS response from the
   Network_Resolution datamodel across the last day.

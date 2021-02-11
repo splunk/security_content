@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-12'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for CloudTrail events where a user has created an open/public
   S3 bucket over the aws cli.
 search: '`cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp

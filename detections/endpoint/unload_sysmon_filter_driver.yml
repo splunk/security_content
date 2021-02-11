@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-22'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: Attackers often disable security tools to avoid detection. This search
   looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop
   sysmon from collecting the data.

@@ -4,7 +4,8 @@ version: 2
 date: '2020-01-22'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search allows you to identify DNS requests that are unusually large
   for the record type being requested in your environment.
 search: '| tstats `security_content_summariesonly` count min(_time) as start_time

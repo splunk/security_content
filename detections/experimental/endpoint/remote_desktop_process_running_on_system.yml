@@ -4,7 +4,8 @@ version: 5
 date: '2020-07-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for the remote desktop process mstsc.exe running on
   systems upon which it doesn't typically run. This is accomplished by filtering out
   all systems that are noted in the `common_rdp_source category` in the Assets and

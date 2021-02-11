@@ -4,7 +4,7 @@ version: 1
 date: '2019-12-03'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for reading loaded Images unique to credential dumping
   with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon
   Event Code.

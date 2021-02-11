@@ -4,7 +4,7 @@ version: 1
 date: '2020-12-16'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects when an admin configured a forwarding rule for multiple
   mailboxes to the same destination.
 search: '`o365_management_activity` Operation=Set-Mailbox | spath input=Parameters

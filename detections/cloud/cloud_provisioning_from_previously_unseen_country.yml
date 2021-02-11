@@ -4,7 +4,8 @@ version: 1
 date: '2020-10-09'
 author: Rico Valdez, Bhavin Patel, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search looks for cloud provisioning activities from previously unseen
   countries. Provisioning activities are defined broadly as any event that runs or
   creates something.

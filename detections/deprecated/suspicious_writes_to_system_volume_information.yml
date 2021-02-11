@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-22'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects writes to the 'System Volume Information' folder
   by something other than the System process.
 search: (`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume\

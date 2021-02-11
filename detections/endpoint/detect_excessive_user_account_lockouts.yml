@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search detects user accounts that have been locked out a relatively
   high number of times in a short period.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

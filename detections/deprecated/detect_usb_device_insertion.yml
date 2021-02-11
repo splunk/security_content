@@ -4,7 +4,8 @@ version: 1
 date: '2017-11-27'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Change_Analysis
+datamodel:
+- Change_Analysis
 description: The search is used to detect hosts that generate Windows Event ID 4663
   for successful attempts to write to or read from a removable storage and Event ID
   4656 for failures, which occurs when a USB drive is plugged in. In this scenario

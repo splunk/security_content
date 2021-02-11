@@ -4,7 +4,8 @@ version: 2
 date: '2017-09-18'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search is used to detect DNS tunneling, by calculating the sum of
   the length of DNS queries and DNS answers. The search also filters out potential
   false positives by filtering out queries made to internal systems and the queries

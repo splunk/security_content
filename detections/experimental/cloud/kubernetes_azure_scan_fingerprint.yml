@@ -4,7 +4,7 @@ version: 1
 date: '2020-05-19'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information of unauthenticated requests via source
   IP user agent, request URI and response status data against Kubernetes cluster in
   Azure

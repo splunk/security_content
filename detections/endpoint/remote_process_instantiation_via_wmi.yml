@@ -4,7 +4,8 @@ version: 5
 date: '2020-11-30'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for wmic.exe being launched with parameters to spawn
   a process on a remote system.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

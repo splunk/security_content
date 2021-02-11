@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-20'
 author: Michael Haag, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: The following analytic identifies renamed instances of mshta.exe executing.
   Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This
   analytic utilizes the internal name of the PE to identify if is the legitimate mshta

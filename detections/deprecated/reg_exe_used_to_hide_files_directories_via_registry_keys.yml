@@ -4,7 +4,8 @@ version: 2
 date: '2019-02-27'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The search looks for command-line arguments used to hide a file or directory
   using the reg add command.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

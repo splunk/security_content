@@ -4,7 +4,7 @@ version: 1
 date: '2018-06-28'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks at S3 bucket-access logs and detects new or previously
   unseen remote IP addresses that have successfully accessed an S3 bucket.
 search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_status=200

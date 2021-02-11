@@ -4,7 +4,7 @@ version: 1
 date: '2018-06-14'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search allows you to look for evidence of exploitation for CVE-2018-11409,
   a Splunk Enterprise Information Disclosure Bug.
 search: index=_internal sourcetype=splunkd_ui_access server-info | search clientip!=127.0.0.1

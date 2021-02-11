@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies access to PowerSploit modules that discover
   accounts, groups and policies that can be accessed or taken over.
 search: '| from read_ssa_enriched_events()

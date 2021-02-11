@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: The following analytic identifies renamed instances of msbuild.exe executing.
   Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and
   C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify

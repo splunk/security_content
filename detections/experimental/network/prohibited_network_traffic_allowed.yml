@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for network traffic defined by port and transport layer
   protocol in the Enterprise Security lookup table "lookup_interesting_ports", that
   is marked as prohibited, and has an associated 'allow' action in the Network_Traffic

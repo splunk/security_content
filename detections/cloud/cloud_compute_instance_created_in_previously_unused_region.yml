@@ -4,7 +4,8 @@ version: 1
 date: '2020-09-02'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search looks at cloud-infrastructure events where an instance is
   created in any region within the last hour and then compares it to a lookup file
   of previously seen regions where instances have been created.

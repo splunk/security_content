@@ -4,7 +4,7 @@ version: 1
 date: '2020-07-27'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of suspicious use of sts:GetSessionToken.
   These tokens can be created on the go and used by attackers to move laterally and
   escalate privileges.

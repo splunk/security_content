@@ -4,7 +4,7 @@ version: 4
 date: '2020-11-27'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for modifications to registry keys that can be used
   to elevate privileges. The registry keys under "Image File Execution Options" are
   used to intercept calls to an executable and can be used to attach malicious binaries

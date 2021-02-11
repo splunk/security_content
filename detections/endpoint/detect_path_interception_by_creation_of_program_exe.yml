@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-03'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: 'The detection Detect Path Interception By Creation Of program exe is
   detecting the abuse of unquoted service paths, which is a popular technique for
   privilege escalation. '

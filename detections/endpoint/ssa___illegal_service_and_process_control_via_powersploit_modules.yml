@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies access to PowerSploit modules that enable illegal
   control of services and processes, such as installing or spoofing of malicious services,
   injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands,

@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-25'
 author: Xiao Lin, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: Malicious mails can conduct phishing that induces readers to open attachment,
   click links or trigger third party service. This detect uses Natural Language Processing
   (NLP) approach to analyze an email message's content (Sender, Subject and Body)

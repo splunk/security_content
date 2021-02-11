@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-21'
 author: Xiao Lin, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This search looks for specific authentication events from the Windows
   Security Event logs to detect potential attempts using Pass-the-Hash technique.
 search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_time"),

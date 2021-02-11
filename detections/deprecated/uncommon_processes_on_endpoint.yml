@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-22'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for applications on the endpoint that you have marked
   as uncommon.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

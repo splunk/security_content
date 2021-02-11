@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: Attackers leverage an existing Windows binary, attrib.exe, to mark specific
   as hidden by using specific flags so that the victim does not see the file.  The
   search looks for specific command-line arguments to detect the use of attrib.exe

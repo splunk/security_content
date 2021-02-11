@@ -4,7 +4,7 @@ version: 5
 date: '2020-12-08'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for system processes that normally run out of C:\Windows\System32\
   or C:\Windows\SysWOW64 that are not run from that location.  This can indicate a
   malicious process that is trying to hide as a legitimate process.

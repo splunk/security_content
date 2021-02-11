@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-21'
 author: Shannon Davis, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for commands that the SNICat tool uses in the TLS SNI
   field.
 search: '`zeek_ssl` | rex field=server_name "(?<snicat>(LIST|LS|SIZE|LD|CB|CD|EX|ALIVE|EXIT|WHERE|finito)-[A-Za-z0-9]{16}\.)"

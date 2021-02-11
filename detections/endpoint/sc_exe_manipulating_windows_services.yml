@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for arguments to sc.exe indicating the creation or
   modification of a Windows service.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

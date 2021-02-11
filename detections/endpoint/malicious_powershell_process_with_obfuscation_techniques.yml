@@ -4,7 +4,8 @@ version: 4
 date: '2021-01-19'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for PowerShell processes launched with arguments that
   have characters indicative of obfuscation on the command-line.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for PowerShell processes started with parameters used
   to bypass the local execution policy for scripts. These parameters are often observed
   in attacks leveraging PowerShell scripts as they override the default PowerShell

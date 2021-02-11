@@ -4,7 +4,7 @@ version: 3
 date: '2020-07-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for EC2 instances being modified by users who have
   not previously modified them. This search is deprecated and have been translated
   to use the latest Change Datamodel.

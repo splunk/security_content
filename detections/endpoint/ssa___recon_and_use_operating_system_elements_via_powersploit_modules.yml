@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-06'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies access to PowerSploit modules that discover
   and access operating system elements, such as processes, services, registry locations,
   security packages and files.

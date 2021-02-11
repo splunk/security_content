@@ -4,7 +4,7 @@ version: 1
 date: '2019-12-06'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects loading of unsigned images by LSASS. Deprecated because
   too noisy.
 search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)

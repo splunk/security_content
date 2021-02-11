@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The following analytic identifies child processes spawning from  "mshta.exe".
   The search will return the first time and last time these command-line arguments
   were used for these executions, as well as the target system, the user, parent process

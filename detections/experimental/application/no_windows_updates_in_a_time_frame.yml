@@ -4,7 +4,8 @@ version: 1
 date: '2017-09-15'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Updates
+datamodel:
+- Updates
 description: This search looks for Windows endpoints that have not generated an event
   indicating a successful Windows update in the last 60 days. Windows updates are
   typically released monthly and applied shortly thereafter. An endpoint that has

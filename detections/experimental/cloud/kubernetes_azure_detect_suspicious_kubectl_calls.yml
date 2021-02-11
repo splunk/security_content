@@ -4,7 +4,7 @@ version: 1
 date: '2020-05-26'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information on rare Kubectl calls with IP, verb
   namespace and object access context
 search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | spath

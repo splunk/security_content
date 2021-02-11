@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-11'
 author: Rod Soto, Patrick Bareiss Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of KMS keys which action kms:Encrypt is
   accessible for everyone (also outside of your organization). This is an identicator
   that your account is compromised and the attacker uses the encryption key to compromise

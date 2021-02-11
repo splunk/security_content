@@ -4,7 +4,8 @@ version: 1
 date: '2020-10-28'
 author: Mikael Bjerkeland, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: Adversaries may abuse netbooting to load an unauthorized network device
   operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot
   (netbooting) is commonly used by network administrators to load configuration-controlled

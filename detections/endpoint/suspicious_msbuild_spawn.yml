@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The following analytic identifies wmiprvse.exe spawning msbuild.exe.
   This behavior is indicative of a COM object being utilized to spawn msbuild from
   wmiprvse.exe. It is common for MSBuild.exe to be spawned from devenv.exe while using

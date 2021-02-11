@@ -4,7 +4,8 @@ version: 4
 date: '2020-11-30'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for executing scripts with rundll32. Adversaries may
   abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice
   executing directly, may avoid triggering security tools that may not monitor execution

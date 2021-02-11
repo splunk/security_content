@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-06'
 author: John Stoner, Splunk
 type: batch
-datamodel: Web
+datamodel:
+- Web
 description: This search aims to detect the Supernova webshell used in the SUNBURST
   attack.
 search: '| tstats `security_content_summariesonly` count from datamodel=Web.Web where

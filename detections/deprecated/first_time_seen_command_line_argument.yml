@@ -4,7 +4,8 @@ version: 5
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for command-line arguments that use a `/c` parameter
   to execute a command that has not previously been seen.
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)

@@ -4,7 +4,7 @@ version: 1
 date: '2018-10-23'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for the creation of WMI temporary event subscriptions.
 search: '`wmi` EventCode=5860 Temporary | rex field=Message "NotificationQuery =\s+(?<query>[^;|^$]+)"
   | search query!="SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName = ''wsmprovhost.exe''"

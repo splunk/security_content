@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-02'
 author: Shannon Davis, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects remote code exploit attempts on F5 BIG-IP, BIG-IQ,
   and Traffix SDC devices
 search: '`f5_bigip_rogue` | regex _raw="(hsqldb;|.*\\.\\.;.*)" | search `detect_f5_tmui_rce_cve_2020_5902_filter`'

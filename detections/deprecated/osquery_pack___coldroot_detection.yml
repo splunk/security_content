@@ -4,7 +4,7 @@ version: 1
 date: '2019-01-29'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for ColdRoot events from the osx-attacks osquery pack.
 search: '| from datamodel Alerts.Alerts | search app=osquery:results (name=pack_osx-attacks_OSX_ColdRoot_RAT_Launchd
   OR name=pack_osx-attacks_OSX_ColdRoot_RAT_Files) | rename columns.path as path |

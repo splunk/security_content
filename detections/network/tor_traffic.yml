@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-22'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for network traffic identified as The Onion Router
   (TOR), a benign anonymity network which can be abused for a variety of nefarious
   purposes.

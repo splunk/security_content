@@ -4,7 +4,7 @@ version: 5
 date: '2020-12-08'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

@@ -4,7 +4,7 @@ version: 1
 date: 2020-7-13
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This search looks for executions of cmd.exe spawned by a process that
   is often abused by attackers and that does not typically launch cmd.exe. This is
   a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe`

@@ -4,7 +4,8 @@ version: 5
 date: '2020-11-09'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search identifies endpoints that have caused a relatively high number
   of account lockouts in a short period.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

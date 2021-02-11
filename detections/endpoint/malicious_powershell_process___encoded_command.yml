@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for PowerShell processes that have encoded the script
   within the command-line. Malware has been seen using this parameter, as it obfuscates
   the code and makes it relatively easy to pass a script on the command-line.

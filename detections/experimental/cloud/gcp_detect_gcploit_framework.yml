@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-08'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of GCPloit exploitation framework. This
   framework can be used to escalate privileges and move laterally from compromised
   high privilege accounts.

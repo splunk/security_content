@@ -4,7 +4,7 @@ version: 1
 date: '2020-02-20'
 author: Rod Soto, Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search show information on uploaded containers including source
   user, account, action, bucket name event name, http user agent, message and destination
   path.

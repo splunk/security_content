@@ -5,7 +5,7 @@ version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies use of DSInternals modules for illegal management
   of Active Directoty elements and policies.
 search: '| from read_ssa_enriched_events()

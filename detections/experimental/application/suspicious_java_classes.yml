@@ -4,7 +4,7 @@ version: 1
 date: '2018-12-06'
 author: Jose Hernandez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for suspicious Java classes that are often used to
   exploit remote command execution in common Java frameworks, such as Apache Struts.
 search: '`stream_http` http_method=POST http_content_length>1 | regex form_data="(?i)java\.lang\.(?:runtime|processbuilder)"

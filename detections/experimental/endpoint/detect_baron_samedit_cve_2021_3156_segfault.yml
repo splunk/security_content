@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-29'
 author: Shannon Davis, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects the heap-based buffer overflow of sudoedit
 search: '`linux_hosts` | search sudoedit segfault | stats count min(_time) as firstTime
   max(_time) as lastTime by host | search count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'

@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The following analytic identifies msbuild.exe executing from a non-standard
   path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319
   and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio

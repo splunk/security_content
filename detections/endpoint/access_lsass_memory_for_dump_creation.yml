@@ -4,7 +4,7 @@ version: 2
 date: '2019-12-06'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: Detect memory dumping of the LSASS process.
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage,

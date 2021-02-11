@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies access to PowerSploit modules that illegaly
   elevate general privileges or ensure persistence, e.g., enable manipulation of registry,
   task scheduling, persistent WMI, access to OS objects under desired identities.

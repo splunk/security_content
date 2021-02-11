@@ -4,7 +4,7 @@ version: 1
 date: '2020-10-28'
 author: Mikael Bjerkeland, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: By enabling IPv6 First Hop Security as a Layer 2 Security measure on
   the organization's network devices, we will be able to detect various attacks such
   as packet forging in the Infrastructure.

@@ -4,7 +4,7 @@ version: 4
 date: '2020-07-22'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

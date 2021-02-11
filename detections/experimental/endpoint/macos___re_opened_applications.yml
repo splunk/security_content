@@ -4,7 +4,8 @@ version: 1
 date: '2020-02-07'
 author: Jamie Windley, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for processes referencing the plist files that determine
   which applications are re-opened when a user reboots their machine.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

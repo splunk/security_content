@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-22'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search uses the Machine Learning Toolkit (MLTK) to identify spikes
   in the number of Server Message Block (SMB) connections.
 search: '| tstats `security_content_summariesonly` count values(All_Traffic.dest_ip)

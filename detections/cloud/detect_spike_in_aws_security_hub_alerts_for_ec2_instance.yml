@@ -4,7 +4,7 @@ version: 3
 date: '2021-01-26'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for a spike in number of of AWS security Hub alerts
   for an EC2 instance in 4 hours intervals
 search: '`aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance | bucket span=4h

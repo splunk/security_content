@@ -4,7 +4,8 @@ version: 2
 date: '2018-06-01'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for outbound ICMP packets with a packet size larger
   than 1,000 bytes. Various threat actors have been known to use ICMP as a command
   and control channel for their attack infrastructure. Large ICMP packets from an

@@ -4,7 +4,7 @@ version: 2
 date: '2021-01-11'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: The search looks for CloudTrail events to detect if any network ACLs
   were created with all the ports open to a specified CIDR.
 search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry

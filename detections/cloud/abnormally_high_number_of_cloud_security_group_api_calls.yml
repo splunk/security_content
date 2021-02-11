@@ -4,7 +4,8 @@ version: 1
 date: '2020-09-07'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment about security groups by a user.
 search: '| tstats count as security_group_api_calls values(All_Changes.command) as

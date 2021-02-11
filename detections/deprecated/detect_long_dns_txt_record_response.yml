@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search is used to detect attempts to use DNS tunneling, by calculating
   the length of responses to DNS TXT queries. Endpoints using DNS as a method of transmission
   for data exfiltration, command and control, or evasion of security controls can

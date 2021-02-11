@@ -4,7 +4,7 @@ version: 4
 date: '2020-07-22'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for reg.exe being launched from a command prompt not
   started by the user. When a user launches cmd.exe, the parent process is usually
   explorer.exe. This search filters out those instances.

@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-07'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for network traffic on TCP/3389, the default port used
   by remote desktop. While remote desktop traffic is not uncommon on a network, it
   is usually associated with known hosts. This search will ignore common RDP sources

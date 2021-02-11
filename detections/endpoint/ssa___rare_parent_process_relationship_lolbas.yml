@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-13'
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: An attacker may use LOLBAS tools spawned from vulnerable applications
   not typically used by system administrators. This search leverages the Splunk Streaming
   ML DSP plugin to find rare parent/child relationships. The list of application has

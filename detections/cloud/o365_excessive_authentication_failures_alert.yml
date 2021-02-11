@@ -4,7 +4,7 @@ version: 1
 date: '2020-12-16'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects when an excessive number of authentication failures
   occur this search also includes attempts against MFA prompt codes
 search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=*

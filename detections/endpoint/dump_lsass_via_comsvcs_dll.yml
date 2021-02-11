@@ -4,7 +4,8 @@ version: 1
 date: '2020-02-21'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: Detect the usage of comsvcs.dll for dumping the lsass process.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe

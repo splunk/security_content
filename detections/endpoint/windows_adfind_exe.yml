@@ -4,7 +4,8 @@ version: 1
 date: '2020-12-16'
 author: Jose Hernandez, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: 'This search looks for the execution of `adfind.exe` with command-line
   arguments that it uses by default. Specifically the filter or search functions.
   It also considers the arguments necessary like objectcategory, see readme for more

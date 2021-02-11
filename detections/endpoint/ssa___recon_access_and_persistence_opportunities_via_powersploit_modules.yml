@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies use of PowerSploit modules that discover opportunities
   for malicious access and persistence. Some examples include access to admin accounts,
   weak access control policies, landing paths for dropping malicious software or data

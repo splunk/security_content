@@ -4,7 +4,7 @@ version: 1
 date: '2018-05-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search will detect users creating spikes in API activity related
   to network access-control lists (ACLs)in your AWS environment. This search is deprecated
   and have been translated to use the latest Change Datamodel.

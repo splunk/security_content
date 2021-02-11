@@ -4,7 +4,7 @@ version: 1
 date: '2020-09-01'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of possible GCP Oauth token abuse. GCP
   Oauth token without time limit can be exfiltrated and reused for keeping access
   sessions alive without further control of authentication, allowing attackers to

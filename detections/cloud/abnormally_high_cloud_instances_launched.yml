@@ -4,7 +4,8 @@ version: 2
 date: '2020-08-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search finds for the number successfully created cloud instances
   for every 4 hour block. This is split up between weekdays and the weekend. It then
   applies the probability densitiy model previously created and alerts on any outliers.

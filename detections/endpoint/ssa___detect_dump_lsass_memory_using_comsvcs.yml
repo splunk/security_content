@@ -4,7 +4,7 @@ version: 1
 date: '2020-09-15'
 author: Jose Hernandez, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This search detects the memory of lsass.exe being dumped for offline
   credential theft attack.
 search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_event,

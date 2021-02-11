@@ -4,7 +4,7 @@ version: 1
 date: '2020-07-27'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of role creation by IAM users. Role creation
   is an event by itself if user is creating a new role with trust policies different
   than the available in AWS and it can be used for lateral movement and escalation

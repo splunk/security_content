@@ -4,7 +4,7 @@ version: 1
 date: '2017-09-12'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This detection search will help profile user accounts in your environment
   by identifying newly created accounts that have been added to your network in the
   past week.

@@ -4,7 +4,7 @@ version: 1
 date: '2020-07-17'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster's pods
 search: '`google_gcp_pubsub_message` category=kube-audit |spath input=properties.log

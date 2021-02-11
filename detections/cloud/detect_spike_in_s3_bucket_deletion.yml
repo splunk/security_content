@@ -4,7 +4,7 @@ version: 1
 date: '2018-11-27'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects users creating spikes in API activity related to
   deletion of S3 buckets in your AWS environment. It will also update the cache file
   that factors in the latest data.

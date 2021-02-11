@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search identifies DNS query failures by counting the number of DNS
   responses that do not indicate success, and trigger on more than 50 occurrences.
 search: '| tstats `security_content_summariesonly` count values("DNS.query") as queries

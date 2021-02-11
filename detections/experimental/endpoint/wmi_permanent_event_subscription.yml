@@ -4,7 +4,7 @@ version: 1
 date: '2018-10-23'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for the creation of WMI permanent event subscriptions.
 search: '`wmi` EventCode=5861 Binding | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)"
   | search consumer!="NTEventLogEventConsumer=\"SCM Event Log Consumer\"" | stats

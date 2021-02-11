@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search will detect DNS requests resolved by unauthorized DNS servers.
   Legitimate DNS servers should be identified in the Enterprise Security Assets and
   Identity Framework.

@@ -4,7 +4,8 @@ version: 2
 date: '2020-11-10'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for fast execution of processes used for system network
   configuration discovery on the endpoint.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

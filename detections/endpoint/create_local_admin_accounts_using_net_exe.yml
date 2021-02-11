@@ -4,7 +4,8 @@ version: 4
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for the creation of local administrator accounts using
   net.exe.
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as

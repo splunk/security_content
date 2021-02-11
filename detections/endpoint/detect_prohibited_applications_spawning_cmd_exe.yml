@@ -4,7 +4,8 @@ version: 5
 date: '2020-11-10'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for executions of cmd.exe spawned by a process that
   is often abused by attackers and that does not typically launch cmd.exe.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)

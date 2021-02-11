@@ -4,7 +4,8 @@ version: 1
 date: '2018-10-12'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search looks for cloud compute instances being created with previously
   unseen image IDs.
 search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)

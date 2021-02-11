@@ -4,7 +4,8 @@ version: 1
 date: '2020-07-29'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search looks for cloud instances being modified by users who have
   not previously modified them.
 search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime,

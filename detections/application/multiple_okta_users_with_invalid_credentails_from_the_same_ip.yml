@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects Okta login failures due to bad credentials for multiple
   users originating from the same ip address.
 search: '`okta` outcome.reason=INVALID_CREDENTIALS | rename client.geographicalContext.country

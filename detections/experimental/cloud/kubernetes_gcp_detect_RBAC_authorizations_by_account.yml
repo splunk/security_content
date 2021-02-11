@@ -4,7 +4,7 @@ version: 1
 date: '2020-07-11'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information on Kubernetes RBAC authorizations by
   accounts, this search can be modified by adding top to see both extremes of RBAC
   by accounts occurrences

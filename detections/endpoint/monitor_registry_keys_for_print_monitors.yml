@@ -4,7 +4,7 @@ version: 2
 date: '2020-11-23'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for registry activity associated with modifications
   to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this
   scenario, an attacker can load an arbitrary .dll into the print-monitor registry

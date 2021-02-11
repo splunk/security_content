@@ -4,7 +4,8 @@ version: 3
 date: '2020-11-10'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for events where `PsExec.exe` is run with the `accepteula`
   flag in the command line. PsExec is a built-in Windows utility that enables you
   to execute processes on other systems. It is fully interactive for console applications.

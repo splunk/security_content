@@ -4,7 +4,7 @@ version: 2
 date: '2019-02-27'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for PowerShell requesting privileges consistent with
   credential dumping. Deprecated, looks like things changed from a logging perspective.
 search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe | rex

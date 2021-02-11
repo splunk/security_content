@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for specific command-line arguments that may indicate
   the execution of tools made by Nirsoft, which are legitimate, but may be abused
   by attackers.

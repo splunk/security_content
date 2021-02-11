@@ -4,7 +4,8 @@ version: 1
 date: '2020-05-28'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Authentication
+datamodel:
+- Authentication
 description: This search looks for AssumeRole events where an IAM role in a different
   account is requested for the first time.  This search is deprecated and have been
   translated to use the latest Authentication Datamodel.

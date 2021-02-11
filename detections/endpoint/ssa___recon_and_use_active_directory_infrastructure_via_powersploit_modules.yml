@@ -5,7 +5,7 @@ version: 1
 date: '2020-11-06'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies access to PowerSploit modules for reconnaissance
   and access to elements of Active Directory infrastructure, such as domain identifiers,
   AD sites and forests, and trust relations.

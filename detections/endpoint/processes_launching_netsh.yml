@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-10'
 author: Josef Kuepker, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for processes launching netsh.exe. Netsh is a command-line
   scripting utility that allows you to, either locally or remotely, display or modify
   the network configuration of a computer that is currently running. Netsh can be

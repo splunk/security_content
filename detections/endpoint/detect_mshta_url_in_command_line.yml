@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-20'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This analytic identifies when Microsoft HTML Application Host (mshta.exe)
   utility is used to make remote http connections. Adversaries may use mshta.exe to
   proxy the download and execution of remote .hta files. The analytic identifies command

@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for attempts to stop security-related services on the
   endpoint.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

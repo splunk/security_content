@@ -4,7 +4,7 @@ version: 3
 date: '2021-01-26'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for a spike in number of of AWS security Hub alerts
   for an AWS IAM User in 4 hours intervals.
 search: '`aws_securityhub_finding` "findings{}.Resources{}.Type"= AwsIamUser | rename

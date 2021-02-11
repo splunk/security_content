@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-21'
 author: Jose Hernandez, Splunk
 type: batch
-datamodel: Network_Traffic
+datamodel:
+- Network_Traffic
 description: This search looks for RDP application network traffic and filters any
   source/destination pair generating more than twice the standard deviation of the
   average traffic.

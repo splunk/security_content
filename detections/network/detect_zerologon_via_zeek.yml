@@ -4,7 +4,7 @@ version: 1
 date: '2020-09-15'
 author: Shannon Davis, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects attempts to run exploits for the Zerologon CVE-2020-1472
   vulnerability via Zeek RPC
 search: '`zeek_rpc` operation IN (NetrServerPasswordSet2,NetrServerReqChallenge,NetrServerAuthenticate3)

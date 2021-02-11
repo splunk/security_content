@@ -4,7 +4,7 @@ version: 1
 date: '2020-08-10'
 author: Shannon Davis, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks at GCP Storage bucket-access logs and detects new or
   previously unseen remote IP addresses that have successfully accessed a GCP Storage
   bucket.

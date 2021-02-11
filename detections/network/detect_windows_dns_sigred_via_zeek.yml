@@ -4,7 +4,8 @@ version: 1
 date: '2020-07-28'
 author: Shannon Davis, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search detects SIGRed via Zeek DNS and Zeek Conn data.
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where DNS.query_type IN (SIG,KEY) by DNS.flow_id | rename DNS.flow_id as flow_id

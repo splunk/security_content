@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-11'
 author: Rod Soto, Patrick Bareiss Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides detection of users with KMS keys performing encryption
   specifically against S3 buckets.
 search: '`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"

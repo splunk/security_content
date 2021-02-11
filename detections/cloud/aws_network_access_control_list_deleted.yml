@@ -4,7 +4,7 @@ version: 2
 date: '2021-01-12'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: Enforcing network-access controls is one of the defensive mechanisms
   used by cloud administrators to restrict access to a cloud instance. After the attacker
   has gained control of the AWS console by compromising an admin account, they can

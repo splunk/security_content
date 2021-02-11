@@ -4,7 +4,7 @@ version: 5
 date: '2020-10-15'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for specific authentication events from the Windows
   Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 Logon_Process=NtLmSsp

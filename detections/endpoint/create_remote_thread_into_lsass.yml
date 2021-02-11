@@ -4,7 +4,7 @@ version: 1
 date: '2019-12-06'
 author: Patrick Bareiss, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: Detect remote thread creation into LSASS consistent with credential dumping.
 search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime
   max(_time) as lastTime by Computer, EventCode, TargetImage, TargetProcessId | rename

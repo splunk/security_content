@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: Detect Okta user lockout events
 search: '`okta` displayMessage="Max sign in attempts exceeded" | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city

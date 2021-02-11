@@ -4,7 +4,7 @@ version: 1
 date: '2020-12-16'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects when multi factor authentication has been disabled,
   what entitiy performed the action and against what user
 search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats

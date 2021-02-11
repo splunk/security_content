@@ -4,7 +4,7 @@ version: 1
 date: '2018-05-07'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search will detect spike in blocked outbound network connections
   originating from within your AWS environment.  It will also update the cache file
   that factors in the latest data.

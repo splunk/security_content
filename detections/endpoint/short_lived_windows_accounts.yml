@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-06'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: This search detects accounts that were created and deleted in a short
   time period.
 search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as

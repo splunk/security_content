@@ -4,7 +4,8 @@ version: 3
 date: '2020-11-18'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for processes launched from files that have double
   extensions in the file name. This is typically done to obscure the "real" file extension
   and make it appear as though the file being accessed is a data file, as opposed

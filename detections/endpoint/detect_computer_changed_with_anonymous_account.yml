@@ -4,7 +4,7 @@ version: 1
 date: '2020-09-18'
 author: Rod Soto, Jose Hernandez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for Event Code 4742 (Computer Change) or EventCode
   4624 (An account was successfully logged on) with an anonymous account.
 search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS

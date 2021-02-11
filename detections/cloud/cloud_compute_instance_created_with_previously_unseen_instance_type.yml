@@ -4,7 +4,8 @@ version: 1
 date: '2020-09-12'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Change
+datamodel:
+- Change
 description: Find EC2 instances being created with previously unseen instance types.
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type,

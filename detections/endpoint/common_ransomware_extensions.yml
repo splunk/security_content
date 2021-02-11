@@ -4,7 +4,8 @@ version: 4
 date: '2020-11-09'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The search looks for file modifications with extensions commonly used
   by Ransomware
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

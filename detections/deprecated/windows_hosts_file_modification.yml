@@ -4,7 +4,7 @@ version: 1
 date: '2018-11-02'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: The search looks for modifications to the hosts file on all Windows endpoints
   across your environment.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

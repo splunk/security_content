@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-12'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects newly added IP addresses/CIDR blocks to the list
   of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known
   to use this technique so that they can bypass the MFA system.

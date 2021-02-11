@@ -4,7 +4,8 @@ version: 2
 date: '2017-09-19'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Email
+datamodel:
+- Email
 description: Attackers often use spaces as a means to obfuscate an attachment's file
   extension. This search looks for messages with email attachments that have many
   spaces within the file names.

@@ -4,7 +4,7 @@ version: 2
 date: '2020-12-08'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for the creation of WMI permanent event subscriptions.
 search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
   EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'

@@ -4,7 +4,8 @@ version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: The search looks at the change-analysis data model and detects email
   files created outside the normal Outlook directory.
 search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path)

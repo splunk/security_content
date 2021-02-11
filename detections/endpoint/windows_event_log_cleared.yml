@@ -4,7 +4,7 @@ version: 4
 date: '2020-07-06'
 author: Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for Windows events that indicate one of the Windows
   event logs has been purged.
 search: (`wineventlog_security` (EventCode=1102 OR EventCode=1100)) OR (`wineventlog_system`

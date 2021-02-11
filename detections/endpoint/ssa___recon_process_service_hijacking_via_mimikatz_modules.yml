@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery of process
   or service hijacking opportunities via Microsoft Detours compatibility. Microsoft
   Detours is an open source library for intercepting, monitoring and instrumenting

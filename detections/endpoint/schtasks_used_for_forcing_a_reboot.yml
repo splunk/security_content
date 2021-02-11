@@ -4,7 +4,8 @@ version: 4
 date: '2020-12-07'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for flags passed to schtasks.exe on the command-line
   that indicate that a forced reboot of system is scheduled.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process

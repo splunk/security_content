@@ -4,7 +4,7 @@ version: 1
 date: '2018-03-16'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: 'This search looks for AWS provisioning activities from previously unseen
   IP addresses. Provisioning activities are defined broadly as any event that begins
   with "Run" or "Create." This search is deprecated and have been translated to use

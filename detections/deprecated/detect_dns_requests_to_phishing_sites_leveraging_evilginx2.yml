@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Network_Resolution
+datamodel:
+- Network_Resolution
 description: This search looks for DNS requests for phishing domains that are leveraging
   EvilGinx tools to mimic websites.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

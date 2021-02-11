@@ -4,7 +4,7 @@ version: 1
 date: '2020-02-20'
 author: Rod Soto, Rico Valdez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This searches show information on uploaded containers including source
   user, image id, source IP user type, http user agent, region, first time, last time
   of operation (PutImage). These searches are based on Cloud Infrastructure Data Model.

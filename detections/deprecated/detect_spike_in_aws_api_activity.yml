@@ -4,7 +4,7 @@ version: 2
 date: '2020-07-21'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search will detect users creating spikes of API activity in your
   AWS environment.  It will also update the cache file that factors in the latest
   data. This search is deprecated and have been translated to use the latest Change

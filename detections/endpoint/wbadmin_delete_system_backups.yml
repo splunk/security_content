@@ -4,7 +4,8 @@ version: 1
 date: '2021-01-22'
 author: Michael Haag, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for flags passed to wbadmin.exe (Windows Backup Administrator
   Tool) that delete backup files. This is typically used by ransomware to prevent
   recovery.

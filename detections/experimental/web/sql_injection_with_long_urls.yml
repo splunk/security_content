@@ -4,7 +4,8 @@ version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: Web
+datamodel:
+- Web
 description: This search looks for long URLs that have several SQL commands visible
   within them.
 search: '| tstats `security_content_summariesonly` count from datamodel=Web where

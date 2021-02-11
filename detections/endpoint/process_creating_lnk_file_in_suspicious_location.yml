@@ -4,7 +4,7 @@ version: 4
 date: '2021-01-28'
 author: Jose Hernandez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search looks for a process launching an `*.lnk` file under `C:\User*`
   or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

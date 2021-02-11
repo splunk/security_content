@@ -4,7 +4,7 @@ version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe.
   Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319
   and is rarely utilized. When investigating, identify the executed code on disk and

@@ -5,7 +5,7 @@ version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
 type: streaming
-datamodel: ''
+datamodel: []
 description: This detection identifies access to PowerSploit modules that enable illegal
   management of computers and Active Directory elements.
 search: '| from read_ssa_enriched_events()

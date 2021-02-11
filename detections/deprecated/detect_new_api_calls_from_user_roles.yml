@@ -4,7 +4,7 @@ version: 1
 date: '2018-04-16'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search detects new API calls that have either never been seen before
   or that have not been seen in the previous hour, where the identity type is `AssumedRole`.
 search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole

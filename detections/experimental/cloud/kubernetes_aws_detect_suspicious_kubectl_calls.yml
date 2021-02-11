@@ -4,7 +4,7 @@ version: 1
 date: '2020-06-23'
 author: Rod Soto, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search provides information on anonymous Kubectl calls with IP,
   verb namespace and object access context
 search: '`aws_cloudwatchlogs_eks` userAgent=kubectl* sourceIPs{}!=127.0.0.1 sourceIPs{}!=::1

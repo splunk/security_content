@@ -4,7 +4,8 @@ version: 5
 date: '2020-11-20'
 author: David Dorsey, Splunk
 type: batch
-datamodel: Endpoint
+datamodel:
+- Endpoint
 description: This search looks for PowerShell processes started with parameters to
   modify the execution policy of the run, run in a hidden window, and connect to the
   Internet. This combination of command-line options is suspicious because it's overriding

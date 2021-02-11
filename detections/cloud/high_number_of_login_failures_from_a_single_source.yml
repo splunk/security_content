@@ -4,7 +4,7 @@ version: 1
 date: '2020-12-16'
 author: Bhavin Patel, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search will detect more than 5 login failures in Office365 Azure
   Active Directory from a single source IP address. Please adjust the threshold value
   of 5 as suited for your environment.

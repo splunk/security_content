@@ -4,7 +4,7 @@ version: 1
 date: '2017-09-12'
 author: David Dorsey, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: This search gives you the hosts where a backup was attempted and then
   failed.
 search: '`netbackup` | stats latest(_time) as latestTime by COMPUTERNAME, MESSAGE

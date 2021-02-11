@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-06'
 author: Rod Soto, Jose Hernandez, Splunk
 type: batch
-datamodel: ''
+datamodel: []
 description: The search looks for a Windows Security Account Manager (SAM) was stopped
   via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
