@@ -13,9 +13,10 @@ description: The following analytic identifies a renamed instance of hh.exe (HTM
   or WSH script code. During investigation, identify script content origination. Validate
   it is the legitimate version of hh.exe by reviewing the PE metadata. hh.exe is natively
   found in C:\Windows\system32 and C:\Windows\syswow64.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed hh.exe may be used.
 type: ESCU
 references:
 - https://attack.mitre.org/techniques/T1218/001/
