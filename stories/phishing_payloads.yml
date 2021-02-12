@@ -1,9 +1,11 @@
-author: Splunk Research Team, Splunk
+name: Phishing Payloads
+id: 57226b40-94f3-4ce5-b101-a75f67759c27
+version: 1
 date: '2019-04-29'
+author: Splunk Research Team, Splunk
+type: batch
 description: Detect signs of malicious payloads that may indicate that your environment
   has been breached via a phishing attack.
-id: 57226b40-94f3-4ce5-b101-a75f67759c27
-name: Phishing Payloads
 narrative: 'Despite its simplicity, phishing remains the most pervasive and dangerous
   cyberthreat. In fact, research shows that as many as [91% of all successful attacks](https://digitalguardian.com/blog/91-percent-cyber-attacks-start-phishing-email-heres-how-protect-against-phishing)
   are initiated via a phishing email. \
@@ -44,7 +46,7 @@ narrative: 'Despite its simplicity, phishing remains the most pervasive and dang
 references:
 - https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
 tags:
-  analytics_story: Phishing Payloads
+  analytic_story: Phishing Payloads
   category:
   - Adversary Tactics
   product:
@@ -52,5 +54,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

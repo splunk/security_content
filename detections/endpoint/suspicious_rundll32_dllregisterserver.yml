@@ -2,6 +2,10 @@ name: Suspicious Rundll32 dllregisterserver
 id: 8c00a385-9b86-4ac0-8932-c9ec3713b159
 version: 1
 date: '2021-02-09'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The following analytic identifies rundll32.exe using dllregisterserver
   on the command line to load a DLL. When a DLL is registered, the DllRegisterServer
   method entry point in the DLL is invoked. This is typically seen when a DLL is being
@@ -9,10 +13,18 @@ description: The following analytic identifies rundll32.exe using dllregisterser
   capture malicious use of it. During investigation, review the parent process and
   parrellel processes executing. Capture the DLL being loaded and inspect further.
   Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
+  Processes.process=*dllregisterserver* by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `suspicious_rundll32_dllregisterserver_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-type: ESCU
+known_false_positives: This is likely to produce false positives and will require
+  some filtering. Tune the query by adding command line paths to known good DLLs,
+  or filtering based on parent process names.
 references:
 - https://attack.mitre.org/techniques/T1218/011/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
@@ -21,30 +33,24 @@ references:
 - https://github.com/pan-unit42/tweets/blob/master/2020-12-10-IOCs-from-Ursnif-infection-with-Delf-variant.txt
 - https://www.crowdstrike.com/blog/duck-hunting-with-falcon-complete-qakbot-zip-based-campaign/
 - https://msdn.microsoft.com/en-us/library/windows/desktop/ms682162(v=vs.85).aspx
-author: Michael Haag, Splunk
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
-  Processes.process=*dllregisterserver* by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `suspicious_rundll32_dllregisterserver_filter`'
-known_false_positives: This is likely to produce false positives and will require
-  some filtering. Tune the query by adding command line paths to known good DLLs,
-  or filtering based on parent process names.
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Rundll32 Activity
-  mitre_attack_id:
-  - T1218.011
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1218.011
   nist:
   - PR.PT
   - DE.CM
   security_domain: endpoint
-  asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

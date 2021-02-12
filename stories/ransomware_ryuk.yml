@@ -1,11 +1,13 @@
-author: Jose Hernandez, Splunk
+name: Ryuk Ransomware
+id: 507edc74-13d5-4339-878e-b9744ded1f35
+version: 1
 date: '2020-11-06'
+author: Jose Hernandez, Splunk
+type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Ryuk ransomware, including looking for file writes associated
   with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification,
   suspicious psexec use, and more.
-id: 507edc74-13d5-4339-878e-b9744ded1f35
-name: Ryuk Ransomware
 narrative: "Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A)\
   \ on October 28th called \u201CRansomware Activity Targeting the Healthcare and\
   \ Public Health Sector.\u201D This alert details TTPs associated with ongoing and\
@@ -25,7 +27,7 @@ references:
 - https://www.crowdstrike.com/blog/big-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
 - https://us-cert.cisa.gov/ncas/alerts/aa20-302a
 tags:
-  analytics_story: Ryuk Ransomware
+  analytic_story: Ryuk Ransomware
   category:
   - Malware
   product:
@@ -33,5 +35,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

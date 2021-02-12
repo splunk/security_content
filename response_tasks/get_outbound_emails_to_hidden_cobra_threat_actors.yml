@@ -1,6 +1,4 @@
-name: Get Outbound Emails to Hidden Cobra Threat Actors
-id: 5df39b3f-347d-4869-b673-8r45ad4616fe
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-06-14'
 description: 'This search returns the information of the users that sent emails to
   the accounts controlled by the Hidden Cobra Threat Actors: specifically to `misswang8107@gmail.com`,
@@ -8,14 +6,19 @@ description: 'This search returns the information of the users that sent emails 
 how_to_implement: To successfully implement this search you must ingest your email
   logs or capture unencrypted email communications within network traffic, and populate
   the Email data model.
-author: Bhavin Patel, Splunk
+id: 5df39b3f-347d-4869-b673-8r45ad4616fe
 inputs:
 - src_user
 - recipient
+name: Get Outbound Emails to Hidden Cobra Threat Actors
 search: '| from datamodel Email.All_Email | search recipient=misswang8107@gmail.com
   OR src_user=redhat@gmail.com | stats count earliest(_time) as firstTime, latest(_time)
   as lastTime values(dest) values(src) by src_user recipient | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
+  product:
+  - Splunk Phantom
+type: response
+version: 1

@@ -1,25 +1,35 @@
-name: Determine if an incident has occurred
-id: 92ba5c50-717d-44e7-bb88-72bf6907ec83
-tags:
-  nist:
-    RS.RP
-description: |
-  Review precursor and indicator data and try to prove the data observed is normal activity. Knowledge of false positives detractors will support this assessment. The object of this step is to remove confirmation bias and validate the detection as a true positive and anomalous behavior.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - set status
-  playbooks:
-    - scm: local
-      playook: Accept event and assign owner
-references:
-  - 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  Incident handlers are responsible for analyzing ambiguous, contradictory, and incomplete symptoms to determine what has happened.
-  The process here is to remove bias and support investigation based on indicators that validate compromise or violdation for continued investigation
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - set status
+  is_note_required: false
+  playbooks:
+  - playook: Accept event and assign owner
+    scm: local
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Review precursor and indicator data and try to prove the data observed
+  is normal activity. Knowledge of false positives detractors will support this assessment.
+  The object of this step is to remove confirmation bias and validate the detection
+  as a true positive and anomalous behavior.
+
+  '
+id: 92ba5c50-717d-44e7-bb88-72bf6907ec83
+name: Determine if an incident has occurred
+references:
+- 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: 'Incident handlers are responsible for analyzing ambiguous, contradictory,
+  and incomplete symptoms to determine what has happened.
+
+  The process here is to remove bias and support investigation based on indicators
+  that validate compromise or violdation for continued investigation
+
+  '

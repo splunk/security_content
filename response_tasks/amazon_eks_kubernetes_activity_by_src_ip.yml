@@ -1,6 +1,4 @@
-name: Amazon EKS Kubernetes activity by src ip
-id: a636cca4-7434-4a15-a278-c70734938e39
-version: 1
+author: Rod Soto, Splunk
 date: '2020-04-13'
 description: This search provides investigation data about requests via user agent,
   authentication request URI, verb and cluster name data against Kubernetes cluster
@@ -8,12 +6,18 @@ description: This search provides investigation data about requests via user age
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Cloud Watch
   EKS inputs.
-author: Rod Soto, Splunk
+id: a636cca4-7434-4a15-a278-c70734938e39
 inputs:
 - src_ip
-search: sourcetype="aws:cloudwatchlogs:eks" |rename sourceIPs{}
-  as src_ip |search src_ip=$src_ip$ | stats count min(_time) as firstTime max(_time) as lastTime values(user.username)
-  values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision src_ip
+name: Amazon EKS Kubernetes activity by src ip
+search: sourcetype="aws:cloudwatchlogs:eks" |rename sourceIPs{} as src_ip |search
+  src_ip=$src_ip$ | stats count min(_time) as firstTime max(_time) as lastTime values(user.username)
+  values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision
+  src_ip
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
+  product:
+  - Splunk Phantom
+type: response
+version: 1

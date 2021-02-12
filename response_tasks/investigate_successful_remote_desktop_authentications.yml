@@ -1,23 +1,27 @@
-name: Investigate Successful Remote Desktop Authentications
-id: b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc
-version: 1
+author: Jose Hernandez, Splunk
 date: '2018-12-14'
 description: 'This search returns the source, destination, and user for all successful
   remote-desktop authentications. A successful authentication after a brute-force
   attack on a destination machine is suspicious behavior. '
 how_to_implement: You must be populating the Authentication data model with security
   events from your Windows event logs.
-author: Jose Hernandez, Splunk
+id: b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc
 inputs:
 - dest
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature_id=4624 Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app Authentication.user Authentication.signature Authentication.src_nt_domain 
-| `security_content_ctime(lastTime)` 
-| `security_content_ctime(firstTime)` 
-| `drop_dm_object_name("Authentication")` | search dest=$dest$
-| table firstTime lastTime src src_nt_domain dest user app count 
-| sort count'
+name: Investigate Successful Remote Desktop Authentications
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Authentication where Authentication.signature_id=4624
+  Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app
+  Authentication.user Authentication.signature Authentication.src_nt_domain | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` | `drop_dm_object_name("Authentication")`
+  | search dest=$dest$ | table firstTime lastTime src src_nt_domain dest user app
+  count | sort count'
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   - Lateral Movement
   - SamSam Ransomware
+  product:
+  - Splunk Phantom
+type: response
+version: 1

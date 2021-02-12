@@ -1,15 +1,12 @@
-author: Bhavin Patel, Patrick Bareiss, Splunk
+name: Detect New Open S3 buckets
+id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
+version: 2
 date: '2021-01-12'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+type: batch
+datamodel: []
 description: This search looks for CloudTrail events where a user has created an open/public
   S3 bucket.
-how_to_implement: You must install the AWS App for Splunk.
-id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
-known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately created a public bucket for a specific purpose.
-  That said, AWS strongly advises against granting full control to the "All Users"
-  group.
-name: Detect New Open S3 buckets
-references: []
 search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw
   "(?<json_field>{.+})" | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
   | search grantees=* | mvexpand grantees | spath input=grantees output=uri path=Grantee.URI
@@ -19,8 +16,14 @@ search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex 
   max(_time) as lastTime by userName userIdentity.principalId userAgent uri permission
   bucketName | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_new_open_s3_buckets_filter` '
+how_to_implement: You must install the AWS App for Splunk.
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has legitimately created a public bucket for a specific purpose.
+  That said, AWS strongly advises against granting full control to the "All Users"
+  group.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
   automated_detection_testing: passed
@@ -44,5 +47,3 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
-type: ESCU
-version: 2

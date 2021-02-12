@@ -254,6 +254,12 @@ jobs:
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
       - run:
+          name: make yamls pretty
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/pretty_yaml.py --path . -v
+      - run:
           name: get cti repo for mitre-maps
           command: |
             cd security-content
@@ -283,6 +289,7 @@ jobs:
             git config --global push.default simple
             git add package/*
             git add docs/*
+            git add detections/*
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}

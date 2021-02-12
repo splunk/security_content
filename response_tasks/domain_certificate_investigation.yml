@@ -1,6 +1,4 @@
-name: Domain Certificate Investigation
-id: c096f721-8842-42ce-2fc7-742d8272b712
-version: 1
+author: Philip Royer, Splunk
 date: '2019-04-29'
 description: Investigate domain names and URLs of a potentially malicious website.
   These domain names and URLs could come from anywhere, but this Playbook was designed
@@ -16,11 +14,16 @@ how_to_implement: To successfully implement this phantom playbook, you must inte
   Enterprise Security with Phantom. Configure this playbook in the correlation search
   `Detect DNS requests to Phishing Sites leveraging EvilGinx2` ,as an adaptive response
   action.
-author: Philip Royer, Splunk
+id: c096f721-8842-42ce-2fc7-742d8272b712
+name: Domain Certificate Investigation
 playbook:
   name: lets_encrypt_domain_investigate
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.json
   url_python: https://github.com/phantomcyber/playbooks/blob/4.6/lets_encrypt_domain_investigate.py
 tags:
-  analytics_story:
+  analytic_story:
   - Common Phishing Frameworks
+  product:
+  - Splunk Phantom
+type: response
+version: 1

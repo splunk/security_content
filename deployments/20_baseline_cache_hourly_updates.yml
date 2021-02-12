@@ -1,13 +1,14 @@
 name: Baseline Cache Hourly Updates
 id: 1030c701-2acf-4b1a-9970-46c7145caf2d
 date: '2020-06-24'
-description: This configuration file applies to all baselines with tag deployments Hourly Cache Updates
 author: Bhavin Patel
+description: This configuration file applies to all baselines with tag deployments
+  Hourly Cache Updates
 scheduling:
-  cron_schedule: '55 * * * *'
+  cron_schedule: 55 * * * *
   earliest_time: -70m@m
   latest_time: -10m@m
   schedule_window: auto
 tags:
   deployments:
-    - Hourly Cache Updates
+  - Hourly Cache Updates

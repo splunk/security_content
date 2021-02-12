@@ -1,36 +1,41 @@
-author: Rod Soto, Splunk
+name: O365 New Federated Domain Added
+id: e155876a-6048-11eb-ae93-0242ac130002
+version: 1
 date: '2021-01-26'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search detects the addition of a new Federated domain.
+search: '`o365_management_activity` Workload=Exchange Operation="Add-FederatedDomain"
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Parameters{}.Value)
+  as Parameters.Value by ObjectId Operation OrganizationName OriginatingServer UserId
+  UserKey | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `o365_new_federated_domain_added_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity.
-id: e155876a-6048-11eb-ae93-0242ac130002
 known_false_positives: The creation of a new Federated domain is not necessarily malicious,
   however these events need to be followed closely, as it may indicate federated credential
   abuse or backdoor via federated identities at a similar or different cloud provider.
-name: O365 New Federated Domain Added
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.sygnia.co/golden-saml-advisory
 - https://o365blog.com/post/aadbackdoor/
-search: '`o365_management_activity` Workload=Exchange Operation="Add-FederatedDomain"
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Parameters{}.Value)
-  as Parameters.Value by ObjectId Operation OrganizationName OriginatingServer UserId
-  UserKey | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `o365_new_federated_domain_added_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/o365_new_federated_domain.json
   kill_chain_phases:
   - Actions on Objective
   mitre_attack_id:
   - T1136.003
   security_domain: threat
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain/o365_new_federated_domain.json
-type: ESCU
-version: 1
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

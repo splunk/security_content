@@ -1,11 +1,13 @@
-author: Rico Valdez, Splunk
+name: Collection and Staging
+id: 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
+version: 1
 date: '2020-02-03'
+author: Rico Valdez, Splunk
+type: batch
 description: 'Monitor for and investigate activities--such as suspicious writes to
   the Windows Recycling Bin or email servers sending high amounts of traffic to specific
   hosts, for example--that may indicate that an adversary is harvesting and exfiltrating
   sensitive data. '
-id: 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
-name: Collection and Staging
 narrative: "A common adversary goal is to identify and exfiltrate data of value from\
   \ a target organization. This data may include email conversations and addresses,\
   \ confidential company information, links to network design/infrastructure, important\
@@ -21,7 +23,7 @@ references:
 - https://attack.mitre.org/wiki/Collection
 - https://attack.mitre.org/wiki/Technique/T1074
 tags:
-  analytics_story: Collection and Staging
+  analytic_story: Collection and Staging
   category:
   - Adversary Tactics
   product:
@@ -29,5 +31,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 1

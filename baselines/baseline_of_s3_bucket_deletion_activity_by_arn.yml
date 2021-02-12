@@ -1,21 +1,25 @@
-author: Bhavin Patel, Splunk
+name: Baseline of S3 Bucket deletion activity by ARN
+id: fc0edd96-ff2b-48b0-9f1f-63eq3783fd63
+version: 1
 date: '2018-07-17'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search establishes, on a per-hour basis, the average and standard
   deviation for the number of API calls related to deleting an S3 bucket by each user.
   Also recorded is the number of data points for each user. This table is then outputted
   to a lookup file to allow the detection search to operate quickly.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs.
-id: fc0edd96-ff2b-48b0-9f1f-63eq3783fd63
-name: Baseline of S3 Bucket deletion activity by ARN
 search: '`cloudtrail` eventName=DeleteBucket | spath output=arn path=userIdentity.arn
   | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls)
   as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls,
   stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints,
   avgApiCalls, stdevApiCalls | outputlookup s3_deletion_baseline | stats count'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   detections:
   - Detect Spike in S3 Bucket deletion
@@ -23,5 +27,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

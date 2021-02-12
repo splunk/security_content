@@ -24,7 +24,7 @@ def main(args):
                         type=float,
                         default=0.0,
                         help="Minimum coverage, script return error if target is not met")
-    parser.add_argument('--types', type=str, nargs="*", help="SSA, ESCU", default=["ESCU", "SSA"])
+    parser.add_argument('--types', type=str, nargs="*", help="batch, streaming", default=["batch", "streaming"])
     parsed = parser.parse_args(args)
     populate_coverage(parsed.types)
     print_results(parsed.types)
