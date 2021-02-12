@@ -1,20 +1,25 @@
-name: Get Process File Activity
-id: 6a9ad4d9-6ef2-4b85-953f-a37ab256acd5
-version: 2
+author: David Dorsey, Splunk
 date: '2019-11-06'
 description: This search returns the file activity for a specific process on a specific
   endpoint
 how_to_implement: To successfully implement this search you must be ingesting endpoint
   data and populating the Endpoint data model.
-author: David Dorsey, Splunk
+id: 6a9ad4d9-6ef2-4b85-953f-a37ab256acd5
 inputs:
 - process_name
 - dest
+name: Get Process File Activity
 search: '| tstats `security_content_summariesonly` values(Filesystem.file_name) as
   file_name values(Filesystem.dest) as dest, values(Filesystem.process_name) as process_name
-  from datamodel=Endpoint.Filesystem
-  by Filesystem.dest Filesystem.process_name Filesystem.file_path, Filesystem.action, _time | `drop_dm_object_name(Filesystem)`  | search dest=$dest$  | search process_name=$process_name$ | table _time, process_name, dest, action, file_name, file_path'
+  from datamodel=Endpoint.Filesystem by Filesystem.dest Filesystem.process_name Filesystem.file_path,
+  Filesystem.action, _time | `drop_dm_object_name(Filesystem)`  | search dest=$dest$  |
+  search process_name=$process_name$ | table _time, process_name, dest, action, file_name,
+  file_path'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - Suspicious Zoom Child Processes
+  product:
+  - Splunk Phantom
+type: response
+version: 2

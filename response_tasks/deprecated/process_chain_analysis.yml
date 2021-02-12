@@ -1,14 +1,28 @@
-name: Process Chain Analysis
-id: c5506139-ef86-4cd9-8535-0512aa732e79
-version: 1
-date: '2020-04-29'
-description: Analyze the Process Chain and identify the malicious file. By analyzing the parent process guid and searching for the process guid, the spawning process chain can be identified.
 author: Patrick Bareiss, Splunk
+date: '2020-04-29'
+description: Analyze the Process Chain and identify the malicious file. By analyzing
+  the parent process guid and searching for the process guid, the spawning process
+  chain can be identified.
+id: c5506139-ef86-4cd9-8535-0512aa732e79
 inputs:
 - process_guid
-search: '`sysmon` EventCode=1 NOT process=*Splunk* | rename process_guid AS out_process_guid process_name AS out_process_name parent_process_guid AS out_parent_process_guid parent_process_name AS out_parent_process_name | stats count by out_process_guid out_process_name out_parent_process_guid out_parent_process_name | eval join_process_guid = out_process_guid | join join_process_guid [ search `sysmon` process_guid={process_guid} EventCode=1 | rename process_name AS sub_process_name process_guid AS sub_process_guid parent_process_name AS sub_parent_process_name parent_process_guid AS sub_parent_process_guid | stats count by sub_process_name sub_process_guid sub_parent_process_name sub_parent_process_guid | eval join_process_guid = sub_parent_process_guid] | rename sub_process_guid AS process_guid sub_process_name AS process_name out_process_guid AS parent_process_guid out_process_name AS parent_process_name out_parent_process_guid AS grandparent_process_guid out_parent_process_name AS grandparent_process_name | stats count by process_guid process_name parent_process_guid parent_process_name grandparent_process_guid grandparent_process_name | head 1 | fields - count'
+name: Process Chain Analysis
+search: '`sysmon` EventCode=1 NOT process=*Splunk* | rename process_guid AS out_process_guid
+  process_name AS out_process_name parent_process_guid AS out_parent_process_guid
+  parent_process_name AS out_parent_process_name | stats count by out_process_guid
+  out_process_name out_parent_process_guid out_parent_process_name | eval join_process_guid
+  = out_process_guid | join join_process_guid [ search `sysmon` process_guid={process_guid}
+  EventCode=1 | rename process_name AS sub_process_name process_guid AS sub_process_guid
+  parent_process_name AS sub_parent_process_name parent_process_guid AS sub_parent_process_guid
+  | stats count by sub_process_name sub_process_guid sub_parent_process_name sub_parent_process_guid
+  | eval join_process_guid = sub_parent_process_guid] | rename sub_process_guid AS
+  process_guid sub_process_name AS process_name out_process_guid AS parent_process_guid
+  out_process_name AS parent_process_name out_parent_process_guid AS grandparent_process_guid
+  out_parent_process_name AS grandparent_process_name | stats count by process_guid
+  process_name parent_process_guid parent_process_name grandparent_process_guid grandparent_process_name
+  | head 1 | fields - count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Collection and Staging
   - Command and Control
@@ -39,3 +53,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   - Windows Service Abuse
+  product:
+  - Splunk Phantom
+type: response
+version: 1

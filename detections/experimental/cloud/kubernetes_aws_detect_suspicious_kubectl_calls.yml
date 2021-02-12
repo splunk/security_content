@@ -1,20 +1,23 @@
-author: Rod Soto, Splunk
+name: Kubernetes AWS detect suspicious kubectl calls
+id: 042a3d32-8318-4763-9679-09db2644a8f2
+version: 1
 date: '2020-06-23'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search provides information on anonymous Kubectl calls with IP,
   verb namespace and object access context
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with cloudwatch logs.
-id: 042a3d32-8318-4763-9679-09db2644a8f2
-known_false_positives: Kubectl calls are not malicious by nature. However source IP,
-  verb and Object can reveal potential malicious activity, specially anonymous suspicious
-  IPs and sensitive objects such as configmaps or secrets
-name: Kubernetes AWS detect suspicious kubectl calls
-references: []
 search: '`aws_cloudwatchlogs_eks` userAgent=kubectl* sourceIPs{}!=127.0.0.1 sourceIPs{}!=::1
   src_user=system:anonymous  | table  src_ip src_user verb userAgent requestURI  |
   stats  count by src_ip src_user verb userAgent requestURI |`kubernetes_aws_detect_suspicious_kubectl_calls_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with cloudwatch logs.
+known_false_positives: Kubectl calls are not malicious by nature. However source IP,
+  verb and Object can reveal potential malicious activity, specially anonymous suspicious
+  IPs and sensitive objects such as configmaps or secrets
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Sensitive Object Access Activity
   asset_type: AWS EKS Kubernetes cluster
   kill_chain_phases:
@@ -24,5 +27,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

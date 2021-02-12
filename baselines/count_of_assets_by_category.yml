@@ -1,18 +1,22 @@
-author: Bhavin Patel, Splunk
+name: Count of assets by category
+id: dcfd6b40-42f9-469d-a433-2e53f7489ff9
+version: 1
 date: '2017-09-13'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search shows you every asset category you have and the assets that
   belong to those categories.
+search: '| from datamodel Identity_Management.All_Assets | stats count values(nt_host)
+  by category | sort -count'
 how_to_implement: To successfully implement this search you must first leverage the
   Assets and Identity framework in Enterprise Security to populate your assets_by_str.csv
   file which should then be mapped to the Identity_Management data model. The Identity_Management
   data model will contain a list of known authorized company assets. Ensure that all
   inventoried systems are constantly vetted and updated.
-id: dcfd6b40-42f9-469d-a433-2e53f7489ff9
-name: Count of assets by category
-search: '| from datamodel Identity_Management.All_Assets | stats count values(nt_host)
-  by category | sort -count'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Asset Tracking
   detections:
   - Detect Unauthorized Assets by MAC address
@@ -20,5 +24,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

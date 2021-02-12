@@ -1,31 +1,50 @@
-name: Identify additional affected hosts
-id: 3d481dd1-4f30-4262-a846-78af6bdce11c
-tags:
-  nist:
-    RS.RP
-description: |
-  Use indictors developed from the detection and analysis to find additional hosts or potentially infected hosts.  If found perform additional analysis to determine root cause analysis and any additional indictors. If this is mass infection event, immediate containment must be delayed until full understanding of the infection is achieved.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - run query
-    - merge event
-  playbooks:
-    - scm: community
-      playook: Merge event with case
-references:
-  - 3.3.1 Choosing a Containment Strategy - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-  - 3.3.2 Evidence Gathering and Handling - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-  - NIST SP 800-86, Guide to Integrating Forensic Techniques into Incident Response, for additional information on preserving evidence
-workflow: |
-  1. For Host infections, use persistence mechanism, dropped filenames, paths, hashs, accessed or collected files, links, network communications, network ports and protocols, netwrok flow data points, etc
-  2. For phishing infections, use email addresses, domains, urls, file hashes, x-origin-ip address, subject, etc
-  3. For Command and Control, use host communication, ports and protocols, application, url patterns, dns queries, ping data, etc
-  4. Escalate to incident management team, if a massive incident to support incident response.
-  5. Ensure all known event information and root cause of the event is known before proceeding with containment
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - run query
+  - merge event
+  is_note_required: false
+  playbooks:
+  - playook: Merge event with case
+    scm: community
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Use indictors developed from the detection and analysis to find additional
+  hosts or potentially infected hosts.  If found perform additional analysis to determine
+  root cause analysis and any additional indictors. If this is mass infection event,
+  immediate containment must be delayed until full understanding of the infection
+  is achieved.
+
+  '
+id: 3d481dd1-4f30-4262-a846-78af6bdce11c
+name: Identify additional affected hosts
+references:
+- 3.3.1 Choosing a Containment Strategy - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+- 3.3.2 Evidence Gathering and Handling - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+- NIST SP 800-86, Guide to Integrating Forensic Techniques into Incident Response,
+  for additional information on preserving evidence
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. For Host infections, use persistence mechanism, dropped filenames, paths,
+  hashs, accessed or collected files, links, network communications, network ports
+  and protocols, netwrok flow data points, etc
+
+  2. For phishing infections, use email addresses, domains, urls, file hashes, x-origin-ip
+  address, subject, etc
+
+  3. For Command and Control, use host communication, ports and protocols, application,
+  url patterns, dns queries, ping data, etc
+
+  4. Escalate to incident management team, if a massive incident to support incident
+  response.
+
+  5. Ensure all known event information and root cause of the event is known before
+  proceeding with containment
+
+  '

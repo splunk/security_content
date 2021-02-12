@@ -1,22 +1,25 @@
-author: Rod Soto, Splunk
+name: O365 PST export alert
+id: 5f694cc4-a678-4a60-9410-bffca1b647dc
+version: 1
 date: '2020-12-16'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search detects when a user has performed an Ediscovery search or
   exported a PST file from the search. This PST file usually has sensitive information
   including email body content
-how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
-id: 5f694cc4-a678-4a60-9410-bffca1b647dc
-known_false_positives: PST export can be done for legitimate purposes but due to the
-  sensitive nature of its content it must be monitored.
-name: O365 PST export alert
-references:
-- https://attack.mitre.org/techniques/T1114/
 search: '`o365_management_activity` Category=ThreatManagement Name="eDiscovery search
   started or exported" | stats count earliest(_time) as firstTime latest(_time) as
   lastTime by Source Severity AlertEntityId Operation Name |`security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `o365_pst_export_alert_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
+known_false_positives: PST export can be done for legitimate purposes but due to the
+  sensitive nature of its content it must be monitored.
+references:
+- https://attack.mitre.org/techniques/T1114/
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed
@@ -31,5 +34,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

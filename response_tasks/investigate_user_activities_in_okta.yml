@@ -1,15 +1,18 @@
-name: Investigate User Activities In Okta
-id: 24ff145d-4d16-420a-b047-480f2a51c403
-version: 1
+author: Rico Valdez, Splunk
 date: '2020-04-02'
 description: This search returns all okta events by a specific user
 how_to_implement: You must be ingesting Okta logs
-author: Rico Valdez, Splunk
+id: 24ff145d-4d16-420a-b047-480f2a51c403
 inputs:
 - user
+name: Investigate User Activities In Okta
 search: eventtype=okta_log user=$user$ | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
+  product:
+  - Splunk Phantom
+type: response
+version: 1

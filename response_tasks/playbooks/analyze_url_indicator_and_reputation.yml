@@ -1,38 +1,46 @@
-name: Analyze url indicator and reputation
-id: 65a23d95-7b5a-405c-b5bf-893983478d35
-tags:
-  nist:
-    RS.RP
-description: |
-  Validate indicator existance, reputation, detonation and determine if Known APT, Commodity, Suspicous or Not Malicious?
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - whois domain
-    - domain reputation
-    - url reputation
-    - domain intelligence
-    - url intelligence
-    - hunt domain
-    - hunt url
-    - detonate url
-  playbooks:
-    - scm:
-      playook: ""
-references:
-    - 3.2.3 Sources of Precursors and Indicators - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  This should be TLD domain and url combinations analysis.
-  1. If Splunk present, run Splunk Query on each indictor and prevelence in the environment. Summarize # of times indicator seen in the last 24 hrs, 7 days, 1 month, six months increments. Return the hosts that have used this indictor. (make an artifact for each host?)
-    a. search -> ```| stats ...```
-  1. Gather reputational, intelligence and general information regarding indicator into a note (a note for each indicator)
-  1. Perform any additional research regarding indicators and understanding what normal behaviour is or should be by using using search engines, knowledge bases etc.
-  1. Make a determination of indicator, Known APT, Commodity, Suspicous or Not Malicious and whether to tag to block indicator
-    a. This should align to a severity change (Known APT = High, Commodity = Med, Suspicous = Low, Not Malicious = Info)
-    a. Change container and artifact severity and tag artifact & indicator(s) with blocked and determination tag
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - whois domain
+  - domain reputation
+  - url reputation
+  - domain intelligence
+  - url intelligence
+  - hunt domain
+  - hunt url
+  - detonate url
+  is_note_required: false
+  playbooks:
+  - playook: ''
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Validate indicator existance, reputation, detonation and determine if
+  Known APT, Commodity, Suspicous or Not Malicious?
+
+  '
+id: 65a23d95-7b5a-405c-b5bf-893983478d35
+name: Analyze url indicator and reputation
+references:
+- 3.2.3 Sources of Precursors and Indicators - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: "This should be TLD domain and url combinations analysis.\n1. If Splunk\
+  \ present, run Splunk Query on each indictor and prevelence in the environment.\
+  \ Summarize # of times indicator seen in the last 24 hrs, 7 days, 1 month, six months\
+  \ increments. Return the hosts that have used this indictor. (make an artifact for\
+  \ each host?)\n  a. search -> ```| stats ...```\n1. Gather reputational, intelligence\
+  \ and general information regarding indicator into a note (a note for each indicator)\n\
+  1. Perform any additional research regarding indicators and understanding what normal\
+  \ behaviour is or should be by using using search engines, knowledge bases etc.\n\
+  1. Make a determination of indicator, Known APT, Commodity, Suspicous or Not Malicious\
+  \ and whether to tag to block indicator\n  a. This should align to a severity change\
+  \ (Known APT = High, Commodity = Med, Suspicous = Low, Not Malicious = Info)\n \
+  \ a. Change container and artifact severity and tag artifact & indicator(s) with\
+  \ blocked and determination tag\n"

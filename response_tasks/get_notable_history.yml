@@ -1,19 +1,18 @@
-name: Get Notable History
-id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
-version: 2
+author: Bhavin Patel, Splunk
 date: '2017-09-20'
 description: This search queries the notable index and returns all the Notable Events
   for the particular destination host, giving the analyst an overview of the incidents
   that may have occurred with the host under investigation.
 how_to_implement: If you are using Enterprise Security you are likely already creating
   notable events with your correlation rules. No additional configuration is necessary.
-author: Bhavin Patel, Splunk
+id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
 inputs:
 - dest
+name: Get Notable History
 search: '| search `notable` | search dest=$dest$ | table _time, dest, rule_name, owner,
   priority, severity, status_description'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   - AWS Cryptomining
   - AWS Network ACL Activity
@@ -83,3 +82,7 @@ tags:
   - Suspicious Cloud Provisioning Activities
   - Suspicious GCP Storage Activities
   - Windows DNS SIGRed CVE-2020-1350
+  product:
+  - Splunk Phantom
+type: response
+version: 2

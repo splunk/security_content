@@ -1,11 +1,13 @@
-author: Rico Valdez, Splunk
+name: Windows Service Abuse
+id: 6dbd810e-f66d-414b-8dfc-e46de55cbfe2
+version: 3
 date: '2017-11-02'
+author: Rico Valdez, Splunk
+type: batch
 description: Windows services are often used by attackers for persistence and the
   ability to load drivers or otherwise interact with the Windows kernel. This Analytic
   Story helps you monitor your environment for indications that Windows services are
   being modified or created in a suspicious manner.
-id: 6dbd810e-f66d-414b-8dfc-e46de55cbfe2
-name: Windows Service Abuse
 narrative: The Windows operating system uses a services architecture to allow for
   running code in the background, similar to a UNIX daemon. Attackers will often leverage
   Windows services for persistence, hiding in plain sight, seeking the ability to
@@ -19,7 +21,7 @@ references:
 - https://attack.mitre.org/wiki/Technique/T1050
 - https://attack.mitre.org/wiki/Technique/T1031
 tags:
-  analytics_story: Windows Service Abuse
+  analytic_story: Windows Service Abuse
   category:
   - Malware
   product:
@@ -27,5 +29,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 3
