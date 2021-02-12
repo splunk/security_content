@@ -13,7 +13,7 @@ description: The following analytic identifies hh.exe (HTML Help) execution of a
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-type: ESCU
+type: batch
 references:
 - https://attack.mitre.org/techniques/T1218/001/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
@@ -41,6 +41,10 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
   asset_type: Endpoint
   dataset:

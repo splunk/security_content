@@ -17,7 +17,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed hh.exe may be used.
-type: ESCU
+type: batch
 references:
 - https://attack.mitre.org/techniques/T1218/001/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
@@ -41,6 +41,10 @@ tags:
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
   asset_type: Endpoint
   dataset:
