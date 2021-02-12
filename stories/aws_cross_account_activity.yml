@@ -1,10 +1,12 @@
-author: David Dorsey, Splunk
+name: AWS Cross Account Activity
+id: 2f2f610a-d64d-48c2-b57c-967a2b49ab5a
+version: 1
 date: '2018-06-04'
+author: David Dorsey, Splunk
+type: batch
 description: Track when a user assumes an IAM role in another AWS account to obtain
   cross-account access to services and resources in that account. Accessing new roles
   could be an indication of malicious activity.
-id: 2f2f610a-d64d-48c2-b57c-967a2b49ab5a
-name: AWS Cross Account Activity
 narrative: 'Amazon Web Services (AWS) admins manage access to AWS resources and services
   across the enterprise using AWS''s Identity and Access Management (IAM) functionality.
   IAM provides the ability to create and manage AWS users, groups, and roles-each
@@ -28,7 +30,7 @@ narrative: 'Amazon Web Services (AWS) admins manage access to AWS resources and 
 references:
 - https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
 tags:
-  analytics_story: AWS Cross Account Activity
+  analytic_story: AWS Cross Account Activity
   category:
   - Cloud Security
   product:
@@ -36,5 +38,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 1

@@ -1,11 +1,20 @@
-author: Bhavin Patel, Splunk
+name: Detect hosts connecting to dynamic domain providers
+id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
+version: 3
 date: '2021-01-14'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: Malicious actors often abuse legitimate Dynamic DNS services to host
   malicious payloads or interactive command and control nodes. Attackers will automate
   domain resolution changes by routing dynamic domains to countless IP addresses to
   circumvent firewall blocks, block lists as well as frustrate a network defenders
   analytic and investigative processes. This search will look for DNS queries made
   from within your infrastructure to suspicious dynamic domains.
+search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
+  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
+  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
 how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This
   can be done by ingesting logs from your server or data, collected passively by Splunk
   Stream or a similar solution. Specifically, data that contains the domain that is
@@ -31,16 +40,12 @@ how_to_implement: 'First, you''ll need to ingest data from your DNS operations. 
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 known_false_positives: Some users and applications may leverage Dynamic DNS to reach
   out to some domains on the Internet since dynamic DNS by itself is not malicious,
   however this activity must be verified.
-name: Detect hosts connecting to dynamic domain providers
-search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
-  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
-  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Data Protection
   - Prohibited Traffic Allowed or Protocol Mismatch
   - DNS Hijacking
@@ -70,5 +75,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
-version: 3

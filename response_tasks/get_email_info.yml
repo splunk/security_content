@@ -1,16 +1,19 @@
-name: Get Email Info
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd75
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-11-09'
 description: This search returns all the information Splunk might have collected a
   specific email message over the last 2 hours.
 how_to_implement: To successfully implement this search you must be ingesting your
   email logs or capturing unencrypted network traffic which contains email communications.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd75
 inputs:
 - message_id
+name: Get Email Info
 search: '| from datamodel Email.All_Email | search message_id=$message_id$'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - Suspicious Emails
+  product:
+  - Splunk Phantom
+type: response
+version: 1

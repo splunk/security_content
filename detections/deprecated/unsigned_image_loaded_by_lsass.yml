@@ -1,25 +1,28 @@
-author: Patrick Bareiss, Splunk
+name: Unsigned Image Loaded by LSASS
+id: 56ef054c-76ef-45f9-af4a-a634695dcd65
+version: 1
 date: '2019-12-06'
+author: Patrick Bareiss, Splunk
+type: batch
+datamodel: []
 description: This search detects loading of unsigned images by LSASS. Deprecated because
   too noisy.
+search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)
+  as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
+  | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `unsigned_image_loaded_by_lsass_filter` '
 how_to_implement: This search needs Sysmon Logs with a sysmon configuration, which
   includes EventCode 7 with lsass.exe. This search uses an input macro named `sysmon`.
   We strongly recommend that you specify your environment-specific configurations
   (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
   with configurations for your Splunk environment. The search also uses a post-filter
   macro designed to filter out known false positives.
-id: 56ef054c-76ef-45f9-af4a-a634695dcd65
 known_false_positives: Other tools could load images into LSASS for legitimate reason.
   But enterprise tools should always use signed DLLs.
-name: Unsigned Image Loaded by LSASS
 references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
-search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)
-  as firstTime max(_time) as lastTime by Computer, Image, ImageLoaded, Signed, SHA1
-  | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `unsigned_image_loaded_by_lsass_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Windows
   cis20:
@@ -36,5 +39,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 1

@@ -1,13 +1,12 @@
-name: Investigate Failed Logins for Multiple Destinations
-id: 097e8030-8662-4254-a735-bf0bdda696e3
-version: 1
+author: Patrick Bareiss, Splunk
 date: '2019-12-10'
 description: This search returns failed logins to multiple destinations by user.
 how_to_implement: To successfully implement this search you need to be ingesting authentication
   logs from your various systems and populating the Authentication data model.
-author: Patrick Bareiss, Splunk
+id: 097e8030-8662-4254-a735-bf0bdda696e3
 inputs:
 - user
+name: Investigate Failed Logins for Multiple Destinations
 search: '| tstats count `security_content_summariesonly` earliest(_time) as first_login
   latest(_time) as last_login dc(Authentication.dest) AS distinct_count_dest values(Authentication.dest)
   AS Authentication.dest values(Authentication.app) AS Authentication.app  from datamodel=Authentication
@@ -15,5 +14,9 @@ search: '| tstats count `security_content_summariesonly` earliest(_time) as firs
   > 1 | `security_content_ctime(first_login)` | `security_content_ctime(last_login)`
   | `drop_dm_object_name("Authentication")` | search user=$user$'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
+  product:
+  - Splunk Phantom
+type: response
+version: 1

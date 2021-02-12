@@ -1,25 +1,29 @@
-author: Bhavin Patel, Splunk
+name: Detect Use of cmd exe to Launch Script Interpreters
+id: b89919ed-fe5f-492c-b139-95dbb162039e
+version: 4
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: This search looks for the execution of the cscript.exe or wscript.exe
   processes, with a parent of cmd.exe. The search will return the count, the first
   and last time this execution was seen on a machine, the user, and the destination
   of the machine
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
-  of the Sysmon TA.
-id: b89919ed-fe5f-492c-b139-95dbb162039e
-known_false_positives: Some legitimate applications may exhibit this behavior.
-name: Detect Use of cmd exe to Launch Script Interpreters
-references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.parent_process_name="cmd.exe" (Processes.process_name=cscript.exe
   OR Processes.process_name =wscript.exe) by Processes.parent_process Processes.process_name
   Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+known_false_positives: Some legitimate applications may exhibit this behavior.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Command-Line Executions
   asset_type: Endpoint
@@ -40,5 +44,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 4

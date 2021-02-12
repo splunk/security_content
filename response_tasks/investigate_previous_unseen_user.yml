@@ -1,14 +1,13 @@
-name: Investigate Previous Unseen User
-id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
-version: 1
+author: Patrick Bareiss, Splunk
 date: '2019-12-10'
 description: This search returns previous unseen user, which didn't log in for 30
   days.
 how_to_implement: To successfully implement this search you need to be ingesting authentication
   logs from your various systems and populating the Authentication data model.
-author: Patrick Bareiss, Splunk
+id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
 inputs:
 - dest
+name: Investigate Previous Unseen User
 search: '| tstats count `security_content_summariesonly` earliest(_time) as first_login
   latest(_time) as last_login values(Authentication.dest) AS Authentication.dest values(Authentication.app)
   AS Authentication.app values(Authentication.action) AS Authentication.action from
@@ -16,7 +15,12 @@ search: '| tstats count `security_content_summariesonly` earliest(_time) as firs
   | bucket _time span=30d | stats count min(first_login) as first_login max(last_login)
   as last_login values(Authentication.dest) AS Authentication.dest by Authentication.user
   | where count=1 | where first_login >= relative_time(now(), "-30d") | `security_content_ctime(first_login)`
-  | `security_content_ctime(last_login)` | `drop_dm_object_name("Authentication")` | search dest=$dest$'
+  | `security_content_ctime(last_login)` | `drop_dm_object_name("Authentication")`
+  | search dest=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
+  product:
+  - Splunk Phantom
+type: response
+version: 1

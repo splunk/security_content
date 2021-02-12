@@ -1,18 +1,12 @@
-author: Bhavin Patel, Splunk
+name: Detect S3 access from a new IP
+id: 2a9b80d3-6340-4345-b5ad-291bq3d0daq4
+version: 1
 date: '2018-06-28'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search looks at S3 bucket-access logs and detects new or previously
   unseen remote IP addresses that have successfully accessed an S3 bucket.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access
-  logs' inputs. This search works best when you run the "Previously Seen S3 Bucket
-  Access by Remote IP" support search once to create a history of previously seen
-  remote IPs and bucket names.
-id: 2a9b80d3-6340-4345-b5ad-291bq3d0daq4
-known_false_positives: S3 buckets can be accessed from any IP, as long as it can make
-  a successful connection. This will be a false postive, since the search is looking
-  for a new IP within the past hour
-name: Detect S3 access from a new IP
-references: []
 search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_status=200
   | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip
   | inputlookup append=t previously_seen_S3_access_from_remote_ip.csv | stats min(firstTime)
@@ -21,8 +15,17 @@ search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_s
   "-70m@m"), 1, 0) | where newIP=1 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip
   | table _time bucket_name src_ip City Country operation request_uri | `detect_s3_access_from_a_new_ip_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access
+  logs' inputs. This search works best when you run the "Previously Seen S3 Bucket
+  Access by Remote IP" support search once to create a history of previously seen
+  remote IPs and bucket names.
+known_false_positives: S3 buckets can be accessed from any IP, as long as it can make
+  a successful connection. This will be a false postive, since the search is looking
+  for a new IP within the past hour
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
   cis20:
@@ -44,5 +47,3 @@ tags:
   risk_object_type: system
   risk_score: 10
   security_domain: network
-type: ESCU
-version: 1

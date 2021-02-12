@@ -1,22 +1,26 @@
-author: Bhavin Patel, Splunk
+name: Detect attackers scanning for vulnerable JBoss servers
+id: 104658f4-afdc-499e-9719-17243f982681
+version: 1
 date: '2017-09-23'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Web
 description: This search looks for specific GET or HEAD requests to web servers that
   are indicative of reconnaissance attempts to identify vulnerable JBoss servers.
   JexBoss is described as the exploit tool of choice for this malicious activity.
-how_to_implement: You must be ingesting data from the web server or network traffic
-  that contains web specific information, and populating the Web data model.
-id: 104658f4-afdc-499e-9719-17243f982681
-known_false_positives: It's possible for legitimate HTTP requests to be made to URLs
-  containing the suspicious paths.
-name: Detect attackers scanning for vulnerable JBoss servers
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Web where (Web.http_method="GET" OR Web.http_method="HEAD")
   AND (Web.url="*/web-console/ServerInfo.jsp*" OR Web.url="*web-console*" OR Web.url="*jmx-console*"
   OR Web.url = "*invoker*") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`'
+how_to_implement: You must be ingesting data from the web server or network traffic
+  that contains web specific information, and populating the Web data model.
+known_false_positives: It's possible for legitimate HTTP requests to be made to URLs
+  containing the suspicious paths.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - JBoss Vulnerability
   - SamSam Ransomware
   asset_type: Web Server
@@ -29,5 +33,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
-version: 1

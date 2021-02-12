@@ -1,18 +1,13 @@
-author: Stanislav Miskovic, Splunk
+name: Reconnaissance and Access to Operating System Elements via PowerSploit modules
+id: c1d33ad9-1727-4f9f-a474-4adbe4fed68a
+version: 1
 date: '2020-11-06'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
 description: This detection identifies access to PowerSploit modules that discover
   and access operating system elements, such as processes, services, registry locations,
   security packages and files.
-eli5: This detection identifies use of PowerSploit modules that discover and access
-  system resources, such as processes, services, registry locations, security packages
-  and files.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: c1d33ad9-1727-4f9f-a474-4adbe4fed68a
-known_false_positives: None identified.
-name: Reconnaissance and Access to Operating System Elements via PowerSploit modules
-references:
-- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -28,6 +23,11 @@ search: '| from read_ssa_enriched_events()
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
   asset_type: Windows
   cis20:
@@ -56,5 +56,3 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
-type: SSA
-version: 1
