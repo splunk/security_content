@@ -37,7 +37,7 @@ known_false_positives: It is rare to see instances of InfoTech Storage Handlers 
   used, but it does happen in some legitimate instances. Filter as needed.
 tags:
   analytic_story:
-  - Suspicious Compiled HTML file Activity
+  - Suspicious Compiled HTML Activity
   mitre_attack_id:
   - T1218.001
   kill_chain_phases:

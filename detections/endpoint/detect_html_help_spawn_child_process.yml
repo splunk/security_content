@@ -28,7 +28,7 @@ known_false_positives: Although unlikely, some legitimate applications (ex. web 
   may spawn a child process. Filter as needed.
 tags:
   analytic_story:
-  - Suspicious Compiled HTML file Activity
+  - Suspicious Compiled HTML Activity
   mitre_attack_id:
   - T1218.001
   kill_chain_phases:
