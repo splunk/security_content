@@ -27,7 +27,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
 - https://lolbas-project.github.io/lolbas/Binaries/Rundll32
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Rundll32 Activity
   asset_type: Endpoint
   automated_detection_testing: passed

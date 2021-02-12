@@ -24,7 +24,7 @@ references:
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://www.sygnia.co/golden-saml-advisory
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365

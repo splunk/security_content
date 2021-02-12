@@ -34,7 +34,7 @@ references:
 - https://www.crowdstrike.com/blog/duck-hunting-with-falcon-complete-qakbot-zip-based-campaign/
 - https://msdn.microsoft.com/en-us/library/windows/desktop/ms682162(v=vs.85).aspx
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Rundll32 Activity
   asset_type: Endpoint
   automated_detection_testing: passed

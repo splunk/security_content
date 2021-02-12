@@ -26,7 +26,7 @@ known_false_positives: The activity may be legitimate. PowerShell is often used 
   may need to tweak the search to eliminate noise.
 references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Federated Credential Abuse
   asset_type: Windows
   cis20:

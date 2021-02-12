@@ -20,7 +20,7 @@ known_false_positives: Unless there are specific use cases, manipulating or expo
   during attacks such as Golden SAML and other campaigns targeting Federated services.
 references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Persistence Techniques
   - Cloud Federated Credential Abuse
   asset_type: Endpoint

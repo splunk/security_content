@@ -34,7 +34,7 @@ references:
 - https://lolbas-project.github.io/lolbas/Libraries/Advpack/
 - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Rundll32 Activity
   asset_type: Endpoint
   automated_detection_testing: passed

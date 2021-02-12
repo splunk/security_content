@@ -28,7 +28,7 @@ references:
 - https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Endpoint
   automated_detection_testing: passed

@@ -31,7 +31,7 @@ references:
 - https://support.microsoft.com/en-us/topic/how-to-use-the-regsvr32-tool-and-troubleshoot-regsvr32-error-messages-a98d960a-7392-e6fe-d90a-3f4e0cb543e5
 - https://any.run/report/f29a7d2ecd3585e1e4208e44bcc7156ab5388725f1d29d03e7699da0d4598e7c/0826458b-5367-45cf-b841-c95a33a01718
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Regsvr32 Activity
   asset_type: Endpoint
   automated_detection_testing: passed

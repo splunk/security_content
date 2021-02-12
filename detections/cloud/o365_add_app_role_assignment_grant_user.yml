@@ -21,7 +21,7 @@ references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365

@@ -35,7 +35,7 @@ references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 - https://strontic.github.io/xcyclopedia/library/vss_ps.dll-97B15BDAE9777F454C9A6BA25E938DB3.html
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Endpoint
   automated_detection_testing: passed

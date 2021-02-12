@@ -34,7 +34,7 @@ references:
 - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
 - https://support.microsoft.com/en-us/topic/how-to-use-the-regsvr32-tool-and-troubleshoot-regsvr32-error-messages-a98d960a-7392-e6fe-d90a-3f4e0cb543e5
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Regsvr32 Activity
   asset_type: Endpoint
   automated_detection_testing: passed

@@ -19,7 +19,7 @@ known_false_positives: Logon errors may not be malicious in nature however it ma
 references:
 - https://stealthbits.com/blog/bypassing-mfa-with-pass-the-cookie/
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   - Cloud Federated Credential Abuse
   asset_type: Office 365

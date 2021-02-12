@@ -27,7 +27,7 @@ references:
 - https://attack.mitre.org/techniques/T1003/001/
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Windows
   automated_detection_testing: passed

@@ -28,7 +28,7 @@ references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Federated Credential Abuse
   asset_type: AWS Federated Account
   automated_detection_testing: passed
