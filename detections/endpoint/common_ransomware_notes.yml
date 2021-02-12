@@ -15,7 +15,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `common_ransomware_notes_filter`'
 how_to_implement: You must be ingesting data that records file-system activity from
   your hosts to populate the Endpoint Filesystem data-model node. This is typically
-  populated via endpoint detection-and-response products, such as Carbon Black, or
+  populated via endpoint detection-and-response product, such as Carbon Black, or
   via other endpoint data sources, such as Sysmon. The data used for this search is
   typically generated via logs that report file-system reads and writes.
 known_false_positives: It's possible that a legitimate file could be created with

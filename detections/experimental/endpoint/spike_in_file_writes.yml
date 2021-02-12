@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter` '
 how_to_implement: In order to implement this search, you must populate the Endpoint
   file-system data model node. This is typically populated via endpoint detection
-  and response products, such as Carbon Black or endpoint data sources such as Sysmon.
+  and response product, such as Carbon Black or endpoint data sources such as Sysmon.
   The data used for this search is typically generated via logs that report reads
   and writes to the file system.
 known_false_positives: It is important to understand that if you happen to install

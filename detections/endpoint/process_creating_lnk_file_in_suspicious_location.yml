@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   process_name, process, process_path, file_hash | `process_creating_lnk_file_in_suspicious_location_filter` '
 how_to_implement: You must be ingesting data that records filesystem and process activity
   from your hosts to populate the Endpoint data model. This is typically populated
-  via endpoint detection-and-response products, such as Carbon Black, or endpoint
+  via endpoint detection-and-response product, such as Carbon Black, or endpoint
   data sources, such as Sysmon.
 known_false_positives: This detection should yield little or no false positive results.
   It is uncommon for LNK files to be executed from temporary or user directories.

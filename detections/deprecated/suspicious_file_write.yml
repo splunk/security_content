@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count values(Filesystem.actio
   | `suspicious_writes` | `suspicious_file_write_filter`'
 how_to_implement: You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint file-system data model node. This is typically
-  populated via endpoint detection-and-response products, such as Carbon Black, or
+  populated via endpoint detection-and-response product, such as Carbon Black, or
   via other endpoint data sources, such as Sysmon. The data used for this search is
   typically generated via logs that report file system reads and writes. In addition,
   this search leverages an included lookup file that contains the names of the files

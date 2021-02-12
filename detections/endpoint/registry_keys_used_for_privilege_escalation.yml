@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count  min(_time) as firstTim
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
-  products, such as Carbon Black, or endpoint data sources, such as Sysmon. The data
+  product, such as Carbon Black, or endpoint data sources, such as Sysmon. The data
   used for this search is typically generated via logs that report reads and writes
   to the registry.
 known_false_positives: There are many legitimate applications that must execute upon
