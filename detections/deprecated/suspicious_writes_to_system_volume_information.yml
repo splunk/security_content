@@ -1,0 +1,34 @@
+author: Rico Valdez, Splunk
+date: '2020-07-22'
+description: This search detects writes to the 'System Volume Information' folder
+  by something other than the System process.
+how_to_implement: You need to be ingesting logs with both the process name and command-line
+  from your endpoints. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
+known_false_positives: It is possible that other utilities or system processes may
+  legitimately write to this folder. Investigate and modify the search to include
+  exceptions as appropriate.
+name: Suspicious writes to System Volume Information
+references: []
+search: (`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume\
+  Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest,
+  Image, file_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `suspicious_writes_to_system_volume_information_filter`
+tags:
+  analytics_story:
+  - Collection and Staging
+  asset_type: Windows
+  cis20:
+  - CIS 8
+  mitre_attack_id:
+  - T1036
+  nist:
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 2

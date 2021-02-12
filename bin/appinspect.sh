@@ -1,12 +1,12 @@
 #!/bin/bash
 # simple script to run an appinspect API check
-EXPECTED_ARGS=2
+EXPECTED_ARGS=3
 E_BADARGS=65
 
-if [ $# -lt 2 ]
+if [ $# -lt 3 ]
 then
-echo "Usage: `basename $0` <token> <app_path>"
-echo "Example `basename $0` xxxxXXXXxxxx ~/"
+echo "Usage: `basename $0` <app_path> <username> <password>"
+echo "Example `basename $0` ~/ doomguy R1p&T3ar"
   exit $E_BADARGS
 fi
 
@@ -16,13 +16,17 @@ echo "Too many arguments"
         exit $E_BADARGS
 fi
 
-APPINSPECT_TOKEN=$1
-APP_PATH=$2
-
+APP_PATH=$1
+USERNAME=$2
+PASSWORD=$3
 cd $APP_PATH
 mkdir report
+# get a JWT token
+AUTH_TOKEN=$(echo -n "$USERNAME:$PASSWORD" | base64)
+APPINSPECT_TOKEN=$(curl -s --location --request GET 'https://api.splunk.com/2.0/rest/login/splunk' --header "Authorization: Basic $AUTH_TOKEN" | jq -r '.data | .token')
+sleep 1
 # submit a inspection job EXPECTS app on same directory
-REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
+REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"/home/circleci/DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
 echo "app inspect request: $REQUEST_ID"
 sleep 5
 STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" | jq -r '.status')

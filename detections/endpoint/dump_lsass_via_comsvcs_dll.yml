@@ -21,6 +21,7 @@ known_false_positives: None identified.
 tags:
   analytics_story:
   - Credential Dumping
+  - Suspicious Rundll32 Activity
   mitre_attack_id:
   - T1003.001
   kill_chain_phases:

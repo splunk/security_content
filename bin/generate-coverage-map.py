@@ -11,9 +11,9 @@ from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
 
-VERSION = "3.0"
+VERSION = "4.1"
 NAME = "Detection Coverage"
-DESCRIPTION = "security-content detection coverage"
+DESCRIPTION = "security_content detection coverage"
 DOMAIN = "mitre-enterprise"
 
 def main(argv):
@@ -86,7 +86,7 @@ def get_matched_techniques(counted_techniques, detections):
         matched_splunk_detections = []
 
         # find detections from Splunks security content
-        # https://github.com/splunk/security-content
+        # https://github.com/splunk/security_content
         for detection in detections:
             if 'mitre_attack_id' in detection['object']['tags']:
                 for mitreid in detection['object']['tags']['mitre_attack_id']:
@@ -115,7 +115,7 @@ def generate_navigator_layer(matched_techniques, max_count, output):
         comments = []
         if len(technique["splunk_rules"]) > 0:
             for splunk_rule in technique["splunk_rules"]:
-                comments.append("https://github.com/splunk/security-content/blob/develop/detections/" + splunk_rule['filename'])
+                comments.append("https://github.com/splunk/security_content/blob/develop/detections/" + splunk_rule['filename'])
                 layer_technique = {
                 "techniqueID": technique["ID"],
                 "score" : technique["score"]
@@ -177,7 +177,7 @@ def generate_navigator_layer(matched_techniques, max_count, output):
 
 def generate_csv_file(matched_techniques, output):
 
-    security_content_url = 'https://github.com/splunk/security-content/blob/develop/detections/'
+    security_content_url = 'https://github.com/splunk/security_content/blob/develop/detections/'
 
     with open(output + '/coverage.csv', 'w') as f:
         writer = csv.writer(f)

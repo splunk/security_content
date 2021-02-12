@@ -1,0 +1,34 @@
+author: Rod Soto, Splunk
+date: '2020-12-16'
+description: This search detects when multi factor authentication has been disabled,
+  what entitiy performed the action and against what user
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
+id: c783dd98-c703-4252-9e8a-f19d9f5c949e
+known_false_positives: Unless it is a special case, it is uncommon to disable MFA
+  or Strong Authentication
+name: O365 Disable MFA
+references:
+- https://attack.mitre.org/techniques/T1556/
+search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats
+  count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation
+  user status signature dest ResultStatus |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
+  | `o365_disable_mfa_filter`'
+tags:
+  analytics_story:
+  - Office 365 Detections
+  asset_type: Office 365
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
+  kill_chain_phases:
+  - Actions on Objective
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat
+type: ESCU
+version: 1

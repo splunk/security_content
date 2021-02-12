@@ -1,0 +1,33 @@
+author: Rod Soto, Rico Valdez, Splunk
+date: '2020-02-20'
+description: This search show information on uploaded containers including source
+  user, account, action, bucket name event name, http user agent, message and destination
+  path.
+how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
+  then configure stackdriver and set a subpub subscription to be imported to Splunk.
+  You must also install Cloud Infrastructure data model. Please also customize the
+  `container_implant_gcp_detection_filter` macro to filter out the false positives.
+id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
+known_false_positives: Uploading container is a normal behavior from developers or
+  users with access to container registry. GCP GCR registers container upload as a
+  Storage event, this search must be considered under the context of CONTAINER upload
+  creation which automatically generates a bucket entry for destination path.
+name: GCP GCR container uploaded
+references: []
+search: '|tstats count min(_time) as firstTime max(_time) as lastTime  FROM datamodel=Cloud_Infrastructure.Storage
+  where Storage.event_name=storage.objects.create by Storage.src_user Storage.account
+  Storage.action Storage.bucket_name Storage.event_name Storage.http_user_agent Storage.msg
+  Storage.object_path | `drop_dm_object_name("Storage")`  | `gcp_gcr_container_uploaded_filter` '
+tags:
+  analytics_story:
+  - Container Implantation Monitoring and Investigation
+  asset_type: GCP GCR Container
+  mitre_attack_id:
+  - T1525
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat
+type: ESCU
+version: 1

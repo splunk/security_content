@@ -1,12 +1,12 @@
-name: ColdRoot MacOS RAT
-id: bd91a2bc-d20b-4f44-a982-1bea98e86390
-version: 1
+author: Jose Hernandez, Splunk
 date: '2019-01-09'
 description: Leverage searches that allow you to detect and investigate unusual activities
   that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example
   of some of these activities are changing sensative binaries in the MacOS sub-system,
   detecting process names and executables associated with the RAT, detecting when
   a keyboard tab is installed on a MacOS machine and more.
+id: bd91a2bc-d20b-4f44-a982-1bea98e86390
+name: ColdRoot MacOS RAT
 narrative: 'Conventional wisdom holds that Apple''s MacOS operating system is significantly
   less vulnerable to attack than Windows machines. While that point is debatable,
   it is true that attacks against MacOS systems are much less common. However, this
@@ -31,14 +31,18 @@ narrative: 'Conventional wisdom holds that Apple''s MacOS operating system is si
   Searches in this Analytic Story leverage the capabilities of OSquery to address
   ColdRoot detection from several different angles, such as looking for the existence
   of associated files and processes, and monitoring for signs of an installed keylogger.'
-author: Jose Hernandez, Splunk
-type: ESCU
 references:
 - https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/
 - https://objective-see.com/blog/blog_0x2A.html
 - https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/
 tags:
   analytics_story: ColdRoot MacOS RAT
-  usecase: Advanced Threat Detection
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

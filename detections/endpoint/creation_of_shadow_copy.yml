@@ -2,7 +2,7 @@ name: Creation of Shadow Copy
 id: eb120f5f-b879-4a63-97c1-93352b5df844
 version: 1
 date: '2019-12-10'
-description: Monitor for signs that Ntdsutil, Vssadmin, or Wmic has been used to create
+description: Monitor for signs that Vssadmin or Wmic has been used to create
   a shadow copy.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints, to populate the Endpoint
@@ -13,14 +13,13 @@ references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 author: Patrick Bareiss, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=ntdsutil.exe
-  Processes.process=*ntds* Processes.process=*create*) OR (Processes.process_name=vssadmin.exe
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=vssadmin.exe
   Processes.process=*create* Processes.process=*shadow*) OR (Processes.process_name=wmic.exe
   Processes.process=*shadowcopy* Processes.process=*create*) by Processes.dest Processes.user
   Processes.process_name Processes.process  Processes.parent_process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `creation_of_shadow_copy_filter`'
-known_false_positives: Legtimate administrator usage of Ntdsutil, Vssadmin, or Wmic
+known_false_positives: Legitimate administrator usage of Vssadmin or Wmic
   will create false positives.
 tags:
   analytics_story:
@@ -38,4 +37,4 @@ tags:
   asset_type: Endpoint
   automated_detection_testing: passed
   dataset:
-  - hhttps://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log

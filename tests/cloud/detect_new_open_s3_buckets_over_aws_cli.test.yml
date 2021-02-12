@@ -1,0 +1,13 @@
+name: Detect New Open S3 Buckets over AWS CLI Unit Test
+tests:
+- name: Detect New Open S3 Buckets over AWS CLI
+  file: cloud/detect_new_open_s3_buckets_over_aws_cli.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_cloudtrail_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True

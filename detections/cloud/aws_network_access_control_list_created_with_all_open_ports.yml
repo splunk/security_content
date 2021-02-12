@@ -1,36 +1,49 @@
-name: AWS Network Access Control List Created with All Open Ports
-id: ada0f478-84a8-4641-a3f1-d82362d6bd75
-version: 1
-date: '2017-01-10'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+date: '2021-01-11'
 description: The search looks for CloudTrail events to detect if any network ACLs
   were created with all the ports open to a specified CIDR.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail
   inputs.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
-search: '`cloudtrail` eventName=CreateNetworkAclEntry | mvexpand requestParameters
-  | mvexpand responseElements | search requestParameters.portRange.from=1024 requestParameters.portRange.to=65535
-  requestParameters.ruleAction=allow | rename userIdentity.arn as arn | rename requestParameters.networkAclId
-  as networkAclId | table _time aws_account_id src userName arn networkAclId requestParameters.*
-  responseElements.* | `aws_network_access_control_list_created_with_all_open_ports_filter`'
+id: ada0f478-84a8-4641-a3f1-d82362d6bd75
 known_false_positives: It's possible that an admin has created this ACL with all ports
   open for some legitimate purpose however, this should be scoped and not allowed
   in production environment.
+name: AWS Network Access Control List Created with All Open Ports
+references: []
+search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
+  requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
+  | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
+  requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
+  | eval port_range=''requestParameters.portRange.to'' - ''requestParameters.portRange.from''
+  | where port_range>1024] | fillnull | stats count min(_time) as firstTime max(_time)
+  as lastTime by userName userIdentity.principalId eventName requestParameters.ruleAction
+  requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
+  requestParameters.portRange.from src userAgent requestParameters.cidrBlock | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`'
 tags:
   analytics_story:
   - AWS Network ACL Activity
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: AWS Instance
+  automated_detection_testing: passed
   cis20:
   - CIS 11
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1562.007
   nist:
   - DE.DP
   - DE.AE
-  security_domain: network
-  asset_type: AWS Instance
-  risk_score: 10
-  risk_object_type: user
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: userName
-
+  risk_object_type: user
+  risk_score: 10
+  security_domain: network
+type: ESCU
+version: 2

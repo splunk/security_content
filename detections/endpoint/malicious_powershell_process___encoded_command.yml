@@ -1,6 +1,4 @@
-name: Malicious PowerShell Process - Encoded Command
-id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 4
+author: David Dorsey, Splunk
 date: '2020-07-21'
 description: This search looks for PowerShell processes that have encoded the script
   within the command-line. Malware has been seen using this parameter, as it obfuscates
@@ -10,34 +8,41 @@ how_to_implement: You must be ingesting data that records process activity from 
   ingesting logs with both the process name and command line from your endpoints.
   The command-line arguments are mapped to the "process" field in the Endpoint data
   model.
-type: ESCU
+id: c4db14d9-7909-48b4-a054-aa14d89dbb19
+known_false_positives: System administrators may use this option, but it's not common.
+name: Malicious PowerShell Process - Encoded Command
 references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = powershell.exe
   (Processes.process=*-EncodedCommand* OR Processes.process=*-enc*) by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.dest
   Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `malicious_powershell_process___encoded_command_filter`'
-known_false_positives: System administrators may use this option, but it's not common.
 tags:
   analytics_story:
   - Malicious PowerShell
-  mitre_attack_id:
-  - T1027
-  kill_chain_phases:
-  - Command and Control
-  - Actions on Objectives
+  - Sunburst Malware
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 7
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Command and Control
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1027
   nist:
   - PR.PT
   - DE.CM
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log
+type: ESCU
+version: 4

@@ -1,0 +1,42 @@
+author: Rico Valdez, Splunk
+date: '2018-10-23'
+description: This search looks for the creation of WMI temporary event subscriptions.
+how_to_implement: To successfully implement this search, you must be ingesting the
+  Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on
+  the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
+id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
+known_false_positives: Some software may create WMI temporary event subscriptions
+  for various purposes. The included search contains an exception for two of these
+  that occur by default on Windows 10 systems. You may need to modify the search to
+  create exceptions for other legitimate events.
+name: WMI Temporary Event Subscription
+references: []
+search: '`wmi` EventCode=5860 Temporary | rex field=Message "NotificationQuery =\s+(?<query>[^;|^$]+)"
+  | search query!="SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName = ''wsmprovhost.exe''"
+  AND query!="SELECT * FROM __InstanceOperationEvent WHERE TargetInstance ISA ''AntiVirusProduct''
+  OR TargetInstance ISA ''FirewallProduct'' OR TargetInstance ISA ''AntiSpywareProduct''"
+  | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName, query  |
+  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `wmi_temporary_event_subscription_filter`'
+tags:
+  analytics_story:
+  - Suspicious WMI Use
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1047
+  nist:
+  - PR.PT
+  - PR.AT
+  - PR.AC
+  - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 1

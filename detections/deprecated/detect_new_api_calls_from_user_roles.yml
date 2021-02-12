@@ -1,0 +1,45 @@
+author: Bhavin Patel, Splunk
+date: '2018-04-16'
+description: This search detects new API calls that have either never been seen before
+  or that have not been seen in the previous hour, where the identity type is `AssumedRole`.
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously seen API call per user
+  roles in CloudTrail" support search once to create a history of previously seen
+  user roles.
+id: 22773e84-bac0-4595-b086-20d3f335b4f1
+known_false_positives: It is possible that there are legitimate user roles making
+  new or infrequently used API calls in your infrastructure, causing the search to
+  trigger.
+name: Detect new API calls from user roles
+references: []
+search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole
+  [search `cloudtrail` eventType=AwsApiCall errorCode=success  userIdentity.type=AssumedRole
+  | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
+  |  inputlookup append=t previously_seen_api_calls_from_user_roles | stats min(earliest)
+  as earliest, max(latest) as latest by userName eventName | outputlookup previously_seen_api_calls_from_user_roles|
+  eval newApiCallfromUserRole=if(earliest>=relative_time(now(), "-70m@m"), 1, 0) |
+  where newApiCallfromUserRole=1 | `security_content_ctime(earliest)` | `security_content_ctime(latest)`
+  | table eventName userName]  |rename userName as user| stats values(eventName) earliest(_time)
+  as earliest latest(_time) as latest by user | `security_content_ctime(earliest)`
+  | `security_content_ctime(latest)` | `detect_new_api_calls_from_user_roles_filter`'
+tags:
+  analytics_story:
+  - AWS User Monitoring
+  asset_type: AWS Instance
+  cis20:
+  - CIS 1
+  mitre_attack_id:
+  - T1078.004
+  nist:
+  - ID.AM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_object: user
+  risk_object_type: user
+  risk_score: 5
+  security_domain: endpoint
+type: ESCU
+version: 1

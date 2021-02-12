@@ -1,0 +1,13 @@
+name: AWS Detect Users creating keys with encrypt policy without MFA Unit Test
+tests:
+- name: AWS Detect Users creating keys with encrypt policy without MFA
+  file: cloud/aws_detect_users_creating_keys_with_encrypt_policy_without_mfa.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_cloudtrail_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True

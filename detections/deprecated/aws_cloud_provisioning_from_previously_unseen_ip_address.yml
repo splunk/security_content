@@ -1,0 +1,50 @@
+author: David Dorsey, Splunk
+date: '2018-03-16'
+description: 'This search looks for AWS provisioning activities from previously unseen
+  IP addresses. Provisioning activities are defined broadly as any event that begins
+  with "Run" or "Create." This search is deprecated and have been translated to use
+  the latest Change Datamodel. '
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen AWS Provisioning
+  Activity Sources" support search once to create a history of previously seen locations
+  that have provisioned AWS resources.
+id: 42e15012-ac14-4801-94f4-f1acbe64880b
+known_false_positives: "This is a strictly behavioral search, so we define \"false\
+  \ positive\" slightly differently. Every time this fires, it will accurately reflect\
+  \ the first occurrence in the time period you're searching within, plus what is\
+  \ stored in the cache feature. But while there are really no \"false positives\"\
+  \ in a traditional sense, there is definitely lots of noise.\\\n This search will\
+  \ fire any time a new IP address is seen in the **GeoIP** database for any kind\
+  \ of provisioning activity. If you typically do all provisioning from tools inside\
+  \ of your country, there should be few false positives. If you are located in countries\
+  \ where the free version of **MaxMind GeoIP** that ships by default with Splunk\
+  \ has weak resolution (particularly small countries in less economically powerful\
+  \ regions), this may be much less valuable to you."
+name: AWS Cloud Provisioning From Previously Unseen IP Address
+references: []
+search: '`cloudtrail` (eventName=Run* OR eventName=Create*) [search `cloudtrail` (eventName=Run*
+  OR eventName=Create*) | iplocation sourceIPAddress | search Country=* | stats earliest(_time)
+  as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country
+  | inputlookup append=t previously_seen_provisioning_activity_src.csv | stats min(firstTime)
+  as firstTime max(lastTime) as lastTime by sourceIPAddress, City, Region, Country
+  | outputlookup previously_seen_provisioning_activity_src.csv | stats min(firstTime)
+  as firstTime max(lastTime) as lastTime by sourceIPAddress | eval newIP=if(firstTime
+  >= relative_time(now(), "-70m@m"), 1, 0) | where newIP=1 | table sourceIPAddress]
+  | spath output=user userIdentity.arn | rename sourceIPAddress as src_ip | table
+  _time, user, src_ip, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_ip_address_filter`'
+tags:
+  analytics_story:
+  - AWS Suspicious Provisioning Activities
+  asset_type: AWS Instance
+  cis20:
+  - CIS 1
+  nist:
+  - ID.AM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 1

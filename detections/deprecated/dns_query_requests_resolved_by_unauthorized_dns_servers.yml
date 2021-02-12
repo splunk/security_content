@@ -1,0 +1,45 @@
+author: Bhavin Patel, Splunk
+date: '2020-07-21'
+description: This search will detect DNS requests resolved by unauthorized DNS servers.
+  Legitimate DNS servers should be identified in the Enterprise Security Assets and
+  Identity Framework.
+how_to_implement: To successfully implement this search you will need to ensure that
+  DNS data is populating the Network_Resolution data model. It also requires that
+  your DNS servers are identified correctly in the Assets and Identity table of Enterprise
+  Security.
+id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f6
+known_false_positives: Legitimate DNS activity can be detected in this search. Investigate,
+  verify and update the list of authorized DNS servers as appropriate.
+name: DNS Query Requests Resolved by Unauthorized DNS Servers
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+  where DNS.dest_category != dns_server AND DNS.src_category != dns_server by DNS.src
+  DNS.dest | `drop_dm_object_name("DNS")` | `dns_query_requests_resolved_by_unauthorized_dns_servers_filter` '
+tags:
+  analytics_story:
+  - DNS Hijacking
+  - Command and Control
+  - Suspicious DNS Traffic
+  - Host Redirection
+  asset_type: Endpoint
+  cis20:
+  - CIS 1
+  - CIS 3
+  - CIS 8
+  - CIS 12
+  kill_chain_phases:
+  - Command and Control
+  mitre_attack_id:
+  - T1071.004
+  nist:
+  - ID.AM
+  - PR.DS
+  - PR.IP
+  - DE.AE
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+type: ESCU
+version: 3

@@ -1,9 +1,9 @@
-name: Orangeworm Attack Group
-id: bb9f5ed2-916e-4364-bb6d-97c370efcf52
-version: 2
+author: David Dorsey, Splunk
 date: '2020-01-22'
 description: Detect activities and various techniques associated with the Orangeworm
   Attack Group, a group that frequently targets the healthcare industry.
+id: bb9f5ed2-916e-4364-bb6d-97c370efcf52
+name: Orangeworm Attack Group
 narrative: 'In May of 2018, the attack group Orangeworm was implicated for installing
   a custom backdoor called Trojan.Kwampirs within large international healthcare corporations
   in the United States, Europe, and Asia. This malware provides the attackers with
@@ -16,10 +16,6 @@ narrative: 'In May of 2018, the attack group Orangeworm was implicated for insta
   targeted attacks against related industries, as well, such as pharmaceuticals and
   healthcare IT solution providers.\
 
-  Although the group''s motivation is unknown, its goal may be stealing patient information
-  to sell on the black market. Another possible explanation is corporate espionage.
-  \
-
   Healthcare may be a promising target, because it is notoriously behind in technology,
   often using older operating systems and neglecting to patch computers. Even so,
   the group was able to evade detection for a full three years. Sources say that the
@@ -31,13 +27,17 @@ narrative: 'In May of 2018, the attack group Orangeworm was implicated for insta
   arguments. Another monitors for uses of sc.exe, a non-essential Windows file that
   can manipulate Windows services. One of the investigative searches helps you get
   more information on web hosts that you suspect have been compromised.'
-author: David Dorsey, Splunk
-type: ESCU
 references:
 - https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia
 - https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/
 tags:
   analytics_story: Orangeworm Attack Group
-  usecase: Advanced Threat Detection
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 2

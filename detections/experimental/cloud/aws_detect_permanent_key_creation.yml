@@ -1,0 +1,31 @@
+author: Rod Soto, Splunk
+date: '2020-07-27'
+description: This search provides detection of accounts creating permanent keys. Permanent
+  keys are not created by default and they are only needed for programmatic calls.
+  Creation of Permanent key is an important event to monitor.
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with cloudwatch logs
+id: 12d6d713-3cb4-4ffc-a064-1dca3d1cca01
+known_false_positives: Not all permanent key creations are malicious. If there is
+  a policy of rotating keys this search can be adjusted to provide better context.
+name: aws detect permanent key creation
+references: []
+search: '`aws_cloudwatchlogs_eks` CreateAccessKey | spath eventName | search eventName=CreateAccessKey
+  "userIdentity.type"=IAMUser | table sourceIPAddress userName userIdentity.type userAgent
+  action status responseElements.accessKey.createDate responseElements.accessKey.status
+  responseElements.accessKey.accessKeyId |`aws_detect_permanent_key_creation_filter`'
+tags:
+  analytics_story:
+  - AWS Cross Account Activity
+  asset_type: AWS Account
+  kill_chain_phases:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1078
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat
+type: ESCU
+version: 1

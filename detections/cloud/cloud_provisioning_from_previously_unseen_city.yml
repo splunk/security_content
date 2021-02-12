@@ -1,6 +1,4 @@
-name: Cloud Provisioning Activity From Previously Unseen City
-id: e7ecc5e0-88df-48b9-91af-51104c68f02f
-version: 1
+author: Rico Valdez, Bhavin Patel, Splunk
 date: '2020-10-09'
 description: This search looks for cloud provisioning activities from previously unseen
   cities. Provisioning activities are defined broadly as any event that runs or creates
@@ -14,19 +12,7 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide
   additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_city_filter`
   macro.
-type: ESCU
-references: []
-author: Rico Valdez, Bhavin Patel, Splunk
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
-  by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
-  `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(City) |
-  lookup previously_seen_cloud_provisioning_activity_sources City as City OUTPUT firstTimeSeen,
-  enough_data | eventstats max(enough_data) as enough_data | where enough_data=1 |
-  eval firstTimeSeenCity=min(firstTimeSeen) | where isnull(firstTimeSeenCity) OR firstTimeSeenCity
-  > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`) |
-  table firstTime, src, City, user, object, command | `cloud_provisioning_activity_from_previously_unseen_city_filter`
-  | `security_content_ctime(firstTime)`'
+id: e7ecc5e0-88df-48b9-91af-51104c68f02f
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
@@ -38,20 +24,39 @@ known_false_positives: "This is a strictly behavioral search, so we define \"fal
   \ where the free version of **MaxMind GeoIP** that ships by default with Splunk\
   \ has weak resolution (particularly small countries in less economically powerful\
   \ regions), this may be much less valuable to you."
+name: Cloud Provisioning Activity From Previously Unseen City
+references: []
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
+  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
+  by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
+  `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(City) |
+  lookup previously_seen_cloud_provisioning_activity_sources City as City OUTPUT firstTimeSeen,
+  enough_data | eventstats max(enough_data) as enough_data | where enough_data=1 |
+  eval firstTimeSeenCity=min(firstTimeSeen) | where isnull(firstTimeSeenCity) OR firstTimeSeenCity
+  > relative_time(now(), `previously_unseen_cloud_provisioning_activity_window`) |
+  table firstTime, src, City, user, object, command | `cloud_provisioning_activity_from_previously_unseen_city_filter`
+  | `security_content_ctime(firstTime)`'
 tags:
   analytics_story:
   - Suspicious Cloud Provisioning Activities
+  asset_type: AWS Instance
+  automated_detection_testing: passed
   cis20:
   - CIS 1
-  nist:
-  - ID.AM
-  mitre_attack_id:
-  - T1078
-  security_domain: endpoint
-  asset_type: AWS Instance
-  risk_score: 10
-  risk_object_type: user
-  risk_object: user
-  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  mitre_attack_id:
+  - T1078
+  nist:
+  - ID.AM
+  product:
+  - Splunk Security Analytics for AWS
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_object: user
+  risk_object_type: user
+  risk_score: 10
+  security_domain: endpoint
+type: ESCU
+version: 1

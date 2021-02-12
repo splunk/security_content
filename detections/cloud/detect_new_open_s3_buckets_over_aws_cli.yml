@@ -1,0 +1,48 @@
+author: Patrick Bareiss, Splunk
+date: '2021-01-12'
+description: This search looks for CloudTrail events where a user has created an open/public
+  S3 bucket over the aws cli.
+id: 39c61d09-8b30-4154-922b-2d0a694ecc22
+known_false_positives: While this search has no known false positives, it is possible
+  that an AWS admin has legitimately created a public bucket for a specific purpose.
+  That said, AWS strongly advises against granting full control to the "All Users"
+  group.
+name: Detect New Open S3 Buckets over AWS CLI
+references: []
+search: '`cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp
+  IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write
+  IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp
+  IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control
+  IN ("*AuthenticatedUsers","*AllUsers") | rename requestParameters.bucketName AS
+  bucketName | fillnull | stats count min(_time) as firstTime max(_time) as lastTime
+  by userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read
+  requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write
+  requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_new_open_s3_buckets_over_aws_cli_filter` '
+tags:
+  analytics_story:
+  - Suspicious AWS S3 Activities
+  asset_type: S3 Bucket
+  automated_detection_testing: passed
+  cis20:
+  - CIS 13
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1530
+  nist:
+  - PR.DS
+  - PR.AC
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_object: src
+  risk_object_type: system
+  risk_score: 20
+  security_domain: network
+type: ESCU
+version: 1

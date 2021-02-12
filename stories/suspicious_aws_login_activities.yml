@@ -1,21 +1,25 @@
-name: Suspicious AWS Login Activities
-id: 2e8948a5-5239-406b-b56b-6c59f1268af3
-version: 1
+author: Bhavin Patel, Splunk
 date: '2019-05-01'
 description: 'Monitor your AWS authentication events using your CloudTrail logs. Searches
   within this Analytic Story will help you stay aware of and investigate suspicious
   logins. '
+id: 2e8948a5-5239-406b-b56b-6c59f1268af3
+name: Suspicious AWS Login Activities
 narrative: It is important to monitor and control who has access to your AWS infrastructure.
   Detecting suspicious logins to your AWS infrastructure will provide good starting
   points for investigations. Abusive behaviors caused by compromised credentials can
   lead to direct monetary costs, as you will be billed for any EC2 instances created
   by the attacker.
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
 tags:
   analytics_story: Suspicious AWS Login Activities
-  usecase: Security Monitoring
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
+type: ESCU
+version: 1

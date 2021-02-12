@@ -1,0 +1,29 @@
+author: Rod Soto, Splunk
+date: '2020-07-11'
+description: This search provides information on Kubernetes accounts accessing sensitve
+  objects such as configmpas or secrets
+how_to_implement: You must install splunk add on for GCP. This search works with pubsub
+  messaging servicelogs.
+id: a46923f6-36b9-4806-a681-31f314907c30
+known_false_positives: 'Sensitive role resource access is necessary for cluster operation,
+  however source IP, user agent, decision and reason may indicate possible malicious
+  use. '
+name: Kubernetes GCP detect sensitive role access
+references: []
+search: '`google_gcp_pubsub_message` data.labels.authorization.k8s.io/reason=ClusterRoleBinding
+  OR Clusterrole dest=apis/rbac.authorization.k8s.io/v1 src_ip!=::1  | table src_ip
+  src_user http_user_agent data.labels.authorization.k8s.io/decision data.labels.authorization.k8s.io/reason
+  | dedup src_ip src_user |`kubernetes_gcp_detect_sensitive_role_access_filter`'
+tags:
+  analytics_story:
+  - Kubernetes Sensitive Role Activity
+  asset_type: GCP GKE EKS Kubernetes cluster
+  kill_chain_phases:
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat
+type: ESCU
+version: 1

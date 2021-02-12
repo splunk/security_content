@@ -1,0 +1,46 @@
+author: Rico Valdez, Splunk
+date: '2020-07-21'
+description: This search looks for network traffic on common ports where a higher
+  layer protocol does not match the port that is being used. For example, this search
+  should identify cases where protocols other than HTTP are running on TCP port 80.
+  This can be used by attackers to circumvent firewall restrictions, or as an attempt
+  to hide malicious communications over ports and protocols that are typically allowed
+  and not well inspected.
+how_to_implement: Running this search properly requires a technology that can inspect
+  network traffic and identify common protocols. Technologies such as Bro and Palo
+  Alto Networks firewalls are two examples that will identify protocols via inspection,
+  and not just assume a specific protocol based on the transport protocol and ports.
+id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
+known_false_positives: None identified
+name: Protocol or Port Mismatch
+references: []
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Network_Traffic where (All_Traffic.app=dns NOT All_Traffic.dest_port=53)
+  OR ((All_Traffic.app=web-browsing OR All_Traffic.app=http) NOT (All_Traffic.dest_port=80
+  OR All_Traffic.dest_port=8080 OR All_Traffic.dest_port=8000)) OR (All_Traffic.app=ssl
+  NOT (All_Traffic.dest_port=443 OR All_Traffic.dest_port=8443)) OR (All_Traffic.app=smtp
+  NOT All_Traffic.dest_port=25) by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.app,
+  All_Traffic.dest_port |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name("All_Traffic")` | `protocol_or_port_mismatch_filter`'
+tags:
+  analytics_story:
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Command and Control
+  asset_type: Endpoint
+  cis20:
+  - CIS 9
+  - CIS 12
+  kill_chain_phases:
+  - Command and Control
+  mitre_attack_id:
+  - T1048.003
+  nist:
+  - DE.AE
+  - PR.AC
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+type: ESCU
+version: 2

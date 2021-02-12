@@ -1,6 +1,4 @@
-name: Detect Unauthorized Assets by MAC address
-id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-09-13'
 description: By populating the organization's assets within the assets_by_str.csv,
   we will be able to detect unauthorized devices that are trying to connect with the
@@ -13,30 +11,36 @@ how_to_implement: This search uses the Network_Sessions data model shipped with 
   file located in SA-IdentityManagement, which will contain a list of known authorized
   organizational assets including their MAC addresses. Ensure that all inventoried
   systems have their MAC address populated.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions
-  where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip
-  All_Sessions.src_mac | dedup All_Sessions.src_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
-  | search NOT [| inputlookup asset_lookup_by_str |rename mac as src_mac | fields
-  + src_mac] | `detect_unauthorized_assets_by_mac_address_filter`'
+id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
 known_false_positives: This search might be prone to high false positives. Please
   consider this when conducting analysis or investigations. Authorized devices may
   be detected as unauthorized. If this is the case, verify the MAC address of the
   system responsible for the false positive and add it to the Assets and Identity
   framework with the proper information.
+name: Detect Unauthorized Assets by MAC address
+references: []
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions
+  where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST by All_Sessions.src_ip
+  All_Sessions.dest_mac | dedup All_Sessions.dest_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
+  | search NOT [| inputlookup asset_lookup_by_str |rename mac as dest_mac | fields
+  + dest_mac] | `detect_unauthorized_assets_by_mac_address_filter`'
 tags:
   analytics_story:
   - Asset Tracking
+  asset_type: Infrastructure
+  cis20:
+  - CIS 1
   kill_chain_phases:
   - Reconnaissance
   - Delivery
   - Actions on Objectives
-  cis20:
-  - CIS 1
   nist:
   - ID.AM
   - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Infrastructure
+type: ESCU
+version: 1

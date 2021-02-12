@@ -1,0 +1,43 @@
+author: Rico Valdez, Splunk
+date: '2018-11-02'
+description: The search looks for modifications to the hosts file on all Windows endpoints
+  across your environment.
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records the file-system activity from your hosts to populate the Endpoint.Filesystem
+  data model node. This is typically populated via endpoint detection-and-response
+  products, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
+  The data used for this search is typically generated via logs that report file-system
+  reads and writes.
+id: 06a6fc63-a72d-41dc-8736-7e3dd9612116
+known_false_positives: There may be legitimate reasons for system administrators to
+  add entries to this file.
+name: Windows hosts file modification
+references: []
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem  by Filesystem.file_name Filesystem.file_path
+  Filesystem.dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  | search Filesystem.file_name=hosts AND Filesystem.file_path=*Windows\\System32\\*
+  | `drop_dm_object_name(Filesystem)` | `windows_hosts_file_modification_filter`'
+tags:
+  analytics_story:
+  - Host Redirection
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 8
+  - CIS 12
+  kill_chain_phases:
+  - Command and Control
+  nist:
+  - PR.IP
+  - PR.PT
+  - PR.AC
+  - DE.AE
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+type: ESCU
+version: 1

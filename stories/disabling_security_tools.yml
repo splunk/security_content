@@ -1,10 +1,10 @@
-name: Disabling Security Tools
-id: fcc27099-46a0-46b0-a271-5c7dab56b6f1
-version: 2
+author: Rico Valdez, Splunk
 date: '2020-02-04'
 description: Looks for activities and techniques associated with the disabling of
   security tools on a Windows system, such as suspicious `reg.exe` processes, processes
   launching netsh, and many others.
+id: fcc27099-46a0-46b0-a271-5c7dab56b6f1
+name: Disabling Security Tools
 narrative: Attackers employ a variety of tactics in order to avoid detection and operate
   without barriers. This often involves modifying the configuration of security tools
   to get around them or explicitly disabling them to prevent them from running. This
@@ -14,15 +14,19 @@ narrative: Attackers employ a variety of tactics in order to avoid detection and
   Windows and various other programs reside, or explicitly attempting to shut down
   security-related services. Other times, attackers attempt various tricks to prevent
   specific programs from running, such as adding the certificates with which the security
-  tools are signed to a blacklist (which would prevent them from running).
-author: Rico Valdez, Splunk
-type: ESCU
+  tools are signed to a block list (which would prevent them from running).
 references:
 - https://attack.mitre.org/wiki/Technique/T1089
 - https://blog.malwarebytes.com/cybercrime/2015/11/vonteera-adware-uses-certificates-to-disable-anti-malware/
 - https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf
 tags:
   analytics_story: Disabling Security Tools
-  usecase: Security Monitoring
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
+type: ESCU
+version: 2

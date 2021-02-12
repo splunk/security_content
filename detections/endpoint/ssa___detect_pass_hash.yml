@@ -1,44 +1,48 @@
-name: Detect Pass the Hash - SSA
-id: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
-version: 1
+author: Xiao Lin, Splunk
 date: '2020-10-21'
 description: This search looks for specific authentication events from the Windows
   Security Event logs to detect potential attempts using Pass-the-Hash technique.
 how_to_implement: The test data is converted from Windows Security Event logs generated
   from Attach Range simulation and used in SPL search and extended to SPL2
-type: SSA
-references: [Initial ESCU implementation by Bhavin Patel and Patrick Bareiss]
-author: Xiao Lin, Splunk
-search: ' | from read_ssa_enriched_events()
-| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), LogonType=map_get(input_event, "logon_type"), LogonProcess=map_get(input_event, "logon_process"), ComputerName=map_get(input_event, "dest_ip_primary_artifact"), AccountName=map_get(input_event, "dest_user_primary_artifact")
-| where (LogonType="3" AND LogonProcess="NtLmSsp" AND AccountName IS NOT NULL) OR (LogonType="9" AND LogonProcess="seclogo")
-| first_time_event cache_partitions=1 input_columns="EventCode,LogonProcess,ComputerName"
-| where first_time_EventCode_LogonProcess_ComputerName
-| eval start_time=_time, end_time=_time, body="TBD", entities="TBD"
-| select start_time, end_time, entities, body 
-| into write_ssa_detected_events(); '
+id: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
 known_false_positives: Legitimate logon activity by authorized NTLM systems may be
   detected by this search. Please investigate as appropriate.
+name: Detect Pass the Hash - SSA
+references:
+- Initial ESCU implementation by Bhavin Patel and Patrick Bareiss
+search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_time"),
+  EventCode=map_get(input_event, "event_code"), LogonType=map_get(input_event, "logon_type"),
+  LogonProcess=map_get(input_event, "logon_process"), ComputerName=map_get(input_event,
+  "dest_ip_primary_artifact"), AccountName=map_get(input_event, "dest_user_primary_artifact")
+  | where (LogonType="3" AND LogonProcess="NtLmSsp" AND AccountName IS NOT NULL) OR
+  (LogonType="9" AND LogonProcess="seclogo") | first_time_event input_columns=["EventCode","LogonProcess","ComputerName"]
+  | where first_time_EventCode_LogonProcess_ComputerName | eval start_time=_time,
+  end_time=_time, body="TBD", entities="TBD" | select start_time, end_time, entities,
+  body | into write_ssa_detected_events(); '
 tags:
-  mitre_attack_id:
-  - T1550.002
-  kill_chain_phases:
-  - Actions on Objectives
   cis20:
   - CIS 3
   - CIS 5
   - CIS 16
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1550.002
   nist:
   - PR.PT
   - PR.AT
   - PR.AC
   - PR.IP
-  security_domain: endpoint
-  risk_severity: low
+  product:
+  - UEBA for Security Cloud
   required_fields:
-    - logon_process
-    - dest_user_primary_artifact
-    - _time
-    - event_code
-    - dest_ip_primary_artifact
-    - logon_type
+  - logon_process
+  - dest_user_primary_artifact
+  - _time
+  - event_code
+  - dest_ip_primary_artifact
+  - logon_type
+  risk_severity: low
+  security_domain: endpoint
+type: SSA
+version: 1
