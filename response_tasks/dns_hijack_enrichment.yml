@@ -1,6 +1,4 @@
-name: DNS Hijack Enrichment
-id: c096f721-8842-42ce-bfc7-74bd9a72c712
-version: 1
+author: Bhavin Patel, Splunk
 date: '2019-02-14'
 description: 'This Playbook is part of the Splunk Analytic Story called DNS Hijacking.
   It is made to be run when the Detection Search within that story called "DNS Record
@@ -26,12 +24,16 @@ how_to_implement: 'If Splunk>Phantom is also configured in your environment, a P
   (Playbook Link:`https://my.phantom.us/4.2/playbook/dns-hijack-enrichment/`).\
 
   '
-author: Bhavin Patel, Splunk
+id: c096f721-8842-42ce-bfc7-74bd9a72c712
+name: DNS Hijack Enrichment
 playbook:
   name: dns_hijack_enrichment
   url_json: https://github.com/phantomcyber/playbooks/blob/4.6/dns_hijack_enrichment.json
   url_python: https://github.com/phantomcyber/playbooks/blob/4.6/dns_hijack_enrichment.py
-
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
+  product:
+  - Splunk Phantom
+type: response
+version: 1

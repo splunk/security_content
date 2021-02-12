@@ -1,10 +1,12 @@
-author: Bhavin Patel, Splunk
+name: Data Protection
+id: 91c676cf-0b23-438d-abee-f6335e1fce33
+version: 1
 date: '2017-09-14'
+author: Bhavin Patel, Splunk
+type: batch
 description: Fortify your data-protection arsenal--while continuing to ensure data
   confidentiality and integrity--with searches that monitor for and help you investigate
   possible signs of data exfiltration.
-id: 91c676cf-0b23-438d-abee-f6335e1fce33
-name: Data Protection
 narrative: Attackers can leverage a variety of resources to compromise or exfiltrate
   enterprise data. Common exfiltration techniques include remote-access channels via
   low-risk, high-payoff active-collections operations and close-access operations
@@ -16,7 +18,7 @@ references:
 - https://www.sans.org/reading-room/whitepapers/dns/splunk-detect-dns-tunneling-37022
 - https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 tags:
-  analytics_story: Data Protection
+  analytic_story: Data Protection
   category:
   - Abuse
   product:
@@ -24,5 +26,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 1

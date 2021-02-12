@@ -1,19 +1,13 @@
-author: David Dorsey, Splunk
+name: EC2 Instance Modified With Previously Unseen User
+id: 56f91724-cf3f-4666-84e1-e3712fb41e76
+version: 3
 date: '2020-07-21'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: This search looks for EC2 instances being modified by users who have
   not previously modified them. This search is deprecated and have been translated
   to use the latest Change Datamodel.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. This search works best when you run the "Previously Seen EC2 Launches By
-  User" support search once to create a history of previously seen ARNs. To add or
-  remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
-id: 56f91724-cf3f-4666-84e1-e3712fb41e76
-known_false_positives: It's possible that a new user will start to modify EC2 instances
-  when they haven't before for any number of reasons. Verify with the user that is
-  modifying instances that this is the intended behavior.
-name: EC2 Instance Modified With Previously Unseen User
-references: []
 search: '`cloudtrail` `ec2_modification_api_calls` [search `cloudtrail` `ec2_modification_api_calls`
   errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
   by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_modifications_by_user
@@ -22,8 +16,17 @@ search: '`cloudtrail` `ec2_modification_api_calls` [search `cloudtrail` `ec2_mod
   "-70m@m"), 1, 0) | where newUser=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=dest responseElements.instancesSet.items{}.instanceId
   | spath output=user userIdentity.arn | table _time, user, dest | `ec2_instance_modified_with_previously_unseen_user_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen EC2 Launches By
+  User" support search once to create a history of previously seen ARNs. To add or
+  remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
+known_false_positives: It's possible that a new user will start to modify EC2 instances
+  when they haven't before for any number of reasons. Verify with the user that is
+  modifying instances that this is the intended behavior.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Unusual AWS EC2 Modifications
   asset_type: AWS Instance
   cis20:
@@ -40,5 +43,3 @@ tags:
   risk_object_type: user
   risk_score: 5
   security_domain: endpoint
-type: ESCU
-version: 3

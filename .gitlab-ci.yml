@@ -13,4 +13,4 @@ validate:
   script:
     - python3 bin/ssa_validate.py --skip-error detections/*/*
     - python3 bin/ssa_test.py --skip-error tests/*/*
-    - python3 bin/testing_coverage.py --type SSA --min-coverage 1.0
+    - python3 bin/testing_coverage.py --type streaming --min-coverage 1.0

@@ -1,20 +1,23 @@
-name: AWS Investigate User Activities By Source User
-id: b0d2e6a8-75fa-4b1b-9486-3d32acadf891
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-06-08'
 description: This search retrieves the times, ARN, source IPs, AWS regions, event
   names, and the result of the event for specific ARNs.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-author: Bhavin Patel, Splunk
+id: b0d2e6a8-75fa-4b1b-9486-3d32acadf891
 inputs:
 - src_user
+name: AWS Investigate User Activities By Source User
 search: '| search sourcetype=aws:cloudtrail userIdentity.arn=$src_user$ | spath output=user
   path=userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user, src_ip,
   awsRegion, eventName, errorCode, errorMessage'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   - Suspicious Cloud Instance Activities
   - Suspicious Cloud Provisioning Activities
+  product:
+  - Splunk Phantom
+type: response
+version: 1
