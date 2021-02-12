@@ -1,17 +1,21 @@
-author: David Dorsey, Splunk
-date: '2018-03-08'
-description: This search builds a table of previously seen EC2 instance types
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs.
-id: b8f029f2-65a6-4d76-be98-dad1c9d59c45
 name: Previously Seen EC2 Instance Types
+id: b8f029f2-65a6-4d76-be98-dad1c9d59c45
+version: 1
+date: '2018-03-08'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
+description: This search builds a table of previously seen EC2 instance types
 search: '`cloudtrail` eventName=RunInstances errorCode=success | rename requestParameters.instanceType
   as instanceType | fillnull value="m1.small" instanceType | stats earliest(_time)
   as earliest latest(_time) as latest by instanceType | outputlookup previously_seen_ec2_instance_types.csv
   | stats count'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   detections:
   - EC2 Instance Started With Previously Unseen Instance Type
@@ -19,5 +23,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

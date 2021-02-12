@@ -1,24 +1,25 @@
-title: Recovery
-id: cae4dcdb-f81b-45ec-b0d6-a00cec468e9a
-sla_type: minutes
-sla:
-description: The recovery phase is the restoration of normal operations for system(s) and customers affected by the incident.
-tags:
-  analytics_story:
-    NIST SP 800-61r2 Response Plan
-  usecase:
-    Advanced Threat Detection
-  nist:
-    RS.RP
-references:
-  - 3.3 Containment, Eradication, and Recovery -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-response_task:
-  - id: bb515cf6-40b5-4005-af04-6f63439df7b4
-    name: restore_systems_to_operational_status
-  - id: 8218bcf6-739b-4f76-8952-eb133480ad8d
-    name: validate_restored_hosts
-  - id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
-    name: implement_monitoring
-date: '2020-04-21'
-version: 1
 author: ButterCup, Splunk
+date: '2020-04-21'
+description: The recovery phase is the restoration of normal operations for system(s)
+  and customers affected by the incident.
+id: cae4dcdb-f81b-45ec-b0d6-a00cec468e9a
+references:
+- 3.3 Containment, Eradication, and Recovery -  https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+response_task:
+- id: bb515cf6-40b5-4005-af04-6f63439df7b4
+  name: restore_systems_to_operational_status
+- id: 8218bcf6-739b-4f76-8952-eb133480ad8d
+  name: validate_restored_hosts
+- id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
+  name: implement_monitoring
+sla: null
+sla_type: minutes
+tags:
+  analytic_story: NIST SP 800-61r2 Response Plan
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+  usecase: Advanced Threat Detection
+title: Recovery
+type: response
+version: 1

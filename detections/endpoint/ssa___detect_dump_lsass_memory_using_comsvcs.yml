@@ -1,16 +1,12 @@
-author: Jose Hernandez, Splunk
+name: Detect Dump LSASS Memory using comsvcs - SSA
+id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
+version: 1
 date: '2020-09-15'
+author: Jose Hernandez, Splunk
+type: streaming
+datamodel: []
 description: This search detects the memory of lsass.exe being dumped for offline
   credential theft attack.
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including Windows command line logging. You can see how we test this with [Event
-  Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a)
-  on the [attack_range](https://github.com/splunk/attack_range/blob/develop/ansible/roles/windows_common/tasks/windows-enable-4688-cmd-line-audit.yml).
-id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
-known_false_positives: None identified.
-name: Detect Dump LSASS Memory using comsvcs - SSA
-references:
-- https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_event,
   "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"),
   "string", null), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -19,8 +15,15 @@ search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_eve
   where process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine),
   body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including Windows command line logging. You can see how we test this with [Event
+  Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a)
+  on the [attack_range](https://github.com/splunk/attack_range/blob/develop/ansible/roles/windows_common/tasks/windows-enable-4688-cmd-line-audit.yml).
+known_false_positives: None identified.
+references:
+- https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 tags:
-  analytics_story:
+  analytic_story:
   - Credential Dumping
   asset_type: Endpoint
   cis20:
@@ -42,5 +45,3 @@ tags:
   - process
   risk_severity: low
   security_domain: endpoint
-type: SSA
-version: 1

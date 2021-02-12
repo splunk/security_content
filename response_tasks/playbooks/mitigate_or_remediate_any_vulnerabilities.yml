@@ -1,33 +1,55 @@
-name: Mitigate or remediate any vulnerabilities
-id: 70362de1-bfef-4a0f-893f-3e0d605ed9b7
-tags:
-  nist:
-    RS.RP
-description: |
-  Apply mitigations or remediate any known affecting vulnerabilities that linked to the incidents.  (e.g. SMB MS17-010 - Windows SMB Remote Code Execution Vulnerability). Mitigations are controls that block and lower the risk, but don't remove the vulnerability. Remediation is patching and removing the risk known vulnerability from being exploited.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - patch host
-    - deploy patch
-    - run job
-    - execute program
-    - run script
-    - execute action
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Apply remediations (e.g. patches) to infected and not infected hosts that pertain to the vulnerability found being used by the incident (remove the risk). Identify and fix any systems not accepting or validating the patch (e.g. needing reboots) as soon as possible.
-  2. This may require scheduling due to business needs. In a mass incident, emergency change requests can be used to support patching.  In single instance events, the risk to outage vs the risk to mitigate may be acceptable. If acceptable, then move remediations to lessons learned processing before closing out the request.  Put in place, mitigations for at least detections and if possible protection rules to minimize impact while remediation is being scheduled.
-  3. Apply mitigations such as IPS and host based firewall rules to mitigate (reduce the risk) of the vulnerability being exploited for at least detection to notify when occurring and if containment and eradication has failed.
-  4. Monitor detections to ensure containment is working and determine when eradication is beginning to be effective.
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - patch host
+  - deploy patch
+  - run job
+  - execute program
+  - run script
+  - execute action
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Apply mitigations or remediate any known affecting vulnerabilities that
+  linked to the incidents.  (e.g. SMB MS17-010 - Windows SMB Remote Code Execution
+  Vulnerability). Mitigations are controls that block and lower the risk, but don''t
+  remove the vulnerability. Remediation is patching and removing the risk known vulnerability
+  from being exploited.
+
+  '
+id: 70362de1-bfef-4a0f-893f-3e0d605ed9b7
+name: Mitigate or remediate any vulnerabilities
+references:
+- 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Apply remediations (e.g. patches) to infected and not infected hosts
+  that pertain to the vulnerability found being used by the incident (remove the risk).
+  Identify and fix any systems not accepting or validating the patch (e.g. needing
+  reboots) as soon as possible.
+
+  2. This may require scheduling due to business needs. In a mass incident, emergency
+  change requests can be used to support patching.  In single instance events, the
+  risk to outage vs the risk to mitigate may be acceptable. If acceptable, then move
+  remediations to lessons learned processing before closing out the request.  Put
+  in place, mitigations for at least detections and if possible protection rules to
+  minimize impact while remediation is being scheduled.
+
+  3. Apply mitigations such as IPS and host based firewall rules to mitigate (reduce
+  the risk) of the vulnerability being exploited for at least detection to notify
+  when occurring and if containment and eradication has failed.
+
+  4. Monitor detections to ensure containment is working and determine when eradication
+  is beginning to be effective.
+
+  '

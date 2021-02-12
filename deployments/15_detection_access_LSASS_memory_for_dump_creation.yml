@@ -1,10 +1,10 @@
 name: Access LSASS Memory for Dump Creation Deployment
 id: 974c422f-db3f-4538-8f2a-ee5bf8eec0fa
 date: '2021-01-13'
-description: Example for a deployment for a specific Detection
 author: Patrick Bareiss
+description: Example for a deployment for a specific Detection
 scheduling:
-  cron_schedule: '0 * * * *'
+  cron_schedule: 0 * * * *
   earliest_time: -30m@m
   latest_time: now
   schedule_window: auto
@@ -13,6 +13,6 @@ alert_action:
     rule_description: '%description%'
     rule_title: '%name% Notable'
     nes_fields:
-      - dest
+    - dest
 tags:
   detection_name: Access LSASS Memory for Dump Creation

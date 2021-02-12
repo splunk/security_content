@@ -1,13 +1,15 @@
-author: David Dorsey, Splunk
+name: Previously Seen Cloud Regions - Update
+id: 512f928a-a461-41b4-8984-db4dd2c472e4
+version: 1
 date: '2020-09-02'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search looks for cloud compute events where a compute instance is
   started and creates a baseline of most recent time, `lastTime` and the first time
   `firstTime` we've seen this region in our dataset grouped by the region for the
   last 30 days
-how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-  and have the Security Research cloud data model installed.
-id: 512f928a-a461-41b4-8984-db4dd2c472e4
-name: Previously Seen Cloud Regions - Update
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
   from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region
   | `drop_dm_object_name("All_Changes")` | inputlookup append=t previously_seen_cloud_regions
@@ -16,8 +18,11 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
   <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_regions
   | stats count'
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   deployments:
   - Daily Cache Updates
@@ -27,5 +32,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

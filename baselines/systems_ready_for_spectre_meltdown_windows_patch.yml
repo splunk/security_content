@@ -1,22 +1,26 @@
-author: David Dorsey, Splunk
+name: Systems Ready for Spectre-Meltdown Windows Patch
+id: fc0edc95-ff2b-48b0-9f6f-63da3789fd61
+version: 1
 date: '2018-01-08'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: Some AV applications can cause the Spectre/Meltdown patch for Windows
   not to install successfully. This registry key is supposed to be created by the
   AV engine when it has been patched to be able to handle the Windows patch. If this
   key has been written, the system can then be patched for Spectre and Meltdown.
-how_to_implement: You need to be ingesting logs with both the process name and command-line
-  from your endpoints. If you are using Sysmon, you must have at least version 6.0.4
-  of the Sysmon TA.
-id: fc0edc95-ff2b-48b0-9f6f-63da3789fd61
-name: Systems Ready for Spectre-Meltdown Windows Patch
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry
   AND (All_Changes.object_path="HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat*")
   by All_Changes.dest, All_Changes.command, All_Changes.user, All_Changes.object,
   All_Changes.object_path | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name("All_Changes")`'
+how_to_implement: You need to be ingesting logs with both the process name and command-line
+  from your endpoints. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Spectre And Meltdown Vulnerabilities
   detections:
   - Spectre and Meltdown Vulnerable Systems
@@ -24,5 +28,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

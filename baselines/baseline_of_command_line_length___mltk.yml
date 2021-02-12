@@ -1,10 +1,20 @@
-author: Rico Valdez, Splunk
+name: Baseline of Command Line Length - MLTK
+id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
+version: 1
 date: '2019-05-08'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the length of the command lines observed for each user in the environment.
   By default, the search uses the last 30 days of data to build the model. The model
   created by this search is then used in the corresponding detection search, which
   identifies outliers in the length of the command line.
+search: '| tstats `security_content_summariesonly` count min(_time) as start_time
+  max(_time) as end_time FROM datamodel=Endpoint.Processes by Processes.user Processes.dest
+  Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | search
+  user!=unknown | `security_content_ctime(start_time)`| `security_content_ctime(end_time)`|
+  eval processlen=len(process) | fit DensityFunction processlen by user into cmdline_pdfmodel'
 how_to_implement: You must be ingesting endpoint data and populating the Endpoint
   data model. In addition, you must have the Machine Learning Toolkit (MLTK) version
   >= 4.2 installed, along with any required dependencies. Depending on the number
@@ -15,15 +25,9 @@ how_to_implement: You must be ingesting endpoint data and populating the Endpoin
   a longer period of time, which may give you better results. You may also want to
   periodically re-run this search to rebuild the model with the latest data. More
   information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
-id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
-name: Baseline of Command Line Length - MLTK
-search: '| tstats `security_content_summariesonly` count min(_time) as start_time
-  max(_time) as end_time FROM datamodel=Endpoint.Processes by Processes.user Processes.dest
-  Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | search
-  user!=unknown | `security_content_ctime(start_time)`| `security_content_ctime(end_time)`|
-  eval processlen=len(process) | fit DensityFunction processlen by user into cmdline_pdfmodel'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
   - Suspicious Command-Line Executions
@@ -36,5 +40,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

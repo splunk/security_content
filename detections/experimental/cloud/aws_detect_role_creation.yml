@@ -1,24 +1,27 @@
-author: Rod Soto, Splunk
+name: aws detect role creation
+id: 5f04081e-ddee-4353-afe4-504f288de9ad
+version: 1
 date: '2020-07-27'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search provides detection of role creation by IAM users. Role creation
   is an event by itself if user is creating a new role with trust policies different
   than the available in AWS and it can be used for lateral movement and escalation
   of privileges.
-how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This
-  search works with cloudwatch logs
-id: 5f04081e-ddee-4353-afe4-504f288de9ad
-known_false_positives: CreateRole is not very common in common users. This search
-  can be adjusted to provide specific values to identify cases of abuse. In general
-  AWS provides plenty of trust policies that fit most use cases.
-name: aws detect role creation
-references: []
 search: '`aws_cloudwatchlogs_eks` event_name=CreateRole action=created userIdentity.type=AssumedRole
   requestParameters.description=Allows* | table sourceIPAddress userIdentity.principalId
   userIdentity.arn action event_name awsRegion http_user_agent mfa_auth msg requestParameters.roleName
   requestParameters.description responseElements.role.arn responseElements.role.createDate
   | `aws_detect_role_creation_filter`'
+how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This
+  search works with cloudwatch logs
+known_false_positives: CreateRole is not very common in common users. This search
+  can be adjusted to provide specific values to identify cases of abuse. In general
+  AWS provides plenty of trust policies that fit most use cases.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
   kill_chain_phases:
@@ -30,5 +33,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

@@ -1,25 +1,28 @@
-author: David Dorsey, Patrick Bareiss, Splunk
+name: Disabling Remote User Account Control
+id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
+version: 4
 date: '2020-11-18'
+author: David Dorsey, Patrick Bareiss, Splunk
+type: batch
+datamodel: []
 description: The search looks for modifications to registry keys that control the
   enforcement of Windows User Account Control (UAC).
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  products, such as Carbon Black, or via other endpoint data sources, such as Sysmon.
-  The data used for this search is typically generated via logs that report registry
-  modifications.
-id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
-known_false_positives: This registry key may be modified via administrators to implement
-  a change in system policy. This type of change should be a very rare occurrence.
-name: Disabling Remote User Account Control
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA*
   Registry.registry_value_name="DWORD (0x00000000)" by Registry.dest, Registry.registry_key_name
   Registry.user Registry.registry_path Registry.registry_value_name Registry.action
   | `drop_dm_object_name(Registry)` | `disabling_remote_user_account_control_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black, or via other endpoint data sources, such as Sysmon.
+  The data used for this search is typically generated via logs that report registry
+  modifications.
+known_false_positives: This registry key may be modified via administrators to implement
+  a change in system policy. This type of change should be a very rare occurrence.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   asset_type: Endpoint
@@ -40,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 4

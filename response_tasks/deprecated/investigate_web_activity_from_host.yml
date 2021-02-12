@@ -1,18 +1,17 @@
-name: Investigate Web Activity From Host
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd22
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-11-09'
 description: This search allows you to find all the web activity from a specific host.
   During an investigation, it is important to profile web activity to characterize
   user or host activity.
 how_to_implement: To successfully implement this search you must be ingesting your
   web traffic and populating the Web data model.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd22
 inputs:
 - dest
+name: Investigate Web Activity From Host
 search: '| from datamodel Web.Web | search src=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - DHS Report TA18-074A
   - Disabling Security Tools
@@ -33,3 +32,7 @@ tags:
   - Windows Log Manipulation
   - Windows Persistence Techniques
   - Windows Privilege Escalation
+  product:
+  - Splunk Phantom
+type: response
+version: 1

@@ -1,8 +1,22 @@
-author: Jose Hernandez, Splunk
+name: DNS record changed
+id: 44d3a43e-dcd5-49f7-8356-5209bb369065
+version: 3
 date: '2020-07-21'
+author: Jose Hernandez, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: The search takes the DNS records and their answers results of the discovered_dns_records
   lookup and finds if any records have changed by searching DNS response from the
   Network_Resolution datamodel across the last day.
+search: '| inputlookup discovered_dns_records | rename answer as discovered_answer
+  | join domain[|tstats `security_content_summariesonly` count values(DNS.record_type)
+  as type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution
+  where DNS.message_type=RESPONSE DNS.answer!="unknown" DNS.answer!="" by DNS.query
+  | rename DNS.query as query | where query!="unknown" | rex field=query "(?<domain>\w+\.\w+?)(?:$|/)"]
+  | makemv delim=" " answer |  makemv delim=" " type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer
+  | makemv current_answer  | mvexpand current_answer | makemv discovered_answer |
+  eval n=mvfind(discovered_answer, current_answer) | where isnull(n) | `dns_record_changed_filter`'
 how_to_implement: "To successfully implement this search you will need to ensure that\
   \ DNS data is populating the `Network_Resolution` data model. It also requires that\
   \ the `discover_dns_record` lookup table be populated by the included support search\
@@ -16,21 +30,12 @@ how_to_implement: "To successfully implement this search you will need to ensure
   \ when configuring this detection search, and set the corresponding Playbook to\
   \ active. \\\n(Playbook Link:`https://my.phantom.us/4.2/playbook/dns-hijack-enrichment/`).\\\
   \n"
-id: 44d3a43e-dcd5-49f7-8356-5209bb369065
 known_false_positives: Legitimate DNS changes can be detected in this search. Investigate,
   verify and update the list of provided current answers for the domains in question
   as appropriate.
-name: DNS record changed
-search: '| inputlookup discovered_dns_records | rename answer as discovered_answer
-  | join domain[|tstats `security_content_summariesonly` count values(DNS.record_type)
-  as type, values(DNS.answer) as current_answer values(DNS.src) as src from datamodel=Network_Resolution
-  where DNS.message_type=RESPONSE DNS.answer!="unknown" DNS.answer!="" by DNS.query
-  | rename DNS.query as query | where query!="unknown" | rex field=query "(?<domain>\w+\.\w+?)(?:$|/)"]
-  | makemv delim=" " answer |  makemv delim=" " type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer
-  | makemv current_answer  | mvexpand current_answer | makemv discovered_answer |
-  eval n=mvfind(discovered_answer, current_answer) | where isnull(n) | `dns_record_changed_filter`'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   asset_type: Endpoint
   cis20:
@@ -53,5 +58,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
-version: 3
