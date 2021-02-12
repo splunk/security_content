@@ -52,7 +52,7 @@ def pretty_yaml_detections(REPO_PATH, VERBOSE, content_part):
             pretty_yaml['references'] = object['references']
         else:
             pretty_yaml['references'] = []
-        pretty_yaml['tags'] = object['tags']
+        pretty_yaml['tags'] = {key: value for key, value in sorted(object['tags'].items())}
 
 
         with open(manifest_file, 'w') as file:
@@ -98,7 +98,7 @@ def pretty_yaml_baselines(REPO_PATH, VERBOSE, content_part):
             pretty_yaml['references'] = object['references']
         else:
             pretty_yaml['references'] = []
-        pretty_yaml['tags'] = object['tags']
+        pretty_yaml['tags'] = {key: value for key, value in sorted(object['tags'].items())}
 
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(pretty_yaml, file, sort_keys=False)
@@ -143,7 +143,7 @@ def pretty_yaml_baselines(REPO_PATH, VERBOSE, content_part):
             pretty_yaml['references'] = object['references']
         else:
             pretty_yaml['references'] = []
-        pretty_yaml['tags'] = object['tags']
+        pretty_yaml['tags'] = {key: value for key, value in sorted(object['tags'].items())}
 
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(pretty_yaml, file, sort_keys=False)
@@ -179,7 +179,7 @@ def pretty_yaml_deployments(REPO_PATH, VERBOSE, content_part):
         pretty_yaml['scheduling'] = object['scheduling']
         if 'alert_action' in object:
             pretty_yaml['alert_action'] = object['alert_action']
-        pretty_yaml['tags'] = object['tags']
+        pretty_yaml['tags'] = {key: value for key, value in sorted(object['tags'].items())}
 
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(pretty_yaml, file, sort_keys=False)
@@ -219,7 +219,7 @@ def pretty_yaml_stories(REPO_PATH, VERBOSE, content_part):
             pretty_yaml['references'] = object['references']
         else:
             pretty_yaml['references'] = []
-        pretty_yaml['tags'] = object['tags']
+        pretty_yaml['tags'] = {key: value for key, value in sorted(object['tags'].items())}
 
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(pretty_yaml, file, sort_keys=False)
