@@ -4,18 +4,7 @@ description: Monitor and detect techniques used by attackers who leverage the ms
   process to execute malicious code.
 id: 2cdf33a0-4805-4b61-b025-59c20f418fbe
 name: Suspicious Regsvcs Regasm Activity
-narrative: '
-  In the binary to specify code that should be run before registration or unregistration [ComRegisterFunction] or [ComUnregisterFunction] respectively.
-  Review for suspicious module loads like clr.dll and amsi.dll. 
-  CHM files are commonly distributed as part of the Microsoft HTML Help system. CHM
-  files are compressed compilations of various content such as HTML documents, images,
-  and scripting/web related programming languages such VBA, JScript, Java, and ActiveX.
-  CHM content is displayed using underlying components of the Internet Explorer browser
-  loaded by the HTML Help executable program (hh.exe).\
-  HH.exe relies upon htmlhelp.dll to load CHM topics.
-  decompile a HH file - using 
-  The searches in this story help you detect and investigate suspicious activity that
-  may indicate that an attacker is leveraging mshta.exe to execute malicious code.'
+narrative: ' Not done yet'
 references:
 - https://attack.mitre.org/techniques/T1218/009/
 - https://github.com/rapid7/metasploit-framework/blob/master/documentation/modules/evasion/windows/applocker_evasion_regasm_regsvcs.md
