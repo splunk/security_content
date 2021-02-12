@@ -1,18 +1,22 @@
-name: AWS Network ACL Details from ID
-id: f3fb4d1b-5f33-4b01-b541-c7ah9534c242
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-01-22'
 description: This search queries AWS description logs and returns all the information
   about a specific network ACL via network ACL ID
 how_to_implement: In order to implement this search, you must install the AWS App
   for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
   and configure your AWS description inputs.
-author: Bhavin Patel, Splunk
+id: f3fb4d1b-5f33-4b01-b541-c7ah9534c242
 inputs:
 - networkAclId
-search: '| search sourcetype=aws:description| rename id as networkAclId | search  networkAclId=$networkAclId$ | table id account_id vpc_id network_acl_entries{}.*'
+name: AWS Network ACL Details from ID
+search: '| search sourcetype=aws:description| rename id as networkAclId | search  networkAclId=$networkAclId$
+  | table id account_id vpc_id network_acl_entries{}.*'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Command and Control
   - Suspicious AWS Traffic
+  product:
+  - Splunk Phantom
+type: response
+version: 1

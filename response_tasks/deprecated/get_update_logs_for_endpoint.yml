@@ -1,18 +1,21 @@
-name: Get Update Logs For Endpoint
-id: d98675ed-da43-4a7e-96a7-eeca3232ba8e
-version: 1
+author: David Dorsey, Splunk
 date: '2017-08-24'
 description: This search will tell you give you the update logs for a specific endpoint
   for the last week.
 how_to_implement: You need to be ingesting the update logs from your various systems.
-author: David Dorsey, Splunk
+id: d98675ed-da43-4a7e-96a7-eeca3232ba8e
 inputs:
 - dest
+name: Get Update Logs For Endpoint
 search: '| from datamodel Updates.Updates  | search (vendor_product="Microsoft Windows"
   OR vendor_product="OSX:Update" OR vendor_product="Linux:Update") dest=$dest$'
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Monitor for Unauthorized Software
   - Ransomware
   - SamSam Ransomware
+  product:
+  - Splunk Phantom
+type: response
+version: 1

@@ -1,26 +1,54 @@
-name: Preventing Incidents
-id: 5b7c5d18-6598-412b-a4f1-e66e92890503
-tags:
-  nist:
-    RS.RP
-description: Keeping the number of incidents reasonably low is very important to protect the business processes of the organization. It is outside the scope of this document to provide specific advice on securing networks, systems, and applications. Although incident response teams are generally not responsible for securing resources, they are advocates of sound security practices. An incident response team should identify problems that the organization is otherwise not aware of and play a key role in risk assessment and training by identifying gaps.
-automation:
-  is_note_required: false
-  role:
-  sla_type: minutes
-  sla:
-  action:
-  playbook: ""
-references:
-  - 3.1.2 Prevent Incidents - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  The following:
-  * Risk Assessments. Periodic risk assessments of systems and applications should determine what allowing staff to emphasize monitoring and response activities for those resources.
-  * Host Security. All hosts should be hardened appropriately using standard configurations. In addition to keeping each host properly patched, hosts should be configured to follow the principle of least privilege—granting users only the privileges necessary for performing their authorized tasks. Hosts should have auditing enabled and should log significant security-related events. The security of hosts risks are posed by combinations of threats and vulnerabilities.
-  * Applicable threats, including organization-specific threats. Each risk should be prioritized, and the risks can be mitigated, transferred, or accepted until a reasonable overall level of risk is reached. Another benefit of conducting risk assessments regularly is that critical resources are identified, Content Automation Protocol (SCAP) expressed operating system and application configuration and their configurations should be continuously monitored. checklists to assist in securing hosts consistently and effectively.
-  * Network Security. The network perimeter should be configured to deny all activity that is not expressly permitted. This includes securing all connection points, such as virtual private networks (VPNs) and dedicated connections to other organizations.
-  * Malware Prevention. Software to detect and stop malware should be deployed throughout the organization. Malware protection should be deployed at the host level (e.g., server and workstation operating systems), the application server level (e.g., email server, web proxies), and the application
-  * User Awareness and Training. Users should be made aware of policies and procedures regarding appropriate use of networks, systems, and applications. Applicable lessons learned from previous incidents should also be shared with users so they can see how their actions could affect the organization. Improving user awareness regarding incidents should reduce the frequency of incidents. IT staff should be trained so that they can maintain their networks, systems, and applications in accordance with the organization’s security standards.
-date: '2020-07-17'
-version: 1
 author: ButterCup, Splunk
+automation:
+  action: null
+  is_note_required: false
+  playbook: ''
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-17'
+description: Keeping the number of incidents reasonably low is very important to protect
+  the business processes of the organization. It is outside the scope of this document
+  to provide specific advice on securing networks, systems, and applications. Although
+  incident response teams are generally not responsible for securing resources, they
+  are advocates of sound security practices. An incident response team should identify
+  problems that the organization is otherwise not aware of and play a key role in
+  risk assessment and training by identifying gaps.
+id: 5b7c5d18-6598-412b-a4f1-e66e92890503
+name: Preventing Incidents
+references:
+- 3.1.2 Prevent Incidents - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: "The following:\n* Risk Assessments. Periodic risk assessments of systems\
+  \ and applications should determine what allowing staff to emphasize monitoring\
+  \ and response activities for those resources.\n* Host Security. All hosts should\
+  \ be hardened appropriately using standard configurations. In addition to keeping\
+  \ each host properly patched, hosts should be configured to follow the principle\
+  \ of least privilege\u2014granting users only the privileges necessary for performing\
+  \ their authorized tasks. Hosts should have auditing enabled and should log significant\
+  \ security-related events. The security of hosts risks are posed by combinations\
+  \ of threats and vulnerabilities.\n* Applicable threats, including organization-specific\
+  \ threats. Each risk should be prioritized, and the risks can be mitigated, transferred,\
+  \ or accepted until a reasonable overall level of risk is reached. Another benefit\
+  \ of conducting risk assessments regularly is that critical resources are identified,\
+  \ Content Automation Protocol (SCAP) expressed operating system and application\
+  \ configuration and their configurations should be continuously monitored. checklists\
+  \ to assist in securing hosts consistently and effectively.\n* Network Security.\
+  \ The network perimeter should be configured to deny all activity that is not expressly\
+  \ permitted. This includes securing all connection points, such as virtual private\
+  \ networks (VPNs) and dedicated connections to other organizations.\n* Malware Prevention.\
+  \ Software to detect and stop malware should be deployed throughout the organization.\
+  \ Malware protection should be deployed at the host level (e.g., server and workstation\
+  \ operating systems), the application server level (e.g., email server, web proxies),\
+  \ and the application\n* User Awareness and Training. Users should be made aware\
+  \ of policies and procedures regarding appropriate use of networks, systems, and\
+  \ applications. Applicable lessons learned from previous incidents should also be\
+  \ shared with users so they can see how their actions could affect the organization.\
+  \ Improving user awareness regarding incidents should reduce the frequency of incidents.\
+  \ IT staff should be trained so that they can maintain their networks, systems,\
+  \ and applications in accordance with the organization\u2019s security standards.\n"

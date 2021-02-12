@@ -1,9 +1,11 @@
-author: David Dorsey, Splunk
+name: Spectre And Meltdown Vulnerabilities
+id: 6d3306f6-bb2b-4219-8609-8efad64032f2
+version: 1
 date: '2018-01-08'
+author: David Dorsey, Splunk
+type: batch
 description: Assess and mitigate your systems' vulnerability to Spectre and Meltdown
   exploitation with the searches in this Analytic Story.
-id: 6d3306f6-bb2b-4219-8609-8efad64032f2
-name: Spectre And Meltdown Vulnerabilities
 narrative: Meltdown and Spectre exploit critical vulnerabilities in modern CPUs that
   allow unintended access to data in memory. This Analytic Story will help you identify
   the systems can be patched for these vulnerabilities, as well as those that still
@@ -11,7 +13,7 @@ narrative: Meltdown and Spectre exploit critical vulnerabilities in modern CPUs 
 references:
 - https://meltdownattack.com/
 tags:
-  analytics_story: Spectre And Meltdown Vulnerabilities
+  analytic_story: Spectre And Meltdown Vulnerabilities
   category:
   - Vulnerability
   product:
@@ -19,5 +21,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 1

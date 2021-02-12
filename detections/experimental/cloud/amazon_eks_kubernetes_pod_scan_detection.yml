@@ -1,24 +1,27 @@
-author: Rod Soto, Splunk
+name: Amazon EKS Kubernetes Pod scan detection
+id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
+version: 1
 date: '2020-04-15'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search provides detection information on unauthenticated requests
   against Kubernetes' Pods API
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch
-  EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection`
-  macro to filter out the false positives.
-id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
-known_false_positives: Not all unauthenticated requests are malicious, but frequency,
-  UA and source IPs and direct request to API provide context.
-name: Amazon EKS Kubernetes Pod scan detection
-references: []
 search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" verb=list objectRef.resource=pods
   requestURI="/api/v1/pods" | rename source as cluster_name sourceIPs{} as src_ip
   | stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason)
   values(responseStatus.code) values(userAgent) values(verb) values(requestURI) by
   src_ip cluster_name user.username user.groups{} | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `amazon_eks_kubernetes_pod_scan_detection_filter` '
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch
+  EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection`
+  macro to filter out the false positives.
+known_false_positives: Not all unauthenticated requests are malicious, but frequency,
+  UA and source IPs and direct request to API provide context.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
   asset_type: Amazon EKS Kubernetes cluster Pod
   kill_chain_phases:
@@ -30,5 +33,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

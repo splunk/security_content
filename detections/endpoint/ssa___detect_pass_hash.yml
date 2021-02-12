@@ -1,15 +1,12 @@
-author: Xiao Lin, Splunk
+name: Detect Pass the Hash - SSA
+id: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
+version: 1
 date: '2020-10-21'
+author: Xiao Lin, Splunk
+type: streaming
+datamodel: []
 description: This search looks for specific authentication events from the Windows
   Security Event logs to detect potential attempts using Pass-the-Hash technique.
-how_to_implement: The test data is converted from Windows Security Event logs generated
-  from Attach Range simulation and used in SPL search and extended to SPL2
-id: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
-known_false_positives: Legitimate logon activity by authorized NTLM systems may be
-  detected by this search. Please investigate as appropriate.
-name: Detect Pass the Hash - SSA
-references:
-- Initial ESCU implementation by Bhavin Patel and Patrick Bareiss
 search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_time"),
   EventCode=map_get(input_event, "event_code"), LogonType=map_get(input_event, "logon_type"),
   LogonProcess=map_get(input_event, "logon_process"), ComputerName=map_get(input_event,
@@ -19,6 +16,12 @@ search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_
   | where first_time_EventCode_LogonProcess_ComputerName | eval start_time=_time,
   end_time=_time, body="TBD", entities="TBD" | select start_time, end_time, entities,
   body | into write_ssa_detected_events(); '
+how_to_implement: The test data is converted from Windows Security Event logs generated
+  from Attach Range simulation and used in SPL search and extended to SPL2
+known_false_positives: Legitimate logon activity by authorized NTLM systems may be
+  detected by this search. Please investigate as appropriate.
+references:
+- Initial ESCU implementation by Bhavin Patel and Patrick Bareiss
 tags:
   cis20:
   - CIS 3
@@ -44,5 +47,3 @@ tags:
   - logon_type
   risk_severity: low
   security_domain: endpoint
-type: SSA
-version: 1

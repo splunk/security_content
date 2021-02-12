@@ -1,35 +1,43 @@
-name: Create follow-up report
-id: 69d25415-408f-462a-899f-9bc8eef8c299
-tags:
-  nist:
-    RS.RP
-description: |
-  Build an after actions report that discusses about what happened and a timeline. Provide what went well and what improvements can be made, information timeliness, steps or actions that might have delayed recovery, what information was shared or could have been shared, any corrective actions that would have prevent the incident, identify precursors and indicators should be watched for in the future or tools that could be used to mitigate future incidents. Conduct an Incident Review Meeting.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - update ticket
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.4.1 Lessons Learned - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  1. Create a follow up report
-    a. Exactly what happened, and at what times?
-    b. How well did staff and management perform in dealing with the incident?
-    c. Were the documented procedures followed? Were they adequate?
-    d. What information was needed sooner?
-    e. Were any steps or actions taken that might have inhibited the recovery?
-    f. What would the staff and management do differently the next time a similar incident occurs?
-    g. How could information sharing with other organizations have been improved?
-    h. What corrective actions can prevent similar incidents in the future?
-    i. What precursors or indicators should be watched for in the future to detect similar incidents?
-    j. What additional tools or resources are needed to detect, analyze, and mitigate future incidents?
-  2. Schedule and conduct a Incident Review Meeting with necessary leadership and incident response team
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - update ticket
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Build an after actions report that discusses about what happened and
+  a timeline. Provide what went well and what improvements can be made, information
+  timeliness, steps or actions that might have delayed recovery, what information
+  was shared or could have been shared, any corrective actions that would have prevent
+  the incident, identify precursors and indicators should be watched for in the future
+  or tools that could be used to mitigate future incidents. Conduct an Incident Review
+  Meeting.
+
+  '
+id: 69d25415-408f-462a-899f-9bc8eef8c299
+name: Create follow-up report
+references:
+- 3.4.1 Lessons Learned - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: "1. Create a follow up report\n  a. Exactly what happened, and at what times?\n\
+  \  b. How well did staff and management perform in dealing with the incident?\n\
+  \  c. Were the documented procedures followed? Were they adequate?\n  d. What information\
+  \ was needed sooner?\n  e. Were any steps or actions taken that might have inhibited\
+  \ the recovery?\n  f. What would the staff and management do differently the next\
+  \ time a similar incident occurs?\n  g. How could information sharing with other\
+  \ organizations have been improved?\n  h. What corrective actions can prevent similar\
+  \ incidents in the future?\n  i. What precursors or indicators should be watched\
+  \ for in the future to detect similar incidents?\n  j. What additional tools or\
+  \ resources are needed to detect, analyze, and mitigate future incidents?\n2. Schedule\
+  \ and conduct a Incident Review Meeting with necessary leadership and incident response\
+  \ team\n"

@@ -1,29 +1,37 @@
-name: NIST 800-61r2 Response Plan
-id: b974f8bb-2999-4480-94ef-8a90029b8759
-description: Response plan built for the NIST framework described in NIST 800-61r2 (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf)
-is_note_required: false
-tags:
-    analytics_story: all
-    nist: RS.RP
-references:
-  - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-response_phase:
-  - preparation_nist:
-     - id: d360707d-9214-4449-b15d-9d3cf134209a
-       name: Preparation
-  - detection_analysis:
-    - id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
-      name:  Detection and Analysis
-  - contain_eradicate_recover:
-      - id: 838ad8e8-1701-4829-be89-51a997fd9852
-        name: Contain Eradicate Recover
-  - post_incident:
-      - id: 001209bc-2f94-4dc7-b21e-9598c41eaa80
-        name: Post Incident
-workflow: Organizations should use this response plan as template to define the processes for their security operations teams.
-    With this as the template and then customizing the response plan around attack vectors. Organizations can fashion a framework for thier response procedures.
-    Response plans and response procedures are different in the setting that procedures should have the actual step-by-step actions vs an response plan that discuses and deomonstrates actions without specifcs and aligns to the policy.
-    > Preparation should not be imported into response tools that support ingestion (hive, phantom, xsoar, etc).
-date: '2020-04-21'
-version: 1
 author: ButterCup
+date: '2020-04-21'
+description: Response plan built for the NIST framework described in NIST 800-61r2
+  (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf)
+id: b974f8bb-2999-4480-94ef-8a90029b8759
+is_note_required: false
+name: NIST 800-61r2 Response Plan
+references:
+- https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+response_phase:
+- preparation_nist:
+  - id: d360707d-9214-4449-b15d-9d3cf134209a
+    name: Preparation
+- detection_analysis:
+  - id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
+    name: Detection and Analysis
+- contain_eradicate_recover:
+  - id: 838ad8e8-1701-4829-be89-51a997fd9852
+    name: Contain Eradicate Recover
+- post_incident:
+  - id: 001209bc-2f94-4dc7-b21e-9598c41eaa80
+    name: Post Incident
+tags:
+  analytics_story: all
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: Organizations should use this response plan as template to define the processes
+  for their security operations teams. With this as the template and then customizing
+  the response plan around attack vectors. Organizations can fashion a framework for
+  thier response procedures. Response plans and response procedures are different
+  in the setting that procedures should have the actual step-by-step actions vs an
+  response plan that discuses and deomonstrates actions without specifcs and aligns
+  to the policy. > Preparation should not be imported into response tools that support
+  ingestion (hive, phantom, xsoar, etc).

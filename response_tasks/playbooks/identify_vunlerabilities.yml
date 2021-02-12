@@ -1,28 +1,38 @@
-name: Identify vunlerabilities
-id: f28177ae-78de-43c9-8692-e972e8a0aa62
-tags:
-  nist:
-    RS.RP
-description: |
-  Scan host(s) for vulnerabilities. Reverse engineer malware thru static and dynamic means to determine any zero day vulnerabilities.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - scan host
-    - scan hosts
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.3.3 Identifying the Attacking Hosts - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-    - NIST SP 800-86, Guide to Integrating Forensic Techniques into Incident Response, for additional information on preserving evidence
-workflow: |
-  1. Scan host(s) with infection and determine any vulnerabilities that can remediate infection. (e.g. finding a SMB MS17-010 - Windows SMB Remote Code Execution Vulnerability)
-  2. Identify any common vulnerabilities among the hosts infected
-  3. Reverse engineer malware for any zero day vulnerabilities.
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - scan host
+  - scan hosts
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Scan host(s) for vulnerabilities. Reverse engineer malware thru static
+  and dynamic means to determine any zero day vulnerabilities.
+
+  '
+id: f28177ae-78de-43c9-8692-e972e8a0aa62
+name: Identify vunlerabilities
+references:
+- 3.3.3 Identifying the Attacking Hosts - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+  - NIST SP 800-86, Guide to Integrating Forensic Techniques into Incident Response,
+  for additional information on preserving evidence
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Scan host(s) with infection and determine any vulnerabilities that can
+  remediate infection. (e.g. finding a SMB MS17-010 - Windows SMB Remote Code Execution
+  Vulnerability)
+
+  2. Identify any common vulnerabilities among the hosts infected
+
+  3. Reverse engineer malware for any zero day vulnerabilities.
+
+  '

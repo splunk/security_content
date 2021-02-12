@@ -1,15 +1,15 @@
-author: Jose Hernandez, Splunk
+name: Discover DNS records
+id: c096f721-8842-42ce-bfc7-74bd8c72b7c3
+version: 1
 date: '2019-02-14'
+author: Jose Hernandez, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: The search takes corporate and common cloud provider domains configured
   under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv`
   finds their responses across the last 30 days from data in the `Network_Resolution
   ` datamodel, then stores the output under the `discovered_dns_records.csv` lookup
-how_to_implement: To successfully implement this search, you must be ingesting DNS
-  logs, and populating the Network_Resolution data model. Also make sure that the
-  cim_corporate_web_domains and cim_corporate_email_domains lookups are populated
-  with the domains owned by your corporation
-id: c096f721-8842-42ce-bfc7-74bd8c72b7c3
-name: Discover DNS records
 search: '| inputlookup cim_corporate_email_domains.csv | inputlookup append=T cim_corporate_web_domains.csv
   | inputlookup append=T cim_cloud_domains.csv | eval domain = trim(replace(domain,
   "\*", "")) | join domain [|tstats `security_content_summariesonly` count values(DNS.record_type)
@@ -18,8 +18,13 @@ search: '| inputlookup cim_corporate_email_domains.csv | inputlookup append=T ci
   where query!="unknown" | rex field=query "(?<domain>\w+\.\w+?)(?:$|/)"] | makemv
   delim=" " answer |  makemv delim=" " type | sort -count | table count,domain,type,query,answer
   | outputlookup createinapp=true discovered_dns_records'
+how_to_implement: To successfully implement this search, you must be ingesting DNS
+  logs, and populating the Network_Resolution data model. Also make sure that the
+  cim_corporate_web_domains and cim_corporate_email_domains lookups are populated
+  with the domains owned by your corporation
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   detections:
   - DNS record changed
@@ -27,5 +32,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

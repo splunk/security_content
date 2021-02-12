@@ -1,9 +1,11 @@
-author: Michael Haag, Splunk
+name: Trusted Developer Utilities Proxy Execution
+id: 270a67a6-55d8-11eb-ae93-0242ac130002
+version: 1
 date: '2021-01-12'
+author: Michael Haag, Splunk
+type: batch
 description: Monitor and detect behaviors used by attackers who leverage trusted developer
   utilities to execute malicious code.
-id: 270a67a6-55d8-11eb-ae93-0242ac130002
-name: Trusted Developer Utilities Proxy Execution
 narrative: 'Adversaries may take advantage of trusted developer utilities to proxy
   execution of malicious payloads. There are many utilities used for software development
   related tasks that can be used to execute code in various forms to assist in development,
@@ -19,7 +21,7 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
 - https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
 tags:
-  analytics_story: Trusted Developer Utilities Proxy Execution
+  analytic_story: Trusted Developer Utilities Proxy Execution
   category:
   - Adversary Tactics
   product:
@@ -27,5 +29,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1
