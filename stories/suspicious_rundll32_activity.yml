@@ -1,0 +1,22 @@
+name: Suspicious Rundll32 Activity
+id: 80a65487-854b-42f1-80a1-935e4c170694
+version: 1
+date: '2021-02-03'
+description: Monitor and detect techniques used by attackers who leverage rundll32.exe to execute arbitrary malicious code.
+narrative: 'One common adversary tactic is to bypass application control solutions
+  via the rundll32.exe process. Natively, rundll32.exe will load DLLs and is a great example of a Living off the Land Binary. Rundll32.exe may load malicious DLLs by ordinals, function names or directly. 
+  The queries in this story focus on loading default DLLs, syssetup.dll, ieadvpack.dll, advpack.dll and setupapi.dll from disk that may be abused by adversaries. 
+  Additionally, two analytics developed to assist with identifying DLLRegisterServer, Start and StartW functions being called. 
+  The searches in this story help you detect and investigate suspicious activity that
+  may indicate that an adversary is leveraging rundll32.exe to execute malicious code.'
+author: Michael Haag, Splunk
+type: ESCU
+references:
+- https://attack.mitre.org/techniques/T1218/011/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+- https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+tags:
+  analytics_story: Suspicious Rundll32 Activity
+  usecase: Advanced Threat Detection
+  category:
+  - Adversary Tactics

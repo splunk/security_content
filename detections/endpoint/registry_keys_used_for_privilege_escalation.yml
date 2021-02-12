@@ -29,7 +29,7 @@ tags:
   analytic_story:
   - Windows Privilege Escalation
   - Suspicious Windows Registry Activities
-  asset_type: Endpoint
+  - Cloud Federated Credential Abuse
   automated_detection_testing: passed
   cis20:
   - CIS 8

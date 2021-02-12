@@ -23,18 +23,27 @@ known_false_positives: Other tools can import the same DLLs. These tools should 
   part of a whtelist.
 references:
 - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId)
+  as ProcessId by Computer, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
+  ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | rename
+  Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `detect_mimikatz_using_loaded_images_filter`'
+
+known_false_positives: Other tools can import the same DLLs. These tools should be
+  part of a whitelist.
 tags:
   analytic_story:
   - Credential Dumping
   - Detect Zerologon Attack
+  - Cloud Federated Credential Abuse
+  mitre_attack_id:
+  - T1003.001
+  kill_chain_phases:
+  - Actions on Objectives
   asset_type: Windows
   cis20:
   - CIS 6
   - CIS 8
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack_id:
-  - T1003.001
   nist:
   - DE.AE
   - DE.CM
