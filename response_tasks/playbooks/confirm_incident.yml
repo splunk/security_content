@@ -1,27 +1,38 @@
-name: Confirm incident
+author: ButterCup
+automation:
+  actions:
+  - update event
+  is_note_required: false
+  playbooks:
+  - playook: Update TLP, attack vector, disposition and category of event
+    scm: local
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Upon analysis, determination of incident status is either confirmation,
+  suspicious, false positive or authorized exception. Update the event metadata and
+  process event as determined.
+
+  '
 id: 994298f0-75fc-4c14-b044-9b81944d3a03
+name: Confirm incident
+references:
+- 3.2.4 Incident Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+- 3.2.5 Incident Documentation - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
 tags:
   nist: RS.RP
-description: |
-  Upon analysis, determination of incident status is either confirmation, suspicious, false positive or authorized exception. Update the event metadata and process event as determined.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - update event
-  playbooks:
-    - scm: local
-      playook: Update TLP, attack vector, disposition and category of event
-references:
-  - 3.2.4 Incident Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-  - 3.2.5 Incident Documentation - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Determine if confirmed, suspicious, a false positive, or authorized exception event
-  2. Update TLP, attack vector, disposition and category of event
-  3. Proceed on the next task of prioritizing incident or lessons learned or escalate for additional investigation
-date: '2020-07-30'
+  product:
+  - Splunk Phantom
+type: response
 version: 1
-author: ButterCup
+workflow: '1. Determine if confirmed, suspicious, a false positive, or authorized
+  exception event
+
+  2. Update TLP, attack vector, disposition and category of event
+
+  3. Proceed on the next task of prioritizing incident or lessons learned or escalate
+  for additional investigation
+
+  '

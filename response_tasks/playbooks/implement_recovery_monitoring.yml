@@ -1,33 +1,45 @@
-name: Implement recovery monitoring
-id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
-tags:
-  nist:
-    RS.RP
-description: |
-  Newly recovered systems should have additional monitoring for any anomalies or newly created incidents.  Adding single host to a previously infected list for a specified period will allow the incident responder to quickly assess a re-infection or subsequent new infection. At this stage in recovery, you should be unquarantining devices and removing any host blocks.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - run query
-    - unblock ip
-    - unblock domain
-    - unblock url
-    - unblock hash
-    - unblock process
-    - unquarantine device
-    - unquarantine host
-    - remove tag
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  1. Monitor restored systems for any new anomalies and ensure that operations have been returned to normal
-  2. Begin to remove emergency blocks to permanent block and remediation alerts for infected systems returning the network (e.g. laptops that were unreachable during the incident)
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - run query
+  - unblock ip
+  - unblock domain
+  - unblock url
+  - unblock hash
+  - unblock process
+  - unquarantine device
+  - unquarantine host
+  - remove tag
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Newly recovered systems should have additional monitoring for any anomalies
+  or newly created incidents.  Adding single host to a previously infected list for
+  a specified period will allow the incident responder to quickly assess a re-infection
+  or subsequent new infection. At this stage in recovery, you should be unquarantining
+  devices and removing any host blocks.
+
+  '
+id: ecf89e9b-106a-46d1-b236-a2716f71d7ae
+name: Implement recovery monitoring
+references:
+- 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Monitor restored systems for any new anomalies and ensure that operations
+  have been returned to normal
+
+  2. Begin to remove emergency blocks to permanent block and remediation alerts for
+  infected systems returning the network (e.g. laptops that were unreachable during
+  the incident)
+
+  '

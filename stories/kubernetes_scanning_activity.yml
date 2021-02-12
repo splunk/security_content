@@ -1,10 +1,12 @@
-author: Rod Soto, Splunk
+name: Kubernetes Scanning Activity
+id: a9ef59cf-e981-4e66-9eef-bb049f695c09
+version: 1
 date: '2020-04-15'
+author: Rod Soto, Splunk
+type: batch
 description: This story addresses detection against Kubernetes cluster fingerprint
   scan and attack by providing information on items such as source ip, user agent,
   cluster names.
-id: a9ef59cf-e981-4e66-9eef-bb049f695c09
-name: Kubernetes Scanning Activity
 narrative: Kubernetes is the most used container orchestration platform, this orchestration
   platform contains sensitve information and management priviledges of production
   workloads, microservices and applications. These searches allow operator to detect
@@ -12,7 +14,7 @@ narrative: Kubernetes is the most used container orchestration platform, this or
 references:
 - https://github.com/splunk/cloud-datamodel-security-research
 tags:
-  analytics_story: Kubernetes Scanning Activity
+  analytic_story: Kubernetes Scanning Activity
   category:
   - Cloud Security
   product:
@@ -20,5 +22,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 1

@@ -10,7 +10,7 @@
       "default": "",
       "description": "Author of the phase",
       "examples": [
-        "Rico Valdez, Patrick Barei\u00df, Splunk"
+        "Rico Valdez, Patrick Bareiß, Splunk"
       ],
       "type": "string"
     },
@@ -57,18 +57,16 @@
       "description": "Response phase is divided into task(s) to be completed. These will used to referenced known response_task parameters. Order is as positioned and with unique name.",
       "examples": [
         {
-            {
-              "id": "7c72d944-3995-4485-8e57-67b4c353989b",
-              "name": "Prepare for Incident Handling"
-            },
-            {
-              "id": "c36f3f48-e0bb-4c20-a62a-cdc8f6418892",
-              "name": "Preventing Incidents"
-            },
-            {
-              "id": "0dc849b2-2eb4-4fd2-add1-b6cc475765f0",
-              "name": "Practice"
-            }
+          "id": "7c72d944-3995-4485-8e57-67b4c353989b",
+          "name": "Prepare for Incident Handling"
+        },
+        {
+          "id": "c36f3f48-e0bb-4c20-a62a-cdc8f6418892",
+          "name": "Preventing Incidents"
+        },
+        {
+          "id": "0dc849b2-2eb4-4fd2-add1-b6cc475765f0",
+          "name": "Practice"
         }
       ],
       "minItems": 1,
@@ -81,7 +79,7 @@
       "description": "An array of key value pairs for tagging",
       "examples": [
         {
-          "analytics_story": "credential_dumping"
+          "analytic_story": "credential_dumping"
         }
       ],
       "minItems": 1,
@@ -97,7 +95,7 @@
       ],
       "type": "integer"
     },
-    "sla":{
+    "sla": {
       "$id": "#/properties/sla",
       "default": null,
       "description": "Measured integer for Service Level Agreement for completion of the phase",
@@ -107,7 +105,7 @@
       ],
       "type": "integer"
     },
-    "sla_type":{
+    "sla_type": {
       "$id": "#/properties/sla_type",
       "default": "minutes",
       "description": "Duration for measured integer for Service Level Agreement for completion of the phase (e.g. minutes, or hours, etc)",
@@ -124,9 +122,7 @@
       "default": [],
       "description": "A list of references for this response, phase or task (e.g. web or printed citation)",
       "examples": [
-        [
-          "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
-        ]
+        "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
       ],
       "items": {
         "$id": "#/properties/references/items",
@@ -139,7 +135,7 @@
         "type": "string"
       },
       "type": "array"
-    },
+    }
   },
   "required": [
     "name",
@@ -149,7 +145,7 @@
     "description",
     "author",
     "response_task",
-    "tags",
+    "tags"
   ],
   "title": "Response Schema",
   "type": "object"

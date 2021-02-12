@@ -1,12 +1,13 @@
-author: Patrick Bareiss, Splunk
+name: System Information Discovery Detection
+id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
+version: 1
 date: '2020-10-12'
+author: Patrick Bareiss, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: Detect system information discovery techniques used by attackers to understand
   configurations of the system to further exploit it.
-id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-known_false_positives: Administrators debugging servers
-name: System Information Discovery Detection
-references:
-- https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process="*wmic* qfe*"
   OR Processes.process=*systeminfo* OR Processes.process=*hostname*) by Processes.user
@@ -15,8 +16,14 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   > 2 | stats values(process) min(firstTime) as firstTime max(lastTime) as lastTime
   by user, dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `system_information_discovery_detection_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Administrators debugging servers
+references:
+- https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
 tags:
-  analytics_story:
+  analytic_story:
   - Discovery Techniques
   asset_type: Windows
   automated_detection_testing: passed
@@ -36,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 1

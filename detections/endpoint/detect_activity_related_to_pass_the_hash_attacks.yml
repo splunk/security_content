@@ -1,21 +1,24 @@
-author: Bhavin Patel, Patrick Bareiss, Splunk
+name: Detect Activity Related to Pass the Hash Attacks
+id: f5939373-8054-40ad-8c64-cec478a22a4b
+version: 5
 date: '2020-10-15'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+type: batch
+datamodel: []
 description: This search looks for specific authentication events from the Windows
   Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
-how_to_implement: To successfully implement this search, you must ingest your Windows
-  Security Event logs and leverage the latest TA for Windows.
-id: f5939373-8054-40ad-8c64-cec478a22a4b
-known_false_positives: Legitimate logon activity by authorized NTLM systems may be
-  detected by this search. Please investigate as appropriate.
-name: Detect Activity Related to Pass the Hash Attacks
-references: []
 search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 Logon_Process=NtLmSsp
   WorkstationName=WORKSTATION NOT AccountName="ANONYMOUS LOGON") OR (Logon_Type=9
   Logon_Process=seclogo) | fillnull | stats count min(_time) as firstTime max(_time)
   as lastTime by EventCode, Logon_Type, WorkstationName, user, dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `detect_activity_related_to_pass_the_hash_attacks_filter` '
+how_to_implement: To successfully implement this search, you must ingest your Windows
+  Security Event logs and leverage the latest TA for Windows.
+known_false_positives: Legitimate logon activity by authorized NTLM systems may be
+  detected by this search. Please investigate as appropriate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Lateral Movement
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -39,5 +42,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: access
-type: ESCU
-version: 5

@@ -1,10 +1,12 @@
 name: Enterprise Security config for Splunk Security Analytics for AWS customers
 id: bc91a8cd-35e7-4bb2-6140-e756cc46f211
 date: '2021-01-20'
-description: This configuration file applies to all correlation searches that are used in the Splunk Security Analytics for AWS product. NOTE - Splunk Security Analytics for AWS searches do not need notable  configurations 
 author: Bhavin Patel
+description: This configuration file applies to all correlation searches that are
+  used in the Splunk Security Analytics for AWS product. NOTE - Splunk Security Analytics
+  for AWS searches do not need notable  configurations
 scheduling:
-  cron_schedule: '0 * * * *'
+  cron_schedule: 0 * * * *
   earliest_time: -70m@m
   latest_time: -10m@m
   schedule_window: auto

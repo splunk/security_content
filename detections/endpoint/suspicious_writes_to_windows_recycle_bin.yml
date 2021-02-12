@@ -1,16 +1,12 @@
-author: Rico Valdez, Splunk
+name: Suspicious writes to windows Recycle Bin
+id: b5541828-8ffd-4070-9d95-b3da4de924cb
+version: 4
 date: '2020-07-22'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on filesystem and process logs responsible for the changes from your endpoints into
-  the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
-id: b5541828-8ffd-4070-9d95-b3da4de924cb
-known_false_positives: Because the Recycle Bin is a hidden folder in modern versions
-  of Windows, it would be unusual for a process other than explorer.exe to write to
-  it. Incidents should be investigated as appropriate.
-name: Suspicious writes to windows Recycle Bin
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name)
   as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*"
@@ -20,8 +16,15 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name
   != "explorer.exe" by Processes.process_id Processes.dest| `drop_dm_object_name("Processes")`
   | table process_id dest] | `suspicious_writes_to_windows_recycle_bin_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on filesystem and process logs responsible for the changes from your endpoints into
+  the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
+known_false_positives: Because the Recycle Bin is a hidden folder in modern versions
+  of Windows, it would be unusual for a process other than explorer.exe to write to
+  it. Incidents should be investigated as appropriate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
   asset_type: Windows
   automated_detection_testing: passed
@@ -38,5 +41,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 4

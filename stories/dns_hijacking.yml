@@ -1,9 +1,11 @@
-author: Bhavin Patel, Splunk
+name: DNS Hijacking
+id: 8169f17b-ef68-4b59-aa28-586907301221
+version: 1
 date: '2020-02-04'
+author: Bhavin Patel, Splunk
+type: batch
 description: Secure your environment against DNS hijacks with searches that help you
   detect and investigate unauthorized changes to DNS records.
-id: 8169f17b-ef68-4b59-aa28-586907301221
-name: DNS Hijacking
 narrative: 'Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/threat-intelligence/dns-is-still-the-achilles-heel-of-the-internet-25613),
   DNS plays a critical role in routing web traffic but is notoriously vulnerable to
   attack. One reason is its distributed nature. It relies on unstructured connections
@@ -59,7 +61,7 @@ references:
 - http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 - https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
 tags:
-  analytics_story: DNS Hijacking
+  analytic_story: DNS Hijacking
   category:
   - Adversary Tactics
   product:
@@ -67,5 +69,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

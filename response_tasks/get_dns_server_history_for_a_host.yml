@@ -1,6 +1,4 @@
-name: Get DNS Server History for a host
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd72
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-11-09'
 description: While investigating any detections it is important to understand which
   and how many DNS servers a host has connected to in the past. This search uses data
@@ -8,14 +6,15 @@ description: While investigating any detections it is important to understand wh
   host has connected to the previous 24 hours.
 how_to_implement: To successfully implement this search, you must be ingesting your
   DNS traffic
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd72
 inputs:
 - src_ip
+name: Get DNS Server History for a host
 search: '| search tag=dns src_ip=$src_ip$ dest_port=53 | streamstats time_window=1d
   count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort
   -count'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - Command and Control
   - DNS Hijacking
@@ -26,3 +25,7 @@ tags:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Suspicious AWS Traffic
   - Suspicious DNS Traffic
+  product:
+  - Splunk Phantom
+type: response
+version: 1

@@ -1,31 +1,34 @@
-author: Rico Valdez, Splunk
+name: Suspicious File Write
+id: 57f76b8a-32f0-42ed-b358-d9fa3ca7bac8
+version: 3
 date: '2019-04-25'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
 description: The search looks for files created with names that have been linked to
   malicious activity.
+search: '| tstats `security_content_summariesonly` count values(Filesystem.action)
+  as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)`
+  | `suspicious_writes` | `suspicious_file_write_filter`'
 how_to_implement: You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint file-system data model node. This is typically
-  populated via endpoint detection-and-response products, such as Carbon Black, or
+  populated via endpoint detection-and-response product, such as Carbon Black, or
   via other endpoint data sources, such as Sysmon. The data used for this search is
   typically generated via logs that report file system reads and writes. In addition,
   this search leverages an included lookup file that contains the names of the files
   to watch for, as well as a note to communicate why that file name is being monitored.
   This lookup file can be edited to add or remove file the file names you want to
   monitor.
-id: 57f76b8a-32f0-42ed-b358-d9fa3ca7bac8
 known_false_positives: It's possible for a legitimate file to be created with the
   same name as one noted in the lookup file. Filenames listed in the lookup file should
   be unique enough that collisions are rare. Looking at the location of the file and
   the process responsible for the activity can help determine whether or not the activity
   is legitimate.
-name: Suspicious File Write
 references: []
-search: '| tstats `security_content_summariesonly` count values(Filesystem.action)
-  as action values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)`
-  | `suspicious_writes` | `suspicious_file_write_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   asset_type: Endpoint
   cis20:
@@ -40,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 3
