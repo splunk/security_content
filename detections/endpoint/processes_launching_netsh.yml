@@ -1,26 +1,30 @@
-author: Josef Kuepker, Splunk
+name: Processes launching netsh
+id: b89919ed-fe5f-492c-b139-95dbb162040e
+version: 3
 date: '2020-07-10'
+author: Josef Kuepker, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: This search looks for processes launching netsh.exe. Netsh is a command-line
   scripting utility that allows you to, either locally or remotely, display or modify
   the network configuration of a computer that is currently running. Netsh can be
   used as a persistence proxy technique to execute a helper DLL when netsh.exe is
   executed. In this search, we are looking for processes spawned by netsh.exe and
   executing commands via the command line.
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-id: b89919ed-fe5f-492c-b139-95dbb162040e
-known_false_positives: Some VPN applications are known to launch netsh.exe. Outside
-  of these instances, it is unusual for an executable to launch netsh.exe and run
-  commands.
-name: Processes launching netsh
-references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   AS Processes.process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process=*netsh* by Processes.parent_process_name Processes.parent_process
   Processes.process_name Processes.user Processes.dest |`drop_dm_object_name("Processes")`
   |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`processes_launching_netsh_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+known_false_positives: Some VPN applications are known to launch netsh.exe. Outside
+  of these instances, it is unusual for an executable to launch netsh.exe and run
+  commands.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Netsh Abuse
   - Disabling Security Tools
   - DHS Report TA18-074A
@@ -42,5 +46,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 3

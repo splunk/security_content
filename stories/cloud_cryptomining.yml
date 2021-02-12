@@ -1,11 +1,13 @@
-author: David Dorsey, Splunk
+name: Cloud Cryptomining
+id: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
+version: 1
 date: '2019-10-02'
+author: David Dorsey, Splunk
+type: batch
 description: Monitor your cloud compute instances for activities related to cryptojacking/cryptomining.
   New instances that originate from previously unseen regions, users who launch abnormally
   high numbers of instances, or compute instances started by previously unseen users
   are just a few examples of potentially malicious behavior.
-id: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
-name: Cloud Cryptomining
 narrative: 'Cryptomining is an intentionally difficult, resource-intensive business.
   Its complexity was designed into the process to ensure that the number of blocks
   mined each day would remain steady. So, it''s par for the course that ambitious,
@@ -33,7 +35,7 @@ narrative: 'Cryptomining is an intentionally difficult, resource-intensive busin
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytics_story: Cloud Cryptomining
+  analytic_story: Cloud Cryptomining
   category:
   - Cloud Security
   product:
@@ -41,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 1

@@ -1,6 +1,4 @@
-name: Get First Occurrence and Last Occurrence of a MAC Address
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd33
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-09-13'
 description: This search allows you to gather more context around a notable which
   has detected a new device connecting to your network. Use this search to determine
@@ -8,13 +6,18 @@ description: This search allows you to gather more context around a notable whic
   your network.
 how_to_implement: To successfully implement this search, you must be ingesting the
   logs from your DHCP server.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd33
 inputs:
 - src_mac
+name: Get First Occurrence and Last Occurrence of a MAC Address
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST
   All_Sessions.All_Sessions.src_mac= $src_mac$ by All_Sessions.src_ip All_Sessions.user
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - Asset Tracking
+  product:
+  - Splunk Phantom
+type: response
+version: 1

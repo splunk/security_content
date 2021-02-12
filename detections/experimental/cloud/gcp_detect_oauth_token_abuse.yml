@@ -1,23 +1,26 @@
-author: Rod Soto, Splunk
+name: gcp detect oauth token abuse
+id: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
+version: 1
 date: '2020-09-01'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search provides detection of possible GCP Oauth token abuse. GCP
   Oauth token without time limit can be exfiltrated and reused for keeping access
   sessions alive without further control of authentication, allowing attackers to
   access and move laterally.
-how_to_implement: You must install splunk GCP add-on. This search works with gcp:pubsub:message
-  logs
-id: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
-known_false_positives: GCP Oauth token abuse detection will only work if there are
-  access policies in place along with audit logs.
-name: gcp detect oauth token abuse
-references:
-- https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-1
-- https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-2
 search: '`google_gcp_pubsub_message` type.googleapis.com/google.cloud.audit.AuditLog
   |table protoPayload.@type protoPayload.status.details{}.@type protoPayload.status.details{}.violations{}.callerIp
   protoPayload.status.details{}.violations{}.type protoPayload.status.message  | `gcp_detect_oauth_token_abuse_filter`'
+how_to_implement: You must install splunk GCP add-on. This search works with gcp:pubsub:message
+  logs
+known_false_positives: GCP Oauth token abuse detection will only work if there are
+  access policies in place along with audit logs.
+references:
+- https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-1
+- https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-2
 tags:
-  analytics_story:
+  analytic_story:
   - GCP Cross Account Activity
   asset_type: GCP Account
   kill_chain_phases:
@@ -29,5 +32,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

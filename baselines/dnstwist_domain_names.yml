@@ -1,17 +1,21 @@
-author: David Dorsey, Splunk
+name: DNSTwist Domain Names
+id: 19f7d2ec-6028-4d01-bcdb-bda9a034c17f
+version: 2
 date: '2018-10-08'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: This search creates permutations of your existing domains, removes the
   valid domain names and stores them in a specified lookup file so they can be checked
   for in the associated detection searches.
+search: '| dnstwist domainlist=domains.csv | `remove_valid_domains` | eval domain_abuse="true"
+  | table domain, domain_abuse | outputlookup brandMonitoring_lookup | stats count'
 how_to_implement: To successfully implement this search you need to update the file
   called domains.csv in the DA-ESS-SOC/lookup directory. Or `cim_corporate_email_domains.csv`
   and `cim_corporate_web_domains.csv` from **Splunk\_SA\_CIM**.
-id: 19f7d2ec-6028-4d01-bcdb-bda9a034c17f
-name: DNSTwist Domain Names
-search: '| dnstwist domainlist=domains.csv | `remove_valid_domains` | eval domain_abuse="true"
-  | table domain, domain_abuse | outputlookup brandMonitoring_lookup | stats count'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   - Suspicious Emails
   detections:
@@ -22,5 +26,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 2

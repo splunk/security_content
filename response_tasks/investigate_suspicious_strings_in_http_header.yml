@@ -1,6 +1,4 @@
-name: Investigate Suspicious Strings in HTTP Header
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd89
-version: 1
+author: Bhavin Patel, Splunk
 date: '2017-10-20'
 description: This search helps an analyst investigate a notable event related to a
   potential Apache Struts exploitation. To investigate, we will want to isolate and
@@ -11,16 +9,21 @@ description: This search helps an analyst investigate a notable event related to
 how_to_implement: This particular search leverages data extracted from Stream:HTTP.
   You must configure the http stream using the Splunk Stream App on your Splunk Stream
   deployment server to extract the cs_content_type field.
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd89
 inputs:
 - src_ip
 - dest_ip
-search: '| search sourcetype=stream:http | search src_ip=$src_ip$ | search dest_ip=$dest_ip$ | eval
-  cs_content_type_length = len(cs_content_type) | search cs_content_type_length >
-  100 | rex field="cs_content_type" (?<suspicious_strings>cmd.exe) | eval suspicious_strings_found=if(match(cs_content_type,
+name: Investigate Suspicious Strings in HTTP Header
+search: '| search sourcetype=stream:http | search src_ip=$src_ip$ | search dest_ip=$dest_ip$
+  | eval cs_content_type_length = len(cs_content_type) | search cs_content_type_length
+  > 100 | rex field="cs_content_type" (?<suspicious_strings>cmd.exe) | eval suspicious_strings_found=if(match(cs_content_type,
   "application"), "True", "False")  | rename suspicious_strings_found AS "Suspicious
   Content-Type Found" | fields "Suspicious Content-Type Found", dest_ip, src_ip, suspicious_strings,
   cs_content_type, cs_content_type_length, url'
 tags:
-  analytics_story:
+  analytic_story:
   - Apache Struts Vulnerability
+  product:
+  - Splunk Phantom
+type: response
+version: 1

@@ -1,22 +1,28 @@
-name: Make personnel report suspicious activity
-id: f83abcae-3734-45ff-99ef-b17eb937c057
-tags:
-  nist:
-    RS.RP
-description: |
-  c
-automation:
-  is_note_required: false
-  role:
-  sla_type: minutes
-  sla:
-  action:
-  playbook:
-references:
-  - Organizational Acceptable Use Policy
-workflow: |
-  Develop a simplified, company wide-known way to contact IR team in case of suspicious activity on the user system.
-  Make sure that the personnel is aware of it, can and will use it.
-date: '2020-04-21'
-version: 1
 author: ButterCup
+automation:
+  action: null
+  is_note_required: false
+  playbook: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-04-21'
+description: 'c
+
+  '
+id: f83abcae-3734-45ff-99ef-b17eb937c057
+name: Make personnel report suspicious activity
+references:
+- Organizational Acceptable Use Policy
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: 'Develop a simplified, company wide-known way to contact IR team in case
+  of suspicious activity on the user system.
+
+  Make sure that the personnel is aware of it, can and will use it.
+
+  '

@@ -1,22 +1,26 @@
-author: Bhavin Patel, Splunk
+name: Baseline of Security Group Activity by ARN
+id: fc0edd96-ff2b-48b0-9f1f-63da3783fd63
+version: 1
 date: '2018-04-17'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search establishes, on a per-hour basis, the average and the standard
   deviation for the number of API calls related to security groups made by each user.
   Also recorded is the number of data points for each user. This table is then outputted
   to a lookup file to allow the detection search to operate quickly.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs. To add or remove API event names for security groups, edit the macro `security_group_api_calls`.
-id: fc0edd96-ff2b-48b0-9f1f-63da3783fd63
-name: Baseline of Security Group Activity by ARN
 search: '`cloudtrail` `security_group_api_calls` | spath output=arn path=userIdentity.arn
   | bucket _time span=1h | stats count as apiCalls by _time, arn | stats count(apiCalls)
   as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls,
   stdev(apiCalls) as stdevApiCalls by arn | table arn, latestCount, numDataPoints,
   avgApiCalls, stdevApiCalls | outputlookup security_group_activity_baseline | stats
   count'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs. To add or remove API event names for security groups, edit the macro `security_group_api_calls`.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   detections:
   - Detect Spike in Security Group Activity
@@ -24,5 +28,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

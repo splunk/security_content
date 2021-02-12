@@ -1,10 +1,12 @@
-author: Bhavin Patel, Splunk
+name: Suspicious Emails
+id: 2b1800dd-92f9-47ec-a981-fdf1351e5d55
+version: 1
 date: '2020-01-27'
+author: Bhavin Patel, Splunk
+type: batch
 description: Email remains one of the primary means for attackers to gain an initial
   foothold within the modern enterprise. Detect and investigate suspicious emails
   in your environment with the help of the searches in this Analytic Story.
-id: 2b1800dd-92f9-47ec-a981-fdf1351e5d55
-name: Suspicious Emails
 narrative: 'It is a common practice for attackers of all types to leverage targeted
   spearphishing campaigns and mass mailers to deliver weaponized email messages and
   attachments. Fortunately, there are a number of ways to monitor email data in Splunk
@@ -24,7 +26,7 @@ narrative: 'It is a common practice for attackers of all types to leverage targe
 references:
 - https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
 tags:
-  analytics_story: Suspicious Emails
+  analytic_story: Suspicious Emails
   category:
   - Adversary Tactics
   product:
@@ -32,5 +34,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

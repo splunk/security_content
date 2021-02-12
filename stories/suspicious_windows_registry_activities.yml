@@ -1,9 +1,11 @@
-author: Bhavin Patel, Splunk
+name: Suspicious Windows Registry Activities
+id: 2b1800dd-92f9-47dd-a981-fdf1351e5d55
+version: 1
 date: '2018-05-31'
+author: Bhavin Patel, Splunk
+type: batch
 description: Monitor and detect registry changes initiated from remote locations,
   which can be a sign that an attacker has infiltrated your system.
-id: 2b1800dd-92f9-47dd-a981-fdf1351e5d55
-name: Suspicious Windows Registry Activities
 narrative: "Attackers are developing increasingly sophisticated techniques for hijacking\
   \ target servers, while evading detection. One such technique that has become progressively\
   \ more common is registry modification.\\\n The registry is a key component of the\
@@ -17,7 +19,7 @@ references:
 - https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 - https://attack.mitre.org/wiki/Technique/T1112
 tags:
-  analytics_story: Suspicious Windows Registry Activities
+  analytic_story: Suspicious Windows Registry Activities
   category:
   - Adversary Tactics
   product:
@@ -25,5 +27,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

@@ -1,21 +1,25 @@
-author: Bhavin Patel, Splunk
+name: Previously seen API call per user roles in CloudTrail
+id: fc0edc95-fq2c-48b0-9f6f-63da3289fd03
+version: 1
 date: '2018-04-16'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search looks for successful API calls made by different user roles,
   then creates a baseline of the earliest and latest times we have encountered this
   user role. It also returns the name of the API call in our dataset--grouped by user
   role and name of the API call--that occurred within the last 30 days. In this support
   search, we are only looking for events where the user identity is Assumed Role.
+search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole
+  | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
+  | outputlookup previously_seen_api_calls_from_user_roles | stats count'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. Please validate the user role entries in `previously_seen_api_calls_from_user_roles.csv`,
   which is a lookup file created as a result of running this support search.
-id: fc0edc95-fq2c-48b0-9f6f-63da3289fd03
-name: Previously seen API call per user roles in CloudTrail
-search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole
-  | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
-  | outputlookup previously_seen_api_calls_from_user_roles | stats count'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   detections:
   - Detect new API calls from user roles
@@ -23,5 +27,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1
