@@ -1,22 +1,25 @@
-author: Rod Soto, Splunk
+name: aws detect attach to role policy
+id: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
+version: 1
 date: '2020-07-27'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search provides detection of an user attaching itself to a different
   role trust policy. This can be used for lateral movement and escalation of privileges.
-how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This
-  search works with cloudwatch logs
-id: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
-known_false_positives: Attach to policy can create a lot of noise. This search can
-  be adjusted to provide specific values to identify cases of abuse (i.e status=failure).
-  The search can provide context for common users attaching themselves to higher privilege
-  policies or even newly created policies.
-name: aws detect attach to role policy
-references: []
 search: '`aws_cloudwatchlogs_eks` attach policy| spath requestParameters.policyArn
   | table sourceIPAddress user_access_key userIdentity.arn userIdentity.sessionContext.sessionIssuer.arn
   eventName errorCode errorMessage status action requestParameters.policyArn userIdentity.sessionContext.attributes.mfaAuthenticated
   userIdentity.sessionContext.attributes.creationDate  | `aws_detect_attach_to_role_policy_filter`'
+how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This
+  search works with cloudwatch logs
+known_false_positives: Attach to policy can create a lot of noise. This search can
+  be adjusted to provide specific values to identify cases of abuse (i.e status=failure).
+  The search can provide context for common users attaching themselves to higher privilege
+  policies or even newly created policies.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
   kill_chain_phases:
@@ -28,5 +31,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

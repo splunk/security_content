@@ -1,9 +1,11 @@
-author: iDefense Cyber Espionage Team, iDefense
+name: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+id: 988C59C5-0A1C-45B6-A555-0C62276E327E
+version: 1
 date: '2020-01-22'
+author: iDefense Cyber Espionage Team, iDefense
+type: batch
 description: Monitor your environment for suspicious behaviors that resemble the techniques
   employed by the MUDCARP threat group.
-id: 988C59C5-0A1C-45B6-A555-0C62276E327E
-name: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
 narrative: 'This story was created as a joint effort between iDefense and Splunk.\
 
   iDefense analysts have recently discovered a Windows executable file that, upon
@@ -78,7 +80,7 @@ references:
 - https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 - http://blog.amossys.fr/badflick-is-not-so-bad.html
 tags:
-  analytics_story: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  analytic_story: Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   category:
   - Adversary Tactics
   product:
@@ -86,5 +88,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

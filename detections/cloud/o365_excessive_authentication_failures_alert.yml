@@ -1,22 +1,25 @@
-author: Rod Soto, Splunk
+name: O365 Excessive Authentication Failures Alert
+id: d441364c-349c-453b-b55f-12eccab67cf9
+version: 1
 date: '2020-12-16'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search detects when an excessive number of authentication failures
   occur this search also includes attempts against MFA prompt codes
-how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
-id: d441364c-349c-453b-b55f-12eccab67cf9
-known_false_positives: The threshold for alert is above 10 attempts and this should
-  reduce the number of false positives.
-name: O365 Excessive Authentication Failures Alert
-references:
-- https://attack.mitre.org/techniques/T1110/
 search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=*
   status=Failed | stats count earliest(_time) as firstTime latest(_time) values(UserAuthenticationMethod)
   AS UserAuthenticationMethod values(UserAgent) AS UserAgent values(status) AS status
   values(src_ip) AS src_ip by user | where count > 10 |`security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `o365_excessive_authentication_failures_alert_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
+known_false_positives: The threshold for alert is above 10 attempts and this should
+  reduce the number of false positives.
+references:
+- https://attack.mitre.org/techniques/T1110/
 tags:
-  analytics_story:
+  analytic_story:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed
@@ -31,5 +34,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

@@ -1,9 +1,11 @@
-author: Rod Soto, Splunk
+name: Kubernetes Sensitive Role Activity
+id: 2574e6d9-7254-4751-8925-0447deeec8ew
+version: 1
 date: '2020-05-20'
+author: Rod Soto, Splunk
+type: batch
 description: This story addresses detection and response around Sensitive Role usage
   within a Kubernetes clusters against cluster resources and namespaces.
-id: 2574e6d9-7254-4751-8925-0447deeec8ew
-name: Kubernetes Sensitive Role Activity
 narrative: Kubernetes is the most used container orchestration platform, this orchestration
   platform contains sensitive roles within its architecture, specifically configmaps
   and secrets, if accessed by an attacker can lead to further compromise. These searches
@@ -11,7 +13,7 @@ narrative: Kubernetes is the most used container orchestration platform, this or
 references:
 - https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
 tags:
-  analytics_story: Kubernetes Sensitive Role Activity
+  analytic_story: Kubernetes Sensitive Role Activity
   category:
   - Cloud Security
   product:
@@ -19,5 +21,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 1

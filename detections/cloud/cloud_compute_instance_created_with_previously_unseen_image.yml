@@ -1,20 +1,13 @@
-author: David Dorsey, Splunk
+name: Cloud Compute Instance Created With Previously Unseen Image
+id: bc24922d-987c-4645-b288-f8c73ec194c4
+version: 1
 date: '2018-10-12'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search looks for cloud compute instances being created with previously
   unseen image IDs.
-how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
-  provider. You should run the baseline search `Previously Seen Cloud Compute Images
-  - Initial` to build the initial table of images observed and times. You must also
-  enable the second baseline search `Previously Seen Cloud Compute Images - Update`
-  to keep this table up to date and to age out old data. You can also provide additional
-  filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter`
-  macro.
-id: bc24922d-987c-4645-b288-f8c73ec194c4
-known_false_positives: After a new image is created, the first systems created with
-  that image will cause this alert to fire.  Verify that the image being used was
-  created by a legitimate user.
-name: Cloud Compute Instance Created With Previously Unseen Image
-references: []
 search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id)
   as dest from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Instance_Changes")`
@@ -23,8 +16,19 @@ search: '| tstats count earliest(_time) as firstTime, latest(_time) as lastTime 
   | where enough_data=1 | eval firstTimeSeenImage=min(firstTimeSeen) | where isnull(firstTimeSeenImage)
   OR firstTimeSeenImage > relative_time(now(), "-24h@h") | table firstTime, user,
   image_id, count, dest | `security_content_ctime(firstTime)` | `cloud_compute_instance_created_with_previously_unseen_image_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
+  provider. You should run the baseline search `Previously Seen Cloud Compute Images
+  - Initial` to build the initial table of images observed and times. You must also
+  enable the second baseline search `Previously Seen Cloud Compute Images - Update`
+  to keep this table up to date and to age out old data. You can also provide additional
+  filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_image_filter`
+  macro.
+known_false_positives: After a new image is created, the first systems created with
+  that image will cause this alert to fire.  Verify that the image being used was
+  created by a legitimate user.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   asset_type: Cloud Compute Instance
   automated_detection_testing: passed
@@ -43,5 +47,3 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: endpoint
-type: ESCU
-version: 1

@@ -1,28 +1,44 @@
-name: Restore systems to operational status
-id: bb515cf6-40b5-4005-af04-6f63439df7b4
-tags:
-  nist:
-    RS.RP
-description: |
-  Depending on the sized of the incident, reimaging systems maybe a viable eradication and recovery process combined. Once restored to gold image (standardized corporate image) with immediate patching and updating of all known vulnerabilities. Create a service request for the Help Desk to re-image the host. Server or network equipment should be baselined and restored by the owning team.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - create ticket
-  playbooks:
-    - scm:
-      playook: Create a service request for re-image
-references:
-  - 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Create a request for re-imaging system for eradication and recovery. Re-imaging will not be possible in a mass incident.
-  2. For mass incidents, provide immediate patching and reporting of non-compliant patching or antivirus removal tools.  Thorough forensic and reverse malware engineering will provide the necessary details to minimize complete recovery processes.
-  3. Do not restore localized customer files (/home/user, or /User/<username>), but only on a case by case basis and thorough review of the files being restored.
-  4. If the eradication process isn't reducing the number of infected hosts, eradication is missing a persistence mechanism or containment has failed.
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - create ticket
+  is_note_required: false
+  playbooks:
+  - playook: Create a service request for re-image
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Depending on the sized of the incident, reimaging systems maybe a viable
+  eradication and recovery process combined. Once restored to gold image (standardized
+  corporate image) with immediate patching and updating of all known vulnerabilities.
+  Create a service request for the Help Desk to re-image the host. Server or network
+  equipment should be baselined and restored by the owning team.
+
+  '
+id: bb515cf6-40b5-4005-af04-6f63439df7b4
+name: Restore systems to operational status
+references:
+- 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Create a request for re-imaging system for eradication and recovery.
+  Re-imaging will not be possible in a mass incident.
+
+  2. For mass incidents, provide immediate patching and reporting of non-compliant
+  patching or antivirus removal tools.  Thorough forensic and reverse malware engineering
+  will provide the necessary details to minimize complete recovery processes.
+
+  3. Do not restore localized customer files (/home/user, or /User/<username>), but
+  only on a case by case basis and thorough review of the files being restored.
+
+  4. If the eradication process isn''t reducing the number of infected hosts, eradication
+  is missing a persistence mechanism or containment has failed.
+
+  '

@@ -1,21 +1,25 @@
-author: Bhavin Patel, Splunk
+name: DNS Query Length With High Standard Deviation
+id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
+version: 3
 date: '2021-01-18'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: This search allows you to identify DNS requests and compute the standard
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.
-how_to_implement: To successfully implement this search, you will need to ensure that
-  DNS data is populating the Network_Resolution data model.
-id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-known_false_positives: It's possible there can be long domain names that are legitimate.
-name: DNS Query Length With High Standard Deviation
-references: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   by DNS.query |  `drop_dm_object_name("DNS")` | eval query_length = len(query) |
   table query query_length record_type count | eventstats stdev(query_length) AS stdev
   avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
   | eval z_score=(query_length-avg)/stdev | `dns_query_length_with_high_standard_deviation_filter` '
+how_to_implement: To successfully implement this search, you will need to ensure that
+  DNS data is populating the Network_Resolution data model.
+known_false_positives: It's possible there can be long domain names that are legitimate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
   - Command and Control
@@ -39,5 +43,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
-version: 3

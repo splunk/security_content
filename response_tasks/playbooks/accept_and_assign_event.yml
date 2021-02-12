@@ -1,24 +1,35 @@
-name: Accept and assign event
-id: 667b8d15-2564-4994-929d-bda2532341bf
-tags:
-  nist:
-    RS.RP
-description: |
-  Accepts the event and starts the response plan process by assigning the event to the person executing the playbook and assigns them to this task and closes this step as completed.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - set status
-  playbooks:
-    - scm: local
-      playook: Accept event and assign owner
-references:
-  - 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  This task is a default accept task and allows the analyst to start the response process and start the timer for mean time to detect (MTTD).  This allows measurement of analyst review and acceptance of the task at hand.  This can be superceded by assign other tasks to individuals (if the owner is coordinating processor).  The event owner can accept the event, and then retask other sub-phase and/or task to other individuals or teams.  This is considered a procedural or policy task.
-date: '2020-07-30'
-version: 1
 author: ButterCup
+automation:
+  actions:
+  - set status
+  is_note_required: false
+  playbooks:
+  - playook: Accept event and assign owner
+    scm: local
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Accepts the event and starts the response plan process by assigning
+  the event to the person executing the playbook and assigns them to this task and
+  closes this step as completed.
+
+  '
+id: 667b8d15-2564-4994-929d-bda2532341bf
+name: Accept and assign event
+references:
+- 3.2.2 Signs of an Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: 'This task is a default accept task and allows the analyst to start the
+  response process and start the timer for mean time to detect (MTTD).  This allows
+  measurement of analyst review and acceptance of the task at hand.  This can be superceded
+  by assign other tasks to individuals (if the owner is coordinating processor).  The
+  event owner can accept the event, and then retask other sub-phase and/or task to
+  other individuals or teams.  This is considered a procedural or policy task.
+
+  '

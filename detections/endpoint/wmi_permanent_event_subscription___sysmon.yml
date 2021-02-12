@@ -1,19 +1,22 @@
-author: Rico Valdez, Splunk
+name: WMI Permanent Event Subscription - Sysmon
+id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
+version: 2
 date: '2020-12-08'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
 description: This search looks for the creation of WMI permanent event subscriptions.
+search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
+  EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
 how_to_implement: To successfully implement this search, you must be collecting Sysmon
   data using Sysmon version 6.1 or greater and have Sysmon configured to generate
   alerts for WMI activity. In addition, you must have at least version 6.0.4 of the
   Sysmon TA installed to properly parse the fields.
-id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
 known_false_positives: Although unlikely, administrators may use event subscriptions
   for legitimate purposes.
-name: WMI Permanent Event Subscription - Sysmon
 references: []
-search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
-  EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -36,5 +39,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 2

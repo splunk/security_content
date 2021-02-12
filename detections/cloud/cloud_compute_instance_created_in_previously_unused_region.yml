@@ -1,20 +1,14 @@
-author: David Dorsey, Splunk
+name: Cloud Compute Instance Created In Previously Unused Region
+id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
+version: 1
 date: '2020-09-02'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search looks at cloud-infrastructure events where an instance is
   created in any region within the last hour and then compares it to a lookup file
   of previously seen regions where instances have been created.
-how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
-  provider. You should run the baseline search `Previously Seen Cloud Regions - Initial`
-  to build the initial table of images observed and times. You must also enable the
-  second baseline search `Previously Seen Cloud Regions - Update` to keep this table
-  up to date and to age out old data. You can also provide additional filtering for
-  this search by customizing the `cloud_compute_instance_created_in_previously_unused_region_filter`
-  macro.
-id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
-known_false_positives: It's possible that a user has unknowingly started an instance
-  in a new region. Please verify that this activity is legitimate.
-name: Cloud Compute Instance Created In Previously Unused Region
-references: []
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime values(All_Changes.object_id)
   as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region,
   All_Changes.user | `drop_dm_object_name("All_Changes")` | lookup previously_seen_cloud_regions
@@ -23,8 +17,18 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime values(
   | where isnull(firstTimeSeenRegion) OR firstTimeSeenRegion > relative_time(now(),
   "-24h@h") | table firstTime, user, dest, count , vendor_region | `security_content_ctime(firstTime)`
   | `cloud_compute_instance_created_in_previously_unused_region_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
+  provider. You should run the baseline search `Previously Seen Cloud Regions - Initial`
+  to build the initial table of images observed and times. You must also enable the
+  second baseline search `Previously Seen Cloud Regions - Update` to keep this table
+  up to date and to age out old data. You can also provide additional filtering for
+  this search by customizing the `cloud_compute_instance_created_in_previously_unused_region_filter`
+  macro.
+known_false_positives: It's possible that a user has unknowingly started an instance
+  in a new region. Please verify that this activity is legitimate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   asset_type: Cloud Compute Instance
   automated_detection_testing: passed
@@ -48,5 +52,3 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: network
-type: ESCU
-version: 1

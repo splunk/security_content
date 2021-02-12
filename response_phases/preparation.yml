@@ -1,30 +1,35 @@
-name: Preparation NIST
-id: d360707d-9214-4449-b15d-9d3cf134209a
-sla_type: minutes
-sla:
-description: Incident response methodologies typically emphasize preparation not only for establishing an incident response capability so that the organization is ready to respond to incidents, but also preventing incidents by ensuring that systems, networks, and applications are sufficiently secure. Incident response teams need to know what they have available and what they need to prepare, aquire or configure for success within the incident response process.
-tags:
-  analytics_story:
-    NIST SP 800-61r2 Response Plan
-  usecase:
-    Advanced Threat Detection
-  nist:
-    RS.RP
-references:
-  - 3.1 Preparation - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-response_task:
-  - id: 91d4566e-a292-4f0a-b894-dde23bde3f08
-    name: Prepare for Incident Handling
-  - id: 5b7c5d18-6598-412b-a4f1-e66e92890503
-    name: Preventing Incidents
-  - id: 97d00b14-dd01-47e4-b7eb-0a82f4998c4e
-    name: Practice Real World Events
-  - id: df493538-e598-463b-8835-a109022c2968
-    name: Conduct Training
-  - id: 145a82b5-cafd-468e-b487-737fdf13d6a4
-    name: Raise Personnel Awareness
-  - id: f83abcae-3734-45ff-99ef-b17eb937c057
-    name: Make Personnel Report Suspicious Activity
-date: '2020-07-17'
-version: 1
 author: ButterCup, Splunk
+date: '2020-07-17'
+description: Incident response methodologies typically emphasize preparation not only
+  for establishing an incident response capability so that the organization is ready
+  to respond to incidents, but also preventing incidents by ensuring that systems,
+  networks, and applications are sufficiently secure. Incident response teams need
+  to know what they have available and what they need to prepare, aquire or configure
+  for success within the incident response process.
+id: d360707d-9214-4449-b15d-9d3cf134209a
+name: Preparation NIST
+references:
+- 3.1 Preparation - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+response_task:
+- id: 91d4566e-a292-4f0a-b894-dde23bde3f08
+  name: Prepare for Incident Handling
+- id: 5b7c5d18-6598-412b-a4f1-e66e92890503
+  name: Preventing Incidents
+- id: 97d00b14-dd01-47e4-b7eb-0a82f4998c4e
+  name: Practice Real World Events
+- id: df493538-e598-463b-8835-a109022c2968
+  name: Conduct Training
+- id: 145a82b5-cafd-468e-b487-737fdf13d6a4
+  name: Raise Personnel Awareness
+- id: f83abcae-3734-45ff-99ef-b17eb937c057
+  name: Make Personnel Report Suspicious Activity
+sla: null
+sla_type: minutes
+tags:
+  analytic_story: NIST SP 800-61r2 Response Plan
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+  usecase: Advanced Threat Detection
+type: response
+version: 1

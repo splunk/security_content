@@ -1,20 +1,24 @@
-author: David Dorsey, Splunk
+name: Monitor Web Traffic For Brand Abuse
+id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
+version: 1
 date: '2017-09-23'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Web
 description: This search looks for Web requests to faux domains similar to the one
   that you want to have monitored for abuse.
+search: '| tstats `security_content_summariesonly` values(Web.url) as urls min(_time)
+  as firstTime from datamodel=Web by Web.src | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
+  | `brand_abuse_web` | `monitor_web_traffic_for_brand_abuse_filter`'
 how_to_implement: You need to ingest data from your web traffic. This can be accomplished
   by indexing data from a web proxy, or using a network traffic analysis tool, such
   as Bro or Splunk Stream. You also need to have run the search "ESCU - DNSTwist Domain
   Names", which creates the permutations of the domain that will be checked for.
-id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
 known_false_positives: None at this time
-name: Monitor Web Traffic For Brand Abuse
 references: []
-search: '| tstats `security_content_summariesonly` values(Web.url) as urls min(_time)
-  as firstTime from datamodel=Web by Web.src | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `brand_abuse_web` | `monitor_web_traffic_for_brand_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Brand Monitoring
   asset_type: Endpoint
   cis20:
@@ -28,5 +32,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
-version: 1

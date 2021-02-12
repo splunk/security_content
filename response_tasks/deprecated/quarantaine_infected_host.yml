@@ -1,9 +1,14 @@
-name: Quarantaine Infected Host
-id: 60c4cfa5-81b7-44e2-9ad4-71524e4a3e78
-version: 1
-date: '2020-04-29'
-description: Quarantine the infected hosts in order to stop the malware from spreading to further hosts. This is a short-term containment with the focus on limiting the damage as soon as possible.
 author: Patrick Bareiss, Splunk
+date: '2020-04-29'
+description: Quarantine the infected hosts in order to stop the malware from spreading
+  to further hosts. This is a short-term containment with the focus on limiting the
+  damage as soon as possible.
+id: 60c4cfa5-81b7-44e2-9ad4-71524e4a3e78
+name: Quarantaine Infected Host
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware
+  product:
+  - Splunk Phantom
+type: response
+version: 1

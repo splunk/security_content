@@ -1,15 +1,14 @@
-author: Rico Valdez, Splunk
+name: Previously Seen AWS Cross Account Activity - Initial
+id: 82af2ed9-8f4b-4785-a152-ba61e6a23bbf
+version: 1
 date: '2020-08-15'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Authentication
 description: This search looks for **AssumeRole** events where the requesting account
   differs from the requested account, then writes these relationships to a lookup
   file.
-how_to_implement: You must install and configure the Splunk Add-on for AWS (version
-  5.1.0 or later)and Enterprise Security 6.2, which contains the required updates
-  to the Authentication data model for cloud use cases. Validate the user name entries
-  in `previously_seen_aws_cross_account_activity.csv`, a lookup file created by this
-  support search.
-id: 82af2ed9-8f4b-4785-a152-ba61e6a23bbf
-name: Previously Seen AWS Cross Account Activity - Initial
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user
   Authentication.src Authentication.user_role |  `drop_dm_object_name(Authentication)`
@@ -17,8 +16,14 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   != dest_account | rename vendor_account as requestingAccountId dest_account as requestedAccountId
   | table requestingAccountId requestedAccountId firstTime lastTime | outputlookup
   previously_seen_aws_cross_account_activity'
+how_to_implement: You must install and configure the Splunk Add-on for AWS (version
+  5.1.0 or later)and Enterprise Security 6.2, which contains the required updates
+  to the Authentication data model for cloud use cases. Validate the user name entries
+  in `previously_seen_aws_cross_account_activity.csv`, a lookup file created by this
+  support search.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Authentication Activities
   deployments:
   - 90 Day Baseline
@@ -28,5 +33,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1
