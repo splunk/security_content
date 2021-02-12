@@ -1,22 +1,25 @@
-author: Rod Soto, Splunk
+name: aws detect sts get session token abuse
+id: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
+version: 1
 date: '2020-07-27'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search provides detection of suspicious use of sts:GetSessionToken.
   These tokens can be created on the go and used by attackers to move laterally and
   escalate privileges.
+search: '`aws_cloudwatchlogs_eks` ASIA  userIdentity.type=IAMUser| spath eventName
+  | search eventName=GetSessionToken | table sourceIPAddress eventTime userIdentity.arn
+  userName userAgent user_type status region | `aws_detect_sts_get_session_token_abuse_filter`'
 how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This
   search works with cloudwatch logs
-id: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 known_false_positives: Sts:GetSessionToken can be very noisy as in certain environments
   numerous calls of this type can be executed. This search can be adjusted to provide
   specific values to identify cases of abuse. In specific environments the use of
   field requestParameters.serialNumber will need to be used.
-name: aws detect sts get session token abuse
 references: []
-search: '`aws_cloudwatchlogs_eks` ASIA  userIdentity.type=IAMUser| spath eventName
-  | search eventName=GetSessionToken | table sourceIPAddress eventTime userIdentity.arn
-  userName userAgent user_type status region | `aws_detect_sts_get_session_token_abuse_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cross Account Activity
   asset_type: AWS Account
   kill_chain_phases:
@@ -28,5 +31,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

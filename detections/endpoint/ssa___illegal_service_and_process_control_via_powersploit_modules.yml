@@ -1,20 +1,14 @@
-author: Stanislav Miskovic, Splunk
+name: Illegal Service and Process Control via PowerSploit modules
+id: 0e910e5b-309d-4bc3-8af2-0030c02aa353
+version: 1
 date: '2020-11-09'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
 description: This detection identifies access to PowerSploit modules that enable illegal
   control of services and processes, such as installing or spoofing of malicious services,
   injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands,
   modifying access to service objects, etc.
-eli5: This detection identifies access to PowerSploit modules that enable illegal
-  control of services and processes, such as installing or spoofing of malicious services,
-  injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands,
-  modifying access to service objects, etc.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: 0e910e5b-309d-4bc3-8af2-0030c02aa353
-known_false_positives: None identified.
-name: Illegal Service and Process Control via PowerSploit modules
-references:
-- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -34,6 +28,11 @@ search: '| from read_ssa_enriched_events()
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
   "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
   asset_type: Windows
   cis20:
@@ -57,5 +56,3 @@ tags:
   - _time
   risk_severity: high
   security_domain: endpoint
-type: SSA
-version: 1

@@ -1,21 +1,24 @@
-author: Shannon Davis, Splunk
+name: Detect Baron Samedit CVE-2021-3156 Segfault
+id: 10f2bae0-bbe6-4984-808c-37dc1c67980d
+version: 1
 date: '2021-01-29'
+author: Shannon Davis, Splunk
+type: batch
+datamodel: []
 description: This search detects the heap-based buffer overflow of sudoedit
+search: '`linux_hosts` | search sudoedit segfault | stats count min(_time) as firstTime
+  max(_time) as lastTime by host | search count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'
 how_to_implement: Splunk Universal Forwarder running on Linux systems (tested on Centos
   and Ubuntu), where segfaults are being logged.  This also captures instances where
   the exploit has been compiled into a binary. The detection looks for greater than
   5 instances of sudoedit combined with segfault over your search time period on a
   single host
-id: 10f2bae0-bbe6-4984-808c-37dc1c67980d
 known_false_positives: If sudoedit is throwing segfaults for other reasons this will
   pick those up too.
-name: Detect Baron Samedit CVE-2021-3156 Segfault
 references:
 - https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
-search: '`linux_hosts` | search sudoedit segfault | stats count min(_time) as firstTime
-  max(_time) as lastTime by host | search count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Baron Samedit CVE-2021-3156
   asset_type: Endpoint
   cis20:
@@ -33,5 +36,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 1

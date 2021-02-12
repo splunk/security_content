@@ -1,5 +1,10 @@
-author: Xiao Lin, Splunk
+name: Phishing Email Detection by Machine Learning Method - SSA
+id: 4b237388-dfa1-41a6-91d4-4de2d598376f
+version: 1
 date: '2020-08-25'
+author: Xiao Lin, Splunk
+type: streaming
+datamodel: []
 description: Malicious mails can conduct phishing that induces readers to open attachment,
   click links or trigger third party service. This detect uses Natural Language Processing
   (NLP) approach to analyze an email message's content (Sender, Subject and Body)
@@ -13,14 +18,6 @@ description: Malicious mails can conduct phishing that induces readers to open a
   which returns the probability of a phishing email. Current implementation assumes
   the email is fed to DSP in JSON format contains at least email's sender, subject
   and its message body, including reply content, if any.
-how_to_implement: Events are fed to DSP contains at least email's sender, subject
-  and its message body.
-id: 4b237388-dfa1-41a6-91d4-4de2d598376f
-known_false_positives: Because of imbalance of anomaly data in training, the model
-  will less likely report false positive. Instead, the model is more prone to false
-  negative. Current best recall score is ~85%
-name: Phishing Email Detection by Machine Learning Method - SSA
-references: []
 search: '| from read_ssa_enriched_events() | eval eventLine=concat(ucast(map_get(input_event,
   "From"), "string", " "), " ", ucast(map_get(input_event, "Subject"), "string", "
   "), " ", ucast(map_get(input_event, "Content"), "string", " "), "                                                                                                                                "),
@@ -41,6 +38,12 @@ search: '| from read_ssa_enriched_events() | eval eventLine=concat(ucast(map_get
   path="s3://smle-experiments/models/phishing_email" | eval probability = mvindex(ml_out,
   0) | where probability > 0.5 | eval start_time=_time, end_time=_time, entities="TBD",
   body="TBD" | select probability, body, entities, start_time, end_time | into write_ssa_detected_events();'
+how_to_implement: Events are fed to DSP contains at least email's sender, subject
+  and its message body.
+known_false_positives: Because of imbalance of anomaly data in training, the model
+  will less likely report false positive. Instead, the model is more prone to false
+  negative. Current best recall score is ~85%
+references: []
 tags:
   cis20:
   - CIS 8
@@ -55,5 +58,3 @@ tags:
   - UEBA for Security Cloud
   risk_severity: low
   security_domain: mail server
-type: SSA
-version: 1

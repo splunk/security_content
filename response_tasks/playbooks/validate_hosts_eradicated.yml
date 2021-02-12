@@ -1,33 +1,44 @@
-name: Validate hosts eradicated
-id: b678705c-12a6-428b-a631-ed579332bc99
-tags:
-  nist:
-    RS.RP
-description: |
-  Confirm and acknowledge eradication steps are working as expected and number of infected host(s) is dropping.  Validation here will allow the incident responder to move to recovery phase. If single instance, validate the reimage process was completed by validating new image creation date. (win - 'systeminfo | find Original'', linux - 'ls -ld /var/log/installer', macOS - /var/log/install.log.# (oldest))
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - run query
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. If single instance, validate the reimage process was completed by validating new image creation date.
-    a. win - 'systeminfo | find Original''
-    b. linux - 'ls -ld /var/log/installer'
-    c. macOS - /var/log/install.log.# (oldest))
-  2. If this host has been reinfected more than once, conduct a formal forensic review to ensure all malicious content has been removed.
-  2. If mass incident follows steps 2-5, determine if the number of infected host is reducing
-  3. Determine if the number of (re)infected host is increasing
-  4. If the eradication process isn't reducing the number of infected hosts, eradication is missing an persistence mechanism or containment has failed
-  5. If the eradication process shows new hosts are being infected, your containment process is failing and/or the incident has mutated. (e.g. polymorphic malware with a active vulnerability or actor changed tactics and is now using ping for command and control and uploaded new malware). If this occurs return to Detection and Analysis Phase and continue forensic analysis.
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - run query
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Confirm and acknowledge eradication steps are working as expected and
+  number of infected host(s) is dropping.  Validation here will allow the incident
+  responder to move to recovery phase. If single instance, validate the reimage process
+  was completed by validating new image creation date. (win - ''systeminfo | find
+  Original'''', linux - ''ls -ld /var/log/installer'', macOS - /var/log/install.log.#
+  (oldest))
+
+  '
+id: b678705c-12a6-428b-a631-ed579332bc99
+name: Validate hosts eradicated
+references:
+- 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: "1. If single instance, validate the reimage process was completed by validating\
+  \ new image creation date.\n  a. win - 'systeminfo | find Original''\n  b. linux\
+  \ - 'ls -ld /var/log/installer'\n  c. macOS - /var/log/install.log.# (oldest))\n\
+  2. If this host has been reinfected more than once, conduct a formal forensic review\
+  \ to ensure all malicious content has been removed.\n2. If mass incident follows\
+  \ steps 2-5, determine if the number of infected host is reducing\n3. Determine\
+  \ if the number of (re)infected host is increasing\n4. If the eradication process\
+  \ isn't reducing the number of infected hosts, eradication is missing an persistence\
+  \ mechanism or containment has failed\n5. If the eradication process shows new hosts\
+  \ are being infected, your containment process is failing and/or the incident has\
+  \ mutated. (e.g. polymorphic malware with a active vulnerability or actor changed\
+  \ tactics and is now using ping for command and control and uploaded new malware).\
+  \ If this occurs return to Detection and Analysis Phase and continue forensic analysis.\n"

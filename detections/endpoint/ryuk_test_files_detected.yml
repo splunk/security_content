@@ -1,22 +1,25 @@
-author: Rod Soto, Jose Hernandez, Splunk
+name: Ryuk Test Files Detected
+id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
+version: 1
 date: '2020-11-06'
+author: Rod Soto, Jose Hernandez, Splunk
+type: batch
+datamodel: []
 description: The search looks for files that contain the key word *Ryuk* under any
   folder in the C drive, which is consistent with Ryuk propagation.
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint Filesystem data-model object. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
-known_false_positives: If there are files with this keywoord as file names it might
-  trigger false possitives, please make use of our filters to tune out potential FPs.
-name: Ryuk Test Files Detected
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem WHERE "Filesystem.file_path"=C:\\*Ryuk*
   BY "Filesystem.dest", "Filesystem.user", "Filesystem.file_path" | `drop_dm_object_name(Filesystem)`
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ryuk_test_files_detected_filter`'
+how_to_implement: You must be ingesting data that records the filesystem activity
+  from your hosts to populate the Endpoint Filesystem data-model object. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
+known_false_positives: If there are files with this keywoord as file names it might
+  trigger false possitives, please make use of our filters to tune out potential FPs.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -36,5 +39,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 1

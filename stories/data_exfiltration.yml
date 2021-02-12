@@ -1,8 +1,10 @@
-author: Shannon Davis, Splunk
-date: '2020-10-21'
-description: The stealing of data by an adversary.
-id: 66b0fe0c-1351-11eb-adc1-0242ac120002
 name: Data Exfiltration
+id: 66b0fe0c-1351-11eb-adc1-0242ac120002
+version: 1
+date: '2020-10-21'
+author: Shannon Davis, Splunk
+type: batch
+description: The stealing of data by an adversary.
 narrative: Exfiltration comes in many flavors.  Adversaries can collect data over
   encrypted or non-encrypted channels.  They can utilise Command and Control channels
   that are already in place to exfiltrate data.  They can use both standard data transfer
@@ -12,7 +14,7 @@ narrative: Exfiltration comes in many flavors.  Adversaries can collect data ove
 references:
 - https://attack.mitre.org/tactics/TA0010/
 tags:
-  analytics_story: Data Exfiltration
+  analytic_story: Data Exfiltration
   category:
   - Adversary Tactics
   product:
@@ -20,5 +22,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

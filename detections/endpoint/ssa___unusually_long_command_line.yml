@@ -1,20 +1,14 @@
-author: Ignacio Bermudez Corrales, Splunk
+name: Unusually Long Command Line - SSA
+id: 58f43aba-1775-445e-b19c-be2b87d83ae3
+version: 1
 date: '2020-10-06'
+author: Ignacio Bermudez Corrales, Splunk
+type: streaming
+datamodel: []
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin
   to help identify command lines with lengths that are unusual for a given user. This
   detection is inspired on Unusually Long Command Line authored by Rico Valdez.
-how_to_implement: You must be ingesting sysmon endpoint data that monitors command
-  lines.
-id: 58f43aba-1775-445e-b19c-be2b87d83ae3
-known_false_positives: This detection may flag suspiciously long command lines when
-  there is not sufficient evidence (samples) for a given process that this detection
-  is tracking; or when there is high variability in the length of the command line
-  for the tracked process. Also, some legitimate applications may use long command
-  lines. Such is the case of Ansible, that encodes Powershell scripts using long base64.
-  Attackers may use this technique to obfuscate their payloads.
-name: Unusually Long Command Line - SSA
-references: []
 search: ' | from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)) | eval cmd_line=ucast(map_get(input_event, "process"),
   "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
@@ -29,6 +23,15 @@ search: ' | from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(ma
   "cmd_line"] | where first_time_dest_device_id_cmd_line | eval start_time = timestamp,
   end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body =
   "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting sysmon endpoint data that monitors command
+  lines.
+known_false_positives: This detection may flag suspiciously long command lines when
+  there is not sufficient evidence (samples) for a given process that this detection
+  is tracking; or when there is high variability in the length of the command line
+  for the tracked process. Also, some legitimate applications may use long command
+  lines. Such is the case of Ansible, that encodes Powershell scripts using long base64.
+  Attackers may use this technique to obfuscate their payloads.
+references: []
 tags:
   cis20:
   - CIS 8
@@ -47,5 +50,3 @@ tags:
   - process
   risk_severity: low
   security_domain: endpoint
-type: SSA
-version: 1

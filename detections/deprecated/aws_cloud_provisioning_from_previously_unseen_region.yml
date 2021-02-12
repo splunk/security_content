@@ -1,15 +1,29 @@
-author: David Dorsey, Splunk
+name: AWS Cloud Provisioning From Previously Unseen Region
+id: 7971d3df-da82-4648-a6e5-b5637bea5253
+version: 1
 date: '2018-03-16'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: This search looks for AWS provisioning activities from previously unseen
   regions. Region in this context is similar to a state in the United States. Provisioning
   activities are defined broadly as any event that begins with "Run" or "Create."
   This search is deprecated and have been translated to use the latest Change Datamodel.
+search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
+  | search Region=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
+  sourceIPAddress | search Region=* | stats earliest(_time) as firstTime, latest(_time)
+  as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv
+  | stats min(firstTime) as firstTime max(lastTime) as lastTime by sourceIPAddress,
+  City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
+  | stats min(firstTime) as firstTime max(lastTime) as lastTime by Region | eval newRegion=if(firstTime
+  >= relative_time(now(), "-70m@m"), 1, 0) | where newRegion=1 | table Region] | spath
+  output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user,
+  src_ip, Region, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_region_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. This search works best when you run the "Previously Seen AWS Provisioning
   Activity Sources" support search once to create a history of previously seen locations
   that have provisioned AWS resources.
-id: 7971d3df-da82-4648-a6e5-b5637bea5253
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
@@ -21,20 +35,9 @@ known_false_positives: "This is a strictly behavioral search, so we define \"fal
   \ version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution\
   \ (particularly small countries in less economically powerful regions), this may\
   \ be much less valuable to you."
-name: AWS Cloud Provisioning From Previously Unseen Region
 references: []
-search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
-  | search Region=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
-  sourceIPAddress | search Region=* | stats earliest(_time) as firstTime, latest(_time)
-  as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv
-  | stats min(firstTime) as firstTime max(lastTime) as lastTime by sourceIPAddress,
-  City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
-  | stats min(firstTime) as firstTime max(lastTime) as lastTime by Region | eval newRegion=if(firstTime
-  >= relative_time(now(), "-70m@m"), 1, 0) | where newRegion=1 | table Region] | spath
-  output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user,
-  src_ip, Region, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_region_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Suspicious Provisioning Activities
   asset_type: AWS Instance
   cis20:
@@ -48,5 +51,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 1

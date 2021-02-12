@@ -1,7 +1,20 @@
-author: Bhavin Patel, Splunk
+name: Detect Rare Executables
+id: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
+version: 5
 date: '2020-03-16'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: This search will return a table of rare processes, the names of the systems
   running them, and the users who initiated each process.
+search: '| tstats `security_content_summariesonly` count values(Processes.dest) as
+  dest values(Processes.user) as user min(_time) as firstTime max(_time) as lastTime
+  from datamodel=Endpoint.Processes by Processes.process_name  | rename Processes.process_name
+  as process | rex field=user "(?<user_domain>.*)\\\\(?<user_name>.*)" | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| search [| tstats count from datamodel=Endpoint.Processes
+  by Processes.process_name | rare Processes.process_name limit=30 | rename Processes.process_name
+  as process| `filter_rare_process_allow_list`| table process ] | `detect_rare_executables_filter` '
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts and populating the endpoint data model
   with the resultant dataset. The macro `filter_rare_process_allow_list` searches
@@ -11,21 +24,12 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   entry from the default lookup file, you will have to modify the macro itself to
   set the allow_list value for that process to false. You can modify the limit parameter
   and search scheduling to better suit your environment.
-id: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
 known_false_positives: Some legitimate processes may be only rarely executed in your
   environment. As these are identified, update `rare_process_allow_list_local.csv`
   to filter them out of your search results.
-name: Detect Rare Executables
 references: []
-search: '| tstats `security_content_summariesonly` count values(Processes.dest) as
-  dest values(Processes.user) as user min(_time) as firstTime max(_time) as lastTime
-  from datamodel=Endpoint.Processes by Processes.process_name  | rename Processes.process_name
-  as process | rex field=user "(?<user_domain>.*)\\\\(?<user_name>.*)" | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`| search [| tstats count from datamodel=Endpoint.Processes
-  by Processes.process_name | rare Processes.process_name limit=30 | rename Processes.process_name
-  as process| `filter_rare_process_allow_list`| table process ] | `detect_rare_executables_filter` '
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Unusual Processes
   - Cloud Federated Credential Abuse
@@ -47,5 +51,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-type: ESCU
-version: 5

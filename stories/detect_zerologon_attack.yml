@@ -1,5 +1,9 @@
-author: Rod Soto, Jose Hernandez, Stan Miskowicz, David Dorsey, Shannon Davis Splunk
+name: Detect Zerologon Attack
+id: 5d14a962-569e-4578-939f-f386feb63ce4
+version: 1
 date: '2020-09-18'
+author: Rod Soto, Jose Hernandez, Stan Miskowicz, David Dorsey, Shannon Davis Splunk
+type: batch
 description: Uncover activity related to the execution of Zerologon CVE-2020-11472,
   a technique wherein attackers target a Microsoft Windows Domain Controller to reset
   its computer account password. The result from this attack is attackers can now
@@ -7,8 +11,6 @@ description: Uncover activity related to the execution of Zerologon CVE-2020-114
   searches in this Analytic Story are designed to identify attempts to reset Domain
   Controller Computer Account via exploit code remotely or via the use of tool Mimikatz
   as payload carrier.
-id: 5d14a962-569e-4578-939f-f386feb63ce4
-name: Detect Zerologon Attack
 narrative: This attack is a privilege escalation technique, where attacker targets
   a Netlogon secure channel connection to a domain controller, using Netlogon Remote
   Protocol (MS-NRPC). This vulnerability exposes vulnerable Windows Domain Controllers
@@ -26,7 +28,7 @@ references:
 - https://www.secura.com/blog/zero-logon
 - https://nvd.nist.gov/vuln/detail/CVE-2020-1472
 tags:
-  analytics_story: Detect Zerologon Attack
+  analytic_story: Detect Zerologon Attack
   category:
   - Adversary Tactics
   product:
@@ -34,5 +36,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

@@ -1,26 +1,35 @@
-name: Provide lessons learned tasks or changes
-id: 43fc5e87-d819-460a-a740-de2066b18a29
-tags:
-  nist:
-    RS.RP
-description: |
-  Create any tasks or service requests based on the recommendations of the review of the incident or with the process flow from alert detection to provide feedback from false positives.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - create ticket
-  playbooks:
-    - scm: local
-      playook: Create false-positve reduction service request
-references:
-  - 3.4.1 Lessons Learned - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Create service requests or documentation updates from the results of the review of the followup report and incident review meeting
-  2. Create service request for updating alert detection from feedback from false positives
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - create ticket
+  is_note_required: false
+  playbooks:
+  - playook: Create false-positve reduction service request
+    scm: local
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Create any tasks or service requests based on the recommendations of
+  the review of the incident or with the process flow from alert detection to provide
+  feedback from false positives.
+
+  '
+id: 43fc5e87-d819-460a-a740-de2066b18a29
+name: Provide lessons learned tasks or changes
+references:
+- 3.4.1 Lessons Learned - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Create service requests or documentation updates from the results of
+  the review of the followup report and incident review meeting
+
+  2. Create service request for updating alert detection from feedback from false
+  positives
+
+  '

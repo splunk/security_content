@@ -1,14 +1,13 @@
-author: David Dorsey, Splunk
+name: SMB Traffic Spike
+id: 7f5fb3e1-4209-4914-90db-0ec21b936378
+version: 3
 date: '2020-07-22'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Network_Traffic
 description: This search looks for spikes in the number of Server Message Block (SMB)
   traffic connections.
-how_to_implement: This search requires you to be ingesting your network traffic logs
-  and populating the `Network_Traffic` data model.
-id: 7f5fb3e1-4209-4914-90db-0ec21b936378
-known_false_positives: A file server may experience high-demand loads that could cause
-  this analytic to trigger.
-name: SMB Traffic Spike
-references: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic
   where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb
   by _time span=1h, All_Traffic.src | `drop_dm_object_name("All_Traffic")` | eventstats
@@ -17,8 +16,13 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Network_
   count, null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-70m@m"), count,
   null))) as stdev by src | eval upperBound=(avg+stdev*2), isOutlier=if(count > upperBound
   AND num_data_samples >=50, 1, 0) | where isOutlier=1 | table src count | `smb_traffic_spike_filter` '
+how_to_implement: This search requires you to be ingesting your network traffic logs
+  and populating the `Network_Traffic` data model.
+known_false_positives: A file server may experience high-demand loads that could cause
+  this analytic to trigger.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Hidden Cobra Malware
   - Ransomware
@@ -37,5 +41,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
-type: ESCU
-version: 3

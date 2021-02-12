@@ -1,46 +1,98 @@
-name: Prepare for incident handling
-id: 91d4566e-a292-4f0a-b894-dde23bde3f08
-tags:
-  nist:
-    RS.RP
-description: |
-  The lists in the workflow below provide examples of tools and resources available that may be of value during incident handling. These lists are intended to be a starting point for discussions about which tools and resources an organizations incident handlers need.
-automation:
-  is_note_required: false
-  role:
-  sla_type: minutes
-  sla:
-  action:
-  playbook: ""
-references:
-  - 3.1.1 Preparing to Handle Incidents - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-    ## Incident Handler Communications and Facilities:
-    * Contact information for team members and others within and outside the organization (primary and backup contacts), such as law enforcement and other incident response teams; information may include phone numbers, email addresses, public encryption keys (in accordance with the encryption software described below), and instructions for verifying the contacts identity
-    * On-call information for other teams within the organization, including escalation information
-    * Incident reporting mechanisms, such as phone numbers, email addresses, online forms, and secure instant messaging systems that users can use to report suspected incidents; at least one mechanism should permit people to report incidents anonymously
-    * Issue tracking system for tracking incident information, status, etc.
-    * Smartphones to be carried by team members for off-hour support and onsite communications
-    * Encryption software to be used for communications among team members, within the organization and with external parties; for Federal agencies, software must use a FIPS-validated encryption algorithm20
-    * War room for central communication and coordination; if a permanent war room is not necessary or practical, the team should create a procedure for procuring a temporary war room when needed
-    * Secure storage facility for securing evidence and other sensitive materials
-    ## Incident Analysis Hardware and Software
-    * Digital forensic workstations21 and/or backup devices to create disk images, preserve log files, and save other relevant incident data
-    * Laptops for activities such as analyzing data, sniffing packets, and writing reports
-    * Spare workstations, servers, and networking equipment, or the virtualized equivalents, which may be used for many purposes, such as restoring backups and trying out malware
-    * Blank removable media
-    * Portable printer to print copies of log files and other evidence from non-networked systems
-    * Packet sniffers and protocol analyzers to capture and analyze network traffic
-    * Digital forensic software to analyze disk images
-    * Removable media with trusted versions of programs to be used to gather evidence from systems
-    * Evidence gathering accessories, including hard-bound notebooks, digital cameras, audio recorders, chain of custody forms, evidence storage bags and tags, and evidence tape, to preserve evidence for possible legal actions
-    ## Incident Analysis Resources:
-    * Port lists, including commonly used ports and Trojan horse ports
-    * Documentation for OSs, applications, protocols, and intrusion detection and antivirus products Network diagrams and lists of critical assets, such as database servers
-    * Current baselines of expected network, system, and application activity
-    * Cryptographic hashes of critical files22 to speed incident analysis, verification, and eradication
-    ## Incident Mitigation Software:
-    * Access to images of clean OS and application installations for restoration and recovery purposes
-date: '2020-07-17'
-version: 1
 author: ButterCup, Splunk
+automation:
+  action: null
+  is_note_required: false
+  playbook: ''
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-17'
+description: 'The lists in the workflow below provide examples of tools and resources
+  available that may be of value during incident handling. These lists are intended
+  to be a starting point for discussions about which tools and resources an organizations
+  incident handlers need.
+
+  '
+id: 91d4566e-a292-4f0a-b894-dde23bde3f08
+name: Prepare for incident handling
+references:
+- 3.1.1 Preparing to Handle Incidents - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '## Incident Handler Communications and Facilities:
+
+  * Contact information for team members and others within and outside the organization
+  (primary and backup contacts), such as law enforcement and other incident response
+  teams; information may include phone numbers, email addresses, public encryption
+  keys (in accordance with the encryption software described below), and instructions
+  for verifying the contacts identity
+
+  * On-call information for other teams within the organization, including escalation
+  information
+
+  * Incident reporting mechanisms, such as phone numbers, email addresses, online
+  forms, and secure instant messaging systems that users can use to report suspected
+  incidents; at least one mechanism should permit people to report incidents anonymously
+
+  * Issue tracking system for tracking incident information, status, etc.
+
+  * Smartphones to be carried by team members for off-hour support and onsite communications
+
+  * Encryption software to be used for communications among team members, within the
+  organization and with external parties; for Federal agencies, software must use
+  a FIPS-validated encryption algorithm20
+
+  * War room for central communication and coordination; if a permanent war room is
+  not necessary or practical, the team should create a procedure for procuring a temporary
+  war room when needed
+
+  * Secure storage facility for securing evidence and other sensitive materials
+
+  ## Incident Analysis Hardware and Software
+
+  * Digital forensic workstations21 and/or backup devices to create disk images, preserve
+  log files, and save other relevant incident data
+
+  * Laptops for activities such as analyzing data, sniffing packets, and writing reports
+
+  * Spare workstations, servers, and networking equipment, or the virtualized equivalents,
+  which may be used for many purposes, such as restoring backups and trying out malware
+
+  * Blank removable media
+
+  * Portable printer to print copies of log files and other evidence from non-networked
+  systems
+
+  * Packet sniffers and protocol analyzers to capture and analyze network traffic
+
+  * Digital forensic software to analyze disk images
+
+  * Removable media with trusted versions of programs to be used to gather evidence
+  from systems
+
+  * Evidence gathering accessories, including hard-bound notebooks, digital cameras,
+  audio recorders, chain of custody forms, evidence storage bags and tags, and evidence
+  tape, to preserve evidence for possible legal actions
+
+  ## Incident Analysis Resources:
+
+  * Port lists, including commonly used ports and Trojan horse ports
+
+  * Documentation for OSs, applications, protocols, and intrusion detection and antivirus
+  products Network diagrams and lists of critical assets, such as database servers
+
+  * Current baselines of expected network, system, and application activity
+
+  * Cryptographic hashes of critical files22 to speed incident analysis, verification,
+  and eradication
+
+  ## Incident Mitigation Software:
+
+  * Access to images of clean OS and application installations for restoration and
+  recovery purposes
+
+  '

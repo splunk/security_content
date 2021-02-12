@@ -1,9 +1,11 @@
-author: David Dorsey, Splunk
+name: Monitor for Unauthorized Software
+id: 8892a655-6205-43f7-abba-06460e38c8ae
+version: 1
 date: '2017-09-15'
+author: David Dorsey, Splunk
+type: batch
 description: 'Identify and investigate prohibited/unauthorized software or processes
   that may be concealing malicious behavior within your environment. '
-id: 8892a655-6205-43f7-abba-06460e38c8ae
-name: Monitor for Unauthorized Software
 narrative: 'It is critical to identify unauthorized software and processes running
   on enterprise endpoints and determine whether they are likely to be malicious. This
   Analytic Story requires the user to populate the Interesting Processes table within
@@ -20,7 +22,7 @@ narrative: 'It is critical to identify unauthorized software and processes runni
 references:
 - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 tags:
-  analytics_story: Monitor for Unauthorized Software
+  analytic_story: Monitor for Unauthorized Software
   category:
   - Best Practices
   product:
@@ -28,5 +30,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Compliance
-type: ESCU
-version: 1

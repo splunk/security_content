@@ -1,18 +1,13 @@
-author: Ignacio Bermudez Corrales, Splunk
+name: More than usual number of LOLBAS applications in short time period - SSA
+id: 59c0dd70-169c-4900-9a1f-bfcf13302f93
+version: 1
 date: '2020-08-25'
+author: Ignacio Bermudez Corrales, Splunk
+type: streaming
+datamodel: []
 description: Attacker activity may compromise executing several LOLBAS applications
   in conjunction to accomplish their objectives. We are looking for more than usual
   LOLBAS applications over a window of time, by building profiles per machine.
-how_to_implement: Collect endpoint data such as sysmon or 4688 events.
-id: 59c0dd70-169c-4900-9a1f-bfcf13302f93
-known_false_positives: 'Some administrative tasks may involve multiple use of LOLBAS
-  applications in a short period of time. This might trigger false positives at the
-  beginning when it hasn''t collected yet enough data to construct the baseline.
-
-  '
-name: More than usual number of LOLBAS applications in short time period - SSA
-references:
-- https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event,
   "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event,
@@ -46,6 +41,14 @@ search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_ev
   as timestamp | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device"
   window=2419200000L | where label AND quantile>0.99 | eval start_time = window_start,
   end_time = timestamp, entities = mvappend(device), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: Collect endpoint data such as sysmon or 4688 events.
+known_false_positives: 'Some administrative tasks may involve multiple use of LOLBAS
+  applications in a short period of time. This might trigger false positives at the
+  beginning when it hasn''t collected yet enough data to construct the baseline.
+
+  '
+references:
+- https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 tags:
   cis20:
   - CIS 8
@@ -65,5 +68,3 @@ tags:
   - process_name
   risk_severity: low
   security_domain: endpoint
-type: SSA
-version: 1
