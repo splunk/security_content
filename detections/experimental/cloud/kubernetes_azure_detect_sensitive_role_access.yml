@@ -1,18 +1,29 @@
-author: "Rod Soto, Splunk"
-date: "2020-05-20"
-description: "This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets"
-how_to_implement: "You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audit data diagnostics"
+name: Kubernetes Azure detect sensitive role access
 id: f27349e5-1641-4f6a-9e68-30402be0ad4c
-known_false_positives: "Sensitive role resource access is necessary for cluster operation, however source IP, namespace and user group may indicate possible malicious use. "
-name: "Kubernetes Azure detect sensitive role access"
-references: []
-search: "`kubernetes_azure` category=kube-audit | spath input=properties.log| search objectRef.resource=clusterroles OR clusterrolebindings | table sourceIPs{} user.username user.groups{} objectRef.namespace requestURI annotations.authorization.k8s.io/reason | dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_role_access_filter`"
-tags:
-  analytics_story:
-    - "Kubernetes Sensitive Role Activity"
-  asset_type: "Azure AKS Kubernetes cluster"
-  kill_chain_phases:
-    - Lateral Movement
-  security_domain: threat
-type: ESCU
 version: 1
+date: '2020-05-20'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides information on Kubernetes accounts accessing sensitve
+  objects such as configmpas or secrets
+search: '`kubernetes_azure` category=kube-audit | spath input=properties.log| search
+  objectRef.resource=clusterroles OR clusterrolebindings | table sourceIPs{} user.username
+  user.groups{} objectRef.namespace requestURI annotations.authorization.k8s.io/reason
+  | dedup user.username user.groups{} |`kubernetes_azure_detect_sensitive_role_access_filter`'
+how_to_implement: You must install the Add-on for Microsoft Cloud Services and Configure
+  Kube-Audit data diagnostics
+known_false_positives: 'Sensitive role resource access is necessary for cluster operation,
+  however source IP, namespace and user group may indicate possible malicious use. '
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Sensitive Role Activity
+  asset_type: Azure AKS Kubernetes cluster
+  kill_chain_phases:
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat

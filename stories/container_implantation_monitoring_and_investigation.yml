@@ -2,6 +2,8 @@ name: Container Implantation Monitoring and Investigation
 id: aa0e28b1-0521-4b6f-9d2a-7b87e34af246
 version: 1
 date: '2020-02-20'
+author: Rod Soto, Rico Valdez, Splunk
+type: batch
 description: Use the searches in this story to monitor your Kubernetes registry repositories
   for upload, and deployment of potentially vulnerable, backdoor, or implanted containers.
   These searches provide information on source users, destination path, container
@@ -15,12 +17,14 @@ narrative: Container Registrys provide a way for organizations to keep customize
   attackers can potentially upload implanted containers which can be deployed across
   the organization. These searches allow operator to monitor who, when and what was
   uploaded to container registry.
-author: Rod Soto, Rico Valdez, Splunk
-type: ESCU
 references:
 - https://github.com/splunk/cloud-datamodel-security-research
 tags:
-  analytics_story: Container Implantation Monitoring and Investigation
-  usecase: Security Monitoring
+  analytic_story: Container Implantation Monitoring and Investigation
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

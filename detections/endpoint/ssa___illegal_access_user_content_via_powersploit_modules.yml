@@ -2,54 +2,51 @@ name: Illegal Access To User Content via PowerSploit modules
 id: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 version: 1
 date: '2020-11-09'
-description: "This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc."
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: SSA
 author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
+description: This detection identifies access to PowerSploit modules that enable illegaly
+  access user content, such as key logging, audio recording, screenshots, tapping
+  into http and RDP sessions, etc.
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-          match_regex(cmd_line, /(?i)Get-HttpStatus/)=true OR
-          match_regex(cmd_line, /(?i)Get-Keystrokes/)=true OR
-          match_regex(cmd_line, /(?i)Get-MicrophoneAudio/)=true OR
-          match_regex(cmd_line, /(?i)Get-NetRDPSession/)=true OR
-          match_regex(cmd_line, /(?i)Get-TimedScreenshot/)=true OR
-          match_regex(cmd_line, /(?i)Get-WebConfig/)=true 
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)Get-HttpStatus/)=true OR match_regex(cmd_line,
+  /(?i)Get-Keystrokes/)=true OR match_regex(cmd_line, /(?i)Get-MicrophoneAudio/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetRDPSession/)=true OR match_regex(cmd_line,
+  /(?i)Get-TimedScreenshot/)=true OR match_regex(cmd_line, /(?i)Get-WebConfig/)=true
+  )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
+  - Actions on Objectives
   mitre_technique_id:
-    - T1021
-    - T1113
-    - T1123
-    - T1563
+  - T1021
+  - T1113
+  - T1123
+  - T1563
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - dest_device_id
+  - dest_user_id
+  - process
+  - _time
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-  required_fields:
-    - dest_device_id
-    - dest_user_id
-    - process
-    - _time

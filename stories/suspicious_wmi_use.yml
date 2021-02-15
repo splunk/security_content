@@ -2,6 +2,8 @@ name: Suspicious WMI Use
 id: c8ddc5be-69bc-4202-b3ab-4010b27d7ad5
 version: 2
 date: '2018-10-23'
+author: Rico Valdez, Splunk
+type: batch
 description: Attackers are increasingly abusing Windows Management Instrumentation
   (WMI), a framework and associated utilities available on all modern Windows operating
   systems. Because WMI can be leveraged to manage both local and remote systems, it
@@ -21,13 +23,15 @@ narrative: 'WMI is a Microsoft infrastructure for management data and operations
   In the event that unauthorized WMI execution occurs, it will be important for analysts
   and investigators to determine the context of the event. These details may provide
   insights related to how WMI was used and to what end.'
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
 - https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
 tags:
-  analytics_story: Suspicious WMI Use
-  usecase: Advanced Threat Detection
+  analytic_story: Suspicious WMI Use
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

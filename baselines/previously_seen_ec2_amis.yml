@@ -2,17 +2,24 @@ name: Previously Seen EC2 AMIs
 id: bb1bd99d-1e93-45f1-9571-cfed42d372b9
 version: 1
 date: '2018-03-12'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: This search builds a table of previously seen AMIs used to launch EC2
   instances
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
-  inputs.
-author: David Dorsey, Splunk
 search: '`cloudtrail` eventName=RunInstances errorCode=success | rename requestParameters.instancesSet.items{}.imageId
   as amiID | stats earliest(_time) as firstTime latest(_time) as lastTime by amiID
   | outputlookup previously_seen_ec2_amis.csv | stats count'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   detections:
   - EC2 Instance Started With Previously Unseen AMI
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

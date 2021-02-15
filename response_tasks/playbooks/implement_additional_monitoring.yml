@@ -1,26 +1,35 @@
-name: Implement additional monitoring
-id: edb7867c-2e81-4356-a422-92781f4fa34c
-tags:
-  nist:
-    RS.RP
-description: |
-  Implement additional monitoring that reviews not only host/network containment success. Monitor network blocks for additional hosts that might not have been identified. Reassess containment as needed depending on any new information. If this is a mass infection, it's advised that a 24 no change process be implemented.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - run query
-  playbooks:
-    - scm:
-      playook: ""
-references:
-  - 3.2.4 Incident Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Create additional monitoring for network and host detection for abnormal activity to ensure containment is effective.
-  2. Re-investigate new hosts found but not on the containment list
-date: '2020-04-21'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - run query
+  is_note_required: false
+  playbooks:
+  - playook: ''
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-04-21'
+description: 'Implement additional monitoring that reviews not only host/network containment
+  success. Monitor network blocks for additional hosts that might not have been identified.
+  Reassess containment as needed depending on any new information. If this is a mass
+  infection, it''s advised that a 24 no change process be implemented.
+
+  '
+id: edb7867c-2e81-4356-a422-92781f4fa34c
+name: Implement additional monitoring
+references:
+- 3.2.4 Incident Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Create additional monitoring for network and host detection for abnormal
+  activity to ensure containment is effective.
+
+  2. Re-investigate new hosts found but not on the containment list
+
+  '

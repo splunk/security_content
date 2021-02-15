@@ -2,37 +2,45 @@ name: Baseline Of Cloud Instances Destroyed
 id: a2f701f8-5296-4d74-829c-0b7eb346d549
 version: 1
 date: '2020-08-25'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
-  for how many instances are destroyed in the environment. By default, the search uses
-  the last 90 days of data to build the model and the model is rebuilt weekly. The
-  model created by this search is then used in the corresponding detection search,
-  which identifies subsequent outliers in the number of instances destroyed in a 
-  small time window.
-how_to_implement: 'You must have Enterprise Security 6.0 or later, if not you will need
-  to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is installed,
-  along with any required dependencies. Depending on the number of users in your environment,
-  you may also need to adjust the value for max_inputs in the MLTK settings for the
-  DensityFunction algorithm, then ensure that the search completes in a reasonable
-  timeframe. By default, the search builds the model using the past 30 days of data.
-  You can modify the search window to build the model over a longer period of time,
-  which may give you better results. You may also want to periodically re-run this
-  search to rebuild the model with the latest data.\
+  for how many instances are destroyed in the environment. By default, the search
+  uses the last 90 days of data to build the model and the model is rebuilt weekly.
+  The model created by this search is then used in the corresponding detection search,
+  which identifies subsequent outliers in the number of instances destroyed in a small
+  time window.
+search: '| tstats count as instances_destroyed from datamodel=Change where All_Changes.action=deleted
+  AND All_Changes.status=success AND All_Changes.object_category=instance by _time
+  span=1h | makecontinuous span=1h _time | eval instances_destroyed=coalesce(instances_destroyed,
+  (random()%2)*0.0000000001) | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4
+  | eval DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek
+  <= 5, 0, 1) | table _time instances_destroyed, HourOfDay, isWeekend | fit DensityFunction
+  instances_destroyed by "HourOfDay,isWeekend" into cloud_excessive_instances_destroyed_v1
+  dist=expon show_density=true'
+how_to_implement: 'You must have Enterprise Security 6.0 or later, if not you will
+  need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is
+  installed, along with any required dependencies. Depending on the number of users
+  in your environment, you may also need to adjust the value for max_inputs in the
+  MLTK settings for the DensityFunction algorithm, then ensure that the search completes
+  in a reasonable timeframe. By default, the search builds the model using the past
+  30 days of data. You can modify the search window to build the model over a longer
+  period of time, which may give you better results. You may also want to periodically
+  re-run this search to rebuild the model with the latest data.\
 
   More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.'
-author: David Dorsey, Splunk
-search: '| tstats count as instances_destroyed from datamodel=Change where
-   All_Changes.action=deleted
-   AND All_Changes.status=success AND All_Changes.object_category=instance
-   by _time span=1h
-   | makecontinuous span=1h _time | eval instances_destroyed=coalesce(instances_destroyed, (random()%2)*0.0000000001)
-   | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)
-   | table _time instances_destroyed, HourOfDay, isWeekend
-   | fit DensityFunction instances_destroyed by "HourOfDay,isWeekend" into cloud_excessive_instances_destroyed_v1 dist=expon show_density=true'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Instance Activities
   - Cloud Cryptomining
-  detections:
-  - Abnormally High Number Of Cloud Instances Destroyed
   deployments:
   - Weekly Model Rebuild 90 Day Lookback
+  detections:
+  - Abnormally High Number Of Cloud Instances Destroyed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

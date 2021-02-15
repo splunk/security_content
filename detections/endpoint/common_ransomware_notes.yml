@@ -2,39 +2,45 @@ name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
 version: 4
 date: '2020-11-09'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The search looks for files created with names matching those typically
   used in ransomware notes that tell the victim how to get their data back.
-how_to_implement: You must be ingesting data that records file-system activity from
-  your hosts to populate the Endpoint Filesystem data-model node. This is typically
-  populated via endpoint detection-and-response products, such as Carbon Black, or
-  via other endpoint data sources, such as Sysmon. The data used for this search is
-  typically generated via logs that report file-system reads and writes.
-type: ESCU
-references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
   as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)`
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ransomware_notes`
   | `common_ransomware_notes_filter`'
+how_to_implement: You must be ingesting data that records file-system activity from
+  your hosts to populate the Endpoint Filesystem data-model node. This is typically
+  populated via endpoint detection-and-response product, such as Carbon Black, or
+  via other endpoint data sources, such as Sysmon. The data used for this search is
+  typically generated via logs that report file-system reads and writes.
 known_false_positives: It's possible that a legitimate file could be created with
   the same name used by ransomware note files.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - Ransomware
   - Ryuk Ransomware
-  mitre_attack_id:
-  - T1485
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1485
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log

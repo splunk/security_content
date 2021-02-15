@@ -1,23 +1,39 @@
-author: "Rod Soto, Splunk"
-date: "2020-10-09"
-description: "This search provides detection of accounts with high risk roles by projects. Compromised accounts with high risk roles can move laterally or even scalate privileges at different projects depending on organization schema."
-how_to_implement: "You must install splunk GCP add-on. This search works with gcp:pubsub:message logs"
-id: 27af8c15-38b0-4408-b339-920170724adb
-known_false_positives: "Accounts with high risk roles should be reduced to the minimum number needed, however specific tasks and setups may be simply expected behavior within organization"
 name: GCP Detect accounts with high risk roles by project
+id: 27af8c15-38b0-4408-b339-920170724adb
+version: 1
+date: '2020-10-09'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides detection of accounts with high risk roles by projects.
+  Compromised accounts with high risk roles can move laterally or even scalate privileges
+  at different projects depending on organization schema.
+search: '`google_gcp_pubsub_message` data.protoPayload.request.policy.bindings{}.role=roles/owner
+  OR roles/editor OR roles/iam.serviceAccountUser OR roles/iam.serviceAccountAdmin
+  OR roles/iam.serviceAccountTokenCreator OR roles/dataflow.developer OR roles/dataflow.admin
+  OR roles/composer.admin OR roles/dataproc.admin OR roles/dataproc.editor | table
+  data.resource.type data.protoPayload.authenticationInfo.principalEmail data.protoPayload.authorizationInfo{}.permission
+  data.protoPayload.authorizationInfo{}.resource data.protoPayload.response.bindings{}.role
+  data.protoPayload.response.bindings{}.members{} | `gcp_detect_accounts_with_high_risk_roles_by_project_filter`'
+how_to_implement: You must install splunk GCP add-on. This search works with gcp:pubsub:message
+  logs
+known_false_positives: Accounts with high risk roles should be reduced to the minimum
+  number needed, however specific tasks and setups may be simply expected behavior
+  within organization
 references:
-  - https://github.com/dxa4481/gcploit
-  - https://www.youtube.com/watch?v=Ml09R38jpok
-  - https://cloud.google.com/iam/docs/understanding-roles
-search: "`google_gcp_pubsub_message` data.protoPayload.request.policy.bindings{}.role=roles/owner OR roles/editor OR roles/iam.serviceAccountUser OR roles/iam.serviceAccountAdmin OR roles/iam.serviceAccountTokenCreator OR roles/dataflow.developer OR roles/dataflow.admin OR roles/composer.admin OR roles/dataproc.admin OR roles/dataproc.editor | table data.resource.type data.protoPayload.authenticationInfo.principalEmail data.protoPayload.authorizationInfo{}.permission data.protoPayload.authorizationInfo{}.resource data.protoPayload.response.bindings{}.role data.protoPayload.response.bindings{}.members{} | `gcp_detect_accounts_with_high_risk_roles_by_project_filter`"
+- https://github.com/dxa4481/gcploit
+- https://www.youtube.com/watch?v=Ml09R38jpok
+- https://cloud.google.com/iam/docs/understanding-roles
 tags:
-  analytics_story:
+  analytic_story:
   - GCP Cross Account Activity
-  asset_type: "GCP Account"
+  asset_type: GCP Account
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:
   - T1078
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

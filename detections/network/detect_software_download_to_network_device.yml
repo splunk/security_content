@@ -2,34 +2,49 @@ name: Detect Software Download To Network Device
 id: cc590c66-f65f-48f2-986a-4797244762f8
 version: 1
 date: '2020-10-28'
-description: Adversaries may abuse netbooting to load an unauthorized network device operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot (netbooting) is commonly used by network administrators to load configuration-controlled network device images from a centralized management server. Netbooting is one option in the boot sequence and can be used to centralize, manage, and control device images.
-how_to_implement: This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from network devices. Make sure to tag any network devices as network, router or switch in order for this detection to work. If the TFTP traffic doesn't traverse a firewall nor packet inspection, these events will not be logged. This is typically an issue if the TFTP server is on the same subnet as the network device. There is also a chance of the network device loading software using a DHCP assigned IP address (netboot) which is not in the Asset inventory.
-type: ESCU
-references: []
 author: Mikael Bjerkeland, Splunk
+type: batch
+datamodel:
+- Network_Traffic
+description: Adversaries may abuse netbooting to load an unauthorized network device
+  operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot
+  (netbooting) is commonly used by network administrators to load configuration-controlled
+  network device images from a centralized management server. Netbooting is one option
+  in the boot sequence and can be used to centralize, manage, and control device images.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-as lastTime from datamodel=Network_Traffic where 
-(All_Traffic.transport=udp AND All_Traffic.dest_port=69) 
-OR (All_Traffic.transport=tcp AND All_Traffic.dest_port=21) 
-OR (All_Traffic.transport=tcp AND All_Traffic.dest_port=22) AND
-  All_Traffic.dest_category!=common_software_repo_destination AND All_Traffic.src_category=network OR All_Traffic.src_category=router OR All_Traffic.src_category=switch
+  as lastTime from datamodel=Network_Traffic where (All_Traffic.transport=udp AND
+  All_Traffic.dest_port=69) OR (All_Traffic.transport=tcp AND All_Traffic.dest_port=21)
+  OR (All_Traffic.transport=tcp AND All_Traffic.dest_port=22) AND All_Traffic.dest_category!=common_software_repo_destination
+  AND All_Traffic.src_category=network OR All_Traffic.src_category=router OR All_Traffic.src_category=switch
   by All_Traffic.src All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_software_download_to_network_device_filter`'
-known_false_positives: This search will also report any legitimate attempts of software downloads to network devices as well as outbound SSH sessions from network devices.
+how_to_implement: This search looks for Network Traffic events to TFTP, FTP or SSH/SCP
+  ports from network devices. Make sure to tag any network devices as network, router
+  or switch in order for this detection to work. If the TFTP traffic doesn't traverse
+  a firewall nor packet inspection, these events will not be logged. This is typically
+  an issue if the TFTP server is on the same subnet as the network device. There is
+  also a chance of the network device loading software using a DHCP assigned IP address
+  (netboot) which is not in the Asset inventory.
+known_false_positives: This search will also report any legitimate attempts of software
+  downloads to network devices as well as outbound SSH sessions from network devices.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
+  asset_type: Infrastructure
+  cis20:
+  - CIS 1
+  - CIS 11
+  detection_name: Detect Software Download To Network Device
   kill_chain_phases:
   - Delivery
   mitre_attack_id:
   - T1542.005
-  cis20:
-  - CIS 1
-  - CIS 11
   nist:
   - ID.AM
   - PR.DS
-  detection_name: Detect Software Download To Network Device
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Infrastructure
-  

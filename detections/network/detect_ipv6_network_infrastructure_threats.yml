@@ -2,16 +2,29 @@ name: Detect IPv6 Network Infrastructure Threats
 id: c3be767e-7959-44c5-8976-0e9c12a91ad2
 version: 1
 date: '2020-10-28'
-description: By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization's 
-  network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
+author: Mikael Bjerkeland, Splunk
+type: batch
+datamodel: []
+description: By enabling IPv6 First Hop Security as a Layer 2 Security measure on
+  the organization's network devices, we will be able to detect various attacks such
+  as packet forging in the Infrastructure.
+search: '`cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP")
+  | eval src_interface=src_int_prefix_long+src_int_suffix | eval dest_interface=dest_int_prefix_long+dest_int_suffix
+  | stats min(_time) AS firstTime max(_time) AS lastTime values(src_mac) AS src_mac
+  values(src_vlan) AS src_vlan values(mnemonic) AS mnemonic values(vendor_explanation)
+  AS vendor_explanation values(src_ip) AS src_ip values(dest_ip) AS dest_ip values(dest_interface)
+  AS dest_interface values(action) AS action count BY host src_interface | table host
+  src_interface dest_interface src_mac src_ip dest_ip src_vlan mnemonic vendor_explanation
+  action count | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
+  | `detect_ipv6_network_infrastructure_threats_filter`'
 how_to_implement: This search uses a standard SPL query on logs from Cisco Network
-  devices. The network devices must be configured with one or more First Hop Security measures such as
-  RA Guard, DHCP Guard and/or device tracking. See References for more information.
-  The search also requires that the Cisco Networks Add-on for Splunk 
-  (https://splunkbase.splunk.com/app/1467) is used to
-  parse the logs from the Cisco network devices.
-type: ESCU
-references: 
+  devices. The network devices must be configured with one or more First Hop Security
+  measures such as RA Guard, DHCP Guard and/or device tracking. See References for
+  more information. The search also requires that the Cisco Networks Add-on for Splunk
+  (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco
+  network devices.
+known_false_positives: None currently known
+references:
 - https://www.ciscolive.com/c/dam/r/ciscolive/emea/docs/2019/pdf/BRKSEC-3200.pdf
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-ra-guard.html
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-snooping.html
@@ -20,19 +33,14 @@ references:
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-dhcpv6-guard.html
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-src-guard.html
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ipv6-dest-guard.html
-author: Mikael Bjerkeland, Splunk
-search: '`cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP") | eval src_interface=src_int_prefix_long+src_int_suffix 
-| eval dest_interface=dest_int_prefix_long+dest_int_suffix 
-| stats min(_time) AS firstTime max(_time) AS lastTime values(src_mac) AS src_mac values(src_vlan) AS src_vlan 
-values(mnemonic) AS mnemonic values(vendor_explanation) AS vendor_explanation values(src_ip) AS src_ip values(dest_ip) AS dest_ip 
-values(dest_interface) AS dest_interface values(action) AS action count BY host src_interface
-| table host src_interface dest_interface src_mac src_ip dest_ip src_vlan mnemonic vendor_explanation action count
-| `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` 
-| `detect_ipv6_network_infrastructure_threats_filter`'
-known_false_positives: None currently known
 tags:
-  analytics_story:
+  analytic_story:
   - Router and Infrastructure Security
+  asset_type: Infrastructure
+  cis20:
+  - CIS 1
+  - CIS 11
+  detection_name: Detect IPv6 Network Infrastructure Threats
   kill_chain_phases:
   - Reconnaissance
   - Delivery
@@ -41,13 +49,11 @@ tags:
   - T1200
   - T1498
   - T1557.002
-  cis20:
-  - CIS 1
-  - CIS 11
   nist:
   - ID.AM
   - PR.DS
-  detection_name: Detect IPv6 Network Infrastructure Threats
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Infrastructure
-  

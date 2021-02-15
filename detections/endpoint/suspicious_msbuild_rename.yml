@@ -2,42 +2,47 @@ name: Suspicious MSBuild Rename
 id: 4006adac-5937-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
 description: The following analytic identifies renamed instances of msbuild.exe executing.
   Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and
   C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify
   the code executed and what is executing a renamed instance of MSBuild.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-type: ESCU
-references:
-- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
-- https://github.com/infosecn1nja/MaliciousMacroMSBuild/
-author: Michael Haag, Splunk
 search: '`sysmon` EventID=1 (OriginalFileName=msbuild.exe OR process_name=msbuild.exe)
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
   parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
   rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `suspicious_msbuild_rename_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
 known_false_positives: Although unlikely, some legitimate applications may use a moved
   copy of msbuild, triggering a false positive.
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+- https://github.com/infosecn1nja/MaliciousMacroMSBuild/
 tags:
-  analytics_story:
+  analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
+  asset_type: Endpoint
+  automated_detection_testing: passed
+  cis20:
+  - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
   mitre_attack_id:
   - T1127.001
   - T1036.003
-  kill_chain_phases:
-  - Exploitation
-  cis20:
-  - CIS 8
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
-  automated_detection_testing: passed

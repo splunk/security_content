@@ -2,8 +2,17 @@ name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
 version: 4
 date: '2020-11-09'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The search looks for file modifications with extensions commonly used
   by Ransomware
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
+  as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`| rex
+  field=file_name "(?<file_extension>\.[^\.]+)$" | `ransomware_extensions` | `common_ransomware_extensions_filter`'
 how_to_implement: 'You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint file-system data model node. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
@@ -22,33 +31,30 @@ how_to_implement: 'You must be ingesting data that records the filesystem activi
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-type: ESCU
-references: []
-author: David Dorsey, Splunk
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
-  as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`| rex
-  field=file_name "(?<file_extension>\.[^\.]+)$" | `ransomware_extensions` | `common_ransomware_extensions_filter`'
 known_false_positives: It is possible for a legitimate file with these extensions
   to be created. If this is a true ransomware attack, there will be a large number
   of files created with these extensions.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - Ryuk Ransonware
   - Ransomware
-  mitre_attack_id:
-  - T1485
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_extensions/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1485
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_extensions/windows-sysmon.log

@@ -2,6 +2,8 @@ name: Dynamic DNS
 id: 8169f17b-ef68-4b59-aae8-586907301221
 version: 2
 date: '2018-09-06'
+author: Bhavin Patel, Splunk
+type: batch
 description: Detect and investigate hosts in your environment that may be communicating
   with dynamic domain providers. Attackers may leverage these services to help them
   avoid firewall blocks and deny lists.
@@ -16,15 +18,17 @@ narrative: Dynamic DNS services (DDNS) are legitimate low-cost or free services 
   more deeply, when appropriate. While this list of top-level dynamic domains is not
   exhaustive, it can be dynamically updated as new suspicious dynamic domains are
   identified.
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
 - https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 - http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 - https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
 tags:
-  analytics_story: Dynamic DNS
-  usecase: Security Monitoring
+  analytic_story: Dynamic DNS
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

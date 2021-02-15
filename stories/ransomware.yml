@@ -2,6 +2,8 @@ name: Ransomware
 id: cf309d0d-d4aa-4fbb-963d-1e79febd3756
 version: 1
 date: '2020-02-04'
+author: David Dorsey, Splunk
+type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage,
   the presence of common ransomware extensions, and system processes run from unexpected
@@ -15,13 +17,15 @@ narrative: Ransomware is an ever-present risk to the enterprise, wherein an infe
   functionality that was used to maximize infection. Fortunately, organizations can
   apply several techniques--such as those in this Analytic Story--to detect and or
   mitigate the effects of ransomware.
-author: David Dorsey, Splunk
-type: ESCU
 references:
 - https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
 - https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
 tags:
-  analytics_story: Ransomware
-  usecase: Advanced Threat Detection
+  analytic_story: Ransomware
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

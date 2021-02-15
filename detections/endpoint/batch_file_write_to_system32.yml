@@ -2,21 +2,22 @@ name: Batch File Write to System32
 id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 version: 1
 date: '2018-12-14'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The search looks for a batch file (.bat) written to the Windows system
   directory tree.
-how_to_implement: You must be ingesting data that records the file-system activity
-  from your hosts to populate the Endpoint file-system data-model node. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-type: ESCU
-references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.dest) as dest values(Filesystem.file_name) as file_name
   values(Filesystem.user) as user from datamodel=Endpoint.Filesystem by Filesystem.file_path
   | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`|
   rex field=file_name "(?<file_extension>\.[^\.]+)$" | search file_path=*system32*
   AND file_extension=.bat | `batch_file_write_to_system32_filter`'
+how_to_implement: You must be ingesting data that records the file-system activity
+  from your hosts to populate the Endpoint file-system data-model node. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
 known_false_positives: It is possible for this search to generate a notable event
   for a batch file write to a path that includes the string "system32", but is not
   the actual Windows system directory. As such, you should confirm the path of the
@@ -24,20 +25,25 @@ known_false_positives: It is possible for this search to generate a notable even
   by an administrator copying a legitimate batch file in this directory tree. You
   should confirm that the activity is legitimate and modify the search to add exclusions,
   as necessary.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
-  mitre_attack_id:
-  - T1204.002
-  kill_chain_phases:
-  - Delivery
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
+  kill_chain_phases:
+  - Delivery
+  mitre_attack_id:
+  - T1204.002
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log

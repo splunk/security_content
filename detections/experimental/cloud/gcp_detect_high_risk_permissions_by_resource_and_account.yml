@@ -1,23 +1,38 @@
-author: "Rod Soto, Splunk"
-date: "2020-10-09"
-description: "This search provides detection of high risk permissions by resource and accounts. These are permissions that can allow attackers with compromised accounts to move laterally and escalate privileges."
-how_to_implement: "You must install splunk GCP add-on. This search works with gcp:pubsub:message logs"
-id: 2e70ef35-2187-431f-aedc-4503dc9b06ba
-known_false_positives: "High risk permissions are part of any GCP environment, however it is important to track resource and accounts usage, this search may produce false positives."
 name: GCP Detect high risk permissions by resource and account
+id: 2e70ef35-2187-431f-aedc-4503dc9b06ba
+version: 1
+date: '2020-10-09'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides detection of high risk permissions by resource and
+  accounts. These are permissions that can allow attackers with compromised accounts
+  to move laterally and escalate privileges.
+search: '`google_gcp_pubsub_message` data.protoPayload.authorizationInfo{}.permission=iam.serviceAccounts.getaccesstoken
+  OR iam.serviceAccounts.setIamPolicy OR iam.serviceAccounts.actas OR dataflow.jobs.create
+  OR composer.environments.create OR dataproc.clusters.create |table data.protoPayload.requestMetadata.callerIp
+  data.protoPayload.authenticationInfo.principalEmail data.protoPayload.authorizationInfo{}.permission
+  data.protoPayload.response.bindings{}.members{} data.resource.labels.project_id
+  | `gcp_detect_high_risk_permissions_by_resource_and_account_filter`'
+how_to_implement: You must install splunk GCP add-on. This search works with gcp:pubsub:message
+  logs
+known_false_positives: High risk permissions are part of any GCP environment, however
+  it is important to track resource and accounts usage, this search may produce false
+  positives.
 references:
-  - https://github.com/dxa4481/gcploit
-  - https://www.youtube.com/watch?v=Ml09R38jpok
-  - https://cloud.google.com/iam/docs/permissions-reference
-search: "`google_gcp_pubsub_message` data.protoPayload.authorizationInfo{}.permission=iam.serviceAccounts.getaccesstoken OR iam.serviceAccounts.setIamPolicy OR iam.serviceAccounts.actas OR dataflow.jobs.create OR composer.environments.create OR dataproc.clusters.create |table data.protoPayload.requestMetadata.callerIp data.protoPayload.authenticationInfo.principalEmail data.protoPayload.authorizationInfo{}.permission data.protoPayload.response.bindings{}.members{} data.resource.labels.project_id | `gcp_detect_high_risk_permissions_by_resource_and_account_filter`"
+- https://github.com/dxa4481/gcploit
+- https://www.youtube.com/watch?v=Ml09R38jpok
+- https://cloud.google.com/iam/docs/permissions-reference
 tags:
-  analytics_story:
+  analytic_story:
   - GCP Cross Account Activity
-  asset_type: "GCP Account"
+  asset_type: GCP Account
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:
   - T1078
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: threat
-type: ESCU
-version: 1

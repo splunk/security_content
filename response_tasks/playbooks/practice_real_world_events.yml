@@ -1,19 +1,26 @@
-name: Practice Real World Events
+author: ButterCup
+automation:
+  action: null
+  is_note_required: false
+  playbook: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-17'
+description: Practice in the real environment. Sharpen Response skills within your
+  organization by simulating real world with training exercises within your organization.
 id: 97d00b14-dd01-47e4-b7eb-0a82f4998c4e
+name: Practice Real World Events
+references:
+- 3.1 Preparation - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
 tags:
   nist: RS.RP
-description: Practice in the real environment. Sharpen Response skills within your organization by simulating real world with training exercises within your organization.
-automation:
-    is_note_required: false
-    role:
-    sla_type: minutes
-    sla:
-    action:
-    playbook:
-references:
-  - 3.1 Preparation - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: Make sure that the response actions have been performed during an internal exercise by your Incident Response Team.
-  You need to make sure that when an Incident happens, the team understands the how and this is not the first time they have seen the tasks. This is best done by being able to execute the actual steps in **your environment**, i.e. blocking an IP address or a domain name.
-date: '2020-07-17'
+  product:
+  - Splunk Phantom
+type: response
 version: 1
-author: ButterCup
+workflow: Make sure that the response actions have been performed during an internal
+  exercise by your Incident Response Team. You need to make sure that when an Incident
+  happens, the team understands the how and this is not the first time they have seen
+  the tasks. This is best done by being able to execute the actual steps in **your
+  environment**, i.e. blocking an IP address or a domain name.

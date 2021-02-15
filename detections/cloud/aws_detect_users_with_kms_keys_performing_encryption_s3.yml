@@ -1,31 +1,36 @@
-author: Rod Soto, Patrick Bareiss Splunk
+name: AWS Detect Users with KMS keys performing encryption S3
+id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
+version: 1
 date: '2021-01-11'
+author: Rod Soto, Patrick Bareiss Splunk
+type: batch
+datamodel: []
 description: This search provides detection of users with KMS keys performing encryption
   specifically against S3 buckets.
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with cloudtrail logs
-id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
-known_false_positives: bucket with S3 encryption
-name: AWS Detect Users with KMS keys performing encryption S3
-references:
-- https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
-- https://github.com/d1vious/git-wild-hunt
-- https://www.youtube.com/watch?v=PgzNib37g0M
 search: '`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"
   | rename requestParameters.bucketName AS bucket_name, requestParameters.x-amz-copy-source
   AS src_file, requestParameters.key AS dest_file | stats count min(_time) as firstTime
   max(_time) as lastTime values(src_file) AS src_file values(dest_file) AS dest_file
   values(userAgent) AS userAgent values(region) AS region values(src) AS src by user
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with cloudtrail logs
+known_false_positives: bucket with S3 encryption
+references:
+- https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+- https://github.com/d1vious/git-wild-hunt
+- https://www.youtube.com/watch?v=PgzNib37g0M
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware Cloud
   asset_type: S3 Bucket
-  mitre_attack_id:
-  - T1486
-  security_domain: threat
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
-type: ESCU
-version: 1
+  mitre_attack_id:
+  - T1486
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat

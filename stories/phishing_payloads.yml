@@ -2,6 +2,8 @@ name: Phishing Payloads
 id: 57226b40-94f3-4ce5-b101-a75f67759c27
 version: 1
 date: '2019-04-29'
+author: Splunk Research Team, Splunk
+type: batch
 description: Detect signs of malicious payloads that may indicate that your environment
   has been breached via a phishing attack.
 narrative: 'Despite its simplicity, phishing remains the most pervasive and dangerous
@@ -18,8 +20,8 @@ narrative: 'Despite its simplicity, phishing remains the most pervasive and dang
   However, you can use ES and ESCU to detect and investigate potentially malicious
   payloads injected into your environment subsequent to a phishing attack. \
 
-  While any kind of file may contain a malicious payload, some are more likely to be
-  perceived as benign (and thus more often escape notice) by the average victim&#151;especially
+  While any kind of file may contain a malicious payload, some are more likely to
+  be perceived as benign (and thus more often escape notice) by the average victim&#151;especially
   when the attacker sends an email that seems to be from one of their contacts. An
   example is Microsoft Office files. Most corporate users are familiar with documents
   with the following suffixes: .doc/.docx (MS Word), .xls/.xlsx (MS Excel), and .ppt/.pptx
@@ -41,12 +43,14 @@ narrative: 'Despite its simplicity, phishing remains the most pervasive and dang
   This Analytic Story focuses on detecting signs that a malicious payload has been
   injected into your environment. For example, one search detects outlook.exe writing
   a .zip file. Another looks for suspicious .lnk files launching processes.'
-author: Splunk Research Team, Splunk
-type: ESCU
 references:
 - https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
 tags:
-  analytics_story: Phishing Payloads
-  usecase: Advanced Threat Detection
+  analytic_story: Phishing Payloads
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

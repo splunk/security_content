@@ -2,21 +2,30 @@ name: Previously Seen Zoom Child Processes - Initial
 id: 60b9c00f-a9d6-4e51-803c-5d63ea21b95b
 version: 1
 date: '2020-05-20'
-description: This search returns the first and last time a process was seen per endpoint with
-    a parent process of zoom.exe (Windows) or zoom.us (macOS). This table is then cached.
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search returns the first and last time a process was seen per endpoint
+  with a parent process of zoom.exe (Windows) or zoom.us (macOS). This table is then
+  cached.
+search: '| tstats `security_content_summariesonly` min(_time) as firstTimeSeen max(_time)
+  as lastTimeSeen from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe
+  OR Processes.parent_process_name=zoom.us) by Processes.process_name Processes.dest|
+  `drop_dm_object_name(Processes)` | table dest, process_name, firstTimeSeen, lastTimeSeen
+  | outputlookup zoom_first_time_child_process'
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints, to populate the Endpoint
   data model in the Processes node.
-author: David Dorsey, Splunk
-search: '| tstats `security_content_summariesonly` min(_time) as firstTimeSeen max(_time) as lastTimeSeen
-        from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe OR Processes.parent_process_name=zoom.us)
-        by Processes.process_name Processes.dest| `drop_dm_object_name(Processes)`
-        | table dest, process_name, firstTimeSeen, lastTimeSeen
-        | outputlookup zoom_first_time_child_process'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Zoom Child Processes
-  detections:
-  - First Time Seen Child Process of Zoom
   deployments:
   - 90 Day Baseline
+  detections:
+  - First Time Seen Child Process of Zoom
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

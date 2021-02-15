@@ -1,26 +1,41 @@
-name: Analyze precursors to the event
-id: ef9e7a25-73f0-4b63-b43b-2f4171518931
-tags:
-  nist:
-    RS.RP
-description: |
-  Review precursor and indicator data and try to prove the data observed is normal activity. This analysis is provided by reviewing additional logs and sources to include ids's, siem, network logs, host and host application event logs and vulnerabiltiy information. This is not an exhaustive list, but a summary of the data available.  Data available should be aligned the type of event and resources available to the customer.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.2.3 Sources of Precursors and Indicators - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Depending the attack vector, use your siem or logging collector to find logs regarding the host, application and network connections surrounding the event detected.
-  2. Identify evidence information that proves the incident occurred as detected or corraborates the event(s).
-  3. Perform research regarding indicators and understanding what normal behaviour is or should be by using using search engines, knowledge bases etc.
-date: '2020-04-21'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions: null
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-04-21'
+description: 'Review precursor and indicator data and try to prove the data observed
+  is normal activity. This analysis is provided by reviewing additional logs and sources
+  to include ids''s, siem, network logs, host and host application event logs and
+  vulnerabiltiy information. This is not an exhaustive list, but a summary of the
+  data available.  Data available should be aligned the type of event and resources
+  available to the customer.
+
+  '
+id: ef9e7a25-73f0-4b63-b43b-2f4171518931
+name: Analyze precursors to the event
+references:
+- 3.2.3 Sources of Precursors and Indicators - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Depending the attack vector, use your siem or logging collector to find
+  logs regarding the host, application and network connections surrounding the event
+  detected.
+
+  2. Identify evidence information that proves the incident occurred as detected or
+  corraborates the event(s).
+
+  3. Perform research regarding indicators and understanding what normal behaviour
+  is or should be by using using search engines, knowledge bases etc.
+
+  '

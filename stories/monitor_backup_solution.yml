@@ -2,6 +2,8 @@ name: Monitor Backup Solution
 id: abe807c7-1eb6-4304-ac32-6e7aacdb891d
 version: 1
 date: '2017-09-12'
+author: David Dorsey, Splunk
+type: batch
 description: Address common concerns when monitoring your backup processes. These
   searches can help you reduce risks from ransomware, device theft, or denial of physical
   access to a host by backing up data on endpoints.
@@ -12,12 +14,14 @@ narrative: Having backups is a standard best practice that helps ensure continui
   have backup failures, as well as systems that have not been backed up for an extended
   period of time. The story will also return the notable event history and all of
   the backup logs for an endpoint.
-author: David Dorsey, Splunk
-type: ESCU
 references:
 - https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
 tags:
-  analytics_story: Monitor Backup Solution
-  usecase: Compliance
+  analytic_story: Monitor Backup Solution
   category:
   - Best Practices
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Compliance

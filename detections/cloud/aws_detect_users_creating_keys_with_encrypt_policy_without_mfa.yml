@@ -1,18 +1,14 @@
-author: Rod Soto, Patrick Bareiss Splunk
+name: AWS Detect Users creating keys with encrypt policy without MFA
+id: c79c164f-4b21-4847-98f9-cf6a9f49179e
+version: 1
 date: '2021-01-11'
+author: Rod Soto, Patrick Bareiss Splunk
+type: batch
+datamodel: []
 description: This search provides detection of KMS keys which action kms:Encrypt is
   accessible for everyone (also outside of your organization). This is an identicator
   that your account is compromised and the attacker uses the encryption key to compromise
   another company.
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with cloudtrail logs
-id: c79c164f-4b21-4847-98f9-cf6a9f49179e
-known_false_positives: unknown
-name: AWS Detect Users creating keys with encrypt policy without MFA
-references:
-- https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
-- https://github.com/d1vious/git-wild-hunt
-- https://www.youtube.com/watch?v=PgzNib37g0M
 search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath input=requestParameters.policy
   output=key_policy_statements path=Statement{} | mvexpand key_policy_statements |
   spath input=key_policy_statements output=key_policy_action_1 path=Action | spath
@@ -22,15 +18,24 @@ search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath inpu
   | stats count min(_time) as firstTime max(_time) as lastTime by eventName eventSource
   eventID awsRegion userIdentity.principalId | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` |`aws_detect_users_creating_keys_with_encrypt_policy_without_mfa_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with cloudtrail logs
+known_false_positives: unknown
+references:
+- https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+- https://github.com/d1vious/git-wild-hunt
+- https://www.youtube.com/watch?v=PgzNib37g0M
 tags:
-  analytics_story:
+  analytic_story:
   - Ransomware Cloud
   asset_type: AWS Account
-  mitre_attack_id:
-  - T1486
-  security_domain: threat
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json
-type: ESCU
-version: 1
+  mitre_attack_id:
+  - T1486
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat

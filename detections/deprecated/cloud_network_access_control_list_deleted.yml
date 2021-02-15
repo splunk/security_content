@@ -2,33 +2,38 @@ name: Cloud Network Access Control List Deleted
 id: 021abc51-1862-41dd-ad43-43c739c0a983
 version: 1
 date: '2020-09-08'
+author: Peter Gael, Splunk
+type: batch
+datamodel: []
 description: Enforcing network-access controls is one of the defensive mechanisms
   used by cloud administrators to restrict access to a cloud instance. After the attacker
-  has gained control of the console by compromising an admin account, they can
-  delete a network ACL and gain access to the instance from anywhere. This search
-  will query the Change datamodel to detect users deleting network ACLs.
-  Deprecated because it's a duplicate
-how_to_implement: You must be ingesting your cloud infrastructure logs from your
-  cloud provider. You can also provide additional filtering for this search by
-  customizing the `cloud_network_access_control_list_deleted_filter` macro.
-type: ESCU
-references: []
-author: Peter Gael, Splunk
+  has gained control of the console by compromising an admin account, they can delete
+  a network ACL and gain access to the instance from anywhere. This search will query
+  the Change datamodel to detect users deleting network ACLs. Deprecated because it's
+  a duplicate
 search: '`cloudtrail` eventName=DeleteNetworkAcl|rename userIdentity.arn as arn  |
   stats count min(_time) as firstTime max(_time) as lastTime values(errorMessage)
   values(errorCode) values(userAgent) values(userIdentity.*) by src userName arn eventName
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `cloud_network_access_control_list_deleted_filter`'
-known_false_positives: It's possible that a user has legitimately deleted a network ACL.
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `cloud_network_access_control_list_deleted_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
+  provider. You can also provide additional filtering for this search by customizing
+  the `cloud_network_access_control_list_deleted_filter` macro.
+known_false_positives: It's possible that a user has legitimately deleted a network
+  ACL.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Network ACL Activity
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Instance
   cis20:
   - CIS 11
+  kill_chain_phases:
+  - Actions on Objectives
   nist:
   - DE.DP
   - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Instance

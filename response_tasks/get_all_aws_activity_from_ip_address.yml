@@ -1,6 +1,4 @@
-name: Get All AWS Activity From IP Address
-id: 446ec87a-85c6-40d4-b060-bea4498281d6
-version: 1
+author: David Dorsey, Splunk
 date: '2018-03-19'
 description: This search retrieves all the activity from a specific IP address and
   will create a table containing the time, ARN, username, the type of user, the IP
@@ -9,20 +7,24 @@ description: This search retrieves all the activity from a specific IP address a
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-author: David Dorsey, Splunk
+id: 446ec87a-85c6-40d4-b060-bea4498281d6
 inputs:
 - src_ip
+name: Get All AWS Activity From IP Address
 search: '| search sourcetype=aws:cloudtrail | iplocation sourceIPAddress | search
   src_ip=$src_ip$ | spath output=user path=userIdentity.arn | spath output=awsUserName
   path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
   sourceIPAddress as src_ip | table _time, user, userName, userType, src_ip, awsRegion,
   eventName, errorCode'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
   - AWS Suspicious Provisioning Activities
   - Command and Control
   - Suspicious AWS S3 Activities
   - Suspicious AWS Traffic
   - Suspicious Cloud Instance Activities
-
+  product:
+  - Splunk Phantom
+type: response
+version: 1

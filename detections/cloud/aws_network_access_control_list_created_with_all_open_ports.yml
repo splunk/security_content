@@ -2,14 +2,11 @@ name: AWS Network Access Control List Created with All Open Ports
 id: ada0f478-84a8-4641-a3f1-d82362d6bd75
 version: 2
 date: '2021-01-11'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+type: batch
+datamodel: []
 description: The search looks for CloudTrail events to detect if any network ACLs
   were created with all the ports open to a specified CIDR.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail
-  inputs.
-type: ESCU
-references: []
-author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
   requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
   | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
@@ -20,26 +17,34 @@ search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetwor
   requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
   requestParameters.portRange.from src userAgent requestParameters.cidrBlock | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail
+  inputs.
 known_false_positives: It's possible that an admin has created this ACL with all ports
   open for some legitimate purpose however, this should be scoped and not allowed
   in production environment.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Network ACL Activity
-  mitre_attack_id:
-  - T1562.007
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: AWS Instance
+  automated_detection_testing: passed
   cis20:
   - CIS 11
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1562.007
   nist:
   - DE.DP
   - DE.AE
-  security_domain: network
-  asset_type: AWS Instance
-  risk_score: 10
-  risk_object_type: user
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_object: userName
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
+  risk_object_type: user
+  risk_score: 10
+  security_domain: network

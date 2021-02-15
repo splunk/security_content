@@ -2,35 +2,40 @@ name: Ryuk Test Files Detected
 id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 version: 1
 date: '2020-11-06'
+author: Rod Soto, Jose Hernandez, Splunk
+type: batch
+datamodel: []
 description: The search looks for files that contain the key word *Ryuk* under any
   folder in the C drive, which is consistent with Ryuk propagation.
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint Filesystem data-model object. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-type: ESCU
-references: []
-author: Rod Soto, Jose Hernandez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem WHERE "Filesystem.file_path"=C:\\*Ryuk*
   BY "Filesystem.dest", "Filesystem.user", "Filesystem.file_path" | `drop_dm_object_name(Filesystem)`
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ryuk_test_files_detected_filter`'
+how_to_implement: You must be ingesting data that records the filesystem activity
+  from your hosts to populate the Endpoint Filesystem data-model object. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
 known_false_positives: If there are files with this keywoord as file names it might
   trigger false possitives, please make use of our filters to tune out potential FPs.
+references: []
 tags:
-  mitre_attack_id:
-  - T1486
-  analytics_story:
+  analytic_story:
   - Ryuk Ransomware
-  kill_chain_phases:
-  - Delivery
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
+  kill_chain_phases:
+  - Delivery
+  mitre_attack_id:
+  - T1486
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log

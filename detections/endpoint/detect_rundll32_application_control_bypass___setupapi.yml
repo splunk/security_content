@@ -1,0 +1,54 @@
+name: Detect Rundll32 Application Control Bypass - setupapi
+id: 61e7b44a-6088-4f26-b788-9a96ba13b37a
+version: 1
+date: '2021-02-04'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies rundll32.exe loading setupapi.dll and
+  iesetupapi.dll by calling the LaunchINFSection function on the command line. This
+  particular technique will load script code from a file. Upon a successful execution,
+  the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During
+  investigation, identify script content origination. Generally, a child process will
+  spawn from rundll32.exe, but that may be bypassed based on script code contents.
+  Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During
+  investigation, review any network connections and obtain the script content executed.
+  It's possible other files are on disk.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
+  Processes.process=*setupapi* by Processes.user Processes.process_name Processes.process
+  Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `detect_rundll32_application_control_bypass___setupapi_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Although unlikely, some legitimate applications may use setupapi
+  triggering a false positive.
+references:
+- https://attack.mitre.org/techniques/T1218/011/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+- https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+- https://lolbas-project.github.io/lolbas/Libraries/Setupapi/
+- https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+tags:
+  analytic_story:
+  - Suspicious Rundll32 Activity
+  asset_type: Endpoint
+  automated_detection_testing: passed
+  cis20:
+  - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1218.011
+  nist:
+  - PR.PT
+  - DE.CM
+  security_domain: endpoint
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

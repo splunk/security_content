@@ -2,6 +2,8 @@ name: Prohibited Traffic Allowed or Protocol Mismatch
 id: 6d13121c-90f3-446d-8ac3-27efbbc65218
 version: 1
 date: '2017-09-11'
+author: Rico Valdez, Splunk
+type: batch
 description: Detect instances of prohibited network traffic allowed in the environment,
   as well as protocols running on non-standard ports. Both of these types of behaviors
   typically violate policy and can be leveraged by attackers.
@@ -13,12 +15,14 @@ narrative: A traditional security best practice is to control the ports, protoco
   policy can identify attacker activity that abuses services and protocols to run
   on alternate or non-standard ports in the attempt to avoid detection or frustrate
   forensic analysts.
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
 tags:
-  analytics_story: Prohibited Traffic Allowed or Protocol Mismatch
-  usecase: Security Monitoring
+  analytic_story: Prohibited Traffic Allowed or Protocol Mismatch
   category:
   - Best Practices
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

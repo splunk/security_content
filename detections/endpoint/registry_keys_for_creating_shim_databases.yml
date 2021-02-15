@@ -2,38 +2,43 @@ name: Registry Keys for Creating SHIM Databases
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 version: 3
 date: '2020-11-26'
+author: Bhavin Patel, Patrick Bareiss, Splunk
+type: batch
+datamodel: []
 description: This search looks for registry activity associated with application compatibility
   shims, which can be leveraged by attackers for various nefarious purposes.
-how_to_implement: To successfully implement this search, you must populate the Change_Analysis
-  data model. This is typically populated via endpoint detection and response products,
-  such as Carbon Black or other endpoint data sources such as Sysmon. The data used
-  for this search is typically generated via logs that report reads and writes to
-  the registry.
-type: ESCU
-references: []
-author: Bhavin Patel, Patrick Bareiss, Splunk
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
   where Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB*
   by Registry.dest Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `registry_keys_for_creating_shim_databases_filter`'
+how_to_implement: To successfully implement this search, you must populate the Change_Analysis
+  data model. This is typically populated via endpoint detection and response product,
+  such as Carbon Black or other endpoint data sources such as Sysmon. The data used
+  for this search is typically generated via logs that report reads and writes to
+  the registry.
 known_false_positives: There are many legitimate applications that leverage shim databases
   for compatibility purposes for legacy applications
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
-  mitre_attack_id:
-  - T1546.011
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1546.011
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log

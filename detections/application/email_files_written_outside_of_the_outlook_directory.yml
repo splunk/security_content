@@ -2,17 +2,12 @@ name: Email files written outside of the Outlook directory
 id: ee18ed37-0802-4268-9435-b3b91aaa18xx
 version: 3
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The search looks at the change-analysis data model and detects email
   files created outside the normal Outlook directory.
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records the file-system activity from your hosts to populate the Endpoint.Filesystem
-  data model node. This is typically populated via endpoint detection-and-response
-  products, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
-  The data used for this search is typically generated via logs that report file-system
-  reads and writes.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path)
   as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path
@@ -20,17 +15,28 @@ search: '| tstats `security_content_summariesonly` count values(Filesystem.file_
   by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest
   | `drop_dm_object_name("Filesystem")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `email_files_written_outside_of_the_outlook_directory_filter` '
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records the file-system activity from your hosts to populate the Endpoint.Filesystem
+  data model node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
+  The data used for this search is typically generated via logs that report file-system
+  reads and writes.
 known_false_positives: Administrators and users sometimes prefer backing up their
   email data by moving the email files into a different folder. These attempts will
   be detected by the search.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
-  mitre_attack_id:
-  - T1114.001
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 8
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1114.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint

@@ -2,14 +2,23 @@ name: AWS Security Hub Alerts
 id: 2f2f610a-d64d-48c2-b57c-96722b49ab5a
 version: 1
 date: '2020-08-04'
-description: 'This story is focused around detecting Security Hub alerts generated from AWS'
-narrative: 'AWS Security Hub collects and consolidates findings from AWS security services enabled in your environment, such as intrusion detection findings from Amazon GuardDuty, vulnerability scans from Amazon Inspector, S3 bucket policy findings from Amazon Macie, publicly accessible and cross-account resources from IAM Access Analyzer, and resources lacking WAF coverage from AWS Firewall Manager.'
 author: Bhavin Patel, Splunk
-type: ESCU
+type: batch
+description: This story is focused around detecting Security Hub alerts generated
+  from AWS
+narrative: AWS Security Hub collects and consolidates findings from AWS security services
+  enabled in your environment, such as intrusion detection findings from Amazon GuardDuty,
+  vulnerability scans from Amazon Inspector, S3 bucket policy findings from Amazon
+  Macie, publicly accessible and cross-account resources from IAM Access Analyzer,
+  and resources lacking WAF coverage from AWS Firewall Manager.
 references:
 - https://aws.amazon.com/security-hub/features/
 tags:
-  analytics_story: AWS Security Hub Alerts
-  usecase: Security Monitoring
+  analytic_story: AWS Security Hub Alerts
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

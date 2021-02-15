@@ -2,7 +2,15 @@ name: Detect web traffic to dynamic domain providers
 id: 134da869-e264-4a8f-8d7e-fcd01c18f301
 version: 2
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Web
 description: This search looks for web connections to dynamic DNS providers.
+search: '| tstats `security_content_summariesonly` count values(Web.url) as url min(_time)
+  as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status
+  | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `dynamic_dns_web_traffic`
+  | `detect_web_traffic_to_dynamic_domain_providers_filter`'
 how_to_implement: 'This search requires you to be ingesting web-traffic logs. You
   can obtain these logs from indexing data from a web proxy or by using a network-traffic-analysis
   tool, such as Bro or Splunk Stream. The web data model must contain the URL being
@@ -21,28 +29,26 @@ how_to_implement: 'This search requires you to be ingesting web-traffic logs. Yo
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
   Deprecated because duplicate.'
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
-search: '| tstats `security_content_summariesonly` count values(Web.url) as url min(_time)
-  as firstTime from datamodel=Web where Web.status=200 by Web.src Web.dest Web.status
-  | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `dynamic_dns_web_traffic`
-  | `detect_web_traffic_to_dynamic_domain_providers_filter`'
 known_false_positives: It is possible that list of dynamic DNS providers is outdated
   and/or that the URL being requested is legitimate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Dynamic DNS
-  mitre_attack_id:
-  - T1071.001
-  kill_chain_phases:
-  - Command and Control
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 7
   - CIS 8
+  kill_chain_phases:
+  - Command and Control
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1071.001
   nist:
   - PR.IP
   - DE.DP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint

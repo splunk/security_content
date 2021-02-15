@@ -2,6 +2,8 @@ name: Windows Persistence Techniques
 id: 30874d4f-20a1-488f-85ec-5d52ef74e3f9
 version: 2
 date: '2018-05-31'
+author: Bhavin Patel, Splunk
+type: batch
 description: Monitor for activities and techniques associated with maintaining persistence
   on a Windows system--a sign that an adversary may have compromised your environment.
 narrative: Maintaining persistence is one of the first steps taken by attackers after
@@ -9,8 +11,6 @@ narrative: Maintaining persistence is one of the first steps taken by attackers 
   ensure survivability and persistent access within a compromised enterprise. This
   Analytic Story provides searches to help you identify various behaviors used by
   attackers to maintain persistent access to a Windows environment.
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - http://www.fuzzysecurity.com/tutorials/19.html
 - https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html
@@ -18,7 +18,11 @@ references:
 - https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
 - https://www.youtube.com/watch?v=dq2Hv7J9fvk
 tags:
-  analytics_story: Windows Persistence Techniques
-  usecase: Advanced Threat Detection
+  analytic_story: Windows Persistence Techniques
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

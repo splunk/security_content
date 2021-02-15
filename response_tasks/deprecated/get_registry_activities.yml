@@ -1,6 +1,4 @@
-name: Get Registry Activities
-id: fecf2918-670d-4f1c-872b-3d7317a41xf9
-version: 2
+author: Bhavin Patel, Splunk
 date: '2019-03-01'
 description: This search queries the Endpoint Datamodel to give you details of the
   latest registry values for a specific destination computer.
@@ -8,9 +6,10 @@ how_to_implement: To successfully implement this search you need to be ingesting
   on registry changes that include the name of the process responsible for the changes
   from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry`
   nodes.
-author: Bhavin Patel, Splunk
+id: fecf2918-670d-4f1c-872b-3d7317a41xf9
 inputs:
 - dest
+name: Get Registry Activities
 search: '| tstats `security_content_summariesonly` values(Registry.registry_path)
   as registry_path values(Registry.registry_key_name) as registry_key_name count FROM
   datamodel=Endpoint.Registry where Registry.dest = "$dest$" by Registry.process_id
@@ -19,7 +18,7 @@ search: '| tstats `security_content_summariesonly` values(Registry.registry_path
   values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes
   where Processes.process_name = reg.exe by Processes.process_id | `drop_dm_object_name("Processes")`]'
 tags:
-  analytics_story:
+  analytic_story:
   - DHS Report TA18-074A
   - 'Emotet Malware  DHS Report TA18-201A '
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
@@ -31,3 +30,7 @@ tags:
   - Windows File Extension and Association Abuse
   - Windows Persistence Techniques
   - Windows Privilege Escalation
+  product:
+  - Splunk Phantom
+type: response
+version: 2

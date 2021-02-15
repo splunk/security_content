@@ -2,39 +2,45 @@ name: Suspicious microsoft workflow compiler usage
 id: 9bbc62e8-55d8-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The following analytic identifies microsoft.workflow.compiler.exe usage.
   microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319
   and is rarely utilized. When investigating, identify the executed code on disk and
   review. It is not a commonly used process by many applications.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-type: ESCU
-references:
-- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
-author: Michael Haag, Splunk
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=microsoft.workflow.compiler.exe
   by Processes.dest Processes.parent_process Processes.user | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_microsoft_workflow_compiler_usage_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Although unlikely, limited instances have been identified coming
   from native Microsoft utilities similar to SCCM.
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
 tags:
-  analytics_story:
+  analytic_story:
   - Trusted Developer Utilities Proxy Execution
-  mitre_attack_id:
-  - T1127
-  kill_chain_phases:
-  - Exploitation
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1127
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/windows-sysmon.log
-  automated_detection_testing: passed

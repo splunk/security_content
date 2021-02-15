@@ -1,0 +1,43 @@
+name: AWS SAML Access by Provider User and Principal
+id: bbe23980-6019-11eb-ae93-0242ac130002
+version: 1
+date: '2021-01-26'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides specific SAML access from specific Service Provider,
+  user and targeted principal at AWS. This search provides specific information to
+  detect abnormal access or potential credential hijack or forgery, specially in federated
+  environments using SAML protocol inside the perimeter or cloud provider.
+search: '`cloudtrail` eventName=Assumerolewithsaml | stats count min(_time) as firstTime
+  max(_time) as lastTime by requestParameters.principalArn requestParameters.roleArn
+  requestParameters.roleSessionName recipientAccountId responseElements.issuer sourceIPAddress
+  userAgent | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  |`aws_saml_access_by_provider_user_and_principal_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with cloudtrail logs
+known_false_positives: Attacks using a Golden SAML or SAML assertion hijacks or forgeries
+  are very difficult to detect as accessing cloud providers with these assertions
+  looks exactly like normal access, however things such as source IP sourceIPAddress
+  user, and principal targeted at receiving cloud provider along with endpoint credential
+  access and abuse detection searches can provide the necessary context to detect
+  these attacks.
+references:
+- https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+- https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
+- https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+- https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+tags:
+  analytic_story:
+  - Cloud Federated Credential Abuse
+  asset_type: AWS Federated Account
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
+  mitre_attack_id:
+  - T1078
+  security_domain: threat
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
