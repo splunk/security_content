@@ -602,21 +602,11 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 
 
-def main(args):
+def new(security_content_path, output, VERBOSE):
 
-    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
-    This tool converts manifests to the source files to be used by products like Splunk Enterprise.
-    It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
-    parser.add_argument("-o", "--output", required=True, help="path to the output directory")
-    parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-
-    # parse them
-    args = parser.parse_args()
-    REPO_PATH = args.path
-    OUTPUT_PATH = args.output
+    REPO_PATH = security_content_path
+    OUTPUT_PATH = output
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
-    VERBOSE = args.verbose
     stories = load_objects("stories/*.yml", VERBOSE, REPO_PATH)
     macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
     lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
