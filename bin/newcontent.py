@@ -29,8 +29,9 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
         how_to_implement='How would a user implement this detection, describe any TAs, or specific configuration they might require',
         known_false_positives='Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.',
         references=['https://wearebob.fandom.com/wiki/Bob','https://en.wikipedia.org/wiki/Dennis_E._Taylor'],
-        datamodels=['Endpoint'], search='SPLUNKSPLv1GOESHERE', type='batch', analytic_story_name='Story Name Goes Here',
-        mitre_attack_id = 'T0000.00', kill_chain_phases=['Exploitation'], dataset_url='https://github.com/splunk/attack_data/',
+        datamodels=['Endpoint'], search='SPLUNKSPLv1GOESHERE | `' + getpass.getuser() + '_' + type + '_example_filter`',
+        type='batch', analytic_story_name='Story Name Goes Here', mitre_attack_id = 'T0000.00',
+        kill_chain_phases=['Exploitation'], dataset_url='https://github.com/splunk/attack_data/',
         products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
