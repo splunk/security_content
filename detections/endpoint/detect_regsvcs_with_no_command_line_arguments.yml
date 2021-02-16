@@ -1,9 +1,9 @@
-name: Detect Regasm with no Command Line Arguments
-id: c3bc1430-04e7-4178-835f-047d8e6e97df
+name: Detect Regsvcs with No Command Line Arguments
+id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
 version: 1
 date: '2021-02-12'
-description: The following analytic identifies regasm.exe with no command line arguments.
-  This particular behavior occurs when another process injects into regasm.exe, no
+description: The following analytic identifies regsvcs.exe with no command line arguments.
+  This particular behavior occurs when another process injects into regsvcs.exe, no
   command line arguments will be present. During investigation, identify any network
   connections and parallel processes. Identify any suspicious module loads related
   to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
@@ -11,22 +11,20 @@ description: The following analytic identifies regasm.exe with no command line a
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+  Sysmon TA. 
 type: batch
-datamodel: []
+datamodel: [] 
 references:
 - https://attack.mitre.org/techniques/T1218/009/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
-- https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 author: Michael Haag, Splunk
-search: '`sysmon` EventID=1 (process_name=regasm.exe OR OriginalFileName=RegAsm.exe)
-  | regex CommandLine="(regasm\.exe.{0,4}$)" | stats count min(_time) as firstTime
+search: '`sysmon` EventID=1 (process_name=regsvcs.exe OR OriginalFileName=RegSvcs.exe)
+  | regex CommandLine="(regsvcs\.exe.{0,4}$)" | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
   OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `detect_regasm_with_no_command_line_arguments_filter`'
-known_false_positives: Although unlikely, limited instances of regasm.exe or may cause
-  a false positive. Filter based endpoint usage, command line arguments, or process
-  lineage.
+  | `security_content_ctime(lastTime)` | `detect_regsvcs_with_no_command_line_arguments_filter`'
+known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 tags:
   analytic_story:
   - Suspicious Regasm Regsvcs Activity
@@ -47,4 +45,3 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
-  automated_detection_testing: passed
