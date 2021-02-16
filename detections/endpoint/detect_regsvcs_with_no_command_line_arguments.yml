@@ -11,9 +11,9 @@ description: The following analytic identifies regsvcs.exe with no command line 
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 type: batch
-datamodel: [] 
+datamodel: []
 references:
 - https://attack.mitre.org/techniques/T1218/009/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
@@ -24,7 +24,9 @@ search: '`sysmon` EventID=1 (process_name=regsvcs.exe OR OriginalFileName=RegSvc
   max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
   OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_regsvcs_with_no_command_line_arguments_filter`'
-known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
+known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause
+  a false positive. Filter based endpoint usage, command line arguments, or process
+  lineage.
 tags:
   analytic_story:
   - Suspicious Regasm Regsvcs Activity
@@ -45,3 +47,4 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
