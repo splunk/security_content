@@ -12,6 +12,7 @@ from jinja2 import Environment, FileSystemLoader
 import uuid
 from datetime import date
 from os import path
+import sys
 
 
 def create_example(security_content_path,type, TEMPLATE_PATH):
