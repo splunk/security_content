@@ -3,10 +3,11 @@ id: c3bc1430-04e7-4178-835f-047d8e6e97df
 version: 1
 date: '2021-02-12'
 description: The following analytic identifies regasm.exe with no command line arguments.
-  This particular behavior occurs when another process injects into regasm.exe, no command line arguments will be present.
-  During investigation, identify any network connections and parallel processes. Identify
-  any suspicious module loads related to credential dumping or file writes.
-  Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+  This particular behavior occurs when another process injects into regasm.exe, no
+  command line arguments will be present. During investigation, identify any network
+  connections and parallel processes. Identify any suspicious module loads related
+  to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
+  and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -23,7 +24,9 @@ search: '`sysmon` EventID=1 (process_name=regasm.exe OR OriginalFileName=RegAsm.
   max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
   OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_regasm_with_no_command_line_arguments_filter`'
-known_false_positives: Although unlikely, limited instances of regasm.exe or may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
+known_false_positives: Although unlikely, limited instances of regasm.exe or may cause
+  a false positive. Filter based endpoint usage, command line arguments, or process
+  lineage.
 tags:
   analytic_story:
   - Suspicious Regasm Regsvcs Activity
@@ -44,3 +47,4 @@ tags:
   asset_type: Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
