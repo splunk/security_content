@@ -5,7 +5,7 @@ date: '2020-07-21'
 author: Rico Valdez, Splunk
 type: batch
 datamodel: []
-description: This search detects logins from the same user from different states in
+description: This search detects logins from the same user from different cities in
   a 24 hour period.
 search: '`okta` displayMessage="User login to Okta" client.geographicalContext.city!=null
   | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city)
