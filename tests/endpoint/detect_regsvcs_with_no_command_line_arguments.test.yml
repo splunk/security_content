@@ -1,7 +1,7 @@
-name: Detect Regsvcs Regasm Spawning a Process Unit Test
+name: Detect Regsvcs with no Command Line Arguments Unit Test
 tests:
-- name: Detect Regsvcs Regasm Spawning a Process
-  file: endpoint/detect_regsvcs_regasm_spawning_a_process.yml
+- name: Detect regsvcs with no Command Line Arguments
+  file: endpoint/detect_regsvcs_with_no_command_line_arguments.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
