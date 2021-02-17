@@ -20,7 +20,11 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `detect_path_interception_by_creation_of_program_exe_filter`'
-how_to_implement: ''
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
 known_false_positives: unknown
 references:
 - https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae
