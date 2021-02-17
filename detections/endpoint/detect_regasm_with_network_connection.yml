@@ -32,7 +32,7 @@ known_false_positives: Although unlikely, limited instances of regasm.exe with a
   arguments, or process lineage.
 tags:
   analytic_story:
-  - Suspicious Regasm Regsvcs Activity
+  - Suspicious Regsvcs Regasm Activity
   mitre_attack_id:
   - T1218.009
   kill_chain_phases:
