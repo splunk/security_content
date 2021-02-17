@@ -80,3 +80,129 @@ def new(security_content_path, VERBOSE, type, example_only):
 
     if example_only:
         create_example(security_content_path,type, TEMPLATE_PATH)
+
+
+    if type == 'detection':
+        questions = [
+            {
+                # get api_key
+                'type': 'input',
+                'message': 'enter detection name',
+                'name': 'detection_name',
+                'default': 'Suspicious Mshta Spawn',
+            },
+            {
+                # get api_key
+                'type': 'input',
+                'message': 'enter detection description, Markdown is `supported`',
+                'name': 'detection_description',
+            },
+            {
+                # get provider
+                'type': 'list',
+                'message': 'select a detection type',
+                'name': 'detection_type',
+                'choices': [
+                    {
+                        'name': 'batch'
+                    },
+                    {
+                        'name': 'streaming'
+                    },
+                ],
+                'default': 'batch'
+            },
+            {
+                # get provider
+                'type': 'checkbox',
+                'message': 'select a datamodels for the detection',
+                'name': 'detection_datamodels',
+                'choices': [
+                    {
+                        'name': 'Endpoint',
+                        'checked': True
+                    },
+                    {
+                        'name': 'Network_Traffic'
+                    },
+                    {
+                        'name': 'Authentication'
+                    },
+                    {
+                        'name': 'Change'
+                    },
+                    {
+                        'name': 'Change_Analysis'
+                    },
+                    {
+                        'name': 'Email'
+                    },
+                    {
+                        'name': 'Network_Resolution'
+                    },
+                    {
+                        'name': 'Network_Traffic'
+                    },
+                    {
+                        'name': 'Network_Sessions'
+                    },
+                    {
+                        'name': 'Updates'
+                    },
+                    {
+                        'name': 'Vulnerabilities'
+                    },
+                    {
+                        'name': 'Web'
+                    },
+                ],
+            },
+            {
+                # get api_key
+                'type': 'input',
+                'message': 'enter search (spl)',
+                'name': 'detect',
+            },
+            {
+                # get api_key
+                'type': 'input',
+                'message': 'enter author name',
+                'name': 'detection_author',
+            },
+        ]
+        answers = prompt(questions)
+
+        j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+                         trim_blocks=True)
+
+        # write a detection example
+        template = j2_env.get_template('detection.j2')
+        detection_name = answers['detection_name']
+        detection_file_name =  detection_name.replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+        output_path = path.join(security_content_path, 'detections/endpoint/' + detection_file_name + '.yml')
+        output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
+        author='Robert Johansson', name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example',
+        description='Describe your detection the best way possible, if you need inspiration just look over others.',
+        how_to_implement='How would a user implement this detection, describe any TAs, or specific configuration they might require',
+        known_false_positives='Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.',
+        references=['https://wearebob.fandom.com/wiki/Bob','https://en.wikipedia.org/wiki/Dennis_E._Taylor'],
+        datamodels=['Endpoint'], search='SPLUNKSPLGOESHERE | `' + getpass.getuser() + '_' + type + '_example_filter`',
+        type='batch', analytic_story_name='STORY NAME GOES HERE', mitre_attack_id = 'T1003.01',
+        kill_chain_phases=['Exploitation'], dataset_url='https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log',
+        products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        print("contentctl wrote a example detection to: {0}".format(output_path))
+
+        # and a corresponding test files
+        template = j2_env.get_template('test.j2')
+        test_name = getpass.getuser() + '_' + type + '_example.test.yml'
+        output_path = path.join(security_content_path, 'tests/endpoint/' + test_name)
+        output = template.render(name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example Unit Test',
+        detection_name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example',
+        detection_path='detections/endpoint/' + detection_name, pass_condition='| stats count | where count > 0',
+        earliest_time='-24h', latest_time='now', file_name='windows-sysmon.log', splunk_source='XmlWinEventLog:Microsoft-Windows-Sysmon/Operational',
+        splunk_sourcetype='xmlwineventlog',dataset_url='https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log')
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        print("contentctl wrote a example test for this detection to: {0}".format(output_path))
