@@ -12,13 +12,13 @@ narrative: 'This Analytic Story supports you to detect Tactics, Techniques and P
 
   In generating content for Cobalt Strike, the following is considered:\
 
-  1. Is it normal for <spawn_to value> to have no command line arguments? No command line arguments and a network connection?\
+  1. Is it normal for <spawnto_ value> to have no command line arguments? No command line arguments and a network connection?\
 
-  1. What is the default, or normal, process lineage for <spawn_to value>?\
+  1. What is the default, or normal, process lineage for <spawnto_ value>?\
 
-  1. Does the <spawn_to value> make network connections?\
+  1. Does the <spawnto_ value> make network connections?\
 
-  1. Is it normal for <spawn_to value> to load jscript, vbscript, Amsi.dll, and clr.dll?.'
+  1. Is it normal for <spawnto_ value> to load jscript, vbscript, Amsi.dll, and clr.dll?.'
 
 references:
 - https://www.cobaltstrike.com/
