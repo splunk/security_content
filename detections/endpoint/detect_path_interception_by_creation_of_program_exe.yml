@@ -10,16 +10,12 @@ description: 'The detection Detect Path Interception By Creation Of program exe 
   detecting the abuse of unquoted service paths, which is a popular technique for
   privilege escalation. '
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=services.exe
-    by Processes.user Processes.process_name Processes.process Processes.dest index 
-| `drop_dm_object_name(Processes)` 
-| rex field=process "^.*?\\\\(?<service_process>[^\\\\]*\.(?:exe|bat|com|ps1))" 
-| eval process_name = lower(process_name) 
-| eval service_process = lower(service_process) 
-| where process_name != service_process 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| `detect_path_interception_by_creation_of_program_exe_filter`'
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=services.exe
+  by Processes.user Processes.process_name Processes.process Processes.dest index
+  | `drop_dm_object_name(Processes)` | rex field=process "^.*?\\\\(?<service_process>[^\\\\]*\.(?:exe|bat|com|ps1))"
+  | eval process_name = lower(process_name) | eval service_process = lower(service_process)
+  | where process_name != service_process | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `detect_path_interception_by_creation_of_program_exe_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
   ingesting logs with both the process name and command line from your endpoints.
