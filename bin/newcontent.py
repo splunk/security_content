@@ -12,7 +12,6 @@ from jinja2 import Environment, FileSystemLoader
 import uuid
 from datetime import date
 from os import path
-import sys
 
 
 def create_example(security_content_path,type, TEMPLATE_PATH):
@@ -21,22 +20,38 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
     if type == 'detection':
         j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                              trim_blocks=True)
+
+        # write a detection example
         template = j2_env.get_template('detection.j2')
-        example_name = getpass.getuser() + '_' + type + '_example.yml'
-        output_path = path.join(security_content_path, 'detections/endpoint/' + example_name)
+        detection_name = getpass.getuser() + '_' + type + '_example.yml'
+        output_path = path.join(security_content_path, 'detections/endpoint/' + detection_name)
         output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
         author='Robert Johansson', name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example',
         description='Describe your detection the best way possible, if you need inspiration just look over others.',
         how_to_implement='How would a user implement this detection, describe any TAs, or specific configuration they might require',
         known_false_positives='Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.',
         references=['https://wearebob.fandom.com/wiki/Bob','https://en.wikipedia.org/wiki/Dennis_E._Taylor'],
-        datamodels=['Endpoint'], search='SPLUNKSPLv1GOESHERE | `' + getpass.getuser() + '_' + type + '_example_filter`',
-        type='batch', analytic_story_name='Story Name Goes Here', mitre_attack_id = 'T0000.00',
-        kill_chain_phases=['Exploitation'], dataset_url='https://github.com/splunk/attack_data/',
+        datamodels=['Endpoint'], search='SPLUNKSPLGOESHERE | `' + getpass.getuser() + '_' + type + '_example_filter`',
+        type='batch', analytic_story_name='STORY NAME GOES HERE', mitre_attack_id = 'T1003.01',
+        kill_chain_phases=['Exploitation'], dataset_url='https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log',
         products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
         print("contentctl wrote a example detection to: {0}".format(output_path))
+
+        # and a corresponding test files
+        template = j2_env.get_template('test.j2')
+        test_name = getpass.getuser() + '_' + type + '_example.test.yml'
+        output_path = path.join(security_content_path, 'tests/endpoint/' + test_name)
+        output = template.render(name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example Unit Test',
+        detection_name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example',
+        detection_path='detections/endpoint/' + detection_name, pass_condition='| stats count | where count > 0',
+        earliest_time='-24h', latest_time='now', file_name='windows-sysmon.log', splunk_source='XmlWinEventLog:Microsoft-Windows-Sysmon/Operational',
+        splunk_sourcetype='xmlwineventlog',dataset_url='https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log')
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        print("contentctl wrote a example test for this detection to: {0}".format(output_path))
+
 
 def new(security_content_path, VERBOSE, type, example_only):
 
