@@ -16,10 +16,11 @@ from os import path
 
 def create_example(security_content_path,type, TEMPLATE_PATH):
     getpass.getuser()
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+                         trim_blocks=True)
 
     if type == 'detection':
-        j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                             trim_blocks=True)
+
 
         # write a detection example
         template = j2_env.get_template('detection.j2')
@@ -52,10 +53,25 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
             f.write(output)
         print("contentctl wrote a example test for this detection to: {0}".format(output_path))
 
+    elif type == 'story':
+        # write a detection example
+        template = j2_env.get_template('story.j2')
+        story_name = getpass.getuser() + '_' + type + '_example.yml'
+        output_path = path.join(security_content_path, 'stories/' + story_name)
+        output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
+        author='Robert Johansson', name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example',
+        description='Describe your story the best way possible, if you need inspiration just look over others.',
+        narrative='Explain why should a SOC manager or Director care about this use case, if you need inspiration just look over others.',
+        references=['https://wearebob.fandom.com/wiki/Bob','https://en.wikipedia.org/wiki/Dennis_E._Taylor'],
+        type='batch', analytic_story_name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Example',
+        category=['Adversary Tactics'], usecase='Advanced Threat Detection', products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        print("contentctl wrote a example story to: {0}".format(output_path))
 
 def new(security_content_path, VERBOSE, type, example_only):
 
-    valid_content_objects = ['detection','workbook','story']
+    valid_content_objects = ['detection','story']
     if type not in valid_content_objects:
         print("ERROR: content type: {0} is not valid, please use: {1}".format(type, str(valid_content_objects)))
         sys.exit(1)

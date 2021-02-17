@@ -105,7 +105,7 @@ def main(args):
 
     # new arguments
     new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
-                                 help="Type of new content to create, please chose between detection, workbook, or story")
+                                 help="Type of new content to create, please chose between detection or story")
     new_parser.add_argument("-x", "--example_only", required=False, action='store_true',
                                  help="Generates an example content with UPDATETHIS where a value is required. Use `git status` to see what specific files are added. Skips new content wizard prompts.")
     new_parser.set_defaults(func=new)
