@@ -2,8 +2,8 @@ name: Detect Path Interception By Creation Of program exe Unit Test
 tests:
 - name: Detect Path Interception By Creation Of program exe
   file: endpoint/detect_path_interception_by_creation_of_program_exe.yml
-  pass_condition: '| stats count | where count = 1'
-  earliest_time: '-24h'
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-7d'
   latest_time: 'now'
   attack_data:
   - file_name: windows-sysmon.log
