@@ -57,7 +57,7 @@ def new(args):
     VERBOSE = not args.silence
 
     # hard setting verbosity for now
-    print("contentctl is creating a new {0} under {0}".format(args.type, security_content_path))
+    print("contentctl is creating a new {0}".format(args.type))
     content.new(security_content_path, VERBOSE, args.type, args.example_only)
 
 def validate(args):

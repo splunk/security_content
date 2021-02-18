@@ -12,6 +12,7 @@ from jinja2 import Environment, FileSystemLoader
 import uuid
 from datetime import date
 from os import path
+import sys
 
 
 def create_example(security_content_path,type, TEMPLATE_PATH):
@@ -80,6 +81,7 @@ def new(security_content_path, VERBOSE, type, example_only):
 
     if example_only:
         create_example(security_content_path,type, TEMPLATE_PATH)
+        sys.exit(0)
 
 
     if type == 'detection':
