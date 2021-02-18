@@ -1,0 +1,53 @@
+name: Detect Regsvcs with Network Connection
+id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
+version: 1
+date: '2021-02-16'
+description: The following analytic identifies Regsvcs.exe with a network connection
+  to a public IP address, exluding private IP space. This particular technique has
+  been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe
+  are signed by Microsoft. By contacting a remote command and control server, the
+  adversary will have the ability to escalate privileges and complete the objectives.
+  During investigation, identify and retrieve the content being loaded. Review parallel
+  processes for additional suspicious behavior. Gather any other file modifications
+  and review accordingly. Review the reputation of the remote IP or domain and block
+  as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
+  and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+type: batch
+datamodel: []
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
+author: Michael Haag, Splunk
+search: '`sysmon` EventID=3 dest_ip!=10.0.0.0/12 dest_ip!=172.16.0.0/12 dest_ip!=192.168.0.0/16
+  process_name=regsvcs.exe | rename Computer as dest | stats count min(_time) as firstTime
+  max(_time) as lastTime by dest, User, process_name, src_ip, dest_host, dest_ip |
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_regsvcs_with_network_connection_filter`'
+known_false_positives: Although unlikely, limited instances of regsvcs.exe may cause
+  a false positive. Filter based endpoint usage, command line arguments, or process
+  lineage.
+tags:
+  analytic_story:
+  - Suspicious Regsvcs Regasm Activity
+  mitre_attack_id:
+  - T1218.009
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 8
+  nist:
+  - PR.PT
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: Endpoint
+  asset_type: Endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  automated_detection_testing: passed
