@@ -1,0 +1,37 @@
+name: Cobalt Strike
+id: bcfd17e8-5461-400a-80a2-3b7d1459220c
+version: 1
+date: '2021-02-16'
+author: Michael Haag, Splunk
+type: batch
+description: Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility. 
+narrative: 'This Analytic Story supports you to detect Tactics, Techniques and Procedures
+  (TTPs) from Cobalt Strike. Cobalt Strike has many ways to be enhanced by using aggressor scripts, malleable C2 profiles, default attack packages, and much more. 
+  For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. 
+  On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike.\
+
+  In generating content for Cobalt Strike, the following is considered:\
+
+  1. Is it normal for <spawnto_ value> to have no command line arguments? No command line arguments and a network connection?\
+
+  1. What is the default, or normal, process lineage for <spawnto_ value>?\
+
+  1. Does the <spawnto_ value> make network connections?\
+
+  1. Is it normal for <spawnto_ value> to load jscript, vbscript, Amsi.dll, and clr.dll?.'
+
+references:
+- https://www.cobaltstrike.com/
+- https://www.infocyte.com/blog/2020/09/02/cobalt-strike-the-new-favorite-among-thieves/
+- https://bluescreenofjeff.com/2017-01-24-how-to-write-malleable-c2-profiles-for-cobalt-strike/
+- https://blog.talosintelligence.com/2020/09/coverage-strikes-back-cobalt-strike-paper.html
+- https://www.fireeye.com/blog/threat-research/2020/12/unauthorized-access-of-fireeye-red-team-tools.html
+tags:
+  analytic_story: Cobalt Strike
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
