@@ -34,8 +34,8 @@ tags:
   - Actions on Objective
   mitre_attack_id:
   - T1136.003
-  security_domain: threat
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  security_domain: threat
