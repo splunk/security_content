@@ -115,11 +115,9 @@ def new(security_content_path, VERBOSE, type, example_only):
                 'default': 'endpoint'
             },
             {
-                # get api_key
                 'type': 'input',
-                'message': 'enter detection name',
+                'message': 'enter detection name (Suspicious MSHTA)',
                 'name': 'detection_name',
-                'default': 'Suspicious Mshta Spawn',
             },
             {
                 # get api_key
@@ -136,7 +134,7 @@ def new(security_content_path, VERBOSE, type, example_only):
             {
                 # get provider
                 'type': 'list',
-                'message': 'select a detection type',
+                'message': 'select a detection type (see type details here: https://wiki)',
                 'name': 'detection_type',
                 'choices': [
                     {

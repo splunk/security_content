@@ -28,7 +28,7 @@ starting program loaded for TIE Fighter...
      | ]|.[_]_ T~T[_.-Y  / \  / \  Y-._]T~T _[_].|| |
     [|-+[  ___]| [__  |-=[--()--]=-|  __] |[___  ]+-|]
      | ]|"[_]  l_j[_"-l  \ /  \ /  !-"_]l_j  [_]~|| |
-     | |`-' "~"---.,_\"\  "o--o"  /"/_,.---"~" `-'| |
+     | |`-' "~"---.,_\\"\  "o--o"  /"/_,.---"~" `-'| |
      | |             ~~"^-.____.-^"~~             | |
      | |                                          | |
      | |                                          | |
@@ -99,7 +99,7 @@ def main(args):
     parser.set_defaults(func=lambda _: parser.print_help())
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
-    new_parser = actions_parser.add_parser("new", help="Create new content (detections, stories, workbooks)")
+    new_parser = actions_parser.add_parser("new", help="Create new content (detection, story, baseline)")
     validate_parser = actions_parser.add_parser("validate", help="Validates written content")
     generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
 
