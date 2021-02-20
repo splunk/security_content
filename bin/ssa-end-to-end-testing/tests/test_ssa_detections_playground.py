@@ -12,17 +12,7 @@ from modules.utils import read_spl, read_data
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
 
-
-def test_ssa_detection_in_dsp_with_preview_session(token):
-    assert (token is not None), "scloud token is missing"
-    header_token = f"Bearer {token}"
-
-    spl = read_spl('test2.spl')
-
-    # pipeline_id = create_pipeline_from_spl(header_token, spl)
-    # assert pipeline_id is not None
-    # print(pipeline_id)
-
+def ssa_detection_in_dsp_with_preview_session(header_token, spl):
     preview_id = get_preview_id_from_spl(header_token, spl)
     assert preview_id is not None
 
@@ -32,6 +22,22 @@ def test_ssa_detection_in_dsp_with_preview_session(token):
     response, response_body = get_preview_data(header_token, preview_id)
     assert response_body.get("currentNumberOfRecords") > 0, "Missing records in preview session."
 
+
+def test_ssa_detection_test2(token):
+    assert (token is not None), "scloud token is missing"
+    header_token = f"Bearer {token}"
+
+    spl = read_spl('test2.spl')
+
+    ssa_detection_in_dsp_with_preview_session(header_token, spl)
+
+def test_ssa_detection_test3(token):
+    assert (token is not None), "scloud token is missing"
+    header_token = f"Bearer {token}"
+
+    spl = read_spl('test3.spl')
+
+    ssa_detection_in_dsp_with_preview_session(header_token, spl)
 
 def test_ssa_detection_end_to_end(token):
     assert (token is not None), "scloud token is missing"

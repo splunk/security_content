@@ -2,6 +2,11 @@
 import sys
 import pytest
 import argparse
+# import logging
+# import os
+#
+# logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+# LOGGER = logging.getLogger(__name__)
 
 
 def main(args):
