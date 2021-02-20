@@ -54,26 +54,17 @@ starting program loaded for TIE Fighter...
 
 def new(args):
     security_content_path = init(args)
-    VERBOSE = not args.silence
-
-    # hard setting verbosity for now
     print("contentctl is creating a new {0}".format(args.type))
-    content.new(security_content_path, VERBOSE, args.type, args.example_only)
+    content.new(security_content_path, args.verbose, args.type, args.example_only)
 
 def validate(args):
     security_content_path = init(args)
-    VERBOSE = not args.silence
-
-    # hard setting verbosity for now
     print("contentctl is validating all content under {0}".format(security_content_path))
-    validator.new(security_content_path, VERBOSE)
+    validator.new(security_content_path, args.verbose)
 
 
 def generate(args):
     security_content_path = init(args)
-    # hard setting verbosity for now
-    VERBOSE = not args.silence
-
     output = Path(args.output).resolve()
     if output.is_dir():
         print("contentctl is using folder {0} to write deployment".format(
@@ -83,7 +74,7 @@ def generate(args):
         sys.exit(1)
 
     print("contentctl is generating a new splunk_app under ".format(output))
-    generator.new(security_content_path, args.output, VERBOSE)
+    generator.new(security_content_path, args.output, args.verbose)
 
 
 def main(args):
@@ -92,9 +83,9 @@ def main(args):
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
     parser.add_argument("-p", "--path", required=False, default=".",
                         help="path to the Splunk Security Content. Defaults to `.`")
-    parser.add_argument("-v", "--version", default=False, action="version", version="version: {0}".format(VERSION),
+    parser.add_argument("--Version", default=False, action="version", version="version: {0}".format(VERSION),
                         help="shows current contentctl version")
-    parser.add_argument("-s", "--silence", required=False, action='store_true',
+    parser.add_argument("-v", "--verbose", required=False, action='store_true',
                         help="silences all verbose output, defaults to False")
     parser.set_defaults(func=lambda _: parser.print_help())
 
@@ -105,9 +96,9 @@ def main(args):
 
     # new arguments
     new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
-                                 help="Type of new content to create, please chose between detection or story")
+                                 help="Type of new content to create, please choose between `detection`, `baseline` or `story`. Defaults to `detection`")
     new_parser.add_argument("-x", "--example_only", required=False, action='store_true',
-                                 help="Generates an example content with UPDATETHIS where a value is required. Use `git status` to see what specific files are added. Skips new content wizard prompts.")
+                                 help="Generates an example content UPDATE on the fields that need updating. Use `git status` to see what specific files are added. Skips new content wizard prompts.")
     new_parser.set_defaults(func=new)
 
     # validate arguments

@@ -1,8 +1,8 @@
 # Ignore example files from contentctl tool
 
-detections/*/*_example.yml
-stories/*_example.yml
-tests/*/*_example.yml
+detections/*/.yml.example
+stories/*.yml.example
+tests/*/*.yml.example
 
 # usual mac files
 .DS_Store
