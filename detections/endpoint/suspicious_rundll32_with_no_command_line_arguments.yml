@@ -7,7 +7,7 @@ type: batch
 datamodel: []
 description: The following analytic identifies rundll32.exe with no command line arguments.
   It is unusual for rundll32.exe to execute with no command line arguments present.
-  This particular behavior is common with malicious software, including CobaltStrike.
+  This particular behavior is common with malicious software, including Cobalt Strike.
   During investigation, identify any network connections and parallel processes. Identify
   any suspicious module loads related to credential dumping or file writes. Rundll32.exe
   is natively found in C:\Windows\system32 and C:\Windows\syswow64.
@@ -26,11 +26,11 @@ references:
 - https://attack.mitre.org/techniques/T1218/011/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
 - https://lolbas-project.github.io/lolbas/Binaries/Rundll32
-- https://lolbas-project.github.io/lolbas/Libraries/Advpack/
 - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 tags:
   analytic_story:
   - Suspicious Rundll32 Activity
+  - Cobalt Strike
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -44,8 +44,8 @@ tags:
   nist:
   - PR.PT
   - DE.CM
-  security_domain: endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  security_domain: endpoint

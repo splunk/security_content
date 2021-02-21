@@ -1,0 +1,53 @@
+name: Detect Regasm Spawning a Process
+id: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
+version: 1
+date: '2021-02-12'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies regasm.exe spawning a process. This
+  particular technique has been used in the wild to bypass application control products.
+  Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process
+  is rare from either process and should be investigated further. During investigation,
+  identify and retrieve the content being loaded. Review parallel processes for additional
+  suspicious behavior. Gather any other file modifications and review accordingly.
+  regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
+  and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=regasm.exe
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_regasm_spawning_a_process_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Although unlikely, limited instances of regasm.exe or regsvcs.exe
+  may cause a false positive. Filter based endpoint usage, command line arguments,
+  or process lineage.
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+- https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
+- https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+tags:
+  analytic_story:
+  - Suspicious Regsvcs Regasm Activity
+  asset_type: Endpoint
+  automated_detection_testing: passed
+  cis20:
+  - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1218.009
+  nist:
+  - PR.PT
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
