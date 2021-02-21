@@ -25,8 +25,8 @@ This project gives you access to our repository of Analytic Stories that are sec
 # Get Content🛡
 The latest Splunk Security Content can be obtained via:
 
-#### [SSE App](https://github.com/splunk/security_content/releases)
-Grab the latest release of Splunk Security Essentials App and install it on a Splunk instance. You can download it from [splunkbase](https://splunkbase.splunk.com/app/3449/), it is a Splunk Supported App. SSE Splunk app today supports push updates for security content release, this is the **preferred way** to get content!
+#### [SSE App](https://splunkbase.splunk.com/app/3435/)
+Grab the latest release of Splunk Security Essentials App and install it on a Splunk instance. You can download it from [splunkbase](https://splunkbase.splunk.com/app/3435/), it is a Splunk Supported App. SSE Splunk app today supports push updates for security content release, this is the **preferred way** to get content!
 
 #### [ESCU App](https://github.com/splunk/security_content/releases)
 Grab the latest release of DA-ESS-ContentUpdate.spl and install it on a Splunk instance. Alternatively, you can download it from [splunkbase](https://splunkbase.splunk.com/app/3449/), it is currently a Splunk Supported App.
