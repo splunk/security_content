@@ -42,8 +42,8 @@ tags:
   - T1003.001
   nist:
   - DE.CM
-  security_domain: endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  security_domain: endpoint

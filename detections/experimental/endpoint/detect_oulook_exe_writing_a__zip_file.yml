@@ -25,8 +25,8 @@ search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(
   != "" | `detect_oulook_exe_writing_a__zip_file_filter` '
 how_to_implement: You must be ingesting data that records filesystem and process activity
   from your hosts to populate the Endpoint data model. This is typically populated
-  via endpoint detection-and-response product, such as Carbon Black, or endpoint
-  data sources, such as Sysmon.
+  via endpoint detection-and-response product, such as Carbon Black, or endpoint data
+  sources, such as Sysmon.
 known_false_positives: It is not uncommon for outlook to write legitimate zip files
   to the disk.
 references: []

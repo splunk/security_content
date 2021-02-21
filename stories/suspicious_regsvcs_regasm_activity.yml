@@ -1,0 +1,24 @@
+author: Michael Haag, Splunk
+date: '2021-02-11'
+description: Monitor and detect techniques used by attackers who leverage the mshta.exe
+  process to execute malicious code.
+id: 2cdf33a0-4805-4b61-b025-59c20f418fbe
+name: Suspicious Regsvcs Regasm Activity
+narrative: ' Adversaries may abuse Regsvcs and Regasm to proxy execution of code through a trusted Windows utility. Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies. Both are digitally signed by Microsoft. 
+  The following queries assist with detecting suspicious and malicious usage of Regasm.exe and Regsvcs.exe. 
+  Upon reviewing usage of Regasm.exe Regsvcs.exe, review file modification events for possible script code written. Review parallel process events for csc.exe being utilized to compile script code.'
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://github.com/rapid7/metasploit-framework/blob/master/documentation/modules/evasion/windows/applocker_evasion_regasm_regsvcs.md
+- https://oddvar.moe/2017/12/13/applocker-case-study-how-insecure-is-it-really-part-1/
+tags:
+  analytic_story: Suspicious Regsvcs Regasm Activity
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1
