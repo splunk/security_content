@@ -294,6 +294,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [Baron Samedit CVE-2021-3156](#Baron-Samedit-CVE-2021-3156)
 
+* [Cobalt Strike](#Cobalt-Strike)
+
 * [Collection and Staging](#Collection-and-Staging)
 
 * [Command and Control](#Command-and-Control)
@@ -326,6 +328,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [Suspicious Command-Line Executions](#Suspicious-Command-Line-Executions)
 
+* [Suspicious Compiled HTML Activity](#Suspicious-Compiled-HTML-Activity)
+
 * [Suspicious DNS Traffic](#Suspicious-DNS-Traffic)
 
 * [Suspicious Emails](#Suspicious-Emails)
@@ -333,6 +337,12 @@ Another search detects incidents wherein a single password is used across multip
 * [Suspicious MSHTA Activity](#Suspicious-MSHTA-Activity)
 
 * [Suspicious Okta Activity](#Suspicious-Okta-Activity)
+
+* [Suspicious Regsvcs Regasm Activity](#Suspicious-Regsvcs-Regasm-Activity)
+
+* [Suspicious Regsvr32 Activity](#Suspicious-Regsvr32-Activity)
+
+* [Suspicious Rundll32 Activity](#Suspicious-Rundll32-Activity)
 
 * [Suspicious Windows Registry Activities](#Suspicious-Windows-Registry-Activities)
 
@@ -390,6 +400,51 @@ A non-privledged user is able to execute the sudoedit command to trigger a buffe
 
 ##### References
 * https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
+### Cobalt Strike
+* id = bcfd17e8-5461-400a-80a2-3b7d1459220c
+* date = 2021-02-16
+* version = 1
+
+#### Description
+Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility.
+
+#### Narrative
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from Cobalt Strike. Cobalt Strike has many ways to be enhanced by using aggressor scripts, malleable C2 profiles, default attack packages, and much more. For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike.\
+In generating content for Cobalt Strike, the following is considered:\
+1. Is it normal for <spawnto_ value> to have no command line arguments? No command line arguments and a network connection?\
+1. What is the default, or normal, process lineage for <spawnto_ value>?\
+1. Does the <spawnto_ value> make network connections?\
+1. Is it normal for <spawnto_ value> to load jscript, vbscript, Amsi.dll, and clr.dll?.
+
+#### Detections
+* Suspicious Rundll32 StartW
+* Suspicious Rundll32 no CommandLine Arguments
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1218.011
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://www.cobaltstrike.com/
+* https://www.infocyte.com/blog/2020/09/02/cobalt-strike-the-new-favorite-among-thieves/
+* https://bluescreenofjeff.com/2017-01-24-how-to-write-malleable-c2-profiles-for-cobalt-strike/
+* https://blog.talosintelligence.com/2020/09/coverage-strikes-back-cobalt-strike-paper.html
+* https://www.fireeye.com/blog/threat-research/2020/12/unauthorized-access-of-fireeye-red-team-tools.html
 
 ### Collection and Staging
 * id = 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
@@ -570,12 +625,16 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * Create Remote Thread into LSASS
 * Creation of Shadow Copy
 * Creation of Shadow Copy with wmic and powershell
+* Creation of lsass Dump with Taskmgr
 * Credential Dumping via Copy Command from Shadow Copy
 * Credential Dumping via Symlink to Shadow Copy
 * Detect Credential Dumping through LSASS access
 * Detect Dump LSASS Memory using comsvcs - SSA
 * Detect Mimikatz Using Loaded Images
 * Dump LSASS via comsvcs DLL
+* Dump LSASS via procdump
+* Dump LSASS via procdump Rename
+* Ntdsutil export ntds
 * Unsigned Image Loaded by LSASS
 
 #### Data Models
@@ -1242,6 +1301,49 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 * https://www.microsoft.com/en-us/wdsi/threats/macro-malware
 * https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
 
+### Suspicious Compiled HTML Activity
+* id = a09db4d1-3827-4833-87b8-3a397e532119
+* date = 2021-02-11
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
+
+#### Narrative
+Adversaries may abuse Compiled HTML files (.chm) to conceal malicious code. CHM files are commonly distributed as part of the Microsoft HTML Help system. CHM files are compressed compilations of various content such as HTML documents, images, and scripting/web related programming languages such VBA, JScript, Java, and ActiveX. CHM content is displayed using underlying components of the Internet Explorer browser loaded by the HTML Help executable program (hh.exe). \
+HH.exe relies upon hhctrl.ocx to load CHM topics.This will load upon execution of a chm file. \
+During investigation, review all parallel processes and child processes. It is possible for file modification events to occur and it is best to capture the CHM file and decompile it for further analysis. \
+Upon usage of InfoTech Storage Handlers, ms-its, its, mk, itss.dll will load.
+
+#### Detections
+* Detect HTML Help Renamed
+* Detect HTML Help Spawn Child Process
+* Detect HTML Help URL in Command Line
+* Detect HTML Help Using InfoTech Storage Handlers
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1218.001
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://redcanary.com/blog/introducing-atomictestharnesses/
+* https://attack.mitre.org/techniques/T1218/001/
+* https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
+
 ### Suspicious DNS Traffic
 * id = 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
 * date = 2017-09-18
@@ -1353,9 +1455,15 @@ Once a phishing message has been detected, the next steps are to answer the foll
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 #### Narrative
-One common adversary tactic is to bypass application white-listing solutions via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta suffix. In these cases, attackers use the trusted Windows utility to proxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
-The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code. \
-Triage \ Validate execution \ 1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. 2. Determine if script code was executed with MSHTA. \ Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSHTA.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is MSHTA loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
+One common adversary tactic is to bypass application control solutions via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta suffix. In these cases, attackers use the trusted Windows utility to proxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code.\
+Triage\ Validate execution \ 1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect.\
+1. Determine if script code was executed with MSHTA.\
+Situational Awareness\ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSHTA.exe.\
+1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?\
+1. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is MSHTA loading any suspicious .DLLs?\
+1. Network connections. Any network connections? Review the reputation of the remote IP or domain.\
+Retrieval of script code\ The objective of this step is to confirm the executed script code is benign or malicious.
 
 #### Detections
 * Detect MSHTA Url in Command Line
@@ -1409,7 +1517,7 @@ While SSO is a major convenience for users, it also provides attackers with an o
 With people moving quickly to adopt web-based applications and ways to manage them, many are still struggling to understand how best to monitor these environments. This analytic story provides searches to help monitor this environment, and identify events and activity that warrant further investigation such as credential stuffing or password spraying attacks, and users logging in from multiple locations when travel is disallowed.
 
 #### Detections
-* Multiple Okta Users With Invalid Credentails From The Same IP
+* Multiple Okta Users With Invalid Credentials From The Same IP
 * Okta Account Lockout Events
 * Okta Failed SSO Attempts
 * Okta User Logins From Multiple Cities
@@ -1433,6 +1541,135 @@ With people moving quickly to adopt web-based applications and ways to manage th
 * https://attack.mitre.org/wiki/Technique/T1078
 * https://owasp.org/www-community/attacks/Credential_stuffing
 * https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
+
+### Suspicious Regsvcs Regasm Activity
+* id = 2cdf33a0-4805-4b61-b025-59c20f418fbe
+* date = 2021-02-11
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
+
+#### Narrative
+ Adversaries may abuse Regsvcs and Regasm to proxy execution of code through a trusted Windows utility. Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies. Both are digitally signed by Microsoft. The following queries assist with detecting suspicious and malicious usage of Regasm.exe and Regsvcs.exe. Upon reviewing usage of Regasm.exe Regsvcs.exe, review file modification events for possible script code written. Review parallel process events for csc.exe being utilized to compile script code.
+
+#### Detections
+* Detect Regasm Spawning a Process
+* Detect Regasm with Network Connection
+* Detect Regasm with no Command Line Arguments
+* Detect Regsvcs Spawning a Process
+* Detect Regsvcs with Network Connection
+* Detect Regsvcs with No Command Line Arguments
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1218.009
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://attack.mitre.org/techniques/T1218/009/
+* https://github.com/rapid7/metasploit-framework/blob/master/documentation/modules/evasion/windows/applocker_evasion_regasm_regsvcs.md
+* https://oddvar.moe/2017/12/13/applocker-case-study-how-insecure-is-it-really-part-1/
+
+### Suspicious Regsvr32 Activity
+* id = b8bee41e-624f-11eb-ae93-0242ac130002
+* date = 2021-01-29
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage the regsvr32.exe process to execute malicious code.
+
+#### Narrative
+One common adversary tactic is to bypass application control solutions via the regsvr32.exe process. This particular bypass was popularized with "SquiblyDoo" using the "scrobj.dll" dll to load .sct scriptlets. This technique is still widely used by adversaries to bypass detection and prevention controls. The file extension of the DLL is irrelevant (it may load a .txt file extension for example). The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging regsvr32.exe to execute malicious code. Validate execution Determine if regsvr32.exe executed. Validate the OriginalFileName of regsvr32.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. Determine if script code was executed with regsvr32. Situational Awareness - The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by regsvr32.exe. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? Module loads.  Is regsvr32 loading any suspicious .DLLs? Unsigned or signed from non-standard paths. Network connections. Any network connections? Review the reputation of the remote IP or domain. Retrieval of Script Code - confirm the executed script code is benign or malicious.
+
+#### Detections
+* Detect Regsvr32 Application Control Bypass
+* Suspicious Regsvr32 Register Suspicious Path
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1218.010
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+* CIS 8
+
+##### NIST
+* DE.CM
+
+##### References
+* https://attack.mitre.org/techniques/T1218/010/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
+* https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+
+### Suspicious Rundll32 Activity
+* id = 80a65487-854b-42f1-80a1-935e4c170694
+* date = 2021-02-03
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage rundll32.exe to execute arbitrary malicious code.
+
+#### Narrative
+One common adversary tactic is to bypass application control solutions via the rundll32.exe process. Natively, rundll32.exe will load DLLs and is a great example of a Living off the Land Binary. Rundll32.exe may load malicious DLLs by ordinals, function names or directly. The queries in this story focus on loading default DLLs, syssetup.dll, ieadvpack.dll, advpack.dll and setupapi.dll from disk that may be abused by adversaries. Additionally, two analytics developed to assist with identifying DLLRegisterServer, Start and StartW functions being called. The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging rundll32.exe to execute malicious code.
+
+#### Detections
+* Detect Rundll32 Application Control Bypass - advpack
+* Detect Rundll32 Application Control Bypass - setupapi
+* Detect Rundll32 Application Control Bypass - syssetup
+* Dump LSASS via comsvcs DLL
+* Suspicious Rundll32 Rename
+* Suspicious Rundll32 StartW
+* Suspicious Rundll32 dllregisterserver
+* Suspicious Rundll32 no CommandLine Arguments
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1003.001
+* T1036.003
+* T1218.011
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+* CIS 3
+* CIS 5
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://attack.mitre.org/techniques/T1218/011/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+* https://lolbas-project.github.io/lolbas/Binaries/Rundll32
 
 ### Suspicious Windows Registry Activities
 * id = 2b1800dd-92f9-47dd-a981-fdf1351e5d55
@@ -1629,10 +1866,20 @@ The searches in this story help you detect and investigate suspicious activity t
 Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
 
 #### Narrative
-Adversaries may use MSBuild to proxy execution of code through a trusted Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio and is native to Windows. It handles XML formatted project files that define requirements for loading and building various platforms and configurations. \
-The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# code to be inserted into an XML project file. MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application control defenses that are configured to allow MSBuild.exe execution. \
-The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging msbuild.exe to execute malicious code. \
-Triage \ Validate execution \ 1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further PE metadata. 2. Determine if script code was executed with MSBuild. Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSBuild.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is MSbuild loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
+Adversaries may use MSBuild to proxy execution of code through a trusted Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio and is native to Windows. It handles XML formatted project files that define requirements for loading and building various platforms and configurations.\
+The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# code to be inserted into an XML project file. MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application control defenses that are configured to allow MSBuild.exe execution.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging msbuild.exe to execute malicious code.\
+Triage\
+Validate execution\
+1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further PE metadata.\
+1. Determine if script code was executed with MSBuild.\
+Situational Awareness\
+The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSBuild.exe.\
+1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?\
+1. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is MSbuild loading any suspicious .DLLs?\
+1. Network connections. Any network connections? Review the reputation of the remote IP or domain.\
+Retrieval of script code\
+The objective of this step is to confirm the executed script code is benign or malicious.
 
 #### Detections
 * Suspicious MSBuild Rename
@@ -1810,6 +2057,7 @@ Monitor for activities and techniques associated with maintaining persistence on
 Maintaining persistence is one of the first steps taken by attackers after the initial compromise. Attackers leverage various custom and built-in tools to ensure survivability and persistent access within a compromised enterprise. This Analytic Story provides searches to help you identify various behaviors used by attackers to maintain persistent access to a Windows environment.
 
 #### Detections
+* Certutil exe certificate extraction
 * Detect Path Interception By Creation Of program exe
 * Hiding Files And Directories With Attrib exe
 * Monitor Registry Keys for Print Monitors
@@ -2228,6 +2476,8 @@ Various legacy protocols operate by default in the clear, without the protection
 
 * [Cloud Cryptomining](#Cloud-Cryptomining)
 
+* [Cloud Federated Credential Abuse](#Cloud-Federated-Credential-Abuse)
+
 * [Container Implantation Monitoring and Investigation](#Container-Implantation-Monitoring-and-Investigation)
 
 * [GCP Cross Account Activity](#GCP-Cross-Account-Activity)
@@ -2546,6 +2796,72 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 
+### Cloud Federated Credential Abuse
+* id = cecdc1e7-0af2-4a55-8967-b9ea62c0317d
+* date = 2021-01-26
+* version = 1
+
+#### Description
+This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim's cloud environements.
+
+#### Narrative
+This story is composed of detection searches based on endpoint that addresses the use of Mimikatz, Escalation of Privileges and Abnormal processes that may indicate the extraction of Federated directory objects such as passwords, Oauth2 tokens, certificates and keys. Cloud environment (AWS, Azure) related events are also addressed in specific cloud environment detection searches.
+
+#### Detections
+* AWS SAML Access by Provider User and Principal
+* AWS SAML Update identity provider
+* Certutil exe certificate extraction
+* Detect Mimikatz Using Loaded Images
+* Detect Mimikatz Via PowerShell And EventCode 4703
+* Detect Rare Executables
+* O365 Add App Role Assignment Grant User
+* O365 Added Service Principal
+* O365 Excessive SSO logon errors
+* O365 New Federated Domain Added
+* Registry Keys Used For Privilege Escalation
+* Uncommon Processes On Endpoint
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1003.001
+* T1078
+* T1136.003
+* T1204.002
+* T1546.012
+* T1556
+
+##### Kill Chain Phases
+* Actions on Objective
+* Actions on Objectives
+* Command and Control
+* Installation
+
+###### CIS
+* CIS 16
+* CIS 2
+* CIS 3
+* CIS 5
+* CIS 6
+* CIS 8
+
+##### NIST
+* DE.AE
+* DE.CM
+* ID.AM
+* PR.AC
+* PR.DS
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+* https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+* https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+
 ### Container Implantation Monitoring and Investigation
 * id = aa0e28b1-0521-4b6f-9d2a-7b87e34af246
 * date = 2020-02-20
@@ -2738,9 +3054,13 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 
 #### Detections
 * High Number of Login Failures from a single source
+* O365 Add App Role Assignment Grant User
+* O365 Added Service Principal
 * O365 Bypass MFA via Trusted IP
 * O365 Disable MFA
 * O365 Excessive Authentication Failures Alert
+* O365 Excessive SSO logon errors
+* O365 New Federated Domain Added
 * O365 PST export alert
 * O365 Suspicious Admin Email Forwarding
 * O365 Suspicious Rights Delegation
@@ -2756,6 +3076,7 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 * T1114
 * T1114.002
 * T1114.003
+* T1136.003
 * T1556
 * T1562.007
 
@@ -3134,7 +3455,7 @@ Similar to other cloud providers, GCP operates on a shared responsibility model.
 * PR.DS
 
 ##### References
-* https://cloud.google.com/blog/products/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
+* https://cloud.google.com/blog/product/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
 * https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/
 
 ### Unusual AWS EC2 Modifications

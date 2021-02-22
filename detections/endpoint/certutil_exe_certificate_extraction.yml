@@ -29,8 +29,8 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/certutil_exe_certificate_extraction/windows-sysmon.log
   kill_chain_phases:
   - Installation
-  security_domain: endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  security_domain: endpoint
