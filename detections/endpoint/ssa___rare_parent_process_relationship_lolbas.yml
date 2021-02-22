@@ -60,7 +60,7 @@ tags:
   - CIS 8
   kill_chain_phases:
   - Exploitation
-  mitre_technique_id:
+  mitre_attack_id:
   - T1203
   - T1059
   - T1053
