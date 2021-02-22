@@ -7,12 +7,12 @@ type: batch
 datamodel:
 - Endpoint
 description: The following analytic identifies rundll32.exe executing a DLL function
-  name, Start and StartW, on the command line that is commonly observed with CobaltStrike
-  x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32
+  name, Start and StartW, on the command line that is commonly observed with Cobalt
+  Strike x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32
   and C:\Windows\syswow64. Typically, the DLL will be written and loaded from a world
   writeable path or user location. In most instances it will not have a valid certificate
   (Unsigned). During investigation, review the parent process and other parallel application
-  execution. Capture and triage the DLL in question. In the instance of CobaltStrike,
+  execution. Capture and triage the DLL in question. In the instance of Cobalt Strike,
   rundll32.exe is the default process it opens and injects shellcode into. This default
   process can be changed, but typically is not.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -31,11 +31,11 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
 - https://www.cobaltstrike.com/help-windows-executable
 - https://lolbas-project.github.io/lolbas/Binaries/Rundll32
-- https://lolbas-project.github.io/lolbas/Libraries/Advpack/
 - https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 tags:
   analytic_story:
   - Suspicious Rundll32 Activity
+  - Cobalt Strike
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -49,8 +49,8 @@ tags:
   nist:
   - PR.PT
   - DE.CM
-  security_domain: endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  security_domain: endpoint
