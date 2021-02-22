@@ -59,7 +59,7 @@ PyJWT==2.0.1
 PyNaCl==1.4.0
 pyparsing==2.4.7
 pytest==6.2.2
-python-daemon==2.2.4
+python-daemon==2.3.0
 python-dateutil==2.8.1
 python-terraform==0.10.1
 pywinrm==0.4.1
@@ -70,7 +70,7 @@ s3transfer==0.3.4
 six==1.13.0
 smmap==3.0.5
 splunk-sdk==1.6.15
-tabulate==0.8.8
+tabulate==0.8.9
 termcolor==1.1.0
 toml==0.10.2
 urllib3==1.26.3
