@@ -13,7 +13,42 @@ import pytest_check as check
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
 
+
+def test_data_ingestion_preview(token):
+    assert (token is not None), "scloud token is missing"
+    header_token = f"Bearer {token}"
+
+    ssa_detection_in_dsp_with_preview_session(header_token, 'firehose.spl')
+
+
+def test_data_ingestion(token):
+    assert (token is not None), "scloud token is missing"
+    header_token = f"Bearer {token}"
+
+    ssa_detection_in_dsp(header_token, 'firehose2.spl')
+
+
+def test_ssa_example_detection_preview(token):
+    assert (token is not None), "scloud token is missing"
+    header_token = f"Bearer {token}"
+
+    ssa_detection_in_dsp_with_preview_session(header_token, 'detection.spl')
+
+
+def test_ssa_example_detection(token):
+    assert (token is not None), "scloud token is missing"
+    header_token = f"Bearer {token}"
+
+    ssa_detection_in_dsp(header_token, 'detection2.spl')
+
+
+## Helper Functions ##
+
 def ssa_detection_in_dsp_with_preview_session(header_token, spl):
+
+    spl = read_spl(spl)
+    assert (spl is not None), "fail to read dummy spl file"
+
     preview_id = get_preview_id_from_spl(header_token, spl)
     assert preview_id is not None
 
@@ -26,29 +61,8 @@ def ssa_detection_in_dsp_with_preview_session(header_token, spl):
     response = stop_preview_session(header_token, preview_id)
 
 
-def test_ssa_detection_test2(token):
-    assert (token is not None), "scloud token is missing"
-    header_token = f"Bearer {token}"
-
-    spl = read_spl('test2.spl')
-
-    ssa_detection_in_dsp_with_preview_session(header_token, spl)
-
-
-def test_ssa_detection_test3(token):
-    assert (token is not None), "scloud token is missing"
-    header_token = f"Bearer {token}"
-
-    spl = read_spl('test3.spl')
-
-    ssa_detection_in_dsp_with_preview_session(header_token, spl)
-
-
-def test_ssa_detection_end_to_end(token):
-    assert (token is not None), "scloud token is missing"
-    header_token = f"Bearer {token}"
-
-    spl = read_spl('test.spl')
+def ssa_detection_in_dsp(header_token, spl):
+    spl = read_spl(spl)
     assert (spl is not None), "fail to read dummy spl file"
 
     pipeline_id = create_pipeline_from_spl(header_token, spl)

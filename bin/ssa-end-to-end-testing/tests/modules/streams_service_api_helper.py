@@ -347,7 +347,7 @@ def stop_preview_session(header_token, preview_id):
 
     assert(preview_id is not None), "Must specify a 'preview_id'"
     headers = {"Content-Type": "application/json", "Authorization": header_token}
-    stop_preview_session_endpoint = PREVIEW_SESSION_ENDPOINT + "/" + preview_id
+    stop_preview_session_endpoint = PREVIEW_SESSION_ENDPOINT + "/" + str(preview_id)
     response = requests.delete(stop_preview_session_endpoint, headers=headers)
     LOGGER.info(f"DELETE/preview-session response status code is: {response.status_code}")
     return response
