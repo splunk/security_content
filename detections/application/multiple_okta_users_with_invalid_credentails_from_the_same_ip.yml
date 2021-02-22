@@ -17,8 +17,8 @@ how_to_implement: This search is specific to Okta and requires Okta logs are bei
   ingested in your Splunk deployment.
 known_false_positives: A single public IP address servicing multiple legitmate users
   may trigger this search. In addition, the threshold of 5 distinct users may be too
-  low for your needs. You may modify the included filter macro `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter` to raise
-  the threshold or except specific IP adresses from triggering this search.
+  low for your needs. You may modify the included filter macro `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter`
+  to raise the threshold or except specific IP adresses from triggering this search.
 references: []
 tags:
   analytic_story:
