@@ -105,3 +105,4 @@ venv.bak/
 .mypy_cache/
 package/bin/sftp-config.json
 package/default/sftp-config.json
+*.code-snippets
