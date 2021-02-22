@@ -2,40 +2,44 @@ name: Detect Regasm with no Command Line Arguments
 id: c3bc1430-04e7-4178-835f-047d8e6e97df
 version: 1
 date: '2021-02-12'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
 description: The following analytic identifies regasm.exe with no command line arguments.
   This particular behavior occurs when another process injects into regasm.exe, no
   command line arguments will be present. During investigation, identify any network
   connections and parallel processes. Identify any suspicious module loads related
   to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
   and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-type: batch
-datamodel: []
-references:
-- https://attack.mitre.org/techniques/T1218/009/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
-- https://lolbas-project.github.io/lolbas/Binaries/Regasm/
-author: Michael Haag, Splunk
 search: '`sysmon` EventID=1 (process_name=regasm.exe OR OriginalFileName=RegAsm.exe)
   | regex CommandLine="(regasm\.exe.{0,4}$)" | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
   OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_regasm_with_no_command_line_arguments_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
 known_false_positives: Although unlikely, limited instances of regasm.exe or may cause
   a false positive. Filter based endpoint usage, command line arguments, or process
   lineage.
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+- https://lolbas-project.github.io/lolbas/Binaries/Regasm/
 tags:
   analytic_story:
   - Suspicious Regsvcs Regasm Activity
-  mitre_attack_id:
-  - T1218.009
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1218.009
   nist:
   - PR.PT
   - DE.CM
@@ -44,7 +48,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-  asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
-  automated_detection_testing: passed
