@@ -33,7 +33,7 @@ tags:
   - CIS 20
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1021.002
   - T1135
   - T1039
