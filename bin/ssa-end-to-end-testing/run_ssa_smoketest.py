@@ -17,7 +17,7 @@ def main(args):
 
     args = parser.parse_args()
     token = args.token
-    pytest.main(["-s", "--token", token])
+    pytest.main(["--token", token])
 
 
 if __name__ == "__main__":
