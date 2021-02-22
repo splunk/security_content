@@ -28,7 +28,7 @@ tags:
   - CIS 20
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1592
   nist:
   - PR.AC
