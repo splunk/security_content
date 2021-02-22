@@ -16,7 +16,7 @@ from modules.utils import request_headers
 
 DSP_URL = f"https://api.playground.scp.splunk.com/research2/"
 STREAMS_ENDPOINT = f"{DSP_URL}streams/v3beta1/"
-SEARCH_EDNPOINT = f"{DSP_URL}search/v2beta1/"
+SEARCH_ENDPOINT = f"{DSP_URL}search/v2beta1/"
 
 # Streaming Pipelines REST endpoints
 CONNECTIONS_ENDPOINT = f"{STREAMS_ENDPOINT}connections"
@@ -27,7 +27,7 @@ PIPELINES_REGISTRY_ENDPOINT = f"{PIPELINES_ENDPOINT}/registry"
 PREVIEW_SESSION_ENDPOINT = f"{STREAMS_ENDPOINT}preview-session"
 PREVIEW_DATA_ENDPOINT = f"{STREAMS_ENDPOINT}preview-data"
 INGEST_ENDPOINT = f"{DSP_URL}ingest/v1beta2/events"
-SUBMIT_SEARCH_ENDPOINT = f"{SEARCH_EDNPOINT}jobs"
+SUBMIT_SEARCH_ENDPOINT = f"{SEARCH_ENDPOINT}jobs"
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
