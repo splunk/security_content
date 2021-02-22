@@ -52,6 +52,8 @@ def ssa_detection_in_dsp_with_preview_session(header_token, spl):
     preview_id = get_preview_id_from_spl(header_token, spl)
     assert preview_id is not None
 
+    time.sleep(120)
+
     data = read_data(f"example.txt")
     response_body = ingest_data(header_token, data)
 
@@ -73,6 +75,8 @@ def ssa_detection_in_dsp(header_token, spl):
 
     response_body = activate_pipeline(header_token, pipeline_id)
     assert response_body.get("activated") == pipeline_id, f"pipeline {pipeline_id} should be successfully activate."
+
+    time.sleep(120)
 
     data = read_data(f"example.txt")
     response_body = ingest_data(header_token, data)
