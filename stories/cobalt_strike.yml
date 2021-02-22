@@ -7,8 +7,9 @@ type: batch
 description: Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility. 
 narrative: 'This Analytic Story supports you to detect Tactics, Techniques and Procedures
   (TTPs) from Cobalt Strike. Cobalt Strike has many ways to be enhanced by using aggressor scripts, malleable C2 profiles, default attack packages, and much more. 
-  For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. 
-  On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike.\
+  For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. Many additional variables are provided for in memory operation of the beacon implant. 
+  On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike.
+  Not every query may be specific to Cobalt Strike the tool, but the methodologies and techniques used by it.\
 
   In generating content for Cobalt Strike, the following is considered:\
 
@@ -18,7 +19,7 @@ narrative: 'This Analytic Story supports you to detect Tactics, Techniques and P
 
   1. Does the <spawnto_ value> make network connections?\
 
-  1. Is it normal for <spawnto_ value> to load jscript, vbscript, Amsi.dll, and clr.dll?.'
+  1. Is it normal for <spawnto_ value> to load jscript, vbscript, Amsi.dll, and clr.dll?'
 
 references:
 - https://www.cobaltstrike.com/

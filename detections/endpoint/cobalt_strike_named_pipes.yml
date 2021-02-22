@@ -29,7 +29,7 @@ references:
 author: Michael Haag, Splunk
 search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\wkssvc_*, \\srvsvc_*,
   \\mojo_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*)
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name,
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name, process_id
   process_path, PipeName | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `cobalt_strike_named_pipes_filter`'
 known_false_positives: The idea of using named pipes with Cobalt Strike is to blend
