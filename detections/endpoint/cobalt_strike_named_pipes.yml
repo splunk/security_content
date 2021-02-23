@@ -27,8 +27,8 @@ references:
 - https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
 - https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
 author: Michael Haag, Splunk
-search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\wkssvc_*, \\srvsvc_*,
-  \\mojo_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*)
+search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\wkssvc*, \\DserNamePipe*, \\srvsvc_*,
+  \\mojo.*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*, \\winsock*)
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name, process_id
   process_path, PipeName | rename Computer as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `cobalt_strike_named_pipes_filter`'
