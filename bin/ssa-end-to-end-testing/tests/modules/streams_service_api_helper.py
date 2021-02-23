@@ -498,7 +498,7 @@ def ingest_data(header_token, data):
     return response.json()
 
 
-def submit_search_job(header_token, query):
+def submit_search_job(header_token, module, query):
     """
     Submit Search job
 
@@ -513,7 +513,8 @@ def submit_search_job(header_token, query):
         sid to search job
     """
     data = {
-        "query": query
+        "query": query,
+        "module": module
     }
     LOGGER.debug(f"Submit Search Job")
     response = requests.post(SUBMIT_SEARCH_ENDPOINT, json=data, headers=request_headers(header_token))

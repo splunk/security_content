@@ -1,2 +1,2 @@
 | from read_splunk_firehose()
-| into index("mc", "main");
+| into index("mc", "icorrales");

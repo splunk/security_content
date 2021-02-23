@@ -21,7 +21,7 @@ def test_data_ingestion_preview(token):
     ssa_detection_in_dsp_with_preview_session(header_token, 'firehose.spl')
 
 
-def test_data_ingestion(token):
+def test_data_ingestion_index(token):
     assert (token is not None), "scloud token is missing"
     header_token = f"Bearer {token}"
 
@@ -52,7 +52,7 @@ def ssa_detection_in_dsp_with_preview_session(header_token, spl):
     preview_id = get_preview_id_from_spl(header_token, spl)
     assert preview_id is not None
 
-    time.sleep(120)
+    time.sleep(30)
 
     data = read_data(f"example.txt")
     response_body = ingest_data(header_token, data)
@@ -76,13 +76,15 @@ def ssa_detection_in_dsp(header_token, spl):
     response_body = activate_pipeline(header_token, pipeline_id)
     assert response_body.get("activated") == pipeline_id, f"pipeline {pipeline_id} should be successfully activate."
 
-    time.sleep(120)
+    time.sleep(30)
 
     data = read_data(f"example.txt")
     response_body = ingest_data(header_token, data)
 
-    sid = submit_search_job(header_token, "from index:main")
+    sid = submit_search_job(header_token, "mc", "from index:icorrales")
     assert sid is not None
+
+    time.sleep(30)
 
     response_body = get_search_job_results(header_token, sid)
     check.greater(len(response_body.get("results")), 0, "Search job didn't return any results")
