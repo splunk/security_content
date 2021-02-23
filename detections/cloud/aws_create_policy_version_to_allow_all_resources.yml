@@ -14,7 +14,7 @@ search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.
 | stats count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements) by eventName eventSource aws_account_id errorCode http_user_agent
     eventID awsRegion userIdentity.principalId user_arn
 | `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`| `aws_create_policy_version_to_allow_all_resources_filter`'
+| `security_content_ctime(lastTime)`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudtrail logs.
 known_false_positives: While this search has no known false positives, it is possible
