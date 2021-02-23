@@ -1,7 +1,7 @@
-name: Suspicious DLLHost with no command line arguments Unit Test
+name: Suspicious DLLHost no command line arguments Unit Test
 tests:
-- name: Suspicious DLLHost with no Command Line Arguments
-  file: endpoint/suspicious_dllhost_with_no_command_line_arguments.yml
+- name: Suspicious DLLHost no Command Line Arguments
+  file: endpoint/suspicious_dllhost_no_command_line_arguments.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
