@@ -1,3 +1,9 @@
+# Ignore example files from contentctl tool
+
+detections/*/.yml.example
+stories/*.yml.example
+tests/*/*.yml.example
+
 # usual mac files
 .DS_Store
 #vim files
