@@ -20,11 +20,11 @@ how_to_implement: You must install splunk AWS add on and Splunk App for AWS. Thi
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has legitimately created a policy to allow a user to access all resources. That said, AWS strongly advises against granting full control to all AWS resources
 references:
-  - https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
-  - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+- https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
+- https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
 tags:
   analytic_story:
-  - 
+   - Suspicious Cloud Instance Activities
   asset_type: AWS Account
   cis20:
   - CIS 13
