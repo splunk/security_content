@@ -16,7 +16,7 @@ import re
 from os import path, walk
 
 
-def validate_schema(REPO_PATH, type, objects):
+def validate_schema(REPO_PATH, type, objects, verbose):
 
     error = False
     errors = []
@@ -222,18 +222,8 @@ def validate_lookups_content(REPO_PATH, lookup_path, lookup):
 
     return errors
 
-
-if __name__ == "__main__":
-    # grab arguments
-    parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.
-        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
-    parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
-    # parse them
-    args = parser.parse_args()
-    REPO_PATH = args.path
-    verbose = args.verbose
+def new(security_content_path, verbose):
+    REPO_PATH = security_content_path
 
     validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments']
 
@@ -242,7 +232,7 @@ if __name__ == "__main__":
     schema_errors = []
 
     for validation_object in validation_objects:
-        objects, error, errors = validate_schema(REPO_PATH, validation_object, objects)
+        objects, error, errors = validate_schema(REPO_PATH, validation_object, objects, verbose)
         schema_error = schema_error or error
         if len(errors) > 0:
             schema_errors = schema_errors + errors
