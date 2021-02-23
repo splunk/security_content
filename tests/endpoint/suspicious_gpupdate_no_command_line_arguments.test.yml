@@ -1,7 +1,7 @@
 name: Suspicious GPUpdate no Command Line Arguments Unit Test
 tests:
 - name: Suspicious GPUpdate no Command Line Arguments
-  file: detections/endpoint/suspicious_gpupdate_no_command_line_arguments.yml
+  file: endpoint/suspicious_gpupdate_no_command_line_arguments.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
