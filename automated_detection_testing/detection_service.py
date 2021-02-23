@@ -83,8 +83,9 @@ def main(args):
     # build new version of ESCU
     sys.path.append(os.path.join(os.getcwd(),'security_content/bin'))
     try:
-        module = __import__('generate')
-        module.sys.argv = ['generate', '-p', 'security_content', '-o' 'security_content/package']
+        module = __import__('contentctl')
+        module.sys.argv = ['contentctl', '-p', 'security_content','generate', '-o', 'security_content/package']
+        #python contentctl.py --path . --verbose generate --output package
         results = module.main(module.sys.argv)
     except Exception as e:
         print('Error: ' + str(e))
