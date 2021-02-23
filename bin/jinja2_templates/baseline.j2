@@ -1,0 +1,27 @@
+name: {{name}}
+id: {{uuid}}
+version: 1
+date: '{{date}}'
+author: {{author}}
+type: {{type}}
+datamodel:
+{% for datamodel in datamodels -%}
+ - {{datamodel}}
+{% endfor -%}
+description: {{description}}
+search: '{{search}}'
+how_to_implement: {{how_to_implement}}
+known_false_positives: {{known_false_positives}}
+references:
+{% for reference in references -%}
+ - {{reference}}
+{% endfor -%}
+tags:
+  analytic_story:
+  - {{analytic_story_name}}
+  detections:
+  - {{detection_name}}
+  product:
+  {% for product in products -%}
+  - {{product}}
+  {% endfor -%}
