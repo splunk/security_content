@@ -80,7 +80,7 @@ def main(args):
         ssh_key.write(response['KeyMaterial'])
     os.chmod(ssh_key_name, 0o600)
     private_key_path = str(os.getcwd() + "/" + ssh_key_name)
-    print (private_key_path)
+    
 
 
     #build new version of ESCU
