@@ -661,42 +661,35 @@ def parse_data_models_from_search(search):
 if __name__ == "__main__":
 
     # grab arguments
-    parser = argparse.ArgumentParser(description="generates documentation from our content", epilog="""
-    This tool converts manifests information to documents in variious format like markdown and wiki markup used by Splunk docs.""")
+    parser = argparse.ArgumentParser(description="Generates documentation from Splunk Security Content", epilog="""
+    This tool converts all Splunk Security Content detections, stories, workbooks and spec files into documentation. It builds both wiki markup (Splunk Docs) an markdown documentation.""")
     parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-    parser.add_argument("-gsd", "--gen_splunk_docs", required=False, default=True, action='store_true',
-                        help="generates wiki markup splunk documentation, default to true")
-    parser.add_argument("-gmd", "--gen_markdown_docs", required=False, default=True, action='store_true',
-                        help="generates markdown docs, default to true")
+    parser.add_argument("-t", "--type", required=False, default="all", help="type of content to generate documentation for, supports `detections`, `stories`, `spec`, and `all`, defaults to `all`" )
 
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     verbose = args.verbose
-    gsd = args.gen_splunk_docs
-    gmd = args.gen_markdown_docs
+    type = args.type
 
-    stories = load_objects("stories/*.yml")
-    detections = []
-    detections = load_objects("detections/*/*.yml")
-    detections.extend(load_objects("detections/*/*/*.yml"))
+    allowed_types = ['stories', 'detections', 'spec', 'all']
+    if type not in allowed_types:
+        print("ERROR: the type {0} is not support, the current support types are: {1}".format(type,allowed_types))
+        parser.print_help()
+        sys.exit(1)
 
-    # complete_stories = generate_stories(REPO_PATH, verbose)
-    # complete_detections = generate_detections(REPO_PATH, complete_stories)
+    #if type == 'all':
 
-    if gsd:
-        story_count, path = write_splunk_docs(stories, detections, OUTPUT_DIR)
-        print("{0} story documents have been successfully written to {1}".format(story_count, path))
-    else:
-        print("--gen_splunk_docs  was set to false, not generating splunk documentation")
+    print("finished successfully!")
 
-    if gmd:
-        story_count, path = write_markdown_docs(stories, detections,  OUTPUT_DIR)
-        print("{0} story documents have been successfully written to {1}".format(story_count, path))
-    else:
-        print("--gen_splunk_docs  was set to false, not generating splunk documentation")
+#    stories = load_objects("stories/*.yml")
+#    detections = []
+#    detections = load_objects("detections/*/*.yml")
+#    detections.extend(load_objects("detections/*/*/*.yml"))
 
-    print("documentation generation for security content completed..")
+
+    #story_count, path = write_splunk_docs(stories, detections, OUTPUT_DIR)
+    #print("{0} story documents have been successfully written to {1}".format(story_count, path))
