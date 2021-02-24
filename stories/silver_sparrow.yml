@@ -23,8 +23,7 @@ references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
 - https://www.sentinelone.com/blog/5-things-you-need-to-know-about-silver-sparrow/
 tags:
-  analytic_story:
-  - Silver Sparrow
+  analytic_story: Silver Sparrow
   category:
   - Adversary Tactics
   product:
