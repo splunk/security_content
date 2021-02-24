@@ -5,7 +5,6 @@ import os
 import time
 
 from http import HTTPStatus
-# from modules.streams_service_api_helper import compile_spl, create_pipeline_from_spl, pipeline_status, activate_pipeline, ingest_data, get_preview_id_from_spl, get_preview_data, submit_search_job, get_search_job_results, stop_preview_session, deactivate_pipeline, delete_pipeline, create_temp_index, delete_temp_index
 from modules.streams_service_api_helper import DSPApi
 from modules.utils import read_spl, read_data
 import pytest_check as check
@@ -42,6 +41,8 @@ def results_index(api):
     # tear down the index
     api.delete_temp_index(temp_index["id"])
 
+def test_ssa_ingestion_preview(api):
+    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl')
 
 def test_data_ingestion_preview(api):
     ssa_detection_in_dsp_with_preview_session(api, 'firehose.spl')
@@ -55,7 +56,7 @@ def test_ssa_example_detection_preview(api):
     ssa_detection_in_dsp_with_preview_session(api, 'detection.spl')
 
 
-def test_ssa_example_detection(api, results_index):
+def test_ssa_example_detection_index(api, results_index):
     ssa_detection_in_dsp(api, 'detection2.spl', results_index)
 
 
@@ -67,7 +68,7 @@ def ssa_detection_in_dsp_with_preview_session(api, spl):
     check.is_not_none(spl, "fail to read dummy spl file")
 
     preview_id = api.get_preview_id_from_spl(spl)
-    check.is_not_none(preview_id, "failed to create a preview session")
+    check.is_not_none(preview_id, "failed to create a preview session %s" % spl)
 
     time.sleep(30)
 
