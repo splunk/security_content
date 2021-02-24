@@ -66,10 +66,16 @@ def request_headers(header_token):
     return headers
 
 
-def read_spl(file_name):
+def read_spl(file_name, results_index=None):
     file_path = os.path.join(os.path.dirname(__file__), 'spl', file_name)
     spl = open(file_path, "r").read()
     spl = replace_ssa_macros(spl)
+    if results_index is not None:
+        # When an index is defined for a test, it writes the output of this pipeline to this index.
+        # original_pipeline; => original_pipeline | into index("module", "index");
+        module = results_index["module"]
+        index = results_index["name"]
+        spl = spl[:spl.rindex(";")] + f"| into index(\"{module}\", \"{index}\");"
     return spl
 
 def replace_ssa_macros(spl):
