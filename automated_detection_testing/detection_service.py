@@ -58,7 +58,7 @@ def main(args):
     detection_obj['detection'] = 'Access LSASS Memory for Dump Creation'
     test_obj['results'] = [detection_obj]
 
-    # get github token
+    #get github token
     if github_token:
         O_AUTH_TOKEN_GITHUB = github_token
     else:
@@ -79,13 +79,15 @@ def main(args):
     with open(ssh_key_name, "w") as ssh_key:
         ssh_key.write(response['KeyMaterial'])
     os.chmod(ssh_key_name, 0o600)
+    private_key_path = str(os.getcwd() + "/" + ssh_key_name)
+    print (private_key_path)
 
-    # build new version of ESCU
-    sys.path.append(os.path.join(os.getcwd(),'security_content/bin'))
+
+    #build new version of ESCU
+    sys.path.append(os.path.join(os.getcwd(),'security_content'))
     try:
         module = __import__('contentctl')
         module.sys.argv = ['contentctl', '-p', 'security_content','generate', '-o', 'security_content/package']
-        #python contentctl.py --path . --verbose generate --output package
         results = module.main(module.sys.argv)
     except Exception as e:
         print('Error: ' + str(e))
@@ -98,7 +100,7 @@ def main(args):
     filedata = filedata.replace('windows_server_join_domain = 1', 'windows_server_join_domain = 0')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
-    filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
+    filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = ' + private_key_path)
     filedata = filedata.replace('update_escu_app = 0', 'update_escu_app = 1')
 
     with open('attack_range/attack_range.conf', 'w') as file:
