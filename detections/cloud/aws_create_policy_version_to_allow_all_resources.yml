@@ -5,26 +5,28 @@ date: '2021-02-22'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where a user created a policy version that allows them to access any resource in their account
-search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com errorCode = success
-| spath input=requestParameters.policyDocument output=key_policy_statements path=Statement{} 
-| mvexpand key_policy_statements 
-| spath input=key_policy_statements output=key_policy_action_1 path=Action 
-| search key_policy_action_1 = "*" 
-| stats count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements) as policy_added by eventName eventSource aws_account_id errorCode userAgent
-    eventID awsRegion userIdentity.principalId user_arn
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`|`aws_create_policy_version_to_allow_all_resources_filter`'
+description: This search looks for CloudTrail events where a user created a policy
+  version that allows them to access any resource in their account
+search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com
+  errorCode = success | spath input=requestParameters.policyDocument output=key_policy_statements
+  path=Statement{} | mvexpand key_policy_statements | spath input=key_policy_statements
+  output=key_policy_action_1 path=Action | search key_policy_action_1 = "*" | stats
+  count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements)
+  as policy_added by eventName eventSource aws_account_id errorCode userAgent eventID
+  awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`|`aws_create_policy_version_to_allow_all_resources_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudtrail logs.
 known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately created a policy to allow a user to access all resources. That said, AWS strongly advises against granting full control to all AWS resources
+  that an AWS admin has legitimately created a policy to allow a user to access all
+  resources. That said, AWS strongly advises against granting full control to all
+  AWS resources
 references:
 - https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
 tags:
   analytic_story:
-   - Suspicious Cloud Instance Activities
+  - Suspicious Cloud Instance Activities
   asset_type: AWS Account
   cis20:
   - CIS 13
@@ -45,3 +47,6 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
