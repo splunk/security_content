@@ -1,0 +1,12 @@
+name: {{name}}
+tests:
+- name: {{detection_name}}
+  file: {{detection_path}}
+  pass_condition: '{{pass_condition}}'
+  earliest_time: '{{earliest_time}}'
+  latest_time: '{{latest_time}}'
+  attack_data:
+  - file_name: {{file_name}}
+    data: {{dataset_url}}
+    source: {{splunk_source}}
+    sourcetype: {{splunk_sourcetype}}
