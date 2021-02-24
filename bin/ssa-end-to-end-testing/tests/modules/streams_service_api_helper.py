@@ -14,30 +14,36 @@ from http import HTTPStatus
 from modules.utils import request_headers
 
 
-TENANT = "research2"
-DSP_URL = f"https://api.playground.scp.splunk.com/{TENANT}/"
-STREAMS_ENDPOINT = f"{DSP_URL}streams/v3beta1/"
-SEARCH_ENDPOINT = f"{DSP_URL}search/v2beta1/"
-CATALOG_ENDPOINT = f"{DSP_URL}catalog/v2beta1/"
+TENANT_PLAYGROUND = f"research2"
+TENANT_STAGING = f"research"
+BASE_URL_PLAYGROUND = f"https://api.playground.scp.splunk.com/"
+BASE_URL_STAGING = f"https://api.staging.scp.splunk.com/"
 
 # Streaming Pipelines REST endpoints
-CONNECTIONS_ENDPOINT = f"{STREAMS_ENDPOINT}connections"
-PIPELINES_ENDPOINT = f"{STREAMS_ENDPOINT}pipelines"
-PIPELINES_COMPILE_ENDPOINT = f"{PIPELINES_ENDPOINT}/compile"
-PIPELINES_VALIDATE_ENDPOINT = f"{PIPELINES_ENDPOINT}/validate"
-PIPELINES_REGISTRY_ENDPOINT = f"{PIPELINES_ENDPOINT}/registry"
-PREVIEW_SESSION_ENDPOINT = f"{STREAMS_ENDPOINT}preview-session"
-PREVIEW_DATA_ENDPOINT = f"{STREAMS_ENDPOINT}preview-data"
-INGEST_ENDPOINT = f"{DSP_URL}ingest/v1beta2/events"
-SUBMIT_SEARCH_ENDPOINT = f"{SEARCH_ENDPOINT}jobs"
-DATASETS_ENDPOINT = f"{CATALOG_ENDPOINT}datasets"
+CONNECTIONS_ENDPOINT = f"streams/v3beta1/connections"
+PIPELINES_ENDPOINT = f"streams/v3beta1/pipelines"
+PIPELINES_COMPILE_ENDPOINT = f"streams/v3beta1/pipelines/compile"
+PIPELINES_VALIDATE_ENDPOINT = f"streams/v3beta1/pipelines/validate"
+PIPELINES_REGISTRY_ENDPOINT = f"streams/v3beta1/pipelines/registry"
+PREVIEW_SESSION_ENDPOINT = f"streams/v3beta1/preview-session"
+PREVIEW_DATA_ENDPOINT = f"streams/v3beta1/preview-data"
+INGEST_ENDPOINT = f"ingest/v1beta2/events"
+SUBMIT_SEARCH_ENDPOINT = f"search/v2beta1/jobs"
+DATASETS_ENDPOINT = f"catalog/v2beta1/datasets"
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
 
 
-def compile_spl(header_token, spl):
+def return_api_endpoint(env, endpoint):
+    if env == 'playground':
+        return f"{BASE_URL_PLAYGROUND}{TENANT_PLAYGROUND}/{endpoint}"
+    else:
+        return f"{BASE_URL_STAGING}{TENANT_STAGING}/{endpoint}"
+
+
+def compile_spl(env, header_token, spl):
     """
     Compile SPL text to a UPL JSON
 
@@ -55,14 +61,14 @@ def compile_spl(header_token, spl):
     """
     data = {"spl": spl}
     LOGGER.debug(f"Compiling SPL into UPL")
-    response = requests.post(PIPELINES_COMPILE_ENDPOINT, json=data, headers=request_headers(header_token))
+    response = requests.post(return_api_endpoint(env, PIPELINES_COMPILE_ENDPOINT), json=data, headers=request_headers(header_token))
     upl = response.json()
     LOGGER.info(f"POST compile response_body is: {upl}")
     LOGGER.info(f"Successfully compile spl to upl")
     return upl, response
 
 
-def validate_upl(header_token, upl):
+def validate_upl(env, header_token, upl):
     """
     Validate whether the JSON representation of a pipeline is valid
 
@@ -81,7 +87,7 @@ def validate_upl(header_token, upl):
 
     headers = {"Content-Type": "application/json", "Authorization": header_token}
     data = {"upl": upl}
-    response = requests.post(PIPELINES_VALIDATE_ENDPOINT, json=data, headers=headers)
+    response = requests.post(return_api_endpoint(env, PIPELINES_VALIDATE_ENDPOINT), json=data, headers=headers)
     response_body = response.json()
     LOGGER.info(f"POST pipelines/validate response_body is: {response_body}")
     if response.status_code == HTTPStatus.OK:
@@ -92,7 +98,7 @@ def validate_upl(header_token, upl):
         return response_body
 
 
-def create_pipeline(header_token, upl):
+def create_pipeline(env, header_token, upl):
     """
     POST pipelines endpoint to create a pipeline based on the valid upl
 
@@ -118,7 +124,7 @@ def create_pipeline(header_token, upl):
         "bypassValidation": "true",
         "data": upl
     }
-    response = requests.post(PIPELINES_ENDPOINT, json=data, headers=headers)
+    response = requests.post(return_api_endpoint(env, PIPELINES_ENDPOINT), json=data, headers=headers)
     response_body = response.json()
     LOGGER.info(f"POST create pipeline response_body is: {response_body}")
     if response.status_code == HTTPStatus.CREATED:
@@ -127,19 +133,19 @@ def create_pipeline(header_token, upl):
         return pipeline_id
 
 
-def create_pipeline_from_spl(header_token, spl):
+def create_pipeline_from_spl(env, header_token, spl):
     """
     helper function to compile and validate from spl text, then create the pipeline
 
     """
-    upl, _ = compile_spl(header_token, spl)
-    validated_upl, _ = validate_upl(header_token, upl)
-    pipeline_id = create_pipeline(header_token, validated_upl)
+    upl, _ = compile_spl(env, header_token, spl)
+    validated_upl, _ = validate_upl(env, header_token, upl)
+    pipeline_id = create_pipeline(env, header_token, validated_upl)
     LOGGER.info(f"pipeline id created is: {pipeline_id}")
     return pipeline_id
 
 
-def activate_pipeline(header_token, pipeline_id):
+def activate_pipeline(env, header_token, pipeline_id):
     """
     POST pipelines/activate endpoint to activate an existing pipeline
 
@@ -159,7 +165,7 @@ def activate_pipeline(header_token, pipeline_id):
     assert(pipeline_id is not None), "Must specify a 'pipeline_id'"
 
     headers = {"Content-Type": "application/json", "Authorization": header_token}
-    pipelines_activate_endpoint = PIPELINES_ENDPOINT + "/" + pipeline_id + "/activate"
+    pipelines_activate_endpoint = return_api_endpoint(env, PIPELINES_ENDPOINT) + "/" + pipeline_id + "/activate"
 
     data = {
         "activateLatestVersion": "true",
@@ -180,7 +186,7 @@ def activate_pipeline(header_token, pipeline_id):
         return
 
 
-def deactivate_pipeline(header_token, pipeline_id):
+def deactivate_pipeline(env, header_token, pipeline_id):
     """
     POST pipelines/deactivate endpoint to deactivate an existing pipeline
 
@@ -200,7 +206,7 @@ def deactivate_pipeline(header_token, pipeline_id):
     assert(pipeline_id is not None), "Must specify a 'pipeline_id'"
 
     headers = {"Content-Type": "application/json", "Authorization": header_token}
-    pipelines_deactivate_endpoint = PIPELINES_ENDPOINT + "/" + pipeline_id + "/deactivate"
+    pipelines_deactivate_endpoint = return_api_endpoint(env, PIPELINES_ENDPOINT) + "/" + pipeline_id + "/deactivate"
 
     data = {
         "skipSavepoint": "true"
@@ -211,7 +217,7 @@ def deactivate_pipeline(header_token, pipeline_id):
     return response, response_body
 
 
-def delete_pipeline(header_token, pipeline_id):
+def delete_pipeline(env, header_token, pipeline_id):
     """
     Delete an existing pipeline using its pipeline UUID
 
@@ -230,13 +236,13 @@ def delete_pipeline(header_token, pipeline_id):
     assert(pipeline_id is not None), "Must specify a 'pipeline_id'"
 
     headers = {"Content-Type": "application/json", "Authorization": header_token}
-    delete_pipeline_endpoint = PIPELINES_ENDPOINT + "/" + pipeline_id
+    delete_pipeline_endpoint = return_api_endpoint(env, PIPELINES_ENDPOINT) + "/" + pipeline_id
     response = requests.delete(delete_pipeline_endpoint, headers=headers)
     LOGGER.info(f"DELETE pipeline response status code is: {response.status_code}")
     return response
 
 
-def pipeline_status(header_token, pipeline_id):
+def pipeline_status(env, header_token, pipeline_id):
     """
     Returns the statues of an existing pipeline
     Parameters
@@ -254,7 +260,7 @@ def pipeline_status(header_token, pipeline_id):
     assert(pipeline_id is not None), "Must specify a 'pipeline_id'"
 
     headers = {"Content-Type": "application/json", "Authorization": header_token}
-    pipelines_status_endpoint = PIPELINES_ENDPOINT + "/" + pipeline_id
+    pipelines_status_endpoint = return_api_endpoint(env, PIPELINES_ENDPOINT) + "/" + pipeline_id
 
     response = requests.get(pipelines_status_endpoint, headers=headers)
     response_body = response.json()
@@ -267,7 +273,7 @@ def pipeline_status(header_token, pipeline_id):
         return
 
 
-def get_preview_id(header_token, upl):
+def get_preview_id(env, header_token, upl):
     """
     POST preview-session endpoint to create a preview session for a pipeline
 
@@ -288,7 +294,7 @@ def get_preview_id(header_token, upl):
     data = {
         "upl": upl
     }
-    response = requests.post(PREVIEW_SESSION_ENDPOINT, json=data, headers=headers)
+    response = requests.post(return_api_endpoint(env, PREVIEW_SESSION_ENDPOINT), json=data, headers=headers)
     response_body = response.json()
     LOGGER.info(f"POST preview session response_body is: {response_body}")
     # The preview sessions was started successfully
@@ -298,7 +304,7 @@ def get_preview_id(header_token, upl):
         return preview_id
 
 
-def get_preview_data(header_token, preview_id):
+def get_preview_data(env, header_token, preview_id):
     """
     POST preview-data endpoint to get the preview data for a preview session
 
@@ -318,7 +324,7 @@ def get_preview_data(header_token, preview_id):
     assert(preview_id is not None), "Must specify a 'preview_id'"
 
     headers = {"Content-Type": "application/json", "Authorization": header_token}
-    preview_data_endpoint = PREVIEW_DATA_ENDPOINT + "/" + str(preview_id)
+    preview_data_endpoint = return_api_endpoint(env, PREVIEW_DATA_ENDPOINT) + "/" + str(preview_id)
 
     response = requests.get(preview_data_endpoint, headers=headers)
     response_body = response.json()
@@ -332,7 +338,7 @@ def get_preview_data(header_token, preview_id):
         return response, response_body
 
 
-def stop_preview_session(header_token, preview_id):
+def stop_preview_session(env, header_token, preview_id):
     """
     Delete an existing pipeline using its pipeline UUID
 
@@ -350,135 +356,27 @@ def stop_preview_session(header_token, preview_id):
 
     assert(preview_id is not None), "Must specify a 'preview_id'"
     headers = {"Content-Type": "application/json", "Authorization": header_token}
-    stop_preview_session_endpoint = PREVIEW_SESSION_ENDPOINT + "/" + str(preview_id)
+    stop_preview_session_endpoint = return_api_endpoint(env, PREVIEW_SESSION_ENDPOINT) + "/" + str(preview_id)
     response = requests.delete(stop_preview_session_endpoint, headers=headers)
     LOGGER.info(f"DELETE/preview-session response status code is: {response.status_code}")
     return response
 
 
-def get_preview_id_from_spl(header_token, spl):
+def get_preview_id_from_spl(env, header_token, spl):
 
     """
     helper function to compile and validate from spl text, then create the pipeline preview session
 
     """
 
-    upl, _ = compile_spl(header_token, spl)
-    validated_upl, _ = validate_upl(header_token, upl)
-    preview_id = get_preview_id(header_token, validated_upl)
+    upl, _ = compile_spl(env, header_token, spl)
+    validated_upl, _ = validate_upl(env, header_token, upl)
+    preview_id = get_preview_id(env, header_token, validated_upl)
     LOGGER.info(f"preview id created is: {preview_id}")
     return preview_id
 
 
-def get_connections(header_token):
-    """
-    Query the GET/connection endpoint, return a list of connection of a tenant.
-
-    Parameters
-    ----------
-    header_token: str
-        IAC token for DSP playground environment
-
-    Returns
-    -------
-    response_body
-        Connection response body in JSON format
-    """
-
-    response = requests.get(CONNECTIONS_ENDPOINT, headers=request_headers(header_token))
-    response_body = response.json()
-    LOGGER.info(response.request.headers)
-    LOGGER.info(f"GET connections response_body is: {response_body}")
-    return response, response_body
-
-
-def create_ml_model_connection(header_token):
-    """
-    Query the POST/connection endpoint to create a ML model connector for S3.
-
-    Parameters
-    ----------
-    header_token: str
-        IAC token for DSP playground environment
-
-    Returns
-    -------
-    response_body
-        Connection response body in JSON format
-    """
-    set_test_id = uuid.uuid4().hex
-    headers = {"Content-Type": "application/json", "Authorization": header_token}
-    data = {
-        "connectorId": ML_MODEL_CONNECTOR_UUID,
-        "description": "Smoketest Connect to Amazon S3 to load machine learning models",
-        "name": f"ML Model Connector for Amazon S3_{set_test_id}",
-        "data": {
-            "aws-access-key-id": AWS_ACCESS_KEY_ID,
-            "aws-secret-access-key": AWS_SECRET_ACCESS_KEY
-        }
-    }
-    response = requests.post(CONNECTIONS_ENDPOINT, json=data, headers=headers)
-    response_body = response.json()
-    LOGGER.info(f"POST connection response_body is: {response_body}")
-    # The preview sessions was started successfully
-    if response.status_code == HTTPStatus.CREATED:
-        connector_id = response_body.get("id")
-        return response_body, connector_id
-
-
-def delete_connection(header_token, connection_id):
-    """
-   Delete an existing connection by its id.
-
-   Parameters
-   ----------
-   header_token: str
-       IAC token for DSP playground environment
-   connection_id:
-       UUID of an existing connection
-
-   Returns
-   -------
-   response status code
-   """
-
-    assert(connection_id is not None), "Must specify a 'connection_id'"
-
-    headers = {"Content-Type": "application/json", "Authorization": header_token}
-    delete_connection_endpoint = CONNECTIONS_ENDPOINT + "/" + connection_id
-    response = requests.delete(delete_connection_endpoint, headers=headers)
-    LOGGER.info(f"DELETE connections response status code is: {response.status_code}")
-    return response
-
-
-def get_registry(header_token):
-    """
-    Query the GET/pipelines/registry endpoint, return a list of functions of a tenant.
-
-    Parameters
-    ----------
-    header_token: str
-        IAC token for DSP playground environment
-
-    Returns
-    -------
-    response_body
-        Registry response body in JSON format
-    """
-    response = requests.get(PIPELINES_REGISTRY_ENDPOINT, headers=request_headers(header_token))
-    try:
-        assert response.status_code == HTTPStatus.OK, "Should return a list of functions"
-    except AssertionError as error:
-        LOGGER.error(error)
-        raise error
-    response_body = response.json()
-    LOGGER.info(response.request.headers)
-    #set registry reponse body to debug level as it will return too much log which is not always helpful
-    LOGGER.debug(f"GET registry response_body is: {response_body}")
-    return response_body
-
-
-def ingest_data(header_token, data):
+def ingest_data(env, header_token, data):
     """
     Send events
 
@@ -497,11 +395,11 @@ def ingest_data(header_token, data):
         "sourcetype": "WinEventLog"
         }]
     LOGGER.debug(f"Send Events")
-    response = requests.post(INGEST_ENDPOINT, json=data, headers=request_headers(header_token))
+    response = requests.post(return_api_endpoint(env, INGEST_ENDPOINT), json=data, headers=request_headers(header_token))
     return response.json()
 
 
-def submit_search_job(header_token, module, query):
+def submit_search_job(env, header_token, module, query):
     """
     Submit Search job
 
@@ -520,12 +418,12 @@ def submit_search_job(header_token, module, query):
         "module": module
     }
     LOGGER.debug(f"Submit Search Job")
-    response = requests.post(SUBMIT_SEARCH_ENDPOINT, json=data, headers=request_headers(header_token))
+    response = requests.post(return_api_endpoint(env, SUBMIT_SEARCH_ENDPOINT), json=data, headers=request_headers(header_token))
     response_body = response.json()
     return response_body.get("sid")
 
 
-def get_search_job_results(header_token, sid):
+def get_search_job_results(env, header_token, sid):
     """
     Get Searcj Job Results
 
@@ -540,13 +438,13 @@ def get_search_job_results(header_token, sid):
         response body in JSON format
     """
 
-    results_search_job_endpoint = SUBMIT_SEARCH_ENDPOINT + "/" + sid + "/results"
+    results_search_job_endpoint = return_api_endpoint(env, SUBMIT_SEARCH_ENDPOINT) + "/" + sid + "/results"
     response = requests.get(results_search_job_endpoint, headers=request_headers(header_token))
     response_body = response.json()
     return response_body
 
 
-def create_temp_index(header_token, module):
+def create_temp_index(env, header_token, module):
     """
     Creates an index under module
 
@@ -565,11 +463,11 @@ def create_temp_index(header_token, module):
         "kind": "index",
         "disabled": False
     }
-    response = requests.post(DATASETS_ENDPOINT, headers=request_headers(header_token), json=data)
+    response = requests.post(return_api_endpoint(env, DATASETS_ENDPOINT), headers=request_headers(header_token), json=data)
     return response.json()
 
 
-def delete_temp_index(header_token, index_id):
+def delete_temp_index(env, header_token, index_id):
     """
     Deletes an index
 
@@ -580,7 +478,8 @@ def delete_temp_index(header_token, index_id):
     @return:
         response status code from API
     """
-    delete_url = f"{DATASETS_ENDPOINT}/{index_id}"
+    datasets_endpoint_api = return_api_endpoint(env, DATASETS_ENDPOINT)
+    delete_url = f"{datasets_endpoint_api}/{index_id}"
     response = requests.delete(delete_url, headers=request_headers(header_token))
     return response.status_code
 

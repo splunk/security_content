@@ -28,91 +28,91 @@ def results_index(token):
         Returns a descriptor of the index as a dictionary
     """
     header_token = f"Bearer {token}"
-    temp_index = create_temp_index(header_token, module="mc")
+    temp_index = create_temp_index("playground", header_token, module="mc")
     yield temp_index
     # tear down the index
-    delete_temp_index(header_token, temp_index["id"])
+    delete_temp_index("playground", header_token, temp_index["id"])
 
 
 def test_data_ingestion_preview(token):
-    assert (token is not None), "scloud token is missing"
+    check.is_not_none(token, "scloud token is missing")
     header_token = f"Bearer {token}"
 
-    ssa_detection_in_dsp_with_preview_session(header_token, 'firehose.spl')
+    ssa_detection_in_dsp_with_preview_session("playground", header_token, 'firehose.spl')
 
 
 def test_data_ingestion_index(token, results_index):
-    assert (token is not None), "scloud token is missing"
+    check.is_not_none(token, "scloud token is missing")
     header_token = f"Bearer {token}"
 
-    ssa_detection_in_dsp(header_token, 'firehose2.spl', results_index)
+    ssa_detection_in_dsp("playground", header_token, 'firehose2.spl', results_index)
 
 
 def test_ssa_example_detection_preview(token):
-    assert (token is not None), "scloud token is missing"
+    check.is_not_none(token, "scloud token is missing")
     header_token = f"Bearer {token}"
 
-    ssa_detection_in_dsp_with_preview_session(header_token, 'detection.spl')
+    ssa_detection_in_dsp_with_preview_session("playground", header_token, 'detection.spl')
 
 
 def test_ssa_example_detection(token, results_index):
-    assert (token is not None), "scloud token is missing"
+    check.is_not_none(token, "scloud token is missing")
     header_token = f"Bearer {token}"
 
-    ssa_detection_in_dsp(header_token, 'detection2.spl', results_index)
+    ssa_detection_in_dsp("playground", header_token, 'detection2.spl', results_index)
 
 
 ## Helper Functions ##
 
-def ssa_detection_in_dsp_with_preview_session(header_token, spl):
+def ssa_detection_in_dsp_with_preview_session(env, header_token, spl):
 
-    spl = read_spl(spl)
-    assert (spl is not None), "fail to read dummy spl file"
+    spl = read_spl(env, spl)
+    check.is_not_none(spl, "fail to read dummy spl file")
 
-    preview_id = get_preview_id_from_spl(header_token, spl)
-    assert preview_id is not None
+    preview_id = get_preview_id_from_spl(env, header_token, spl)
+    check.is_not_none(preview_id, "failed to create a preview session")
 
     time.sleep(30)
 
     data = read_data(f"example.txt")
-    response_body = ingest_data(header_token, data)
+    response_body = ingest_data(env, header_token, data)
 
-    response, response_body = get_preview_data(header_token, preview_id)
+    response, response_body = get_preview_data(env, header_token, preview_id)
     check.greater(response_body.get("currentNumberOfRecords"), 0, "Missing records in preview session.")
 
-    response = stop_preview_session(header_token, preview_id)
+    response = stop_preview_session(env, header_token, preview_id)
 
 
-def ssa_detection_in_dsp(header_token, spl, results_index):
-    spl = read_spl(spl, results_index)
-    assert (spl is not None), "fail to read dummy spl file"
+def ssa_detection_in_dsp(env, header_token, spl, results_index):
+    spl = read_spl(env, spl, results_index)
+    check.is_not_none(spl, "fail to read dummy spl file")
 
-    pipeline_id = create_pipeline_from_spl(header_token, spl)
-    assert pipeline_id is not None
+    pipeline_id = create_pipeline_from_spl(env, header_token, spl)
+    check.is_not_none(pipeline_id, "failed to create a pipeline")
 
-    _pipeline_status = pipeline_status(header_token, pipeline_id)
-    assert _pipeline_status == "CREATED", f"Current status of pipeline {pipeline_id} should be CREATED"
+    _pipeline_status = pipeline_status(env, header_token, pipeline_id)
+    check.equal(_pipeline_status, "CREATED", f"Current status of pipeline {pipeline_id} should be CREATED")
 
-    response_body = activate_pipeline(header_token, pipeline_id)
-    assert response_body.get("activated") == pipeline_id, f"pipeline {pipeline_id} should be successfully activate."
+    response_body = activate_pipeline(env, header_token, pipeline_id)
+    check.equal(response_body.get("activated"), "CREATED", f"pipeline {pipeline_id} should be successfully activate.")
 
     time.sleep(30)
 
     data = read_data(f"example.txt")
-    response_body = ingest_data(header_token, data)
+    response_body = ingest_data(env, header_token, data)
 
     time.sleep(30)
 
-    sid = submit_search_job(header_token, results_index['module'], f"from index:{results_index['name']} | search source!=\"Search Catalog\"")
-    assert sid is not None
+    sid = submit_search_job(env, header_token, results_index['module'], f"from index:{results_index['name']} | search source!=\"Search Catalog\"")
+    check.is_not_none(sid, f"Failed to create a Search Job")
 
     time.sleep(30)
 
-    response_body = get_search_job_results(header_token, sid)
+    response_body = get_search_job_results(env, header_token, sid)
     check.greater(len(response_body.get("results")), 0, "Search job didn't return any results")
 
-    response, response_body = deactivate_pipeline(header_token, pipeline_id)
-    assert response.status_code == HTTPStatus.OK,  f"The pipeline {pipeline_id} fails to deactivated."
+    response, response_body = deactivate_pipeline(env, header_token, pipeline_id)
+    check.equal(response.status_code, HTTPStatus.OK, f"The pipeline {pipeline_id} fails to deactivated.")
 
-    response = delete_pipeline(header_token, pipeline_id)
-    assert response.status_code == HTTPStatus.NO_CONTENT, f"Fail to delete pipeline {pipeline_id}."
+    response = delete_pipeline(env, header_token, pipeline_id)
+    check.equal(response.status_code, HTTPStatus.NO_CONTENT, f"Fail to delete pipeline {pipeline_id}.")
