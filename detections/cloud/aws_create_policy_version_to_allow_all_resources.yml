@@ -6,15 +6,15 @@ author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
 description: This search looks for CloudTrail events where a user created a policy version that allows them to access any resource in their account
-search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com
+search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com errorCode = success
 | spath input=requestParameters.policyDocument output=key_policy_statements path=Statement{} 
 | mvexpand key_policy_statements 
 | spath input=key_policy_statements output=key_policy_action_1 path=Action 
 | search key_policy_action_1 = "*" 
-| stats count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements) by eventName eventSource aws_account_id errorCode http_user_agent
+| stats count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements) as policy_added by eventName eventSource aws_account_id errorCode userAgent
     eventID awsRegion userIdentity.principalId user_arn
 | `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`'
+| `security_content_ctime(lastTime)`|`aws_create_policy_version_to_allow_all_resources_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudtrail logs.
 known_false_positives: While this search has no known false positives, it is possible
