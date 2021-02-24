@@ -5,13 +5,33 @@ import os
 import time
 
 from http import HTTPStatus
-from modules.streams_service_api_helper import compile_spl, create_pipeline_from_spl, pipeline_status, activate_pipeline, ingest_data, get_preview_id_from_spl, get_preview_data, submit_search_job, get_search_job_results, stop_preview_session, deactivate_pipeline, delete_pipeline
+from modules.streams_service_api_helper import compile_spl, create_pipeline_from_spl, pipeline_status, activate_pipeline, ingest_data, get_preview_id_from_spl, get_preview_data, submit_search_job, get_search_job_results, stop_preview_session, deactivate_pipeline, delete_pipeline, create_temp_index, delete_temp_index
 from modules.utils import read_spl, read_data
 import pytest_check as check
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
+
+
+@pytest.fixture
+def results_index(token):
+    """
+    Fixture that creates an temporary index, and tears it down.
+
+    @todo
+        Implement a safe tear down version of this. When an exception happens in the test, we can't guarantee
+        that we won't have orphan indexes.
+    @param token:
+        This parameter is passed by `pytest`
+    @return:
+        Returns a descriptor of the index as a dictionary
+    """
+    header_token = f"Bearer {token}"
+    temp_index = create_temp_index(header_token, module="mc")
+    yield temp_index
+    # tear down the index
+    delete_temp_index(header_token, temp_index["id"])
 
 
 def test_data_ingestion_preview(token):
@@ -21,11 +41,11 @@ def test_data_ingestion_preview(token):
     ssa_detection_in_dsp_with_preview_session(header_token, 'firehose.spl')
 
 
-def test_data_ingestion_index(token):
+def test_data_ingestion_index(token, results_index):
     assert (token is not None), "scloud token is missing"
     header_token = f"Bearer {token}"
 
-    ssa_detection_in_dsp(header_token, 'firehose2.spl')
+    ssa_detection_in_dsp(header_token, 'firehose2.spl', results_index)
 
 
 def test_ssa_example_detection_preview(token):
@@ -35,11 +55,11 @@ def test_ssa_example_detection_preview(token):
     ssa_detection_in_dsp_with_preview_session(header_token, 'detection.spl')
 
 
-def test_ssa_example_detection(token):
+def test_ssa_example_detection(token, results_index):
     assert (token is not None), "scloud token is missing"
     header_token = f"Bearer {token}"
 
-    ssa_detection_in_dsp(header_token, 'detection2.spl')
+    ssa_detection_in_dsp(header_token, 'detection2.spl', results_index)
 
 
 ## Helper Functions ##
@@ -63,8 +83,8 @@ def ssa_detection_in_dsp_with_preview_session(header_token, spl):
     response = stop_preview_session(header_token, preview_id)
 
 
-def ssa_detection_in_dsp(header_token, spl):
-    spl = read_spl(spl)
+def ssa_detection_in_dsp(header_token, spl, results_index):
+    spl = read_spl(spl, results_index)
     assert (spl is not None), "fail to read dummy spl file"
 
     pipeline_id = create_pipeline_from_spl(header_token, spl)
@@ -81,7 +101,9 @@ def ssa_detection_in_dsp(header_token, spl):
     data = read_data(f"example.txt")
     response_body = ingest_data(header_token, data)
 
-    sid = submit_search_job(header_token, "mc", "from index:icorrales")
+    time.sleep(30)
+
+    sid = submit_search_job(header_token, results_index['module'], f"from index:{results_index['name']} | search source!=\"Search Catalog\"")
     assert sid is not None
 
     time.sleep(30)

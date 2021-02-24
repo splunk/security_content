@@ -14,9 +14,11 @@ from http import HTTPStatus
 from modules.utils import request_headers
 
 
-DSP_URL = f"https://api.playground.scp.splunk.com/research2/"
+TENANT = "research2"
+DSP_URL = f"https://api.playground.scp.splunk.com/{TENANT}/"
 STREAMS_ENDPOINT = f"{DSP_URL}streams/v3beta1/"
 SEARCH_ENDPOINT = f"{DSP_URL}search/v2beta1/"
+CATALOG_ENDPOINT = f"{DSP_URL}catalog/v2beta1/"
 
 # Streaming Pipelines REST endpoints
 CONNECTIONS_ENDPOINT = f"{STREAMS_ENDPOINT}connections"
@@ -28,6 +30,7 @@ PREVIEW_SESSION_ENDPOINT = f"{STREAMS_ENDPOINT}preview-session"
 PREVIEW_DATA_ENDPOINT = f"{STREAMS_ENDPOINT}preview-data"
 INGEST_ENDPOINT = f"{DSP_URL}ingest/v1beta2/events"
 SUBMIT_SEARCH_ENDPOINT = f"{SEARCH_ENDPOINT}jobs"
+DATASETS_ENDPOINT = f"{CATALOG_ENDPOINT}datasets"
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
@@ -541,3 +544,43 @@ def get_search_job_results(header_token, sid):
     response = requests.get(results_search_job_endpoint, headers=request_headers(header_token))
     response_body = response.json()
     return response_body
+
+
+def create_temp_index(header_token, module):
+    """
+    Creates an index under module
+
+    Parameters
+    @param header_token: str
+         IAC token for DSP playground environment
+    @param module: str
+        module under this index will be created
+    @return:
+        index object dictionary
+    """
+    index_name = f"temp_st_{uuid.uuid1()}".replace("-", "_")
+    data = {
+        "module": module,
+        "name": index_name,
+        "kind": "index",
+        "disabled": False
+    }
+    response = requests.post(DATASETS_ENDPOINT, headers=request_headers(header_token), json=data)
+    return response.json()
+
+
+def delete_temp_index(header_token, index_id):
+    """
+    Deletes an index
+
+    @param header_token: str
+         IAC token for DSP playground environment
+    @param index_id:
+        Index ID
+    @return:
+        response status code from API
+    """
+    delete_url = f"{DATASETS_ENDPOINT}/{index_id}"
+    response = requests.delete(delete_url, headers=request_headers(header_token))
+    return response.status_code
+
