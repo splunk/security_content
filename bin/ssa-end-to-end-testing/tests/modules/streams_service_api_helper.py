@@ -57,8 +57,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         spl:  str
             the SPL representation of a pipeline or function parameter to be compiled
 
@@ -82,8 +80,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         upl: JSON
             JSON representation of the compiled AST of a pipeline
 
@@ -112,8 +108,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         upl: JSON
             JSON representation of the validated pipeline details
 
@@ -159,8 +153,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         pipeline_id: str
             pipeline UUID to activate
 
@@ -200,8 +192,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         pipeline_id:
             pipeline UUID to deactivate
 
@@ -231,8 +221,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         pipeline_id:
             pipeline UUID of an existing pipeline
 
@@ -255,8 +243,6 @@ class DSPApi:
         Returns the statues of an existing pipeline
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         pipeline_id:
             pipeline UUID of an existing pipeline.
 
@@ -287,8 +273,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         upl: JSON
             JSON representation of the pipeline details
 
@@ -318,8 +302,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         preview_id: str
             preview session id
 
@@ -352,8 +334,6 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
         preview_id: str
             preview session id
 
@@ -390,8 +370,8 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
+        data: str
+            datafile
 
         Returns
         -------
@@ -413,8 +393,10 @@ class DSPApi:
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
+        module: str
+            module where this query will be run on (default: `mc`)
+        query: str
+            SPL of the search query
 
         Returns
         -------
@@ -433,12 +415,12 @@ class DSPApi:
 
     def get_search_job_results(self, sid):
         """
-        Get Searcj Job Results
+        Get Search Job Results
 
         Parameters
         ----------
-        header_token: str
-            IAC token for DSP playground environment
+        sid: str
+            ID of the search. Returned value from `submit_search_job`
 
         Returns
         -------
@@ -457,8 +439,6 @@ class DSPApi:
         Creates an index under module
 
         Parameters
-        @param header_token: str
-             IAC token for DSP playground environment
         @param module: str
             module under this index will be created
         @return:
@@ -479,8 +459,6 @@ class DSPApi:
         """
         Deletes an index
 
-        @param header_token: str
-             IAC token for DSP playground environment
         @param index_id:
             Index ID
         @return:
