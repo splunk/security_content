@@ -1,0 +1,35 @@
+name: Open Redirect in Splunk Web
+id: d199fb99-2312-451a-9daa-e5efa6ed76a7
+version: 1
+date: '2017-09-19'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
+description: This search allows you to look for evidence of exploitation for CVE-2016-4859,
+  the Splunk Open Redirect Vulnerability.
+search: index=_internal sourcetype=splunk_web_access return_to="/%09/*" | `open_redirect_in_splunk_web_filter`
+how_to_implement: No extra steps needed to implement this search.
+known_false_positives: None identified
+references: []
+tags:
+  analytic_story:
+  - Splunk Enterprise Vulnerability
+  asset_type: Splunk Server
+  cis20:
+  - CIS 3
+  - CIS 4
+  - CIS 18
+  kill_chain_phases:
+  - Delivery
+  nist:
+  - ID.RA
+  - RS.MI
+  - PR.PT
+  - PR.AC
+  - PR.IP
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network

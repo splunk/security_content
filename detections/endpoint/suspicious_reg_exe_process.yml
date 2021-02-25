@@ -2,18 +2,12 @@ name: Suspicious Reg exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 version: 4
 date: '2020-07-22'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: This search looks for reg.exe being launched from a command prompt not
   started by the user. When a user launches cmd.exe, the parent process is usually
   explorer.exe. This search filters out those instances.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-type: ESCU
-references:
-- https://car.mitre.org/wiki/CAR-2013-03-001
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name
   != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name
@@ -24,24 +18,35 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.dest Processes.process_name | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | rename parent_process_id as process_id |dedup
   process_id| table process_id dest] | `suspicious_reg_exe_process_filter` '
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
 known_false_positives: It's possible for system administrators to write scripts that
   exhibit this behavior. If this is the case, the search will need to be modified
   to filter them out.
+references:
+- https://car.mitre.org/wiki/CAR-2013-03-001
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Defense Evasion Tactics
   - Disabling Security Tools
   - DHS Report TA18-074A
-  mitre_attack_id:
-  - T1112
-  kill_chain_phases:
-  - Actions on Objectives
-  cis20:
-  - CIS 8
-  nist:
-  - DE.CM
-  security_domain: endpoint
   asset_type: Endpoint
   automated_detection_testing: passed
+  cis20:
+  - CIS 8
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1112
+  nist:
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint

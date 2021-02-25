@@ -2,21 +2,27 @@ name: Previously Seen Cloud Compute Creations By User - Initial
 id: dd4ced8a-15a9-4285-94ac-7e4134673bf8
 version: 1
 date: '2020-08-15'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Change
 description: This search builds a table of previously seen users that have launched
   a cloud compute instance.
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where All_Changes.action=created AND All_Changes.object_category=instance
+  by All_Changes.user | `drop_dm_object_name("All_Changes")` | outputlookup previously_seen_cloud_compute_creations_by_user
+  | stats count'
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the proper TAs installed.
-author: Rico Valdez, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-    where All_Changes.action=created AND All_Changes.object_category=instance 
-    by All_Changes.user 
-| `drop_dm_object_name("All_Changes")` 
-| outputlookup previously_seen_cloud_compute_creations_by_user 
-| stats count'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
-  detections:
-  - Cloud Compute Instance Created By Previously Unseen User
   deployments:
   - Hourly Cache Updates
+  detections:
+  - Cloud Compute Instance Created By Previously Unseen User
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

@@ -1,0 +1,53 @@
+name: Detect Prohibited Applications Spawning cmd exe - SSA
+id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
+version: 1
+date: 2020-7-13
+author: Ignacio Bermudez Corrales, Splunk
+type: streaming
+datamodel: []
+description: This search looks for executions of cmd.exe spawned by a process that
+  is often abused by attackers and that does not typically launch cmd.exe. This is
+  a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe`
+  by @bpatel.
+search: '| from read_ssa_enriched_events()
+
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
+  | eval process_name=ucast(map_get(input_event, "process_name"), "string", null),
+  parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string",
+  null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+
+  | where process_name="cmd.exe" | rex field=parent_process "(?<field0>[^\\\\]+)$"
+  | where field0="winword.exe" OR field0="excel.exe" OR field0="outlook.exe" OR field0="powerpnt.exe"
+  OR field0="visio.exe" OR field0="mspub.exe" OR field0="acrobat.exe" OR field0="acrord32.exe"
+  OR field0="chrome.exe" OR field0="iexplore.exe" OR field0="opera.exe" OR field0="firefox.exe"
+  OR field0="java.exe" OR field0="powershell.exe"
+
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
+  dest_user_id), body="TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting sysmon logs. This search has been modified
+  to process raw sysmon data from attack_range's nxlogs on DSP.
+known_false_positives: There are circumstances where an application may legitimately
+  execute and interact with the Windows command-line interface. Investigate and modify
+  the lookup file, as appropriate.
+references: []
+tags:
+  cis20:
+  - CIS 8
+  kill_chain_phases:
+  - Exploitation
+  mitre_technique_id:
+  - T1059
+  nist:
+  - PR.PT
+  - DE.CM
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - process_name
+  - parent_process_name
+  - _time
+  - dest_device_id
+  - dest_user_id
+  risk_severity: low
+  security_domain: endpoint

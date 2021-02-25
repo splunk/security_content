@@ -1,15 +1,18 @@
-name: Investigate Cloud Compute Instance Activities
-id: 33a95cf2-900c-4636-8fca-5c5f71474720
-version: 1
+author: David Dorsey, Splunk
 date: '2018-03-12'
 description: This search returns a logs of events that operated on the compute instance.
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the Security Research cloud data model installed.
-author: David Dorsey, Splunk
+id: 33a95cf2-900c-4636-8fca-5c5f71474720
 inputs:
 - dest
+name: Investigate Cloud Compute Instance Activities
 search: '| from datamodel:Cloud_Infrastructure.Compute | search dest=$dest$ | fields
   - _*'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
+  product:
+  - Splunk Phantom
+type: response
+version: 1

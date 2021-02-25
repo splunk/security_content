@@ -2,52 +2,49 @@ name: Illegal Privilege Elevation and Persistence via PowerSploit modules
 id: 88c10ee9-fe72-4bce-b343-5b129044b991
 version: 1
 date: '2020-11-09'
-description: "This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable manipulation of registry, task scheduling, persistent WMI, access to OS objects under desired identities."
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: SSA
 author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
+description: This detection identifies access to PowerSploit modules that illegaly
+  elevate general privileges or ensure persistence, e.g., enable manipulation of registry,
+  task scheduling, persistent WMI, access to OS objects under desired identities.
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-          match_regex(cmd_line, /(?i)Add-DomainObjectAcl/)=true OR
-          match_regex(cmd_line, /(?i)Add-ObjectAcl/)=true OR
-          match_regex(cmd_line, /(?i)Enable-Privilege/)=true OR
-          match_regex(cmd_line, /(?i)New-ElevatedPersistenceOption/)=true OR
-          match_regex(cmd_line, /(?i)New-UserPersistenceOption/)=true
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)Add-DomainObjectAcl/)=true OR match_regex(cmd_line,
+  /(?i)Add-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Enable-Privilege/)=true
+  OR match_regex(cmd_line, /(?i)New-ElevatedPersistenceOption/)=true OR match_regex(cmd_line,
+  /(?i)New-UserPersistenceOption/)=true )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable registry manipulation, task scheduling, persistent WMI,  access to OS objects under desired identities."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
+  - Actions on Objectives
   mitre_technique_id:
-    - T1053
-    - T1134
-    - T1548
+  - T1053
+  - T1134
+  - T1548
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - dest_device_id
+  - dest_user_id
+  - process
+  - _time
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-  required_fields:
-    - dest_device_id
-    - dest_user_id
-    - process
-    - _time

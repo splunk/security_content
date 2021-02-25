@@ -1,0 +1,9 @@
+name: First time seen command line argument - SSA Unit Test
+tests:
+  - name: First time seen command line argument
+    file: endpoint/ssa___first_time_seen_cmd_line.yml
+    pass_condition: '@count_eq(6)'
+    description: Test detection of first time seen command
+    attack_data:
+      - file_name: first_time_seen_commandline.json
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/first_time_seen_commandline.json

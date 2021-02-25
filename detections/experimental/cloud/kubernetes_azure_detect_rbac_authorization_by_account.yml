@@ -1,0 +1,30 @@
+name: Kubernetes Azure detect RBAC authorization by account
+id: 47af7d20-0607-4079-97d7-7a29af58b54e
+version: 1
+date: '2020-05-26'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides information on Kubernetes RBAC authorizations by
+  accounts, this search can be modified by adding rare or top to see both extremes
+  of RBAC by accounts occurrences
+search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | search
+  annotations.authorization.k8s.io/reason=* | table sourceIPs{} user.username userAgent
+  annotations.authorization.k8s.io/reason |stats count by user.username annotations.authorization.k8s.io/reason
+  | rare user.username annotations.authorization.k8s.io/reason |`kubernetes_azure_detect_rbac_authorization_by_account_filter`'
+how_to_implement: You must install the Add-on for Microsoft Cloud Services and Configure
+  Kube-Audit data diagnostics
+known_false_positives: Not all RBAC Authorications are malicious. RBAC authorizations
+  can uncover malicious activity specially if sensitive Roles have been granted.
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Sensitive Role Activity
+  asset_type: Azure AKS Kubernetes cluster
+  kill_chain_phases:
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat

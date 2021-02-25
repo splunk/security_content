@@ -2,6 +2,8 @@ name: Router and Infrastructure Security
 id: 91c676cf-0b23-438d-abee-f6335e177e77
 version: 1
 date: '2017-09-12'
+author: Bhavin Patel, Splunk
+type: batch
 description: Validate the security configuration of network infrastructure and verify
   that only authorized users and systems are accessing critical assets. Core routing
   and switching infrastructure are common strategic targets for attackers.
@@ -15,13 +17,15 @@ narrative: 'Networking devices, such as routers and switches, are often overlook
   are interacting with your hosts. By compromising your network devices, attackers
   can obtain direct access to the company''s internal infrastructure&#151; effectively
   increasing the attack surface and accessing private services/data.'
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
 - https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
 tags:
-  analytics_story: Router and Infrastructure Security
-  usecase: Security Monitoring
+  analytic_story: Router and Infrastructure Security
   category:
   - Best Practices
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

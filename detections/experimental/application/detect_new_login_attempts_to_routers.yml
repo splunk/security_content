@@ -1,0 +1,39 @@
+name: Detect New Login Attempts to Routers
+id: 104658f4-afdc-499e-9719-17243rr826f1
+version: 1
+date: '2017-09-12'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Authentication
+description: The search queries the authentication logs for assets that are categorized
+  as routers in the ES Assets and Identity Framework, to identify connections that
+  have not been seen before in the last 30 days.
+search: '| tstats `security_content_summariesonly` count earliest(_time) as earliest
+  latest(_time) as latest from datamodel=Authentication where Authentication.dest_category=router
+  by Authentication.dest Authentication.user| eval isOutlier=if(earliest >= relative_time(now(),
+  "-30d@d"), 1, 0) | where isOutlier=1| `security_content_ctime(earliest)`| `security_content_ctime(latest)`
+  | `drop_dm_object_name("Authentication")` | `detect_new_login_attempts_to_routers_filter`'
+how_to_implement: To successfully implement this search, you must ensure the network
+  router devices are categorized as "router" in the Assets and identity table. You
+  must also populate the Authentication data model with logs related to users authenticating
+  to routing infrastructure.
+known_false_positives: Legitimate router connections may appear as new connections
+references: []
+tags:
+  analytic_story:
+  - Router and Infrastructure Security
+  asset_type: Endpoint
+  cis20:
+  - CIS 11
+  kill_chain_phases:
+  - Actions on Objectives
+  nist:
+  - PR.PT
+  - PR.AC
+  - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network

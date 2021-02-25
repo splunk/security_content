@@ -1,36 +1,50 @@
-
-name: Conduct training
-id: df493538-e598-463b-8835-a109022c2968
-tags:
-  nist:
-    RS.RP
-description: Take training courses to gain relevant knowledge - Sharpen the saw.
-automation:
-    is_note_required: false
-    role:
-    sla_type: minutes
-    sla:
-    action:
-    playbook: ""
-references:
-  - ""
-workflow: |
-  We do not rise to the level of our expectations. We fall to the level of our training.  - @atc_project
-  > “The more that you read, the more things you will know. The more that you learn, the more places you’ll go.” ― Dr. Seuss
-  We assume that you already have a strong technical background in fundamental disciplines — Networking, Operating Systems, and Programming.
-  Here are some relevant training courses that will help you in the Incident Response activities:
-  1. [Investigation Theory](https://chrissanders.org/training/investigationtheory/) by Chris Sanders. We recommend you to have it as a mandatory training for every member of your Incident Response team
-  1. [SANS Digital Forensics & Incident Response](https://digital-forensics.sans.org/training/courses) trainings
-    * SEC450: Blue Team Fundamentals: Security Operations and Analysis - https://www.sans.org/course/blue-team-fundamentals-security-operations-analysis. We recommend you to have it as a mandatory training for every member of your Incident Response team
-    * SEC504: Hacker Tools, Techniques, Exploits, and Incident Handling - https://www.sans.org/course/hacker-techniques-exploits-incident-handling We recommend you to have it as a mandatory training for every member of your Incident Response team
-    * FOR500: Windows Forensic Analysis - https://www.sans.org/course/windows-forensic-analysis
-    * FOR508: Advanced Incident Response, Threat Hunting, and Digital Forensics - https://www.sans.org/course/advanced-incident-response-threat-hunting-training
-    * SEC503: Intrusion Detection In-Depth - https://www.sans.org/course/intrusion-detection-in-depth
-    * FOR572: Advanced Network Forensics: Threat Hunting, Analysis, and Incident Response - https://www.sans.org/course/advanced-network-forensics-threat-hunting-incident-response
-    * SEC560: Network Penetration Testing and Ethical Hacking - https://www.sans.org/course/network-penetration-testing-ethical-hacking OR Offensive Security trainings mentioned below
-    * SEC599: Defeating Advanced Adversaries - Purple Team Tactics & Kill Chain Defenses - https://www.sans.org/course/defeating-advanced-adversaries-kill-chain-defenses
-  1. [Offensive Security](https://www.offensive-security.com/courses-and-certifications/) trainings. We recommend [PWK](https://www.offensive-security.com/pwk-oscp/) by Offensive Security trainings are in the list because to fight a threat, you need to understand their motivation, tactics, and techniques.
-  The training above is a recommendation and certainly the size of the organization will depend on the amount of training possible.
-date: '2020-07-17'
-version: 1
 author: ButterCup
+automation:
+  action: null
+  is_note_required: false
+  playbook: ''
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-17'
+description: Take training courses to gain relevant knowledge - Sharpen the saw.
+id: df493538-e598-463b-8835-a109022c2968
+name: Conduct training
+references:
+- ''
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: "We do not rise to the level of our expectations. We fall to the level of\
+  \ our training.  - @atc_project\n> \u201CThe more that you read, the more things\
+  \ you will know. The more that you learn, the more places you\u2019ll go.\u201D\
+  \ \u2015 Dr. Seuss\nWe assume that you already have a strong technical background\
+  \ in fundamental disciplines \u2014 Networking, Operating Systems, and Programming.\n\
+  Here are some relevant training courses that will help you in the Incident Response\
+  \ activities:\n1. [Investigation Theory](https://chrissanders.org/training/investigationtheory/)\
+  \ by Chris Sanders. We recommend you to have it as a mandatory training for every\
+  \ member of your Incident Response team\n1. [SANS Digital Forensics & Incident Response](https://digital-forensics.sans.org/training/courses)\
+  \ trainings\n  * SEC450: Blue Team Fundamentals: Security Operations and Analysis\
+  \ - https://www.sans.org/course/blue-team-fundamentals-security-operations-analysis.\
+  \ We recommend you to have it as a mandatory training for every member of your Incident\
+  \ Response team\n  * SEC504: Hacker Tools, Techniques, Exploits, and Incident Handling\
+  \ - https://www.sans.org/course/hacker-techniques-exploits-incident-handling We\
+  \ recommend you to have it as a mandatory training for every member of your Incident\
+  \ Response team\n  * FOR500: Windows Forensic Analysis - https://www.sans.org/course/windows-forensic-analysis\n\
+  \  * FOR508: Advanced Incident Response, Threat Hunting, and Digital Forensics -\
+  \ https://www.sans.org/course/advanced-incident-response-threat-hunting-training\n\
+  \  * SEC503: Intrusion Detection In-Depth - https://www.sans.org/course/intrusion-detection-in-depth\n\
+  \  * FOR572: Advanced Network Forensics: Threat Hunting, Analysis, and Incident\
+  \ Response - https://www.sans.org/course/advanced-network-forensics-threat-hunting-incident-response\n\
+  \  * SEC560: Network Penetration Testing and Ethical Hacking - https://www.sans.org/course/network-penetration-testing-ethical-hacking\
+  \ OR Offensive Security trainings mentioned below\n  * SEC599: Defeating Advanced\
+  \ Adversaries - Purple Team Tactics & Kill Chain Defenses - https://www.sans.org/course/defeating-advanced-adversaries-kill-chain-defenses\n\
+  1. [Offensive Security](https://www.offensive-security.com/courses-and-certifications/)\
+  \ trainings. We recommend [PWK](https://www.offensive-security.com/pwk-oscp/) by\
+  \ Offensive Security trainings are in the list because to fight a threat, you need\
+  \ to understand their motivation, tactics, and techniques.\nThe training above is\
+  \ a recommendation and certainly the size of the organization will depend on the\
+  \ amount of training possible.\n"

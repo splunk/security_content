@@ -1,11 +1,11 @@
-name: Analyze Malicious File
-id: 6ee5c067-8228-4926-abb2-54f2c59d726e
-version: 1
-date: '2020-04-29'
-description: Perform a static and dynamic malware analysis for the malicious file. Use the findings for further response tasks.
 author: Patrick Bareiss, Splunk
+date: '2020-04-29'
+description: Perform a static and dynamic malware analysis for the malicious file.
+  Use the findings for further response tasks.
+id: 6ee5c067-8228-4926-abb2-54f2c59d726e
+name: Analyze Malicious File
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Hidden Cobra Malware
   - Lateral Movement
@@ -14,4 +14,7 @@ tags:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Ransomware
   - SamSam Ransomware
-
+  product:
+  - Splunk Phantom
+type: response
+version: 1

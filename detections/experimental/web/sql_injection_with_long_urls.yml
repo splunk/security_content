@@ -1,0 +1,55 @@
+name: SQL Injection with Long URLs
+id: e0aad4cf-0790-423b-8328-7564d0d938f9
+version: 2
+date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Web
+description: This search looks for long URLs that have several SQL commands visible
+  within them.
+search: '| tstats `security_content_summariesonly` count from datamodel=Web where
+  Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length
+  > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name("Web")`
+  | eval num_sql_cmds=mvcount(split(url, "alter%20table")) + mvcount(split(url, "between"))
+  + mvcount(split(url, "create%20table")) + mvcount(split(url, "create%20database"))
+  + mvcount(split(url, "create%20index")) + mvcount(split(url, "create%20view")) +
+  mvcount(split(url, "delete")) + mvcount(split(url, "drop%20database")) + mvcount(split(url,
+  "drop%20index")) + mvcount(split(url, "drop%20table")) + mvcount(split(url, "exists"))
+  + mvcount(split(url, "exec")) + mvcount(split(url, "group%20by")) + mvcount(split(url,
+  "having")) + mvcount(split(url, "insert%20into")) + mvcount(split(url, "inner%20join"))
+  + mvcount(split(url, "left%20join")) + mvcount(split(url, "right%20join")) + mvcount(split(url,
+  "full%20join")) + mvcount(split(url, "select")) + mvcount(split(url, "distinct"))
+  + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url,
+  "xp_cmdshell")) - 24 | where num_sql_cmds > 3 | `sql_injection_with_long_urls_filter`'
+how_to_implement: To successfully implement this search, you need to be monitoring
+  network communications to your web servers or ingesting your HTTP logs and populating
+  the Web data model. You must also identify your web servers in the Enterprise Security
+  assets table.
+known_false_positives: It's possible that legitimate traffic will have long URLs or
+  long user agent strings and that common SQL commands may be found within the URL.
+  Please investigate as appropriate.
+references: []
+tags:
+  analytic_story:
+  - SQL Injection
+  asset_type: Database Server
+  cis20:
+  - CIS 4
+  - CIS 13
+  - CIS 18
+  kill_chain_phases:
+  - Delivery
+  mitre_attack_id:
+  - T1190
+  nist:
+  - PR.DS
+  - ID.RA
+  - PR.PT
+  - PR.IP
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network

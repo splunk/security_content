@@ -1,0 +1,50 @@
+name: Suspicious Rundll32 Rename
+id: 7360137f-abad-473e-8189-acbdaa34d114
+version: 1
+date: '2021-02-04'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: The following analytic identifies renamed instances of rundll32.exe executing.
+  rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During
+  investigation, validate it is the legitimate rundll32.exe executing and what script
+  content it is loading. This query relies on the OriginalFileName from Sysmon, or
+  internal name from the PE meta data. Expand the query as needed by looking for specific
+  command line arguments outlined in other analytics.
+search: '`sysmon` EventID=1 OriginalFileName=RUNDLL32.EXE NOT process_name=rundll32.exe
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
+  parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
+  rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  `suspicious_rundll32_rename_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: Although unlikely, some legitimate applications may use a moved
+  copy of rundll32, triggering a false positive.
+references:
+- https://attack.mitre.org/techniques/T1218/011/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+- https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+tags:
+  analytic_story:
+  - Suspicious Rundll32 Activity
+  asset_type: Endpoint
+  automated_detection_testing: passed
+  cis20:
+  - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1218.011
+  - T1036.003
+  nist:
+  - PR.PT
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint

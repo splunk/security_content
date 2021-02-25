@@ -1,36 +1,45 @@
 name: DNS Query Length With High Standard Deviation
 id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2021-01-18'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: This search allows you to identify DNS requests and compute the standard
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+  by DNS.query |  `drop_dm_object_name("DNS")` | eval query_length = len(query) |
+  table query query_length record_type count | eventstats stdev(query_length) AS stdev
+  avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
+  | eval z_score=(query_length-avg)/stdev | `dns_query_length_with_high_standard_deviation_filter` '
 how_to_implement: To successfully implement this search, you will need to ensure that
   DNS data is populating the Network_Resolution data model.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  by DNS.query DNS.record_type |  `drop_dm_object_name("DNS")` | eval query_length
-  = len(query) | table query query_length record_type count | eventstats stdev(query_length)
-  AS stdev avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
-  | eval z_score=(query_length-avg)/stdev | `dns_query_length_with_high_standard_deviation_filter` '
 known_false_positives: It's possible there can be long domain names that are legitimate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
   - Command and Control
-  mitre_attack_id:
-  - T1071.004
-  kill_chain_phases:
-  - Command and Control
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
   - CIS 12
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
+  kill_chain_phases:
+  - Command and Control
+  mitre_attack_id:
+  - T1048.003
   nist:
   - PR.PT
   - DE.AE
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: Endpoint

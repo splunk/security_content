@@ -2,19 +2,26 @@ name: Previously Seen AWS Regions
 id: fc0edc95-ff2b-48b0-9f6f-63da3789fd63
 version: 1
 date: '2018-01-08'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search looks for CloudTrail events where an AWS instance is started
   and creates a baseline of most recent time (latest) and the first time (earliest)
   we've seen this region in our dataset grouped by the value awsRegion for the last
   30 days
+search: '`cloudtrail` StartInstances | stats earliest(_time) as earliest latest(_time)
+  as latest by awsRegion | outputlookup previously_seen_aws_regions.csv | stats count'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs.
-author: Bhavin Patel, Splunk
-search: '`cloudtrail` StartInstances | stats earliest(_time) as earliest latest(_time)
-  as latest by awsRegion | outputlookup previously_seen_aws_regions.csv | stats count'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   detections:
   - EC2 Instance Started In Previously Unseen Region
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

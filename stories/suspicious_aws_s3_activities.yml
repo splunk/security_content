@@ -2,6 +2,8 @@ name: Suspicious AWS S3 Activities
 id: 2e8948a5-5239-406b-b56b-6c50w3168af3
 version: 2
 date: '2018-07-24'
+author: Bhavin Patel, Splunk
+type: batch
 description: Use the searches in this Analytic Story to monitor your AWS S3 buckets
   for evidence of anomalous activity and suspicious behaviors, such as detecting open
   S3 buckets and buckets being accessed from a new IP. The contextual and investigative
@@ -18,13 +20,15 @@ narrative: 'As cloud computing has exploded, so has the number of creative attac
   Among things to look out for are S3 access from unfamiliar locations and by unfamiliar
   users. Some of the searches in this Analytic Story help you detect suspicious behavior
   and others help you investigate more deeply, when the situation warrants.   '
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 - https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
 tags:
-  analytics_story: Suspicious AWS S3 Activities
-  usecase: Security Monitoring
+  analytic_story: Suspicious AWS S3 Activities
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

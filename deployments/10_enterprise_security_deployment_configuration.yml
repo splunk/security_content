@@ -1,12 +1,21 @@
 name: Enterprise Security deployment configuration
 id: bc91a8cd-35e7-4bb2-6140-e756cc46f212
 date: '2020-04-27'
-description: This configuration file applies to all correlation searches that are used for detection
 author: Bhavin Patel
+description: This configuration file applies to all correlation searches that are
+  used for detection
 scheduling:
-  cron_schedule: '0 * * * *'
+  cron_schedule: 0 * * * *
   earliest_time: -70m@m
   latest_time: -10m@m
   schedule_window: auto
+alert_action:
+  notable:
+    rule_description: '%description%'
+    rule_title: '%name%'
+    nes_fields:
+    - user
+    - dest
+    - src
 tags:
   analytics_story: all

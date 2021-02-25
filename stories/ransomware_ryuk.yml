@@ -2,19 +2,36 @@ name: Ryuk Ransomware
 id: 507edc74-13d5-4339-878e-b9744ded1f35
 version: 1
 date: '2020-11-06'
+author: Jose Hernandez, Splunk
+type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Ryuk ransomware, including looking for file writes associated
-  with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
-narrative: 'Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) on October 28th called “Ransomware Activity Targeting the Healthcare and Public Health Sector.” This alert details TTPs associated with ongoing and possible imminent attacks against the Healthcare sector, and is a joint advisory in coordination with other U.S. Government agencies. The objective of these malicious campaigns is to infiltrate targets in named sectors and to drop ransomware payloads, which will likely cause disruption of service and increase risk of actual harm to the health and safety of patients at hospitals, even with the aggravant of an ongoing COVID-19 pandemic. This document specifically refers to several crimeware exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. 
-The Ryuk ransomware payload is not new. It has been well documented and identified in multiple variants. Payloads need a carrier, and for Ryuk it has often been exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks such as Emotet or Trickbot.' 
-author: Jose Hernandez, Splunk
-type: ESCU
+  with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification,
+  suspicious psexec use, and more.
+narrative: "Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A)\
+  \ on October 28th called \u201CRansomware Activity Targeting the Healthcare and\
+  \ Public Health Sector.\u201D This alert details TTPs associated with ongoing and\
+  \ possible imminent attacks against the Healthcare sector, and is a joint advisory\
+  \ in coordination with other U.S. Government agencies. The objective of these malicious\
+  \ campaigns is to infiltrate targets in named sectors and to drop ransomware payloads,\
+  \ which will likely cause disruption of service and increase risk of actual harm\
+  \ to the health and safety of patients at hospitals, even with the aggravant of\
+  \ an ongoing COVID-19 pandemic. This document specifically refers to several crimeware\
+  \ exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. The\
+  \ Ryuk ransomware payload is not new. It has been well documented and identified\
+  \ in multiple variants. Payloads need a carrier, and for Ryuk it has often been\
+  \ exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks\
+  \ such as Emotet or Trickbot."
 references:
 - https://www.splunk.com/en_us/blog/security/detecting-ryuk-using-splunk-attack-range.html
 - https://www.crowdstrike.com/blog/big-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
 - https://us-cert.cisa.gov/ncas/alerts/aa20-302a
 tags:
-  analytics_story: Ryuk Ransomware
-  usecase: Advanced Threat Detection
+  analytic_story: Ryuk Ransomware
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

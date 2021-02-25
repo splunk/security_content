@@ -2,6 +2,8 @@ name: Suspicious AWS EC2 Activities
 id: 2e8948a5-5239-406b-b56b-6c50f1268af3
 version: 1
 date: '2018-02-09'
+author: Bhavin Patel, Splunk
+type: batch
 description: Use the searches in this Analytic Story to monitor your AWS EC2 instances
   for evidence of anomalous activity and suspicious behaviors, such as EC2 instances
   that originate from unusual locations or those launched by previously unseen users
@@ -14,12 +16,14 @@ narrative: AWS CloudTrail is an AWS service that helps you enable governance, co
   and AWS SDKs and APIs to ensure that your EC2 instances are not vulnerable to attacks.
   This Analytic Story identifies suspicious activities in your AWS EC2 instances and
   helps you respond and investigate those activities.
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 tags:
-  analytics_story: Suspicious AWS EC2 Activities
-  usecase: Security Monitoring
+  analytic_story: Suspicious AWS EC2 Activities
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

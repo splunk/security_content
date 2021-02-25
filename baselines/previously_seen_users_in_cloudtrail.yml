@@ -2,24 +2,32 @@ name: Previously seen users in CloudTrail
 id: fc0edc95-ff2b-48b0-9f6f-63da3789fd03
 version: 1
 date: '2018-04-30'
+author: Jason Brewer, Splunk
+type: batch
+datamodel: []
 description: This search looks for CloudTrail events where a user logs into the console,
   then creates a baseline of the latest and earliest times, City, Region, and Country
   we have encountered this user in our dataset, grouped by ARN, within the last 30
-  days.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. Please validate the user name entries in `previously_seen_users_console_logins`,
-  which is a lookup file created as a result of running this support search.
-author: Jason Brewer, Splunk
+  days. NOTE - This baseline search is deprecated and has been updated to use the
+  Authentication Datamodel
 search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user | iplocation
   src | eval City=if(City LIKE "",src,City),Region=if(Region LIKE "",src,Region) |
   stats earliest(_time) as firstTime latest(_time) as lastTime by user src City Region
-  Country | outputlookup previously_seen_users_console_logins | stats count'
+  Country | outputlookup previously_seen_users_console_logins_cloudtrail | stats count'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. Please validate the user name entries in `previously_seen_users_console_logins_cloudtrail`,
+  which is a lookup file created as a result of running this support search.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS Login Activities
   detections:
   - Detect AWS Console Login by User from New Country
   - Detect AWS Console Login by User from New Region
   - Detect AWS Console Login by User from New City
   - Detect new user AWS Console Login
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

@@ -1,0 +1,64 @@
+name: Detect API activity from users without MFA
+id: 2a9b80d3-6340-4345-w5ad-212bf5d1dac4
+version: 1
+date: '2018-05-17'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
+description: This search looks for CloudTrail events where a user logged into the
+  AWS account, is making API calls and has not enabled Multi Factor authentication.
+  Multi factor authentication adds a layer of security by forcing the users to type
+  a unique authentication code from an approved authentication device when they access
+  AWS websites or services. AWS Best Practices recommend that you enable MFA for privileged
+  IAM users.
+search: '`cloudtrail` userIdentity.sessionContext.attributes.mfaAuthenticated=false
+  | search NOT [| inputlookup aws_service_accounts | fields identity | rename identity
+  as user]| stats  count min(_time) as firstTime max(_time) as lastTime values(eventName)
+  as eventName by userIdentity.arn userIdentity.type user | `security_content_ctime(firstTime)`  |
+  `security_content_ctime(lastTime)` | `detect_api_activity_from_users_without_mfa_filter`'
+how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. Leverage the support search `Create a list of approved AWS service accounts`:
+  run it once every 30 days to create a list of service accounts and validate them.\
+
+  This search produces fields (`eventName`,`userIdentity.type`,`userIdentity.arn`)
+  that are not yet supported by ES Incident Review and therefore cannot be viewed
+  when a notable event is raised. These fields contribute additional context to the
+  notable. To see the additional metadata, add the following fields, if not already
+  present, to Incident Review - Event Attributes (Configure > Incident Management
+  > Incident Review Settings > Add New Entry):\\n1. **Label:** AWS Event Name, **Field:**
+  eventName\
+
+  1. \
+
+  1. **Label:** AWS User ARN, **Field:** userIdentity.arn\
+
+  1. \
+
+  1. **Label:** AWS User Type, **Field:** userIdentity.type\
+
+  Detailed documentation on how to create a new field within Incident Review may be
+  found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
+known_false_positives: Many service accounts configured within an AWS infrastructure
+  do not have multi factor authentication enabled. Please ignore the service accounts,
+  if triggered and instead add them to the aws_service_accounts.csv file to fine tune
+  the detection. It is also possible that the search detects users in your environment
+  using Single Sign-On systems, since the MFA is not handled by AWS.
+references: []
+tags:
+  analytic_story:
+  - AWS User Monitoring
+  asset_type: AWS Instance
+  cis20:
+  - CIS 16
+  nist:
+  - DE.DP
+  - PR.AC
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_object: user
+  risk_object_type: user
+  risk_score: 10
+  security_domain: network

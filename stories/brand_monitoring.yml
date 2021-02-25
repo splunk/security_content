@@ -2,6 +2,8 @@ name: Brand Monitoring
 id: 91c676cf-0b23-438d-abee-f6335e1fce78
 version: 1
 date: '2017-12-19'
+author: David Dorsey, Splunk
+type: batch
 description: Detect and investigate activity that may indicate that an adversary is
   using faux domains to mislead users into interacting with malicious infrastructure.
   Monitor DNS, email, and web traffic for permutations of your brand name.
@@ -23,14 +25,16 @@ narrative: 'While you can educate your users and customers about the risks and t
   provide you with even more actionable intelligence, including likely geographic
   information, contextual searches to help you scope the problem, and investigative
   searches.'
-author: David Dorsey, Splunk
-type: ESCU
 references:
 - https://www.zerofox.com/blog/what-is-digital-risk-monitoring/
 - https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
 - https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
 tags:
-  analytics_story: Brand Monitoring
-  usecase: Advanced Threat Detection
+  analytic_story: Brand Monitoring
   category:
   - Abuse
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

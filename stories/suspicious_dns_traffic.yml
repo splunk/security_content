@@ -2,6 +2,8 @@ name: Suspicious DNS Traffic
 id: 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
 version: 1
 date: '2017-09-18'
+author: Rico Valdez, Splunk
+type: batch
 description: Attackers often attempt to hide within or otherwise abuse the domain
   name system (DNS). You can thwart attempts to manipulate this omnipresent protocol
   by monitoring for these types of abuses.
@@ -14,14 +16,16 @@ narrative: Although DNS is one of the fundamental underlying protocols that make
   involves using the DNS protocol for command-and-control activities with the attacker's
   malicious code or to covertly exfiltrate data. The searches within this Analytic
   Story look for these types of abuses.
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/
 - http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680
 - https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454
 tags:
-  analytics_story: Suspicious DNS Traffic
-  usecase: Advanced Threat Detection
+  analytic_story: Suspicious DNS Traffic
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

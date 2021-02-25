@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 '''
-Validates Manifest file under the security-content repo for correctness.
+Validates Manifest file under the security_content repo for correctness.
 '''
 
 import glob
@@ -76,10 +76,8 @@ def validate_objects(REPO_PATH, objects, verbose):
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
 
-    if verbose:
-        print("validating object {0}".format(object['name']))
     for object in objects['detections']:
-        if object['type'] == 'ESCU':
+        if object['type'] == 'batch':
             errors = errors + validate_detection_search(object, objects['macros'])
 
     for object in objects['baselines']:
@@ -132,8 +130,12 @@ def validate_standard_fields(object, uuids):
     # the first two fields risk_object, and risk_object_type are an enum of fixed values
     # defined by ESCU risk scoring
 
-
     if 'tags' in object:
+        # check product tag is present in all objects
+        if 'product' not in object['tags']:
+            errors.append("ERROR: a `product` tag is required for object: %s" % object['name'])
+
+        # check risk score values
         for k,v in object['tags'].items():
 
             if k == 'risk_score':

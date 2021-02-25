@@ -1,0 +1,62 @@
+name: Detection of DNS Tunnels
+id: 104658f4-afdc-499f-9719-17a43f9826f4
+version: 2
+date: '2017-09-18'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Network_Resolution
+description: This search is used to detect DNS tunneling, by calculating the sum of
+  the length of DNS queries and DNS answers. The search also filters out potential
+  false positives by filtering out queries made to internal systems and the queries
+  originating from internal DNS, Web, and Email servers. Endpoints using DNS as a
+  method of transmission for data exfiltration, command and control, or evasion of
+  security controls can often be detected by noting an unusually large volume of DNS
+  traffic. Deprecated because existing detection is doing the same.
+search: '| tstats `security_content_summariesonly` dc("DNS.query") as count  from
+  datamodel=Network_Resolution  where nodename=DNS "DNS.message_type"="QUERY" NOT
+  (`cim_corporate_web_domain_search("DNS.query")`) NOT "DNS.query"="*.in-addr.arpa"
+  NOT ("DNS.src_category"="svc_infra_dns" OR "DNS.src_category"="svc_infra_webproxy"
+  OR "DNS.src_category"="svc_infra_email*"   ) by "DNS.src","DNS.query" | rename "DNS.src"
+  as src  "DNS.query" as message | eval length=len(message) | stats sum(length) as
+  length by src | append [ tstats `security_content_summariesonly` dc("DNS.answer")
+  as count  from datamodel=Network_Resolution  where nodename=DNS "DNS.message_type"="QUERY"
+  NOT (`cim_corporate_web_domain_search("DNS.query")`) NOT "DNS.query"="*.in-addr.arpa"
+  NOT ("DNS.src_category"="svc_infra_dns" OR "DNS.src_category"="svc_infra_webproxy"
+  OR "DNS.src_category"="svc_infra_email*"   ) by "DNS.src","DNS.answer" | rename
+  "DNS.src" as src  "DNS.answer" as message | eval message=if(message=="unknown","",
+  message) | eval length=len(message) | stats sum(length) as length by src ] | stats
+  sum(length) as length by src | where length > 10000 | `detection_of_dns_tunnels_filter`'
+how_to_implement: To successfully implement this search, we must ensure that DNS data
+  is being ingested and mapped to the appropriate fields in the Network_Resolution
+  data model. Fields like src_category are automatically provided by the Assets and
+  Identity Framework shipped with Splunk Enterprise Security. You will need to ensure
+  you are using the Assets and Identity Framework and populating the src_category
+  field. You will also need to enable the `cim_corporate_web_domain_search()` macro
+  which will essentially filter out the DNS queries made to the corporate web domains
+  to reduce alert fatigue.
+known_false_positives: It's possible that normal DNS traffic will exhibit this behavior.
+  If an alert is generated, please investigate and validate as appropriate. The threshold
+  can also be modified to better suit your environment.
+references: []
+tags:
+  analytic_story:
+  - Data Protection
+  - Suspicious DNS Traffic
+  - Command and Control
+  asset_type: Endpoint
+  cis20:
+  - CIS 13
+  kill_chain_phases:
+  - Command and Control
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1048.003
+  nist:
+  - PR.PT
+  - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network

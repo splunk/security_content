@@ -1,0 +1,39 @@
+name: Large Volume of DNS ANY Queries
+id: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
+version: 1
+date: '2017-09-20'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Network_Resolution
+description: The search is used to identify attempts to use your DNS Infrastructure
+  for DDoS purposes via a DNS amplification attack leveraging ANY queries.
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+  where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest"
+  | `drop_dm_object_name("DNS")` | where count>200 | `large_volume_of_dns_any_queries_filter`'
+how_to_implement: To successfully implement this search you must ensure that DNS data
+  is populating the Network_Resolution data model.
+known_false_positives: Legitimate ANY requests may trigger this search, however it
+  is unusual to see a large volume of them under typical circumstances. You may modify
+  the threshold in the search to better suit your environment.
+references: []
+tags:
+  analytic_story:
+  - DNS Amplification Attacks
+  asset_type: DNS Servers
+  cis20:
+  - CIS 11
+  - CIS 12
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1498.002
+  nist:
+  - PR.PT
+  - DE.AE
+  - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network

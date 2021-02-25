@@ -2,24 +2,31 @@ name: Okta Failed SSO Attempts
 id: 371a6545-2618-4032-ad84-93386b8698c5
 version: 2
 date: '2020-07-21'
-description: Detect failed Okta SSO events
-how_to_implement: This search is specific to Okta and requires Okta logs are being
-  ingested in your Splunk deployment.
-type: ESCU
 author: Rico Valdez, Splunk
+type: batch
+datamodel: []
+description: Detect failed Okta SSO events
 search: '`okta` displayMessage="User attempted unauthorized access to app" | stats  min(_time)
   as firstTime max(_time) as lastTime values(app) as Apps count by user, result ,displayMessage,
-  src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_failed_sso_attempts_filter` '
+  src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `okta_failed_sso_attempts_filter` '
+how_to_implement: This search is specific to Okta and requires Okta logs are being
+  ingested in your Splunk deployment.
 known_false_positives: There may be a faulty config preventing legitmate users from
   accessing apps they should have access to.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
-  mitre_attack_id:
-  - T1078.001
+  asset_type: Infrastructure
   cis20:
   - CIS 16
+  mitre_attack_id:
+  - T1078.001
   nist:
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: access
-  asset_type: Infrastructure

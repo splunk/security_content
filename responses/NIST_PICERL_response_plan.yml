@@ -1,35 +1,45 @@
-author: "ButterCup, Splunk"
-date: "2020-04-21"
+author: ButterCup, Splunk
+date: '2020-04-21'
 description: NIST incident response process that follows PICERL (https://www.sans.org/media/score/504-incident-response-cycle.pdf)
 id: 8a7ea67a-dd53-468e-aeef-b75aed0a877c
 is_note_required: false
-name: "NIST PICERL Response Plan"
+name: NIST PICERL Response Plan
 references:
-  - "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
-  - "https://www.sans.org/reading-room/whitepapers/incident/incident-handlers-handbook-33901"
+- https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+- https://www.sans.org/reading-room/whitepapers/incident/incident-handlers-handbook-33901
 response_phase:
-  - preparation:
-      - id: d360707d-9214-4449-b15d-9d3cf134209a
-        name: Preparation
-  - identification:
-      - id: 6cdd56ba-5ffd-46a9-9dde-d25ce755c100
-        name: Identification
-  - containment:
-      - id: 5d790fae-8ba6-4fc9-b288-78b67ef8370c
-        name: Containment
-  - eradication:
-      - id: d3b80e0e-4e85-4259-a13c-69ef20987e1c
-        name: Eradication
-  - recovery:
-      - id: cae4dcdb-f81b-45ec-b0d6-a00cec468e9a
-        name: Recovery
-  - lessons_learned:
-      - id: 001209bc-2f94-4dc7-b21e-9598c41eaa80
-        name: "Post-Incident Activities"
+- preparation:
+  - id: d360707d-9214-4449-b15d-9d3cf134209a
+    name: Preparation
+- identification:
+  - id: 6cdd56ba-5ffd-46a9-9dde-d25ce755c100
+    name: Identification
+- containment:
+  - id: 5d790fae-8ba6-4fc9-b288-78b67ef8370c
+    name: Containment
+- eradication:
+  - id: d3b80e0e-4e85-4259-a13c-69ef20987e1c
+    name: Eradication
+- recovery:
+  - id: cae4dcdb-f81b-45ec-b0d6-a00cec468e9a
+    name: Recovery
+- lessons_learned:
+  - id: 001209bc-2f94-4dc7-b21e-9598c41eaa80
+    name: Post-Incident Activities
 tags:
   analytics_story:
-    - "Credential Dumping"
-    - Ransomeware
+  - Credential Dumping
+  - Ransomeware
   nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
 version: 1
-workflow: "Organizations should use this response plan as template to define the processes for their security operations teams. With this as the template and then customizing the response plan around attack vectors. Organizations can fashion a framework for thier response procedures. Response plans and response procedures are different in the setting that procedures should have the actual step-by-step actions vs an response plan that discuses and deomonstrates actions without specifcs and aligns to the policy. Preparation should not be imported into response tools that support ingestion (hive, phantom, xsoar, etc)."
+workflow: Organizations should use this response plan as template to define the processes
+  for their security operations teams. With this as the template and then customizing
+  the response plan around attack vectors. Organizations can fashion a framework for
+  thier response procedures. Response plans and response procedures are different
+  in the setting that procedures should have the actual step-by-step actions vs an
+  response plan that discuses and deomonstrates actions without specifcs and aligns
+  to the policy. Preparation should not be imported into response tools that support
+  ingestion (hive, phantom, xsoar, etc).

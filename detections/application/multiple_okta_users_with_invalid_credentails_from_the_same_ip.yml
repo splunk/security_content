@@ -1,31 +1,37 @@
-name: Multiple Okta Users With Invalid Credentails From The Same IP
+name: Multiple Okta Users With Invalid Credentials From The Same IP
 id: 19cba45f-cad3-4032-8911-0c09e0444552
 version: 2
 date: '2020-07-21'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
 description: This search detects Okta login failures due to bad credentials for multiple
   users originating from the same ip address.
-how_to_implement: This search is specific to Okta and requires Okta logs are being
-  ingested in your Splunk deployment.
-type: ESCU
-author: Rico Valdez, Splunk
 search: '`okta` outcome.reason=INVALID_CREDENTIALS | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | stats min(_time) as firstTime max(_time) as lastTime dc(user) as distinct_users
   values(user) as users by src_ip, displayMessage, outcome.reason, country, state,
   city  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  |  search distinct_users > 5| `multiple_okta_users_with_invalid_credentails_from_the_same_ip_filter` '
+  |  search distinct_users > 5| `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter` '
+how_to_implement: This search is specific to Okta and requires Okta logs are being
+  ingested in your Splunk deployment.
 known_false_positives: A single public IP address servicing multiple legitmate users
   may trigger this search. In addition, the threshold of 5 distinct users may be too
-  low for your needs. You may modify the included filter macro XXXXXXXXXXXXX to raise
-  the threshold or except specific IP adresses from triggering this search.
+  low for your needs. You may modify the included filter macro `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter`
+  to raise the threshold or except specific IP adresses from triggering this search.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Okta Activity
-  mitre_attack_id:
-  - T1078.001
+  asset_type: Infrastructure
   cis20:
   - CIS 16
+  mitre_attack_id:
+  - T1078.001
   nist:
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: access
-  asset_type: Infrastructure

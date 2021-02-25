@@ -1,0 +1,42 @@
+name: Splunk Enterprise Information Disclosure
+id: f6a26b7b-7e80-4963-a9a8-d836e7534ebd
+version: 1
+date: '2018-06-14'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
+description: This search allows you to look for evidence of exploitation for CVE-2018-11409,
+  a Splunk Enterprise Information Disclosure Bug.
+search: index=_internal sourcetype=splunkd_ui_access server-info | search clientip!=127.0.0.1
+  uri_path="*raw/services/server/info/server-info" | rename clientip as src_ip, splunk_server
+  as dest | stats earliest(_time) as firstTime, latest(_time) as lastTime, values(uri)
+  as uri, values(useragent) as http_user_agent, values(user) as user by src_ip, dest
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `splunk_enterprise_information_disclosure_filter`
+how_to_implement: The REST endpoint that exposes system information is also necessary
+  for the proper operation of Splunk clustering and instrumentation. Whitelisting
+  your Splunk systems will reduce false positives.
+known_false_positives: Retrieving server information may be a legitimate API request.
+  Verify that the attempt is a valid request for information.
+references: []
+tags:
+  analytic_story:
+  - Splunk Enterprise Vulnerability CVE-2018-11409
+  asset_type: Splunk Server
+  cis20:
+  - CIS 3
+  - CIS 4
+  - CIS 18
+  kill_chain_phases:
+  - Delivery
+  nist:
+  - ID.RA
+  - RS.MI
+  - PR.PT
+  - PR.AC
+  - PR.IP
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network

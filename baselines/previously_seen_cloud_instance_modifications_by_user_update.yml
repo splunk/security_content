@@ -2,25 +2,32 @@ name: Previously Seen Cloud Instance Modifications By User - Update
 id: 534b7d30-7b0c-4510-8f55-65439850d58d
 version: 1
 date: '2020-07-29'
-description: This search updates a table of previously seen Cloud Instance modifications that have been made by a user
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Change
+description: This search updates a table of previously seen Cloud Instance modifications
+  that have been made by a user
+search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
+  from datamodel=Change where All_Changes.action=modified All_Changes.change_type=EC2
+  All_Changes.status=success by All_Changes.user | `drop_dm_object_name("All_Changes")`
+  | inputlookup append=t previously_seen_cloud_instance_modifications_by_user | stats
+  min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by user |
+  where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_images_forget_window`)
+  | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
+  <= relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_instance_modifications_by_user'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
-author: Rico Valdez, Splunk
-search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change
-    where All_Changes.action=modified All_Changes.change_type=EC2 All_Changes.status=success
-    by All_Changes.user 
-| `drop_dm_object_name("All_Changes")` 
-| inputlookup append=t previously_seen_cloud_instance_modifications_by_user 
-| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by user
-| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_images_forget_window`) 
-| eventstats min(firstTimeSeen) as globalFirstTime 
-| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
-| outputlookup previously_seen_cloud_instance_modifications_by_user'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Instance Activities
-  detections:
-  - Cloud Instance Modified By Previously Unseen User
   deployments:
   - Daily Cache Updates
+  detections:
+  - Cloud Instance Modified By Previously Unseen User
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

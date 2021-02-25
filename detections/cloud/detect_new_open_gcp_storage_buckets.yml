@@ -2,38 +2,44 @@ name: Detect New Open GCP Storage Buckets
 id: f6ea3466-d6bb-11ea-87d0-0242ac130003
 version: 1
 date: '2020-08-05'
-description: This search looks for GCP PubSub events where a user has created an open/public GCP Storage bucket.
-how_to_implement: 'This search relies on the Splunk Add-on for Google Cloud Platform, setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview).'
-type: ESCU
-references: []
 author: Shannon Davis, Splunk
+type: batch
+datamodel: []
+description: This search looks for GCP PubSub events where a user has created an open/public
+  GCP Storage bucket.
 search: '`google_gcp_pubsub_message` data.resource.type=gcs_bucket data.protoPayload.methodName=storage.setIamPermissions
-| spath output=action path=data.protoPayload.serviceData.policyDelta.bindingDeltas{}.action
-| spath output=user path=data.protoPayload.authenticationInfo.principalEmail
-| spath output=location path=data.protoPayload.resourceLocation.currentLocations{}
-| spath output=src path=data.protoPayload.requestMetadata.callerIp
-| spath output=bucketName path=data.protoPayload.resourceName
-| spath output=role path=data.protoPayload.serviceData.policyDelta.bindingDeltas{}.role
-| spath output=member path=data.protoPayload.serviceData.policyDelta.bindingDeltas{}.member
-| search (member=allUsers AND action=ADD)
-| table  _time, bucketName, src, user, location, action, role, member
-| search `detect_new_open_gcp_storage_buckets_filter`'
+  | spath output=action path=data.protoPayload.serviceData.policyDelta.bindingDeltas{}.action
+  | spath output=user path=data.protoPayload.authenticationInfo.principalEmail | spath
+  output=location path=data.protoPayload.resourceLocation.currentLocations{} | spath
+  output=src path=data.protoPayload.requestMetadata.callerIp | spath output=bucketName
+  path=data.protoPayload.resourceName | spath output=role path=data.protoPayload.serviceData.policyDelta.bindingDeltas{}.role
+  | spath output=member path=data.protoPayload.serviceData.policyDelta.bindingDeltas{}.member
+  | search (member=allUsers AND action=ADD) | table  _time, bucketName, src, user,
+  location, action, role, member | search `detect_new_open_gcp_storage_buckets_filter`'
+how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platform,
+  setting up a Cloud Pub/Sub input, along with the relevant GCP PubSub topics and
+  logging sink to capture GCP Storage Bucket events (https://cloud.google.com/logging/docs/routing/overview).
 known_false_positives: While this search has no known false positives, it is possible
   that a GCP admin has legitimately created a public bucket for a specific purpose.
   That said, GCP strongly advises against granting full control to the "allUsers"
   group.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious GCP Storage Activities
+  asset_type: GCP Storage Bucket
+  cis20:
+  - CIS 13
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1530
-  cis20:
-  - CIS 13
   nist:
   - PR.DS
   - PR.AC
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: network
-  asset_type: GCP Storage Bucket
