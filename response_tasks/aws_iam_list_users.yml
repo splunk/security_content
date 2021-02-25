@@ -6,7 +6,7 @@ author: Rod Soto
 type: batch
 datamodel:
 - Authentication
-description: UPDATE_DESCRIPTION
+description: Stats for AWS IAM List Users command
 search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=ListUsers | stats count min(_time) as firstTime max(_time) as lastTime by eventName eventType sourceIPAddress userAgent userIdentity.accessKeyId userIdentity.arn userIdentity.type userName | `aws_iam_list_users_filter`'
 how_to_implement: N/A
 known_false_positives: This is an investigation search
