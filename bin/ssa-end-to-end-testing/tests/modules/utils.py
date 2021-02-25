@@ -11,8 +11,8 @@ LOGGER = logging.getLogger(__name__)
 # Macros
 PULSAR_SOURCE_CONNECTION_ID_PLAYGROUND = f"29fb61f1-9342-48f5-9793-1afa008c377b"
 PULSAR_SOURCE_TOPIC_PLAYGROUND = f"persistent://ssa/egress/decorated-events-research2"
-PULSAR_SOURCE_CONNECTION_ID_STAGING = f"tbd"
-PULSAR_SOURCE_TOPIC_STAGING = f"tbd"
+PULSAR_SOURCE_CONNECTION_ID_STAGING = f"fd92bf9f-5d40-4c2e-bb75-bf0c3fc13980"
+PULSAR_SOURCE_TOPIC_STAGING = f"persistent://ssa/egress/decorated-events-research"
 
 READ_SSA_ENRICHED_EVENTS = f"| from read_ssa_enriched_events()"
 READ_SSA_ENRICHED_EVENTS_EXPANDED = (
@@ -84,19 +84,22 @@ def read_spl(env, file_name, results_index=None):
         spl = spl[:spl.rindex(";")] + f"| into index(\"{module}\", \"{index}\");"
     return spl
 
+
 def replace_ssa_macros(env, spl):
     pulsar_source_connection_id, pulsar_source_topic = return_macros(env)
     macro_expanded = READ_SSA_ENRICHED_EVENTS_EXPANDED.replace("__PULSAR_SOURCE_CONNECTION_ID__", pulsar_source_connection_id)
     macro_expanded = macro_expanded.replace("__PULSAR_SOURCE_TOPIC__", pulsar_source_topic)
-    spl = spl.replace(READ_SSA_ENRICHED_EVENTS, READ_SSA_ENRICHED_EVENTS_EXPANDED)
+    spl = spl.replace(READ_SSA_ENRICHED_EVENTS, macro_expanded)
     #spl = spl.replace(WRITE_SSA_DETECTED_EVENTS, WRITE_SSA_DETECTED_EVENTS_EXPANDED)
     #spl = spl.replace("\n", " ")
     return spl
+
 
 def read_data(file_name):
     file_path = os.path.join(os.path.dirname(__file__), 'data', file_name)
     data = "".join([line for line in fileinput.input(files=file_path)])
     return data
+
 
 def return_macros(env):
     if env == "playground":
