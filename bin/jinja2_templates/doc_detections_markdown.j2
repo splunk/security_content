@@ -1,0 +1,121 @@
+# Splunk Security Content Detections
+![security_content](static/logo.png)
+=====
+All the detections shipped to different Splunk products. Below is a breakdown by kind.
+
+## Cloud
+<details>
+  <summary>View</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'cloud' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Endpoint
+<details>
+  <summary>View</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'endpoint' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Network
+<details>
+  <summary>View</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'network' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Application
+<details>
+  <summary>View</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'application' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Web
+<details>
+  <summary>View</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'web' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+
+
+{% for detection in detections %}
+### {{ detection.name }}
+{{ detection.description }}
+
+- **Product**: {{ detection.tags.product|join(', ') }}
+- **Data Models**: {{ detection.datamodels|join(', ') }}
+- **ATT&CK**: {{ detection.tags.mitre_attack_id|join(', ') }}
+- **Last Updated**: {{ detection.date }}
+
+<details>
+  <summary>View</summary>
+
+#### Search
+```
+{{ detection.search }}
+```
+#### Associated Analytic Story
+{% for story in detection.tags.analytics_story %}
+* {{ story }}
+{% endfor %}
+
+#### How To Implement
+{{ detection.how_to_implement}}
+
+#### Required fields
+{% for field in detection.tags.required_fields %}
+* {{ field }}
+{% endfor %}
+
+#### ATT&CK
+
+| ID          | technique   | Tactic        |
+| ----------- | ----------- |:-------------:|
+{% for id in detection.tags.mitre_attack_id %}
+| {{ id }}    | x           | x             |
+{% endfor %}
+
+#### Kill Chain Phases
+{% for phase in detection.tags.kill_chain_phases %}
+* {{ phase }}
+{% endfor %}
+
+#### Known False Positives
+{{ detection.known_false_positives}}
+
+#### References
+{% for reference in detection.references %}
+* {{ reference }}
+{% endfor %}
+
+#### Test Dataset
+{% for dataset in detection.tags.dataset %}
+* {{ dataset }}
+{% endfor %}
+
+_version_: {{detection.version}}
+</details>
+---
+{% endfor %}
