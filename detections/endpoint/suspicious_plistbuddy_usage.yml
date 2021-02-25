@@ -4,18 +4,6 @@ version: 1
 date: '2021-02-22'
 description: 'The following analytic identifies the use of a native MacOS utility, PlistBuddy, creating or modifying a properly list (.plist) file. In the instance of Silver Sparrow,
   the following commands were executed:
- 
-  
-  1. PlistBuddy -c "Add :Label string init_verx" ~/Library/Launchagents/init_verx.plist\
-
-  1. PlistBuddy -c "Add :RunAtLoad bool true" ~/Library/Launchagents/init_verx.plist\
-
-  1. PlistBuddy -c "Add :StartInterval integer 3600" ~/Library/Launchagents/init_verx.plist\
-
-  1. PlistBuddy -c "Add :ProgramArguments array" ~/Library/Launchagents/init_verx.plist\
-
-  1. PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist\
-  
   Upon triage, capture the .plist file being written to disk and review for further indicators. Contain the endpoint and triage further.'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
