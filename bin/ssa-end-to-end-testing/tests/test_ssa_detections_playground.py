@@ -41,31 +41,38 @@ def results_index(api):
     # tear down the index
     api.delete_temp_index(temp_index["id"])
 
-def test_ssa_ingestion_preview(api):
-    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl')
+
+def test_ssa_ingestion_preview_example(api):
+    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl', "example2.log")
+
+
+def test_ssa_ingestion_preview_windows(api):
+    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl', "example.txt")
+
 
 def test_ssa_ingestion_index(api, results_index):
-    ssa_detection_in_dsp(api, 'troubleshoot.spl', results_index)
+    ssa_detection_in_dsp(api, 'troubleshoot.spl', results_index, "example.txt")
+
 
 def test_data_ingestion_preview(api):
-    ssa_detection_in_dsp_with_preview_session(api, 'firehose.spl')
+    ssa_detection_in_dsp_with_preview_session(api, 'firehose.spl', "example.txt")
 
 
 def test_data_ingestion_index(api, results_index):
-    ssa_detection_in_dsp(api, 'firehose2.spl', results_index)
+    ssa_detection_in_dsp(api, 'firehose2.spl', results_index, "example.txt")
 
 
 def test_ssa_example_detection_preview(api):
-    ssa_detection_in_dsp_with_preview_session(api, 'detection.spl')
+    ssa_detection_in_dsp_with_preview_session(api, 'detection.spl', "example.txt")
 
 
 def test_ssa_example_detection_index(api, results_index):
-    ssa_detection_in_dsp(api, 'detection2.spl', results_index)
+    ssa_detection_in_dsp(api, 'detection2.spl', results_index, "example.txt")
 
 
 ## Helper Functions ##
 
-def ssa_detection_in_dsp_with_preview_session(api, spl):
+def ssa_detection_in_dsp_with_preview_session(api, spl, source):
 
     spl = read_spl(api.env, spl)
     check.is_not_none(spl, "fail to read dummy spl file")
@@ -75,7 +82,7 @@ def ssa_detection_in_dsp_with_preview_session(api, spl):
 
     time.sleep(30)
 
-    data = read_data(f"example.txt")
+    data = read_data(source)
     response_body = api.ingest_data(data)
 
     response, response_body = api.get_preview_data(preview_id)
@@ -84,7 +91,7 @@ def ssa_detection_in_dsp_with_preview_session(api, spl):
     response = api.stop_preview_session(preview_id)
 
 
-def ssa_detection_in_dsp(api, spl, results_index):
+def ssa_detection_in_dsp(api, spl, results_index, source):
     spl = read_spl(api.env, spl, results_index)
     check.is_not_none(spl, "fail to read dummy spl file")
 
@@ -99,7 +106,7 @@ def ssa_detection_in_dsp(api, spl, results_index):
 
     time.sleep(30)
 
-    data = read_data(f"example.txt")
+    data = read_data(source)
     response_body = api.ingest_data(data)
 
     time.sleep(30)
