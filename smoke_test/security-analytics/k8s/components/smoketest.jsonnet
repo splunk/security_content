@@ -1,15 +1,14 @@
 
 local params = import '../params.libsonnet';
 
-[
-  {
+local job = {
     apiVersion: 'batch/v1',
     kind: 'Job',
     metadata: {
       name: 'ssa-smoke-test',
     },
     spec: {
-        activeDeadlineSeconds: 100,
+        activeDeadlineSeconds: 600,
         template: {
             metadata: {
                 annotations: {
@@ -51,7 +50,6 @@ local params = import '../params.libsonnet';
             },
         },
     },
+  };
 
-
-  },
-]
+job

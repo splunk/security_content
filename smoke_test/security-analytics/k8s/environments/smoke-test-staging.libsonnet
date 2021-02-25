@@ -5,8 +5,8 @@ local base = import './base.libsonnet';
 base {
   components +: {
     smokeTestImage: 'docker-test.repo.splunkdev.net/user-icorrales/security-content-test',
-    serviceAccountName: "sa-tr-playground",
-    tenant: 'research2',
-    dspEnv: 'playground',
+    serviceAccountName: "sa-tr-staging",
+    tenant: 'research',
+    dspEnv: 'staging',
   }
 }
