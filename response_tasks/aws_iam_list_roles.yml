@@ -5,18 +5,17 @@ date: '2021-02-25'
 author: Rod Soto
 type: batch
 datamodel:
-- Endpoint
 - Authentication
-description: UPDATE_DESCRIPTION
-search: 'sourcetype=aws:cloudtrail eventSource=iam.amazonaws.com eventName=ListRoles | spath "userIdentity.accountId" | search userIdentity.accountId=* | stats count min(_time) as firstTime max(_time) as lastTime by awsRegion eventName eventType userAgent userIdentity.accessKeyId | `aws_iam_list_roles_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+description: Statistics for List Roles command
+search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=ListRoles | spath "userIdentity.accountId" | search userIdentity.accountId=* | stats count min(_time) as firstTime max(_time) as lastTime by awsRegion eventName eventType userAgent userIdentity.accessKeyId | `aws_iam_list_roles_filter`'
+how_to_implement: N/A
+known_false_positives: This is an investigation search.
 references:
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - N/A
   dataset:
-  - UPDATE_DATASET_URL
+  - N/A
   kill_chain_phases:
   - Lateral Movement
   - Obfuscation
