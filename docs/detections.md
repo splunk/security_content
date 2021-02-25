@@ -388,7 +388,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### AWS Cloud Provisioning From Previously Unseen Country
 This search looks for AWS provisioning activities from previously unseen countries. Provisioning activities are defined broadly as any event that begins with "Run" or "Create." This search is deprecated and have been translated to use the latest Change Datamodel. 
 
@@ -430,7 +430,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### AWS Cloud Provisioning From Previously Unseen IP Address
 This search looks for AWS provisioning activities from previously unseen IP addresses. Provisioning activities are defined broadly as any event that begins with "Run" or "Create." This search is deprecated and have been translated to use the latest Change Datamodel. 
 
@@ -471,7 +471,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### AWS Cloud Provisioning From Previously Unseen Region
 This search looks for AWS provisioning activities from previously unseen regions. Region in this context is similar to a state in the United States. Provisioning activities are defined broadly as any event that begins with "Run" or "Create." This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -513,7 +513,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### AWS Cross Account Activity From Previously Unseen Account
 This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.  This search is deprecated and have been translated to use the latest Authentication Datamodel.
 
@@ -555,7 +555,7 @@ Using multiple AWS accounts and roles is perfectly valid behavior. It's suspicio
 _version_: 1
 </details>
 
-=====
+---
 ### AWS Detect Users creating keys with encrypt policy without MFA
 This search provides detection of KMS keys which action kms:Encrypt is accessible for everyone (also outside of your organization). This is an identicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
@@ -600,7 +600,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### AWS Detect Users with KMS keys performing encryption S3
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 
@@ -645,7 +645,7 @@ bucket with S3 encryption
 _version_: 1
 </details>
 
-=====
+---
 ### AWS EKS Kubernetes cluster sensitive object access
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmaps or secrets
 
@@ -686,7 +686,7 @@ Sensitive object access is not necessarily malicious but user and object context
 _version_: 1
 </details>
 
-=====
+---
 ### AWS Network Access Control List Created with All Open Ports
 The search looks for CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
@@ -729,7 +729,7 @@ It's possible that an admin has created this ACL with all ports open for some le
 _version_: 2
 </details>
 
-=====
+---
 ### AWS Network Access Control List Deleted
 Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the AWS console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the CloudTrail logs to detect users deleting network ACLs.
 
@@ -772,7 +772,7 @@ It's possible that a user has legitimately deleted a network ACL.
 _version_: 2
 </details>
 
-=====
+---
 ### AWS SAML Access by Provider User and Principal
 This search provides specific SAML access from specific Service Provider, user and targeted principal at AWS. This search provides specific information to detect abnormal access or potential credential hijack or forgery, specially in federated environments using SAML protocol inside the perimeter or cloud provider.
 
@@ -818,7 +818,7 @@ Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very diff
 _version_: 1
 </details>
 
-=====
+---
 ### AWS SAML Update identity provider
 This search provides detection of updates to SAML provider in AWS. Updates to SAML provider need to be monitored closely as they may indicate possible perimeter compromise of federated credentials, or backdoor access from another cloud provider set by attacker.
 
@@ -864,7 +864,7 @@ Updating a SAML provider or creating a new one may not necessarily be malicious 
 _version_: 1
 </details>
 
-=====
+---
 ### Abnormally High AWS Instances Launched by User
 This search looks for CloudTrail events where a user successfully launches an abnormally high number of instances. This search is deprecated and have been translated to use the latest Change Datamodel
 
@@ -906,7 +906,7 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 _version_: 2
 </details>
 
-=====
+---
 ### Abnormally High AWS Instances Launched by User - MLTK
 This search looks for CloudTrail events where a user successfully launches an abnormally high number of instances. This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -948,7 +948,7 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 _version_: 2
 </details>
 
-=====
+---
 ### Abnormally High AWS Instances Terminated by User
 This search looks for CloudTrail events where an abnormally high number of instances were successfully terminated by a user in a 10-minute window. This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -990,7 +990,7 @@ Many service accounts configured with your AWS infrastructure are known to exhib
 _version_: 2
 </details>
 
-=====
+---
 ### Abnormally High AWS Instances Terminated by User - MLTK
 This search looks for CloudTrail events where a user successfully terminates an abnormally high number of instances. This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -1032,7 +1032,7 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 _version_: 2
 </details>
 
-=====
+---
 ### Abnormally High Number Of Cloud Infrastructure API Calls
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment by a user.
 
@@ -1075,7 +1075,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 _version_: 1
 </details>
 
-=====
+---
 ### Abnormally High Number Of Cloud Instances Destroyed
 This search finds for the number successfully destroyed cloud instances for every 4 hour block. This is split up between weekdays and the weekend. It then applies the probability densitiy model previously created and alerts on any outliers.
 
@@ -1117,7 +1117,7 @@ Many service accounts configured within a cloud infrastructure are known to exhi
 _version_: 1
 </details>
 
-=====
+---
 ### Abnormally High Number Of Cloud Instances Launched
 This search finds for the number successfully created cloud instances for every 4 hour block. This is split up between weekdays and the weekend. It then applies the probability densitiy model previously created and alerts on any outliers.
 
@@ -1159,7 +1159,7 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 _version_: 2
 </details>
 
-=====
+---
 ### Abnormally High Number Of Cloud Security Group API Calls
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment about security groups by a user.
 
@@ -1202,7 +1202,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 _version_: 1
 </details>
 
-=====
+---
 ### Access LSASS Memory for Dump Creation
 Detect memory dumping of the LSASS process.
 
@@ -1246,7 +1246,7 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 _version_: 2
 </details>
 
-=====
+---
 ### Amazon EKS Kubernetes Pod scan detection
 This search provides detection information on unauthenticated requests against Kubernetes' Pods API
 
@@ -1288,7 +1288,7 @@ Not all unauthenticated requests are malicious, but frequency, UA and source IPs
 _version_: 1
 </details>
 
-=====
+---
 ### Amazon EKS Kubernetes cluster scan detection
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
 
@@ -1330,7 +1330,7 @@ Not all unauthenticated requests are malicious, but frequency, UA and source IPs
 _version_: 1
 </details>
 
-=====
+---
 ### Applying Stolen Credentials via Mimikatz modules
 This detection indicates use of Mimikatz modules that facilitate Pass-the-Token attack, Golden or Silver kerberos ticket attack, and Skeleton key attack.
 
@@ -1390,7 +1390,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Applying Stolen Credentials via PowerSploit modules
 Stolen credentials are applied by methods such as user impersonation, credential injection, spoofing of authentication processes or getting hold of critical accounts. This detection indicates such activities carried out by PowerSploit exploit kit APIs.
 
@@ -1449,7 +1449,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Assessment of Credential Strength via DSInternals modules
 This detection identifies use of DSInternals modules that verify password strength, i.e., identify week accounts that would be easily compromised.
 
@@ -1503,7 +1503,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Attempt To Add Certificate To Untrusted Store
 Attempt to add a certificate to the certificate store
 
@@ -1547,7 +1547,7 @@ There may be legitimate reasons for administrators to add a certificate to the u
 _version_: 6
 </details>
 
-=====
+---
 ### Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 Monitor for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
 
@@ -1591,7 +1591,7 @@ Administrators may attempt to change the default execution policy on a system fo
 _version_: 6
 </details>
 
-=====
+---
 ### Attempt To Stop Security Service
 This search looks for attempts to stop security-related services on the endpoint.
 
@@ -1635,7 +1635,7 @@ None identified. Attempts to disable security-related services should be identif
 _version_: 3
 </details>
 
-=====
+---
 ### Attempted Credential Dump From Registry via Reg exe
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
@@ -1678,7 +1678,7 @@ None identified.
 _version_: 4
 </details>
 
-=====
+---
 ### Attempted Credential Dump From Registry via Reg exe
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
@@ -1726,7 +1726,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### BCDEdit Failure Recovery Modification
 This search looks for flags passed to bcdedit.exe modifications to the built-in Windows error recovery boot configurations. This is typically used by ransomware to prevent recovery.
 
@@ -1770,7 +1770,7 @@ Administrators may modify the boot configuration.
 _version_: 1
 </details>
 
-=====
+---
 ### Batch File Write to System32
 The search looks for a batch file (.bat) written to the Windows system directory tree.
 
@@ -1813,7 +1813,7 @@ It is possible for this search to generate a notable event for a batch file writ
 _version_: 1
 </details>
 
-=====
+---
 ### Certutil exe certificate extraction
 This search looks for arguments to certutil.exe indicating the manipulation or extraction of Certificate. This certificate can then be used to sign new authentication tokens specially inside Federated environments such as Windows ADFS.
 
@@ -1855,7 +1855,7 @@ Unless there are specific use cases, manipulating or exporting certificates usin
 _version_: 1
 </details>
 
-=====
+---
 ### Child Processes of Spoolsv exe
 This search looks for child processes of spoolsv.exe. This activity is associated with a POC privilege-escalation exploit associated with CVE-2018-8440. Spoolsv.exe is the process associated with the Print Spooler service in Windows and typically runs as SYSTEM.
 
@@ -1897,7 +1897,7 @@ Some legitimate printer-related processes may show up as children of spoolsv.exe
 _version_: 3
 </details>
 
-=====
+---
 ### Clients Connecting to Multiple DNS Servers
 This search allows you to identify the endpoints that have connected to more than five DNS servers and made DNS Queries over the time frame of the search.
 
@@ -1941,7 +1941,7 @@ It's possible that an enterprise has more than five DNS servers that are configu
 _version_: 3
 </details>
 
-=====
+---
 ### Cloud API Calls From Previously Unseen User Roles
 This search looks for new commands from each user role.
 
@@ -1983,7 +1983,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Compute Instance Created By Previously Unseen User
 This search looks for cloud compute instances created by users who have not created them before.
 
@@ -2025,7 +2025,7 @@ It's possible that a user will start to create compute instances for the first t
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Compute Instance Created In Previously Unused Region
 This search looks at cloud-infrastructure events where an instance is created in any region within the last hour and then compares it to a lookup file of previously seen regions where instances have been created.
 
@@ -2068,7 +2068,7 @@ It's possible that a user has unknowingly started an instance in a new region. P
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Compute Instance Created With Previously Unseen Image
 This search looks for cloud compute instances being created with previously unseen image IDs.
 
@@ -2109,7 +2109,7 @@ After a new image is created, the first systems created with that image will cau
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Compute Instance Created With Previously Unseen Instance Type
 Find EC2 instances being created with previously unseen instance types.
 
@@ -2150,7 +2150,7 @@ It is possible that an admin will create a new system using a new instance type 
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Instance Modified By Previously Unseen User
 This search looks for cloud instances being modified by users who have not previously modified them.
 
@@ -2192,7 +2192,7 @@ It's possible that a new user will start to modify EC2 instances when they haven
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Network Access Control List Deleted
 Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the Change datamodel to detect users deleting network ACLs. Deprecated because it's a duplicate
 
@@ -2233,7 +2233,7 @@ It's possible that a user has legitimately deleted a network ACL.
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Provisioning Activity From Previously Unseen City
 This search looks for cloud provisioning activities from previously unseen cities. Provisioning activities are defined broadly as any event that runs or creates something.
 
@@ -2276,7 +2276,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Provisioning Activity From Previously Unseen Country
 This search looks for cloud provisioning activities from previously unseen countries. Provisioning activities are defined broadly as any event that runs or creates something.
 
@@ -2319,7 +2319,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Provisioning Activity From Previously Unseen IP Address
 This search looks for cloud provisioning activities from previously unseen IP addresses. Provisioning activities are defined broadly as any event that runs or creates something.
 
@@ -2362,7 +2362,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### Cloud Provisioning Activity From Previously Unseen Region
 This search looks for cloud provisioning activities from previously unseen regions. Provisioning activities are defined broadly as any event that runs or creates something.
 
@@ -2405,7 +2405,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 _version_: 1
 </details>
 
-=====
+---
 ### Common Ransomware Extensions
 The search looks for file modifications with extensions commonly used by Ransomware
 
@@ -2452,7 +2452,7 @@ It is possible for a legitimate file with these extensions to be created. If thi
 _version_: 4
 </details>
 
-=====
+---
 ### Common Ransomware Notes
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
@@ -2495,7 +2495,7 @@ It's possible that a legitimate file could be created with the same name used by
 _version_: 4
 </details>
 
-=====
+---
 ### Create Remote Thread into LSASS
 Detect remote thread creation into LSASS consistent with credential dumping.
 
@@ -2539,7 +2539,7 @@ Other tools can access LSASS for legitimate reasons and generate an event. In th
 _version_: 1
 </details>
 
-=====
+---
 ### Create local admin accounts using net exe
 This search looks for the creation of local administrator accounts using net.exe.
 
@@ -2584,7 +2584,7 @@ Administrators often leverage net.exe to create admin accounts.
 _version_: 4
 </details>
 
-=====
+---
 ### Create or delete windows shares using net exe
 This search looks for the creation or deletion of hidden shares using net.exe.
 
@@ -2628,7 +2628,7 @@ Administrators often leverage net.exe to create or delete network shares. You sh
 _version_: 5
 </details>
 
-=====
+---
 ### Creation of Shadow Copy
 Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 
@@ -2672,7 +2672,7 @@ Legitimate administrator usage of Vssadmin or Wmic will create false positives.
 _version_: 1
 </details>
 
-=====
+---
 ### Creation of Shadow Copy with wmic and powershell
 This search detects the use of wmic and Powershell to create a shadow copy.
 
@@ -2716,7 +2716,7 @@ Legtimate administrator usage of wmic to create a shadow copy.
 _version_: 1
 </details>
 
-=====
+---
 ### Creation of lsass Dump with Taskmgr
 Detect the hands on keyboard behavior of Windows Task Manager creating a prcoess dump of lsass.exe. Upon this behavior occurring, a file write/modification will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp, cannot be renamed, however if the dump occurs more than once, it will be named lsass (2).dmp.
 
@@ -2762,7 +2762,7 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Dumping via Copy Command from Shadow Copy
 This search detects credential dumping using copy command from a shadow copy.
 
@@ -2806,7 +2806,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Dumping via Symlink to Shadow Copy
 This search detects the creation of a symlink to a shadow copy.
 
@@ -2850,7 +2850,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction indicative of FGDump and CacheDump with s option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system's registry.
 
@@ -2901,7 +2901,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction indicative of FGDump and CacheDump with v option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system's registry.
 
@@ -2951,7 +2951,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction indicative of Lazagne command line options
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. LaZagne is a tool that extracts various kinds of credentials from a local computer, including account passwords, domain passwords, browser passwords, etc.
 
@@ -3000,7 +3000,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction indicative of use of DSInternals credential conversion modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
@@ -3052,7 +3052,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction indicative of use of DSInternals modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
@@ -3104,7 +3104,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction indicative of use of Mimikatz modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Mimikatz is a collection of tools and modules commonly employed in Windows exploits.
 
@@ -3153,7 +3153,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction indicative of use of PowerSploit modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit is a collection of Microsoft PowerShell modules commonly employed in exploits.
 
@@ -3202,7 +3202,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction native Microsoft debuggers peek into the kernel
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
@@ -3253,7 +3253,7 @@ Although unlikely, using debuggers this way may be indicative of developers anal
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction native Microsoft debuggers via z command line option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
@@ -3302,7 +3302,7 @@ Although unlikely, using debuggers this way may be indicative of developers anal
 _version_: 1
 </details>
 
-=====
+---
 ### Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit and DSInternals are common exploit APIs offering PowerShell modules for various exploits of Windows and Active Directory environments.
 
@@ -3350,7 +3350,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### DNS Query Length Outliers - MLTK
 This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.
 
@@ -3398,7 +3398,7 @@ If you are seeing more results than desired, you may consider reducing the value
 _version_: 2
 </details>
 
-=====
+---
 ### DNS Query Length With High Standard Deviation
 This search allows you to identify DNS requests and compute the standard deviation on the length of the names being resolved, then filter on two times the standard deviation to show you those queries that are unusually large for your environment.
 
@@ -3441,7 +3441,7 @@ It's possible there can be long domain names that are legitimate.
 _version_: 3
 </details>
 
-=====
+---
 ### DNS Query Requests Resolved by Unauthorized DNS Servers
 This search will detect DNS requests resolved by unauthorized DNS servers. Legitimate DNS servers should be identified in the Enterprise Security Assets and Identity Framework.
 
@@ -3483,7 +3483,7 @@ Legitimate DNS activity can be detected in this search. Investigate, verify and 
 _version_: 3
 </details>
 
-=====
+---
 ### DNS record changed
 The search takes the DNS records and their answers results of the discovered_dns_records lookup and finds if any records have changed by searching DNS response from the Network_Resolution datamodel across the last day.
 
@@ -3529,7 +3529,7 @@ Legitimate DNS changes can be detected in this search. Investigate, verify and u
 _version_: 3
 </details>
 
-=====
+---
 ### Deleting Shadow Copies
 The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service.  Wmic is an interface to the Windows Management Instrumentation.  This search looks for either of these tools being used to delete shadow copies.
 
@@ -3572,7 +3572,7 @@ vssadmin.exe and wmic.exe are standard applications shipped with modern versions
 _version_: 4
 </details>
 
-=====
+---
 ### Detect API activity from users without MFA
 This search looks for CloudTrail events where a user logged into the AWS account, is making API calls and has not enabled Multi Factor authentication. Multi factor authentication adds a layer of security by forcing the users to type a unique authentication code from an approved authentication device when they access AWS websites or services. AWS Best Practices recommend that you enable MFA for privileged IAM users.
 
@@ -3618,7 +3618,7 @@ Many service accounts configured within an AWS infrastructure do not have multi 
 _version_: 1
 </details>
 
-=====
+---
 ### Detect ARP Poisoning
 By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organization's network devices, we will be able to detect ARP Poisoning attacks in the Infrastructure.
 
@@ -3664,7 +3664,7 @@ This search might be prone to high false positives if DHCP Snooping or ARP inspe
 _version_: 1
 </details>
 
-=====
+---
 ### Detect AWS API Activities From Unapproved Accounts
 This search looks for successful CloudTrail activity by user accounts that are not listed in the identity table or `aws_service_accounts.csv`. It returns event names and count, as well as the first and last time a specific user or service is detected, grouped by users. Deprecated because managing this list can be quite hard.
 
@@ -3712,7 +3712,7 @@ It's likely that you'll find activity detected by users/service accounts that ar
 _version_: 2
 </details>
 
-=====
+---
 ### Detect AWS Console Login by New User
 This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
@@ -3754,7 +3754,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 _version_: 1
 </details>
 
-=====
+---
 ### Detect AWS Console Login by User from New City
 This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
@@ -3797,7 +3797,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 _version_: 1
 </details>
 
-=====
+---
 ### Detect AWS Console Login by User from New Country
 This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
@@ -3840,7 +3840,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 _version_: 1
 </details>
 
-=====
+---
 ### Detect AWS Console Login by User from New Region
 This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
@@ -3883,7 +3883,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Activity Related to Pass the Hash Attacks
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 
@@ -3926,7 +3926,7 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 _version_: 5
 </details>
 
-=====
+---
 ### Detect Baron Samedit CVE-2021-3156
 This search detects the heap-based buffer overflow of sudoedit
 
@@ -3969,7 +3969,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Baron Samedit CVE-2021-3156 Segfault
 This search detects the heap-based buffer overflow of sudoedit
 
@@ -4012,7 +4012,7 @@ If sudoedit is throwing segfaults for other reasons this will pick those up too.
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Baron Samedit CVE-2021-3156 via OSQuery
 This search detects the heap-based buffer overflow of sudoedit
 
@@ -4055,7 +4055,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Computer Changed with Anonymous Account
 This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An account was successfully logged on) with an anonymous account.
 
@@ -4098,7 +4098,7 @@ None thus far found
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Credential Dumping through LSASS access
 This search looks for reading lsass memory consistent with credential dumping.
 
@@ -4141,7 +4141,7 @@ The activity may be legitimate. Other tools can access lsass for legitimate reas
 _version_: 3
 </details>
 
-=====
+---
 ### Detect DNS requests to Phishing Sites leveraging EvilGinx2
 This search looks for DNS requests for phishing domains that are leveraging EvilGinx tools to mimic websites.
 
@@ -4188,7 +4188,7 @@ If a known good domain is not listed in the legit_domains.csv file, then the sea
 _version_: 2
 </details>
 
-=====
+---
 ### Detect Dump LSASS Memory using comsvcs
 This search detects the memory of lsass.exe being dumped for offline credential theft attack.
 
@@ -4236,7 +4236,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Excessive Account Lockouts From Endpoint
 This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.
 
@@ -4283,7 +4283,7 @@ It's possible that a widely used system, such as a kiosk, could cause a large nu
 _version_: 5
 </details>
 
-=====
+---
 ### Detect Excessive User Account Lockouts
 This search detects user accounts that have been locked out a relatively high number of times in a short period.
 
@@ -4326,7 +4326,7 @@ It is possible that a legitimate user is experiencing an issue causing multiple 
 _version_: 3
 </details>
 
-=====
+---
 ### Detect F5 TMUI RCE CVE-2020-5902
 This search detects remote code exploit attempts on F5 BIG-IP, BIG-IQ, and Traffix SDC devices
 
@@ -4371,7 +4371,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Detect GCP Storage access from a new IP
 This search looks at GCP Storage bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed a GCP Storage bucket.
 
@@ -4413,7 +4413,7 @@ GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow i
 _version_: 1
 </details>
 
-=====
+---
 ### Detect HTML Help Renamed
 The following analytic identifies a renamed instance of hh.exe (HTML Help) executing a Compiled HTML Help (CHM). This particular technique will load Windows script code from a compiled help file. CHM files may contain nearly any file type embedded, but only execute html/htm. Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code. During investigation, identify script content origination. Validate it is the legitimate version of hh.exe by reviewing the PE metadata. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -4459,7 +4459,7 @@ Although unlikely a renamed instance of hh.exe will be used legitimately, filter
 _version_: 1
 </details>
 
-=====
+---
 ### Detect HTML Help Spawn Child Process
 The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) that spawns a child process. This particular technique will load Windows script code from a compiled help file. CHM files may contain nearly any file type embedded, but only execute html/htm. Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code. During investigation, identify script content origination. Review child process events and investigate further. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -4507,7 +4507,7 @@ Although unlikely, some legitimate applications (ex. web browsers) may spawn a c
 _version_: 1
 </details>
 
-=====
+---
 ### Detect HTML Help URL in Command Line
 The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) file from a remote url. This particular technique will load Windows script code from a compiled help file. CHM files may  contain nearly any file type embedded, but only execute html/htm. Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code. During investigation, identify script content origination. Review reputation of remote IP and domain. Some instances, it is worth decompiling the .chm file to review its original contents. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -4556,7 +4556,7 @@ Although unlikely, some legitimate applications may retrieve a CHM remotely, fil
 _version_: 1
 </details>
 
-=====
+---
 ### Detect HTML Help Using InfoTech Storage Handlers
 The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) file using InfoTech Storage Handlers. This particular technique will load Windows script code from a compiled help file, using InfoTech Storage Handlers. itss.dll will load upon execution. Three InfoTech Storage handlers are supported - ms-its, its, mk:@MSITStore. ITSS may be used to launch a specific html/htm file from within a CHM file. CHM files may contain nearly any file type embedded. Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The "htm" and "html" file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code. During investigation, identify script content origination. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -4605,7 +4605,7 @@ It is rare to see instances of InfoTech Storage Handlers being used, but it does
 _version_: 1
 </details>
 
-=====
+---
 ### Detect IPv6 Network Infrastructure Threats
 By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization's network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
 
@@ -4659,7 +4659,7 @@ None currently known
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Kerberoasting
 This search detects a potential kerberoasting attack via service principal name requests
 
@@ -4708,7 +4708,7 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Large Outbound ICMP Packets
 This search looks for outbound ICMP packets with a packet size larger than 1,000 bytes. Various threat actors have been known to use ICMP as a command and control channel for their attack infrastructure. Large ICMP packets from an endpoint to a remote host may be indicative of this activity.
 
@@ -4750,7 +4750,7 @@ ICMP packets are used in a variety of ways to help troubleshoot networking issue
 _version_: 2
 </details>
 
-=====
+---
 ### Detect Long DNS TXT Record Response
 This search is used to detect attempts to use DNS tunneling, by calculating the length of responses to DNS TXT queries. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting unusually large volumes of DNS traffic. Deprecated because this detection should focus on DNS queries instead of DNS responses.
 
@@ -4792,7 +4792,7 @@ It's possible that legitimate TXT record responses can be long enough to trigger
 _version_: 2
 </details>
 
-=====
+---
 ### Detect MSHTA Url in Command Line
 This analytic identifies when Microsoft HTML Application Host (mshta.exe) utility is used to make remote http connections. Adversaries may use mshta.exe to proxy the download and execution of remote .hta files. The analytic identifies command line arguments of http and https being used. This technique is commonly used by malicious software to bypass preventative controls. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "rundll32.exe" and its parent process.
 
@@ -4838,7 +4838,7 @@ It is possible legitimate applications may perform this behavior and will need t
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Mimikatz Using Loaded Images
 This search looks for reading loaded Images unique to credential dumping with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon Event Code.
 
@@ -4881,7 +4881,7 @@ Other tools can import the same DLLs. These tools should be part of a whitelist.
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Mimikatz Via PowerShell And EventCode 4703
 This search looks for PowerShell requesting privileges consistent with credential dumping. Deprecated, looks like things changed from a logging perspective.
 
@@ -4923,7 +4923,7 @@ The activity may be legitimate. PowerShell is often used by administrators to pe
 _version_: 2
 </details>
 
-=====
+---
 ### Detect New Local Admin account
 This search looks for newly created accounts that have been elevated to local administrators.
 
@@ -4969,7 +4969,7 @@ The activity may be legitimate. For this reason, it's best to verify the account
 _version_: 2
 </details>
 
-=====
+---
 ### Detect New Login Attempts to Routers
 The search queries the authentication logs for assets that are categorized as routers in the ES Assets and Identity Framework, to identify connections that have not been seen before in the last 30 days.
 
@@ -5010,7 +5010,7 @@ Legitimate router connections may appear as new connections
 _version_: 1
 </details>
 
-=====
+---
 ### Detect New Open GCP Storage Buckets
 This search looks for GCP PubSub events where a user has created an open/public GCP Storage bucket.
 
@@ -5052,7 +5052,7 @@ While this search has no known false positives, it is possible that a GCP admin 
 _version_: 1
 </details>
 
-=====
+---
 ### Detect New Open S3 Buckets over AWS CLI
 This search looks for CloudTrail events where a user has created an open/public S3 bucket over the aws cli.
 
@@ -5095,7 +5095,7 @@ While this search has no known false positives, it is possible that an AWS admin
 _version_: 1
 </details>
 
-=====
+---
 ### Detect New Open S3 buckets
 This search looks for CloudTrail events where a user has created an open/public S3 bucket.
 
@@ -5138,7 +5138,7 @@ While this search has no known false positives, it is possible that an AWS admin
 _version_: 2
 </details>
 
-=====
+---
 ### Detect Oulook exe writing a  zip file
 This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.
 
@@ -5181,7 +5181,7 @@ It is not uncommon for outlook to write legitimate zip files to the disk.
 _version_: 3
 </details>
 
-=====
+---
 ### Detect Outbound SMB Traffic
 This search looks for outbound SMB connections made by hosts within your network to the Internet. SMB traffic is used for Windows file-sharing activity. One of the techniques often used by attackers involves retrieving the credential hash using an SMB request made to a compromised server controlled by the threat actor.
 
@@ -5224,7 +5224,7 @@ It is likely that the outbound Server Message Block (SMB) traffic is legitimate,
 _version_: 3
 </details>
 
-=====
+---
 ### Detect Pass the Hash
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts using Pass-the-Hash technique.
 
@@ -5273,7 +5273,7 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Path Interception By Creation Of program exe
 The detection Detect Path Interception By Creation Of program exe is detecting the abuse of unquoted service paths, which is a popular technique for privilege escalation. 
 
@@ -5317,7 +5317,7 @@ unknown
 _version_: 3
 </details>
 
-=====
+---
 ### Detect Port Security Violation
 By enabling Port Security on a Cisco switch you can restrict input to an interface by limiting and identifying MAC addresses of the workstations that are allowed to access the port. When you assign secure MAC addresses to a secure port, the port does not forward packets with source addresses outside the group of defined addresses. If you limit the number of secure MAC addresses to one and assign a single secure MAC address, the workstation attached to that port is assured the full bandwidth of the port. If a port is configured as a secure port and the maximum number of secure MAC addresses is reached, when the MAC address of a workstation attempting to access the port is different from any of the identified secure MAC addresses, a security violation occurs.
 
@@ -5364,7 +5364,7 @@ This search might be prone to high false positives if you have malfunctioning de
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Prohibited Applications Spawning cmd exe
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe.
 
@@ -5407,7 +5407,7 @@ There are circumstances where an application may legitimately execute and intera
 _version_: 5
 </details>
 
-=====
+---
 ### Detect Prohibited Applications Spawning cmd exe
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
 
@@ -5457,7 +5457,7 @@ There are circumstances where an application may legitimately execute and intera
 _version_: 1
 </details>
 
-=====
+---
 ### Detect PsExec With accepteula Flag
 This search looks for events where `PsExec.exe` is run with the `accepteula` flag in the command line. PsExec is a built-in Windows utility that enables you to execute processes on other systems. It is fully interactive for console applications. This tool is widely used for launching interactive command prompts on remote systems. Threat actors leverage this extensively for executing code on compromised systems. If an attacker is running PsExec for the first time, they will be prompted to accept the end-user license agreement (EULA), which can be passed as the argument `accepteula` within the command line.
 
@@ -5500,7 +5500,7 @@ Administrators can leverage PsExec for accessing remote systems and might pass `
 _version_: 3
 </details>
 
-=====
+---
 ### Detect Rare Executables
 This search will return a table of rare processes, the names of the systems running them, and the users who initiated each process.
 
@@ -5543,7 +5543,7 @@ Some legitimate processes may be only rarely executed in your environment. As th
 _version_: 5
 </details>
 
-=====
+---
 ### Detect Regasm Spawning a Process
 The following analytic identifies regasm.exe spawning a process. This particular technique has been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process is rare from either process and should be investigated further. During investigation, identify and retrieve the content being loaded. Review parallel processes for additional suspicious behavior. Gather any other file modifications and review accordingly. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
@@ -5590,7 +5590,7 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Regasm with Network Connection
 The following analytic identifies regasm.exe with a network connection to a public IP address, exluding private IP space. This particular technique has been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe are signed by Microsoft. By contacting a remote command and control server, the adversary will have the ability to escalate privileges and complete the objectives. During investigation, identify and retrieve the content being loaded. Review parallel processes for additional suspicious behavior. Gather any other file modifications and review accordingly. Review the reputation of the remote IP or domain and block as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
@@ -5636,7 +5636,7 @@ Although unlikely, limited instances of regasm.exe with a network connection may
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Regasm with no Command Line Arguments
 The following analytic identifies regasm.exe with no command line arguments. This particular behavior occurs when another process injects into regasm.exe, no command line arguments will be present. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
@@ -5682,7 +5682,7 @@ Although unlikely, limited instances of regasm.exe or may cause a false positive
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Regsvcs Spawning a Process
 The following analytic identifies regsvcs.exe spawning a process. This particular technique has been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process is rare from either process and should be investigated further. During investigation, identify and retrieve the content being loaded. Review parallel processes for additional suspicious behavior. Gather any other file modifications and review accordingly. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
@@ -5728,7 +5728,7 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Regsvcs with Network Connection
 The following analytic identifies Regsvcs.exe with a network connection to a public IP address, exluding private IP space. This particular technique has been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe are signed by Microsoft. By contacting a remote command and control server, the adversary will have the ability to escalate privileges and complete the objectives. During investigation, identify and retrieve the content being loaded. Review parallel processes for additional suspicious behavior. Gather any other file modifications and review accordingly. Review the reputation of the remote IP or domain and block as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
@@ -5774,7 +5774,7 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Regsvcs with No Command Line Arguments
 The following analytic identifies regsvcs.exe with no command line arguments. This particular behavior occurs when another process injects into regsvcs.exe, no command line arguments will be present. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
@@ -5820,7 +5820,7 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Regsvr32 Application Control Bypass
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code. Regsvr32.exe is a command-line program used to register and unregister object linking and embedding controls, including dynamic link libraries (DLLs), on Windows systems. Regsvr32.exe is also a Microsoft signed binary.This variation of the technique is often referred to as a "Squiblydoo" attack. \
 Upon investigating, look for network connections to remote destinations (internal or external). Be cautious to modify the query to look for "scrobj.dll", the ".dll" is not required to load scrobj. "scrobj.dll" will be loaded by "regsvr32.exe" upon execution. 
@@ -5868,7 +5868,7 @@ Limited false positives related to third party software registering .DLL's.
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Rogue DHCP Server
 By enabling DHCP Snooping as a Layer 2 Security measure on the organization's network devices, we will be able to detect unauthorized DHCP servers handing out DHCP leases to devices on the network (Man in the Middle attack).
 
@@ -5914,7 +5914,7 @@ This search might be prone to high false positives if DHCP Snooping has been inc
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Rundll32 Application Control Bypass - advpack
 The following analytic identifies rundll32.exe loading advpack.dll and ieadvpack.dll by calling the LaunchINFSection function on the command line. This particular technique will load script code from a file. Upon a successful execution, the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify script content origination. Generally, a child process will spawn from rundll32.exe, but that may be bypassed based on script code contents. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, review any network connections and obtain the script content executed. It's possible other files are on disk.
 
@@ -5962,7 +5962,7 @@ Although unlikely, some legitimate applications may use advpack.dll or ieadvpack
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Rundll32 Application Control Bypass - setupapi
 The following analytic identifies rundll32.exe loading setupapi.dll and iesetupapi.dll by calling the LaunchINFSection function on the command line. This particular technique will load script code from a file. Upon a successful execution, the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify script content origination. Generally, a child process will spawn from rundll32.exe, but that may be bypassed based on script code contents. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, review any network connections and obtain the script content executed. It's possible other files are on disk.
 
@@ -6010,7 +6010,7 @@ Although unlikely, some legitimate applications may use setupapi triggering a fa
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Rundll32 Application Control Bypass - syssetup
 The following analytic identifies rundll32.exe loading syssetup.dll by calling the LaunchINFSection function on the command line. This particular technique will load script code from a file. Upon a successful execution, the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify script content origination. Generally, a child process will spawn from rundll32.exe, but that may be bypassed based on script code contents. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, review any network connections and obtain the script content executed. It's possible other files are on disk.
 
@@ -6058,7 +6058,7 @@ Although unlikely, some legitimate applications may use syssetup.dll, triggering
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Rundll32 Inline HTA Execution
 The following analytic identifies "rundll32.exe" execution with inline protocol handlers. "JavaScript", "VBScript", and "About" are the only supported options when invoking HTA content directly on the command-line. This type of behavior is commonly observed with fileless malware or application whitelisting bypass techniques. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "rundll32.exe" and its parent process.
 
@@ -6104,7 +6104,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 _version_: 1
 </details>
 
-=====
+---
 ### Detect S3 access from a new IP
 This search looks at S3 bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed an S3 bucket.
 
@@ -6146,7 +6146,7 @@ S3 buckets can be accessed from any IP, as long as it can make a successful conn
 _version_: 1
 </details>
 
-=====
+---
 ### Detect SNICat SNI Exfiltration
 This search looks for commands that the SNICat tool uses in the TLS SNI field.
 
@@ -6191,7 +6191,7 @@ Unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Software Download To Network Device
 Adversaries may abuse netbooting to load an unauthorized network device operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot (netbooting) is commonly used by network administrators to load configuration-controlled network device images from a centralized management server. Netbooting is one option in the boot sequence and can be used to centralize, manage, and control device images.
 
@@ -6233,7 +6233,7 @@ This search will also report any legitimate attempts of software downloads to ne
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Spike in AWS API Activity
 This search will detect users creating spikes of API activity in your AWS environment.  It will also update the cache file that factors in the latest data. This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -6281,7 +6281,7 @@ Detailed documentation on how to create a new field within Incident Review may b
 _version_: 2
 </details>
 
-=====
+---
 ### Detect Spike in AWS Security Hub Alerts for EC2 Instance
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
@@ -6322,7 +6322,7 @@ None
 _version_: 3
 </details>
 
-=====
+---
 ### Detect Spike in AWS Security Hub Alerts for User
 This search looks for a spike in number of of AWS security Hub alerts for an AWS IAM User in 4 hours intervals.
 
@@ -6362,7 +6362,7 @@ None
 _version_: 3
 </details>
 
-=====
+---
 ### Detect Spike in Network ACL Activity
 This search will detect users creating spikes in API activity related to network access-control lists (ACLs)in your AWS environment. This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -6404,7 +6404,7 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Spike in S3 Bucket deletion
 This search detects users creating spikes in API activity related to deletion of S3 buckets in your AWS environment. It will also update the cache file that factors in the latest data.
 
@@ -6446,7 +6446,7 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Spike in Security Group Activity
 This search will detect users creating spikes in API activity related to security groups in your AWS environment.  It will also update the cache file that factors in the latest data.  This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -6488,7 +6488,7 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Spike in blocked Outbound Traffic from your AWS
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
@@ -6530,7 +6530,7 @@ The false-positive rate may vary based on the values of`dataPointThreshold` and 
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Traffic Mirroring
 Adversaries may leverage traffic mirroring in order to automate data exfiltration over compromised network infrastructure. Traffic mirroring is a native feature for some network devices and used for network analysis and may be configured to duplicate traffic and forward to one or more destinations for analysis by a network analyzer or other monitoring device.
 
@@ -6575,7 +6575,7 @@ This search will return false positives for any legitimate traffic captures by n
 _version_: 1
 </details>
 
-=====
+---
 ### Detect USB device insertion
 The search is used to detect hosts that generate Windows Event ID 4663 for successful attempts to write to or read from a removable storage and Event ID 4656 for failures, which occurs when a USB drive is plugged in. In this scenario we are querying the Change_Analysis data model to look for Windows Event ID 4656 or 4663 where the priority of the affected host is marked as high in the ES Assets and Identity Framework.
 
@@ -6617,7 +6617,7 @@ Legitimate USB activity will also be detected. Please verify and investigate as 
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Unauthorized Assets by MAC address
 By populating the organization's assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization's network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.
 
@@ -6660,7 +6660,7 @@ This search might be prone to high false positives. Please consider this when co
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Use of cmd exe to Launch Script Interpreters
 This search looks for the execution of the cscript.exe or wscript.exe processes, with a parent of cmd.exe. The search will return the count, the first and last time this execution was seen on a machine, the user, and the destination of the machine
 
@@ -6703,7 +6703,7 @@ Some legitimate applications may exhibit this behavior.
 _version_: 4
 </details>
 
-=====
+---
 ### Detect Windows DNS SIGRed via Splunk Stream
 This search detects SIGRed via Splunk Stream.
 
@@ -6746,7 +6746,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Windows DNS SIGRed via Zeek
 This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
@@ -6789,7 +6789,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Detect Zerologon via Zeek
 This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vulnerability via Zeek RPC
 
@@ -6834,7 +6834,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Detect attackers scanning for vulnerable JBoss servers
 This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.
 
@@ -6876,7 +6876,7 @@ It's possible for legitimate HTTP requests to be made to URLs containing the sus
 _version_: 1
 </details>
 
-=====
+---
 ### Detect hosts connecting to dynamic domain providers
 Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, block lists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.
 
@@ -6926,7 +6926,7 @@ Some users and applications may leverage Dynamic DNS to reach out to some domain
 _version_: 3
 </details>
 
-=====
+---
 ### Detect malicious requests to exploit JBoss servers
 This search is used to detect malicious HTTP requests crafted to exploit jmx-console in JBoss servers. The malicious requests have a long URL length, as the payload is embedded in the URL.
 
@@ -6967,7 +6967,7 @@ No known false positives for this detection.
 _version_: 1
 </details>
 
-=====
+---
 ### Detect mshta inline hta execution
 The following analytic identifies "mshta.exe" execution with inline protocol handlers. "JavaScript", "VBScript", and "About" are the only supported options when invoking HTA content directly on the command-line. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "mshta.exe" and its parent process.
 
@@ -7013,7 +7013,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 _version_: 5
 </details>
 
-=====
+---
 ### Detect mshta renamed
 The following analytic identifies renamed instances of mshta.exe executing. Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This analytic utilizes the internal name of the PE to identify if is the legitimate mshta binary. Further analysis should be performed to review the executed content and validation it is the real mshta.
 
@@ -7058,7 +7058,7 @@ Although unlikely, some legitimate applications may use a moved copy of mshta.ex
 _version_: 1
 </details>
 
-=====
+---
 ### Detect new API calls from user roles
 This search detects new API calls that have either never been seen before or that have not been seen in the previous hour, where the identity type is `AssumedRole`.
 
@@ -7099,7 +7099,7 @@ It is possible that there are legitimate user roles making new or infrequently u
 _version_: 1
 </details>
 
-=====
+---
 ### Detect new user AWS Console Login
 This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour. Deprecated now this search is updated to use the Authentication datamodel.
 
@@ -7141,7 +7141,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 _version_: 2
 </details>
 
-=====
+---
 ### Detect processes used for System Network Configuration Discovery
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
@@ -7186,7 +7186,7 @@ It is uncommon for normal users to execute a series of commands used for network
 _version_: 2
 </details>
 
-=====
+---
 ### Detect web traffic to dynamic domain providers
 This search looks for web connections to dynamic DNS providers.
 
@@ -7231,7 +7231,7 @@ It is possible that list of dynamic DNS providers is outdated and/or that the UR
 _version_: 2
 </details>
 
-=====
+---
 ### Detection of DNS Tunnels
 This search is used to detect DNS tunneling, by calculating the sum of the length of DNS queries and DNS answers. The search also filters out potential false positives by filtering out queries made to internal systems and the queries originating from internal DNS, Web, and Email servers. Endpoints using DNS as a method of transmission for data exfiltration, command and control, or evasion of security controls can often be detected by noting an unusually large volume of DNS traffic. Deprecated because existing detection is doing the same.
 
@@ -7274,7 +7274,7 @@ It's possible that normal DNS traffic will exhibit this behavior. If an alert is
 _version_: 2
 </details>
 
-=====
+---
 ### Detection of tools built by NirSoft
 This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.
 
@@ -7317,7 +7317,7 @@ While legitimate, these NirSoft tools are prone to abuse. You should verfiy that
 _version_: 3
 </details>
 
-=====
+---
 ### Disabling Remote User Account Control
 The search looks for modifications to registry keys that control the enforcement of Windows User Account Control (UAC).
 
@@ -7360,7 +7360,7 @@ This registry key may be modified via administrators to implement a change in sy
 _version_: 4
 </details>
 
-=====
+---
 ### Dump LSASS via comsvcs DLL
 Detect the usage of comsvcs.dll for dumping the lsass process.
 
@@ -7405,7 +7405,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Dump LSASS via procdump
 Detect procdump.exe dumping the lsass process. This query looks for both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump file with all process memory. Both are highly suspect and should be reviewed. This query does not monitor for the internal name (OriginalFileName=procdump) of the PE or look for procdump64.exe. Modify the query as needed.\
 During triage, confirm this is procdump.exe executing. If it is the first time a Sysinternals utility has been ran, it is possible there will be a -accepteula on the command line. Review other endpoint data sources for cross process (injection) into lsass.exe.
@@ -7452,7 +7452,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Dump LSASS via procdump Rename
 Detect a renamed instance of procdump.exe dumping the lsass process. This query looks for both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump file with all process memory. Both are highly suspect and should be reviewed. Modify the query as needed.\
 During triage, confirm this is procdump.exe executing. If it is the first time a Sysinternals utility has been ran, it is possible there will be a -accepteula on the command line. Review other endpoint data sources for cross process (injection) into lsass.exe.
@@ -7499,7 +7499,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### EC2 Instance Modified With Previously Unseen User
 This search looks for EC2 instances being modified by users who have not previously modified them. This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -7540,7 +7540,7 @@ It's possible that a new user will start to modify EC2 instances when they haven
 _version_: 3
 </details>
 
-=====
+---
 ### EC2 Instance Started In Previously Unseen Region
 This search looks for CloudTrail events where an instance is started in a particular region in the last one hour and then compares it to a lookup file of previously seen regions where an instance was started
 
@@ -7582,7 +7582,7 @@ It's possible that a user has unknowingly started an instance in a new region. P
 _version_: 1
 </details>
 
-=====
+---
 ### EC2 Instance Started With Previously Unseen AMI
 This search looks for EC2 instances being created with previously unseen AMIs.  This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -7622,7 +7622,7 @@ After a new AMI is created, the first systems created with that AMI will cause t
 _version_: 1
 </details>
 
-=====
+---
 ### EC2 Instance Started With Previously Unseen Instance Type
 This search looks for EC2 instances being created with previously unseen instance types.  This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -7662,7 +7662,7 @@ It is possible that an admin will create a new system using a new instance type 
 _version_: 2
 </details>
 
-=====
+---
 ### EC2 Instance Started With Previously Unseen User
 This search looks for EC2 instances being created by users who have not created them before. This search is deprecated and have been translated to use the latest Change Datamodel.
 
@@ -7703,7 +7703,7 @@ It's possible that a user will start to create EC2 instances when they haven't b
 _version_: 2
 </details>
 
-=====
+---
 ### Email Attachments With Lots Of Spaces
 Attackers often use spaces as a means to obfuscate an attachment's file extension. This search looks for messages with email attachments that have many spaces within the file names.
 
@@ -7746,7 +7746,7 @@ None at this time
 _version_: 2
 </details>
 
-=====
+---
 ### Email files written outside of the Outlook directory
 The search looks at the change-analysis data model and detects email files created outside the normal Outlook directory.
 
@@ -7788,7 +7788,7 @@ Administrators and users sometimes prefer backing up their email data by moving 
 _version_: 3
 </details>
 
-=====
+---
 ### Email servers sending high volume traffic to hosts
 This search looks for an increase of data transfers from your email server to your clients. This could be indicative of a malicious actor collecting data using your email server.
 
@@ -7830,7 +7830,7 @@ The false-positive rate will vary based on how you set the deviation_threshold a
 _version_: 2
 </details>
 
-=====
+---
 ### Excessive DNS Failures
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
@@ -7872,7 +7872,7 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 _version_: 2
 </details>
 
-=====
+---
 ### Execution of File With Spaces Before Extension
 This search looks for processes launched from files with at least five spaces in the name before the extension. This is typically done to obfuscate the file extension by pushing it outside of the default view.
 
@@ -7914,7 +7914,7 @@ None identified.
 _version_: 3
 </details>
 
-=====
+---
 ### Execution of File with Multiple Extensions
 This search looks for processes launched from files that have double extensions in the file name. This is typically done to obscure the "real" file extension and make it appear as though the file being accessed is a data file, as opposed to executable content.
 
@@ -7957,7 +7957,7 @@ None identified.
 _version_: 3
 </details>
 
-=====
+---
 ### Extended Period Without Successful Netbackup Backups
 This search returns a list of hosts that have not successfully completed a backup in over a week. Deprecated because it's a infrastructure monitoring.
 
@@ -7997,7 +7997,7 @@ None identified
 _version_: 1
 </details>
 
-=====
+---
 ### File with Samsam Extension
 The search looks for file writes with extensions consistent with a SamSam ransomware attack.
 
@@ -8039,7 +8039,7 @@ Because these extensions are not typically used in normal operations, you should
 _version_: 1
 </details>
 
-=====
+---
 ### First Time Seen Child Process of Zoom
 This search looks for child processes spawned by zoom.exe or zoom.us that has not previously been seen.
 
@@ -8082,7 +8082,7 @@ A new child process of zoom isn't malicious by that fact alone. Further investig
 _version_: 1
 </details>
 
-=====
+---
 ### First Time Seen Running Windows Service
 This search looks for the first and last time a Windows service is seen running in your environment. This table is then cached.
 
@@ -8125,7 +8125,7 @@ A previously unseen service is not necessarily malicious. Verify that the servic
 _version_: 4
 </details>
 
-=====
+---
 ### First time seen command line argument
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
@@ -8175,7 +8175,7 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 _version_: 2
 </details>
 
-=====
+---
 ### First time seen command line argument
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen.
 
@@ -8219,7 +8219,7 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 _version_: 5
 </details>
 
-=====
+---
 ### GCP Detect accounts with high risk roles by project
 This search provides detection of accounts with high risk roles by projects. Compromised accounts with high risk roles can move laterally or even scalate privileges at different projects depending on organization schema.
 
@@ -8264,7 +8264,7 @@ Accounts with high risk roles should be reduced to the minimum number needed, ho
 _version_: 1
 </details>
 
-=====
+---
 ### GCP Detect gcploit framework
 This search provides detection of GCPloit exploitation framework. This framework can be used to escalate privileges and move laterally from compromised high privilege accounts.
 
@@ -8308,7 +8308,7 @@ Payload.request.function.timeout value can possibly be match with other function
 _version_: 1
 </details>
 
-=====
+---
 ### GCP Detect high risk permissions by resource and account
 This search provides detection of high risk permissions by resource and accounts. These are permissions that can allow attackers with compromised accounts to move laterally and escalate privileges.
 
@@ -8353,7 +8353,7 @@ High risk permissions are part of any GCP environment, however it is important t
 _version_: 1
 </details>
 
-=====
+---
 ### GCP GCR container uploaded
 This search show information on uploaded containers including source user, account, action, bucket name event name, http user agent, message and destination path.
 
@@ -8394,7 +8394,7 @@ Uploading container is a normal behavior from developers or users with access to
 _version_: 1
 </details>
 
-=====
+---
 ### GCP Kubernetes cluster pod scan detection
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster's pods
 
@@ -8436,7 +8436,7 @@ Not all unauthenticated requests are malicious, but frequency, User Agent, sourc
 _version_: 1
 </details>
 
-=====
+---
 ### GCP Kubernetes cluster scan detection
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster
 
@@ -8478,7 +8478,7 @@ Not all unauthenticated requests are malicious, but frequency, User Agent and so
 _version_: 1
 </details>
 
-=====
+---
 ### Hiding Files And Directories With Attrib exe
 Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.
 
@@ -8521,7 +8521,7 @@ Some applications and users may legitimately use attrib.exe to interact with the
 _version_: 4
 </details>
 
-=====
+---
 ### High Number of Login Failures from a single source
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
 
@@ -8563,7 +8563,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Hosts receiving high volume of network traffic from email server
 This search looks for an increase of data transfers from your email server to your clients. This could be indicative of a malicious actor collecting data using your email server.
 
@@ -8605,7 +8605,7 @@ The false-positive rate will vary based on how you set the deviation_threshold a
 _version_: 2
 </details>
 
-=====
+---
 ### Identify New User Accounts
 This detection search will help profile user accounts in your environment by identifying newly created accounts that have been added to your network in the past week.
 
@@ -8646,7 +8646,7 @@ If the Identity_Management data model is not updated regularly, this search coul
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Access To User Content via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
@@ -8698,7 +8698,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Account Creation via PowerSploit modules
 This detection identifies access to PowerSploit modules that create accounts illegaly.
 
@@ -8747,7 +8747,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Deletion of Logs via Mimikatz modules
 This detection identifies access to PowerSploit modules that delete event logs.
 
@@ -8796,7 +8796,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Enabling or Disabling of Accounts via DSInternals modules
 This detection identifies use of DSInternals modules that enable or disable accounts illegaly.
 
@@ -8846,7 +8846,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Management of Active Directory Elements and Policies via DSInternals modules
 This detection identifies use of DSInternals modules for illegal management of Active Directoty elements and policies.
 
@@ -8897,7 +8897,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Management of Computers and Active Directory Elements via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegal management of computers and Active Directory elements.
 
@@ -8949,7 +8949,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Privilege Elevation and Persistence via PowerSploit modules
 This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable manipulation of registry, task scheduling, persistent WMI, access to OS objects under desired identities.
 
@@ -9000,7 +9000,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Privilege Elevation via Mimikatz modules
 This detection identifies use of Mimikatz modules for illegal privilege elevation.
 
@@ -9050,7 +9050,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Service and Process Control via Mimikatz modules
 This detection identifies use of Mimikatz modules for illegal control over services and processes, including the authentication service.
 
@@ -9101,7 +9101,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Illegal Service and Process Control via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc.
 
@@ -9153,7 +9153,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Kerberoasting spn request with RC4 encryption
 This search detects a potential kerberoasting attack via service principal name requests
 
@@ -9198,7 +9198,7 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 _version_: 3
 </details>
 
-=====
+---
 ### Kubernetes AWS detect RBAC authorization by account
 This search provides information on Kubernetes RBAC authorizations by accounts, this search can be modified by adding top to see both extremes of RBAC by accounts occurrences
 
@@ -9239,7 +9239,7 @@ Not all RBAC Authorications are malicious. RBAC authorizations can uncover malic
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes AWS detect most active service accounts by pod
 This search provides information on Kubernetes service accounts,accessing pods by IP address, verb and decision
 
@@ -9280,7 +9280,7 @@ Not all service accounts interactions are malicious. Analyst must consider IP, v
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes AWS detect sensitive role access
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets
 
@@ -9321,7 +9321,7 @@ Sensitive role resource access is necessary for cluster operation, however sourc
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes AWS detect service accounts forbidden failure access
 This search provides information on Kubernetes service accounts with failure or forbidden access status, this search can be extended by using top or rare operators to find trends or rarities in failure status, user agents, source IPs and request URI
 
@@ -9362,7 +9362,7 @@ This search can give false positives as there might be inherent issues with auth
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes AWS detect suspicious kubectl calls
 This search provides information on anonymous Kubectl calls with IP, verb namespace and object access context
 
@@ -9403,7 +9403,7 @@ Kubectl calls are not malicious by nature. However source IP, verb and Object ca
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure detect RBAC authorization by account
 This search provides information on Kubernetes RBAC authorizations by accounts, this search can be modified by adding rare or top to see both extremes of RBAC by accounts occurrences
 
@@ -9444,7 +9444,7 @@ Not all RBAC Authorications are malicious. RBAC authorizations can uncover malic
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure detect most active service accounts by pod namespace
 This search provides information on Kubernetes service accounts,accessing pods and namespaces by IP address and verb
 
@@ -9485,7 +9485,7 @@ Not all service accounts interactions are malicious. Analyst must consider IP an
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure detect sensitive object access
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets
 
@@ -9526,7 +9526,7 @@ Sensitive object access is not necessarily malicious but user and object context
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure detect sensitive role access
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets
 
@@ -9567,7 +9567,7 @@ Sensitive role resource access is necessary for cluster operation, however sourc
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure detect service accounts forbidden failure access
 This search provides information on Kubernetes service accounts with failure or forbidden access status
 
@@ -9608,7 +9608,7 @@ This search can give false positives as there might be inherent issues with auth
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure detect suspicious kubectl calls
 This search provides information on rare Kubectl calls with IP, verb namespace and object access context
 
@@ -9649,7 +9649,7 @@ Kubectl calls are not malicious by nature. However source IP, verb and Object ca
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure pod scan fingerprint
 This search provides information of unauthenticated requests via source IP user agent, request URI and response status data against Kubernetes cluster pod in Azure
 
@@ -9690,7 +9690,7 @@ Not all unauthenticated requests are malicious, but source IPs, userAgent, verb,
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes Azure scan fingerprint
 This search provides information of unauthenticated requests via source IP user agent, request URI and response status data against Kubernetes cluster in Azure
 
@@ -9732,7 +9732,7 @@ Not all unauthenticated requests are malicious, but source IPs, userAgent, verb,
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes GCP detect RBAC authorizations by account
 This search provides information on Kubernetes RBAC authorizations by accounts, this search can be modified by adding top to see both extremes of RBAC by accounts occurrences
 
@@ -9773,7 +9773,7 @@ Not all RBAC Authorications are malicious. RBAC authorizations can uncover malic
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes GCP detect most active service accounts by pod
 This search provides information on Kubernetes service accounts,accessing pods by IP address, verb and decision
 
@@ -9814,7 +9814,7 @@ Not all service accounts interactions are malicious. Analyst must consider IP, v
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes GCP detect sensitive object access
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmaps or secrets
 
@@ -9855,7 +9855,7 @@ Sensitive object access is not necessarily malicious but user and object context
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes GCP detect sensitive role access
 This search provides information on Kubernetes accounts accessing sensitve objects such as configmpas or secrets
 
@@ -9896,7 +9896,7 @@ Sensitive role resource access is necessary for cluster operation, however sourc
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes GCP detect service accounts forbidden failure access
 This search provides information on Kubernetes service accounts with failure or forbidden access status, this search can be extended by using top or rare operators to find trends or rarities in failure status, user agents, source IPs and request URI
 
@@ -9937,7 +9937,7 @@ This search can give false positives as there might be inherent issues with auth
 _version_: 1
 </details>
 
-=====
+---
 ### Kubernetes GCP detect suspicious kubectl calls
 This search provides information on anonymous Kubectl calls with IP, verb namespace and object access context
 
@@ -9978,7 +9978,7 @@ Kubectl calls are not malicious by nature. However source IP, source user, user 
 _version_: 1
 </details>
 
-=====
+---
 ### Large Volume of DNS ANY Queries
 The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.
 
@@ -10020,7 +10020,7 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 _version_: 1
 </details>
 
-=====
+---
 ### MacOS - Re-opened Applications
 This search looks for processes referencing the plist files that determine which applications are re-opened when a user reboots their machine.
 
@@ -10062,7 +10062,7 @@ At this stage, there are no known false positives. During testing, no process ev
 _version_: 1
 </details>
 
-=====
+---
 ### Malicious PowerShell Process - Connect To Internet With Hidden Window
 This search looks for PowerShell processes started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet. This combination of command-line options is suspicious because it's overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Deprecated becaue hidden is not needed when download file with System.Net.WebClient.
 
@@ -10106,7 +10106,7 @@ Legitimate process can have this combination of command-line options, but it's n
 _version_: 5
 </details>
 
-=====
+---
 ### Malicious PowerShell Process - Encoded Command
 This search looks for PowerShell processes that have encoded the script within the command-line. Malware has been seen using this parameter, as it obfuscates the code and makes it relatively easy to pass a script on the command-line.
 
@@ -10150,7 +10150,7 @@ System administrators may use this option, but it's not common.
 _version_: 4
 </details>
 
-=====
+---
 ### Malicious PowerShell Process - Execution Policy Bypass
 This search looks for PowerShell processes started with parameters used to bypass the local execution policy for scripts. These parameters are often observed in attacks leveraging PowerShell scripts as they override the default PowerShell execution policy.
 
@@ -10194,7 +10194,7 @@ There may be legitimate reasons to bypass the PowerShell execution policy. The P
 _version_: 4
 </details>
 
-=====
+---
 ### Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments
 This search looks for PowerShell processes started with a base64 encoded command-line passed to it, with parameters to modify the execution policy for the process, and those that prevent the display of an interactive prompt to the user. This combination of command-line options is suspicious because it overrides the default PowerShell execution policy, attempts to hide itself from the user, and passes an encoded script to be run on the command-line. Deprecated because almost the same as Malicious PowerShell Process - Encoded Command
 
@@ -10237,7 +10237,7 @@ Legitimate process can have this combination of command-line options, but it's n
 _version_: 6
 </details>
 
-=====
+---
 ### Malicious PowerShell Process With Obfuscation Techniques
 This search looks for PowerShell processes launched with arguments that have characters indicative of obfuscation on the command-line.
 
@@ -10281,7 +10281,7 @@ These characters might be legitimately on the command-line, but it is not common
 _version_: 4
 </details>
 
-=====
+---
 ### Monitor DNS For Brand Abuse
 This search looks for DNS requests for faux domains similar to the domains that you want to have monitored for abuse.
 
@@ -10323,7 +10323,7 @@ None at this time
 _version_: 1
 </details>
 
-=====
+---
 ### Monitor Email For Brand Abuse
 This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.
 
@@ -10364,7 +10364,7 @@ None at this time
 _version_: 2
 </details>
 
-=====
+---
 ### Monitor Registry Keys for Print Monitors
 This search looks for registry activity associated with modifications to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this scenario, an attacker can load an arbitrary .dll into the print-monitor registry by giving the full path name to the after.dll. The system will execute the .dll with elevated (SYSTEM) permissions and will persist after reboot.
 
@@ -10407,7 +10407,7 @@ You will encounter noise from legitimate print-monitor registry entries.
 _version_: 2
 </details>
 
-=====
+---
 ### Monitor Web Traffic For Brand Abuse
 This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.
 
@@ -10448,7 +10448,7 @@ None at this time
 _version_: 1
 </details>
 
-=====
+---
 ### More than usual number of LOLBAS applications in short time period
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.
 
@@ -10496,7 +10496,7 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 _version_: 1
 </details>
 
-=====
+---
 ### Multiple Okta Users With Invalid Credentials From The Same IP
 This search detects Okta login failures due to bad credentials for multiple users originating from the same ip address.
 
@@ -10537,7 +10537,7 @@ A single public IP address servicing multiple legitmate users may trigger this s
 _version_: 2
 </details>
 
-=====
+---
 ### NLTest Domain Trust Discovery
 This search looks for the execution of `nltest.exe` with command-line arguments utilized to query for Domain Trust information. Two arguments `/domain trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current domain to assist with further understanding where to pivot next.
 
@@ -10587,7 +10587,7 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 _version_: 1
 </details>
 
-=====
+---
 ### New container uploaded to AWS ECR
 This searches show information on uploaded containers including source user, image id, source IP user type, http user agent, region, first time, last time of operation (PutImage). These searches are based on Cloud Infrastructure Data Model.
 
@@ -10628,7 +10628,7 @@ Uploading container is a normal behavior from developers or users with access to
 _version_: 1
 </details>
 
-=====
+---
 ### No Windows Updates in a time frame
 This search looks for Windows endpoints that have not generated an event indicating a successful Windows update in the last 60 days. Windows updates are typically released monthly and applied shortly thereafter. An endpoint that has not successfully applied an update in this time frame indicates the endpoint is not regularly being patched for some reason.
 
@@ -10668,7 +10668,7 @@ None identified
 _version_: 1
 </details>
 
-=====
+---
 ### Ntdsutil export ntds
 Monitor for signs that Ntdsutil is being used to Extract Active Directory database - NTDS.dit, typically used for offline password cracking. It may be used in normal circumstances with no command line arguments or shorthand variations of more common arguments. Ntdsutil.exe is typically seen run on a Windows Server. Typical command used to dump ntds.dit \
 ntdsutil "ac i ntds" "ifm" "create full C:\Temp" q q \
@@ -10717,7 +10717,7 @@ Highly possible Server Administrators will troubleshoot with ntdsutil.exe, gener
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Add App Role Assignment Grant User
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
@@ -10762,7 +10762,7 @@ The creation of a new Federation is not necessarily malicious, however this even
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Added Service Principal
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
@@ -10809,7 +10809,7 @@ The creation of a new Federation is not necessarily malicious, however these eve
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Bypass MFA via Trusted IP
 This search detects newly added IP addresses/CIDR blocks to the list of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known to use this technique so that they can bypass the MFA system.
 
@@ -10854,7 +10854,7 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Disable MFA
 This search detects when multi factor authentication has been disabled, what entitiy performed the action and against what user
 
@@ -10898,7 +10898,7 @@ Unless it is a special case, it is uncommon to disable MFA or Strong Authenticat
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Excessive Authentication Failures Alert
 This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes
 
@@ -10942,7 +10942,7 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Excessive SSO logon errors
 This search detects accounts with high number of Single Sign ON (SSO) logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.
 
@@ -10986,7 +10986,7 @@ Logon errors may not be malicious in nature however it may indicate attempts to 
 _version_: 1
 </details>
 
-=====
+---
 ### O365 New Federated Domain Added
 This search detects the addition of a new Federated domain.
 
@@ -11034,7 +11034,7 @@ The creation of a new Federated domain is not necessarily malicious, however the
 _version_: 1
 </details>
 
-=====
+---
 ### O365 PST export alert
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
@@ -11078,7 +11078,7 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Suspicious Admin Email Forwarding
 This search detects when an admin configured a forwarding rule for multiple mailboxes to the same destination.
 
@@ -11121,7 +11121,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Suspicious Rights Delegation
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
@@ -11164,7 +11164,7 @@ Service Accounts
 _version_: 1
 </details>
 
-=====
+---
 ### O365 Suspicious User Email Forwarding
 This search detects when multiple user configured a forwarding rule to the same destination.
 
@@ -11207,7 +11207,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Okta Account Lockout Events
 Detect Okta user lockout events
 
@@ -11248,7 +11248,7 @@ None. Account lockouts should be followed up on to determine if the actual user 
 _version_: 2
 </details>
 
-=====
+---
 ### Okta Failed SSO Attempts
 Detect failed Okta SSO events
 
@@ -11289,7 +11289,7 @@ There may be a faulty config preventing legitmate users from accessing apps they
 _version_: 2
 </details>
 
-=====
+---
 ### Okta User Logins From Multiple Cities
 This search detects logins from the same user from different cities in a 24 hour period.
 
@@ -11330,7 +11330,7 @@ Users in your enviornment may legitmately be travelling and loggin in from diffe
 _version_: 2
 </details>
 
-=====
+---
 ### Open Redirect in Splunk Web
 This search allows you to look for evidence of exploitation for CVE-2016-4859, the Splunk Open Redirect Vulnerability.
 
@@ -11371,7 +11371,7 @@ None identified
 _version_: 1
 </details>
 
-=====
+---
 ### Osquery pack - ColdRoot detection
 This search looks for ColdRoot events from the osx-attacks osquery pack.
 
@@ -11413,7 +11413,7 @@ There are no known false positives.
 _version_: 1
 </details>
 
-=====
+---
 ### Overwriting Accessibility Binaries
 Microsoft Windows contains accessibility features that can be launched with a key combination before a user has logged in. An adversary can modify or replace these programs so they can get a command prompt or backdoor without logging in to the system. This search looks for modifications to these binaries.
 
@@ -11456,7 +11456,7 @@ Microsoft may provide updates to these binaries. Verify that these changes do no
 _version_: 4
 </details>
 
-=====
+---
 ### Phishing Email Detection by Machine Learning Method - SSA
 Malicious mails can conduct phishing that induces readers to open attachment, click links or trigger third party service. This detect uses Natural Language Processing (NLP) approach to analyze an email message's content (Sender, Subject and Body) and judge whether it is a phishing email. The detection adopts a deep learning (neural network) model that employs character level embeddings plus LSTM layers to perform classification. The model is pre-trained and then published as ONNX format. Current sample model is trained using the dataset published at https://github.com/splunk/attack_data/tree/master/datasets/T1566_Phishing_Email/splunk_train.json User are expected to re-train the model by combining with their own training data for better accuracy using the provided model file (SMLE notebook). DSP pipeline then processes the email message and passes it as an event to Apply ML Models function, which returns the probability of a phishing email. Current implementation assumes the email is fed to DSP in JSON format contains at least email's sender, subject and its message body, including reply content, if any.
 
@@ -11498,7 +11498,7 @@ Because of imbalance of anomaly data in training, the model will less likely rep
 _version_: 1
 </details>
 
-=====
+---
 ### Probing Access with Stolen Credentials via PowerSploit modules
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
@@ -11548,7 +11548,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Process Creating LNK file in Suspicious Location
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 
@@ -11594,7 +11594,7 @@ This detection should yield little or no false positive results. It is uncommon 
 _version_: 4
 </details>
 
-=====
+---
 ### Process Execution via WMI
 This search looks for processes launched via WMI.
 
@@ -11637,7 +11637,7 @@ Although unlikely, administrators may use wmi to execute commands for legitimate
 _version_: 3
 </details>
 
-=====
+---
 ### Processes Tapping Keyboard Events
 This search looks for processes in an MacOS system that is tapping keyboard events in MacOS, and essentially monitoring all keystrokes made by a user. This is a common technique used by RATs to log keystrokes from a victim, although it can also be used by legitimate processes like Siri to react on human input
 
@@ -11678,7 +11678,7 @@ There might be some false positives as keyboard event taps are used by processes
 _version_: 1
 </details>
 
-=====
+---
 ### Processes created by netsh
 This search looks for processes launching netsh.exe to execute various commands via the netsh command-line utility. Netsh.exe is a command-line scripting utility that allows you to, either locally or remotely, display or modify the network configuration of a computer that is currently running. Netsh can be used as a persistence proxy technique to execute a helper .dll when netsh.exe is executed. In this search, we are looking for processes spawned by netsh.exe that are executing commands via the command line. Deprecated because we have another detection of the same type.
 
@@ -11720,7 +11720,7 @@ It is unusual for netsh.exe to have any child processes in most environments. It
 _version_: 5
 </details>
 
-=====
+---
 ### Processes launching netsh
 This search looks for processes launching netsh.exe. Netsh is a command-line scripting utility that allows you to, either locally or remotely, display or modify the network configuration of a computer that is currently running. Netsh can be used as a persistence proxy technique to execute a helper DLL when netsh.exe is executed. In this search, we are looking for processes spawned by netsh.exe and executing commands via the command line.
 
@@ -11763,7 +11763,7 @@ Some VPN applications are known to launch netsh.exe. Outside of these instances,
 _version_: 3
 </details>
 
-=====
+---
 ### Prohibited Network Traffic Allowed
 This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table "lookup_interesting_ports", that is marked as prohibited, and has an associated 'allow' action in the Network_Traffic data model. This could be indicative of a misconfigured network device.
 
@@ -11806,7 +11806,7 @@ None identified
 _version_: 2
 </details>
 
-=====
+---
 ### Prohibited Software On Endpoint
 This search looks for applications on the endpoint that you have marked as prohibited.
 
@@ -11849,7 +11849,7 @@ None identified
 _version_: 2
 </details>
 
-=====
+---
 ### Protocol or Port Mismatch
 This search looks for network traffic on common ports where a higher layer protocol does not match the port that is being used. For example, this search should identify cases where protocols other than HTTP are running on TCP port 80. This can be used by attackers to circumvent firewall restrictions, or as an attempt to hide malicious communications over ports and protocols that are typically allowed and not well inspected.
 
@@ -11891,7 +11891,7 @@ None identified
 _version_: 2
 </details>
 
-=====
+---
 ### Protocols passing authentication in cleartext
 This search looks for cleartext protocols at risk of leaking credentials. Currently, this consists of legacy protocols such as telnet, POP3, IMAP, and non-anonymous FTP sessions. While some of these protocols can be used over SSL, they typically run on different assigned ports in those cases.
 
@@ -11933,7 +11933,7 @@ Some networks may use kerberized FTP or telnet servers, however, this is rare.
 _version_: 2
 </details>
 
-=====
+---
 ### Rare Parent-Child Process Relationship
 An attacker may use LOLBAS tools spawned from vulnerable applications not typically used by system administrators. This search leverages the Splunk Streaming ML DSP plugin to find rare parent/child relationships. The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 
@@ -11985,7 +11985,7 @@ Some custom tools used by admins could be used rarely to launch remotely applica
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover accounts, groups and policies that can be accessed or taken over.
 
@@ -12036,7 +12036,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Accounts and Groups via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of accounts and groups and access to them.
 
@@ -12087,7 +12087,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules
 This detection identifies access to PowerSploit modules for reconnaissance and access to elements of Active Directory infrastructure, such as domain identifiers, AD sites and forests, and trust relations.
 
@@ -12140,7 +12140,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Computers and Domains via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
 
@@ -12191,7 +12191,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Computers via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them.
 
@@ -12240,7 +12240,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Operating System Elements via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover and access operating system elements, such as processes, services, registry locations, security packages and files.
 
@@ -12296,7 +12296,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Processes and Services via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery and access to services and processes.
 
@@ -12347,7 +12347,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Shared Resources via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery and access to network shares.
 
@@ -12398,7 +12398,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance and Access to Shared Resources via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover and access network and distributed file system shares.
 
@@ -12449,7 +12449,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance of Access and Persistence Opportunities via PowerSploit modules
 This detection identifies use of PowerSploit modules that discover opportunities for malicious access and persistence. Some examples include access to admin accounts, weak access control policies, landing paths for dropping malicious software or data to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities, as well as services and system files that can be compromised.
 
@@ -12503,7 +12503,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance of Connectivity via PowerSploit modules
 This detection identifies access to PowerSploit modules for reconnaissance of connectivity.
 
@@ -12554,7 +12554,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance of Credential Stores and Services via Mimikatz modules
 This detection identifies reconnaissance of credential stores and use of CryptoAPI services by Mimikatz modules.
 
@@ -12608,7 +12608,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance of Defensive Tools via PowerSploit modules
 This detection identifies use of PowerSploit modules for assessment of presence of defensive tools.
 
@@ -12658,7 +12658,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance of Privilege Escalation Opportunities via PowerSploit modules
 This detection identifies use of PowerSploit modules for assessment of privilege escalation opportunities.
 
@@ -12709,7 +12709,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of process or service hijacking opportunities via Microsoft Detours compatibility. Microsoft Detours is an open source library for intercepting, monitoring and instrumenting binary functions on Microsoft Windows. Detours intercepts Win32 functions by re-writing the in-memory code for target functions. The Detours package also contains utilities to attach arbitrary DLLs and data segments called payloads to any Win32 binary.
 
@@ -12761,7 +12761,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Reg exe Manipulating Windows Services Registry Keys
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
@@ -12804,7 +12804,7 @@ It is unusual for a service to be created or modified by directly manipulating t
 _version_: 5
 </details>
 
-=====
+---
 ### Reg exe used to hide files directories via registry keys
 The search looks for command-line arguments used to hide a file or directory using the reg add command.
 
@@ -12846,7 +12846,7 @@ None at the moment
 _version_: 2
 </details>
 
-=====
+---
 ### Registry Keys Used For Persistence
 The search looks for modifications to registry keys that can be used to launch an application or service at system startup.
 
@@ -12889,7 +12889,7 @@ There are many legitimate applications that must execute on system startup and w
 _version_: 5
 </details>
 
-=====
+---
 ### Registry Keys Used For Privilege Escalation
 This search looks for modifications to registry keys that can be used to elevate privileges. The registry keys under "Image File Execution Options" are used to intercept calls to an executable and can be used to attach malicious binaries to benign system binaries.
 
@@ -12933,7 +12933,7 @@ There are many legitimate applications that must execute upon system startup and
 _version_: 4
 </details>
 
-=====
+---
 ### Registry Keys for Creating SHIM Databases
 This search looks for registry activity associated with application compatibility shims, which can be leveraged by attackers for various nefarious purposes.
 
@@ -12976,7 +12976,7 @@ There are many legitimate applications that leverage shim databases for compatib
 _version_: 3
 </details>
 
-=====
+---
 ### Remote Desktop Network Bruteforce
 This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.
 
@@ -13019,7 +13019,7 @@ RDP gateways may have unusually high amounts of traffic from all other hosts' RD
 _version_: 2
 </details>
 
-=====
+---
 ### Remote Desktop Network Traffic
 This search looks for network traffic on TCP/3389, the default port used by remote desktop. While remote desktop traffic is not uncommon on a network, it is usually associated with known hosts. This search will ignore common RDP sources and common RDP destinations so you can focus on the uncommon uses of remote desktop on your network.
 
@@ -13061,7 +13061,7 @@ Remote Desktop may be used legitimately by users on the network.
 _version_: 3
 </details>
 
-=====
+---
 ### Remote Desktop Process Running On System
 This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn't typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.
 
@@ -13103,7 +13103,7 @@ Remote Desktop may be used legitimately by users on the network.
 _version_: 5
 </details>
 
-=====
+---
 ### Remote Process Instantiation via WMI
 This search looks for wmic.exe being launched with parameters to spawn a process on a remote system.
 
@@ -13146,7 +13146,7 @@ The wmic.exe utility is a benign Windows application. It may be used legitimatel
 _version_: 5
 </details>
 
-=====
+---
 ### Remote Registry Key modifications
 This search monitors for remote modifications to registry keys.
 
@@ -13187,7 +13187,7 @@ This technique may be legitimately used by administrators to modify remote regis
 _version_: 3
 </details>
 
-=====
+---
 ### Remote WMI Command Attempt
 This search looks for wmic.exe being launched with parameters to operate on remote systems.
 
@@ -13229,7 +13229,7 @@ Administrators may use this legitimately to gather info from remote systems.
 _version_: 2
 </details>
 
-=====
+---
 ### RunDLL Loading DLL By Ordinal
 This search looks for executing scripts with rundll32. Adversaries may abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice executing directly, may avoid triggering security tools that may not monitor execution of the rundll32.exe process because of allowlists or false positives from normal operations.
 
@@ -13272,7 +13272,7 @@ While not common, loading a DLL under %AppData% and calling a function by ordina
 _version_: 4
 </details>
 
-=====
+---
 ### Ryuk Test Files Detected
 The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Ryuk propagation.
 
@@ -13315,7 +13315,7 @@ If there are files with this keywoord as file names it might trigger false possi
 _version_: 1
 </details>
 
-=====
+---
 ### SMB Traffic Spike
 This search looks for spikes in the number of Server Message Block (SMB) traffic connections.
 
@@ -13357,7 +13357,7 @@ A file server may experience high-demand loads that could cause this analytic to
 _version_: 3
 </details>
 
-=====
+---
 ### SMB Traffic Spike - MLTK
 This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the number of Server Message Block (SMB) connections.
 
@@ -13402,7 +13402,7 @@ If you are seeing more results than desired, you may consider reducing the value
 _version_: 3
 </details>
 
-=====
+---
 ### SQL Injection with Long URLs
 This search looks for long URLs that have several SQL commands visible within them.
 
@@ -13444,7 +13444,7 @@ It's possible that legitimate traffic will have long URLs or long user agent str
 _version_: 2
 </details>
 
-=====
+---
 ### Samsam Test File Write
 The search looks for a file named "test.txt" written to the windows system directory tree, which is consistent with Samsam propagation.
 
@@ -13487,7 +13487,7 @@ No false positives have been identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Sc exe Manipulating Windows Services
 This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.
 
@@ -13530,7 +13530,7 @@ Using sc.exe to manipulate Windows services is uncommon. However, there may be l
 _version_: 4
 </details>
 
-=====
+---
 ### Scheduled Task Deleted Or Created via CMD
 This search looks for flags passed to schtasks.exe on the command-line that indicate a task was created via command like. This has been associated with the Dragonfly threat actor, and the SUNBURST attack against Solarwinds.
 
@@ -13573,7 +13573,7 @@ Tasks should not be manually created via CLI, this is rarely done by admins as w
 _version_: 5
 </details>
 
-=====
+---
 ### Scheduled tasks used in BadRabbit ransomware
 This search looks for flags passed to schtasks.exe on the command-line that indicate that task names related to the execution of Bad Rabbit ransomware were created or deleted. Deprecated because we already have a similar detection
 
@@ -13615,7 +13615,7 @@ No known false positives
 _version_: 3
 </details>
 
-=====
+---
 ### Schtasks scheduling job on remote system
 This search looks for flags passed to schtasks.exe on the command-line that indicate a job is being scheduled on a remote system.
 
@@ -13658,7 +13658,7 @@ Administrators may create jobs on remote systems, but this activity is usually l
 _version_: 4
 </details>
 
-=====
+---
 ### Schtasks used for forcing a reboot
 This search looks for flags passed to schtasks.exe on the command-line that indicate that a forced reboot of system is scheduled.
 
@@ -13701,7 +13701,7 @@ Administrators may create jobs on systems forcing reboots to perform updates, ma
 _version_: 4
 </details>
 
-=====
+---
 ### Script Execution via WMI
 This search looks for scripts launched via WMI.
 
@@ -13744,7 +13744,7 @@ Although unlikely, administrators may use wmi to launch scripts for legitimate p
 _version_: 3
 </details>
 
-=====
+---
 ### Setting Credentials via DSInternals modules
 This detection identifies illegal setting of credentials via DSInternals modules.
 
@@ -13798,7 +13798,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Setting Credentials via Mimikatz modules
 This detection identifies illegal setting of credentials via Mimikatz modules.
 
@@ -13849,7 +13849,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Setting Credentials via PowerSploit modules
 This detection identifies illegal setting of credentials via PowerSploit modules.
 
@@ -13900,7 +13900,7 @@ None identified.
 _version_: 1
 </details>
 
-=====
+---
 ### Shim Database File Creation
 This search looks for shim database files being written to default directories. The sdbinst.exe application is used to install shim database files (.sdb). According to Microsoft, a shim is a small library that transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.
 
@@ -13943,7 +13943,7 @@ Because legitimate shim files are created and used all the time, this event, in 
 _version_: 3
 </details>
 
-=====
+---
 ### Shim Database Installation With Suspicious Parameters
 This search detects the process execution and arguments required to silently create a shim database.  The sdbinst.exe application is used to install shim database files (.sdb). A shim is a small library which transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.
 
@@ -13986,7 +13986,7 @@ None identified
 _version_: 4
 </details>
 
-=====
+---
 ### Short Lived Windows Accounts
 This search detects accounts that were created and deleted in a short time period.
 
@@ -14030,7 +14030,7 @@ It is possible that an administrator created and deleted an account in a short t
 _version_: 2
 </details>
 
-=====
+---
 ### Single Letter Process On Endpoint
 This search looks for process names that consist only of a single letter.
 
@@ -14073,7 +14073,7 @@ Single-letter executables are not always malicious. Investigate this activity wi
 _version_: 3
 </details>
 
-=====
+---
 ### Spectre and Meltdown Vulnerable Systems
 The search is used to detect systems that are still vulnerable to the Spectre and Meltdown vulnerabilities.
 
@@ -14113,7 +14113,7 @@ It is possible that your vulnerability scanner is not detecting that the patches
 _version_: 1
 </details>
 
-=====
+---
 ### Spike in File Writes
 The search looks for a sharp increase in the number of files written to a particular host
 
@@ -14154,7 +14154,7 @@ It is important to understand that if you happen to install any new applications
 _version_: 3
 </details>
 
-=====
+---
 ### Splunk Enterprise Information Disclosure
 This search allows you to look for evidence of exploitation for CVE-2018-11409, a Splunk Enterprise Information Disclosure Bug.
 
@@ -14195,7 +14195,7 @@ Retrieving server information may be a legitimate API request. Verify that the a
 _version_: 1
 </details>
 
-=====
+---
 ### Sunburst Correlation DLL and Network Event
 The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe. After a period of 12-14 days, the malware will attempt to resolve a subdomain of avsvmcloud.com. This detections will correlate both events.
 
@@ -14238,7 +14238,7 @@ unknown
 _version_: 1
 </details>
 
-=====
+---
 ### Supernova Webshell
 This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
@@ -14282,7 +14282,7 @@ There might be false positives associted with this detection since items like ar
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious Changes to File Associations
 This search looks for changes to registry values that control Windows file associations, executed by a process that is not typical for legitimate, routine changes to this area.
 
@@ -14324,7 +14324,7 @@ There may be other processes in your environment that users may legitimately use
 _version_: 4
 </details>
 
-=====
+---
 ### Suspicious Email - UBA Anomaly
 This detection looks for emails that are suspicious because of their sender, domain rareness, or behavior differences. This is an anomaly generated by Splunk User Behavior Analytics (UBA).
 
@@ -14366,7 +14366,7 @@ This detection model will alert on any sender domain that is seen for the first 
 _version_: 3
 </details>
 
-=====
+---
 ### Suspicious Email Attachment Extensions
 This search looks for emails that have attachments with suspicious file extensions.
 
@@ -14410,7 +14410,7 @@ None identified
 _version_: 3
 </details>
 
-=====
+---
 ### Suspicious File Write
 The search looks for files created with names that have been linked to malicious activity.
 
@@ -14451,7 +14451,7 @@ It's possible for a legitimate file to be created with the same name as one note
 _version_: 3
 </details>
 
-=====
+---
 ### Suspicious Java Classes
 This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.
 
@@ -14492,7 +14492,7 @@ There are no known false positives.
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious MSBuild Rename
 The following analytic identifies renamed instances of msbuild.exe executing. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify the code executed and what is executing a renamed instance of MSBuild.
 
@@ -14539,7 +14539,7 @@ Although unlikely, some legitimate applications may use a moved copy of msbuild,
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious MSBuild Spawn
 The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavior is indicative of a COM object being utilized to spawn msbuild from wmiprvse.exe. It is common for MSBuild.exe to be spawned from devenv.exe while using Visual Studio. In this instance, there will be command line arguments and file paths. In a malicious instance, MSBuild.exe will spawn from non-standard processes and have no command line arguments. For example, MSBuild.exe spawning from explorer.exe, powershell.exe is far less common and should be investigated.
 
@@ -14584,7 +14584,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious Reg exe Process
 This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.
 
@@ -14628,7 +14628,7 @@ It's possible for system administrators to write scripts that exhibit this behav
 _version_: 4
 </details>
 
-=====
+---
 ### Suspicious Regsvr32 Register Suspicious Path
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using non-standard file extensions to load malciious DLLs. Upon investigating, look for network connections to remote destinations (internal or external). Review additional parrallel processes and child processes for additional activity.
 
@@ -14676,7 +14676,7 @@ Limited false positives with the query restricted to specified paths. Add more w
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious Rundll32 Rename
 The following analytic identifies renamed instances of rundll32.exe executing. rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, validate it is the legitimate rundll32.exe executing and what script content it is loading. This query relies on the OriginalFileName from Sysmon, or internal name from the PE meta data. Expand the query as needed by looking for specific command line arguments outlined in other analytics.
 
@@ -14723,7 +14723,7 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious Rundll32 StartW
 The following analytic identifies rundll32.exe executing a DLL function name, Start and StartW, on the command line that is commonly observed with Cobalt Strike x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. Typically, the DLL will be written and loaded from a world writeable path or user location. In most instances it will not have a valid certificate (Unsigned). During investigation, review the parent process and other parallel application execution. Capture and triage the DLL in question. In the instance of Cobalt Strike, rundll32.exe is the default process it opens and injects shellcode into. This default process can be changed, but typically is not.
 
@@ -14771,7 +14771,7 @@ Although unlikely, some legitimate applications may use Start as a function and 
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious Rundll32 dllregisterserver
 The following analytic identifies rundll32.exe using dllregisterserver on the command line to load a DLL. When a DLL is registered, the DllRegisterServer method entry point in the DLL is invoked. This is typically seen when a DLL is being registered on the system. Not every instance is considered malicious, but it will capture malicious use of it. During investigation, review the parent process and parrellel processes executing. Capture the DLL being loaded and inspect further. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -14821,7 +14821,7 @@ This is likely to produce false positives and will require some filtering. Tune 
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious Rundll32 no CommandLine Arguments
 The following analytic identifies rundll32.exe with no command line arguments. It is unusual for rundll32.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -14868,7 +14868,7 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious microsoft workflow compiler rename
 The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe. Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. A spawned child process from microsoft.workflow.compiler.exe is uncommon. In any instance, microsoft.workflow.compiler.exe spawning from an Office product or any living off the land binary is highly suspect.
 
@@ -14913,7 +14913,7 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious microsoft workflow compiler usage
 The following analytic identifies microsoft.workflow.compiler.exe usage. microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. It is not a commonly used process by many applications.
 
@@ -14958,7 +14958,7 @@ Although unlikely, limited instances have been identified coming from native Mic
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious msbuild path
 The following analytic identifies msbuild.exe executing from a non-standard path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio will run a copy of msbuild.exe. A moved instance of MSBuild is suspicious, however there are instances of build applications that will move or use a copy of MSBuild.
 
@@ -15004,7 +15004,7 @@ Some legitimate applications may use a moved copy of msbuild.exe, triggering a f
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious mshta child process
 The following analytic identifies child processes spawning from  "mshta.exe". The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process "mshta.exe" and its child process.
 
@@ -15049,7 +15049,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious mshta spawn
 The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior is indicative of a DCOM object being utilized to spawn mshta from wmiprvse.exe or svchost.exe. In this instance, adversaries may use LethalHTA that will spawn mshta.exe from svchost.exe.
 
@@ -15095,7 +15095,7 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 _version_: 1
 </details>
 
-=====
+---
 ### Suspicious wevtutil Usage
 The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, or system event logs.
 
@@ -15138,7 +15138,7 @@ The wevtutil.exe application is a legitimate Windows event log utility. Administ
 _version_: 3
 </details>
 
-=====
+---
 ### Suspicious writes to System Volume Information
 This search detects writes to the 'System Volume Information' folder by something other than the System process.
 
@@ -15179,7 +15179,7 @@ It is possible that other utilities or system processes may legitimately write t
 _version_: 2
 </details>
 
-=====
+---
 ### Suspicious writes to windows Recycle Bin
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
@@ -15221,7 +15221,7 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 _version_: 4
 </details>
 
-=====
+---
 ### System Information Discovery Detection
 Detect system information discovery techniques used by attackers to understand configurations of the system to further exploit it.
 
@@ -15265,7 +15265,7 @@ Administrators debugging servers
 _version_: 1
 </details>
 
-=====
+---
 ### System Process Running from Unexpected Location
 An attacker tries might try to use different version of a system command without overriding original, or they might try to avoid some detection running the process from a different folder. This detection checks that a list of system processes run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 
@@ -15319,7 +15319,7 @@ None
 _version_: 1
 </details>
 
-=====
+---
 ### System Processes Run From Unexpected Locations
 This search looks for system processes that normally run out of C:\Windows\System32\ or C:\Windows\SysWOW64 that are not run from that location.  This can indicate a malicious process that is trying to hide as a legitimate process.
 
@@ -15362,7 +15362,7 @@ None identified
 _version_: 5
 </details>
 
-=====
+---
 ### TOR Traffic
 This search looks for network traffic identified as The Onion Router (TOR), a benign anonymity network which can be abused for a variety of nefarious purposes.
 
@@ -15404,7 +15404,7 @@ None at this time
 _version_: 2
 </details>
 
-=====
+---
 ### USN Journal Deletion
 The fsutil.exe application is a legitimate Windows utility used to perform tasks related to the file allocation table (FAT) and NTFS file systems. The update sequence number (USN) change journal provides a log of all changes made to the files on the disk. This search looks for fsutil.exe deleting the USN journal.
 
@@ -15447,7 +15447,7 @@ None identified
 _version_: 2
 </details>
 
-=====
+---
 ### Uncommon Processes On Endpoint
 This search looks for applications on the endpoint that you have marked as uncommon.
 
@@ -15489,7 +15489,7 @@ None identified
 _version_: 4
 </details>
 
-=====
+---
 ### Unload Sysmon Filter Driver
 Attackers often disable security tools to avoid detection. This search looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop sysmon from collecting the data.
 
@@ -15532,7 +15532,7 @@ You must be ingesting data that records process activity from your hosts to popu
 _version_: 3
 </details>
 
-=====
+---
 ### Unsigned Image Loaded by LSASS
 This search detects loading of unsigned images by LSASS. Deprecated because too noisy.
 
@@ -15575,7 +15575,7 @@ Other tools could load images into LSASS for legitimate reason. But enterprise t
 _version_: 1
 </details>
 
-=====
+---
 ### Unsuccessful Netbackup backups
 This search gives you the hosts where a backup was attempted and then failed.
 
@@ -15615,7 +15615,7 @@ None identified
 _version_: 1
 </details>
 
-=====
+---
 ### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
 
@@ -15661,7 +15661,7 @@ This detection may flag suspiciously long command lines when there is not suffic
 _version_: 1
 </details>
 
-=====
+---
 ### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
@@ -15703,7 +15703,7 @@ Some legitimate applications start with long command lines.
 _version_: 5
 </details>
 
-=====
+---
 ### Unusually Long Command Line - MLTK
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.
 
@@ -15744,7 +15744,7 @@ Some legitimate applications use long command lines for installs or updates. You
 _version_: 1
 </details>
 
-=====
+---
 ### Unusually Long Content-Type Length
 This search looks for unusually long strings in the Content-Type http header that the client sends the server.
 
@@ -15785,7 +15785,7 @@ Very few legitimate Content-Type fields will have a length greater than 100 char
 _version_: 1
 </details>
 
-=====
+---
 ### WBAdmin Delete System Backups
 This search looks for flags passed to wbadmin.exe (Windows Backup Administrator Tool) that delete backup files. This is typically used by ransomware to prevent recovery.
 
@@ -15832,7 +15832,7 @@ Administrators may modify the boot configuration.
 _version_: 1
 </details>
 
-=====
+---
 ### WMI Permanent Event Subscription
 This search looks for the creation of WMI permanent event subscriptions.
 
@@ -15874,7 +15874,7 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 _version_: 1
 </details>
 
-=====
+---
 ### WMI Permanent Event Subscription - Sysmon
 This search looks for the creation of WMI permanent event subscriptions.
 
@@ -15917,7 +15917,7 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 _version_: 2
 </details>
 
-=====
+---
 ### WMI Temporary Event Subscription
 This search looks for the creation of WMI temporary event subscriptions.
 
@@ -15959,7 +15959,7 @@ Some software may create WMI temporary event subscriptions for various purposes.
 _version_: 1
 </details>
 
-=====
+---
 ### Web Fraud - Account Harvesting
 This search is used to identify the creation of multiple user accounts using the same email domain name.
 
@@ -16003,7 +16003,7 @@ As is common with many fraud-related searches, we are usually looking to attribu
 _version_: 1
 </details>
 
-=====
+---
 ### Web Fraud - Anomalous User Clickspeed
 This search is used to examine web sessions to identify those where the clicks are occurring too quickly for a human or are occurring with a near-perfect cadence (high periodicity or low standard deviation), resembling a script driven session.
 
@@ -16049,7 +16049,7 @@ As is common with many fraud-related searches, we are usually looking to attribu
 _version_: 1
 </details>
 
-=====
+---
 ### Web Fraud - Password Sharing Across Accounts
 This search is used to identify user accounts that share a common password.
 
@@ -16093,7 +16093,7 @@ As is common with many fraud-related searches, we are usually looking to attribu
 _version_: 1
 </details>
 
-=====
+---
 ### Web Servers Executing Suspicious Processes
 This search looks for suspicious processes on all systems labeled as web servers.
 
@@ -16135,7 +16135,7 @@ Some of these processes may be used legitimately on web servers during maintenan
 _version_: 1
 </details>
 
-=====
+---
 ### Windows AdFind Exe
 This search looks for the execution of `adfind.exe` with command-line arguments that it uses by default. Specifically the filter or search functions. It also considers the arguments necessary like objectcategory, see readme for more details: https://www.joeware.net/freetools/tools/adfind/usage.htm. This has been seen used before by Wizard Spider, FIN6 and actors whom also launched SUNBURST. AdFind.exe is usually used a recon tool to enumare a domain controller.
 
@@ -16180,7 +16180,7 @@ administrators rarely use adfind, usually not used for legitimate reasons
 _version_: 1
 </details>
 
-=====
+---
 ### Windows DisableAntiSpyware Registry
 The search looks for the Registry Key DisableAntiSpyware set to disable. This is consistent with Ryuk infections across a fleet of endpoints.
 
@@ -16222,7 +16222,7 @@ It is unusual to turn this feature on a Windows system since it is a default sec
 _version_: 1
 </details>
 
-=====
+---
 ### Windows Event Log Cleared
 This search looks for Windows events that indicate one of the Windows event logs has been purged.
 
@@ -16266,7 +16266,7 @@ It is possible that these logs may be legitimately cleared by Administrators.
 _version_: 4
 </details>
 
-=====
+---
 ### Windows Security Account Manager Stopped
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 
@@ -16309,7 +16309,7 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 _version_: 1
 </details>
 
-=====
+---
 ### Windows connhost exe started forcefully
 The search looks for the Console Window Host process (connhost.exe) executed using the force flag -ForceV1. This is not regular behavior in the Windows OS and is often seen executed by the Ryuk Ransomware. DEPRECATED This event is actually seen in the windows 10 client of attack_range_local. After further testing we realized this is not specific to Ryuk. 
 
@@ -16351,7 +16351,7 @@ This process should not be ran forcefully, we have not see any false positives f
 _version_: 1
 </details>
 
-=====
+---
 ### Windows hosts file modification
 The search looks for modifications to the hosts file on all Windows endpoints across your environment.
 
@@ -16392,7 +16392,7 @@ There may be legitimate reasons for system administrators to add entries to this
 _version_: 1
 </details>
 
-=====
+---
 ### aws detect attach to role policy
 This search provides detection of an user attaching itself to a different role trust policy. This can be used for lateral movement and escalation of privileges.
 
@@ -16434,7 +16434,7 @@ Attach to policy can create a lot of noise. This search can be adjusted to provi
 _version_: 1
 </details>
 
-=====
+---
 ### aws detect permanent key creation
 This search provides detection of accounts creating permanent keys. Permanent keys are not created by default and they are only needed for programmatic calls. Creation of Permanent key is an important event to monitor.
 
@@ -16476,7 +16476,7 @@ Not all permanent key creations are malicious. If there is a policy of rotating 
 _version_: 1
 </details>
 
-=====
+---
 ### aws detect role creation
 This search provides detection of role creation by IAM users. Role creation is an event by itself if user is creating a new role with trust policies different than the available in AWS and it can be used for lateral movement and escalation of privileges.
 
@@ -16518,7 +16518,7 @@ CreateRole is not very common in common users. This search can be adjusted to pr
 _version_: 1
 </details>
 
-=====
+---
 ### aws detect sts assume role abuse
 This search provides detection of suspicious use of sts:AssumeRole. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
@@ -16560,7 +16560,7 @@ Sts:AssumeRole can be very noisy as it is a standard mechanism to provide cross 
 _version_: 1
 </details>
 
-=====
+---
 ### aws detect sts get session token abuse
 This search provides detection of suspicious use of sts:GetSessionToken. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
@@ -16602,7 +16602,7 @@ Sts:GetSessionToken can be very noisy as in certain environments numerous calls 
 _version_: 1
 </details>
 
-=====
+---
 ### gcp detect oauth token abuse
 This search provides detection of possible GCP Oauth token abuse. GCP Oauth token without time limit can be exfiltrated and reused for keeping access sessions alive without further control of authentication, allowing attackers to access and move laterally.
 
@@ -16646,4 +16646,4 @@ GCP Oauth token abuse detection will only work if there are access policies in p
 _version_: 1
 </details>
 
-=====
+---
