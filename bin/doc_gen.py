@@ -38,17 +38,15 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
         detections.append(detection_yaml)
 
     sorted_detections= sorted(detections, key=lambda i: i['name'])
+
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                             trim_blocks=True)
+                             trim_blocks=False)
     template = j2_env.get_template('doc_detections_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/detections.md')
     output = template.render(detections=sorted_detections)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     print("doc_gen.py wrote {0} detection documentation to: {1}".format(len(detections),output_path))
-
-
-
 
     return False
 

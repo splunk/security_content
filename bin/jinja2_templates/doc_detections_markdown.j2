@@ -1,3 +1,4 @@
+#jinja2: trim_blocks:True
 # Splunk Security Content Detections
 ![security_content](static/logo.png)
 =====
@@ -65,8 +66,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 {{ detection.description }}
 
 - **Product**: {{ detection.tags.product|join(', ') }}
-- **Data Models**: {{ detection.datamodels|join(', ') }}
-- **ATT&CK**: {{ detection.tags.mitre_attack_id|join(', ') }}
+- **Data Models**: {{ detection.datamodel|join(', ') }}
+- **ATT&CK**: {% for mitre_attack_id in detection.tags.mitre_attack_id %}[{{ mitre_attack_id }}](https://attack.mitre.org/techniques/{{ mitre_attack_id }}/){% if not loop.last %}, {% endif %}{% endfor %}
 - **Last Updated**: {{ detection.date }}
 
 <details>
@@ -74,10 +75,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 #### Search
 ```
-{{ detection.search }}
+{{ detection.search|replace("|", "\n|") }}
 ```
 #### Associated Analytic Story
-{% for story in detection.tags.analytics_story %}
+{% for story in detection.tags.analytic_story %}
 * {{ story }}
 {% endfor %}
 
@@ -93,9 +94,9 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 | ID          | technique   | Tactic        |
 | ----------- | ----------- |:-------------:|
-{% for id in detection.tags.mitre_attack_id %}
+{%- for id in detection.tags.mitre_attack_id %}
 | {{ id }}    | x           | x             |
-{% endfor %}
+{%- endfor %}
 
 #### Kill Chain Phases
 {% for phase in detection.tags.kill_chain_phases %}
