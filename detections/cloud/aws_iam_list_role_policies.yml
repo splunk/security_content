@@ -1,0 +1,28 @@
+name: AWS IAM List Role Policies
+id: 206e1a7c-7794-11eb-86bf-acde48001122
+version: 1
+date: '2021-02-25'
+author: Rod Soto
+type: batch
+datamodel:
+- Authentication
+description: UPDATE_DESCRIPTION
+search: 'sourcetype=aws:cloudtrail eventSource=iam.amazonaws.com eventName=ListRolePolicies | spath "requestParameters.roleName" | search "requestParameters.roleName"=* "userIdentity.sessionContext.sessionIssuer.arn"=* "userIdentity.sessionContext.sessionIssuer.type"=*  "userIdentity.type"=* | stats count min(_time) as firstTime max(_time) as lastTime by  awsRegion eventName eventType sourceIPAddress userAgent userIdentity.accessKeyId userIdentity.sessionContext.sessionIssuer.type userIdentity.type
+ | `aws_iam_list_role_policies_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1069
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  
