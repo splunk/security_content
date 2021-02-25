@@ -11,15 +11,21 @@ narrative: 'This Analytic Story supports you to detect Tactics, Techniques and P
   On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike.
   Not every query may be specific to Cobalt Strike the tool, but the methodologies and techniques used by it.\
 
+  Splunk Threat Research reviewed all publicly available instances of Malleabe C2 Profiles and generated a list of the most commonly used spawnto and pipenames.\
+  
+  Spawnto_x86 and spawnto_x64 is the process that Cobalt Strike will spawn and injects shellcode into.\
+  
+  Pipename sets the named pipe  name used in Cobalt Strikes Beacon SMB C2 traffic.\
+
   In generating content for Cobalt Strike, the following is considered:\
 
-  1. Is it normal for <spawnto_ value> to have no command line arguments? No command line arguments and a network connection?\
+  1. Is it normal for <pawnto_ value to have no command line arguments? No command line arguments and a network connection?\
 
-  1. What is the default, or normal, process lineage for <spawnto_ value>?\
+  1. What is the default, or normal, process lineage for spawnto_ value?\
 
-  1. Does the <spawnto_ value> make network connections?\
+  1. Does the spawnto_ value make network connections?\
 
-  1. Is it normal for <spawnto_ value> to load jscript, vbscript, Amsi.dll, and clr.dll?'
+  1. Is it normal for spawnto_ value to load jscript, vbscript, Amsi.dll, and clr.dll?'
 
 references:
 - https://www.cobaltstrike.com/
