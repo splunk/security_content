@@ -1,0 +1,25 @@
+name: AWS IAM List Entities For Policy
+id: 41fa2ada-77aa-11eb-a92b-acde48001122
+version: 1
+date: '2021-02-25'
+author: Rod Soto
+type: batch
+datamodel: authentication
+description: This search provides account and times for accoun executing List Entities For Policy. Lists all IAM users, groups and roles that specified managed policy is attached to.
+search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=ListEntitiesForPolicy |stats count min(_time) as firstTime max(_time) as lastTime by awsRegion eventName requestParameters.policyArn sourceIPAddress userAgent userIdentity.arn userName userIdentity.accessKeyId | `aws_iam_list_entities_for_policy_filter`'
+how_to_implement: Need to install AWS add-on and enable cloudtrail logs.
+known_false_positives: This search should be executed under the context of investigation, as this command is not necessarly malicious.
+references:
+tags:
+  analytic_story:
+  - N/A
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1069
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
