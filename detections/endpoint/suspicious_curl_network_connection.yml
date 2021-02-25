@@ -3,8 +3,7 @@ id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
 version: 1
 date: '2021-02-22'
 description: 'The following analytic identifies the use of a curl contacting suspicious remote domains to checkin to command and control servers or download further implants.
-  In the context of Silver Sparrow, curl is identified contacting amazonaws.com. This particular behavior is common with MacOS adware-malicious software.
-  Upon triage, capture the .plist file being written to disk and review for further indicators.'
+  In the context of Silver Sparrow, curl is identified contacting amazonaws.com. This particular behavior is common with MacOS adware-malicious software.'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
