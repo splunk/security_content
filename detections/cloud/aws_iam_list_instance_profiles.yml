@@ -1,0 +1,28 @@
+name: AWS IAM List Instance Profiles
+id: d3d91870-77a1-11eb-8bac-acde48001122
+version: 1
+date: '2021-02-25'
+author: Rod Soto
+type: batch
+datamodel:
+- Endpoint
+- Authentication
+description: UPDATE_DESCRIPTION
+search: 'sourcetype=aws:cloudtrail eventSource=iam.amazonaws.com eventName=ListInstanceProfiles | stats count min(_time) as firstTime max(_time) as lastTime by awsRegion eventName sourceIPAddress userAgent userIdentity.accessKeyId userName command | `aws_iam_list_instance_profiles_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1526
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  
