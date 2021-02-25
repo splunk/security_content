@@ -18,7 +18,26 @@ narrative: 'Silver Sparrow works is a dropper and uses typical persistence mecha
   1. Identify the process name sqlite3 executing with a command line argument of: LSQuarantine (1)\
 
   1. Monitor for the process curl executing with command line arguments or network connections to s3.amazonaws.com. (1)
-  Multiple macOS malware families utilize this method to download from S3 buckets for distribution.'
+  Multiple macOS malware families utilize this method to download from S3 buckets for distribution.
+  
+  If suspected Silver Sparrow, determine if the following known files reside on disk and perform containment as needed:\
+  
+  * ~/Library/Application Support/agent_updater/agent.sh (v1 script that executes every hour)\
+
+  * ~/Library/Launchagents/agent.plist (v1 persistence mechanism)\
+
+  * ~/Library/Launchagents/init_agent.plist (v1 persistence mechanism)\
+
+  * ~/Library/Application Support/verx_updater/verx.sh (v2 script that executes every hour)\
+
+  * /tmp/verx (file containing final v2 payload if distributed)\
+
+  * ~/Library/Launchagents/verx.plist (v2 persistence mechanism)\
+
+  * ~/Library/Launchagents/init_verx.plist\
+  
+  Additional indicators and behaviors with the references.'
+
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
 - https://www.sentinelone.com/blog/5-things-you-need-to-know-about-silver-sparrow/
