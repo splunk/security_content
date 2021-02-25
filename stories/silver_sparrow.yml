@@ -8,33 +8,33 @@ description: Silver Sparrow, identified by Red Canary Intelligence, is a new for
 narrative: 'Silver Sparrow works is a dropper and uses typical persistence mechanisms on a Mac. It is cross platform, covering both Intel and Apple M1 architecture. 
   To this date, no implant has been downloaded for malicious purposes.\ 
 
-  Per SentinelOne source, it is predicted that Silver Sparrow is likely selling itself as a mechanism to 3rd party “affiliates” or pay-per-install (PPI) partners, typically seen as commodity adware/malware.\
+  Per SentinelOne source, it is predicted that Silver Sparrow is likely selling itself as a mechanism to 3rd party “affiliates” or pay-per-install (PPI) partners, typically seen as commodity adware/malware. \
 
-  Identification\
+  Identification \
   
   1. Identify the process name of PlistBuddy executing with command line arguments that include: LaunchAgents and RunAtLoad and true. (1)
-  This analytic assists with identifying different types of  macOS malware families establishing LaunchAgent persistence.\
+  This analytic assists with identifying different types of  macOS malware families establishing LaunchAgent persistence. \
   
-  1. Identify the process name sqlite3 executing with a command line argument of: LSQuarantine (1)\
+  1. Identify the process name sqlite3 executing with a command line argument of: LSQuarantine (1) \
 
   1. Monitor for the process curl executing with command line arguments or network connections to s3.amazonaws.com. (1)
   Multiple macOS malware families utilize this method to download from S3 buckets for distribution.
   
-  If suspected Silver Sparrow, determine if the following known files reside on disk and perform containment as needed:\
+  If suspected Silver Sparrow, determine if the following known files reside on disk and perform containment as needed \
   
-  1. ~/Library/Application Support/agent_updater/agent.sh (v1 script that executes every hour)\
+  1. ~/Library/Application Support/agent_updater/agent.sh (v1 script that executes every hour) \
 
-  1. ~/Library/Launchagents/agent.plist (v1 persistence mechanism)\
+  1. ~/Library/Launchagents/agent.plist (v1 persistence mechanism) \
 
-  1. ~/Library/Launchagents/init_agent.plist (v1 persistence mechanism)\
+  1. ~/Library/Launchagents/init_agent.plist (v1 persistence mechanism) \
 
-  1. ~/Library/Application Support/verx_updater/verx.sh (v2 script that executes every hour)\
+  1. ~/Library/Application Support/verx_updater/verx.sh (v2 script that executes every hour) \
 
-  1. /tmp/verx (file containing final v2 payload if distributed)\
+  1. /tmp/verx (file containing final v2 payload if distributed) \
 
-  1. ~/Library/Launchagents/verx.plist (v2 persistence mechanism)\
+  1. ~/Library/Launchagents/verx.plist (v2 persistence mechanism) \
 
-  1. ~/Library/Launchagents/init_verx.plist\
+  1. ~/Library/Launchagents/init_verx.plist \
   
   Additional indicators and behaviors may be found within the references.'
 
