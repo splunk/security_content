@@ -22,21 +22,21 @@ narrative: 'Silver Sparrow works is a dropper and uses typical persistence mecha
   
   If suspected Silver Sparrow, determine if the following known files reside on disk and perform containment as needed:\
   
-  * ~/Library/Application Support/agent_updater/agent.sh (v1 script that executes every hour)\
+  1. ~/Library/Application Support/agent_updater/agent.sh (v1 script that executes every hour)\
 
-  * ~/Library/Launchagents/agent.plist (v1 persistence mechanism)\
+  1. ~/Library/Launchagents/agent.plist (v1 persistence mechanism)\
 
-  * ~/Library/Launchagents/init_agent.plist (v1 persistence mechanism)\
+  1. ~/Library/Launchagents/init_agent.plist (v1 persistence mechanism)\
 
-  * ~/Library/Application Support/verx_updater/verx.sh (v2 script that executes every hour)\
+  1. ~/Library/Application Support/verx_updater/verx.sh (v2 script that executes every hour)\
 
-  * /tmp/verx (file containing final v2 payload if distributed)\
+  1. /tmp/verx (file containing final v2 payload if distributed)\
 
-  * ~/Library/Launchagents/verx.plist (v2 persistence mechanism)\
+  1. ~/Library/Launchagents/verx.plist (v2 persistence mechanism)\
 
-  * ~/Library/Launchagents/init_verx.plist\
+  1. ~/Library/Launchagents/init_verx.plist\
   
-  Additional indicators and behaviors with the references.'
+  Additional indicators and behaviors may be found within the references.'
 
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
