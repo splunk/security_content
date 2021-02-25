@@ -17,15 +17,18 @@ narrative: 'This Analytic Story supports you to detect Tactics, Techniques and P
   
   Pipename sets the named pipe  name used in Cobalt Strikes Beacon SMB C2 traffic.\
 
+  With that, new detections were generated focused on these spawnto processes spawning without command line arguments. Similar, the named pipes most commonly used by Cobalt Strike added as a detection.
   In generating content for Cobalt Strike, the following is considered:\
 
-  1. Is it normal for <pawnto_ value to have no command line arguments? No command line arguments and a network connection?\
+  - Is it normal for <pawnto_ value to have no command line arguments? No command line arguments and a network connection?\
 
-  1. What is the default, or normal, process lineage for spawnto_ value?\
+  - What is the default, or normal, process lineage for spawnto_ value?\
 
-  1. Does the spawnto_ value make network connections?\
+  - Does the spawnto_ value make network connections?\
 
-  1. Is it normal for spawnto_ value to load jscript, vbscript, Amsi.dll, and clr.dll?'
+  - Is it normal for spawnto_ value to load jscript, vbscript, Amsi.dll, and clr.dll?\
+  
+  While investigating a detection related to this Analytic Story, keep in mind the parent process, process path, and any file modifications that may occur. Tuning may need to occur to remove any false positives.'
 
 references:
 - https://www.cobaltstrike.com/
