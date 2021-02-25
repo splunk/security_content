@@ -6,16 +6,16 @@ author: Rod Soto
 type: batch
 datamodel:
 - Authentication
-description: UPDATE_DESCRIPTION
+description: List Attached Policies statistics by users, region and time.
 search: 'sourcetype=aws:cloudtrail eventSource=iam.amazonaws.com eventName=ListAttachedGroupPolicies | spath "requestParameters.groupName" | search "requestParameters.groupName"=* | stats count min(_time) as firstTime max(_time) as lastTime by awsRegion sourceIPAddress eventName requestParameters.groupName userAgent userIdentity.arn userIdentity.type | `aws_iam_list_attached_policies_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: N/A
+known_false_positives: Investigation search.
 references:
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - N/A
   dataset:
-  - UPDATE_DATASET_URL
+  - N/A
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:
@@ -24,4 +24,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  

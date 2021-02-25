@@ -14,7 +14,7 @@ tags:
   analytic_story:
   - N/A
   dataset:
-  - UPDATE_DATASET_URL
+  - N/A
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:

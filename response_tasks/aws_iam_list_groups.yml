@@ -5,20 +5,18 @@ date: '2021-02-25'
 author: Rod Soto
 type: batch
 datamodel:
-- Endpoint
 - Authentication
-description: UPDATE_DESCRIPTION
-search: 'sourcetype=aws:cloudtrail  eventSource=iam.amazonaws.com eventName=ListGroups | stats count min(_time) as firstTime max(_time) as lastTime by eventName awsRegion eventType userAgent userIdentity.accessKeyId userIdentity.arn userIdentity.type userName command | `aws_iam_list_groups_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+description:
+search: '`cloudtrail`  eventSource=iam.amazonaws.com eventName=ListGroups | stats count min(_time) as firstTime max(_time) as lastTime by eventName awsRegion eventType userAgent userIdentity.accessKeyId userIdentity.arn userIdentity.type userName command | `aws_iam_list_groups_filter`'
+how_to_implement: N/A
+known_false_positives: This is an investation search
 references:
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - N/A
   dataset:
-  - UPDATE_DATASET_URL
+  - N/A
   kill_chain_phases:
-  - Exploitation
   - Lateral Movement
   mitre_attack_id:
   - T1087.004
@@ -26,4 +24,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  

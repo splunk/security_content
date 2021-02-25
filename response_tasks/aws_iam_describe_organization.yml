@@ -6,17 +6,17 @@ author: Rod Soto
 type: batch
 datamodel:
 - Authentication
-description: UPDATE_DESCRIPTION
-search: 'sourcetype=aws:cloudtrail describe-organization | spath "userIdentity.accessKeyId" | search "userIdentity.accessKeyId"=*  command=DescribeOrganization | stats  count min(_time) as firstTime max(_time) as lastTime by awsRegion eventName eventType sourceIPAddress userAgent userIdentity.accessKeyId command
+description:
+search: '`cloudtrail` describe-organization | spath "userIdentity.accessKeyId" | search "userIdentity.accessKeyId"=*  command=DescribeOrganization | stats  count min(_time) as firstTime max(_time) as lastTime by awsRegion eventName eventType sourceIPAddress userAgent userIdentity.accessKeyId command
  | `aws_iam_describe_organization_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement:
+Aknown_false_positives: This is an investigation search.
 references:
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - N/A
   dataset:
-  - UPDATE_DATASET_URL
+  - N/A
   kill_chain_phases:
   - Reconnaissance
   mitre_attack_id:
@@ -25,4 +25,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  

@@ -6,17 +6,17 @@ author: Rod Soto
 type: batch
 datamodel:
 - Authentication
-description: UPDATE_DESCRIPTION
-search: 'sourcetype=aws:cloudtrail eventSource=iam.amazonaws.com eventName=ListRolePolicies | spath "requestParameters.roleName" | search "requestParameters.roleName"=* "userIdentity.sessionContext.sessionIssuer.arn"=* "userIdentity.sessionContext.sessionIssuer.type"=*  "userIdentity.type"=* | stats count min(_time) as firstTime max(_time) as lastTime by  awsRegion eventName eventType sourceIPAddress userAgent userIdentity.accessKeyId userIdentity.sessionContext.sessionIssuer.type userIdentity.type
+description: Statistics for List Role Policies command
+search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=ListRolePolicies | spath "requestParameters.roleName" | search "requestParameters.roleName"=* "userIdentity.sessionContext.sessionIssuer.arn"=* "userIdentity.sessionContext.sessionIssuer.type"=*  "userIdentity.type"=* | stats count min(_time) as firstTime max(_time) as lastTime by  awsRegion eventName eventType sourceIPAddress userAgent userIdentity.accessKeyId userIdentity.sessionContext.sessionIssuer.type userIdentity.type
  | `aws_iam_list_role_policies_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: N/A
+known_false_positives: This is an investigation search
 references:
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - N/A
   dataset:
-  - UPDATE_DATASET_URL
+  - N/A
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:
@@ -25,4 +25,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  
