@@ -44,6 +44,9 @@ def results_index(api):
 def test_ssa_ingestion_preview(api):
     ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl')
 
+def test_ssa_ingestion_index(api, results_index):
+    ssa_detection_in_dsp(api, 'troubleshoot.spl', results_index)
+
 def test_data_ingestion_preview(api):
     ssa_detection_in_dsp_with_preview_session(api, 'firehose.spl')
 
