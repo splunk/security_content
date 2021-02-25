@@ -22,7 +22,7 @@ references:
 - https://marcosantadev.com/manage-plist-files-plistbuddy/
 author: Michael Haag, Splunk
 search: ' | `suspicious_sqlite3_lsquarantine_behavior_filter`'
-known_false_positives: 
+known_false_positives: Unknown.
 tags:
   analytic_story:
   - Silver Sparrow
