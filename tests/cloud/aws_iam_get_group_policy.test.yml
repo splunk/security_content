@@ -1,0 +1,12 @@
+name: AWS IAM Get Group Policy Unit Test
+tests:
+- name: AWS IAM Get Group Policy
+  file: detections/cloud/aws_iam_get_group_policy.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: UPDATE_FILE_NAME
+    data: UPDATE_DATASET_URL
+    source: UPDATE_SPLUNK_SOURCE
+    sourcetype: UPDATE_SPLUNK_SOURCETYPE
