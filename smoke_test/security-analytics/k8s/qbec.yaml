@@ -1,0 +1,20 @@
+apiVersion: qbec.io/v1alpha1
+kind: App
+metadata:
+  name: security-content-stream-smoke-test
+spec:
+  environments:
+    app_play1:
+      defaultNamespace: threat-research
+      server: https://internal.api.app-play1.dev.us-west-2.splunk8s.io
+    app_play2:
+      defaultNamespace: threat-research
+      server: https://internal.api.app-play1.dev.us-west-2.splunk8s.io
+  vars:
+    external:
+      - name: SCBRANCH
+        default: develop
+        secret: false
+      - name: SMOKE_TEST
+        default: test
+        secret: false
