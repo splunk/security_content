@@ -1,0 +1,33 @@
+create_time: '2021-01-29T15:14:32.860440Z'
+description: Deploy patches, change configurations, sinkhole domains, re-image systems,
+  stop services, or take other appropriate actions to prevent further propagation
+  using all known vectors. Notify users of changes that will affect them and/or request
+  their assistance for manual neutralization steps.
+how_to_implement: Add any environment-specific playbooks, actions, or manual steps needed to prevent malware propagation.
+id: a668b443-6bce-4a21-a49b-c80edac1b1a6
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.661235Z'
+name: Neutralize propagation vectors
+order: 4
+owner: null
+phase: 24
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - deploy patch
+  - post data
+  - configure ssh
+  - send email
+  - block sender
+  playbooks:
+  - playbook: wannacry_remediate
+    scm: community
+  - playbook: vmworld_wannacry_response
+    scm: community
+  - playbook: vmworld_c2_response
+    scm: community
+  searches:
+  - name: ESCU - Get Sysmon WMI Activity for Host - Response Task
+    id: 155e0571-7db6-42f2-aa62-9a3a4cf35c94

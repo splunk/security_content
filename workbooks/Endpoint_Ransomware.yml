@@ -1,0 +1,18 @@
+create_time: '2021-01-29T15:14:32.846126Z'
+description: First contain a potential ransomware infection, then investigate and
+  make a decision about undoing the containment actions.
+how_to_implement: Configure the needed apps and assets, review the tasks and add any specific processes needed in your environment, then set the default user or role assignment for ransomware events.
+id: fbdf816c-4444-47f7-94b5-7a3b52ef12a5
+modified_time: '2021-02-23T15:58:54.703621Z'
+name: Endpoint Ransomware
+phases:
+- id: 4e909f82-38cb-4167-866f-593fad45ff73
+  name: Contain
+- id: 1a3987ee-35f2-46fd-8c16-41655ac0dc4e
+  name: Investigate
+- id: dc4fa6f6-988d-429a-a426-1aa244bbab05
+  name: Remediate
+- id: c46721a8-1581-4501-98b7-e3c5ebf5db81
+  name: Recover
+- id: ff44a3f5-65c9-49d0-9420-e5dc113c7067
+  name: Lessons Learned

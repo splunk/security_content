@@ -1,0 +1,14 @@
+create_time: '2021-01-29T15:14:32.869393Z'
+description: Turn off inter-area network enforcement and monitor.
+how_to_implement: ''
+id: e6fcf176-e473-47a3-998f-43cd61adb572
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.689370Z'
+name: Reconnect isolated sub-areas to each other
+order: 3
+owner: null
+phase: 26
+role: null
+sla: null
+sla_type: minutes
+suggestions: {}

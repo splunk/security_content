@@ -1,0 +1,16 @@
+create_time: '2021-01-29T15:14:32.871468Z'
+description: Reconnect to the Internet and monitor.
+how_to_implement: ''
+id: 50663f13-78fb-44da-8596-1adfea9fc3fc
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.695013Z'
+name: Reconnect to the Internet
+order: 6
+owner: null
+phase: 26
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - unblock domain

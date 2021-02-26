@@ -1,0 +1,27 @@
+create_time: '2021-02-23T15:58:54.668892Z'
+description: "Validate indicator existence, reputation, detonation and determine if\
+  \ Known APT, Commodity, Suspicious or Not Malicious?\n    1. If Splunk present,\
+  \ run Splunk Query on each indictor and prevalence in the environment. Summarize\
+  \ # of times indicator seen in the last 24 hrs, 7 days, 1 month, six months increments.\
+  \ Return the hosts that have used this indictor. (make an artifact for each host?)\n\
+  \      a. search -> ```| stats ...```\n    2. Gather repetitional, intelligence\
+  \ and general information regarding indicator into a note (a note for each indicator)\n\
+  \    3. Perform any additional research regarding indicators and understanding what\
+  \ normal behaviour is or should be by using using search engines, knowledge bases\
+  \ etc.\n    4. Make a determination of indicator, Known APT, Commodity, Suspicious\
+  \ or Not Malicious and whether to tag to block indicator\n      a. This should align\
+  \ to a severity change (Known APT = High, Commodity = Med, Suspicious = Low, Not\
+  \ Malicious = Info)\n      b. Change container and artifact severity and tag artifact\
+  \ & indicator(s) with blocked and determination tag"
+how_to_implement: ''
+id: 3c4190f3-bc46-4970-8c06-7ec209b88287
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.669102Z'
+name: Analyze IP Indicators
+order: 3
+owner: null
+phase: 38
+role: null
+sla: null
+sla_type: minutes
+suggestions: {}

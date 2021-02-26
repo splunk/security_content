@@ -1,0 +1,17 @@
+create_time: '2021-01-29T15:14:32.861146Z'
+description: Re-check neutralized systems and repeat or improve processes to cover
+  important systems as quickly as possible.
+how_to_implement: ''
+id: 0a928288-1ac2-4fe3-bb42-c67b580af02e
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.663820Z'
+name: Monitor progress
+order: 5
+owner: null
+phase: 24
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - run query

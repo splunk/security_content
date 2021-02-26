@@ -1,0 +1,17 @@
+create_time: '2021-01-29T15:14:32.865657Z'
+description: Confirm that the malware did not block remediations and find a workaround
+  if it did.
+how_to_implement: ''
+id: 1e292476-df95-422a-8936-9c6cbde0f8c6
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.680473Z'
+name: Confirm
+order: 4
+owner: null
+phase: 25
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - run query

@@ -1,0 +1,14 @@
+create_time: '2021-01-29T15:14:32.861822Z'
+how_to_implement: ''
+id: dc4fa6f6-988d-429a-a426-1aa244bbab05
+modified_time: '2021-02-23T15:58:54.670895Z'
+name: Remediate
+tasks:
+- id: 1e292476-df95-422a-8936-9c6cbde0f8c6
+  name: Confirm
+- id: 65e2d922-9c84-4fbe-bd78-25888b688793
+  name: Deploy
+- id: b9883c3d-3468-49e9-b2b7-51b1091547a8
+  name: Identify
+- id: c9d308a0-afab-4fca-adab-9fd5e74e2a99
+  name: Test

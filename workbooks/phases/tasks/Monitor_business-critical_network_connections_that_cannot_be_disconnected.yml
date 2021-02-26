@@ -1,0 +1,17 @@
+create_time: '2021-01-29T15:14:32.859727Z'
+description: For those applications that cannot be disconnected due to continuity
+  needs, increase monitoring and analyze traffic for malicious activity.
+how_to_implement: ''
+id: a0cbaced-66cf-41c4-bca2-501989895e59
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.659273Z'
+name: Monitor business-critical network connections that cannot be disconnected
+order: 3
+owner: null
+phase: 24
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - get pcap
