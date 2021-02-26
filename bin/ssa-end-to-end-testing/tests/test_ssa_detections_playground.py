@@ -43,11 +43,11 @@ def results_index(api):
 
 
 def test_ssa_ingestion_preview_example(api):
-    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl', "example2.log")
+    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl', "example.txt")
 
 
 def test_ssa_ingestion_preview_windows(api):
-    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl', "example.txt")
+    ssa_detection_in_dsp_with_preview_session(api, 'troubleshoot.spl', "example2.log")
 
 
 def test_ssa_ingestion_index(api, results_index):
@@ -80,10 +80,12 @@ def ssa_detection_in_dsp_with_preview_session(api, spl, source):
     preview_id = api.get_preview_id_from_spl(spl)
     check.is_not_none(preview_id, "failed to create a preview session %s" % spl)
 
-    time.sleep(30)
+    time.sleep(15)
 
     data = read_data(source)
     response_body = api.ingest_data(data)
+
+    time.sleep(60)
 
     response, response_body = api.get_preview_data(preview_id)
     check.greater(response_body.get("currentNumberOfRecords"), 0, "Missing records in preview session.")
