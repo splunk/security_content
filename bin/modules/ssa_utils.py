@@ -37,11 +37,11 @@ def build_humvee(path):
         log(logging.DEBUG, "Already latest checksum %s" % humvee_md5, detail=latest_humvee_object)
 
 
-def convert_to_ssa(detection):
-    '''
-    curl -H 'Content-type: text/yaml' -H 'Authorization: Bearer TOKEN'
-    https://app-admin.playground.scp.splunk.com/secanalytics/ssa-tenant-management/v1alpha1/admin/detection-spl/research2
-    --data-binary @detections/endpoint/ssa___first_time_seen_cmd_line.yml
-    @param detection:
-    @return:
-    '''
+#def convert_to_ssa(detection):
+#    '''
+#    curl -H 'Content-type: text/yaml' -H 'Authorization: Bearer TOKEN'
+#    https://app-admin.playground.scp.splunk.com/secanalytics/ssa-tenant-management/v1alpha1/admin/detection-spl/research2
+#    --data-binary @detections/endpoint/ssa___first_time_seen_cmd_line.yml
+#    @param detection:
+#    @return:
+#    '''
