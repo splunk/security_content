@@ -80,7 +80,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/validate.py --path . --verbose
+            python contentctl.py --path . --verbose  validate
       - run:
           name: run doc-gen
           command: |
@@ -118,7 +118,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate.py --path . --output package -v
+            python contentctl.py --path . --verbose generate --output package
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
       - run:

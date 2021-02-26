@@ -1,4 +1,4 @@
-name: System Process Running from Unexpected Location - SSA
+name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
 version: 1
 date: '2020-08-25'
@@ -235,7 +235,7 @@ tags:
   - CIS 8
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1036
   nist:
   - PR.PT
