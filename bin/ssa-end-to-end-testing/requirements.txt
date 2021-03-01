@@ -11,6 +11,7 @@ py==1.10.0
 pyparsing==2.4.7
 pytest==6.2.2
 pytest-check==1.0.1
+PyYAML==5.3.1
 requests==2.25.1
 six==1.15.0
 toml==0.10.2
