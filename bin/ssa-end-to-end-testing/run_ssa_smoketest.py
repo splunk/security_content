@@ -4,7 +4,7 @@ import pytest
 import argparse
 
 from modules.github_service import GithubService
-
+from modules.security_content_handler import prepare_test
 
 def main(args):
 
@@ -23,7 +23,10 @@ def main(args):
     #pytest.main(["--token", token, "--env", env, "--tenant", tenant])
 
     github_service = GithubService('patrick_test_branch')
-    github_service.get_changed_test_files_ssa()
+    test_files_ssa = github_service.get_changed_test_files_ssa()
+
+    for test_file in test_files_ssa:
+        prepare_test(test_file)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

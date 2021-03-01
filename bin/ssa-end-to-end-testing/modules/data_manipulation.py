@@ -8,22 +8,19 @@ import io
 
 class DataManipulation:
 
-    def manipulate_timestamp(self, file_path, logger, sourcetype, source):
-
-        logger.info('Updating timestamps in attack_data before replaying')
-        self.logger = logger
+    def manipulate_timestamp(self, file_path, sourcetype, source):
 
         if sourcetype == 'aws:cloudtrail':
-            self.manipulate_timestamp_cloudtrail(file_path, logger)
+            self.manipulate_timestamp_cloudtrail(file_path)
 
         if source == 'WinEventLog:System' or source == 'WinEventLog:Security':
-            self.manipulate_timestamp_windows_event_log_raw(file_path, logger)
+            self.manipulate_timestamp_windows_event_log_raw(file_path)
 
         if source == 'exchange':
-            self.manipulate_timestamp_exchange_logs(file_path, logger)
+            self.manipulate_timestamp_exchange_logs(file_path)
 
 
-    def manipulate_timestamp_exchange_logs(self, file_path, logger):
+    def manipulate_timestamp_exchange_logs(self, file_path):
         path =  os.path.join(os.path.dirname(__file__), '../attack_data/' + file_path)
         path =  path.replace('modules/../','')
 
@@ -50,7 +47,7 @@ class DataManipulation:
             print (line.replace(original_time, new_time),end ='')
 
 
-    def manipulate_timestamp_windows_event_log_raw(self, file_path, logger):
+    def manipulate_timestamp_windows_event_log_raw(self, file_path):
         path =  os.path.join(os.path.dirname(__file__), '../attack_data/' + file_path)
         path =  path.replace('modules/../','')
 
@@ -83,11 +80,10 @@ class DataManipulation:
             new_time = self.difference + event_time
             return new_time.strftime("%m/%d/%Y %I:%M:%S %p")
         except Exception as e:
-            self.logger.error("Error in timestamp replacement occured: " + str(e))
             return match.group()
 
 
-    def manipulate_timestamp_cloudtrail(self, file_path, logger):
+    def manipulate_timestamp_cloudtrail(self, file_path):
         path =  os.path.join(os.path.dirname(__file__), '../attack_data/' + file_path)
         path =  path.replace('modules/../','')
 

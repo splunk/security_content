@@ -4,7 +4,7 @@ import time
 import os
 import requests
 
-from data_manipulation import DataManipulation
+from .data_manipulation import DataManipulation
 
 
 def load_file(file_path):
@@ -19,7 +19,7 @@ def load_file(file_path):
 def prepare_test(file_path):
 
     # read test file and return as object
-    test_obj = load_file(file_path)
+    test_obj = load_file('security_content/' + file_path)
 
     # download attack data
     epoch_time = str(int(time.time()))
@@ -36,5 +36,5 @@ def prepare_test(file_path):
             if 'update_timestamp' in attack_data:
                 if attack_data['update_timestamp'] == True:
                     data_manipulation = DataManipulation()
-                    data_manipulation.manipulate_timestamp(folder_name + '/' + attack_data['file_name'], self.log, attack_data['sourcetype'], attack_data['source'])
+                    data_manipulation.manipulate_timestamp(folder_name + '/' + attack_data['file_name'], attack_data['sourcetype'], attack_data['source'])
 
