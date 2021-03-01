@@ -1,27 +1,31 @@
-name: Suspicious SQLite3 LSQuarantine Behavior
-id: e1997b2e-655f-4561-82fd-aeba8e1c1a86
+name: Suspicious Curl Network Connection
+id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
 version: 1
 date: '2021-02-22'
 description: 'The following analytic identifies the use of a curl contacting suspicious remote domains to checkin to command and control servers or download further implants.
-  In the context of Silver Sparrow, curl is identified contacting amazonaws.com. This particular behavior is common with MacOS adware-malicious software. Upon triage, capture the .plist file being written to disk and review for further indicators.'
+  In the context of Silver Sparrow, curl is identified contacting s3.amazonaws.com. This particular behavior is common with MacOS adware-malicious software.'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-  In addition, OSQuery must be installed and configured to pick up process events (info
-  at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402.
 type: batch
-datamodel: []
+datamodel:
+- Endpoint
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
 - https://marcosantadev.com/manage-plist-files-plistbuddy/
 author: Michael Haag, Splunk
-search: ' | `suspicious_sqlite3_lsquarantine_behavior_filter`'
-known_false_positives: Unknown.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
+  Processes.process=s3.amazonaws.com by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `suspicious_curl_network_connection_filter`'
+known_false_positives: Unknown. Filter as needed.
 tags:
   analytic_story:
   - Silver Sparrow
   mitre_attack_id:
-  - T1543.001
+  - T1071.001
   kill_chain_phases:
   - Actions on Objectives
   product:
@@ -30,5 +34,4 @@ tags:
   - Splunk Cloud
   security_domain: endpoint
   asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T543.001/atomic-red-team/windows-sysmon.log
+  dataset: []

@@ -21,16 +21,20 @@ description: 'The following analytic identifies the use of a native MacOS utilit
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-  In addition, OSQuery must be installed and configured to pick up process events (info
-  at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402.
 type: batch
-datamodel: []
+datamodel:
+- Endpoint
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
 - https://marcosantadev.com/manage-plist-files-plistbuddy/
 author: Michael Haag, Splunk
-search: ' |  `suspicious_plistbuddy_usage_filter`'
-known_false_positives: Although unlikely, some legitimate applications may use PlistBuddy to create or modify property lists.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=PlistBuddy
+  (Processes.process=*LaunchAgents* OR Processes.process=*RunAtLoad* OR Processes.process=*true*) by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |  `suspicious_plistbuddy_usage_filter`'
+known_false_positives: Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
 tags:
   analytic_story:
   - Silver Sparrow
@@ -44,5 +48,4 @@ tags:
   - Splunk Cloud
   security_domain: endpoint
   asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.001/atomic-red-team/windows-sysmon.log
+  dataset: []
