@@ -25,7 +25,7 @@ tags:
   analytic_story:
   - Silver Sparrow
   mitre_attack_id:
-  - T1071.001
+  - T1105
   kill_chain_phases:
   - Actions on Objectives
   product:

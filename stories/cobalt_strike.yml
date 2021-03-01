@@ -15,7 +15,7 @@ narrative: 'This Analytic Story supports you to detect Tactics, Techniques and P
   
   Spawnto_x86 and spawnto_x64 is the process that Cobalt Strike will spawn and injects shellcode into.\
   
-  Pipename sets the named pipe  name used in Cobalt Strikes Beacon SMB C2 traffic.\
+  Pipename sets the named pipe name used in Cobalt Strikes Beacon SMB C2 traffic.\
 
   With that, new detections were generated focused on these spawnto processes spawning without command line arguments. Similar, the named pipes most commonly used by Cobalt Strike added as a detection.
   In generating content for Cobalt Strike, the following is considered:\
@@ -36,6 +36,8 @@ references:
 - https://bluescreenofjeff.com/2017-01-24-how-to-write-malleable-c2-profiles-for-cobalt-strike/
 - https://blog.talosintelligence.com/2020/09/coverage-strikes-back-cobalt-strike-paper.html
 - https://www.fireeye.com/blog/threat-research/2020/12/unauthorized-access-of-fireeye-red-team-tools.html
+- https://github.com/MichaelKoczwara/Awesome-CobaltStrike-Defence
+- https://github.com/zer0yu/Awesome-CobaltStrike
 tags:
   analytic_story: Cobalt Strike
   category:

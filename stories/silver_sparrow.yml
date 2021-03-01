@@ -6,10 +6,9 @@ author: Michael Haag, Splunk
 type: batch
 description: Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking MacOS (Intel and M1) malicious software downloader utilizing JavaScript for execution and a launchAgent to establish persistence.
 narrative: 'Silver Sparrow works is a dropper and uses typical persistence mechanisms on a Mac. It is cross platform, covering both Intel and Apple M1 architecture. 
-  To this date, no implant has been downloaded for malicious purposes.
-  This analytic assists with identifying different types of  macOS malware families establishing LaunchAgent persistence.
+  To this date, no implant has been downloaded for malicious purposes. During installation of the update.pkg or updater.pkg file, the malicious software utilizes JavaScript to generate files and scripts on disk for persistence.These files later download a implant from an S3 bucket every hour.
+  This analytic assists with identifying different types of macOS malware families establishing LaunchAgent persistence.
   Per SentinelOne source, it is predicted that Silver Sparrow is likely selling itself as a mechanism to 3rd party “affiliates” or pay-per-install (PPI) partners, typically seen as commodity adware/malware.
-  Identify the process name of PlistBuddy executing with command line arguments that include: LaunchAgents and RunAtLoad and true. (1)
   Additional indicators and behaviors may be found within the references.'
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
