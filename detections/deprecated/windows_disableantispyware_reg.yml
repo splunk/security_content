@@ -25,6 +25,7 @@ references: []
 tags:
   analytic_story:
   - Ryuk Ransomware
+  - Windows Defense Evasion Tactics
   asset_type: Endpoint
   cis20:
   - CIS 8
