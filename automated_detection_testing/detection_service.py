@@ -80,15 +80,14 @@ def main(args):
     with open(ssh_key_name, "w") as ssh_key:
         ssh_key.write(response['KeyMaterial'])
     os.chmod(ssh_key_name, 0o600)
+    private_key_path = str(os.getcwd() + "/" + ssh_key_name)
 
     # build new version of ESCU
     sys.path.append(os.path.join(os.getcwd(),'security_content/bin'))
+
     try:
-        from bin import generate as generator
-        results = generator.main(args.security_content_repo, 'security_content/package', '--verbose')
-        # module = __import__('generate')
-        # module.sys.argv = ['generate', '-p', 'security_content', '-o' 'security_content/package']
-        # results = module.main(module.sys.argv)
+        module = __import__('generate')
+        results = module.main(REPO_PATH = 'security_content' , OUTPUT_PATH = 'security_content/package', VERBOSE = '--verbose' )
     except Exception as e:
         print('Error: ' + str(e))
 
@@ -100,7 +99,7 @@ def main(args):
     filedata = filedata.replace('windows_server_join_domain = 1', 'windows_server_join_domain = 0')
     filedata = filedata.replace('region = us-west-2', 'region = eu-central-1')
     filedata = filedata.replace('key_name = attack-range-key-pair', 'key_name = ' + ssh_key_name)
-    filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = /app/' + ssh_key_name)
+    filedata = filedata.replace('private_key_path = ~/.ssh/id_rsa', 'private_key_path = ' + private_key_path)
     filedata = filedata.replace('update_escu_app = 0', 'update_escu_app = 1')
 
     with open('attack_range/attack_range.conf', 'w') as file:
