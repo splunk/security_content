@@ -2,11 +2,8 @@
 import sys
 import pytest
 import argparse
-# import logging
-# import os
-#
-# logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
-# LOGGER = logging.getLogger(__name__)
+
+from modules.github_services import GithubService
 
 
 def main(args):
