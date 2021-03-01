@@ -1,4 +1,3 @@
-#jinja2: trim_blocks:True
 # Splunk Security Content Detections
 ![security_content](static/logo.png)
 =====
@@ -6,7 +5,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 ## Cloud
 <details>
-  <summary>View</summary>
+  <summary>details</summary>
 
 {% for detection in detections %}
 {% if detection.kind == 'cloud' %}
@@ -17,7 +16,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 ## Endpoint
 <details>
-  <summary>View</summary>
+  <summary>details</summary>
 
 {% for detection in detections %}
 {% if detection.kind == 'endpoint' %}
@@ -28,7 +27,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 ## Network
 <details>
-  <summary>View</summary>
+  <summary>details</summary>
 
 {% for detection in detections %}
 {% if detection.kind == 'network' %}
@@ -39,7 +38,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 ## Application
 <details>
-  <summary>View</summary>
+  <summary>details</summary>
 
 {% for detection in detections %}
 {% if detection.kind == 'application' %}
@@ -50,7 +49,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 ## Web
 <details>
-  <summary>View</summary>
+  <summary>details</summary>
 
 {% for detection in detections %}
 {% if detection.kind == 'web' %}
@@ -66,12 +65,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 {{ detection.description }}
 
 - **Product**: {{ detection.tags.product|join(', ') }}
-- **Data Models**: {{ detection.datamodel|join(', ') }}
+- **Datamodel**: {{ detection.datamodel|join(', ') }}
 - **ATT&CK**: {% for mitre_attack_id in detection.tags.mitre_attack_id %}[{{ mitre_attack_id }}](https://attack.mitre.org/techniques/{{ mitre_attack_id }}/){% if not loop.last %}, {% endif %}{% endfor %}
 - **Last Updated**: {{ detection.date }}
 
 <details>
-  <summary>View</summary>
+  <summary>details</summary>
 
 #### Search
 ```
@@ -85,20 +84,20 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 #### How To Implement
 {{ detection.how_to_implement}}
 
-#### Required fields
+#### Required field
 {% for field in detection.tags.required_fields %}
 * {{ field }}
 {% endfor %}
 
 #### ATT&CK
 
-| ID          | technique   | Tactic        |
-| ----------- | ----------- |:-------------:|
-{%- for id in detection.tags.mitre_attack_id %}
-| {{ id }}    | x           | x             |
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+{%- for attack in detection.mitre_attacks %}
+| {{ attack.technique_id }} | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
 {%- endfor %}
 
-#### Kill Chain Phases
+#### Kill Chain Phase
 {% for phase in detection.tags.kill_chain_phases %}
 * {{ phase }}
 {% endfor %}
@@ -106,7 +105,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 #### Known False Positives
 {{ detection.known_false_positives}}
 
-#### References
+#### Reference
 {% for reference in detection.references %}
 * {{ reference }}
 {% endfor %}

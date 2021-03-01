@@ -1,17 +1,44 @@
 import glob
 import yaml
 import argparse
-from os import path, walk
 import sys
 import re
+from os import path, walk
+import json
 from jinja2 import Environment, FileSystemLoader
+from attackcti import attack_client
+from pyattck import Attck
 
 
+def mitre_attack_object(technique, attack):
+    mitre_attack = dict()
+    mitre_attack['technique_id'] = technique.id
+    mitre_attack['technique'] = technique.name
 
+    # process tactics
+    tactics = []
+    for tactic in technique.tactics:
+        tactics.append(tactic.name)
+    mitre_attack['tactic'] = tactics
+
+    return mitre_attack
+
+def get_mitre_enrichment_new(attack, mitre_attack_id):
+    for technique in attack.enterprise.techniques:
+        apt_groups = []
+        if '.' in mitre_attack_id:
+            for subtechnique in technique.subtechniques:
+                if mitre_attack_id == subtechnique.id:
+                    mitre_attack = mitre_attack_object(subtechnique, attack)
+                    return mitre_attack
+
+        elif mitre_attack_id == technique.id:
+            mitre_attack = mitre_attack_object(technique, attack)
+            return mitre_attack
 
 def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
 
-    types = ["endpoint", "application", "cloud", "deprecated", "experimental", "network", "web"]
+    types = ["endpoint", "application", "cloud", "network", "web"]
     manifest_files = []
     for t in types:
         for root, dirs, files in walk(REPO_PATH + '/detections/' + t):
@@ -19,6 +46,9 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
                 if file.endswith(".yml"):
                     manifest_files.append((path.join(root, file)))
 
+    if VERBOSE:
+        print("getting mitre enrichment data from cti")
+    attack = Attck()
     detections = []
     for manifest_file in manifest_files:
         detection_yaml = dict()
@@ -34,6 +64,14 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
                 error = True
                 continue
         detection_yaml = object
+
+        # enrich the mitre object
+        mitre_attacks = []
+        if 'mitre_attack_id' in detection_yaml['tags']:
+            for mitre_technique_id in detection_yaml['tags']['mitre_attack_id']:
+                mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
+                mitre_attacks.append(mitre_attack)
+            detection_yaml['mitre_attacks'] = mitre_attacks
         detection_yaml['kind'] = manifest_file.split('/')[-2]
         detections.append(detection_yaml)
 
@@ -41,14 +79,22 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                              trim_blocks=False)
+
+    # write markdown
     template = j2_env.get_template('doc_detections_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/detections.md')
     output = template.render(detections=sorted_detections)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    print("doc_gen.py wrote {0} detection documentation to: {1}".format(len(detections),output_path))
+    print("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),output_path))
 
-    return False
+    # write wikimarkup
+    template = j2_env.get_template('doc_detections_wiki.j2')
+    output_path = path.join(OUTPUT_DIR + '/detections.wiki')
+    output = template.render(detections=sorted_detections)
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    print("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))
 
 if __name__ == "__main__":
 

@@ -1,0 +1,78 @@
+=Splunk Security Content Detections =
+
+----
+All the detections shipped to different Splunk products. Below is a breakdown by kind.
+==Cloud==
+{% for detection in detections %}
+{% if detection.kind == 'cloud' %}
+*  [[#{{ detection.name }}|{{ detection.name }}]]
+{% endif %}
+{% endfor %}
+{% for detection in detections %}
+==={% raw %}{{{% endraw %}visible anchor|{{ detection.name }}|{{ detection.name|lower|replace(" ", "-") }}{% raw %}}}{% endraw %}===
+{{ detection.description }}
+
+* '''Product''': {{ detection.tags.product|join(', ') }}
+* '''Datamodel''': {{ detection.datamodel|join(', ') }}
+* '''ATT&CK''': {% for mitre_attack_id in detection.tags.mitre_attack_id %}[https://attack.mitre.org/techniques/{{ mitre_attack_id }}/ {{ mitre_attack_id }}]{% if not loop.last %}, {% endif %}{% endfor %}
+* '''Last Updated''': {{ detection.date }}
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<nowiki>{{ detection.search|replace("|", "\n|") }}</nowiki>
+
+====Associated Analytic Story====
+{% for story in detection.tags.analytic_story %}
+* {{ story }}
+{% endfor %}
+
+====How To Implement====
+{{ detection.how_to_implement}}
+
+====Required field====
+{% for field in detection.tags.required_fields %}
+* {{ field }}
+{% endfor %}
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+{%-for attack in detection.mitre_attacks %}
+|-
+| {{ attack.technique_id }}
+| {{ attack.technique }}
+| {{ attack.tactic|join(', ') }}
+{%- endfor %}
+|}
+
+====Kill Chain Phase====
+{% for phase in detection.tags.kill_chain_phases %}
+* {{ phase }}
+{% endfor %}
+
+====Known False Positives====
+{{ detection.known_false_positives}}
+
+====Reference====
+{% for reference in detection.references %}
+* {{ reference }}
+{% endfor %}
+
+====Test Dataset====
+{% for dataset in detection.tags.dataset %}
+* {{ dataset }}
+{% endfor %}
+
+''version'': {{detection.version}}
+</div>
+</div>
+
+----
+{% endfor %}
+
+
+[[Category:V:ESSOC:3.15.0]]
