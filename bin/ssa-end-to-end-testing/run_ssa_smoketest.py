@@ -4,7 +4,6 @@ import pytest
 import argparse
 
 from modules.github_service import GithubService
-from modules.security_content_handler import prepare_test
 
 def main(args):
 

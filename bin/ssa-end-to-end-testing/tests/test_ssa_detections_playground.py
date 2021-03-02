@@ -3,11 +3,13 @@ import pytest
 import logging
 import os
 import time
+import pytest_check as check
 
 from http import HTTPStatus
 from modules.streams_service_api_helper import DSPApi
 from modules.utils import read_spl, read_data
-import pytest_check as check
+from modules.security_content_handler import prepare_test
+
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
@@ -21,6 +23,11 @@ def header_token(token):
 @pytest.fixture
 def api(env, tenant, header_token):
     return DSPApi(env, tenant, header_token)
+
+@pytest.fixture
+def test_file(test_file):
+    prepare_test(test_file)
+    return test_file
 
 
 @pytest.fixture

@@ -30,6 +30,7 @@ def prepare_test(file_path):
         for attack_data in test['attack_data']:
             url = attack_data['data']
             r = requests.get(url, allow_redirects=True)
+            attack_data_file_path = folder_name + '/' + attack_data['file_name']
             open(folder_name + '/' + attack_data['file_name'], 'wb').write(r.content)
 
             # Update timestamps before replay
@@ -38,3 +39,9 @@ def prepare_test(file_path):
                     data_manipulation = DataManipulation()
                     data_manipulation.manipulate_timestamp(folder_name + '/' + attack_data['file_name'], attack_data['sourcetype'], attack_data['source'])
 
+    dict_test = {
+        "test_obj": test_obj,
+        "attack_data_file_path": attack_data_file_path
+    }
+
+    return dict_test
