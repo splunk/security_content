@@ -249,7 +249,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
         output_path = path.join(security_content_path, 'tests/' + detection_kind + '/' + test_name)
         output = template.render(name=detection_name + ' Unit Test',
         detection_name=detection_name,
-        detection_path='detections/' + detection_kind + '/' + detection_file_name + '.yml', pass_condition='| stats count | where count > 0',
+        detection_path=detection_kind + '/' + detection_file_name + '.yml', pass_condition='| stats count | where count > 0',
         earliest_time='-24h', latest_time='now',file_name='UPDATE_FILE_NAME', splunk_source='UPDATE_SPLUNK_SOURCE',
         splunk_sourcetype='UPDATE_SPLUNK_SOURCETYPE', dataset_url='UPDATE_DATASET_URL' )
         with open(output_path, 'w', encoding="utf-8") as f:
@@ -399,7 +399,7 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
         output_path = path.join(security_content_path, 'tests/endpoint/' + test_name)
         output = template.render(name=getpass.getuser().capitalize() + ' ' + type.capitalize() + ' Unit Test',
         detection_name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
-        detection_path='detections/endpoint/' + detection_name, pass_condition='| stats count | where count > 0',
+        detection_path='endpoint/' + detection_name, pass_condition='| stats count | where count > 0',
         earliest_time='-24h', latest_time='now', file_name='UPDATE_FILE_NAME', splunk_source='UPDATE_SPLUNK_SOURCE',
         splunk_sourcetype='UPDATE_SPLUNK_SOURCETYPE',dataset_url='UPDATE_DATASET_URL')
         with open(output_path, 'w', encoding="utf-8") as f:
