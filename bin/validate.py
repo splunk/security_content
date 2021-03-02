@@ -222,11 +222,10 @@ def validate_lookups_content(REPO_PATH, lookup_path, lookup):
 
     return errors
 
-def new(security_content_path, verbose):
-    REPO_PATH = security_content_path
+def main(REPO_PATH, verbose):
 
     validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments']
-
+    
     objects = {}
     schema_error = False
     schema_errors = []
@@ -248,3 +247,18 @@ def new(security_content_path, verbose):
         sys.exit("Errors found")
     else:
         print("No Errors found")
+
+
+if __name__ == "__main__":
+    # grab arguments
+    parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
+        Validates security manifest for correctness, adhering to spec and other common items.
+        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
+    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
+    parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
+    # parse them
+    args = parser.parse_args()
+    REPO_PATH = args.path
+    verbose = args.verbose
+
+    main(REPO_PATH, verbose)
