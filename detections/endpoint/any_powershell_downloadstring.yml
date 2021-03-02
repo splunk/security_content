@@ -25,7 +25,7 @@ tags:
   analytic_story:
   - Malicious PowerShell
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
