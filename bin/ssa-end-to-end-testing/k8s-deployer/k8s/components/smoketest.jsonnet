@@ -5,10 +5,15 @@ local job = {
     apiVersion: 'batch/v1',
     kind: 'Job',
     metadata: {
-      name: 'ssa-smoke-test',
+      generateName: 'ssa-smoketest-',
+        labels: {
+            name: 'ssa-smoketest',
+        	uploaderLabel: std.extVar('CI_COMMIT_SHORT_SHA'),
+        },
     },
     spec: {
         activeDeadlineSeconds: 600,
+        ttlSecondsAfterFinished: 100,
         template: {
             metadata: {
                 annotations: {
