@@ -1,8 +1,11 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  K8S_PLAYGROUND_ROLE: k8s:v1/app-play1/namespace/threat-research/role/deploy
+  DOCKER_ROLE: docker:v1/registry-test/prefix/threat-research
 
 stages:
   - ssa-validate
+  - smoketest_play
 
 validate:
   stage: ssa-validate
@@ -14,3 +17,13 @@ validate:
     - python3 bin/ssa_validate.py --skip-error detections/*/*
     - python3 bin/ssa_test.py --skip-error tests/*/*
     - python3 bin/testing_coverage.py --type streaming --min-coverage 1.0
+
+smoketest_play:
+  stage: smoketest_play
+  image: docker-test.repo.splunkdev.net/user-icorrales/deployer-test:latest
+  script:
+    - eval $(go-go vault -a ${K8S_PLAYGROUND_ROLE})
+    - eval $(go-go vault -a ${DOCKER_ROLE})
+  variables:
+    SCSENV: app_play1
+    SRCBRANCH: $CI_COMMIT_REF_NAME
