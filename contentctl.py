@@ -60,7 +60,7 @@ def new(args):
 def validate(args):
     security_content_path = init(args)
     print("contentctl is validating all content under {0}".format(security_content_path))
-    validator.new(security_content_path, args.verbose)
+    validator.main(security_content_path, True)
 
 
 def generate(args):
@@ -74,7 +74,7 @@ def generate(args):
         sys.exit(1)
 
     print("contentctl is generating a new splunk_app under ".format(output))
-    generator.new(security_content_path, args.output, args.verbose)
+    generator.main(security_content_path, args.output, args.verbose)
 
 
 def main(args):
