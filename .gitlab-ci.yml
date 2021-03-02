@@ -4,26 +4,35 @@ variables:
   DOCKER_ROLE: docker:v1/registry-test/prefix/threat-research
 
 stages:
-  - ssa-validate
-  - smoketest_play
+  - debug-credentials
+#  - ssa-validate
+#  - smoketest_play
 
-validate:
-  stage: ssa-validate
+
+debug-credentials:
+  stage: debug-credentials
   image: docker.repo.splunkdev.net/ci-cd/ci-container:alpine-3.11
-  before_script:
-    - apk add --update python3 python3-dev py-pip build-base openjdk8-jre && pip install virtualenv && rm -rf /var/cache/apk/*
-    - pip3 install -r requirements.txt
   script:
-    - python3 bin/ssa_validate.py --skip-error detections/*/*
-    - python3 bin/ssa_test.py --skip-error tests/*/*
-    - python3 bin/testing_coverage.py --type streaming --min-coverage 1.0
+    - echo $(go-go vault -a ${K8S_PLAYGROUND_ROLE})
+    - echo $(go-go vault -a ${DOCKER_ROLE})
 
-smoketest_play:
-  stage: smoketest_play
-  image: docker-test.repo.splunkdev.net/threat-research/deployer-test:latest
-  script:
-    - eval $(go-go vault -a ${K8S_PLAYGROUND_ROLE})
-    - eval $(go-go vault -a ${DOCKER_ROLE})
-  variables:
-    SCSENV: app_play1
-    SRCBRANCH: $CI_COMMIT_REF_NAME
+#validate:
+#  stage: ssa-validate
+#  image: docker.repo.splunkdev.net/ci-cd/ci-container:alpine-3.11
+#  before_script:
+#    - apk add --update python3 python3-dev py-pip build-base openjdk8-jre && pip install virtualenv && rm -rf /var/cache/apk/*
+#    - pip3 install -r requirements.txt
+#  script:
+#    - python3 bin/ssa_validate.py --skip-error detections/*/*
+#    - python3 bin/ssa_test.py --skip-error tests/*/*
+#    - python3 bin/testing_coverage.py --type streaming --min-coverage 1.0
+#
+#smoketest_play:
+#  stage: smoketest_play
+#  image: docker-test.repo.splunkdev.net/threat-research/deployer-test:latest
+#  script:
+#    - eval $(go-go vault -a ${K8S_PLAYGROUND_ROLE})
+#    - eval $(go-go vault -a ${DOCKER_ROLE})
+#  variables:
+#    SCSENV: app_play1
+#    SRCBRANCH: $CI_COMMIT_REF_NAME
