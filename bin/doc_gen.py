@@ -75,7 +75,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
         detection_yaml['kind'] = manifest_file.split('/')[-2]
         detections.append(detection_yaml)
 
-    sorted_detections= sorted(detections, key=lambda i: i['name'])
+    sorted_detections = sorted(detections, key=lambda i: i['name'])
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                              trim_blocks=False)
@@ -88,10 +88,27 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
         f.write(output)
     print("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),output_path))
 
+    #sort detections by kind into categories
+    kinds = []
+    kind_names = set()
+    for detection in sorted_detections:
+        kind_names.add(detection['kind'])
+
+    for kind_name in sorted(kind_names):
+        new_kind = {}
+        new_kind['name'] = kind_name
+        new_kind['detections'] = []
+        kinds.append(new_kind)
+
+    for detection in sorted_detections:
+        for kind in kinds:
+            if kind['name'] == detection['kind']:
+                kind['detections'].append(detection)
+
     # write wikimarkup
     template = j2_env.get_template('doc_detections_wiki.j2')
     output_path = path.join(OUTPUT_DIR + '/detections.wiki')
-    output = template.render(detections=sorted_detections)
+    output = template.render(kinds=kinds)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     print("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))

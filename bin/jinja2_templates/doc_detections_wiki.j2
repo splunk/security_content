@@ -2,14 +2,11 @@
 
 ----
 All the detections shipped to different Splunk products. Below is a breakdown by kind.
-==Cloud==
-{% for detection in detections %}
-{% if detection.kind == 'cloud' %}
-*  [[#{{ detection.name }}|{{ detection.name }}]]
-{% endif %}
-{% endfor %}
-{% for detection in detections %}
-==={% raw %}{{{% endraw %}visible anchor|{{ detection.name }}|{{ detection.name|lower|replace(" ", "-") }}{% raw %}}}{% endraw %}===
+{% for kind in kinds %}
+=={{ kind.name|capitalize }}==
+
+{% for detection in kind.detections %}
+==={{ detection.name}}===
 {{ detection.description }}
 
 * '''Product''': {{ detection.tags.product|join(', ') }}
@@ -21,7 +18,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 <div class="mw-collapsible-content">
 
 ====Search====
-<nowiki>{{ detection.search|replace("|", "\n|") }}</nowiki>
+<search>{{ detection.search|replace("|", "\n|") }}</search>
 
 ====Associated Analytic Story====
 {% for story in detection.tags.analytic_story %}
@@ -74,5 +71,6 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ----
 {% endfor %}
 
+{% endfor %}
 
-[[Category:V:ESSOC:3.15.0]]
+[[Category:V:ESSOC:draft]]
