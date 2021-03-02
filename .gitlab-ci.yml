@@ -20,7 +20,7 @@ validate:
 
 smoketest_play:
   stage: smoketest_play
-  image: docker-test.repo.splunkdev.net/user-icorrales/deployer-test:latest
+  image: docker-test.repo.splunkdev.net/threat-research/deployer-test:latest
   script:
     - eval $(go-go vault -a ${K8S_PLAYGROUND_ROLE})
     - eval $(go-go vault -a ${DOCKER_ROLE})
