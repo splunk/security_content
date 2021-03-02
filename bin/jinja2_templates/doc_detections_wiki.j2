@@ -22,7 +22,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 ====Associated Analytic Story====
 {% for story in detection.tags.analytic_story %}
-* {{ story }}
+* [[Documentation:ESSOC:stories:UseCase#{{ story|replace(" ", "_") }}|{{ story }}]]
 {% endfor %}
 
 ====How To Implement====
@@ -73,4 +73,4 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 {% endfor %}
 
-[[Category:V:ESSOC:draft]]
+[[Category:V:ESSOC:drafts]]
