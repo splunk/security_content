@@ -1,7 +1,7 @@
 name: FodHelper UAC Bypass Unit Test
 tests:
 - name: FodHelper UAC Bypass
-  file: detections/endpoint/fodhelper_uac_bypass.yml
+  file: endpoint/fodhelper_uac_bypass.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
