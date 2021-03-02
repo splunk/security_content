@@ -23,6 +23,7 @@ smoketest_play:
   image: docker-test.repo.splunkdev.net/user-icorrales/deployer-test:latest
   script:
     - eval $(go-go vault -a ${K8S_PLAYGROUND_ROLE})
+    - eval $(go-go vault -a ${DOCKER_ROLE})
   variables:
     SCSENV: app_play1
     SRCBRANCH: $CI_COMMIT_REF_NAME
