@@ -16,7 +16,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_disableantispyware_registry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+  your endpoints into the `Endpoint` datamodel in the `Registry` node.
 known_false_positives: It is unusual to turn this feature off a Windows system since
   it is a default security control, although it is not rare for some policies to disable
   it. Although no false positives have been identified, use the provided filter macro
