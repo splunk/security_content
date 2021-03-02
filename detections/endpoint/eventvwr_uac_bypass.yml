@@ -6,13 +6,17 @@ author: Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following search identifies Eventvwr bypass by identifying the registry modification into a specific path that eventvwr.msc looks to (but is not valid) upon execution. A successful attack will include a suspicious command to be executed upon eventvwr.msc loading.
-  Upon triage, review the parallel processes that have executed. Identify any additional registry modifications on the endpoint that may look suspicious. Remediate as necessary.
+description: The following search identifies Eventvwr bypass by identifying the registry
+  modification into a specific path that eventvwr.msc looks to (but is not valid)
+  upon execution. A successful attack will include a suspicious command to be executed
+  upon eventvwr.msc loading. Upon triage, review the parallel processes that have
+  executed. Identify any additional registry modifications on the endpoint that may
+  look suspicious. Remediate as necessary.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path="*mscfile\\shell\\open\\command\\*"  by
-  Registry.user, Registry.dest , Registry.registry_value_name| `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `drop_dm_object_name(Registry)` | `eventvwr_uac_bypass_filter`'
+  Registry.user, Registry.dest , Registry.registry_value_name| `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `eventvwr_uac_bypass_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -36,4 +40,4 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  
+  automated_detection_testing: passed
