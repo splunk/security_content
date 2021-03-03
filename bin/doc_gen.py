@@ -82,7 +82,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                     sto_to_det[story].add(detection['name'])
                 else:
                     sto_to_det[story] = {detection['name']}
-
                 data_model = detection['datamodel']
                 if data_model:
                     for d in data_model:
@@ -106,6 +105,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                         sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
 
     for story in sorted_stories:
+        print(story)
         story['detections'] = sorted(sto_to_det[story['name']])
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
@@ -113,10 +113,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
             story['mitre_attack_ids'] = sorted(sto_to_mitre_attack_ids[story['name']])
         if story['name'] in sto_to_kill_chain_phases:
             story['kill_chain_phases'] = sorted(sto_to_kill_chain_phases[story['name']])
-        if story['name'] in sto_to_ciss:
-            story['ciss'] = sorted(sto_to_ciss[story['name']])
-        if story['name'] in sto_to_nists:
-            story['nists'] = sorted(sto_to_nists[story['name']])
+
     #sort stories into categories
     categories = []
     category_names = set()
@@ -147,7 +144,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     messages.append("doc_gen.py wrote {0} stories documentation in markdown to: {1}".format(len(stories),output_path))
 
 def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE):
-    types = ["endpoint", "application", "cloud", "network", "web"]
+    types = ["endpoint", "application", "cloud", "network", "web", "experimental", "deprecated"]
     manifest_files = []
     for t in types:
         for root, dirs, files in walk(REPO_PATH + '/detections/' + t):

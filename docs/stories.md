@@ -11,15 +11,23 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 ### Brand Monitoring
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-12-19
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -47,15 +55,19 @@ _version_: 1
 ### DNS Amplification Attacks
 DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to `ANY` queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2016-09-13
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -81,15 +93,23 @@ _version_: 1
 ### Data Protection
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-14
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -117,15 +137,23 @@ _version_: 1
 ### Host Redirection
 Detect evidence of tactics used to redirect traffic from a host to a destination other than the one intended--potentially one that is part of an adversary's attack infrastructure. An example is redirecting communications regarding patches and updates or misleading users into visiting a malicious website.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-14
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -149,15 +177,21 @@ _version_: 1
 ### Netsh Abuse
 Detect activities and various techniques associated with the abuse of `netsh.exe`, which can disable local firewall settings or set up a remote connection to a host from an infected system.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-01-05
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -185,15 +219,23 @@ _version_: 1
 ### Web Fraud Detection
 Monitor your environment for activity consistent with common attack techniques bad actors use when attempting to compromise web servers or other web-related assets.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-10-08
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -225,15 +267,23 @@ _version_: 1
 ### Baron Samedit CVE-2021-3156
 Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys Research Team, this vulnerability has been found to affect sudo across multiple Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and prior). As this vulnerability was committed to code in July 2011, there will be many distributions affected. Successful exploitation of this vulnerability allows any unprivileged user to gain root privileges on the vulnerable host.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-01-27
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -257,15 +307,21 @@ _version_: 1
 ### Cobalt Strike
 Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-02-16
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -297,15 +353,27 @@ _version_: 1
 ### Collection and Staging
 Monitor for and investigate activities--such as suspicious writes to the Windows Recycling Bin or email servers sending high amounts of traffic to specific hosts, for example--that may indicate that an adversary is harvesting and exfiltrating sensitive data. 
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-03
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -331,15 +399,43 @@ _version_: 1
 ### Command and Control
 Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-06-01
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -365,15 +461,19 @@ _version_: 1
 ### Common Phishing Frameworks
 Detect DNS and web requests to fake websites generated by the EvilGinx2 toolkit. These websites are designed to fool unwitting users who have clicked on a malicious link in a phishing email. 
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2019-04-29
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -401,15 +501,51 @@ _version_: 1
 ### Credential Dumping
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -435,15 +571,25 @@ _version_: 3
 ### DNS Hijacking
 Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -473,15 +619,19 @@ _version_: 1
 ### Data Exfiltration
 The stealing of data by an adversary.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-10-21
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -505,15 +655,25 @@ _version_: 1
 ### Detect Zerologon Attack
 Uncover activity related to the execution of Zerologon CVE-2020-11472, a technique wherein attackers target a Microsoft Windows Domain Controller to reset its computer account password. The result from this attack is attackers can now provide themselves high privileges and take over Domain Controller. The included searches in this Analytic Story are designed to identify attempts to reset Domain Controller Computer Account via exploit code remotely or via the use of tool Mimikatz as payload carrier.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-09-18
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -543,15 +703,29 @@ _version_: 1
 ### Disabling Security Tools
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious `reg.exe` processes, processes launching netsh, and many others.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -579,15 +753,19 @@ _version_: 2
 ### F5 TMUI RCE CVE-2020-5902
 Uncover activity consistent with CVE-2020-5902. Discovered by Positive Technologies researchers, this vulnerability affects F5 BIG-IP, BIG-IQ. and Traffix SDC devices (vulnerable versions in F5 support link below). This vulnerability allows unauthenticated users, along with authenticated users, who have access to the configuration utility to execute system commands, create/delete files, disable services, and/or execute Java code.  This vulnerability can result in full system compromise.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-08-02
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -615,15 +793,27 @@ _version_: 1
 ### Lateral Movement
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -647,15 +837,27 @@ _version_: 2
 ### Malicious PowerShell
 Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-08-23
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -681,15 +883,21 @@ _version_: 4
 ### Phishing Payloads
 Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2019-04-29
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -713,15 +921,27 @@ _version_: 1
 ### Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-01-22
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -747,15 +967,19 @@ _version_: 1
 ### SQL Injection
 Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-19
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -781,15 +1005,39 @@ _version_: 1
 ### Sunburst Malware
 Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-12-14
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -815,15 +1063,29 @@ _version_: 1
 ### Suspicious Command-Line Executions
 Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-03
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -851,15 +1113,25 @@ _version_: 2
 ### Suspicious Compiled HTML Activity
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-02-11
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -887,15 +1159,33 @@ _version_: 1
 ### Suspicious DNS Traffic
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-18
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -923,15 +1213,25 @@ _version_: 1
 ### Suspicious Emails
 Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-01-27
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -955,15 +1255,33 @@ _version_: 1
 ### Suspicious MSHTA Activity
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-01-20
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -993,15 +1311,25 @@ _version_: 2
 ### Suspicious Okta Activity
 Monitor your Okta environment for suspicious activities. Due to the Covid outbreak, many users are migrating over to leverage cloud services more and more. Okta is a popular tool to manage multiple users and the web-based applications they need to stay productive. The searches in this story will help monitor your Okta environment for suspicious activities and associated user behaviors.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-04-02
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1029,15 +1357,29 @@ _version_: 1
 ### Suspicious Regsvcs Regasm Activity
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-02-11
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1065,15 +1407,21 @@ _version_: 1
 ### Suspicious Regsvr32 Activity
 Monitor and detect techniques used by attackers who leverage the regsvr32.exe process to execute malicious code.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-01-29
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1101,15 +1449,33 @@ _version_: 1
 ### Suspicious Rundll32 Activity
 Monitor and detect techniques used by attackers who leverage rundll32.exe to execute arbitrary malicious code.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-02-03
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1137,15 +1503,31 @@ _version_: 1
 ### Suspicious WMI Use
 Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-10-23
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1171,15 +1553,33 @@ _version_: 2
 ### Suspicious Windows Registry Activities
 Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-05-31
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1205,15 +1605,21 @@ _version_: 1
 ### Suspicious Zoom Child Processes
 Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new child processes of zoom and provides investigative actions for this detection.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-04-13
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1239,15 +1645,21 @@ _version_: 1
 ### Trusted Developer Utilities Proxy Execution
 Monitor and detect behaviors used by attackers who leverage trusted developer utilities to execute malicious code.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-01-12
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1275,15 +1687,23 @@ _version_: 1
 ### Trusted Developer Utilities Proxy Execution MSBuild
 Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-01-21
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1317,15 +1737,21 @@ _version_: 1
 ### Windows DNS SIGRed CVE-2020-1350
 Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and is triggered by a malicious DNS response (only affects DNS over TCP). An attacker can use the malicious payload to cause a buffer overflow on the vulnerable system, leading to compromise.  The included searches in this Analytic Story are designed to identify the large response payload for SIG and KEY DNS records which can be used for the exploit.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-07-28
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1351,15 +1777,27 @@ _version_: 1
 ### Windows Defense Evasion Tactics
 Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe` and disabling user-account control, among many others 
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-05-31
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1383,15 +1821,25 @@ _version_: 1
 ### Windows Log Manipulation
 Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-12
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1419,15 +1867,43 @@ _version_: 2
 ### Windows Persistence Techniques
 Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-05-31
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1459,15 +1935,25 @@ _version_: 2
 ### Windows Privilege Escalation
 Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1497,15 +1983,19 @@ _version_: 2
 ### Asset Tracking
 Keep a careful inventory of every asset on your network to make it easier to detect rogue devices. Unauthorized/unmanaged devices could be an indication of malicious behavior that should be investigated further.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-13
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -1529,15 +2019,21 @@ _version_: 1
 ### Monitor Backup Solution
 Address common concerns when monitoring your backup processes. These searches can help you reduce risks from ransomware, device theft, or denial of physical access to a host by backing up data on endpoints.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-12
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1561,15 +2057,19 @@ _version_: 1
 ### Monitor for Unauthorized Software
 Identify and investigate prohibited/unauthorized software or processes that may be concealing malicious behavior within your environment. 
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-15
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -1593,15 +2093,19 @@ _version_: 1
 ### Monitor for Updates
 Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-15
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -1625,15 +2129,25 @@ _version_: 1
 ### Prohibited Traffic Allowed or Protocol Mismatch
 Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-11
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1657,15 +2171,31 @@ _version_: 1
 ### Router and Infrastructure Security
 Validate the security configuration of network infrastructure and verify that only authorized users and systems are accessing critical assets. Core routing and switching infrastructure are common strategic targets for attackers.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-12
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1691,15 +2221,19 @@ _version_: 1
 ### Use of Cleartext Protocols
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-15
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -1729,15 +2263,27 @@ _version_: 1
 ### AWS Cross Account Activity
 Track when a user assumes an IAM role in another AWS account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-06-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1761,15 +2307,29 @@ _version_: 1
 ### AWS Cryptomining
 Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or EC2 instances started by previously unseen users are just a few examples of potentially malicious behavior.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-03-08
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1793,15 +2353,25 @@ _version_: 1
 ### AWS Network ACL Activity
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-05-21
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1827,15 +2397,21 @@ _version_: 2
 ### AWS Security Hub Alerts
 This story is focused around detecting Security Hub alerts generated from AWS
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-08-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1859,15 +2435,25 @@ _version_: 1
 ### AWS Suspicious Provisioning Activities
 Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-03-16
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1891,15 +2477,27 @@ _version_: 1
 ### AWS User Monitoring
 Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-03-12
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1925,15 +2523,27 @@ _version_: 1
 ### Cloud Cryptomining
 Monitor your cloud compute instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or compute instances started by previously unseen users are just a few examples of potentially malicious behavior.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2019-10-02
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1957,15 +2567,41 @@ _version_: 1
 ### Cloud Federated Credential Abuse
 This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim's cloud environements.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2021-01-26
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -1993,15 +2629,21 @@ _version_: 1
 ### Container Implantation Monitoring and Investigation
 Use the searches in this story to monitor your Kubernetes registry repositories for upload, and deployment of potentially vulnerable, backdoor, or implanted containers. These searches provide information on source users, destination path, container names and repository names. The searches provide context to address Mitre T1525 which refers to container implantation upload to a company's repository either in Amazon Elastic Container Registry, Google Container Registry and Azure Container Registry.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-20
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2025,15 +2667,25 @@ _version_: 1
 ### GCP Cross Account Activity
 Track when a user assumes an IAM role in another GCP account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-09-01
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2057,15 +2709,29 @@ _version_: 1
 ### Kubernetes Scanning Activity
 This story addresses detection against Kubernetes cluster fingerprint scan and attack by providing information on items such as source ip, user agent, cluster names.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-04-15
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2089,15 +2755,35 @@ _version_: 1
 ### Kubernetes Sensitive Object Access Activity
 This story addresses detection and response of accounts acccesing Kubernetes cluster sensitive objects such as configmaps or secrets providing information on items such as user user, group. object, namespace and authorization reason.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-05-20
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2121,15 +2807,35 @@ _version_: 1
 ### Kubernetes Sensitive Role Activity
 This story addresses detection and response around Sensitive Role usage within a Kubernetes clusters against cluster resources and namespaces.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-05-20
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2153,15 +2859,41 @@ _version_: 1
 ### Office 365 Detections
 This story is focused around detecting Office 365 Attacks.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-12-16
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2185,15 +2917,29 @@ _version_: 1
 ### Suspicious AWS EC2 Activities
 Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-02-09
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2217,15 +2963,25 @@ _version_: 1
 ### Suspicious AWS Login Activities
 Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2019-05-01
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2249,15 +3005,25 @@ _version_: 1
 ### Suspicious AWS S3 Activities
 Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-07-24
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2283,15 +3049,19 @@ _version_: 2
 ### Suspicious AWS Traffic
 Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-05-07
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -2315,15 +3085,27 @@ _version_: 1
 ### Suspicious Cloud Authentication Activities
 Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-06-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2349,15 +3131,23 @@ _version_: 1
 ### Suspicious Cloud Instance Activities
 Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-08-25
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2381,15 +3171,25 @@ _version_: 1
 ### Suspicious Cloud Provisioning Activities
 Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-08-20
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2413,15 +3213,23 @@ _version_: 1
 ### Suspicious Cloud User Activities
 Detect and investigate suspicious activities by users and roles in your cloud environments.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-09-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2447,15 +3255,21 @@ _version_: 1
 ### Suspicious GCP Storage Activities
 Use the searches in this Analytic Story to monitor your GCP Storage buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open storage buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-08-05
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2481,15 +3295,19 @@ _version_: 1
 ### Unusual AWS EC2 Modifications
 Identify unusual changes to your AWS EC2 instances that may indicate malicious activity. Modifications to your EC2 instances by previously unseen users is an example of an activity that may warrant further investigation.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-04-09
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -2519,15 +3337,21 @@ _version_: 1
 ### ColdRoot MacOS RAT
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2019-01-09
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2555,15 +3379,45 @@ _version_: 1
 ### DHS Report TA18-074A
 Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-01-22
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2587,15 +3441,21 @@ _version_: 2
 ### Dynamic DNS
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-09-06
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2625,15 +3485,35 @@ _version_: 2
 ### Emotet Malware  DHS Report TA18-201A 
 Detect rarely used executables, specific registry paths that may confer malware survivability and persistence, instances where cmd.exe is used to launch script interpreters, and other indicators that the Emotet financial malware has compromised your environment.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-01-27
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2661,15 +3541,37 @@ _version_: 1
 ### Hidden Cobra Malware
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-01-22
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2695,15 +3597,23 @@ _version_: 2
 ### Orangeworm Attack Group
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-01-22
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2729,15 +3639,57 @@ _version_: 2
 ### Ransomware
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2763,15 +3715,21 @@ _version_: 1
 ### Ransomware Cloud
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-10-27
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2799,15 +3757,39 @@ _version_: 1
 ### Ryuk Ransomware
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Ryuk ransomware, including looking for file writes associated with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-11-06
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2835,15 +3817,43 @@ _version_: 1
 ### SamSam Ransomware
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-12-13
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2871,15 +3881,31 @@ _version_: 1
 ### Unusual Processes
 Quickly identify systems running new or unusual processes in your environment that could be indicators of suspicious activity. Processes run from unusual locations, those with conspicuously long command lines, and rare executables are all examples of activities that may warrant deeper investigation.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2907,15 +3933,23 @@ _version_: 2
 ### Windows File Extension and Association Abuse
 Detect and investigate suspected abuse of file extensions and Windows file associations. Some of the malicious behaviors involved may include inserting spaces before file extensions or prepending the file extension with a different one, among other techniques.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-01-26
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2941,15 +3975,23 @@ _version_: 1
 ### Windows Service Abuse
 Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-11-02
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -2981,15 +4023,23 @@ _version_: 3
 ### Apache Struts Vulnerability
 Detect and investigate activities--such as unusually long `Content-Type` length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-12-06
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -3013,15 +4063,21 @@ _version_: 1
 ### JBoss Vulnerability
 In March of 2016, adversaries were seen using JexBoss--an open-source utility used for testing and exploiting JBoss application servers. These searches help detect evidence of these attacks, such as network connections to external resources or web services spawning atypical child processes, among others.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-14
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
+* 
+
 
 #### ATT&CK
 
@@ -3045,15 +4101,19 @@ _version_: 1
 ### Spectre And Meltdown Vulnerabilities
 Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-01-08
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -3077,15 +4137,19 @@ _version_: 1
 ### Splunk Enterprise Vulnerability
 Keeping your Splunk deployment up to date is critical and may help you reduce the risk of CVE-2016-4859, an open-redirection vulnerability within some older versions of Splunk Enterprise. The detection search will help ensure that users are being properly authenticated and not being redirected to malicious domains.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2017-09-19
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
@@ -3111,15 +4175,19 @@ _version_: 1
 ### Splunk Enterprise Vulnerability CVE-2018-11409
 Reduce the risk of CVE-2018-11409, an information disclosure vulnerability within some older versions of Splunk Enterprise, with searches designed to help ensure that your Splunk system does not leak information to authenticated users.
 
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: 
+- **ATT&CK**:
 - **Last Updated**: 2018-06-14
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* 
+
 
 #### ATT&CK
 
