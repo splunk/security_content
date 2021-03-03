@@ -1,0 +1,45 @@
+name: DLL First Time Seen Detection
+id: 3e0f9962-9989-445f-878c-939113326b63
+version: 1
+date: '2021-03-03'
+author: 'Zadeh, Joseph'
+type: streaming
+datamodel: []
+description: Detection of first time seen DLL's.
+search: '| from read_text("s3://smle-experiments/datasets/ssa/WindowsEventSample.log.sep.sorted.gz")
+       | select from_json_object(value) as input_event
+       | eval ts=ucast(map_get(input_event, "_time"), "string", null), timestamp = cast(ts, "long")
+       | eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)),
+       process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
+       dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+       dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+       | where parent_process!=null
+       | select parent_process, process_name, timestamp, dest_device_id, dest_user_id
+       | first_time_event input_column qs=["process_name"]; '
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/MichaelGrafnetter/DSInternals
+tags:
+  asset_type: Windows
+  cis20:
+  - CIS 16
+  - CIS 20
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1078
+  - T1098
+  nist:
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - dest_device_id
+  - dest_user_id
+  - process
+  - _time
+  risk_severity: high
+  security_domain: endpoint
