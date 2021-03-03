@@ -9,8 +9,8 @@ datamodel:
 description: The following analytic identifies the use of PowerShell downloading a file using `DownloadString` method. This particular method is utilized in many different PowerShell frameworks to download files and output to disk. 
   Identify the source (IP/domain) and destination file and triage appropriately. If AMSI logging or PowerShell transaction logs are available, review for further details of the implant.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
-  Processes.process=*DownloadString* (Processes.process!=*chocolatey.org*) by Processes.dest
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe OR Processes.process_name=pwsh.exe OR Processes.process_name=PowerShell_ISE.exe
+  Processes.process=*.DownloadString*  by Processes.dest
   Processes.user Processes.parent_process Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `any_powershell_downloadstring_filter`'
