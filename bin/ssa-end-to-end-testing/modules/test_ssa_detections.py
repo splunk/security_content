@@ -15,6 +15,7 @@ LOGGER = logging.getLogger(__name__)
 
 # MACROS
 SLEEP_TIME = 60
+LOG_FILE = f"windows-security.log"
 
 
 class SSADetectionTesting:
@@ -32,12 +33,12 @@ class SSADetectionTesting:
 
 
     def test_dsp_pipeline(self):
-        self.ssa_detection_in_dsp_with_preview_session('firehose.spl', "example.txt", "DSP Preview Session Test Minimal")
-        self.ssa_detection_in_dsp('firehose.spl', "example.txt", "DSP Index Test Minimal")
-        self.ssa_detection_in_dsp_with_preview_session('troubleshoot.spl', "example.txt", "SSA Preview Session Test Minimal")
-        self.ssa_detection_in_dsp('troubleshoot.spl', "example.txt", "SSA Index Test Minimal")
-        self.ssa_detection_in_dsp_with_preview_session('detection.spl', "example.txt", "SSA Preview Detection Testing Example")
-        self.ssa_detection_in_dsp('detection.spl', "example.txt", "SSA Index Detection Testing Example")
+        self.ssa_detection_in_dsp_with_preview_session('firehose.spl', LOG_FILE, "DSP Preview Session Test Minimal")
+        self.ssa_detection_in_dsp('firehose.spl', LOG_FILE, "DSP Index Test Minimal")
+        self.ssa_detection_in_dsp_with_preview_session('troubleshoot.spl', LOG_FILE, "SSA Preview Session Test Minimal")
+        self.ssa_detection_in_dsp('troubleshoot.spl', LOG_FILE, "SSA Index Test Minimal")
+        self.ssa_detection_in_dsp_with_preview_session('detection.spl', LOG_FILE, "SSA Preview Detection Testing Example")
+        self.ssa_detection_in_dsp('detection.spl', LOG_FILE, "SSA Index Detection Testing Example")
 
         LOGGER.info('-----------------------------------')
         LOGGER.info('-------- test DSP Pipeline --------')
