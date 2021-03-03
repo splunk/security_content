@@ -13,6 +13,9 @@ from modules.security_content_handler import prepare_test
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
 
+# MACROS
+SLEEP_TIME = 60
+
 
 class SSADetectionTesting:
 
@@ -22,20 +25,19 @@ class SSADetectionTesting:
         self.tenant = tenant
         self.header_token = f"Bearer {header_token}"
         self.api = DSPApi(env, tenant, self.header_token)
-        self.results_index = self.api.create_temp_index("mc")
-        print(self.results_index)
         self.test_results = {
             "test_result_msg": [],
             "overall_test_passed": True 
         }
 
 
-    def teardown(self):
-        self.api.delete_temp_index(self.results_index["id"])
-
     def test_dsp_pipeline(self):
-        self.ssa_detection_in_dsp_with_preview_session('detection.spl', "example.txt", "DSP Preview Session Test")
-        self.ssa_detection_in_dsp('detection2.spl', "example.txt", "DSP End to End Test")
+        self.ssa_detection_in_dsp_with_preview_session('firehose.spl', "example.txt", "DSP Preview Session Test Minimal")
+        self.ssa_detection_in_dsp('firehose.spl', "example.txt", "DSP Index Test Minimal")
+        self.ssa_detection_in_dsp_with_preview_session('troubleshoot.spl', "example.txt", "SSA Preview Session Test Minimal")
+        self.ssa_detection_in_dsp('troubleshoot.spl', "example.txt", "SSA Index Test Minimal")
+        self.ssa_detection_in_dsp_with_preview_session('detection.spl', "example.txt", "SSA Preview Detection Testing Example")
+        self.ssa_detection_in_dsp('detection.spl', "example.txt", "SSA Index Detection Testing Example")
 
         LOGGER.info('-----------------------------------')
         LOGGER.info('-------- test DSP Pipeline --------')
@@ -91,12 +93,12 @@ class SSADetectionTesting:
         preview_id = self.api.get_preview_id_from_spl(spl)
         self.check_result(preview_id is not None, "failed to create a preview session %s" % spl)
 
-        time.sleep(30)
+        time.sleep(SLEEP_TIME)
 
         data = read_data(source)
         response_body = self.api.ingest_data(data)
 
-        time.sleep(120)
+        time.sleep(SLEEP_TIME)
 
         response, response_body = self.api.get_preview_data(preview_id)
         self.check_result(response_body.get("currentNumberOfRecords") > 0, "Missing records in preview session.")
@@ -108,6 +110,10 @@ class SSADetectionTesting:
 
     def ssa_detection_in_dsp(self, spl, source, test_name):
         self.execution_passed = True
+
+        self.results_index = self.api.create_temp_index("mc")
+
+        time.sleep(SLEEP_TIME)
 
         spl = read_spl(self.api.env, spl, self.results_index)
         self.check_result(spl is not None, "fail to read dummy spl file")
@@ -121,18 +127,18 @@ class SSADetectionTesting:
         response_body = self.api.activate_pipeline(pipeline_id)
         self.check_result(response_body.get("activated")==pipeline_id, f"pipeline {pipeline_id} should be successfully activate.")
 
-        time.sleep(60)
+        time.sleep(SLEEP_TIME)
 
         data = read_data(source)
         response_body = self.api.ingest_data(data)
 
-        time.sleep(60)
+        time.sleep(SLEEP_TIME)
 
-        query = f"from index:{self.results_index['name']} | search source!=\"Search Catalog\""
+        query = f"from index:{self.results_index['name']}"
         sid = self.api.submit_search_job(self.results_index['module'], query)
         self.check_result(sid is not None, f"Failed to create a Search Job")
 
-        time.sleep(60)
+        time.sleep(SLEEP_TIME)
 
         response_body = self.api.get_search_job_results(sid)
         self.check_result(len(response_body.get("results")) > 0, "Search job didn't return any results")
@@ -144,3 +150,6 @@ class SSADetectionTesting:
         self.check_result(response.status_code == HTTPStatus.NO_CONTENT, f"Fail to delete pipeline {pipeline_id}.")
 
         self.write_test_results(test_name)
+
+        # Comment for testing
+        #self.api.delete_temp_index(self.results_index["id"])

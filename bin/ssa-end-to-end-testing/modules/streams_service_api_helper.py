@@ -67,10 +67,10 @@ class DSPApi:
         """
         data = {"spl": spl}
         LOGGER.debug(f"Compiling SPL into UPL")
-        LOGGER.info(f"{spl}")
+        #LOGGER.info(f"{spl}")
         response = requests.post(self.return_api_endpoint(PIPELINES_COMPILE_ENDPOINT), json=data, headers=request_headers(self.header_token))
         upl = response.json()
-        LOGGER.info(f"POST compile response_body is: {upl}")
+        #LOGGER.info(f"POST compile response_body is: {upl}")
         LOGGER.info(f"Successfully compile spl to upl")
         return upl, response
 
@@ -130,7 +130,7 @@ class DSPApi:
         response_body = response.json()
         if response.status_code == HTTPStatus.CREATED:
             pipeline_id = response_body.get("id")
-            LOGGER.info(f"Pipeline {pipeline_id} successfully created")
+            #LOGGER.info(f"Pipeline {pipeline_id} successfully created")
             return pipeline_id
 
 

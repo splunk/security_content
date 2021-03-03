@@ -23,7 +23,6 @@ def main(args):
     # test DSP pipeline
     ssa_detection_testing = SSADetectionTesting(env, tenant, token)
     test_result_passed = ssa_detection_testing.test_dsp_pipeline()
-    ssa_detection_testing.teardown()
 
     if not test_result_passed:
         sys.exit(1)
