@@ -73,6 +73,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases
     sto_to_data_models = {}
     sto_to_mitre_attack_ids = {}
+    sto_to_mitre_attacks = {}
     sto_to_kill_chain_phases = {}
     sto_to_det = {}
     for detection in sorted_detections:
@@ -104,17 +105,27 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                     else:
                         sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
 
+                if 'mitre_attacks' in detection:
+                    if story in sto_to_mitre_attacks.keys():
+                        for mitre_attack in detection['mitre_attacks']:
+                            if mitre_attack not in sto_to_mitre_attacks[story]:
+                                sto_to_mitre_attacks[story].append(mitre_attack)
+                    else:
+                        sto_to_mitre_attacks[story] = detection['mitre_attacks']
+
+    # add the enrich objects to the story
     for story in sorted_stories:
-        print(story)
         story['detections'] = sorted(sto_to_det[story['name']])
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
         if story['name'] in sto_to_mitre_attack_ids:
             story['mitre_attack_ids'] = sorted(sto_to_mitre_attack_ids[story['name']])
+        if story['name'] in sto_to_mitre_attacks:
+            story['mitre_attacks'] = sto_to_mitre_attacks[story['name']]
         if story['name'] in sto_to_kill_chain_phases:
             story['kill_chain_phases'] = sorted(sto_to_kill_chain_phases[story['name']])
 
-    #sort stories into categories
+    # sort stories into categories
     categories = []
     category_names = set()
     for story in sorted_stories:
@@ -134,7 +145,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                              trim_blocks=False)
-
     # write markdown
     template = j2_env.get_template('doc_stories_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/stories.md')
@@ -142,6 +152,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote {0} stories documentation in markdown to: {1}".format(len(stories),output_path))
+
 
 def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE):
     types = ["endpoint", "application", "cloud", "network", "web", "experimental", "deprecated"]
