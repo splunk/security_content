@@ -15,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 
 # MACROS
 SLEEP_TIME = 60
-LOG_FILE = f"windows-security.log"
+LOG_FILE = f"windows-security.txt"
 
 
 class SSADetectionTesting:
