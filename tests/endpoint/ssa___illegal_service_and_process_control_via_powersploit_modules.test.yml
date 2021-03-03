@@ -1,0 +1,10 @@
+name: Illegal Service and Process Control via PowerSploit modules - SSA Unit test
+tests:
+  - name: Illegal Service and Process Control via PowerSploit modules
+    file: endpoint/ssa___illegal_service_and_process_control_via_powersploit_modules.yml
+    pass_condition: '@count_gt(0)'
+    description: Test illegal service and process control detections
+    attack_data:
+      - file_name: logAllPowerSploitModulesWithOldNames.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+

@@ -1,0 +1,10 @@
+name: Illegal Access To User Content via PowerSploit modules - SSA Unit test
+tests:
+  - name: Illegal Access To User Content via PowerSploit modules
+    file: endpoint/ssa___illegal_access_user_content_via_powersploit_modules.yml
+    pass_condition: '@count_gt(0)'
+    description: Test illegal access to user content detections
+    attack_data:
+      - file_name: logAllPowerSploitModulesWithOldNames.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+

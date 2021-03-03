@@ -1,0 +1,10 @@
+name: Illegal Enabling or Disabling of Accounts via DSInternals modules - SSA Unit test
+tests:
+  - name: Illegal Enabling or Disabling of Accounts via DSInternals modules
+    file: endpoint/ssa___illegal_account_enable_disable_via_dsinternals_modules.yml
+    pass_condition: '@count_gt(0)'
+    description: Test enabling or disabling of accounts detections
+    attack_data:
+      - file_name: logAllDSInternalsModules.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllDSInternalsModules.log
+

@@ -1,0 +1,10 @@
+name: Illegal Privilege Elevation and Persistence via PowerSploit modules - SSA Unit test
+tests:
+  - name: Illegal Privilege Elevation and Persistence via PowerSploit modules
+    file: endpoint/ssa___illegal_privilege_elevation_and_persistence_via_powersploit_modules.yml
+    pass_condition: '@count_gt(0)'
+    description: Test privilege elevation and persistence detections
+    attack_data:
+      - file_name: logAllPowerSploitModulesWithOldNames.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+

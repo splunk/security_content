@@ -1,0 +1,9 @@
+name: Illegal Management of Active Directory Elements and Policies via DSInternals modules - SSA Unit test
+tests:
+  - name: Illegal Management of Active Directory Elements and Policies via DSInternals modules
+    file: endpoint/ssa___illegal_management_AD_elements_and_policies_via_dsinternals_modules.yml
+    pass_condition: '@count_gt(0)'
+    description: Test illegal management of Active Directory elements and policies detections
+    attack_data:
+      - file_name: logAllDSInternalsModules.log
+        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllDSInternalsModules.log
