@@ -36,8 +36,117 @@ def get_mitre_enrichment_new(attack, mitre_attack_id):
             mitre_attack = mitre_attack_object(technique, attack)
             return mitre_attack
 
-def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
+def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE):
+    manifest_files = []
+    for root, dirs, files in walk(REPO_PATH + '/stories'):
+        for file in files:
+            if file.endswith(".yml"):
+                manifest_files.append((path.join(root, file)))
 
+    stories = []
+    for manifest_file in manifest_files:
+        story_yaml = dict()
+        if VERBOSE:
+            print("processing manifest {0}".format(manifest_file))
+
+        with open(manifest_file, 'r') as stream:
+            try:
+                object = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print("Error reading {0}".format(manifest_file))
+                error = True
+                continue
+        story_yaml = object
+
+        # enrich the mitre object
+        mitre_attacks = []
+        if 'mitre_attack_id' in story_yaml['tags']:
+            for mitre_technique_id in story_yaml['tags']['mitre_attack_id']:
+                mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
+                mitre_attacks.append(mitre_attack)
+            story_yaml['mitre_attacks'] = mitre_attacks
+        stories.append(story_yaml)
+
+    sorted_stories = sorted(stories, key=lambda i: i['name'])
+
+    # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases
+    sto_to_data_models = {}
+    sto_to_mitre_attack_ids = {}
+    sto_to_kill_chain_phases = {}
+    sto_to_det = {}
+    for detection in sorted_detections:
+        if 'analytic_story' in detection['tags']:
+            for story in detection['tags']['analytic_story']:
+                if story in sto_to_det.keys():
+                    sto_to_det[story].add(detection['name'])
+                else:
+                    sto_to_det[story] = {detection['name']}
+
+                data_model = detection['datamodel']
+                if data_model:
+                    for d in data_model:
+                        if story in sto_to_data_models.keys():
+                            sto_to_data_models[story].add(d)
+                        else:
+                            sto_to_data_models[story] = {d}
+
+                if 'mitre_attack_id' in detection['tags']:
+                    if story in sto_to_mitre_attack_ids.keys():
+                        for mitre_attack_id in detection['tags']['mitre_attack_id']:
+                            sto_to_mitre_attack_ids[story].add(mitre_attack_id)
+                    else:
+                        sto_to_mitre_attack_ids[story] = set(detection['tags']['mitre_attack_id'])
+
+                if 'kill_chain_phases' in detection['tags']:
+                    if story in sto_to_kill_chain_phases.keys():
+                        for kill_chain in detection['tags']['kill_chain_phases']:
+                            sto_to_kill_chain_phases[story].add(kill_chain)
+                    else:
+                        sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
+
+    for story in sorted_stories:
+        story['detections'] = sorted(sto_to_det[story['name']])
+        if story['name'] in sto_to_data_models:
+            story['data_models'] = sorted(sto_to_data_models[story['name']])
+        if story['name'] in sto_to_mitre_attack_ids:
+            story['mitre_attack_ids'] = sorted(sto_to_mitre_attack_ids[story['name']])
+        if story['name'] in sto_to_kill_chain_phases:
+            story['kill_chain_phases'] = sorted(sto_to_kill_chain_phases[story['name']])
+        if story['name'] in sto_to_ciss:
+            story['ciss'] = sorted(sto_to_ciss[story['name']])
+        if story['name'] in sto_to_nists:
+            story['nists'] = sorted(sto_to_nists[story['name']])
+    #sort stories into categories
+    categories = []
+    category_names = set()
+    for story in sorted_stories:
+        if 'category' in story['tags']:
+            category_names.add(story['tags']['category'][0])
+
+    for category_name in sorted(category_names):
+        new_category = {}
+        new_category['name'] = category_name
+        new_category['stories'] = []
+        categories.append(new_category)
+
+    for story in sorted_stories:
+        for category in categories:
+            if category['name'] == story['tags']['category'][0]:
+                category['stories'].append(story)
+
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+                             trim_blocks=False)
+
+    # write markdown
+    template = j2_env.get_template('doc_stories_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/stories.md')
+    output = template.render(categories=categories)
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote {0} stories documentation in markdown to: {1}".format(len(stories),output_path))
+
+def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE):
     types = ["endpoint", "application", "cloud", "network", "web"]
     manifest_files = []
     for t in types:
@@ -46,9 +155,6 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
                 if file.endswith(".yml"):
                     manifest_files.append((path.join(root, file)))
 
-    if VERBOSE:
-        print("getting mitre enrichment data from cti")
-    attack = Attck()
     detections = []
     for manifest_file in manifest_files:
         detection_yaml = dict()
@@ -86,7 +192,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
     output = template.render(detections=sorted_detections)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    print("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),output_path))
+    messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),output_path))
 
     #sort detections by kind into categories
     kinds = []
@@ -111,8 +217,9 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE):
     output = template.render(kinds=kinds)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    print("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))
+    messages.append("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))
 
+    return sorted_detections, messages
 if __name__ == "__main__":
 
     # grab arguments
@@ -138,10 +245,19 @@ if __name__ == "__main__":
 
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
+    if VERBOSE:
+        print("getting mitre enrichment data from cti")
+    attack = Attck()
+
+    messages = []
     if type == 'all':
-        generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, VERBOSE)
+        sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE)
+        generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE)
 
 
+    # print all the messages from generation
+    for m in messages:
+        print(m)
     print("finished successfully!")
 
 #    stories = load_objects("stories/*.yml")

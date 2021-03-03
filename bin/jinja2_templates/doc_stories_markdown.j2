@@ -1,0 +1,50 @@
+# Splunk Security Content Analytic Stories
+![security_content](static/logo.png)
+=====
+All the Analytic Stories shipped to different Splunk products. Below is a breakdown by kind.
+
+{% for category in categories %}
+## {{ category.name }}
+<details>
+  <summary>details</summary>
+{% for story in category.stories %}
+### {{ story.name }}
+{{ story.description }}
+
+
+- **Product**: {{ story.tags.product|join(', ') }}
+- **Datamodel**:
+- **ATT&CK**:
+- **Last Updated**: {{ story.date }}
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+{% for detection in story.detections %}
+* {{ detection.name }}
+{% endfor %}
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+
+
+#### Kill Chain Phase
+{% for phase in story.tags.kill_chain_phases %}
+* {{ phase }}
+{% endfor %}
+
+#### Reference
+{% for reference in story.references %}
+* {{ reference }}
+{% endfor %}
+
+_version_: {{story.version}}
+</details>
+
+---
+{% endfor %}
+</details>
+{% endfor %}
