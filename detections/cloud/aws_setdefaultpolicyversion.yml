@@ -5,16 +5,21 @@ date: '2021-03-02'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where a user has set a default policy versions. Attackers have been know to use this technique for Privilege Escalation in case the previous versions of the policy had permissions to access more resources than the current version of the policy
-search: '`cloudtrail` eventName=SetDefaultPolicyVersion eventSource = iam.amazonaws.com | stats
-    count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn) 
-    as policy_arn by src requestParameters.versionId eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_setdefaultpolicyversion_filter`'
+description: This search looks for CloudTrail events where a user has set a default
+  policy versions. Attackers have been know to use this technique for Privilege Escalation
+  in case the previous versions of the policy had permissions to access more resources
+  than the current version of the policy
+search: '`cloudtrail` eventName=SetDefaultPolicyVersion eventSource = iam.amazonaws.com
+  | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
+  as policy_arn by src requestParameters.versionId eventName eventSource aws_account_id
+  errorCode userAgent eventID awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `aws_setdefaultpolicyversion_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudtrail logs.
 known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately set a default policy to allow a user to access all
-  resources. That said, AWS strongly advises against granting full control to all
-  AWS resources
+  that an AWS admin has legitimately set a default policy to allow a user to access
+  all resources. That said, AWS strongly advises against granting full control to
+  all AWS resources
 references:
 - https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
@@ -41,4 +46,6 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
- 
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_setdefaultpolicyversion/aws_cloudtrail_events.json
