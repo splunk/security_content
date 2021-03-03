@@ -24,7 +24,7 @@ more-itertools==8.6.0
 nodeenv==1.5.0
 pathlib2==2.3.5
 pre-commit==2.9.3
-prompt-toolkit==1.0.14
+prompt-toolkit==3.0.16
 Pygments==2.8.0
 PyInquirer==1.0.3
 pyrsistent==0.17.3
