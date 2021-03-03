@@ -5,13 +5,19 @@ date: '2021-03-02'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where a user A who has already permission to create access keys, makes an API call to create access keys for another user B. Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
-search: '`cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com errorCode = success| search userName!=requestParameters.userName  |  stats
-    count min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_createaccesskey_filter`'
+description: This search looks for CloudTrail events where a user A who has already
+  permission to create access keys, makes an API call to create access keys for another
+  user B. Attackers have been know to use this technique for Privilege Escalation
+  in case new victim(user B) has more permissions than old victim(user B)
+search: '`cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com
+  errorCode = success| search userName!=requestParameters.userName  |  stats count
+  min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName src
+  eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId
+  user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_createaccesskey_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudtrail logs.
 known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately created keys for another user. 
+  that an AWS admin has legitimately created keys for another user.
 references:
 - https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
@@ -38,4 +44,6 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
- 
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createaccesskey/aws_cloudtrail_events.json
