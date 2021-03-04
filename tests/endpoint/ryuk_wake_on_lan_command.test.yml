@@ -1,0 +1,12 @@
+name: Ryuk Wake on LAN Command Unit Test
+tests:
+- name: Ryuk Wake on LAN Command
+  file: endpoint/ryuk_wake_on_lan_command.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ryuk/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
