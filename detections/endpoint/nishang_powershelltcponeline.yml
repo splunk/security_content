@@ -9,13 +9,13 @@ datamodel:
 description: This query detects the Nishang Invoke-PowerShellTCPOneLine utility that
   spawns a call back to a remote command and control server. This is a powershell
   oneliner. In addition, this will capture on the command-line additional utilities
-  used by Nishang. Triage the endpoint and identify any parallel processes that look
+  used by Nishang. Triage the endpoint and identify any parallel processes that look 
   suspicious. Review the reputation of the remote IP or domain contacted by the powershell
   process.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
   OR Processes.process_name=pwsh.exe OR Processes.process_name=PowerShell_ISE.exe
-  (Processes.process=*Net.Sockets.TCPClient*) by Processes.dest Processes.user Processes.parent_process
+  (Processes.process=*Net.Sockets.TCPClient* AND Processes.process=*System.Text.ASCIIEncoding*) by Processes.dest Processes.user Processes.parent_process
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `nishang_powershelltcponeline_filter`'
