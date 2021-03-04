@@ -153,6 +153,15 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
         f.write(output)
     messages.append("doc_gen.py wrote {0} stories documentation in markdown to: {1}".format(len(stories),output_path))
 
+    # write wikimarkup
+    template = j2_env.get_template('doc_stories_wiki.j2')
+    output_path = path.join(OUTPUT_DIR + '/stories.wiki')
+    output = template.render(categories=categories)
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote {0} stories documentation in mediawiki to: {1}".format(len(stories),output_path))
+    return sorted_stories, messages
+
 
 def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE):
     types = ["endpoint", "application", "cloud", "network", "web", "experimental", "deprecated"]
@@ -260,19 +269,10 @@ if __name__ == "__main__":
     messages = []
     if type == 'all':
         sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE)
-        generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE)
+        sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE)
 
 
     # print all the messages from generation
     for m in messages:
         print(m)
     print("finished successfully!")
-
-#    stories = load_objects("stories/*.yml")
-#    detections = []
-#    detections = load_objects("detections/*/*.yml")
-#    detections.extend(load_objects("detections/*/*/*.yml"))
-
-
-    #story_count, path = write_splunk_docs(stories, detections, OUTPUT_DIR)
-    #print("{0} story documents have been successfully written to {1}".format(story_count, path))

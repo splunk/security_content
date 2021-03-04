@@ -1,0 +1,5692 @@
+=Splunk Security Content Analytic Story =
+
+----
+All the Analytic Stories shipped to different Splunk products. Below is a breakdown by Category.
+
+==Abuse==
+
+
+===Brand Monitoring===
+Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Email, Network_Resolution, Web
+* '''ATT&CK''': 
+* '''Last Updated''': 2017-12-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Monitor_DNS_For_Brand_Abuse|Monitor DNS For Brand Abuse]]
+
+* [[Documentation:ESSOC:detections:Detections#Monitor_Email_For_Brand_Abuse|Monitor Email For Brand Abuse]]
+
+* [[Documentation:ESSOC:detections:Detections#Monitor_Web_Traffic_For_Brand_Abuse|Monitor Web Traffic For Brand Abuse]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Delivery
+
+
+====Reference====
+
+* https://www.zerofox.com/blog/what-is-digital-risk-monitoring/
+
+* https://securingtomorrow.mcafee.com/consumer/family-safety/what-is-typosquatting/
+
+* https://blog.malwarebytes.com/cybercrime/2016/06/explained-typosquatting/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===DNS Amplification Attacks===
+DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to `ANY` queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1498.002/ T1498.002]
+* '''Last Updated''': 2016-09-13
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Large_Volume_of_DNS_ANY_Queries|Large Volume of DNS ANY Queries]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1498.002
+| Reflection Amplification
+| Impact
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://www.us-cert.gov/ncas/alerts/TA13-088A
+
+* https://www.imperva.com/learn/application-security/dns-amplification/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Data Protection===
+Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Change_Analysis, Network_Resolution
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1189/ T1189]
+* '''Last Updated''': 2017-09-14
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_USB_device_insertion|Detect USB device insertion]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detection_of_DNS_Tunnels|Detection of DNS Tunnels]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1189
+| Drive-by Compromise
+| Initial Access
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://www.cisecurity.org/controls/data-protection/
+
+* https://www.sans.org/reading-room/whitepapers/dns/splunk-detect-dns-tunneling-37022
+
+* https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Host Redirection===
+Detect evidence of tactics used to redirect traffic from a host to a destination other than the one intended--potentially one that is part of an adversary's attack infrastructure. An example is redirecting communications regarding patches and updates or misleading users into visiting a malicious website.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1071.004/ T1071.004]
+* '''Last Updated''': 2017-09-14
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Clients_Connecting_to_Multiple_DNS_Servers|Clients Connecting to Multiple DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Requests_Resolved_by_Unauthorized_DNS_Servers|DNS Query Requests Resolved by Unauthorized DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#Windows_hosts_file_modification|Windows hosts file modification]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1071.004
+| DNS
+| Command and Control
+|-
+| T1095
+| Non-Application Layer Protocol
+| Command and Control
+|-
+| T1189
+| Drive-by Compromise
+| Initial Access
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|}
+
+====Kill Chain Phase====
+
+* Command and Control
+
+
+====Reference====
+
+* https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Netsh Abuse===
+Detect activities and various techniques associated with the abuse of `netsh.exe`, which can disable local firewall settings or set up a remote connection to a host from an infected system.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562.004/ T1562.004]
+* '''Last Updated''': 2017-01-05
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Processes_created_by_netsh|Processes created by netsh]]
+
+* [[Documentation:ESSOC:detections:Detections#Processes_launching_netsh|Processes launching netsh]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1562.004
+| Disable or Modify System Firewall
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://docs.microsoft.com/en-us/previous-versions/tn-archive/bb490939(v=technet.10)
+
+* https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html
+
+* http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Web Fraud Detection===
+Monitor your environment for activity consistent with common attack techniques bad actors use when attempting to compromise web servers or other web-related assets.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1136/ T1136]
+* '''Last Updated''': 2018-10-08
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Web_Fraud_-_Account_Harvesting|Web Fraud - Account Harvesting]]
+
+* [[Documentation:ESSOC:detections:Detections#Web_Fraud_-_Anomalous_User_Clickspeed|Web Fraud - Anomalous User Clickspeed]]
+
+* [[Documentation:ESSOC:detections:Detections#Web_Fraud_-_Password_Sharing_Across_Accounts|Web Fraud - Password Sharing Across Accounts]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1136
+| Create Account
+| Persistence
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
+
+* https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+
+
+==Adversary Tactics==
+
+
+===Baron Samedit CVE-2021-3156===
+Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys Research Team, this vulnerability has been found to affect sudo across multiple Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and prior). As this vulnerability was committed to code in July 2011, there will be many distributions affected. Successful exploitation of this vulnerability allows any unprivileged user to gain root privileges on the vulnerable host.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1068/ T1068]
+* '''Last Updated''': 2021-01-27
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Baron_Samedit_CVE-2021-3156|Detect Baron Samedit CVE-2021-3156]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Baron_Samedit_CVE-2021-3156_Segfault|Detect Baron Samedit CVE-2021-3156 Segfault]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Baron_Samedit_CVE-2021-3156_via_OSQuery|Detect Baron Samedit CVE-2021-3156 via OSQuery]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1068
+| Exploitation for Privilege Escalation
+| Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Cobalt Strike===
+Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+* '''Last Updated''': 2021-02-16
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Rundll32_StartW|Suspicious Rundll32 StartW]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Rundll32_no_CommandLine_Arguments|Suspicious Rundll32 no CommandLine Arguments]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://www.cobaltstrike.com/
+
+* https://www.infocyte.com/blog/2020/09/02/cobalt-strike-the-new-favorite-among-thieves/
+
+* https://bluescreenofjeff.com/2017-01-24-how-to-write-malleable-c2-profiles-for-cobalt-strike/
+
+* https://blog.talosintelligence.com/2020/09/coverage-strikes-back-cobalt-strike-paper.html
+
+* https://www.fireeye.com/blog/threat-research/2020/12/unauthorized-access-of-fireeye-red-team-tools.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Collection and Staging===
+Monitor for and investigate activities--such as suspicious writes to the Windows Recycling Bin or email servers sending high amounts of traffic to specific hosts, for example--that may indicate that an adversary is harvesting and exfiltrating sensitive data. 
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1036/ T1036], [https://attack.mitre.org/techniques/T1114.001/ T1114.001], [https://attack.mitre.org/techniques/T1114.002/ T1114.002]
+* '''Last Updated''': 2020-02-03
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Email_files_written_outside_of_the_Outlook_directory|Email files written outside of the Outlook directory]]
+
+* [[Documentation:ESSOC:detections:Detections#Email_servers_sending_high_volume_traffic_to_hosts|Email servers sending high volume traffic to hosts]]
+
+* [[Documentation:ESSOC:detections:Detections#Hosts_receiving_high_volume_of_network_traffic_from_email_server|Hosts receiving high volume of network traffic from email server]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_writes_to_System_Volume_Information|Suspicious writes to System Volume Information]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_writes_to_windows_Recycle_Bin|Suspicious writes to windows Recycle Bin]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1114.001
+| Local Email Collection
+| Collection
+|-
+| T1114.002
+| Remote Email Collection
+| Collection
+|-
+| T1036
+| Masquerading
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Collection
+
+* https://attack.mitre.org/wiki/Technique/T1074
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Command and Control===
+Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1071.004/ T1071.004], [https://attack.mitre.org/techniques/T1095/ T1095], [https://attack.mitre.org/techniques/T1189/ T1189]
+* '''Last Updated''': 2018-06-01
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Clients_Connecting_to_Multiple_DNS_Servers|Clients Connecting to Multiple DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Length_Outliers_-_MLTK|DNS Query Length Outliers - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Length_With_High_Standard_Deviation|DNS Query Length With High Standard Deviation]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Requests_Resolved_by_Unauthorized_DNS_Servers|DNS Query Requests Resolved by Unauthorized DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Large_Outbound_ICMP_Packets|Detect Large Outbound ICMP Packets]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Long_DNS_TXT_Record_Response|Detect Long DNS TXT Record Response]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_blocked_Outbound_Traffic_from_your_AWS|Detect Spike in blocked Outbound Traffic from your AWS]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detection_of_DNS_Tunnels|Detection of DNS Tunnels]]
+
+* [[Documentation:ESSOC:detections:Detections#Excessive_DNS_Failures|Excessive DNS Failures]]
+
+* [[Documentation:ESSOC:detections:Detections#Prohibited_Network_Traffic_Allowed|Prohibited Network Traffic Allowed]]
+
+* [[Documentation:ESSOC:detections:Detections#Protocol_or_Port_Mismatch|Protocol or Port Mismatch]]
+
+* [[Documentation:ESSOC:detections:Detections#TOR_Traffic|TOR Traffic]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1071.004
+| DNS
+| Command and Control
+|-
+| T1095
+| Non-Application Layer Protocol
+| Command and Control
+|-
+| T1189
+| Drive-by Compromise
+| Initial Access
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Delivery
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Command_and_Control
+
+* https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Common Phishing Frameworks===
+Detect DNS and web requests to fake websites generated by the EvilGinx2 toolkit. These websites are designed to fool unwitting users who have clicked on a malicious link in a phishing email. 
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1566.003/ T1566.003]
+* '''Last Updated''': 2019-04-29
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_DNS_requests_to_Phishing_Sites_leveraging_EvilGinx2|Detect DNS requests to Phishing Sites leveraging EvilGinx2]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1566.003
+| Spearphishing via Service
+| Initial Access
+|}
+
+====Kill Chain Phase====
+
+* Command and Control
+
+* Delivery
+
+
+====Reference====
+
+* https://github.com/kgretzky/evilginx2
+
+* https://attack.mitre.org/techniques/T1192/
+
+* https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Credential Dumping===
+Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
+* '''Last Updated''': 2020-02-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Access_LSASS_Memory_for_Dump_Creation|Access LSASS Memory for Dump Creation]]
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_To_Set_Default_PowerShell_Execution_Policy_To_Unrestricted_or_Bypass|Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Attempted_Credential_Dump_From_Registry_via_Reg_exe|Attempted Credential Dump From Registry via Reg exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Create_Remote_Thread_into_LSASS|Create Remote Thread into LSASS]]
+
+* [[Documentation:ESSOC:detections:Detections#Creation_of_Shadow_Copy|Creation of Shadow Copy]]
+
+* [[Documentation:ESSOC:detections:Detections#Creation_of_Shadow_Copy_with_wmic_and_powershell|Creation of Shadow Copy with wmic and powershell]]
+
+* [[Documentation:ESSOC:detections:Detections#Creation_of_lsass_Dump_with_Taskmgr|Creation of lsass Dump with Taskmgr]]
+
+* [[Documentation:ESSOC:detections:Detections#Credential_Dumping_via_Copy_Command_from_Shadow_Copy|Credential Dumping via Copy Command from Shadow Copy]]
+
+* [[Documentation:ESSOC:detections:Detections#Credential_Dumping_via_Symlink_to_Shadow_Copy|Credential Dumping via Symlink to Shadow Copy]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Credential_Dumping_through_LSASS_access|Detect Credential Dumping through LSASS access]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Dump_LSASS_Memory_using_comsvcs|Detect Dump LSASS Memory using comsvcs]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Mimikatz_Using_Loaded_Images|Detect Mimikatz Using Loaded Images]]
+
+* [[Documentation:ESSOC:detections:Detections#Dump_LSASS_via_comsvcs_DLL|Dump LSASS via comsvcs DLL]]
+
+* [[Documentation:ESSOC:detections:Detections#Dump_LSASS_via_procdump|Dump LSASS via procdump]]
+
+* [[Documentation:ESSOC:detections:Detections#Dump_LSASS_via_procdump_Rename|Dump LSASS via procdump Rename]]
+
+* [[Documentation:ESSOC:detections:Detections#Ntdsutil_export_ntds|Ntdsutil export ntds]]
+
+* [[Documentation:ESSOC:detections:Detections#Unsigned_Image_Loaded_by_LSASS|Unsigned Image Loaded by LSASS]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1003.001
+| LSASS Memory
+| Credential Access
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1003.002
+| Security Account Manager
+| Credential Access
+|-
+| T1003
+| OS Credential Dumping
+| Credential Access
+|-
+| T1003.003
+| NTDS
+| Credential Access
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Installation
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Technique/T1003
+
+* https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+
+
+''version'': 3
+</div>
+</div>
+
+----
+
+===DNS Hijacking===
+Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1071.004/ T1071.004], [https://attack.mitre.org/techniques/T1189/ T1189]
+* '''Last Updated''': 2020-02-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Clients_Connecting_to_Multiple_DNS_Servers|Clients Connecting to Multiple DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Requests_Resolved_by_Unauthorized_DNS_Servers|DNS Query Requests Resolved by Unauthorized DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_record_changed|DNS record changed]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1071.004
+| DNS
+| Command and Control
+|-
+| T1095
+| Non-Application Layer Protocol
+| Command and Control
+|-
+| T1189
+| Drive-by Compromise
+| Initial Access
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
+
+* https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
+
+* http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
+
+* https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Data Exfiltration===
+The stealing of data by an adversary.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1041/ T1041]
+* '''Last Updated''': 2020-10-21
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_SNICat_SNI_Exfiltration|Detect SNICat SNI Exfiltration]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1041
+| Exfiltration Over C2 Channel
+| Exfiltration
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://attack.mitre.org/tactics/TA0010/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect Zerologon Attack===
+Uncover activity related to the execution of Zerologon CVE-2020-11472, a technique wherein attackers target a Microsoft Windows Domain Controller to reset its computer account password. The result from this attack is attackers can now provide themselves high privileges and take over Domain Controller. The included searches in this Analytic Story are designed to identify attempts to reset Domain Controller Computer Account via exploit code remotely or via the use of tool Mimikatz as payload carrier.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1190/ T1190], [https://attack.mitre.org/techniques/T1210/ T1210]
+* '''Last Updated''': 2020-09-18
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Computer_Changed_with_Anonymous_Account|Detect Computer Changed with Anonymous Account]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Credential_Dumping_through_LSASS_access|Detect Credential Dumping through LSASS access]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Mimikatz_Using_Loaded_Images|Detect Mimikatz Using Loaded Images]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Zerologon_via_Zeek|Detect Zerologon via Zeek]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1210
+| Exploitation of Remote Services
+| Lateral Movement
+|-
+| T1003.001
+| LSASS Memory
+| Credential Access
+|-
+| T1190
+| Exploit Public-Facing Application
+| Initial Access
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Technique/T1003
+
+* https://github.com/SecuraBV/CVE-2020-1472
+
+* https://www.secura.com/blog/zero-logon
+
+* https://nvd.nist.gov/vuln/detail/CVE-2020-1472
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Disabling Security Tools===
+Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious `reg.exe` processes, processes launching netsh, and many others.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1553.004/ T1553.004], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1562.004/ T1562.004]
+* '''Last Updated''': 2020-02-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_To_Add_Certificate_To_Untrusted_Store|Attempt To Add Certificate To Untrusted Store]]
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_To_Stop_Security_Service|Attempt To Stop Security Service]]
+
+* [[Documentation:ESSOC:detections:Detections#Processes_launching_netsh|Processes launching netsh]]
+
+* [[Documentation:ESSOC:detections:Detections#Sc_exe_Manipulating_Windows_Services|Sc exe Manipulating Windows Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Reg_exe_Process|Suspicious Reg exe Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Unload_Sysmon_Filter_Driver|Unload Sysmon Filter Driver]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1553.004
+| Install Root Certificate
+| Defense Evasion
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|-
+| T1562.004
+| Disable or Modify System Firewall
+| Defense Evasion
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Installation
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Technique/T1089
+
+* https://blog.malwarebytes.com/cybercrime/2015/11/vonteera-adware-uses-certificates-to-disable-anti-malware/
+
+* https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===F5 TMUI RCE CVE-2020-5902===
+Uncover activity consistent with CVE-2020-5902. Discovered by Positive Technologies researchers, this vulnerability affects F5 BIG-IP, BIG-IQ. and Traffix SDC devices (vulnerable versions in F5 support link below). This vulnerability allows unauthenticated users, along with authenticated users, who have access to the configuration utility to execute system commands, create/delete files, disable services, and/or execute Java code.  This vulnerability can result in full system compromise.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1190/ T1190]
+* '''Last Updated''': 2020-08-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_F5_TMUI_RCE_CVE-2020-5902|Detect F5 TMUI RCE CVE-2020-5902]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1190
+| Exploit Public-Facing Application
+| Initial Access
+|}
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://www.ptsecurity.com/ww-en/about/news/f5-fixes-critical-vulnerability-discovered-by-positive-technologies-in-big-ip-application-delivery-controller/
+
+* https://support.f5.com/csp/article/K52145254
+
+* https://blog.cloudflare.com/cve-2020-5902-helping-to-protect-against-the-f5-tmui-rce-vulnerability/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Lateral Movement===
+Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1550.002/ T1550.002], [https://attack.mitre.org/techniques/T1558.003/ T1558.003]
+* '''Last Updated''': 2020-02-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Activity_Related_to_Pass_the_Hash_Attacks|Detect Activity Related to Pass the Hash Attacks]]
+
+* [[Documentation:ESSOC:detections:Detections#Kerberoasting_spn_request_with_RC4_encryption|Kerberoasting spn request with RC4 encryption]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Network_Traffic|Remote Desktop Network Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Process_Running_On_System|Remote Desktop Process Running On System]]
+
+* [[Documentation:ESSOC:detections:Detections#Schtasks_scheduling_job_on_remote_system|Schtasks scheduling job on remote system]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1550.002
+| Pass the Hash
+| Defense Evasion, Lateral Movement
+|-
+| T1558.003
+| Kerberoasting
+| Credential Access
+|-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|-
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Malicious PowerShell===
+Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
+* '''Last Updated''': 2017-08-23
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_To_Set_Default_PowerShell_Execution_Policy_To_Unrestricted_or_Bypass|Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Malicious_PowerShell_Process_-_Connect_To_Internet_With_Hidden_Window|Malicious PowerShell Process - Connect To Internet With Hidden Window]]
+
+* [[Documentation:ESSOC:detections:Detections#Malicious_PowerShell_Process_-_Encoded_Command|Malicious PowerShell Process - Encoded Command]]
+
+* [[Documentation:ESSOC:detections:Detections#Malicious_PowerShell_Process_-_Multiple_Suspicious_Command-Line_Arguments|Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments]]
+
+* [[Documentation:ESSOC:detections:Detections#Malicious_PowerShell_Process_With_Obfuscation_Techniques|Malicious PowerShell Process With Obfuscation Techniques]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1027
+| Obfuscated Files or Information
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
+
+* https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+
+
+''version'': 4
+</div>
+</div>
+
+----
+
+===Phishing Payloads===
+Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1566.002/ T1566.002]
+* '''Last Updated''': 2019-04-29
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Oulook_exe_writing_a__zip_file|Detect Oulook exe writing a  zip file]]
+
+* [[Documentation:ESSOC:detections:Detections#Process_Creating_LNK_file_in_Suspicious_Location|Process Creating LNK file in Suspicious Location]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|-
+| T1566.002
+| Spearphishing Link
+| Initial Access
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Installation
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns===
+Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+* '''Last Updated''': 2020-01-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#First_time_seen_command_line_argument|First time seen command line argument]]
+
+* [[Documentation:ESSOC:detections:Detections#Malicious_PowerShell_Process_-_Connect_To_Internet_With_Hidden_Window|Malicious PowerShell Process - Connect To Internet With Hidden Window]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line|Unusually Long Command Line]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line_-_MLTK|Unusually Long Command Line - MLTK]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+
+====Reference====
+
+* https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
+
+* http://blog.amossys.fr/badflick-is-not-so-bad.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===SQL Injection===
+Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Web
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1190/ T1190]
+* '''Last Updated''': 2017-09-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#SQL_Injection_with_Long_URLs|SQL Injection with Long URLs]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1190
+| Exploit Public-Facing Application
+| Initial Access
+|}
+
+====Kill Chain Phase====
+
+* Delivery
+
+
+====Reference====
+
+* https://capec.mitre.org/data/definitions/66.html
+
+* https://www.incapsula.com/web-application-security/sql-injection.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Sunburst Malware===
+Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Traffic, Web
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1018/ T1018], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1203/ T1203], [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1569.002/ T1569.002]
+* '''Last Updated''': 2020-12-14
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Outbound_SMB_Traffic|Detect Outbound SMB Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Prohibited_Applications_Spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
+
+* [[Documentation:ESSOC:detections:Detections#First_Time_Seen_Running_Windows_Service|First Time Seen Running Windows Service]]
+
+* [[Documentation:ESSOC:detections:Detections#Malicious_PowerShell_Process_-_Encoded_Command|Malicious PowerShell Process - Encoded Command]]
+
+* [[Documentation:ESSOC:detections:Detections#Sc_exe_Manipulating_Windows_Services|Sc exe Manipulating Windows Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Scheduled_Task_Deleted_Or_Created_via_CMD|Scheduled Task Deleted Or Created via CMD]]
+
+* [[Documentation:ESSOC:detections:Detections#Schtasks_scheduling_job_on_remote_system|Schtasks scheduling job on remote system]]
+
+* [[Documentation:ESSOC:detections:Detections#Sunburst_Correlation_DLL_and_Network_Event|Sunburst Correlation DLL and Network Event]]
+
+* [[Documentation:ESSOC:detections:Detections#Supernova_Webshell|Supernova Webshell]]
+
+* [[Documentation:ESSOC:detections:Detections#TOR_Traffic|TOR Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Windows_AdFind_Exe|Windows AdFind Exe]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1071.002
+| File Transfer Protocols
+| Command and Control
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1569.002
+| Service Execution
+| Execution
+|-
+| T1027
+| Obfuscated Files or Information
+| Defense Evasion
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|-
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
+|-
+| T1203
+| Exploitation for Client Execution
+| Execution
+|-
+| T1505.003
+| Web Shell
+| Persistence
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|-
+| T1018
+| Remote System Discovery
+| Discovery
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Exfiltration
+
+* Exploitation
+
+* Installation
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+
+* https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Command-Line Executions===
+Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003]
+* '''Last Updated''': 2020-02-03
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Prohibited_Applications_Spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Use_of_cmd_exe_to_Launch_Script_Interpreters|Detect Use of cmd exe to Launch Script Interpreters]]
+
+* [[Documentation:ESSOC:detections:Detections#First_time_seen_command_line_argument|First time seen command line argument]]
+
+* [[Documentation:ESSOC:detections:Detections#System_Processes_Run_From_Unexpected_Locations|System Processes Run From Unexpected Locations]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line|Unusually Long Command Line]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line_-_MLTK|Unusually Long Command Line - MLTK]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1068
+| Exploitation for Privilege Escalation
+| Privilege Escalation
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Exploitation
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Technique/T1059
+
+* https://www.microsoft.com/en-us/wdsi/threats/macro-malware
+
+* https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Suspicious Compiled HTML Activity===
+Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218.001/ T1218.001]
+* '''Last Updated''': 2021-02-11
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_HTML_Help_Renamed|Detect HTML Help Renamed]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_HTML_Help_Spawn_Child_Process|Detect HTML Help Spawn Child Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_HTML_Help_URL_in_Command_Line|Detect HTML Help URL in Command Line]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_HTML_Help_Using_InfoTech_Storage_Handlers|Detect HTML Help Using InfoTech Storage Handlers]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.001
+| Compiled HTML File
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://redcanary.com/blog/introducing-atomictestharnesses/
+
+* https://attack.mitre.org/techniques/T1218/001/
+
+* https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious DNS Traffic===
+Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1071.004/ T1071.004], [https://attack.mitre.org/techniques/T1189/ T1189]
+* '''Last Updated''': 2017-09-18
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Clients_Connecting_to_Multiple_DNS_Servers|Clients Connecting to Multiple DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Length_Outliers_-_MLTK|DNS Query Length Outliers - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Length_With_High_Standard_Deviation|DNS Query Length With High Standard Deviation]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Requests_Resolved_by_Unauthorized_DNS_Servers|DNS Query Requests Resolved by Unauthorized DNS Servers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Long_DNS_TXT_Record_Response|Detect Long DNS TXT Record Response]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detection_of_DNS_Tunnels|Detection of DNS Tunnels]]
+
+* [[Documentation:ESSOC:detections:Detections#Excessive_DNS_Failures|Excessive DNS Failures]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1071.004
+| DNS
+| Command and Control
+|-
+| T1095
+| Non-Application Layer Protocol
+| Command and Control
+|-
+| T1189
+| Drive-by Compromise
+| Initial Access
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+
+====Reference====
+
+* http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/
+
+* http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680
+
+* https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Emails===
+Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Email, UEBA
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1566/ T1566], [https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+* '''Last Updated''': 2020-01-27
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Email_Attachments_With_Lots_Of_Spaces|Email Attachments With Lots Of Spaces]]
+
+* [[Documentation:ESSOC:detections:Detections#Monitor_Email_For_Brand_Abuse|Monitor Email For Brand Abuse]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Email_-_UBA_Anomaly|Suspicious Email - UBA Anomaly]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Email_Attachment_Extensions|Suspicious Email Attachment Extensions]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1566
+| Phishing
+| Initial Access
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|}
+
+====Kill Chain Phase====
+
+* Delivery
+
+
+====Reference====
+
+* https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious MSHTA Activity===
+Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+* '''Last Updated''': 2021-01-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_MSHTA_Url_in_Command_Line|Detect MSHTA Url in Command Line]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Prohibited_Applications_Spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rundll32_Inline_HTA_Execution|Detect Rundll32 Inline HTA Execution]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_mshta_inline_hta_execution|Detect mshta inline hta execution]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_mshta_renamed|Detect mshta renamed]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_mshta_child_process|Suspicious mshta child process]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_mshta_spawn|Suspicious mshta spawn]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.005
+| Mshta
+| Defense Evasion
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+
+====Reference====
+
+* https://redcanary.com/blog/introducing-atomictestharnesses/
+
+* https://redcanary.com/blog/windows-registry-attacks-threat-detection/
+
+* https://attack.mitre.org/techniques/T1218/005/
+
+* https://medium.com/@mbromileyDFIR/malware-monday-aebb456356c5
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Suspicious Okta Activity===
+Monitor your Okta environment for suspicious activities. Due to the Covid outbreak, many users are migrating over to leverage cloud services more and more. Okta is a popular tool to manage multiple users and the web-based applications they need to stay productive. The searches in this story will help monitor your Okta environment for suspicious activities and associated user behaviors.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.001/ T1078.001]
+* '''Last Updated''': 2020-04-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_Okta_Users_With_Invalid_Credentials_From_The_Same_IP|Multiple Okta Users With Invalid Credentials From The Same IP]]
+
+* [[Documentation:ESSOC:detections:Detections#Okta_Account_Lockout_Events|Okta Account Lockout Events]]
+
+* [[Documentation:ESSOC:detections:Detections#Okta_Failed_SSO_Attempts|Okta Failed SSO Attempts]]
+
+* [[Documentation:ESSOC:detections:Detections#Okta_User_Logins_From_Multiple_Cities|Okta User Logins From Multiple Cities]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.001
+| Default Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Technique/T1078
+
+* https://owasp.org/www-community/attacks/Credential_stuffing
+
+* https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Regsvcs Regasm Activity===
+Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218.009/ T1218.009]
+* '''Last Updated''': 2021-02-11
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Regasm_Spawning_a_Process|Detect Regasm Spawning a Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Regasm_with_Network_Connection|Detect Regasm with Network Connection]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Regasm_with_no_Command_Line_Arguments|Detect Regasm with no Command Line Arguments]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Regsvcs_Spawning_a_Process|Detect Regsvcs Spawning a Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Regsvcs_with_Network_Connection|Detect Regsvcs with Network Connection]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Regsvcs_with_No_Command_Line_Arguments|Detect Regsvcs with No Command Line Arguments]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.009
+| Regsvcs/Regasm
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://attack.mitre.org/techniques/T1218/009/
+
+* https://github.com/rapid7/metasploit-framework/blob/master/documentation/modules/evasion/windows/applocker_evasion_regasm_regsvcs.md
+
+* https://oddvar.moe/2017/12/13/applocker-case-study-how-insecure-is-it-really-part-1/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Regsvr32 Activity===
+Monitor and detect techniques used by attackers who leverage the regsvr32.exe process to execute malicious code.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218.010/ T1218.010]
+* '''Last Updated''': 2021-01-29
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Regsvr32_Application_Control_Bypass|Detect Regsvr32 Application Control Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Regsvr32_Register_Suspicious_Path|Suspicious Regsvr32 Register Suspicious Path]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.010
+| Regsvr32
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://attack.mitre.org/techniques/T1218/010/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Rundll32 Activity===
+Monitor and detect techniques used by attackers who leverage rundll32.exe to execute arbitrary malicious code.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+* '''Last Updated''': 2021-02-03
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rundll32_Application_Control_Bypass_-_advpack|Detect Rundll32 Application Control Bypass - advpack]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rundll32_Application_Control_Bypass_-_setupapi|Detect Rundll32 Application Control Bypass - setupapi]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rundll32_Application_Control_Bypass_-_syssetup|Detect Rundll32 Application Control Bypass - syssetup]]
+
+* [[Documentation:ESSOC:detections:Detections#Dump_LSASS_via_comsvcs_DLL|Dump LSASS via comsvcs DLL]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Rundll32_Rename|Suspicious Rundll32 Rename]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Rundll32_StartW|Suspicious Rundll32 StartW]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Rundll32_dllregisterserver|Suspicious Rundll32 dllregisterserver]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Rundll32_no_CommandLine_Arguments|Suspicious Rundll32 no CommandLine Arguments]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|-
+| T1003.001
+| LSASS Memory
+| Credential Access
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://attack.mitre.org/techniques/T1218/011/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious WMI Use===
+Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1546.003/ T1546.003]
+* '''Last Updated''': 2018-10-23
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Process_Execution_via_WMI|Process Execution via WMI]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Process_Instantiation_via_WMI|Remote Process Instantiation via WMI]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_WMI_Command_Attempt|Remote WMI Command Attempt]]
+
+* [[Documentation:ESSOC:detections:Detections#Script_Execution_via_WMI|Script Execution via WMI]]
+
+* [[Documentation:ESSOC:detections:Detections#WMI_Permanent_Event_Subscription|WMI Permanent Event Subscription]]
+
+* [[Documentation:ESSOC:detections:Detections#WMI_Permanent_Event_Subscription_-_Sysmon|WMI Permanent Event Subscription - Sysmon]]
+
+* [[Documentation:ESSOC:detections:Detections#WMI_Temporary_Event_Subscription|WMI Temporary Event Subscription]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1047
+| Windows Management Instrumentation
+| Execution
+|-
+| T1546.003
+| Windows Management Instrumentation Event Subscription
+| Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf
+
+* https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Suspicious Windows Registry Activities===
+Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1546.001/ T1546.001], [https://attack.mitre.org/techniques/T1546.011/ T1546.011], [https://attack.mitre.org/techniques/T1546.012/ T1546.012], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1547.010/ T1547.010], [https://attack.mitre.org/techniques/T1548.002/ T1548.002], [https://attack.mitre.org/techniques/T1564.001/ T1564.001]
+* '''Last Updated''': 2018-05-31
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Disabling_Remote_User_Account_Control|Disabling Remote User Account Control]]
+
+* [[Documentation:ESSOC:detections:Detections#Monitor_Registry_Keys_for_Print_Monitors|Monitor Registry Keys for Print Monitors]]
+
+* [[Documentation:ESSOC:detections:Detections#Reg_exe_used_to_hide_files_directories_via_registry_keys|Reg exe used to hide files directories via registry keys]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Privilege_Escalation|Registry Keys Used For Privilege Escalation]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_for_Creating_SHIM_Databases|Registry Keys for Creating SHIM Databases]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Registry_Key_modifications|Remote Registry Key modifications]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Changes_to_File_Associations|Suspicious Changes to File Associations]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1548.002
+| Bypass User Account Control
+| Defense Evasion, Privilege Escalation
+|-
+| T1222.001
+| Windows File and Directory Permissions Modification
+| Defense Evasion
+|-
+| T1547.010
+| Port Monitors
+| Persistence, Privilege Escalation
+|-
+| T1564.001
+| Hidden Files and Directories
+| Defense Evasion
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1546.012
+| Image File Execution Options Injection
+| Persistence, Privilege Escalation
+|-
+| T1546.011
+| Application Shimming
+| Persistence, Privilege Escalation
+|-
+| T1546.001
+| Change Default File Association
+| Persistence, Privilege Escalation
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://redcanary.com/blog/windows-registry-attacks-threat-detection/
+
+* https://attack.mitre.org/wiki/Technique/T1112
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Zoom Child Processes===
+Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new child processes of zoom and provides investigative actions for this detection.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1068/ T1068]
+* '''Last Updated''': 2020-04-13
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Prohibited_Applications_Spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
+
+* [[Documentation:ESSOC:detections:Detections#First_Time_Seen_Child_Process_of_Zoom|First Time Seen Child Process of Zoom]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1068
+| Exploitation for Privilege Escalation
+| Privilege Escalation
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+
+====Reference====
+
+* https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
+
+* https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Trusted Developer Utilities Proxy Execution===
+Monitor and detect behaviors used by attackers who leverage trusted developer utilities to execute malicious code.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1127/ T1127], [https://attack.mitre.org/techniques/T1127, T1036.003/ T1127, T1036.003]
+* '''Last Updated''': 2021-01-12
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_microsoft_workflow_compiler_rename|Suspicious microsoft workflow compiler rename]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_microsoft_workflow_compiler_usage|Suspicious microsoft workflow compiler usage]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| 
+| 
+| 
+|-
+| T1127
+| Trusted Developer Utilities Proxy Execution
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://attack.mitre.org/techniques/T1127/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Trusted Developer Utilities Proxy Execution MSBuild===
+Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1127.001/ T1127.001]
+* '''Last Updated''': 2021-01-21
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_MSBuild_Rename|Suspicious MSBuild Rename]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_MSBuild_Spawn|Suspicious MSBuild Spawn]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_msbuild_path|Suspicious msbuild path]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1127.001
+| MSBuild
+| Defense Evasion
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://attack.mitre.org/techniques/T1127/001/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+
+* https://github.com/infosecn1nja/MaliciousMacroMSBuild
+
+* https://github.com/xorrior/RandomPS-Scripts/blob/master/Invoke-ExecuteMSBuild.ps1
+
+* https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
+
+* https://github.com/MHaggis/CBR-Queries/blob/master/msbuild.md
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Windows DNS SIGRed CVE-2020-1350===
+Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and is triggered by a malicious DNS response (only affects DNS over TCP). An attacker can use the malicious payload to cause a buffer overflow on the vulnerable system, leading to compromise.  The included searches in this Analytic Story are designed to identify the large response payload for SIG and KEY DNS records which can be used for the exploit.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1203/ T1203]
+* '''Last Updated''': 2020-07-28
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Windows_DNS_SIGRed_via_Splunk_Stream|Detect Windows DNS SIGRed via Splunk Stream]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Windows_DNS_SIGRed_via_Zeek|Detect Windows DNS SIGRed via Zeek]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1203
+| Exploitation for Client Execution
+| Execution
+|}
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+
+* https://support.microsoft.com/en-au/help/4569509/windows-dns-server-remote-code-execution-vulnerability
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Windows Defense Evasion Tactics===
+Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe` and disabling user-account control, among many others 
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1222.001/ T1222.001], [https://attack.mitre.org/techniques/T1548.002/ T1548.002], [https://attack.mitre.org/techniques/T1564.001/ T1564.001]
+* '''Last Updated''': 2018-05-31
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Disabling_Remote_User_Account_Control|Disabling Remote User Account Control]]
+
+* [[Documentation:ESSOC:detections:Detections#Hiding_Files_And_Directories_With_Attrib_exe|Hiding Files And Directories With Attrib exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Reg_exe_used_to_hide_files_directories_via_registry_keys|Reg exe used to hide files directories via registry keys]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Registry_Key_modifications|Remote Registry Key modifications]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Reg_exe_Process|Suspicious Reg exe Process]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1548.002
+| Bypass User Account Control
+| Defense Evasion, Privilege Escalation
+|-
+| T1222.001
+| Windows File and Directory Permissions Modification
+| Defense Evasion
+|-
+| T1547.010
+| Port Monitors
+| Persistence, Privilege Escalation
+|-
+| T1564.001
+| Hidden Files and Directories
+| Defense Evasion
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1546.012
+| Image File Execution Options Injection
+| Persistence, Privilege Escalation
+|-
+| T1546.011
+| Application Shimming
+| Persistence, Privilege Escalation
+|-
+| T1546.001
+| Change Default File Association
+| Persistence, Privilege Escalation
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Defense_Evasion
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Windows Log Manipulation===
+Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1490/ T1490]
+* '''Last Updated''': 2017-09-12
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Deleting_Shadow_Copies|Deleting Shadow Copies]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_wevtutil_Usage|Suspicious wevtutil Usage]]
+
+* [[Documentation:ESSOC:detections:Detections#USN_Journal_Deletion|USN Journal Deletion]]
+
+* [[Documentation:ESSOC:detections:Detections#Windows_Event_Log_Cleared|Windows Event Log Cleared]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|-
+| T1070.001
+| Clear Windows Event Logs
+| Defense Evasion
+|-
+| T1070
+| Indicator Removal on Host
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+
+* https://zeltser.com/security-incident-log-review-checklist/
+
+* http://journeyintoir.blogspot.com/2013/01/re-introducing-usnjrnl.html
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Windows Persistence Techniques===
+Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1222.001/ T1222.001], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1546.011/ T1546.011], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1547.010/ T1547.010], [https://attack.mitre.org/techniques/T1564.001/ T1564.001], [https://attack.mitre.org/techniques/T1574.009/ T1574.009], [https://attack.mitre.org/techniques/T1574.011/ T1574.011]
+* '''Last Updated''': 2018-05-31
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Certutil_exe_certificate_extraction|Certutil exe certificate extraction]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Path_Interception_By_Creation_Of_program_exe|Detect Path Interception By Creation Of program exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Hiding_Files_And_Directories_With_Attrib_exe|Hiding Files And Directories With Attrib exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Monitor_Registry_Keys_for_Print_Monitors|Monitor Registry Keys for Print Monitors]]
+
+* [[Documentation:ESSOC:detections:Detections#Reg_exe_Manipulating_Windows_Services_Registry_Keys|Reg exe Manipulating Windows Services Registry Keys]]
+
+* [[Documentation:ESSOC:detections:Detections#Reg_exe_used_to_hide_files_directories_via_registry_keys|Reg exe used to hide files directories via registry keys]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_for_Creating_SHIM_Databases|Registry Keys for Creating SHIM Databases]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Registry_Key_modifications|Remote Registry Key modifications]]
+
+* [[Documentation:ESSOC:detections:Detections#Sc_exe_Manipulating_Windows_Services|Sc exe Manipulating Windows Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Schtasks_used_for_forcing_a_reboot|Schtasks used for forcing a reboot]]
+
+* [[Documentation:ESSOC:detections:Detections#Shim_Database_File_Creation|Shim Database File Creation]]
+
+* [[Documentation:ESSOC:detections:Detections#Shim_Database_Installation_With_Suspicious_Parameters|Shim Database Installation With Suspicious Parameters]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1574.009
+| Path Interception by Unquoted Path
+| Defense Evasion, Persistence, Privilege Escalation
+|-
+| T1222.001
+| Windows File and Directory Permissions Modification
+| Defense Evasion
+|-
+| T1547.010
+| Port Monitors
+| Persistence, Privilege Escalation
+|-
+| T1574.011
+| Services Registry Permissions Weakness
+| Defense Evasion, Persistence, Privilege Escalation
+|-
+| T1564.001
+| Hidden Files and Directories
+| Defense Evasion
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1546.011
+| Application Shimming
+| Persistence, Privilege Escalation
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|-
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Installation
+
+
+====Reference====
+
+* http://www.fuzzysecurity.com/tutorials/19.html
+
+* https://www.fireeye.com/blog/threat-research/2010/07/malware-persistence-windows-registry.html
+
+* http://resources.infosecinstitute.com/common-malware-persistence-mechanisms/
+
+* https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
+
+* https://www.youtube.com/watch?v=dq2Hv7J9fvk
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Windows Privilege Escalation===
+Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1068/ T1068], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1546.008/ T1546.008], [https://attack.mitre.org/techniques/T1546.012/ T1546.012]
+* '''Last Updated''': 2020-02-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Child_Processes_of_Spoolsv_exe|Child Processes of Spoolsv exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Overwriting_Accessibility_Binaries|Overwriting Accessibility Binaries]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Privilege_Escalation|Registry Keys Used For Privilege Escalation]]
+
+* [[Documentation:ESSOC:detections:Detections#Uncommon_Processes_On_Endpoint|Uncommon Processes On Endpoint]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1068
+| Exploitation for Privilege Escalation
+| Privilege Escalation
+|-
+| T1546.008
+| Accessibility Features
+| Persistence, Privilege Escalation
+|-
+| T1546.012
+| Image File Execution Options Injection
+| Persistence, Privilege Escalation
+|-
+| T1204.002
+| Malicious File
+| Execution
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+
+====Reference====
+
+* https://attack.mitre.org/tactics/TA0004/
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+
+
+==Best Practices==
+
+
+===Asset Tracking===
+Keep a careful inventory of every asset on your network to make it easier to detect rogue devices. Unauthorized/unmanaged devices could be an indication of malicious behavior that should be investigated further.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Sessions
+* '''ATT&CK''': 
+* '''Last Updated''': 2017-09-13
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Unauthorized_Assets_by_MAC_address|Detect Unauthorized Assets by MAC address]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Delivery
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Monitor Backup Solution===
+Address common concerns when monitoring your backup processes. These searches can help you reduce risks from ransomware, device theft, or denial of physical access to a host by backing up data on endpoints.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2017-09-12
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Extended_Period_Without_Successful_Netbackup_Backups|Extended Period Without Successful Netbackup Backups]]
+
+* [[Documentation:ESSOC:detections:Detections#Unsuccessful_Netbackup_backups|Unsuccessful Netbackup backups]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Monitor for Unauthorized Software===
+Identify and investigate prohibited/unauthorized software or processes that may be concealing malicious behavior within your environment. 
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': 
+* '''Last Updated''': 2017-09-15
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Prohibited_Software_On_Endpoint|Prohibited Software On Endpoint]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Monitor for Updates===
+Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Updates
+* '''ATT&CK''': 
+* '''Last Updated''': 2017-09-15
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#No_Windows_Updates_in_a_time_frame|No Windows Updates in a time frame]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://learn.cisecurity.org/20-controls-download
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Prohibited Traffic Allowed or Protocol Mismatch===
+Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1189/ T1189]
+* '''Last Updated''': 2017-09-11
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+* [[Documentation:ESSOC:detections:Detections#Prohibited_Network_Traffic_Allowed|Prohibited Network Traffic Allowed]]
+
+* [[Documentation:ESSOC:detections:Detections#Protocol_or_Port_Mismatch|Protocol or Port Mismatch]]
+
+* [[Documentation:ESSOC:detections:Detections#TOR_Traffic|TOR Traffic]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1189
+| Drive-by Compromise
+| Initial Access
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Delivery
+
+
+====Reference====
+
+* http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Router and Infrastructure Security===
+Validate the security configuration of network infrastructure and verify that only authorized users and systems are accessing critical assets. Core routing and switching infrastructure are common strategic targets for attackers.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Authentication, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1020.001/ T1020.001], [https://attack.mitre.org/techniques/T1200/ T1200], [https://attack.mitre.org/techniques/T1498/ T1498], [https://attack.mitre.org/techniques/T1542.005/ T1542.005], [https://attack.mitre.org/techniques/T1557/ T1557], [https://attack.mitre.org/techniques/T1557.002/ T1557.002]
+* '''Last Updated''': 2017-09-12
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_ARP_Poisoning|Detect ARP Poisoning]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_IPv6_Network_Infrastructure_Threats|Detect IPv6 Network Infrastructure Threats]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_New_Login_Attempts_to_Routers|Detect New Login Attempts to Routers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Port_Security_Violation|Detect Port Security Violation]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rogue_DHCP_Server|Detect Rogue DHCP Server]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Software_Download_To_Network_Device|Detect Software Download To Network Device]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Traffic_Mirroring|Detect Traffic Mirroring]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1200
+| Hardware Additions
+| Initial Access
+|-
+| T1498
+| Network Denial of Service
+| Impact
+|-
+| T1557.002
+| ARP Cache Poisoning
+| Collection, Credential Access
+|-
+| T1557
+| Man-in-the-Middle
+| Collection, Credential Access
+|-
+| T1542.005
+| TFTP Boot
+| Defense Evasion, Persistence
+|-
+| T1020.001
+| Traffic Duplication
+| Exfiltration
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Delivery
+
+* Exploitation
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html
+
+* https://www.cisco.com/c/en/us/about/security-center/event-response/synful-knock.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Use of Cleartext Protocols===
+Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Traffic
+* '''ATT&CK''': 
+* '''Last Updated''': 2017-09-15
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Protocols_passing_authentication_in_cleartext|Protocols passing authentication in cleartext]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://www.monkey.org/~dugsong/dsniff/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+
+
+==Cloud Security==
+
+
+===AWS Cross Account Activity===
+Track when a user assumes an IAM role in another AWS account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1550/ T1550]
+* '''Last Updated''': 2018-06-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#aws_detect_attach_to_role_policy|aws detect attach to role policy]]
+
+* [[Documentation:ESSOC:detections:Detections#aws_detect_permanent_key_creation|aws detect permanent key creation]]
+
+* [[Documentation:ESSOC:detections:Detections#aws_detect_role_creation|aws detect role creation]]
+
+* [[Documentation:ESSOC:detections:Detections#aws_detect_sts_assume_role_abuse|aws detect sts assume role abuse]]
+
+* [[Documentation:ESSOC:detections:Detections#aws_detect_sts_get_session_token_abuse|aws detect sts get session token abuse]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|-
+| T1550
+| Use Alternate Authentication Material
+| Defense Evasion, Lateral Movement
+|}
+
+====Kill Chain Phase====
+
+* Lateral Movement
+
+
+====Reference====
+
+* https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===AWS Cryptomining===
+Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or EC2 instances started by previously unseen users are just a few examples of potentially malicious behavior.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1535/ T1535]
+* '''Last Updated''': 2018-03-08
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_AWS_Instances_Launched_by_User|Abnormally High AWS Instances Launched by User]]
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_AWS_Instances_Launched_by_User_-_MLTK|Abnormally High AWS Instances Launched by User - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#EC2_Instance_Started_In_Previously_Unseen_Region|EC2 Instance Started In Previously Unseen Region]]
+
+* [[Documentation:ESSOC:detections:Detections#EC2_Instance_Started_With_Previously_Unseen_AMI|EC2 Instance Started With Previously Unseen AMI]]
+
+* [[Documentation:ESSOC:detections:Detections#EC2_Instance_Started_With_Previously_Unseen_Instance_Type|EC2 Instance Started With Previously Unseen Instance Type]]
+
+* [[Documentation:ESSOC:detections:Detections#EC2_Instance_Started_With_Previously_Unseen_User|EC2 Instance Started With Previously Unseen User]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|-
+| T1535
+| Unused/Unsupported Cloud Regions
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===AWS Network ACL Activity===
+Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562.007/ T1562.007]
+* '''Last Updated''': 2018-05-21
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Network_Access_Control_List_Created_with_All_Open_Ports|AWS Network Access Control List Created with All Open Ports]]
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Network_Access_Control_List_Deleted|AWS Network Access Control List Deleted]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_Network_ACL_Activity|Detect Spike in Network ACL Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_blocked_Outbound_Traffic_from_your_AWS|Detect Spike in blocked Outbound Traffic from your AWS]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1562.007
+| Disable or Modify Cloud Firewall
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+
+====Reference====
+
+* https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
+
+* https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===AWS Security Hub Alerts===
+This story is focused around detecting Security Hub alerts generated from AWS
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2020-08-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_AWS_Security_Hub_Alerts_for_EC2_Instance|Detect Spike in AWS Security Hub Alerts for EC2 Instance]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_AWS_Security_Hub_Alerts_for_User|Detect Spike in AWS Security Hub Alerts for User]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://aws.amazon.com/security-hub/features/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===AWS Suspicious Provisioning Activities===
+Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1535/ T1535]
+* '''Last Updated''': 2018-03-16
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Cloud_Provisioning_From_Previously_Unseen_City|AWS Cloud Provisioning From Previously Unseen City]]
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Cloud_Provisioning_From_Previously_Unseen_Country|AWS Cloud Provisioning From Previously Unseen Country]]
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Cloud_Provisioning_From_Previously_Unseen_IP_Address|AWS Cloud Provisioning From Previously Unseen IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Cloud_Provisioning_From_Previously_Unseen_Region|AWS Cloud Provisioning From Previously Unseen Region]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1535
+| Unused/Unsupported Cloud Regions
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===AWS User Monitoring===
+Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004]
+* '''Last Updated''': 2018-03-12
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_API_activity_from_users_without_MFA|Detect API activity from users without MFA]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_API_Activities_From_Unapproved_Accounts|Detect AWS API Activities From Unapproved Accounts]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_AWS_API_Activity|Detect Spike in AWS API Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_Security_Group_Activity|Detect Spike in Security Group Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_new_API_calls_from_user_roles|Detect new API calls from user roles]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+* https://redlock.io/blog/cryptojacking-tesla
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Cloud Cryptomining===
+Monitor your cloud compute instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or compute instances started by previously unseen users are just a few examples of potentially malicious behavior.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Change
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1535/ T1535]
+* '''Last Updated''': 2019-10-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_Number_Of_Cloud_Instances_Launched|Abnormally High Number Of Cloud Instances Launched]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Compute_Instance_Created_By_Previously_Unseen_User|Cloud Compute Instance Created By Previously Unseen User]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Compute_Instance_Created_In_Previously_Unused_Region|Cloud Compute Instance Created In Previously Unused Region]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Compute_Instance_Created_With_Previously_Unseen_Image|Cloud Compute Instance Created With Previously Unseen Image]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Compute_Instance_Created_With_Previously_Unseen_Instance_Type|Cloud Compute Instance Created With Previously Unseen Instance Type]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|-
+| T1535
+| Unused/Unsupported Cloud Regions
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Cloud Federated Credential Abuse===
+This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim's cloud environements.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1136.003/ T1136.003], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1546.012/ T1546.012], [https://attack.mitre.org/techniques/T1556/ T1556]
+* '''Last Updated''': 2021-01-26
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#AWS_SAML_Access_by_Provider_User_and_Principal|AWS SAML Access by Provider User and Principal]]
+
+* [[Documentation:ESSOC:detections:Detections#AWS_SAML_Update_identity_provider|AWS SAML Update identity provider]]
+
+* [[Documentation:ESSOC:detections:Detections#Certutil_exe_certificate_extraction|Certutil exe certificate extraction]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Mimikatz_Using_Loaded_Images|Detect Mimikatz Using Loaded Images]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Mimikatz_Via_PowerShell_And_EventCode_4703|Detect Mimikatz Via PowerShell And EventCode 4703]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rare_Executables|Detect Rare Executables]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Add_App_Role_Assignment_Grant_User|O365 Add App Role Assignment Grant User]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Added_Service_Principal|O365 Added Service Principal]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Excessive_SSO_logon_errors|O365 Excessive SSO logon errors]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_New_Federated_Domain_Added|O365 New Federated Domain Added]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Privilege_Escalation|Registry Keys Used For Privilege Escalation]]
+
+* [[Documentation:ESSOC:detections:Detections#Uncommon_Processes_On_Endpoint|Uncommon Processes On Endpoint]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|-
+| T1003.001
+| LSASS Memory
+| Credential Access
+|-
+| T1136.003
+| Cloud Account
+| Persistence
+|-
+| T1556
+| Modify Authentication Process
+| Credential Access, Defense Evasion
+|-
+| T1546.012
+| Image File Execution Options Injection
+| Persistence, Privilege Escalation
+|-
+| T1204.002
+| Malicious File
+| Execution
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objective
+
+* Actions on Objectives
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+
+* https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+
+* https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Container Implantation Monitoring and Investigation===
+Use the searches in this story to monitor your Kubernetes registry repositories for upload, and deployment of potentially vulnerable, backdoor, or implanted containers. These searches provide information on source users, destination path, container names and repository names. The searches provide context to address Mitre T1525 which refers to container implantation upload to a company's repository either in Amazon Elastic Container Registry, Google Container Registry and Azure Container Registry.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1525/ T1525]
+* '''Last Updated''': 2020-02-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#GCP_GCR_container_uploaded|GCP GCR container uploaded]]
+
+* [[Documentation:ESSOC:detections:Detections#New_container_uploaded_to_AWS_ECR|New container uploaded to AWS ECR]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1525
+| Implant Container Image
+| Persistence
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://github.com/splunk/cloud-datamodel-security-research
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===GCP Cross Account Activity===
+Track when a user assumes an IAM role in another GCP account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078/ T1078]
+* '''Last Updated''': 2020-09-01
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#GCP_Detect_accounts_with_high_risk_roles_by_project|GCP Detect accounts with high risk roles by project]]
+
+* [[Documentation:ESSOC:detections:Detections#GCP_Detect_gcploit_framework|GCP Detect gcploit framework]]
+
+* [[Documentation:ESSOC:detections:Detections#GCP_Detect_high_risk_permissions_by_resource_and_account|GCP Detect high risk permissions by resource and account]]
+
+* [[Documentation:ESSOC:detections:Detections#gcp_detect_oauth_token_abuse|gcp detect oauth token abuse]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Lateral Movement
+
+
+====Reference====
+
+* https://cloud.google.com/iam/docs/understanding-service-accounts
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Kubernetes Scanning Activity===
+This story addresses detection against Kubernetes cluster fingerprint scan and attack by providing information on items such as source ip, user agent, cluster names.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1526/ T1526]
+* '''Last Updated''': 2020-04-15
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Amazon_EKS_Kubernetes_Pod_scan_detection|Amazon EKS Kubernetes Pod scan detection]]
+
+* [[Documentation:ESSOC:detections:Detections#Amazon_EKS_Kubernetes_cluster_scan_detection|Amazon EKS Kubernetes cluster scan detection]]
+
+* [[Documentation:ESSOC:detections:Detections#GCP_Kubernetes_cluster_pod_scan_detection|GCP Kubernetes cluster pod scan detection]]
+
+* [[Documentation:ESSOC:detections:Detections#GCP_Kubernetes_cluster_scan_detection|GCP Kubernetes cluster scan detection]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_pod_scan_fingerprint|Kubernetes Azure pod scan fingerprint]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_scan_fingerprint|Kubernetes Azure scan fingerprint]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1526
+| Cloud Service Discovery
+| Discovery
+|}
+
+====Kill Chain Phase====
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://github.com/splunk/cloud-datamodel-security-research
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Kubernetes Sensitive Object Access Activity===
+This story addresses detection and response of accounts acccesing Kubernetes cluster sensitive objects such as configmaps or secrets providing information on items such as user user, group. object, namespace and authorization reason.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2020-05-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#AWS_EKS_Kubernetes_cluster_sensitive_object_access|AWS EKS Kubernetes cluster sensitive object access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_AWS_detect_service_accounts_forbidden_failure_access|Kubernetes AWS detect service accounts forbidden failure access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_AWS_detect_suspicious_kubectl_calls|Kubernetes AWS detect suspicious kubectl calls]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_detect_sensitive_object_access|Kubernetes Azure detect sensitive object access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_detect_service_accounts_forbidden_failure_access|Kubernetes Azure detect service accounts forbidden failure access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_detect_suspicious_kubectl_calls|Kubernetes Azure detect suspicious kubectl calls]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_GCP_detect_sensitive_object_access|Kubernetes GCP detect sensitive object access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_GCP_detect_service_accounts_forbidden_failure_access|Kubernetes GCP detect service accounts forbidden failure access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_GCP_detect_suspicious_kubectl_calls|Kubernetes GCP detect suspicious kubectl calls]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Lateral Movement
+
+
+====Reference====
+
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Kubernetes Sensitive Role Activity===
+This story addresses detection and response around Sensitive Role usage within a Kubernetes clusters against cluster resources and namespaces.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2020-05-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_AWS_detect_RBAC_authorization_by_account|Kubernetes AWS detect RBAC authorization by account]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_AWS_detect_most_active_service_accounts_by_pod|Kubernetes AWS detect most active service accounts by pod]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_AWS_detect_sensitive_role_access|Kubernetes AWS detect sensitive role access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_detect_RBAC_authorization_by_account|Kubernetes Azure detect RBAC authorization by account]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_detect_most_active_service_accounts_by_pod_namespace|Kubernetes Azure detect most active service accounts by pod namespace]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_Azure_detect_sensitive_role_access|Kubernetes Azure detect sensitive role access]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_GCP_detect_RBAC_authorizations_by_account|Kubernetes GCP detect RBAC authorizations by account]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_GCP_detect_most_active_service_accounts_by_pod|Kubernetes GCP detect most active service accounts by pod]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_GCP_detect_sensitive_role_access|Kubernetes GCP detect sensitive role access]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Lateral Movement
+
+
+====Reference====
+
+* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Office 365 Detections===
+This story is focused around detecting Office 365 Attacks.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1110/ T1110], [https://attack.mitre.org/techniques/T1110.001/ T1110.001], [https://attack.mitre.org/techniques/T1114/ T1114], [https://attack.mitre.org/techniques/T1114.002/ T1114.002], [https://attack.mitre.org/techniques/T1114.003/ T1114.003], [https://attack.mitre.org/techniques/T1136.003/ T1136.003], [https://attack.mitre.org/techniques/T1556/ T1556], [https://attack.mitre.org/techniques/T1562.007/ T1562.007]
+* '''Last Updated''': 2020-12-16
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#High_Number_of_Login_Failures_from_a_single_source|High Number of Login Failures from a single source]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Add_App_Role_Assignment_Grant_User|O365 Add App Role Assignment Grant User]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Added_Service_Principal|O365 Added Service Principal]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Bypass_MFA_via_Trusted_IP|O365 Bypass MFA via Trusted IP]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Disable_MFA|O365 Disable MFA]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Excessive_Authentication_Failures_Alert|O365 Excessive Authentication Failures Alert]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Excessive_SSO_logon_errors|O365 Excessive SSO logon errors]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_New_Federated_Domain_Added|O365 New Federated Domain Added]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_PST_export_alert|O365 PST export alert]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Suspicious_Admin_Email_Forwarding|O365 Suspicious Admin Email Forwarding]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Suspicious_Rights_Delegation|O365 Suspicious Rights Delegation]]
+
+* [[Documentation:ESSOC:detections:Detections#O365_Suspicious_User_Email_Forwarding|O365 Suspicious User Email Forwarding]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1110.001
+| Password Guessing
+| Credential Access
+|-
+| T1136.003
+| Cloud Account
+| Persistence
+|-
+| T1562.007
+| Disable or Modify Cloud Firewall
+| Defense Evasion
+|-
+| T1556
+| Modify Authentication Process
+| Credential Access, Defense Evasion
+|-
+| T1110
+| Brute Force
+| Credential Access
+|-
+| T1114
+| Email Collection
+| Collection
+|-
+| T1114.003
+| Email Forwarding Rule
+| Collection
+|-
+| T1114.002
+| Remote Email Collection
+| Collection
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objective
+
+* Actions on Objectives
+
+* Not Applicable
+
+
+====Reference====
+
+* https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious AWS EC2 Activities===
+Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1535/ T1535]
+* '''Last Updated''': 2018-02-09
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_AWS_Instances_Launched_by_User|Abnormally High AWS Instances Launched by User]]
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_AWS_Instances_Launched_by_User_-_MLTK|Abnormally High AWS Instances Launched by User - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_AWS_Instances_Terminated_by_User|Abnormally High AWS Instances Terminated by User]]
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_AWS_Instances_Terminated_by_User_-_MLTK|Abnormally High AWS Instances Terminated by User - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#EC2_Instance_Started_In_Previously_Unseen_Region|EC2 Instance Started In Previously Unseen Region]]
+
+* [[Documentation:ESSOC:detections:Detections#EC2_Instance_Started_With_Previously_Unseen_User|EC2 Instance Started With Previously Unseen User]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|-
+| T1535
+| Unused/Unsupported Cloud Regions
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious AWS Login Activities===
+Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Authentication
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1535/ T1535]
+* '''Last Updated''': 2019-05-01
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_Console_Login_by_User_from_New_City|Detect AWS Console Login by User from New City]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_Console_Login_by_User_from_New_Country|Detect AWS Console Login by User from New Country]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_Console_Login_by_User_from_New_Region|Detect AWS Console Login by User from New Region]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_new_user_AWS_Console_Login|Detect new user AWS Console Login]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1535
+| Unused/Unsupported Cloud Regions
+| Defense Evasion
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious AWS S3 Activities===
+Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1530/ T1530]
+* '''Last Updated''': 2018-07-24
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_New_Open_S3_Buckets_over_AWS_CLI|Detect New Open S3 Buckets over AWS CLI]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_New_Open_S3_buckets|Detect New Open S3 buckets]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_S3_access_from_a_new_IP|Detect S3 access from a new IP]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_S3_Bucket_deletion|Detect Spike in S3 Bucket deletion]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1530
+| Data from Cloud Storage Object
+| Collection
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+* https://www.tripwire.com/state-of-security/security-data-protection/cloud/public-aws-s3-buckets-writable/
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Suspicious AWS Traffic===
+Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2018-05-07
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Spike_in_blocked_Outbound_Traffic_from_your_AWS|Detect Spike in blocked Outbound Traffic from your AWS]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+
+====Reference====
+
+* https://rhinosecuritylabs.com/aws/hiding-cloudcobalt-strike-beacon-c2-using-amazon-apis/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Cloud Authentication Activities===
+Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Authentication
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1535/ T1535]
+* '''Last Updated''': 2020-06-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Cross_Account_Activity_From_Previously_Unseen_Account|AWS Cross Account Activity From Previously Unseen Account]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_Console_Login_by_New_User|Detect AWS Console Login by New User]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_Console_Login_by_User_from_New_City|Detect AWS Console Login by User from New City]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_Console_Login_by_User_from_New_Country|Detect AWS Console Login by User from New Country]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_AWS_Console_Login_by_User_from_New_Region|Detect AWS Console Login by User from New Region]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1535
+| Unused/Unsupported Cloud Regions
+| Defense Evasion
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
+
+* https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Cloud Instance Activities===
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Change
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004]
+* '''Last Updated''': 2020-08-25
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_Number_Of_Cloud_Instances_Destroyed|Abnormally High Number Of Cloud Instances Destroyed]]
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_Number_Of_Cloud_Instances_Launched|Abnormally High Number Of Cloud Instances Launched]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Instance_Modified_By_Previously_Unseen_User|Cloud Instance Modified By Previously Unseen User]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Cloud Provisioning Activities===
+Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Change
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078/ T1078]
+* '''Last Updated''': 2018-08-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Provisioning_Activity_From_Previously_Unseen_City|Cloud Provisioning Activity From Previously Unseen City]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Provisioning_Activity_From_Previously_Unseen_Country|Cloud Provisioning Activity From Previously Unseen Country]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Provisioning_Activity_From_Previously_Unseen_IP_Address|Cloud Provisioning Activity From Previously Unseen IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_Provisioning_Activity_From_Previously_Unseen_Region|Cloud Provisioning Activity From Previously Unseen Region]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious Cloud User Activities===
+Detect and investigate suspicious activities by users and roles in your cloud environments.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Change
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1078.004/ T1078.004]
+* '''Last Updated''': 2020-09-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_Number_Of_Cloud_Infrastructure_API_Calls|Abnormally High Number Of Cloud Infrastructure API Calls]]
+
+* [[Documentation:ESSOC:detections:Detections#Abnormally_High_Number_Of_Cloud_Security_Group_API_Calls|Abnormally High Number Of Cloud Security Group API Calls]]
+
+* [[Documentation:ESSOC:detections:Detections#Cloud_API_Calls_From_Previously_Unseen_User_Roles|Cloud API Calls From Previously Unseen User Roles]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+* https://redlock.io/blog/cryptojacking-tesla
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Suspicious GCP Storage Activities===
+Use the searches in this Analytic Story to monitor your GCP Storage buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open storage buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1530/ T1530]
+* '''Last Updated''': 2020-08-05
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_GCP_Storage_access_from_a_new_IP|Detect GCP Storage access from a new IP]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_New_Open_GCP_Storage_Buckets|Detect New Open GCP Storage Buckets]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1530
+| Data from Cloud Storage Object
+| Collection
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://cloud.google.com/blog/product/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
+
+* https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Unusual AWS EC2 Modifications===
+Identify unusual changes to your AWS EC2 instances that may indicate malicious activity. Modifications to your EC2 instances by previously unseen users is an example of an activity that may warrant further investigation.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004]
+* '''Last Updated''': 2018-04-09
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#EC2_Instance_Modified_With_Previously_Unseen_User|EC2 Instance Modified With Previously Unseen User]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.004
+| Cloud Accounts
+| Defense Evasion, Initial Access, Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+
+
+==Malware==
+
+
+===ColdRoot MacOS RAT===
+Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2019-01-09
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Osquery_pack_-_ColdRoot_detection|Osquery pack - ColdRoot detection]]
+
+* [[Documentation:ESSOC:detections:Detections#Processes_Tapping_Keyboard_Events|Processes Tapping Keyboard Events]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/
+
+* https://objective-see.com/blog/blog_0x2A.html
+
+* https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===DHS Report TA18-074A===
+Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1136.001/ T1136.001], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1562.004/ T1562.004]
+* '''Last Updated''': 2020-01-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Create_local_admin_accounts_using_net_exe|Create local admin accounts using net exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_New_Local_Admin_account|Detect New Local Admin account]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Outbound_SMB_Traffic|Detect Outbound SMB Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_PsExec_With_accepteula_Flag|Detect PsExec With accepteula Flag]]
+
+* [[Documentation:ESSOC:detections:Detections#First_time_seen_command_line_argument|First time seen command line argument]]
+
+* [[Documentation:ESSOC:detections:Detections#Malicious_PowerShell_Process_-_Execution_Policy_Bypass|Malicious PowerShell Process - Execution Policy Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Processes_launching_netsh|Processes launching netsh]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike|SMB Traffic Spike]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike_-_MLTK|SMB Traffic Spike - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Sc_exe_Manipulating_Windows_Services|Sc exe Manipulating Windows Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Scheduled_Task_Deleted_Or_Created_via_CMD|Scheduled Task Deleted Or Created via CMD]]
+
+* [[Documentation:ESSOC:detections:Detections#Single_Letter_Process_On_Endpoint|Single Letter Process On Endpoint]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Reg_exe_Process|Suspicious Reg exe Process]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1136.001
+| Local Account
+| Persistence
+|-
+| T1071.002
+| File Transfer Protocols
+| Command and Control
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1562.004
+| Disable or Modify System Firewall
+| Defense Evasion
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|-
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
+|-
+| T1204.002
+| Malicious File
+| Execution
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://www.us-cert.gov/ncas/alerts/TA18-074A
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Dynamic DNS===
+Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Network_Resolution, Web
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1189/ T1189]
+* '''Last Updated''': 2018-09-06
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_web_traffic_to_dynamic_domain_providers|Detect web traffic to dynamic domain providers]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1189
+| Drive-by Compromise
+| Initial Access
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
+
+* https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
+
+* http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
+
+* https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Emotet Malware  DHS Report TA18-201A ===
+Detect rarely used executables, specific registry paths that may confer malware survivability and persistence, instances where cmd.exe is used to launch script interpreters, and other indicators that the Emotet financial malware has compromised your environment.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Email, Endpoint, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1072/ T1072], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+* '''Last Updated''': 2020-01-27
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rare_Executables|Detect Rare Executables]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Use_of_cmd_exe_to_Launch_Script_Interpreters|Detect Use of cmd exe to Launch Script Interpreters]]
+
+* [[Documentation:ESSOC:detections:Detections#Detection_of_tools_built_by_NirSoft|Detection of tools built by NirSoft]]
+
+* [[Documentation:ESSOC:detections:Detections#Email_Attachments_With_Lots_Of_Spaces|Email Attachments With Lots Of Spaces]]
+
+* [[Documentation:ESSOC:detections:Detections#Prohibited_Software_On_Endpoint|Prohibited Software On Endpoint]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike|SMB Traffic Spike]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike_-_MLTK|SMB Traffic Spike - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Email_Attachment_Extensions|Suspicious Email Attachment Extensions]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1072
+| Software Deployment Tools
+| Execution, Lateral Movement
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Delivery
+
+* Exploitation
+
+* Installation
+
+
+====Reference====
+
+* https://www.us-cert.gov/ncas/alerts/TA18-201A
+
+* https://www.first.org/resources/papers/conf2017/Advanced-Incident-Detection-and-Threat-Hunting-using-Sysmon-and-Splunk.pdf
+
+* https://www.vkremez.com/2017/05/emotet-banking-trojan-malware-analysis.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Hidden Cobra Malware===
+Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Resolution, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1070.005/ T1070.005], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1071.004/ T1071.004]
+* '''Last Updated''': 2020-01-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Create_or_delete_windows_shares_using_net_exe|Create or delete windows shares using net exe]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Length_Outliers_-_MLTK|DNS Query Length Outliers - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#DNS_Query_Length_With_High_Standard_Deviation|DNS Query Length With High Standard Deviation]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Outbound_SMB_Traffic|Detect Outbound SMB Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#First_time_seen_command_line_argument|First time seen command line argument]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Network_Traffic|Remote Desktop Network Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Process_Running_On_System|Remote Desktop Process Running On System]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike|SMB Traffic Spike]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike_-_MLTK|SMB Traffic Spike - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_File_Write|Suspicious File Write]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1070.005
+| Network Share Connection Removal
+| Defense Evasion
+|-
+| T1071.004
+| DNS
+| Command and Control
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|-
+| T1071.002
+| File Transfer Protocols
+| Command and Control
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+
+====Reference====
+
+* https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity
+
+* https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Destructive-Malware-Report.pdf
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Orangeworm Attack Group===
+Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1569.002/ T1569.002]
+* '''Last Updated''': 2020-01-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#First_Time_Seen_Running_Windows_Service|First Time Seen Running Windows Service]]
+
+* [[Documentation:ESSOC:detections:Detections#First_time_seen_command_line_argument|First time seen command line argument]]
+
+* [[Documentation:ESSOC:detections:Detections#Sc_exe_Manipulating_Windows_Services|Sc exe Manipulating Windows Services]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1569.002
+| Service Execution
+| Execution
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1574.011
+| Services Registry Permissions Weakness
+| Defense Evasion, Persistence, Privilege Escalation
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia
+
+* https://www.infosecurity-magazine.com/news/healthcare-targeted-by-hacker/
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Ransomware===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+* '''Last Updated''': 2020-02-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#BCDEdit_Failure_Recovery_Modification|BCDEdit Failure Recovery Modification]]
+
+* [[Documentation:ESSOC:detections:Detections#Common_Ransomware_Extensions|Common Ransomware Extensions]]
+
+* [[Documentation:ESSOC:detections:Detections#Common_Ransomware_Notes|Common Ransomware Notes]]
+
+* [[Documentation:ESSOC:detections:Detections#Deleting_Shadow_Copies|Deleting Shadow Copies]]
+
+* [[Documentation:ESSOC:detections:Detections#Prohibited_Network_Traffic_Allowed|Prohibited Network Traffic Allowed]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_Keys_Used_For_Persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Process_Instantiation_via_WMI|Remote Process Instantiation via WMI]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike|SMB Traffic Spike]]
+
+* [[Documentation:ESSOC:detections:Detections#SMB_Traffic_Spike_-_MLTK|SMB Traffic Spike - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Scheduled_tasks_used_in_BadRabbit_ransomware|Scheduled tasks used in BadRabbit ransomware]]
+
+* [[Documentation:ESSOC:detections:Detections#Schtasks_used_for_forcing_a_reboot|Schtasks used for forcing a reboot]]
+
+* [[Documentation:ESSOC:detections:Detections#Spike_in_File_Writes|Spike in File Writes]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_wevtutil_Usage|Suspicious wevtutil Usage]]
+
+* [[Documentation:ESSOC:detections:Detections#System_Processes_Run_From_Unexpected_Locations|System Processes Run From Unexpected Locations]]
+
+* [[Documentation:ESSOC:detections:Detections#TOR_Traffic|TOR Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#USN_Journal_Deletion|USN Journal Deletion]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line|Unusually Long Command Line]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line_-_MLTK|Unusually Long Command Line - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#WBAdmin_Delete_System_Backups|WBAdmin Delete System Backups]]
+
+* [[Documentation:ESSOC:detections:Detections#Windows_Event_Log_Cleared|Windows Event Log Cleared]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|-
+| T1485
+| Data Destruction
+| Impact
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|-
+| T1047
+| Windows Management Instrumentation
+| Execution
+|-
+| T1486
+| Data Encrypted for Impact
+| Impact
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|-
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
+|-
+| T1070.001
+| Clear Windows Event Logs
+| Defense Evasion
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|-
+| T1070
+| Indicator Removal on Host
+| Defense Evasion
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|-
+| T1489
+| Service Stop
+| Impact
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Delivery
+
+
+====Reference====
+
+* https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/
+
+* https://www.splunk.com/blog/2017/06/27/closing-the-detection-to-mitigation-gap-or-to-petya-or-notpetya-whocares-.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Ransomware Cloud===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1486/ T1486]
+* '''Last Updated''': 2020-10-27
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Detect_Users_creating_keys_with_encrypt_policy_without_MFA|AWS Detect Users creating keys with encrypt policy without MFA]]
+
+* [[Documentation:ESSOC:detections:Detections#AWS_Detect_Users_with_KMS_keys_performing_encryption_S3|AWS Detect Users with KMS keys performing encryption S3]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1486
+| Data Encrypted for Impact
+| Impact
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
+
+* https://github.com/d1vious/git-wild-hunt
+
+* https://www.youtube.com/watch?v=PgzNib37g0M
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Ryuk Ransomware===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the Ryuk ransomware, including looking for file writes associated with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1489/ T1489], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1562.001/ T1562.001]
+* '''Last Updated''': 2020-11-06
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#BCDEdit_Failure_Recovery_Modification|BCDEdit Failure Recovery Modification]]
+
+* [[Documentation:ESSOC:detections:Detections#Common_Ransomware_Notes|Common Ransomware Notes]]
+
+* [[Documentation:ESSOC:detections:Detections#NLTest_Domain_Trust_Discovery|NLTest Domain Trust Discovery]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Network_Bruteforce|Remote Desktop Network Bruteforce]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Network_Traffic|Remote Desktop Network Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Ryuk_Test_Files_Detected|Ryuk Test Files Detected]]
+
+* [[Documentation:ESSOC:detections:Detections#Spike_in_File_Writes|Spike in File Writes]]
+
+* [[Documentation:ESSOC:detections:Detections#WBAdmin_Delete_System_Backups|WBAdmin Delete System Backups]]
+
+* [[Documentation:ESSOC:detections:Detections#Windows_DisableAntiSpyware_Registry|Windows DisableAntiSpyware Registry]]
+
+* [[Documentation:ESSOC:detections:Detections#Windows_Security_Account_Manager_Stopped|Windows Security Account Manager Stopped]]
+
+* [[Documentation:ESSOC:detections:Detections#Windows_connhost_exe_started_forcefully|Windows connhost exe started forcefully]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|-
+| T1485
+| Data Destruction
+| Impact
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1048
+| Exfiltration Over Alternative Protocol
+| Exfiltration
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|-
+| T1047
+| Windows Management Instrumentation
+| Execution
+|-
+| T1486
+| Data Encrypted for Impact
+| Impact
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|-
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
+|-
+| T1070.001
+| Clear Windows Event Logs
+| Defense Evasion
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|-
+| T1071.001
+| Web Protocols
+| Command and Control
+|-
+| T1070
+| Indicator Removal on Host
+| Defense Evasion
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|-
+| T1489
+| Service Stop
+| Impact
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Delivery
+
+* Exploitation
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://www.splunk.com/en_us/blog/security/detecting-ryuk-using-splunk-attack-range.html
+
+* https://www.crowdstrike.com/blog/big-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
+
+* https://us-cert.cisa.gov/ncas/alerts/aa20-302a
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===SamSam Ransomware===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Network_Traffic, Web
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1082/ T1082], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1490/ T1490]
+* '''Last Updated''': 2018-12-13
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Batch_File_Write_to_System32|Batch File Write to System32]]
+
+* [[Documentation:ESSOC:detections:Detections#Common_Ransomware_Extensions|Common Ransomware Extensions]]
+
+* [[Documentation:ESSOC:detections:Detections#Common_Ransomware_Notes|Common Ransomware Notes]]
+
+* [[Documentation:ESSOC:detections:Detections#Deleting_Shadow_Copies|Deleting Shadow Copies]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_PsExec_With_accepteula_Flag|Detect PsExec With accepteula Flag]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_attackers_scanning_for_vulnerable_JBoss_servers|Detect attackers scanning for vulnerable JBoss servers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_malicious_requests_to_exploit_JBoss_servers|Detect malicious requests to exploit JBoss servers]]
+
+* [[Documentation:ESSOC:detections:Detections#File_with_Samsam_Extension|File with Samsam Extension]]
+
+* [[Documentation:ESSOC:detections:Detections#Prohibited_Software_On_Endpoint|Prohibited Software On Endpoint]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Network_Bruteforce|Remote Desktop Network Bruteforce]]
+
+* [[Documentation:ESSOC:detections:Detections#Remote_Desktop_Network_Traffic|Remote Desktop Network Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Samsam_Test_File_Write|Samsam Test File Write]]
+
+* [[Documentation:ESSOC:detections:Detections#Spike_in_File_Writes|Spike in File Writes]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1204.002
+| Malicious File
+| Execution
+|-
+| T1485
+| Data Destruction
+| Impact
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|-
+| T1082
+| System Information Discovery
+| Discovery
+|-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|-
+| T1486
+| Data Encrypted for Impact
+| Impact
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Delivery
+
+* Installation
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/
+
+* https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
+
+* https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Unusual Processes===
+Quickly identify systems running new or unusual processes in your environment that could be indicators of suspicious activity. Processes run from unusual locations, those with conspicuously long command lines, and rare executables are all examples of activities that may warrant deeper investigation.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1016/ T1016], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+* '''Last Updated''': 2020-02-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_Rare_Executables|Detect Rare Executables]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_processes_used_for_System_Network_Configuration_Discovery|Detect processes used for System Network Configuration Discovery]]
+
+* [[Documentation:ESSOC:detections:Detections#RunDLL_Loading_DLL_By_Ordinal|RunDLL Loading DLL By Ordinal]]
+
+* [[Documentation:ESSOC:detections:Detections#System_Processes_Run_From_Unexpected_Locations|System Processes Run From Unexpected Locations]]
+
+* [[Documentation:ESSOC:detections:Detections#Uncommon_Processes_On_Endpoint|Uncommon Processes On Endpoint]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line|Unusually Long Command Line]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Command_Line_-_MLTK|Unusually Long Command Line - MLTK]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1016
+| System Network Configuration Discovery
+| Discovery
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|-
+| T1204.002
+| Malicious File
+| Execution
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Command and Control
+
+* Installation
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html
+
+* https://www.splunk.com/pdfs/technical-briefs/advanced-threat-detection-and-response-tech-brief.pdf
+
+* https://www.sans.org/reading-room/whitepapers/logging/detecting-security-incidents-windows-workstation-event-logs-34262
+
+
+''version'': 2
+</div>
+</div>
+
+----
+
+===Windows File Extension and Association Abuse===
+Detect and investigate suspected abuse of file extensions and Windows file associations. Some of the malicious behaviors involved may include inserting spaces before file extensions or prepending the file extension with a different one, among other techniques.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1546.001/ T1546.001]
+* '''Last Updated''': 2018-01-26
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Execution_of_File_With_Spaces_Before_Extension|Execution of File With Spaces Before Extension]]
+
+* [[Documentation:ESSOC:detections:Detections#Execution_of_File_with_Multiple_Extensions|Execution of File with Multiple Extensions]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Changes_to_File_Associations|Suspicious Changes to File Associations]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1036.003
+| Rename System Utilities
+| Defense Evasion
+|-
+| T1546.001
+| Change Default File Association
+| Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/
+
+* https://attack.mitre.org/wiki/Technique/T1042
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Windows Service Abuse===
+Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1574.011/ T1574.011]
+* '''Last Updated''': 2017-11-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#First_Time_Seen_Running_Windows_Service|First Time Seen Running Windows Service]]
+
+* [[Documentation:ESSOC:detections:Detections#Reg_exe_Manipulating_Windows_Services_Registry_Keys|Reg exe Manipulating Windows Services Registry Keys]]
+
+* [[Documentation:ESSOC:detections:Detections#Sc_exe_Manipulating_Windows_Services|Sc exe Manipulating Windows Services]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1569.002
+| Service Execution
+| Execution
+|-
+| T1059.001
+| PowerShell
+| Execution
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1574.011
+| Services Registry Permissions Weakness
+| Defense Evasion, Persistence, Privilege Escalation
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Installation
+
+
+====Reference====
+
+* https://attack.mitre.org/wiki/Technique/T1050
+
+* https://attack.mitre.org/wiki/Technique/T1031
+
+
+''version'': 3
+</div>
+</div>
+
+----
+
+
+
+==Vulnerability==
+
+
+===Apache Struts Vulnerability===
+Detect and investigate activities--such as unusually long `Content-Type` length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1082/ T1082]
+* '''Last Updated''': 2018-12-06
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_Java_Classes|Suspicious Java Classes]]
+
+* [[Documentation:ESSOC:detections:Detections#Unusually_Long_Content-Type_Length|Unusually Long Content-Type Length]]
+
+* [[Documentation:ESSOC:detections:Detections#Web_Servers_Executing_Suspicious_Processes|Web Servers Executing Suspicious Processes]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1082
+| System Information Discovery
+| Discovery
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Delivery
+
+* Exploitation
+
+
+====Reference====
+
+* https://github.com/SpiderLabs/owasp-modsecurity-crs/blob/v3.2/dev/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===JBoss Vulnerability===
+In March of 2016, adversaries were seen using JexBoss--an open-source utility used for testing and exploiting JBoss application servers. These searches help detect evidence of these attacks, such as network connections to external resources or web services spawning atypical child processes, among others.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Web
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1082/ T1082]
+* '''Last Updated''': 2017-09-14
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_attackers_scanning_for_vulnerable_JBoss_servers|Detect attackers scanning for vulnerable JBoss servers]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_malicious_requests_to_exploit_JBoss_servers|Detect malicious requests to exploit JBoss servers]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1082
+| System Information Discovery
+| Discovery
+|}
+
+====Kill Chain Phase====
+
+* Delivery
+
+* Reconnaissance
+
+
+====Reference====
+
+* http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Spectre And Meltdown Vulnerabilities===
+Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Vulnerabilities
+* '''ATT&CK''': 
+* '''Last Updated''': 2018-01-08
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Spectre_and_Meltdown_Vulnerable_Systems|Spectre and Meltdown Vulnerable Systems]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+
+====Reference====
+
+* https://meltdownattack.com/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Splunk Enterprise Vulnerability===
+Keeping your Splunk deployment up to date is critical and may help you reduce the risk of CVE-2016-4859, an open-redirection vulnerability within some older versions of Splunk Enterprise. The detection search will help ensure that users are being properly authenticated and not being redirected to malicious domains.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2017-09-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Open_Redirect_in_Splunk_Web|Open Redirect in Splunk Web]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Delivery
+
+
+====Reference====
+
+* http://www.splunk.com/view/SP-CAAAPQ6#announce
+
+* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-4859
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Splunk Enterprise Vulnerability CVE-2018-11409===
+Reduce the risk of CVE-2018-11409, an information disclosure vulnerability within some older versions of Splunk Enterprise, with searches designed to help ensure that your Splunk system does not leak information to authenticated users.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2018-06-14
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Splunk_Enterprise_Information_Disclosure|Splunk Enterprise Information Disclosure]]
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|}
+
+====Kill Chain Phase====
+
+* Delivery
+
+
+====Reference====
+
+* https://nvd.nist.gov/vuln/detail/CVE-2018-11409
+
+* https://www.splunk.com/view/SP-CAAAP5E#VulnerabilityDescriptionsandRatings
+
+* https://www.exploit-db.com/exploits/44865/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+
+
+
+[[Category:V:ESSOC:drafts]]
