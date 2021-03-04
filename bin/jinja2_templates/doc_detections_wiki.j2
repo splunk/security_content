@@ -33,7 +33,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 * {{ field }}
 {% endfor %}
 
-{% if detection.mitre_attacks|length > 1 %}
+{% if detection.mitre_attacks|length > 0 %}
 ====ATT&CK====
 {|
 ! style="text-align:left;"| ID

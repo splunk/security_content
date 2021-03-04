@@ -22,7 +22,7 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 * [[Documentation:ESSOC:detections:Detections#{{ detection|replace(" ", "_")|capitalize }}|{{ detection }}]]
 {% endfor %}
 
-{% if story.mitre_attacks|length > 1 %}
+{% if story.mitre_attacks|length > 0 %}
 ====ATT&CK====
 {|
 ! style="text-align:left;"| ID

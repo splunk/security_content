@@ -590,8 +590,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
 | T1059.001 | PowerShell | Execution |
-| T1003.002 | Security Account Manager | Credential Access |
 | T1003 | OS Credential Dumping | Credential Access |
+| T1003.002 | Security Account Manager | Credential Access |
 | T1003.003 | NTDS | Credential Access |
 
 #### Kill Chain Phase
