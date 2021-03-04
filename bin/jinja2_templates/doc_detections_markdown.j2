@@ -89,6 +89,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 * {{ field }}
 {% endfor %}
 
+{% if detection.mitre_attacks %}
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -96,6 +97,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 {%- for attack in detection.mitre_attacks %}
 | {{ attack.technique_id }} | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
 {%- endfor %}
+{% endif %}
 
 #### Kill Chain Phase
 {% for phase in detection.tags.kill_chain_phases %}

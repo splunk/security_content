@@ -4377,11 +4377,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -4443,11 +4445,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -4507,10 +4511,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -4572,11 +4573,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -4633,10 +4636,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -4696,11 +4696,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1486 | Data Encrypted for Impact | Impact |
+
 
 #### Kill Chain Phase
 
@@ -4758,11 +4760,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1486 | Data Encrypted for Impact | Impact |
+
 
 #### Kill Chain Phase
 
@@ -4818,10 +4822,7 @@ You must install Splunk Add-on for Amazon Web Services and Splunk App for AWS. T
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -4876,11 +4877,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -4934,11 +4937,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -4991,11 +4996,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5054,11 +5061,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5124,11 +5133,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5182,11 +5193,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5242,11 +5255,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5298,11 +5313,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5365,11 +5382,13 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5433,11 +5452,13 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5501,11 +5522,13 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5568,11 +5591,13 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -5626,11 +5651,13 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -5686,11 +5713,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1526 | Cloud Service Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -5742,11 +5771,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1526 | Cloud Service Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -5806,6 +5837,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -5821,6 +5853,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1554 | Compromise Client Software Binary | Persistence |
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -5884,6 +5917,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -5899,6 +5933,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1554 | Compromise Client Software Binary | Persistence |
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -5960,6 +5995,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -5970,6 +6006,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1201 | Password Policy Discovery | Discovery |
 | T1552 | Unsecured Credentials | Credential Access |
 | T1555 | Credentials from Password Stores | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -6023,11 +6060,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1553.004 | Install Root Certificate | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -6085,11 +6124,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -6147,11 +6188,13 @@ You must be ingesting data that records the file-system activity from your hosts
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -6207,11 +6250,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.002 | Security Account Manager | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -6277,11 +6322,13 @@ You must be ingesting windows endpoint data that tracks process activity, includ
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -6337,11 +6384,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1490 | Inhibit System Recovery | Impact |
+
 
 #### Kill Chain Phase
 
@@ -6399,11 +6448,13 @@ You must be ingesting data that records the file-system activity from your hosts
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1204.002 | Malicious File | Execution |
+
 
 #### Kill Chain Phase
 
@@ -6459,10 +6510,7 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -6516,11 +6564,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -6579,11 +6629,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -6641,11 +6693,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -6702,11 +6756,13 @@ You must be ingesting the appropriate cloud-infrastructure logs Run the "Previou
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -6763,11 +6819,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -6828,10 +6886,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -6890,10 +6945,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -6950,11 +7002,13 @@ This search has a dependency on other searches to create and update a baseline o
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -7006,10 +7060,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -7068,11 +7119,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -7132,11 +7185,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -7194,11 +7249,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -7258,11 +7315,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -7325,11 +7384,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1485 | Data Destruction | Impact |
+
 
 #### Kill Chain Phase
 
@@ -7388,11 +7449,13 @@ You must be ingesting data that records file-system activity from your hosts to 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1485 | Data Destruction | Impact |
+
 
 #### Kill Chain Phase
 
@@ -7446,11 +7509,13 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -7506,11 +7571,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.001 | Local Account | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -7569,11 +7636,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1070.005 | Network Share Connection Removal | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -7629,11 +7698,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.003 | NTDS | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -7689,11 +7760,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.003 | NTDS | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -7749,11 +7822,13 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -7813,11 +7888,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.003 | NTDS | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -7873,11 +7950,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.003 | NTDS | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -7947,11 +8026,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8015,11 +8096,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8079,12 +8162,14 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
 | T1555 | Credentials from Password Stores | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8150,11 +8235,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8222,11 +8309,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8288,11 +8377,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8354,11 +8445,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8424,11 +8517,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8492,11 +8587,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8557,11 +8654,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -8630,11 +8729,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1071.004 | DNS | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -8693,11 +8794,13 @@ To successfully implement this search, you will need to ensure that DNS data is 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -8755,11 +8858,13 @@ To successfully implement this search you will need to ensure that DNS data is p
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1071.004 | DNS | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -8828,11 +8933,13 @@ If Splunk>Phantom is also configured in your environment, a Playbook called "DNS
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1071.004 | DNS | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -8888,11 +8995,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1490 | Inhibit System Recovery | Impact |
+
 
 #### Kill Chain Phase
 
@@ -8955,10 +9064,7 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -9008,6 +9114,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -9015,6 +9122,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
 | T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -9083,11 +9191,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -9143,10 +9253,7 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -9212,11 +9319,13 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -9282,11 +9391,13 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -9352,11 +9463,13 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -9410,11 +9523,13 @@ To successfully implement this search, you must ingest your Windows Security Eve
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1550.002 | Pass the Hash | Defense Evasion, Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -9465,11 +9580,13 @@ Splunk Universal Forwarder running on Linux systems, capturing logs from the /va
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -9522,11 +9639,13 @@ Splunk Universal Forwarder running on Linux systems (tested on Centos and Ubuntu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -9577,11 +9696,13 @@ OSQuery installed and configured to pick up process events (info at https://osqu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -9632,11 +9753,13 @@ This search requires audit computer account management to be enabled on the syst
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1210 | Exploitation of Remote Services | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -9692,11 +9815,13 @@ This search needs Sysmon Logs and a sysmon configuration, which includes EventCo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -9765,11 +9890,13 @@ If Splunk>Phantom is also configured in your environment, a Playbook called `Let
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1566.003 | Spearphishing via Service | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -9833,11 +9960,13 @@ You must be ingesting endpoint data that tracks process activity, including Wind
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.003 | NTDS | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -9897,11 +10026,13 @@ If Splunk>Phantom is also configured in your environment, a Playbook called "Exc
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.002 | Domain Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -9957,11 +10088,13 @@ ou must ingest your Windows security event logs in the `Change` datamodel under 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.003 | Local Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -10013,11 +10146,13 @@ To consistently detect exploit attempts on F5 devices using the vulnerabilities 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1190 | Exploit Public-Facing Application | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -10088,11 +10223,13 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1530 | Data from Cloud Storage Object | Collection |
+
 
 #### Kill Chain Phase
 
@@ -10144,11 +10281,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.001 | Compiled HTML File | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -10208,11 +10347,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.001 | Compiled HTML File | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -10276,11 +10417,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.001 | Compiled HTML File | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -10346,11 +10489,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.001 | Compiled HTML File | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -10418,6 +10563,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -10425,6 +10571,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
 | T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -10509,11 +10656,13 @@ The test data is converted from Windows Security Event logs generated from Attac
 * ticket_options
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1558.003 | Kerberoasting | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -10568,11 +10717,13 @@ In order to run this search effectively, we highly recommend that you leverage t
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1095 | Non-Application Layer Protocol | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -10630,11 +10781,13 @@ To successfully implement this search you need to ingest data from your DNS logs
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -10686,11 +10839,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.005 | Mshta | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -10755,11 +10910,13 @@ This search needs Sysmon Logs and a sysmon configuration, which includes EventCo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -10816,11 +10973,13 @@ You must be ingesting Windows Security logs. You must also enable the account ch
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -10873,11 +11032,13 @@ You must be ingesting Windows event logs using the Splunk Windows TA and collect
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.001 | Local Account | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -10939,10 +11100,7 @@ To successfully implement this search, you must ensure the network router device
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -10999,11 +11157,13 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1530 | Data from Cloud Storage Object | Collection |
+
 
 #### Kill Chain Phase
 
@@ -11056,11 +11216,13 @@ This search looks for CloudTrail events where a user has created an open/public 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1530 | Data from Cloud Storage Object | Collection |
+
 
 #### Kill Chain Phase
 
@@ -11122,11 +11284,13 @@ You must install the AWS App for Splunk.
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1530 | Data from Cloud Storage Object | Collection |
+
 
 #### Kill Chain Phase
 
@@ -11191,11 +11355,13 @@ You must be ingesting data that records filesystem and process activity from you
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1566.001 | Spearphishing Attachment | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -11253,11 +11419,13 @@ In order to run this search effectively, we highly recommend that you leverage t
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1071.002 | File Transfer Protocols | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -11324,11 +11492,13 @@ The test data is converted from Windows Security Event logs generated from Attac
 * logon_type
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1550.002 | Pass the Hash | Defense Evasion, Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -11389,11 +11559,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1574.009 | Path Interception by Unquoted Path | Defense Evasion, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -11449,6 +11621,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -11456,6 +11629,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
 | T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -11520,11 +11694,13 @@ You must be ingesting data that records process activity from your hosts and pop
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.003 | Windows Command Shell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -11592,11 +11768,13 @@ You must be ingesting sysmon logs. This search has been modified to process raw 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059 | Command and Scripting Interpreter | Execution |
+
 
 #### Kill Chain Phase
 
@@ -11650,11 +11828,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -11719,10 +11899,7 @@ To successfully implement this search, you must be ingesting data that records p
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -11778,11 +11955,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.009 | Regsvcs/Regasm | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -11844,11 +12023,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.009 | Regsvcs/Regasm | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -11909,11 +12090,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.009 | Regsvcs/Regasm | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -11973,11 +12156,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.009 | Regsvcs/Regasm | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12037,11 +12222,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.009 | Regsvcs/Regasm | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12102,11 +12289,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.009 | Regsvcs/Regasm | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12167,11 +12356,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.010 | Regsvr32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12232,6 +12423,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -12239,6 +12431,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
 | T1557 | Man-in-the-Middle | Collection, Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -12294,11 +12487,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12362,11 +12557,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12430,11 +12627,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12498,11 +12697,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.005 | Mshta | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -12570,11 +12771,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1530 | Data from Cloud Storage Object | Collection |
+
 
 #### Kill Chain Phase
 
@@ -12636,11 +12839,13 @@ You must be ingesting Zeek SSL data into Splunk. Zeek data should also be gettin
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -12698,11 +12903,13 @@ This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1542.005 | TFTP Boot | Defense Evasion, Persistence |
+
 
 #### Kill Chain Phase
 
@@ -12774,11 +12981,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -12833,10 +13042,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -12892,10 +13098,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -12959,11 +13162,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -13030,11 +13235,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1530 | Data from Cloud Storage Object | Collection |
+
 
 #### Kill Chain Phase
 
@@ -13100,11 +13307,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -13171,10 +13380,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -13227,6 +13433,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -13234,6 +13441,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
 | T1020.001 | Traffic Duplication | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -13287,10 +13495,7 @@ To successfully implement this search, you must ingest Windows Security Event lo
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -13348,10 +13553,7 @@ This search uses the Network_Sessions data model shipped with Enterprise Securit
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -13409,11 +13611,13 @@ To successfully implement this search, you must be ingesting data that records p
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.003 | Windows Command Shell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -13471,11 +13675,13 @@ You must be ingesting Splunk Stream DNS and Splunk Stream TCP. We are detecting 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1203 | Exploitation for Client Execution | Execution |
+
 
 #### Kill Chain Phase
 
@@ -13533,11 +13739,13 @@ You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1203 | Exploitation for Client Execution | Execution |
+
 
 #### Kill Chain Phase
 
@@ -13590,11 +13798,13 @@ You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should also be ge
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1190 | Exploit Public-Facing Application | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -13654,11 +13864,13 @@ You must be ingesting data from the web server or network traffic that contains 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1082 | System Information Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -13726,11 +13938,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1189 | Drive-by Compromise | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -13790,10 +14004,7 @@ You must ingest data from the web server or capture network data that contains w
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -13845,11 +14056,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.005 | Mshta | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -13909,11 +14122,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.005 | Mshta | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -13980,11 +14195,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -14038,11 +14255,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -14098,11 +14317,13 @@ You must be ingesting data that records registry activity from your hosts to pop
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1016 | System Network Configuration Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -14162,11 +14383,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1071.001 | Web Protocols | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -14231,11 +14454,13 @@ To successfully implement this search, we must ensure that DNS data is being ing
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -14289,11 +14514,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1072 | Software Deployment Tools | Execution, Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -14347,11 +14574,13 @@ To successfully implement this search, you must be ingesting data that records r
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -14407,11 +14636,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -14470,11 +14701,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -14535,11 +14768,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -14609,11 +14844,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -14669,11 +14906,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -14734,10 +14973,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -14798,10 +15034,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -14862,11 +15095,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -14923,10 +15158,7 @@ If Splunk Phantom is also configured in your environment, a playbook called "Sus
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -14978,11 +15210,13 @@ To successfully implement this search, you must be ingesting data that records t
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1114.001 | Local Email Collection | Collection |
+
 
 #### Kill Chain Phase
 
@@ -15038,11 +15272,13 @@ This search requires you to be ingesting your network traffic and populating the
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1114.002 | Remote Email Collection | Collection |
+
 
 #### Kill Chain Phase
 
@@ -15101,11 +15337,13 @@ To successfully implement this search you must ensure that DNS data is populatin
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1071.004 | DNS | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -15157,11 +15395,13 @@ To successfully implement this search, you must be ingesting data that records p
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036.003 | Rename System Utilities | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -15213,11 +15453,13 @@ To successfully implement this search, you must be ingesting data that records p
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036.003 | Rename System Utilities | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -15273,10 +15515,7 @@ To successfully implement this search you need to first obtain data from your ba
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -15328,10 +15567,7 @@ You must be ingesting data that records file-system activity from your hosts to 
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -15387,11 +15623,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -15450,11 +15688,13 @@ While this search does not require you to adhere to Splunk CIM, you must be inge
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1569.002 | Service Execution | Execution |
+
 
 #### Kill Chain Phase
 
@@ -15522,6 +15762,7 @@ You must be populating the endpoint data model for SSA and specifically the proc
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -15529,6 +15770,7 @@ You must be populating the endpoint data model for SSA and specifically the proc
 | T1059 | Command and Scripting Interpreter | Execution |
 |  |  |  |
 | T1202 | Indirect Command Execution | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -15601,12 +15843,14 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
 | T1059.003 | Windows Command Shell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -15657,11 +15901,13 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -15716,11 +15962,13 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -15773,11 +16021,13 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -15833,11 +16083,13 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1525 | Implant Container Image | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -15886,11 +16138,13 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1526 | Cloud Service Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -15943,11 +16197,13 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1526 | Cloud Service Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -16001,11 +16257,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1222.001 | Windows File and Directory Permissions Modification | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -16057,11 +16315,13 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1110.001 | Password Guessing | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -16117,11 +16377,13 @@ This search requires you to be ingesting your network traffic and populating the
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1114.002 | Remote Email Collection | Collection |
+
 
 #### Kill Chain Phase
 
@@ -16175,11 +16437,13 @@ To successfully implement this search, you need to be populating the Enterprise 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.002 | Domain Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -16237,6 +16501,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -16245,6 +16510,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1113 | Screen Capture | Collection |
 | T1123 | Audio Capture | Collection |
 | T1563 | Remote Service Session Hijacking | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -16306,11 +16572,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1585 | Establish Accounts | Resource Development |
+
 
 #### Kill Chain Phase
 
@@ -16372,11 +16640,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1070 | Indicator Removal on Host | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -16438,12 +16708,14 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1098 | Account Manipulation | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -16505,6 +16777,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -16512,6 +16785,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1098 | Account Manipulation | Persistence |
 | T1207 | Rogue Domain Controller | Defense Evasion |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -16574,6 +16848,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -16581,6 +16856,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1098 | Account Manipulation | Persistence |
 | T1207 | Rogue Domain Controller | Defense Evasion |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -16642,6 +16918,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -16649,6 +16926,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 | T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -16710,12 +16988,14 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 | T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -16777,6 +17057,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -16784,6 +17065,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
+
 
 #### Kill Chain Phase
 
@@ -16846,6 +17128,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -16853,6 +17136,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
+
 
 #### Kill Chain Phase
 
@@ -16905,11 +17189,13 @@ You must be ingesting endpoint data that tracks process activity, and include th
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1558.003 | Kerberoasting | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -16966,10 +17252,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17019,10 +17302,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17072,10 +17352,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17124,10 +17401,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17177,10 +17451,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17233,10 +17504,7 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17288,10 +17556,7 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17343,10 +17608,7 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17398,10 +17660,7 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17452,10 +17711,7 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17508,10 +17764,7 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17562,10 +17815,7 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17616,11 +17866,13 @@ You must install the Add-on for Microsoft Cloud Services and Configure Kube-Audi
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1526 | Cloud Service Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -17670,10 +17922,7 @@ You must install splunk AWS add on for GCP. This search works with pubsub messag
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17723,10 +17972,7 @@ You must install splunk GCP add on. This search works with pubsub messaging serv
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17776,10 +18022,7 @@ You must install splunk add on for GCP . This search works with pubsub messaging
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17829,10 +18072,7 @@ You must install splunk add on for GCP. This search works with pubsub messaging 
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17882,10 +18122,7 @@ You must install splunk add on for GCP. This search works with pubsub messaging 
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17935,10 +18172,7 @@ You must install splunk add on for GCP. This search works with pubsub messaging 
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -17989,11 +18223,13 @@ To successfully implement this search you must ensure that DNS data is populatin
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1498.002 | Reflection Amplification | Impact |
+
 
 #### Kill Chain Phase
 
@@ -18043,10 +18279,7 @@ In order to properly run this search, Splunk needs to ingest process data from y
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -18102,11 +18335,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -18164,11 +18399,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1027 | Obfuscated Files or Information | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -18224,11 +18461,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -18285,11 +18524,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -18345,11 +18586,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -18405,10 +18648,7 @@ You need to ingest data from your DNS logs. Specifically you must ingest the dom
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -18469,10 +18709,7 @@ You need to ingest email header data. Specifically the sender's address (src_use
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -18524,11 +18761,13 @@ To successfully implement this search, you must be ingesting data that records r
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1547.010 | Port Monitors | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -18582,10 +18821,7 @@ You need to ingest data from your web traffic. This can be accomplished by index
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -18646,12 +18882,14 @@ Collect endpoint data such as sysmon or 4688 events.
 * process_name
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059 | Command and Scripting Interpreter | Execution |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -18707,11 +18945,13 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -18761,11 +19001,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1482 | Domain Trust Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -18831,11 +19073,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1525 | Implant Container Image | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -18890,10 +19134,7 @@ To successfully implement this search, it requires that the 'Update' data model 
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -18945,11 +19186,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.003 | NTDS | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -19012,11 +19255,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.003 | Cloud Account | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -19075,11 +19320,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.003 | Cloud Account | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -19145,11 +19392,13 @@ You must install Splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -19206,11 +19455,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -19266,11 +19517,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1110 | Brute Force | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -19328,11 +19581,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -19389,11 +19644,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.003 | Cloud Account | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -19456,11 +19713,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1114 | Email Collection | Collection |
+
 
 #### Kill Chain Phase
 
@@ -19519,11 +19778,13 @@ This search detects when an admin configured a forwarding rule for multiple mail
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1114.003 | Email Forwarding Rule | Collection |
+
 
 #### Kill Chain Phase
 
@@ -19579,11 +19840,13 @@ This search detects the assignment of rights to accesss content from another mai
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1114.002 | Remote Email Collection | Collection |
+
 
 #### Kill Chain Phase
 
@@ -19640,11 +19903,13 @@ This search detects when multiple user configured a forwarding rule to the same 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1114.003 | Email Forwarding Rule | Collection |
+
 
 #### Kill Chain Phase
 
@@ -19696,11 +19961,13 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -19749,11 +20016,13 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -19803,11 +20072,13 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -19853,10 +20124,7 @@ No extra steps needed to implement this search.
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -19909,10 +20177,7 @@ In order to properly run this search, Splunk needs to ingest data from your osqu
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -19966,11 +20231,13 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1546.008 | Accessibility Features | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -20028,11 +20295,13 @@ Events are fed to DSP contains at least email's sender, subject and its message 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1566 | Phishing | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -20092,12 +20361,14 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_device_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1098 | Account Manipulation | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -20158,11 +20429,13 @@ You must be ingesting data that records filesystem and process activity from you
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1566.002 | Spearphishing Link | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -20222,11 +20495,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1047 | Windows Management Instrumentation | Execution |
+
 
 #### Kill Chain Phase
 
@@ -20281,10 +20556,7 @@ In order to properly run this search, Splunk needs to ingest data from your osqu
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -20336,11 +20608,13 @@ To successfully implement this search, you must be ingesting logs with the proce
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.004 | Disable or Modify System Firewall | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -20396,11 +20670,13 @@ To successfully implement this search, you must be ingesting data that records p
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.004 | Disable or Modify System Firewall | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -20460,11 +20736,13 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -20523,10 +20801,7 @@ To successfully implement this search, you must be ingesting data that records p
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -20584,11 +20859,13 @@ Running this search properly requires a technology that can inspect network traf
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
 
 #### Kill Chain Phase
 
@@ -20640,10 +20917,7 @@ This search requires you to be ingesting your network traffic, and populating th
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -20713,6 +20987,7 @@ Collect endpoint data such as sysmon or 4688 events.
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -20721,6 +20996,7 @@ Collect endpoint data such as sysmon or 4688 events.
 | T1059 | Command and Scripting Interpreter | Execution |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1072 | Software Deployment Tools | Execution, Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -20781,6 +21057,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -20788,6 +21065,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1087 | Account Discovery | Discovery |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -20849,6 +21127,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -20856,6 +21135,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1087 | Account Discovery | Discovery |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -20917,6 +21197,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -20926,6 +21207,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1590 | Gather Victim Network Information | Reconnaissance |
 | T1591 | Gather Victim Org Information | Reconnaissance |
 | T1595 | Active Scanning | Reconnaissance |
+
 
 #### Kill Chain Phase
 
@@ -20987,6 +21269,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -20994,6 +21277,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1592 | Gather Victim Host Information | Reconnaissance |
 | T1590 | Gather Victim Network Information | Reconnaissance |
 | T1087 | Account Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -21055,11 +21339,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1592 | Gather Victim Host Information | Reconnaissance |
+
 
 #### Kill Chain Phase
 
@@ -21121,6 +21407,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21133,6 +21420,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1083 | File and Directory Discovery | Discovery |
 | T1518 | Software Discovery | Discovery |
 | T1592.002 | Software | Reconnaissance |
+
 
 #### Kill Chain Phase
 
@@ -21194,6 +21482,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21201,6 +21490,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1007 | System Service Discovery | Discovery |
 | T1046 | Network Service Scanning | Discovery |
 | T1057 | Process Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -21262,6 +21552,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21269,6 +21560,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1135 | Network Share Discovery | Discovery |
 | T1039 | Data from Network Shared Drive | Collection |
+
 
 #### Kill Chain Phase
 
@@ -21330,6 +21622,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21337,6 +21630,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1135 | Network Share Discovery | Discovery |
 | T1039 | Data from Network Shared Drive | Collection |
+
 
 #### Kill Chain Phase
 
@@ -21398,6 +21692,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21408,6 +21703,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
 | T1574 | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -21469,6 +21765,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21476,6 +21773,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1135 | Network Share Discovery | Discovery |
 | T1039 | Data from Network Shared Drive | Collection |
+
 
 #### Kill Chain Phase
 
@@ -21537,6 +21835,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21547,6 +21846,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1098 | Account Manipulation | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -21608,12 +21908,14 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1595.002 | Vulnerability Scanning | Reconnaissance |
 | T1592.002 | Software | Reconnaissance |
+
 
 #### Kill Chain Phase
 
@@ -21675,6 +21977,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21682,6 +21985,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1098 | Account Manipulation | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -21743,6 +22047,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * dest_user_id
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -21750,6 +22055,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1574 | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -21807,11 +22113,13 @@ To successfully implement this search, you must be ingesting data that records r
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -21870,11 +22178,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1564.001 | Hidden Files and Directories | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -21938,11 +22248,13 @@ To successfully implement this search, you must be ingesting data that records r
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -22000,11 +22312,13 @@ To successfully implement this search, you must be ingesting data that records r
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -22062,11 +22376,13 @@ To successfully implement this search, you must populate the Change_Analysis dat
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -22123,11 +22439,13 @@ You must ensure that your network traffic data is populating the Network_Traffic
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1021.001 | Remote Desktop Protocol | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -22187,11 +22505,13 @@ To successfully implement this search you need to identify systems that commonly
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1021.001 | Remote Desktop Protocol | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -22245,11 +22565,13 @@ To successfully implement this search, you must be ingesting data that records p
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1021.001 | Remote Desktop Protocol | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -22303,11 +22625,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1047 | Windows Management Instrumentation | Execution |
+
 
 #### Kill Chain Phase
 
@@ -22365,10 +22689,7 @@ To successfully implement this search, you must populate the `Endpoint` data mod
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -22420,11 +22741,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1047 | Windows Management Instrumentation | Execution |
+
 
 #### Kill Chain Phase
 
@@ -22476,11 +22799,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -22534,11 +22859,13 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1486 | Data Encrypted for Impact | Impact |
+
 
 #### Kill Chain Phase
 
@@ -22601,11 +22928,13 @@ This search requires you to be ingesting your network traffic logs and populatin
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -22671,11 +23000,13 @@ Detailed documentation on how to create a new field within Incident Review is fo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -22727,11 +23058,13 @@ To successfully implement this search, you need to be monitoring network communi
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1190 | Exploit Public-Facing Application | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -22783,11 +23116,13 @@ You must be ingesting data that records the file-system activity from your hosts
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1486 | Data Encrypted for Impact | Impact |
+
 
 #### Kill Chain Phase
 
@@ -22851,11 +23186,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -22911,11 +23248,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -22970,11 +23309,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -23028,11 +23369,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -23088,11 +23431,13 @@ To successfully implement this search you need to be ingesting logs with both th
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -23146,11 +23491,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1047 | Windows Management Instrumentation | Execution |
+
 
 #### Kill Chain Phase
 
@@ -23218,6 +23565,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * process
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -23225,6 +23573,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1098 | Account Manipulation | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -23286,6 +23635,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -23293,6 +23643,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1098 | Account Manipulation | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -23354,6 +23705,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
@@ -23361,6 +23713,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1098 | Account Manipulation | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -23414,11 +23767,13 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -23472,11 +23827,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -23533,11 +23890,13 @@ This search requires you to have enabled your Group Management Audit Logs in you
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.001 | Local Account | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -23596,11 +23955,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1204.002 | Malicious File | Execution |
+
 
 #### Kill Chain Phase
 
@@ -23654,10 +24015,7 @@ The search requires that you are ingesting your vulnerability-scanner data and t
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -23713,10 +24071,7 @@ In order to implement this search, you must populate the Endpoint file-system da
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -23769,10 +24124,7 @@ The REST endpoint that exposes system information is also necessary for the prop
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -23826,11 +24178,13 @@ This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1203 | Exploitation for Client Execution | Execution |
+
 
 #### Kill Chain Phase
 
@@ -23881,11 +24235,13 @@ To successfully implement this search, you need to be monitoring web traffic to 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1505.003 | Web Shell | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -23947,11 +24303,13 @@ To successfully implement this search you need to be ingesting information on re
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -24004,11 +24362,13 @@ You must be ingesting data from email logs and have Splunk integrated with UBA. 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1566 | Phishing | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -24065,11 +24425,13 @@ If Splunk Phantom is also configured in your environment, a Playbook called "Sus
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1566.001 | Spearphishing Attachment | Initial Access |
+
 
 #### Kill Chain Phase
 
@@ -24122,10 +24484,7 @@ You must be ingesting data that records the filesystem activity from your hosts 
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -24179,10 +24538,7 @@ In order to properly run this search, Splunk needs to ingest data from your web-
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -24234,12 +24590,14 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24299,11 +24657,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1127.001 | MSBuild | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24373,11 +24733,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1112 | Modify Registry | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24433,11 +24795,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.010 | Regsvr32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24501,12 +24865,14 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24568,11 +24934,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24636,11 +25004,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24711,11 +25081,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.011 | Rundll32 | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24751,7 +25123,7 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1127, T1036.003](https://attack.mitre.org/techniques/T1127, T1036.003/)
+- **ATT&CK**: [T1127](https://attack.mitre.org/techniques/T1127/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -24777,11 +25149,14 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-|  |  |  |
+| T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| T1036.003 | Rename System Utilities | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24839,11 +25214,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24901,12 +25278,14 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -24964,11 +25343,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.005 | Mshta | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25026,11 +25407,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.005 | Mshta | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25092,11 +25475,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1070.001 | Clear Windows Event Logs | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25149,11 +25534,13 @@ You need to be ingesting logs with both the process name and command-line from y
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036 | Masquerading | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25205,11 +25592,13 @@ To successfully implement this search you need to be ingesting information on fi
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036 | Masquerading | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25264,11 +25653,13 @@ To successfully implement this search you need to be ingesting information on pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1082 | System Information Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -25357,11 +25748,13 @@ Collect endpoint data such as sysmon or 4688 events.
 * process_path
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036 | Masquerading | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25418,11 +25811,13 @@ To successfully implement this search you need to ingest details about process e
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036.003 | Rename System Utilities | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25482,11 +25877,13 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1071.001 | Web Protocols | Command and Control |
+
 
 #### Kill Chain Phase
 
@@ -25541,11 +25938,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1070 | Indicator Removal on Host | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25604,11 +26003,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1204.002 | Malicious File | Execution |
+
 
 #### Kill Chain Phase
 
@@ -25661,11 +26062,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -25719,11 +26122,13 @@ This search needs Sysmon Logs with a sysmon configuration, which includes EventC
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
+
 
 #### Kill Chain Phase
 
@@ -25778,10 +26183,7 @@ To successfully implement this search you need to obtain data from your backup s
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -25847,10 +26249,7 @@ You must be ingesting sysmon endpoint data that monitors command lines.
 * process
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -25913,10 +26312,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -25982,10 +26378,7 @@ You must be ingesting endpoint data that monitors command lines and populates th
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -26036,10 +26429,7 @@ This particular search leverages data extracted from Stream:HTTP. You must confi
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -26093,11 +26483,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1490 | Inhibit System Recovery | Impact |
+
 
 #### Kill Chain Phase
 
@@ -26162,11 +26554,13 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1047 | Windows Management Instrumentation | Execution |
+
 
 #### Kill Chain Phase
 
@@ -26216,11 +26610,13 @@ To successfully implement this search, you must be collecting Sysmon data using 
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1546.003 | Windows Management Instrumentation Event Subscription | Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -26276,11 +26672,13 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1047 | Windows Management Instrumentation | Execution |
+
 
 #### Kill Chain Phase
 
@@ -26335,11 +26733,13 @@ We start with a dataset that provides visibility into the email address used for
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136 | Create Account | Persistence |
+
 
 #### Kill Chain Phase
 
@@ -26396,11 +26796,13 @@ Start with a dataset that allows you to see clickstream data for each user click
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -26462,10 +26864,7 @@ We need to start with a dataset that allows us to see the values of usernames an
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -26523,11 +26922,13 @@ You must be ingesting data that records process activity from your hosts to popu
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1082 | System Information Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -26579,11 +26980,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1018 | Remote System Discovery | Discovery |
+
 
 #### Kill Chain Phase
 
@@ -26641,11 +27044,13 @@ You must be ingesting data that records the process-system activity from your ho
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -26698,11 +27103,13 @@ To successfully implement this search, you need to be ingesting Windows event lo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1070.001 | Clear Windows Event Logs | Defense Evasion |
+
 
 #### Kill Chain Phase
 
@@ -26758,11 +27165,13 @@ You must be ingesting data that records the process-system activity from your ho
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1489 | Service Stop | Impact |
+
 
 #### Kill Chain Phase
 
@@ -26816,11 +27225,13 @@ You must be ingesting data that records the process-system activity from your ho
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.003 | Windows Command Shell | Execution |
+
 
 #### Kill Chain Phase
 
@@ -26873,10 +27284,7 @@ To successfully implement this search, you must be ingesting data that records t
 #### Required field
 
 
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
 
@@ -26926,11 +27334,13 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -26981,11 +27391,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -27034,11 +27446,13 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -27087,11 +27501,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 
@@ -27142,11 +27558,13 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1550 | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
+
 
 #### Kill Chain Phase
 
@@ -27195,11 +27613,13 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 #### Required field
 
 
+
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+
 
 #### Kill Chain Phase
 

@@ -1797,7 +1797,7 @@ Monitor and detect behaviors used by attackers who leverage trusted developer ut
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1127](https://attack.mitre.org/techniques/T1127/), [T1127, T1036.003](https://attack.mitre.org/techniques/T1127, T1036.003/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1127](https://attack.mitre.org/techniques/T1127/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -1814,8 +1814,8 @@ Monitor and detect behaviors used by attackers who leverage trusted developer ut
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-|  |  |  |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| T1036.003 | Rename System Utilities | Defense Evasion |
 
 #### Kill Chain Phase
 

@@ -35,6 +35,7 @@ def get_mitre_enrichment_new(attack, mitre_attack_id):
         elif mitre_attack_id == technique.id:
             mitre_attack = mitre_attack_object(technique, attack)
             return mitre_attack
+    return []
 
 def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE):
     manifest_files = []
@@ -65,6 +66,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
             for mitre_technique_id in story_yaml['tags']['mitre_attack_id']:
                 mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
                 mitre_attacks.append(mitre_attack)
+            # story_yaml['mitre_attacks'] = sorted(mitre_attacks, key = lambda i: i['tactic'])
             story_yaml['mitre_attacks'] = mitre_attacks
         stories.append(story_yaml)
 
@@ -195,6 +197,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
                 mitre_attacks.append(mitre_attack)
             detection_yaml['mitre_attacks'] = mitre_attacks
+            #detection_yaml['mitre_attacks'] = sorted(mitre_attacks, key = lambda i: i['tactic'])
         detection_yaml['kind'] = manifest_file.split('/')[-2]
         detections.append(detection_yaml)
 
