@@ -87,7 +87,7 @@ def main(args):
 
     try:
         module = __import__('generate')
-        results = module.main(REPO_PATH = 'security_content' , OUTPUT_PATH = 'security_content/package', VERBOSE = '--verbose' )
+        results = module.main(REPO_PATH = 'security_content' , OUTPUT_PATH = 'security_content/package', VERBOSE = 'True' )
     except Exception as e:
         print('Error: ' + str(e))
 
@@ -240,4 +240,5 @@ def get_secret(secret_name):
 
 
 if __name__ == "__main__":
+
     main(sys.argv[1:])

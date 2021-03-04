@@ -37,6 +37,7 @@ references: []
 tags:
   analytic_story:
   - Collection and Staging
+  - HAFNIUM Group
   asset_type: Endpoint
   cis20:
   - CIS 7
