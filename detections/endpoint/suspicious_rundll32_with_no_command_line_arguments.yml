@@ -1,4 +1,4 @@
-name: Suspicious Rundll32 no CommandLine Arguments
+name: Suspicious Rundll32 no Command Line Arguments
 id: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
 version: 1
 date: '2021-02-09'
@@ -15,7 +15,7 @@ search: '`sysmon` EventID=1 (process_name=rundll32.exe OR OriginalFileName=RUNDL
   | regex CommandLine="(rundll32\.exe.{0,4}$)" | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
   OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `suspicious_rundll32_no_commandline_arguments_filter`'
+  | `security_content_ctime(lastTime)` | `suspicious_rundll32_no_command_line_arguments_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
