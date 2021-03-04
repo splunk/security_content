@@ -1,0 +1,38 @@
+name: Ryuk Wake on LAN Command
+id: 538d0152-7aaa-11eb-beaa-acde48001122
+version: 1
+date: '2021-03-01'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware. The Ryuk Ransomware uses the Wake-on-Lan feature to turn on powered off devices on a compromised network to have greater success encrypting them. This is a high fidelity indicator of Ryuk ransomware executing on an endpoint.
+  Upon triage, isolate the endpoint. Additional file modification events will be within the users profile (\appdata\roaming) and in public directories (users\public\). Review all Scheduled Tasks on the isolated endpoint and across the fleet. Suspicious Scheduled Tasks will include a path to a unknown binary and those endpoints should be isolated until triaged.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process="*8 LAN*" OR Processes.process="*9 REP*") by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `ryuk_wake_on_lan_command_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited to no known false positives. 
+references:
+- https://www.bleepingcomputer.com/news/security/ryuk-ransomware-uses-wake-on-lan-to-encrypt-offline-devices/
+- https://www.bleepingcomputer.com/news/security/ryuk-ransomware-now-self-spreads-to-other-windows-lan-devices/
+- https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-006.pdf
+tags:
+  analytic_story:
+  - Ryuk Ransomware
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ryuk/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  - Lateral Movement
+  mitre_attack_id:
+  - T1059.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  
