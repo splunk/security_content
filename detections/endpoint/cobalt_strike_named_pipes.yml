@@ -1,0 +1,58 @@
+name: Cobalt Strike Named Pipes
+id: 5876d429-0240-4709-8b93-ea8330b411b5
+version: 1
+date: '2021-02-22'
+description: 'The following analytic identifies the use of default or publicly known
+  named pipes used with Cobalt Strike. A named pipe is a named, one-way or duplex
+  pipe for communication between the pipe server and one or more pipe clients. Cobalt
+  Strike uses named pipes in many ways and has default values used with the Artifact
+  Kit and Malleable C2 Profiles. The following query assists with identifying these
+  default named pipes. Each EDR product presents named pipes a little different. Consider
+  taking the values and generating a query based on the product of choice. \
+
+  Upon triage, review the process performing the named pipe. If it is explorer.exe,
+  It is possible it was injected into by another process. Review recent parallel processes
+  to identify suspicious patterns or behaviors. A parallel process may have a network
+  connection, review and follow the connection back to identify any file modifications.'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+type: batch
+datamodel: []
+references:
+- https://attack.mitre.org/techniques/T1218/009/
+- https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
+- https://www.cobaltstrike.com/help-smb-beacon
+- https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+- https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
+author: Michael Haag, Splunk
+search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\wkssvc*, \\DserNamePipe*, \\srvsvc_*,
+  \\mojo.*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*, \\winsock*)
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name, process_id
+  process_path, PipeName | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `cobalt_strike_named_pipes_filter`'
+known_false_positives: The idea of using named pipes with Cobalt Strike is to blend
+  in. Therefore, some of the named pipes identified and added may cause false positives.
+  Filter by process name or pipe name to reduce false positives.
+tags:
+  analytic_story:
+  - Cobalt Strike
+  mitre_attack_id:
+  - T1055
+  kill_chain_phases:
+  - Actions on Objectives
+  cis20:
+  - CIS 8
+  nist:
+  - PR.PT
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  asset_type: Endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  automated_detection_testing: passed

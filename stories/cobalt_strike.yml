@@ -7,18 +7,28 @@ type: batch
 description: Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility. 
 narrative: 'This Analytic Story supports you to detect Tactics, Techniques and Procedures
   (TTPs) from Cobalt Strike. Cobalt Strike has many ways to be enhanced by using aggressor scripts, malleable C2 profiles, default attack packages, and much more. 
-  For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. 
-  On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike.\
+  For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. Many additional variables are provided for in memory operation of the beacon implant. 
+  On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike.
+  Not every query may be specific to Cobalt Strike the tool, but the methodologies and techniques used by it.\
 
+  Splunk Threat Research reviewed all publicly available instances of Malleabe C2 Profiles and generated a list of the most commonly used spawnto and pipenames.\
+  
+  `Spawnto_x86` and `spawnto_x64` is the process that Cobalt Strike will spawn and injects shellcode into.\
+  
+  Pipename sets the named pipe name used in Cobalt Strikes Beacon SMB C2 traffic.\
+
+  With that, new detections were generated focused on these spawnto processes spawning without command line arguments. Similar, the named pipes most commonly used by Cobalt Strike added as a detection.
   In generating content for Cobalt Strike, the following is considered:\
 
-  1. Is it normal for <spawnto_ value> to have no command line arguments? No command line arguments and a network connection?\
+  - Is it normal for spawnto_ value to have no command line arguments? No command line arguments and a network connection?\
 
-  1. What is the default, or normal, process lineage for <spawnto_ value>?\
+  - What is the default, or normal, process lineage for spawnto_ value?\
 
-  1. Does the <spawnto_ value> make network connections?\
+  - Does the spawnto_ value make network connections?\
 
-  1. Is it normal for <spawnto_ value> to load jscript, vbscript, Amsi.dll, and clr.dll?.'
+  - Is it normal for spawnto_ value to load jscript, vbscript, Amsi.dll, and clr.dll?\
+  
+  While investigating a detection related to this Analytic Story, keep in mind the parent process, process path, and any file modifications that may occur. Tuning may need to occur to remove any false positives.'
 
 references:
 - https://www.cobaltstrike.com/
@@ -26,6 +36,8 @@ references:
 - https://bluescreenofjeff.com/2017-01-24-how-to-write-malleable-c2-profiles-for-cobalt-strike/
 - https://blog.talosintelligence.com/2020/09/coverage-strikes-back-cobalt-strike-paper.html
 - https://www.fireeye.com/blog/threat-research/2020/12/unauthorized-access-of-fireeye-red-team-tools.html
+- https://github.com/MichaelKoczwara/Awesome-CobaltStrike-Defence
+- https://github.com/zer0yu/Awesome-CobaltStrike
 tags:
   analytic_story: Cobalt Strike
   category:

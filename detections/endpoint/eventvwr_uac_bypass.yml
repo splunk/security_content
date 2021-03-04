@@ -1,0 +1,43 @@
+name: Eventvwr UAC Bypass
+id: 9cf8fe08-7ad8-11eb-9819-acde48001122
+version: 1
+date: '2021-03-01'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following search identifies Eventvwr bypass by identifying the registry
+  modification into a specific path that eventvwr.msc looks to (but is not valid)
+  upon execution. A successful attack will include a suspicious command to be executed
+  upon eventvwr.msc loading. Upon triage, review the parallel processes that have
+  executed. Identify any additional registry modifications on the endpoint that may
+  look suspicious. Remediate as necessary.
+search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
+  as registry_key_name values(Registry.registry_path) as registry_path min(_time)
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path="*mscfile\\shell\\open\\command\\*"  by
+  Registry.user, Registry.dest , Registry.registry_value_name| `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `eventvwr_uac_bypass_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: Some false positives may be present and will need to be filtered.
+references:
+- https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md
+- https://attack.mitre.org/techniques/T1548/002
+- https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1548.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  automated_detection_testing: passed
