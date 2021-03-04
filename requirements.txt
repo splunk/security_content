@@ -7,7 +7,7 @@ certifi==2020.12.5
 cfgv==3.2.0
 chardet==4.0.0
 coloredlogs==14.0
-configparser==5.0.1
+configparser==5.0.2
 contextlib2==0.6.0.post1
 distlib==0.3.1
 filelock==3.0.12
