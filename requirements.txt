@@ -16,7 +16,7 @@ humanfriendly==9.1
 identify==1.5.13
 idna==2.10
 importlib-metadata==3.4.0
-importlib-resources==5.1.0
+importlib-resources==5.1.2
 Jinja2==2.11.3
 jsonschema==3.2.0
 MarkupSafe==1.1.1
