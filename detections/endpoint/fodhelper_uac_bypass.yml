@@ -16,6 +16,7 @@ description: 'Fodhelper.exe has a known UAC bypass as it attempts to look for sp
   1. `HKCU:\Software\Classes\ms-settings\shell\open\command\DelegateExecute`\
 
   1. `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`\
+  
 
   Upon triage, fodhelper.exe will have a child process and read access will occur
   on the registry keys. Isolate the endpoint and review parallel processes for additional
