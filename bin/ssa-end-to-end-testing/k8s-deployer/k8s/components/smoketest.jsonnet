@@ -30,8 +30,20 @@ local job = {
                   imagePullPolicy: 'Always',
                   env: [
                     {
-                        "name": 'SCBRANCH',
-                        "value": std.extVar('SCBRANCH')
+                        "name": 'SRCBRANCH',
+                        "value": std.extVar('SRCBRANCH')
+                    },
+                    {
+                        "name": 'SMOKETEST_VAULT_READ_PATH',
+                        "value": params.components.vaultReadPath
+                    },
+                    {
+                        "name": 'DSP_ENV',
+                        "value": params.components.dspEnv
+                    },
+                    {
+                        "name": 'TENANT',
+                        "value": params.components.tenant
                     },
                     {
                         "name": 'ENV',
@@ -47,9 +59,9 @@ local job = {
                         cpu: '800m',
                         memory: '750Mi'
                     },
-                    command: ['/bin/bash', '-c'],
-                    args: ['cd /smoketest && ./smoketest.sh']
                   },
+                  command: ['/bin/bash', '-c'],
+                  args: ['cd /smoketest && ./entrypoint.sh'],
                 },
               ],
             },

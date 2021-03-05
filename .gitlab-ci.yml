@@ -44,4 +44,3 @@ smoketest_play:
     - ./deployer.sh
   variables:
     SCSENV: app_play1
-#    SRCBRANCH: $CI_COMMIT_REF_NAME
