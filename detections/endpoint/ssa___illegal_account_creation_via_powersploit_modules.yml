@@ -28,6 +28,8 @@ tags:
   cis20:
   - CIS 16
   - CIS 20
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1585/illegal_account_creation/logAllPowerSploitModulesWithOldNames.log
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:

@@ -31,6 +31,7 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+  - HAFNIUM Group
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

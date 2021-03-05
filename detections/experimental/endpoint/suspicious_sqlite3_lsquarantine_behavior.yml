@@ -1,0 +1,39 @@
+name: Suspicious SQLite3 LSQuarantine Behavior
+id: e1997b2e-655f-4561-82fd-aeba8e1c1a86
+version: 1
+date: '2021-02-22'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies the use of a SQLite3 querying the MacOS
+  preferences to identify the original URL the pkg was downloaded from. This particular
+  behavior is common with MacOS adware-malicious software. Upon triage, review other
+  processes in parallel for suspicious activity. Identify any recent package installations.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sqlite3
+  Processes.process=*LSQuarantine* by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `suspicious_sqlite3_lsquarantine_behavior_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Unknown.
+references:
+- https://redcanary.com/blog/clipping-silver-sparrows-wings/
+- https://marcosantadev.com/manage-plist-files-plistbuddy/
+tags:
+  analytic_story:
+  - Silver Sparrow
+  asset_type: Endpoint
+  dataset: []
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1074
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
