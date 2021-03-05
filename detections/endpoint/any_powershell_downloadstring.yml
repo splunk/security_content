@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - HAFNIUM Group
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
@@ -42,4 +43,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  automated_detection_testing: passed
