@@ -182,6 +182,7 @@ jobs:
               cd ~/dist
               tar -zxf content-pack-build.tar.gz
               mv package DA-ESS-ContentUpdate
+              slim validate DA-ESS-ContentUpdate
               slim package -o upload DA-ESS-ContentUpdate
               cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
       - store_artifacts:
