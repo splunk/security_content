@@ -16,7 +16,7 @@ description: 'Fodhelper.exe has a known UAC bypass as it attempts to look for sp
   1. `HKCU:\Software\Classes\ms-settings\shell\open\command\DelegateExecute`\
 
   1. `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`\
-  
+
   Upon triage, fodhelper.exe will have a child process and read access will occur
   on the registry keys. Isolate the endpoint and review parallel processes for additional
   behavior.'
@@ -37,6 +37,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
@@ -49,4 +50,3 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  automated_detection_testing: passed
