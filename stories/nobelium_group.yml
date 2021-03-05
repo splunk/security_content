@@ -2,7 +2,7 @@ name: NOBELIUM Group
 id: 758196b5-2e21-424f-a50c-6e421ce926c2
 version: 2
 date: '2020-12-14'
-author: Patrick Bareiss, Splunk
+author: Patrick Bareiss, Michael Haag, Splunk
 type: batch
 description: Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and
   management software. It was discovered by FireEye in December 2020. The actors behind

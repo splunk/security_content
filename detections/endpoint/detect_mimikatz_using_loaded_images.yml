@@ -20,7 +20,7 @@ how_to_implement: This search needs Sysmon Logs and a sysmon configuration, whic
   with configurations for your Splunk environment. The search also uses a post-filter
   macro designed to filter out known false positives.
 known_false_positives: Other tools can import the same DLLs. These tools should be
-  part of a whitelist.
+  part of a whitelist. False positives may be present with any process that authenticates or uses credentials, PowerShell included. Filter based on parent process.
 references:
 - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
 tags:
