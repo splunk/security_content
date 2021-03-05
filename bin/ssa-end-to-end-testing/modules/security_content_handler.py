@@ -3,6 +3,7 @@ import yaml
 import time
 import os
 import requests
+import shutil
 
 from .data_manipulation import DataManipulation
 
@@ -20,6 +21,7 @@ def prepare_test(file_path):
 
     # read test file and return as object
     test_obj = load_file('security_content/' + file_path)
+    detection_obj = load_file('security_content/detections/' + test_obj['tests'][0]['file'])
 
     # download attack data
     epoch_time = str(int(time.time()))
@@ -41,7 +43,16 @@ def prepare_test(file_path):
 
     dict_test = {
         "test_obj": test_obj,
+        "detection_obj": detection_obj,
         "attack_data_file_path": attack_data_file_path
     }
 
-    return dict_test
+    return dict_test, folder_name
+
+
+def remove_security_content():
+    shutil.rmtree('security_content')
+
+def remove_attack_data(file_path):
+    # remove attack data
+    shutil.rmtree(file_path)

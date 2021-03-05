@@ -403,8 +403,41 @@ class DSPApi:
         }
         LOGGER.info(f"Submit Search Job")
         response = requests.post(self.return_api_endpoint(SUBMIT_SEARCH_ENDPOINT), json=data, headers=request_headers(self.header_token))
-        response_body = response.json()
-        return response_body.get("sid")
+        if response.status_code != HTTPStatus.CREATED:
+            LOGGER.error(f"Submit search job failed.")
+            return None
+        else:
+            response_body = response.json()
+            return response_body.get("sid")
+
+
+    def check_search_job_finished(self, sid):
+        """
+        Check if a search job finished
+
+        Parameters
+        ----------
+        sid: str
+            ID of the search. Returned value from `submit_search_job`
+
+        Returns
+        -------
+        response
+            boolean true or false
+        """  
+        LOGGER.info(f"Check Search job results")
+        results_check_search_job = self.return_api_endpoint(SUBMIT_SEARCH_ENDPOINT) + "/" + sid
+        response = requests.get(results_check_search_job, headers=request_headers(self.header_token))
+        if response.status_code != HTTPStatus.OK:
+            LOGGER.error(f"Failed to get status of search job")
+            return None
+        else:
+            response_json = response.json()
+            LOGGER.info(f"Check if search is finished.")
+            if response_json.get("status") == "done":
+                return True
+            else:
+                return False
 
 
     def get_search_job_results(self, sid):
@@ -418,15 +451,19 @@ class DSPApi:
 
         Returns
         -------
-        response
-            response body in JSON format
+        results
+            results of search
         """
 
         LOGGER.info(f"Get Search job results")
         results_search_job_endpoint = self.return_api_endpoint(SUBMIT_SEARCH_ENDPOINT) + "/" + sid + "/results"
         response = requests.get(results_search_job_endpoint, headers=request_headers(self.header_token))
-        response_body = response.json()
-        return response_body
+        if response.status_code != HTTPStatus.OK:
+            LOGGER.error(f"Failed to get search results")
+            return None
+        else:
+            response_body = response.json()
+            return response_body.get("results")
 
 
     def create_temp_index(self, module):

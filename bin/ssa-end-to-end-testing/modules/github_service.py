@@ -1,7 +1,12 @@
 
 import git
 import os
+import logging
 
+
+# Logger
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+LOGGER = logging.getLogger(__name__)
 
 SECURITY_CONTENT_URL = f"https://github.com/splunk/security_content"
 
@@ -14,6 +19,7 @@ class GithubService:
         self.security_content_repo_obj.git.checkout(security_content_branch)
 
     def clone_project(self, url, project, branch):
+        LOGGER.info(f"Clone Security Content Project")
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
 
@@ -33,3 +39,5 @@ class GithubService:
                     changed_ssa_test_files.append(file_path)
 
         return changed_ssa_test_files
+
+    

@@ -26,7 +26,7 @@ READ_SSA_ENRICHED_EVENTS_EXPANDED = (
 # not used in the moment
 # PULSAR_SINK_CONNECTION_ID = f"29fb61f1-9342-48f5-9793-1afa008c377b"
 # PULSAR_SINK_TOPIC = f"persistent://ssa/ingress/detection-events-research2"
-# WRITE_SSA_DETECTED_EVENTS = f"| into write_ssa_detected_events();"
+WRITE_SSA_DETECTED_EVENTS = f"| into write_ssa_detected_events();"
 
 # ## dummy values ##
 # DETECTION_TYPE = f"anomaly"
@@ -72,16 +72,21 @@ def request_headers(header_token):
     return headers
 
 
-def read_spl(env, file_name, results_index=None):
-    file_path = os.path.join(os.path.dirname(__file__), 'spl', file_name)
-    spl = open(file_path, "r").read()
+def manipulate_spl(env, spl, results_index):
     spl = replace_ssa_macros(env, spl)
     if results_index is not None:
         # When an index is defined for a test, it writes the output of this pipeline to this index.
         # original_pipeline; => original_pipeline | into index("module", "index");
         module = results_index["module"]
         index = results_index["name"]
-        spl = spl[:spl.rindex(";")] + f"| into index(\"{module}\", \"{index}\");"
+        spl = spl[:spl.rindex(";")] + f" | into index(\"{module}\", \"{index}\");"
+    LOGGER.info(f"spl: {spl}")
+    return spl
+
+
+def read_spl(file_path, file_name):
+    full_path = os.path.join(file_path, file_name)
+    spl = open(full_path, "r").read()
     return spl
 
 
@@ -90,7 +95,7 @@ def replace_ssa_macros(env, spl):
     macro_expanded = READ_SSA_ENRICHED_EVENTS_EXPANDED.replace("__PULSAR_SOURCE_CONNECTION_ID__", pulsar_source_connection_id)
     macro_expanded = macro_expanded.replace("__PULSAR_SOURCE_TOPIC__", pulsar_source_topic)
     spl = spl.replace(READ_SSA_ENRICHED_EVENTS, macro_expanded)
-    #spl = spl.replace(WRITE_SSA_DETECTED_EVENTS, WRITE_SSA_DETECTED_EVENTS_EXPANDED)
+    spl = spl.replace(WRITE_SSA_DETECTED_EVENTS, ";")
     #spl = spl.replace("\n", " ")
     return spl
 
