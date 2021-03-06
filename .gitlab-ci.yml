@@ -41,7 +41,7 @@ publish_smoketest_runner:
     - apk add --update docker
   script:
     - eval $(go-go vault -a ${DOCKER_ROLE})
-    - docker build bin/ssa-end-to-end-testing/smoke-test-runner -t ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
+    - docker build bin/ssa-end-to-end-testing/smoke-test-runner -t ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA} --build-arg SRCBRANCH=$CI_COMMIT_REF_NAME
     - docker push ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
 
 smoketest_play:
