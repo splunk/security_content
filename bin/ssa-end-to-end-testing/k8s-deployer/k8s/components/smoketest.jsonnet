@@ -26,7 +26,7 @@ local job = {
               containers: [
                 {
                   name: 'ssa-smoke-test',
-                  image: params.components.smokeTestImage,
+                  image: std.extVar('SMOKETEST_RUNNER_IMAGE'),
                   imagePullPolicy: 'Always',
                   env: [
                     {
@@ -61,7 +61,7 @@ local job = {
                     },
                   },
                   command: ['/bin/bash', '-c'],
-                  args: ['cd /smoketest && ./entrypoint.sh'],
+                  args: ['./run_ssa_smoketest_helper.sh'],
                 },
               ],
             },
