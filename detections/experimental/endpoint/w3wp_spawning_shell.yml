@@ -1,0 +1,42 @@
+name: W3WP Spawning Shell
+id: 0f03423c-7c6a-11eb-bc47-acde48001122
+version: 1
+date: '2021-03-03'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from
+  W3WP.exe, or IIS. In addition to IIS logs, this behavior with an EDR product will
+  capture potential webshell activity, similar to the HAFNIUM Group abusing CVEs,
+  on publicly available Exchange mail servers. During triage, review the parent process
+  and child process of the shell being spawned. Review the command-line arguments
+  and any file modifications that may occur. Identify additional parallel process,
+  child processes, that may highlight further commands executed. After triaging, work
+  to contain the threat and patch the system that is vulnerable.
+search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
+  as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=w3wp.exe
+  AND Processes.process_name=cmd.exe OR Processes.process_name=powershell.exe by Processes.dest
+  Processes.parent_process Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`| `w3wp_spawning_shell_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Baseline your environment before production. It is possible
+  build systems using IIS will spawn cmd.exe to perform a software build. Filter as
+  needed.
+references:
+- https://www.microsoft.com/security/blog/2020/02/04/ghost-in-the-shell-investigating-web-shell-attacks/
+tags:
+  analytic_story:
+  - HAFNIUM Group
+  dataset: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1505.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

@@ -1,0 +1,61 @@
+name: Suspicious PlistBuddy Usage
+id: c3194009-e0eb-4f84-87a9-4070f8688f00
+version: 1
+date: '2021-02-22'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: 'The following analytic identifies the use of a native MacOS utility,
+  PlistBuddy, creating or modifying a properly list (.plist) file. In the instance
+  of Silver Sparrow, the following commands were executed:\
+
+  - PlistBuddy -c "Add :Label string init_verx" ~/Library/Launchagents/init_verx.plist
+  \
+
+  - PlistBuddy -c "Add :RunAtLoad bool true" ~/Library/Launchagents/init_verx.plist
+  \
+
+  - PlistBuddy -c "Add :StartInterval integer 3600" ~/Library/Launchagents/init_verx.plist
+  \
+
+  - PlistBuddy -c "Add :ProgramArguments array" ~/Library/Launchagents/init_verx.plist
+  \
+
+  - PlistBuddy -c "Add :ProgramArguments:0 string /bin/sh" ~/Library/Launchagents/init_verx.plist
+  \
+
+  - PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist
+  \
+
+  Upon triage, capture the property list file being written to disk and review for
+  further indicators. Contain the endpoint and triage further.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=PlistBuddy
+  (Processes.process=*LaunchAgents* OR Processes.process=*RunAtLoad* OR Processes.process=*true*)
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |  `suspicious_plistbuddy_usage_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Some legitimate applications may use PlistBuddy to create or
+  modify property lists and possibly generate false positives. Review the property
+  list being modified or created to confirm.
+references:
+- https://redcanary.com/blog/clipping-silver-sparrows-wings/
+- https://marcosantadev.com/manage-plist-files-plistbuddy/
+tags:
+  analytic_story:
+  - Silver Sparrow
+  asset_type: Endpoint
+  dataset: []
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1543.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
