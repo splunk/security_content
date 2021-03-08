@@ -26,7 +26,7 @@ tags:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
   - Command and Control
-  - Sunburst Malware
+  - NOBELIUM Group
   asset_type: Endpoint
   cis20:
   - CIS 9
