@@ -23,7 +23,7 @@ references:
 - https://www.guidepointsecurity.com/supernova-solarwinds-net-webshell-analysis/
 tags:
   analytic_story:
-  - Sunburst Malware
+  - NOBELIUM Group
   cis20:
   - CIS 4
   - CIS 13

@@ -1,0 +1,12 @@
+name: Detect Mimikatz Using Loaded Images Unit Test
+tests:
+- name: Detect Mimikatz Using Loaded Images
+  file: endpoint/detect_mimikatz_using_loaded_images.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
