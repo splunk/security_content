@@ -28,7 +28,7 @@ tags:
   analytic_story:
   - Windows Service Abuse
   - Orangeworm Attack Group
-  - Sunburst Malware
+  - NOBELIUM Group
   asset_type: Endpoint
   cis20:
   - CIS 2
