@@ -3,9 +3,11 @@ variables:
   K8S_PLAYGROUND_ROLE: k8s:v1/app-play1/namespace/threat-research/role/deployer
   DOCKER_ROLE: docker:v1/registry/prefix/threat-research
   K8_DEPLOYER_CONTAINER: docker.repo.splunkdev.net/threat-research/k8-deployer
+  SMOKETEST_RUNNER: docker.repo.splunkdev.net/threat-research/smoketest-runner
   SRCBRANCH: $CI_COMMIT_REF_NAME
 
 stages:
+  - publish_smoketest_runner
   - publish_deployer
   - smoketest_play
   - ssa-validate
@@ -32,9 +34,20 @@ publish_deployer:
     - docker build . -t ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
     - docker push ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
 
+publish_smoketest_runner:
+  stage: publish_smoketest_runner
+  image: docker.repo.splunkdev.net/ci-cd/ci-container:alpine-3.11
+  before_script:
+    - apk add --update docker
+  script:
+    - eval $(go-go vault -a ${DOCKER_ROLE})
+    - docker build bin/ssa-end-to-end-testing/smoke-test-runner -t ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA} --build-arg SRCBRANCH=$CI_COMMIT_REF_NAME
+    - docker push ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
+
 smoketest_play:
   stage: smoketest_play
   dependencies:
+    - publish_smoketest_runner
     - publish_deployer
   image: ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
   script:
@@ -44,4 +57,4 @@ smoketest_play:
     - ./deployer.sh
   variables:
     SCSENV: app_play1
-#    SRCBRANCH: $CI_COMMIT_REF_NAME
+    SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}

@@ -27,17 +27,3 @@ COPY k8s /deployer/k8s
 RUN chmod +x /deployer/k8s/deployer.sh
 
 WORKDIR /deployer/k8s
-
-#FROM docker.repo.splunkdev.net/kub/debug-tools:latest
-#
-#ARG SRCBRANCH=develop
-#ARG SCSENV=app_play1
-#ENV SRCBRANCH=${SRCBRANCH}
-#ENV SCSENV=${SCSENV}
-#
-##RUN mkdir /aws/deployer
-#
-#COPY k8s /tmp/deployer/k8s
-#
-##RUN chmod +x /tmp/deployer/k8s/deployer.sh
-#WORKDIR /tmp/deployer/k8s

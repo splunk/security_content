@@ -26,12 +26,24 @@ local job = {
               containers: [
                 {
                   name: 'ssa-smoke-test',
-                  image: params.components.smokeTestImage,
+                  image: std.extVar('SMOKETEST_RUNNER_IMAGE'),
                   imagePullPolicy: 'Always',
                   env: [
                     {
-                        "name": 'SCBRANCH',
-                        "value": std.extVar('SCBRANCH')
+                        "name": 'SRCBRANCH',
+                        "value": std.extVar('SRCBRANCH')
+                    },
+                    {
+                        "name": 'SMOKETEST_VAULT_READ_PATH',
+                        "value": params.components.vaultReadPath
+                    },
+                    {
+                        "name": 'DSP_ENV',
+                        "value": params.components.dspEnv
+                    },
+                    {
+                        "name": 'TENANT',
+                        "value": params.components.tenant
                     },
                     {
                         "name": 'ENV',
@@ -47,9 +59,9 @@ local job = {
                         cpu: '800m',
                         memory: '750Mi'
                     },
-                    command: ['/bin/bash', '-c'],
-                    args: ['cd /smoketest && ./smoketest.sh']
                   },
+                  command: ['/bin/bash', '-c'],
+                  args: ['./run_ssa_smoketest_helper.sh'],
                 },
               ],
             },
