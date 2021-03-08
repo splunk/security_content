@@ -27,7 +27,7 @@ tags:
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
   - Suspicious Zoom Child Processes
-  - Sunburst Malware
+  - NOBELIUM Group
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
