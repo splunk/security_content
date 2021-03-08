@@ -41,7 +41,7 @@ tags:
   analytic_story:
   - Hidden Cobra Malware
   - DHS Report TA18-074A
-  - Sunburst Malware
+  - NOBELIUM Group
   asset_type: Endpoint
   cis20:
   - CIS 12
