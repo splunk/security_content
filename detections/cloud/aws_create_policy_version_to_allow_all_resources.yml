@@ -1,3 +1,4 @@
+
 name: AWS Create Policy Version to allow all resources
 id: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
 version: 2
@@ -26,7 +27,7 @@ references:
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
 tags:
   analytic_story:
-  - Suspicious Cloud Instance Activities
+  - AWS IAM Privilege Escalation
   asset_type: AWS Account
   cis20:
   - CIS 13

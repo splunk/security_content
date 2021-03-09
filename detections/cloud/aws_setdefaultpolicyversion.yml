@@ -25,7 +25,7 @@ references:
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
 tags:
   analytic_story:
-  - Suspicious Cloud Instance Activities
+  - AWS IAM Privilege Escalation
   asset_type: AWS Account
   cis20:
   - CIS 13

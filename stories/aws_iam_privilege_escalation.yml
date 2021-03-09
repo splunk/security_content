@@ -1,0 +1,24 @@
+name: AWS IAM Privilege Escalation
+id: ced74200-8465-4bc3-bd2c-9a782eec6750
+version: 1
+date: '2021-03-08'
+author: David Dorsey, Splunk
+type: batch
+description: This analytic story contains detections that query your AWS Cloudtrail for activities related to privilege escalation. 
+narrative: 'Amazon Web Services provides a neat feature called Identity and Access Management (IAM) that enables organizations to manage various AWS services and resources in a secure way. All IAM users have roles, groups and policies associated with them which governs and sets permissions to allow a user to access specific restrictions. \
+  However, if these IAM policies are misconfigured and have specific combinations of weak permissions; it can allow attackers to escalate their privileges and further compromise the organization. Rhino Security Labs have published comprehensive blogs detailing various AWS Escalation methods. By using this as an inspiration, Splunk’s research team wants to highlight how these attack vectors look in AWS Cloudtrail logs and provide you with detection queries to uncover these potentially malicious events via this Analytic Story. \
+'
+references:
+- https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/
+- https://www.cyberark.com/resources/threat-research-blog/the-cloud-shadow-admin-threat-10-permissions-to-protect
+- https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
+tags:
+  analytic_story: AWS IAM Privilege Escalation
+  category:
+  - Cloud Security
+  product:
+  - Splunk Security Analytics for AWS
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring
