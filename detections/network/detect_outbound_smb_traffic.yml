@@ -56,4 +56,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Traffic.action
+  - All_Traffic.app
+  - All_Traffic.dest_ip
+  - All_Traffic.dest_port
+  - sourcetype
+  - All_Traffic.dest_category
+  - All_Traffic.src_ip
   security_domain: network

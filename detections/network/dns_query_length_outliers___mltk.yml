@@ -68,4 +68,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.src
+  - DNS.dest
+  - DNS.query
+  - DNS.record_type
   security_domain: network

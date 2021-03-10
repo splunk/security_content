@@ -45,4 +45,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Sessions.signature
+  - All_Sessions.src_ip
+  - All_Sessions.dest_mac
   security_domain: network
