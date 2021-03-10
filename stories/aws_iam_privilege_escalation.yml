@@ -1,5 +1,5 @@
 name: AWS IAM Privilege Escalation
-id: ced74200-8465-4bc3-bd2c-9a782eec6750
+id: ced74200-8465-4bc3-bd2c-22782eec6750
 version: 1
 date: '2021-03-08'
 author: David Dorsey, Splunk
