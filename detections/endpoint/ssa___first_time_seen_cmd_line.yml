@@ -31,6 +31,8 @@ known_false_positives: Legitimate programs can also use command-line arguments t
   macro to exclude legitimate parent_process_name
 references: []
 tags:
+  analytic_story:
+    - Unusual Processes
   cis20:
   - CIS 3
   - CIS 8
