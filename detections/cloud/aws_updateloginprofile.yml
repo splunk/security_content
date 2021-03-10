@@ -42,6 +42,3 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createaccesskey/aws_cloudtrail_events.json
