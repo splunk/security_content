@@ -639,7 +639,8 @@ def main(REPO_PATH, OUTPUT_PATH, VERBOSE):
     baselines = sorted(baselines, key=lambda b: b['name'])
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
 
-    stories = sorted(stories, key=lambda s: s['name'])
+    # only use ESCU stories to the configuration
+    stories = sorted(filter(lambda s: s['type'].lower() == 'batch', stories), key=lambda s: s['name'])
     story_path = generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
