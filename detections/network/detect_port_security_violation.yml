@@ -64,5 +64,7 @@ tags:
   - src_int_suffix
   - src_mac
   - src_vlan
+  - action
+  - host
   - src_interface
   security_domain: network
