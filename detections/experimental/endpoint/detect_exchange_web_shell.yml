@@ -1,4 +1,4 @@
-name: Detect Exchange Webshell
+name: Detect Exchange Web Shell
 id: 44465d80-810b-11eb-aa30-acde48001122
 version: 1
 date: '2021-03-09'
@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | rename parent_process_id as aspx_pid | fields _time aspx_pid process_id dest process_name
   process_path process] | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | table firstTime, lastTime, aspx_pid, process_id, user, dest, file_name, file_path,
-  process_name, process, process_path, file_hash | `detect_exchange_webshell_filter`'
+  process_name, process, process_path, file_hash | `detect_exchange_web_shell_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node. 
