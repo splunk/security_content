@@ -26,6 +26,8 @@ known_false_positives: None identified.
 references:
 - https://github.com/gentilkiwi/mimikatz
 tags:
+  analytic_story:
+    - Windows Service Abuse
   asset_type: Windows
   cis20:
   - CIS 16
