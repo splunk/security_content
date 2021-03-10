@@ -23,6 +23,8 @@ known_false_positives: Older systems that support kerberos RC4 by default NetApp
 references:
 - Initial ESCU implementation by Jose Hernandez and Patrick Bareiss
 tags:
+  analytic_story:
+  - Credential Dumping
   cis20:
   - CIS 8
   - CIS 16
