@@ -1,6 +1,7 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   K8S_PLAYGROUND_ROLE: k8s:v1/app-play1/namespace/threat-research/role/deployer
+  K8S_STAGING_ROLE: k8s:v1/app-stage1/namespace/tr-st-deploy/role/deployer
   DOCKER_ROLE: docker:v1/registry/prefix/threat-research
   K8_DEPLOYER_CONTAINER: docker.repo.splunkdev.net/threat-research/k8-deployer
   SMOKETEST_RUNNER: docker.repo.splunkdev.net/threat-research/smoketest-runner
@@ -9,6 +10,7 @@ variables:
 stages:
   - publish_smoketest_runner
   - publish_deployer
+  - smoketest_staging
   - smoketest_play
   - ssa-validate
 
@@ -57,4 +59,19 @@ smoketest_play:
     - ./deployer.sh
   variables:
     SCSENV: app_play1
+    SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
+
+smoketest_staging:
+  stage: smoketest_staging
+  dependencies:
+    - publish_smoketest_runner
+    - publish_deployer
+  image: ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
+  script:
+    - eval $(go-go vault -a ${K8S_STAGING_ROLE})
+    - eval $(go-go vault -a ${DOCKER_ROLE})
+    - cd /deployer/k8s
+    - ./deployer.sh
+  variables:
+    SCSENV: app_staging1
     SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}

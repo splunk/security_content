@@ -7,9 +7,9 @@ spec:
     app_play1:
       defaultNamespace: threat-research
       server: https://internal.api.app-play1.dev.us-west-2.splunk8s.io
-    app_play2:
-      defaultNamespace: threat-research
-      server: https://internal.api.app-play1.dev.us-west-2.splunk8s.io
+    app_staging1:
+      defaultNamespace: tr-st-deploy
+      server: https://internal.api.app-stage1.stage.us-west-2.splunk8s.io
   vars:
     external:
       - name: SCBRANCH
