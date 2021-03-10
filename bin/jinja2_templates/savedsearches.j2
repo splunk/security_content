@@ -98,11 +98,11 @@ search = {{ detection.search }}
 ### ESCU BASELINES ###
 
 {% for baseline in baselines %}
-[{{ baseline.type | default('ESCU') }} - {{ baseline.name }}]
+[ESCU - {{ baseline.name }}]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = support
-action.escu.full_search_name = {{ baseline.type | default('ESCU') }} - {{ baseline.name }}
+action.escu.full_search_name = ESCU - {{ baseline.name }}
 description = {{ baseline.description }}
 action.escu.creation_date = {{ baseline.date }}
 action.escu.modification_date = {{ baseline.date }}
