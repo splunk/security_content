@@ -25,5 +25,6 @@ RUN mkdir /deployer && \
 COPY k8s /deployer/k8s
 
 RUN chmod +x /deployer/k8s/deployer.sh
+RUN chmod +x /deployer/k8s/check_deploy_status.sh
 
 WORKDIR /deployer/k8s

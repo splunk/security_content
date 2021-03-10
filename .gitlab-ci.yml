@@ -57,6 +57,7 @@ smoketest_play:
     - eval $(go-go vault -a ${DOCKER_ROLE})
     - cd /deployer/k8s
     - ./deployer.sh
+    - ./check_deploy_status.sh
   variables:
     SCSENV: app_play1
     SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
@@ -72,6 +73,7 @@ smoketest_staging:
     - eval $(go-go vault -a ${DOCKER_ROLE})
     - cd /deployer/k8s
     - ./deployer.sh
+    - ./check_deploy_status.sh
   variables:
     SCSENV: app_staging1
     SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
