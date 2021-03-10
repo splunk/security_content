@@ -32,6 +32,11 @@ known_false_positives: There are circumstances where an application may legitima
   the lookup file, as appropriate.
 references: []
 tags:
+  analytic_story:
+    - Suspicious Command-Line Executions
+    - Suspicious MSHTA Activity
+    - Suspicious Zoom Child Processes
+    - Sunburst Malware
   cis20:
   - CIS 8
   kill_chain_phases:
