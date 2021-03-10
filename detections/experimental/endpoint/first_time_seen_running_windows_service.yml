@@ -47,4 +47,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - dest
   security_domain: endpoint

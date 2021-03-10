@@ -59,6 +59,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - action
+  - src_ip
+  - dest_ip
   risk_object: src_ip
   risk_object_type: system
   risk_score: 20

@@ -52,4 +52,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Traffic.bytes_out
+  - All_Traffic.src_category
+  - All_Traffic.dest_ip
   security_domain: network
