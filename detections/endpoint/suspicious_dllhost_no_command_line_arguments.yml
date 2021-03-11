@@ -1,0 +1,41 @@
+name: Suspicious DLLHost no Command Line Arguments
+id: ff61e98c-0337-4593-a78f-72a676c56f26
+version: 1
+date: '2021-02-23'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: The following analytic identifies DLLHost.exe with no command line arguments.
+  It is unusual for DLLHost.exe to execute with no command line arguments present.
+  This particular behavior is common with malicious software, including Cobalt Strike.
+  During investigation, identify any network connections and parallel processes. Identify
+  any suspicious module loads related to credential dumping or file writes. DLLHost.exe
+  is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+search: '`sysmon` EventID=1 (process_name=dllhost.exe OR OriginalFileName=dllhost.exe)
+  | regex CommandLine="(dllhost\.exe.{0,4}$)" | stats count min(_time) as firstTime
+  max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
+  OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_dllhost_no_command_line_arguments_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Limited false positives may be present in small environments.
+  Tuning may be required based on parent process.
+references:
+- https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
+- https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+tags:
+  analytic_story:
+  - Cobalt Strike
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1055
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

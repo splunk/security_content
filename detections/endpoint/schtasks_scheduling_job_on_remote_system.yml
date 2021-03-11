@@ -26,7 +26,7 @@ references: []
 tags:
   analytic_story:
   - Lateral Movement
-  - Sunburst Malware
+  - NOBELIUM Group
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

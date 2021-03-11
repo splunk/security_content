@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Suspicious MSHTA Activity
+  - NOBELIUM Group
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

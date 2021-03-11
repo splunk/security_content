@@ -38,7 +38,7 @@ references: []
 tags:
   analytic_story:
   - SamSam Ransomware
-  - Ryuk Ransonware
+  - Ryuk Ransomware
   - Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed

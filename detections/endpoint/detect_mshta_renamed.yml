@@ -31,7 +31,7 @@ tags:
   cis20:
   - CIS 8
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -54,3 +54,4 @@ tags:
   - process_path
   - CommandLine
   security_domain: endpoint
+  automated_detection_testing: passed

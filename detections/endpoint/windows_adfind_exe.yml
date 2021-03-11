@@ -29,7 +29,7 @@ references:
 - https://www.fireeye.com/blog/threat-research/2019/01/a-nasty-trick-from-credential-theft-malware-to-business-disruption.html
 tags:
   analytic_story:
-  - Sunburst Malware
+  - NOBELIUM Group
   asset_type: Endpoint
   cis20:
   - CIS 8

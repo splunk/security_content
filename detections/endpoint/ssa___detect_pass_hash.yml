@@ -23,6 +23,8 @@ known_false_positives: Legitimate logon activity by authorized NTLM systems may 
 references:
 - Initial ESCU implementation by Bhavin Patel and Patrick Bareiss
 tags:
+  analytic_story:
+    - Lateral Movement
   cis20:
   - CIS 3
   - CIS 5

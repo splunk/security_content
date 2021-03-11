@@ -23,10 +23,14 @@ known_false_positives: None identified.
 references:
 - https://github.com/gentilkiwi/mimikatz
 tags:
+  analytic_story:
+    - Windows Log Manipulation
   asset_type: Windows
   cis20:
   - CIS 16
   - CIS 20
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/illegal_log_deletion/logAllMimikatzModules.log
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
