@@ -79,7 +79,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     for object in objects['detections']:
         if object['type'] == 'batch':
             errors = errors + validate_detection_search(object, objects['macros'])
-            errors = errors + validate_required_fields(object)
+            errors = errors + validate_fields(object)
 
     for object in objects['baselines']:
         errors = errors + validate_baseline_search(object, objects['macros'])
@@ -89,7 +89,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     return errors
 
 
-def validate_required_fields(object):
+def validate_fields(object):
     errors = []
 
     if 'tags' in object:
@@ -97,6 +97,9 @@ def validate_required_fields(object):
         # check if required_fields is present
         if 'required_fields' not in object['tags']:
             errors.append("ERROR: a `required_fields` tag is required for object: %s" % object['name'])
+
+        if 'security_domain' not in object['tags']:
+            errors.append("ERROR: a `security_domain` tag is required for object: %s" % object['name'])
 
     return errors
 
