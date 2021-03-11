@@ -32,5 +32,4 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - 
   security_domain: threat
