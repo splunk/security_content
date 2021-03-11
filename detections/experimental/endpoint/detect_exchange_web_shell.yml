@@ -38,6 +38,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  security_domain: endpoint
   required_fields:
   - _time
   - Filesystem.file_path
