@@ -44,5 +44,5 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
+  - _times
   security_domain: endpoint
