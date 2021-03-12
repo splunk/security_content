@@ -40,6 +40,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventType
+  - errorCode
+  - userIdentity.type
+  - userName
+  - eventName
   risk_object: user
   risk_object_type: user
   risk_score: 5

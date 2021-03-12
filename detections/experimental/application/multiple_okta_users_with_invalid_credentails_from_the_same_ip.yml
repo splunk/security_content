@@ -34,4 +34,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - outcome.reason
+  - client.geographicalContext.country
+  - client.geographicalContext.state
+  - client.geographicalContext.city
+  - user
+  - src_ip
+  - displayMessage
   security_domain: access
