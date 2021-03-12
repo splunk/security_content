@@ -1,0 +1,57 @@
+{
+  "$id": "https://raw.githubusercontent.com/splunk/security_content/develop/docs/spec/tests.spec.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "additionalProperties": true,
+  "default": {},
+  "description": "schema test file",
+  "properties": {
+    "name": {
+      "$id": "#/properties/name",
+      "default": "",
+      "description": "Name of the Analytics Story",
+      "examples": [
+        "Credential Dumping"
+      ],
+      "type": "string"
+    },
+    "tests": {
+      "$id": "#/properties/tests",
+      "additionalProperties": true,
+      "default": {},
+      "description": "a test description.",
+      "examples": [
+        [
+          {
+            "name": "Detect Activity Related to Pass the Hash Attacks",
+            "file": "endpoint/detect_activity_related_to_pass_the_hash_attacks.yml",
+            "pass_condition": "| stats count | where count > 0",
+            "earliest_time": "-24h",
+            "latest_time": "now",
+            "attack_data": [
+              {
+                "file_name": "windows-security.log",
+                "data": "https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log",
+                "source": "WinEventLog:Security",
+                "sourcetype": "WinEventLog",
+                "update_timestamp": true
+              }
+            ]
+          }
+        ]
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": [
+   {
+     "type": "object"
+   }
+ ]
+    }
+  },
+  "required": [
+    "name",
+    "tests"
+  ],
+  "title": "Test file schema",
+  "type": "object"
+}
