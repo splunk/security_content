@@ -45,4 +45,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.dest_category
+  - DNS.src_category
+  - DNS.src
+  - DNS.dest
   security_domain: network
