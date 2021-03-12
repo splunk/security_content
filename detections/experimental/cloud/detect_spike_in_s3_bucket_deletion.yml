@@ -52,6 +52,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - userIdentity.arn
   risk_object: user
   risk_object_type: user
   risk_score: 10

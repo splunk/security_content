@@ -31,4 +31,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.url
+  - Web.src
   security_domain: network

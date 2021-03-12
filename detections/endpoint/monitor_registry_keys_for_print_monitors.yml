@@ -47,4 +47,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.action
+  - Registry.registry_path
+  - Registry.dest
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.registry_value_name
   security_domain: endpoint

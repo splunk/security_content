@@ -33,4 +33,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - requestParameters.x-amz-server-side-encryption
+  - requestParameters.bucketName
+  - requestParameters.x-amz-copy-source
+  - requestParameters.key
+  - userAgent
+  - region
   security_domain: threat

@@ -39,4 +39,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - server_name
+  - src_ip
+  - dest_ip
   security_domain: network
