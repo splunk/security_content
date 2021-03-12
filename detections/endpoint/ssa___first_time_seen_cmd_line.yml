@@ -32,7 +32,7 @@ known_false_positives: Legitimate programs can also use command-line arguments t
 references: []
 tags:
   analytic_story:
-    - Unusual Processes
+  - Unusual Processes
   cis20:
   - CIS 3
   - CIS 8
