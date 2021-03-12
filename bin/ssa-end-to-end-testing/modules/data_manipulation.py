@@ -16,7 +16,7 @@ class DataManipulation:
 
 
     def manipulate_timestamp_windows_event_log_raw(self, file_path):
-        path =  file_path
+        path = file_path
 
         f = io.open(path, "r", encoding="utf-8")
         pst = timezone('US/Pacific')
@@ -35,7 +35,7 @@ class DataManipulation:
 
             result = re.sub(regex, self.replacement_function, data)
 
-            with io.open(path, "w+", encoding='utf8') as f:
+            with io.open(path + ".swp", "w+", encoding='utf8') as f:
                 f.write(result)
         else:
             f.close()

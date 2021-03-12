@@ -376,7 +376,6 @@ class DSPApi:
             "body": data,
             "sourcetype": "WinEventLog"
             }]
-        LOGGER.info(f"Send Events")
         response = requests.post(self.return_api_endpoint(INGEST_ENDPOINT), json=data, headers=request_headers(self.header_token))
         return response.json()
 

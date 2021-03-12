@@ -1,4 +1,4 @@
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -25,7 +25,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -52,7 +52,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -79,7 +79,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -106,7 +106,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -133,7 +133,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -160,7 +160,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -187,7 +187,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -214,7 +214,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -241,7 +241,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -268,7 +268,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -309,7 +309,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -340,7 +340,7 @@ Privileges:		SeAssignPrimaryTokenPrivilege
 			SeSystemEnvironmentPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -410,7 +410,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -451,7 +451,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -492,7 +492,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -533,7 +533,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -574,7 +574,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -615,7 +615,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -656,7 +656,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:45 AM
+03/12/2021 10:48:14 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -697,7 +697,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -724,7 +724,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -751,7 +751,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -778,7 +778,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -805,7 +805,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -832,7 +832,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -859,7 +859,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -886,7 +886,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -913,7 +913,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -940,7 +940,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -967,7 +967,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -994,7 +994,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1021,7 +1021,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1048,7 +1048,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1075,7 +1075,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1102,7 +1102,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1129,7 +1129,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1156,7 +1156,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1183,7 +1183,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1210,7 +1210,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1237,7 +1237,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1264,7 +1264,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1291,7 +1291,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1318,7 +1318,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1345,7 +1345,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1372,7 +1372,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1399,7 +1399,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1426,7 +1426,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1453,7 +1453,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1480,7 +1480,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1507,7 +1507,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1534,7 +1534,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1561,7 +1561,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1588,7 +1588,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1615,7 +1615,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1642,7 +1642,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1669,7 +1669,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1696,7 +1696,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1723,7 +1723,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1750,7 +1750,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1777,7 +1777,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1804,7 +1804,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1831,7 +1831,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1858,7 +1858,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1885,7 +1885,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1912,7 +1912,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1939,7 +1939,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1966,7 +1966,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -1993,7 +1993,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2020,7 +2020,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2047,7 +2047,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2074,7 +2074,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2101,7 +2101,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -2142,7 +2142,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -2173,7 +2173,7 @@ Privileges:		SeAssignPrimaryTokenPrivilege
 			SeSystemEnvironmentPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:46 AM
+03/12/2021 10:48:15 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -2243,7 +2243,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2270,7 +2270,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2297,7 +2297,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2324,7 +2324,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2351,7 +2351,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2378,7 +2378,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2405,7 +2405,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2432,7 +2432,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2459,7 +2459,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2486,7 +2486,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2513,7 +2513,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2540,7 +2540,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2567,7 +2567,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2594,7 +2594,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2621,7 +2621,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2648,7 +2648,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2675,7 +2675,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2702,7 +2702,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2729,7 +2729,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2756,7 +2756,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2783,7 +2783,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2810,7 +2810,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2837,7 +2837,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2864,7 +2864,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2891,7 +2891,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2918,7 +2918,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2945,7 +2945,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2972,7 +2972,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -2999,7 +2999,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3026,7 +3026,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3053,7 +3053,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3080,7 +3080,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3107,7 +3107,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3134,7 +3134,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3161,7 +3161,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3188,7 +3188,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3215,7 +3215,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3242,7 +3242,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3269,7 +3269,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3296,7 +3296,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3323,7 +3323,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3350,7 +3350,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3377,7 +3377,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3404,7 +3404,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3431,7 +3431,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3458,7 +3458,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3485,7 +3485,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3512,7 +3512,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3539,7 +3539,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3566,7 +3566,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3593,7 +3593,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4905
@@ -3619,7 +3619,7 @@ Process:
 Event Source:
 	Source Name:	VSSAudit
 	Event Source ID:	0x569D12
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4904
@@ -3645,7 +3645,7 @@ Process:
 Event Source:
 	Source Name:	VSSAudit
 	Event Source ID:	0x569D12
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3672,7 +3672,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3699,7 +3699,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3726,7 +3726,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3753,7 +3753,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3780,7 +3780,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3807,7 +3807,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3834,7 +3834,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3861,7 +3861,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3888,7 +3888,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3915,7 +3915,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3942,7 +3942,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3969,7 +3969,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -3996,7 +3996,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4023,7 +4023,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4050,7 +4050,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4077,7 +4077,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4104,7 +4104,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4131,7 +4131,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4158,7 +4158,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4185,7 +4185,7 @@ Group:
 Process Information:
 	Process ID:		0x1200
 	Process Name:		C:\Windows\System32\esentutl.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4212,7 +4212,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4239,7 +4239,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4266,7 +4266,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:47 AM
+03/12/2021 10:48:16 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -4293,7 +4293,7 @@ Group:
 Process Information:
 	Process ID:		0xf08
 	Process Name:		C:\Windows\System32\VSSVC.exe
-03/12/2021 02:51:51 AM
+03/12/2021 10:48:20 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -4338,7 +4338,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:52 AM
+03/12/2021 10:48:21 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -4379,7 +4379,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:52 AM
+03/12/2021 10:48:21 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -4420,7 +4420,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:52 AM
+03/12/2021 10:48:21 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -4461,7 +4461,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:52 AM
+03/12/2021 10:48:21 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -4502,7 +4502,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -4524,7 +4524,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -4546,7 +4546,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -4568,7 +4568,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -4597,7 +4597,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -4667,7 +4667,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -4705,7 +4705,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -4742,7 +4742,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -4782,7 +4782,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -4804,7 +4804,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -4833,7 +4833,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -4903,7 +4903,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -4941,7 +4941,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -4978,7 +4978,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -5018,7 +5018,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -5040,7 +5040,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -5062,7 +5062,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -5084,7 +5084,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -5125,7 +5125,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:53 AM
+03/12/2021 10:48:22 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -5166,7 +5166,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -5195,7 +5195,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -5265,7 +5265,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -5303,7 +5303,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -5340,7 +5340,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -5380,7 +5380,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -5421,7 +5421,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -5462,7 +5462,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -5491,7 +5491,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -5561,7 +5561,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -5599,7 +5599,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -5636,7 +5636,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -5676,7 +5676,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -5717,7 +5717,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -5758,7 +5758,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -5787,7 +5787,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -5857,7 +5857,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -5895,7 +5895,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -5932,7 +5932,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -5972,7 +5972,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6013,7 +6013,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6054,7 +6054,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6095,7 +6095,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4799
@@ -6122,7 +6122,7 @@ Group:
 Process Information:
 	Process ID:		0x5d8
 	Process Name:		C:\Windows\System32\svchost.exe
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -6151,7 +6151,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -6221,7 +6221,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -6259,7 +6259,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -6296,7 +6296,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:54 AM
+03/12/2021 10:48:23 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -6336,7 +6336,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6377,7 +6377,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6418,7 +6418,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6459,7 +6459,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -6488,7 +6488,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -6558,7 +6558,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -6596,7 +6596,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -6633,7 +6633,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -6673,7 +6673,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6714,7 +6714,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:55 AM
+03/12/2021 10:48:24 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6755,7 +6755,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:56 AM
+03/12/2021 10:48:25 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6796,7 +6796,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:56 AM
+03/12/2021 10:48:25 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6837,7 +6837,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:56 AM
+03/12/2021 10:48:25 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6878,7 +6878,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:56 AM
+03/12/2021 10:48:25 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6919,7 +6919,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:56 AM
+03/12/2021 10:48:25 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -6960,7 +6960,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:56 AM
+03/12/2021 10:48:25 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -7001,7 +7001,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7023,7 +7023,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7045,7 +7045,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7067,7 +7067,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -7096,7 +7096,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -7166,7 +7166,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -7204,7 +7204,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -7241,7 +7241,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -7281,7 +7281,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7303,7 +7303,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -7332,7 +7332,7 @@ Privileges:		SeSecurityPrivilege
 			SeEnableDelegationPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -7402,7 +7402,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4648
@@ -7440,7 +7440,7 @@ Network Information:
 	Port:			-
 
 This event is generated when a process attempts to log on an account by explicitly specifying that account’s credentials.  This most commonly occurs in batch-type configurations such as scheduled tasks, or when using the RUNAS command.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4769
@@ -7477,7 +7477,7 @@ This event is generated every time access is requested to a resource such as a c
 This event can be correlated with Windows logon events by comparing the Logon GUID fields in each event.  The logon event occurs on the machine that was accessed, which is often a different machine than the domain controller which issued the service ticket.
 
 Ticket options, encryption types, and failure codes are defined in RFC 4120.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4768
@@ -7517,7 +7517,7 @@ Certificate Information:
 Certificate information is only provided if a certificate was used for pre-authentication.
 
 Pre-authentication types, ticket options, encryption types and result codes are defined in RFC 4120.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7539,7 +7539,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7561,7 +7561,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:51:57 AM
+03/12/2021 10:48:26 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7583,7 +7583,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:52:06 AM
+03/12/2021 10:48:35 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4634
@@ -7605,7 +7605,7 @@ Subject:
 Logon Type:			3
 
 This event is generated when a logon session is destroyed. It may be positively correlated with a logon event using the Logon ID value. Logon IDs are only unique between reboots on the same computer.
-03/12/2021 02:52:06 AM
+03/12/2021 10:48:35 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4624
@@ -7675,7 +7675,7 @@ The authentication information fields provide detailed information about this sp
 	- Transited services indicate which intermediate services have participated in this logon request.
 	- Package name indicates which sub-protocol was used among the NTLM protocols.
 	- Key length indicates the length of the generated session key. This will be 0 if no session key was requested.
-03/12/2021 02:52:06 AM
+03/12/2021 10:48:35 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4672
@@ -7704,7 +7704,7 @@ Privileges:		SeSecurityPrivilege
 			SeImpersonatePrivilege
 			SeDelegateSessionUserImpersonatePrivilege
 			SeEnableDelegationPrivilege
-03/12/2021 02:52:14 AM
+03/12/2021 10:48:43 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -7745,7 +7745,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:52:15 AM
+03/12/2021 10:48:44 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -7786,7 +7786,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:52:15 AM
+03/12/2021 10:48:44 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -7827,7 +7827,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:52:17 AM
+03/12/2021 10:48:46 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -7868,7 +7868,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:52:18 AM
+03/12/2021 10:48:47 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -7909,7 +7909,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:52:18 AM
+03/12/2021 10:48:47 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688
@@ -7950,7 +7950,7 @@ Type 1 is a full token with no privileges removed or groups disabled.  A full to
 Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
 
 Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
-03/12/2021 02:52:19 AM
+03/12/2021 10:48:48 AM
 LogName=Security
 SourceName=Microsoft Windows security auditing.
 EventCode=4688

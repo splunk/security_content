@@ -131,7 +131,9 @@ class SSADetectionTesting:
         self.wait_time(SLEEP_TIME_ACTIVATE_PIPELINE)
 
         data = read_data(source)
-        response_body = self.api.ingest_data(data)
+        LOGGER.info("Sending (%d) events" % (len(data)))
+        for d in data:
+            response_body = self.api.ingest_data(d)
 
         self.wait_time(SLEEP_TIME_SEND_DATA)
 
