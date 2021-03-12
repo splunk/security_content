@@ -45,4 +45,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - facility
+  - mnemonic
+  - disable_cause
+  - src_int_prefix_long
+  - src_int_suffix
+  - host
+  - src_interface
   security_domain: network

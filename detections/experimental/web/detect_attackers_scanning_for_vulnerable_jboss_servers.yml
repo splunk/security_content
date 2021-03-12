@@ -32,4 +32,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.src
+  - Web.dest
   security_domain: network

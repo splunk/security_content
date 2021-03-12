@@ -34,4 +34,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - LogonError
+  - ActorIpAddress
+  - UserAgent
+  - UserId
   security_domain: threat
