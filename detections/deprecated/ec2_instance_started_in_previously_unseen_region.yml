@@ -41,6 +41,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - awsRegion
   risk_object: src
   risk_object_type: system
   risk_score: 10
