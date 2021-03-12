@@ -33,4 +33,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Category
+  - Name
+  - Source
+  - Severity
+  - AlertEntityId
+  - Operation
   security_domain: threat

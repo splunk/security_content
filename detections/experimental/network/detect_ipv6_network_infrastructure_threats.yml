@@ -56,4 +56,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - facility
+  - mnemonic
+  - src_int_prefix_long
+  - src_int_suffix
+  - dest_int_prefix_long
+  - dest_int_suffix
+  - src_mac
+  - src_vlan
+  - vendor_explanation
+  - action
   security_domain: network
