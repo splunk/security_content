@@ -50,6 +50,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - sourceIPAddress
   risk_object: user
   risk_object_type: user
   risk_score: 25

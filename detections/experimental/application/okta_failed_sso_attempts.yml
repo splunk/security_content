@@ -29,4 +29,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - displayMessage
+  - app
+  - user
+  - result
+  - src_ip
   security_domain: access

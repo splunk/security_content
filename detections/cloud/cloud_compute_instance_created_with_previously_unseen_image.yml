@@ -43,6 +43,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.object_id
+  - All_Changes.action
+  - All_Changes.Instance_Changes.image_id
+  - All_Changes.user
   risk_object: user
   risk_object_type: user
   risk_score: 20

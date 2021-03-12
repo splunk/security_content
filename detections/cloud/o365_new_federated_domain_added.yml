@@ -38,4 +38,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - Parameters{}.Value
+  - ObjectId
+  - OrganizationName
+  - OriginatingServer
+  - UserId
+  - UserKey
   security_domain: threat
