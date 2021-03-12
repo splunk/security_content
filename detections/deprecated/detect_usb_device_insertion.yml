@@ -42,4 +42,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.result
+  - All_Changes.result_id
+  - All_Changes.src_priority
+  - All_Changes.dest
   security_domain: endpoint

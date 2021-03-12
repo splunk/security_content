@@ -37,4 +37,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - app
+  - name
+  - columns.cmdline
+  - columns.name
+  - columns.pid
+  - host
   security_domain: threat

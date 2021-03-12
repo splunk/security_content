@@ -38,4 +38,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.result
+  - nodename
+  - All_Changes.user
   security_domain: access

@@ -29,4 +29,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - userIdentity.type
+  - sourceIPAddress
+  - userName userIdentity.type
+  - userAgent
+  - action
+  - status
+  - responseElements.accessKey.createDate
+  - esponseElements.accessKey.status
+  - responseElements.accessKey.accessKeyId
   security_domain: threat

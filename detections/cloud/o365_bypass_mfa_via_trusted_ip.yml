@@ -39,4 +39,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - signature
+  - ModifiedProperties{}.Name
+  - ModifiedProperties{}.NewValue
+  - ModifiedProperties{}.OldValue
+  - user
+  - vendor_product
+  - vendor_account
+  - status
+  - user_id
+  - action
   security_domain: threat
