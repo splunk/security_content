@@ -35,4 +35,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - data.protoPayload.authorizationInfo{}.permission
+  - data.protoPayload.requestMetadata.callerIp
+  - data.protoPayload.authenticationInfo.principalEmail
+  - data.protoPayload.authorizationInfo{}.permission
+  - data.protoPayload.response.bindings{}.members{}
+  - data.resource.labels.project_id
   security_domain: threat
