@@ -1,7 +1,7 @@
 name: Detect SNICat SNI Exfiltration Unit Test
 tests:
 - name: Detect SNICat SNI Exfiltration
-  file: network/detect_snicat_sni_exfiltration.yml
+  file: experimental/network/detect_snicat_sni_exfiltration.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
