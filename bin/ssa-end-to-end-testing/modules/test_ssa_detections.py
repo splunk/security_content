@@ -17,9 +17,10 @@ LOGGER = logging.getLogger(__name__)
 SLEEP_TIME_CREATE_INDEX = 10
 SLEEP_TIME_ACTIVATE_PIPELINE = 10
 SLEEP_TIME_SEND_DATA = 30
-WAIT_CYCLE = 10
-MAX_EXECUTION_TIME_LIMIT = 200  # per detection test
+WAIT_CYCLE = 20
+MAX_EXECUTION_TIME_LIMIT = 1200  # per detection test
 
+TEST_DATASET = 'windows-security_small.txt'
 
 class SSADetectionTesting:
 
@@ -34,7 +35,7 @@ class SSADetectionTesting:
 
     def test_dsp_pipeline(self):
 
-        file_path_data = os.path.join(os.path.dirname(__file__), 'data', 'example.txt')
+        file_path_data = os.path.join(os.path.dirname(__file__), 'data', TEST_DATASET)
         file_path_spl = os.path.join(os.path.dirname(__file__), 'spl')
 
         test_spls = ['troubleshoot.spl', 'detection.spl']

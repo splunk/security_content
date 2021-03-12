@@ -3,6 +3,8 @@ import logging
 import os
 import fileinput
 
+from .data_manipulation import DataManipulation
+
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
@@ -102,6 +104,8 @@ def replace_ssa_macros(env, spl):
 
 def read_data(file_name):
     file_path = os.path.join(os.path.dirname(__file__), 'data', file_name)
+    data_manipulation = DataManipulation()
+    data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
     data = "".join([line for line in fileinput.input(files=file_path)])
     return data
 
