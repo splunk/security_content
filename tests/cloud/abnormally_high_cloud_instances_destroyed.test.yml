@@ -1,7 +1,7 @@
 name: Abnormally High Number Of Cloud Instances Destroyed Unit Test
 tests:
 - name: Abnormally High Number Of Cloud Instances Destroyed
-  file: cloud/abnormally_high_cloud_instances_destroyed.yml
+  file: experimental/cloud/abnormally_high_cloud_instances_destroyed.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
