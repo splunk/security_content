@@ -57,4 +57,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.record_type
+  - DNS.answer
+  - DNS.src
+  - DNS.message_type
+  - DNS.query
   security_domain: network
