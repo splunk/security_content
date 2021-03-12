@@ -26,4 +26,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - userAgent
+  - sourceIPs{}
+  - src_user
+  - src_ip
+  - verb
+  - requestURI
   security_domain: threat
