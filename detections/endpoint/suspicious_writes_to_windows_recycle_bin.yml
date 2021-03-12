@@ -40,4 +40,15 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_path
+  - Filesystem.file_name
+  - Filesystem.process_id
+  - Filesystem.dest
+  - Processes.user
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.process_id
+  - Processes.dest
   security_domain: endpoint

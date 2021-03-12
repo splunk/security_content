@@ -56,4 +56,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - PipeName
+  - Computer
+  - process_name
+  - process_path
+  - process_id
   security_domain: endpoint
