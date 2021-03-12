@@ -45,4 +45,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Email.recipient
+  - All_Email.file_name
+  - All_Email.src_user
+  - All_Email.file_name
+  - All_Email.message_id
   security_domain: network
