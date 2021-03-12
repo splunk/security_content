@@ -42,4 +42,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.url
+  - Web.src
+  - Web.dest
+  - Web.vendor_product
+  - Web.user
+  - Web.http_user_agent
   security_domain: network

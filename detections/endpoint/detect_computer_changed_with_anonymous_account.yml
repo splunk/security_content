@@ -37,4 +37,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - TargetUserName
+  - LogonType
+  - TargetDomainName
+  - user
   security_domain: endpoint

@@ -74,4 +74,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.answer
+  - DNS.query
+  - host
   security_domain: network

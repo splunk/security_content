@@ -32,4 +32,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Operation
+  - UserType
+  - user
+  - status
+  - signature
+  - dest
+  - ResultStatus
   security_domain: threat
