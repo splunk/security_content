@@ -1,7 +1,7 @@
 name: High Number of Login Failures from a single source Unit Test
 tests:
 - name: High Number of Login Failures from a single source
-  file: cloud/high_number_of_login_failures_from_a_single_source.yml
+  file: experimental/cloud/high_number_of_login_failures_from_a_single_source.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

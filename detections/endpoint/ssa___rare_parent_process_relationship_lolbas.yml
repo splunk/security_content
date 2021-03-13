@@ -56,6 +56,8 @@ known_false_positives: 'Some custom tools used by admins could be used rarely to
   '
 references: []
 tags:
+  analytic_story:
+  - Unusual Processes
   cis20:
   - CIS 8
   kill_chain_phases:

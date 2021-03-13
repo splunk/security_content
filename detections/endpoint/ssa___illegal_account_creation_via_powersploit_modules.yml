@@ -22,6 +22,8 @@ known_false_positives: None identified.
 references:
 - https://github.com/PowerShellMafia/PowerSploit
 tags:
+  analytic_story:
+  - Windows Persistence Techniques
   asset_type: Windows
   cis20:
   - CIS 16

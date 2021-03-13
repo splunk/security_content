@@ -1,0 +1,31 @@
+name: AWS EKS Kubernetes cluster sensitive object access
+id: 7f227943-2196-4d4d-8d6a-ac8cb308e61c
+version: 1
+date: '2020-06-23'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides information on Kubernetes accounts accessing sensitve
+  objects such as configmaps or secrets
+search: '`aws_cloudwatchlogs_eks` objectRef.resource=secrets OR configmaps sourceIPs{}!=::1
+  sourceIPs{}!=127.0.0.1  |table sourceIPs{} user.username user.groups{} objectRef.resource
+  objectRef.namespace objectRef.name annotations.authorization.k8s.io/reason |dedup
+  user.username user.groups{} |`aws_eks_kubernetes_cluster_sensitive_object_access_filter`'
+how_to_implement: You must install Splunk Add-on for Amazon Web Services and Splunk
+  App for AWS. This search works with cloudwatch logs.
+known_false_positives: Sensitive object access is not necessarily malicious but user
+  and object context can provide guidance for detection.
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Sensitive Object Access Activity
+  asset_type: AWS EKS Kubernetes cluster
+  kill_chain_phases:
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: threat
