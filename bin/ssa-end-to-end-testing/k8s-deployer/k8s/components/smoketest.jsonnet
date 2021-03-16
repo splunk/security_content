@@ -9,6 +9,7 @@ local job = {
         labels: {
             name: 'ssa-smoketest',
         	uploaderLabel: std.extVar('CI_COMMIT_SHORT_SHA'),
+        	ciJobId: std.extVar('CI_JOB_ID'),
         },
     },
     spec: {
