@@ -172,7 +172,7 @@ class SSADetectionTesting:
 
     def ssa_detection_test_teardown(self):
         pass
-        #self.api.delete_temp_index(self.results_index["id"])
+        self.api.delete_temp_index(self.results_index["id"])
 
 
     def ssa_detection_test(self, spl, source, test_name):

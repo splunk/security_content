@@ -2,6 +2,10 @@
 import git
 import os
 import logging
+from os import path
+import yaml
+import glob
+import sys
 
 
 # Logger
@@ -33,11 +37,39 @@ class GithubService:
 
         changed_ssa_test_files = []
 
+        tests = self.read_security_content_test_files()
+
         for file_path in changed_files:
+            # added or changed test files
             if file_path.startswith('tests'):
                 if os.path.basename(file_path).startswith('ssa'):
                     changed_ssa_test_files.append(file_path)
 
+            # changed detections
+
+
         return changed_ssa_test_files
 
     
+    def load_objects(self, file_path):
+        files = []
+        manifest_files = 'security_content/' + file_path
+        for file in sorted(glob.glob(manifest_files)):
+            files.append(self.load_file(file))
+        return files
+
+
+    def load_file(self, file_path):
+        with open(file_path, 'r', encoding="utf-8") as stream:
+            try:
+                file = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                sys.exit("ERROR: reading {0}".format(file_path))
+        return file
+
+
+    def read_security_content_test_files(self):
+        tests = self.load_objects("tests/*/*.yml")
+        print(len(tests))
+        return tests
