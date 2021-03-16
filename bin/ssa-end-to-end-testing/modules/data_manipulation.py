@@ -12,7 +12,7 @@ class DataManipulation:
     def manipulate_timestamp(self, file_path, sourcetype, source):
 
         if source == 'WinEventLog:Security':
-            self.manipulate_timestamp_windows_event_log_raw(file_path)
+            return self.manipulate_timestamp_windows_event_log_raw(file_path)
 
 
     def manipulate_timestamp_windows_event_log_raw(self, file_path):
@@ -37,9 +37,10 @@ class DataManipulation:
 
             with io.open(path + ".swp", "w+", encoding='utf8') as f:
                 f.write(result)
+                return path + ".swp"
         else:
             f.close()
-            return
+            return path
 
 
     def replacement_function(self, match):

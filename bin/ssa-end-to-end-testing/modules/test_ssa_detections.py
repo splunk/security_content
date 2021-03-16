@@ -132,6 +132,11 @@ class SSADetectionTesting:
 
         data = read_data(source)
         LOGGER.info("Sending (%d) events" % (len(data)))
+
+        if len(data) == 0:
+            LOGGER.warning("No events to send, skip to next test.")
+            return self.test_results
+
         for d in data:
             response_body = self.api.ingest_data(d)
 

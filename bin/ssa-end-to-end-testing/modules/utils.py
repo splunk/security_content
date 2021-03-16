@@ -106,11 +106,11 @@ def replace_ssa_macros(env, spl):
 def read_data(file_name):
     file_path = os.path.join(os.path.dirname(__file__), 'data', file_name)
     data_manipulation = DataManipulation()
-    data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
+    modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
     data = []
     event = ""
     date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
-    for line in fileinput.input(files=file_path + '.swp'):
+    for line in fileinput.input(files=modified_file):
         if event != "" and re.match(date_rex, line):
             data.append(event)
             event = line
