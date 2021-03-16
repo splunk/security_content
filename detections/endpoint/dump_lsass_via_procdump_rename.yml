@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  - HAFNIUM Group
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -48,4 +49,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - OriginalFileName
+  - process_name
+  - EventID
+  - CommandLine
+  - Computer
+  - parent_process_name
   security_domain: endpoint

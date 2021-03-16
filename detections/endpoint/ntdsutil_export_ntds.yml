@@ -1,4 +1,4 @@
-name: Ntdsutil export ntds
+name: Ntdsutil Export NTDS
 id: da63bc76-61ae-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-28'
@@ -37,6 +37,7 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  - HAFNIUM Group
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -54,4 +55,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_id
+  - Processes.parent_process_id
   security_domain: endpoint

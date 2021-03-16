@@ -1,0 +1,32 @@
+name: Kubernetes GCP detect sensitive object access
+id: bdb6d596-86a0-4aba-8369-418ae8b9963a
+version: 1
+date: '2020-07-11'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides information on Kubernetes accounts accessing sensitve
+  objects such as configmaps or secrets
+search: '`google_gcp_pubsub_message` data.protoPayload.authorizationInfo{}.resource=configmaps
+  OR secrets  | table data.protoPayload.requestMetadata.callerIp src_user data.resource.labels.cluster_name
+  data.protoPayload.request.metadata.namespace data.labels.authorization.k8s.io/decision
+  | dedup data.protoPayload.requestMetadata.callerIp src_user data.resource.labels.cluster_name
+  |`kubernetes_gcp_detect_sensitive_object_access_filter`'
+how_to_implement: You must install splunk add on for GCP . This search works with
+  pubsub messaging service logs.
+known_false_positives: Sensitive object access is not necessarily malicious but user
+  and object context can provide guidance for detection.
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Sensitive Object Access Activity
+  asset_type: GCP GKE Kubernetes cluster
+  kill_chain_phases:
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: threat

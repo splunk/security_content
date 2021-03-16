@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
+  - Cobalt Strike
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -48,4 +49,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_path
+  - Processes.dest
+  - Processes.parent_process
+  - Processes.user
   security_domain: endpoint

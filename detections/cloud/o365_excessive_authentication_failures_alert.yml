@@ -33,4 +33,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - UserAuthenticationMethod
+  - status
+  - UserAgent
+  - src_ip
+  - user
   security_domain: threat

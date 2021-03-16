@@ -38,4 +38,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - eventSource
+  - eventID
+  - awsRegion
+  - requestParameters.policy
+  - userIdentity.principalId
   security_domain: threat

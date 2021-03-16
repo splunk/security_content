@@ -1,0 +1,32 @@
+name: Kubernetes GCP detect RBAC authorizations by account
+id: 99487de3-7192-4b41-939d-fbe9acfb1340
+version: 1
+date: '2020-07-11'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides information on Kubernetes RBAC authorizations by
+  accounts, this search can be modified by adding top to see both extremes of RBAC
+  by accounts occurrences
+search: '`google_gcp_pubsub_message` data.labels.authorization.k8s.io/reason=ClusterRoleBinding
+  OR Clusterrole  | table src_ip src_user data.labels.authorization.k8s.io/decision
+  data.labels.authorization.k8s.io/reason | rare src_user data.labels.authorization.k8s.io/reason
+  |`kubernetes_gcp_detect_rbac_authorizations_by_account_filter`'
+how_to_implement: You must install splunk AWS add on for GCP. This search works with
+  pubsub messaging service logs
+known_false_positives: Not all RBAC Authorications are malicious. RBAC authorizations
+  can uncover malicious activity specially if sensitive Roles have been granted.
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Sensitive Role Activity
+  asset_type: GCP GKE Kubernetes cluster
+  kill_chain_phases:
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: threat

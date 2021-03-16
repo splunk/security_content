@@ -49,4 +49,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.parent_process_id
+  - Processes.process_id
+  - Processes.dest
+  - Processes.parent_process_name
+  - Processes.user
   security_domain: network
