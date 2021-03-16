@@ -27,7 +27,7 @@ references:
 - https://github.com/gentilkiwi/mimikatz
 tags:
   analytic_story:
-    - Windows Service Abuse
+  - Windows Service Abuse
   asset_type: Windows
   cis20:
   - CIS 16

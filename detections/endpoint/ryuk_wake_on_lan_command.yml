@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Ryuk Ransomware
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ryuk/windows-sysmon.log
   kill_chain_phases:
@@ -43,8 +44,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  security_domain: endpoint
-  automated_detection_testing: passed
   required_fields:
   - _time
   - Processes.process
@@ -55,4 +54,4 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-
+  security_domain: endpoint
