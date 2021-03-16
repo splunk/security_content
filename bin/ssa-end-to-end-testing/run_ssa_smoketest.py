@@ -41,6 +41,9 @@ def main(args):
     # Retrieve Security Content
     github_service = GithubService(branch)
     test_files_ssa = github_service.get_changed_test_files_ssa()
+    LOGGER.info('changed/added GitHub files:')
+    for test_file in test_files_ssa:
+        LOGGER.info(test_file)
 
     # # test SSA detections
     # test_results = []
