@@ -1,4 +1,4 @@
-name: Detect Kerberoasting - SSA
+name: Detect Kerberoasting
 id: dabdd6d7-3e10-42be-8711-4e124f7a3850
 version: 1
 date: '2020-10-21'
@@ -23,6 +23,8 @@ known_false_positives: Older systems that support kerberos RC4 by default NetApp
 references:
 - Initial ESCU implementation by Jose Hernandez and Patrick Bareiss
 tags:
+  analytic_story:
+  - Credential Dumping
   cis20:
   - CIS 8
   - CIS 16

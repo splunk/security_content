@@ -23,13 +23,17 @@ known_false_positives: None identified.
 references:
 - https://github.com/gentilkiwi/mimikatz
 tags:
+  analytic_story:
+  - Windows Privilege Escalation
   asset_type: Windows
   cis20:
   - CIS 16
   - CIS 20
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/logAllMimikatzModules.log
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1134
   - T1548
   nist:

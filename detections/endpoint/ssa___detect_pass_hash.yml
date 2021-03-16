@@ -1,4 +1,4 @@
-name: Detect Pass the Hash - SSA
+name: Detect Pass the Hash
 id: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
 version: 1
 date: '2020-10-21'
@@ -23,6 +23,8 @@ known_false_positives: Legitimate logon activity by authorized NTLM systems may 
 references:
 - Initial ESCU implementation by Bhavin Patel and Patrick Bareiss
 tags:
+  analytic_story:
+  - Lateral Movement
   cis20:
   - CIS 3
   - CIS 5

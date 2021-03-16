@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
+  - Cobalt Strike
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -53,4 +54,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_id
+  - Processes.parent_process_id
   security_domain: endpoint

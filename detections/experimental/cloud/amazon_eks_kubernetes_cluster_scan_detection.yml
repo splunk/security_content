@@ -31,4 +31,16 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - user.username
+  - userAgent
+  - sourceIPs{}
+  - responseStatus.reason
+  - source
+  - responseStatus.code
+  - verb
+  - requestURI
+  - src_ip
+  - user.groups{}
   security_domain: threat
