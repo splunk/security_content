@@ -56,5 +56,5 @@ tags:
   - Processes.process_id
   - Processes.dest
   - Processes.parent_process_name
-  -  Processes.user
+  - Processes.user
   security_domain: network

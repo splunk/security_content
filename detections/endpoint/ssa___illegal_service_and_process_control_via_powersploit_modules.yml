@@ -35,8 +35,8 @@ references:
 - https://github.com/PowerShellMafia/PowerSploit
 tags:
   analytic_story:
-    - Windows Service Abuse
-    - Malicious PowerShell
+  - Windows Service Abuse
+  - Malicious PowerShell
   asset_type: Windows
   cis20:
   - CIS 16
