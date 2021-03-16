@@ -24,7 +24,7 @@ references:
 - https://github.com/gentilkiwi/mimikatz
 tags:
   analytic_story:
-    - Windows Log Manipulation
+  - Windows Log Manipulation
   asset_type: Windows
   cis20:
   - CIS 16
