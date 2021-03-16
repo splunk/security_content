@@ -320,6 +320,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [Malicious PowerShell](#Malicious-PowerShell)
 
+* [NOBELIUM Group](#NOBELIUM-Group)
+
 * [Phishing Payloads](#Phishing-Payloads)
 
 * [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](#Possible-Backdoor-Activity-Associated-With-MUDCARP-Espionage-Campaigns)
@@ -327,8 +329,6 @@ Another search detects incidents wherein a single password is used across multip
 * [Silver Sparrow](#Silver-Sparrow)
 
 * [SQL Injection](#SQL-Injection)
-
-* [Sunburst Malware](#Sunburst-Malware)
 
 * [Suspicious Command-Line Executions](#Suspicious-Command-Line-Executions)
 
@@ -359,6 +359,8 @@ Another search detects incidents wherein a single password is used across multip
 * [Trusted Developer Utilities Proxy Execution MSBuild](#Trusted-Developer-Utilities-Proxy-Execution-MSBuild)
 
 * [Windows Defense Evasion Tactics](#Windows-Defense-Evasion-Tactics)
+
+* [Windows Discovery Techniques](#Windows-Discovery-Techniques)
 
 * [Windows DNS SIGRed CVE-2020-1350](#Windows-DNS-SIGRed-CVE-2020-1350)
 
@@ -644,6 +646,9 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 #### Detections
 * Access LSASS Memory for Dump Creation
+* Applying Stolen Credentials via Mimikatz modules
+* Applying Stolen Credentials via PowerSploit modules
+* Assessment of Credential Strength via DSInternals modules
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 * Attempted Credential Dump From Registry via Reg exe
 * Create Remote Thread into LSASS
@@ -652,8 +657,19 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * Creation of lsass Dump with Taskmgr
 * Credential Dumping via Copy Command from Shadow Copy
 * Credential Dumping via Symlink to Shadow Copy
+* Credential Extraction indicative of FGDump and CacheDump with s option
+* Credential Extraction indicative of FGDump and CacheDump with v option
+* Credential Extraction indicative of Lazagne command line options
+* Credential Extraction indicative of use of DSInternals credential conversion modules
+* Credential Extraction indicative of use of DSInternals modules
+* Credential Extraction indicative of use of Mimikatz modules
+* Credential Extraction indicative of use of PowerSploit modules
+* Credential Extraction native Microsoft debuggers peek into the kernel
+* Credential Extraction native Microsoft debuggers via z command line option
+* Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals
 * Detect Credential Dumping through LSASS access
 * Detect Dump LSASS Memory using comsvcs
+* Detect Kerberoasting
 * Detect Mimikatz Using Loaded Images
 * Dump LSASS via comsvcs DLL
 * Dump LSASS via procdump
@@ -671,7 +687,23 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * T1003.001
 * T1003.002
 * T1003.003
+* T1055
 * T1059.001
+* T1068
+* T1078
+* T1087
+* T1098
+* T1134
+* T1201
+* T1543
+* T1547
+* T1548
+* T1552
+* T1554
+* T1555
+* T1556
+* T1558
+* T1558.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -679,6 +711,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 ###### CIS
 * CIS 16
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 6
@@ -944,6 +977,7 @@ The following Splunk detections assist with identifying the HAFNIUM groups trade
 #### Detections
 * Any Powershell DownloadString
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
+* Detect Exchange Web Shell
 * Detect New Local Admin account
 * Detect PsExec With accepteula Flag
 * Dump LSASS via comsvcs DLL
@@ -1016,6 +1050,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 #### Detections
 * Detect Activity Related to Pass the Hash Attacks
+* Detect Pass the Hash
 * Kerberoasting spn request with RC4 encryption
 * Remote Desktop Network Traffic
 * Remote Desktop Process Running On System
@@ -1078,6 +1113,13 @@ In the event a system is suspected of having been compromised via a malicious we
 * Any Powershell DownloadFile
 * Any Powershell DownloadString
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
+* Credential Extraction indicative of use of DSInternals credential conversion modules
+* Credential Extraction indicative of use of DSInternals modules
+* Credential Extraction indicative of use of PowerSploit modules
+* Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals
+* Illegal Access To User Content via PowerSploit modules
+* Illegal Privilege Elevation and Persistence via PowerSploit modules
+* Illegal Service and Process Control via PowerSploit modules
 * Malicious PowerShell Process - Connect To Internet With Hidden Window
 * Malicious PowerShell Process - Encoded Command
 * Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments
@@ -1089,8 +1131,19 @@ In the event a system is suspected of having been compromised via a malicious we
 #### Mappings
 
 ##### ATT&CK
+* T1003
+* T1021
 * T1027
+* T1053
+* T1055
 * T1059.001
+* T1106
+* T1113
+* T1123
+* T1134
+* T1548
+* T1563
+* T1569
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -1099,18 +1152,102 @@ In the event a system is suspected of having been compromised via a malicious we
 * Installation
 
 ###### CIS
+* CIS 16
+* CIS 20
 * CIS 3
 * CIS 7
 * CIS 8
 
 ##### NIST
 * DE.CM
+* PR.AC
 * PR.IP
 * PR.PT
 
 ##### References
 * https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+
+### NOBELIUM Group
+* id = 758196b5-2e21-424f-a50c-6e421ce926c2
+* date = 2020-12-14
+* version = 2
+
+#### Description
+Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
+
+#### Narrative
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) of the NOBELIUM Group. The threat actor behind sunburst compromised the SolarWinds.Orion.Core.BusinessLayer.dll, is a SolarWinds digitally-signed component of the Orion software framework that contains a backdoor that communicates via HTTP to third party servers. The detections in this Analytic Story are focusing on the dll loading events, file create events and network events to detect This malware.
+
+#### Detections
+* Detect Outbound SMB Traffic
+* Detect Prohibited Applications Spawning cmd exe
+* Detect Rundll32 Inline HTA Execution
+* First Time Seen Running Windows Service
+* Malicious PowerShell Process - Encoded Command
+* Sc exe Manipulating Windows Services
+* Scheduled Task Deleted Or Created via CMD
+* Schtasks scheduling job on remote system
+* Sunburst Correlation DLL and Network Event
+* Supernova Webshell
+* TOR Traffic
+* Windows AdFind Exe
+
+#### Data Models
+* Endpoint
+* Network_Traffic
+* Web
+
+#### Mappings
+
+##### ATT&CK
+* T1018
+* T1027
+* T1053.005
+* T1059.003
+* T1071.001
+* T1071.002
+* T1203
+* T1218.005
+* T1505.003
+* T1543.003
+* T1569.002
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Command and Control
+* Exfiltration
+* Exploitation
+* Installation
+
+###### CIS
+* CIS 12
+* CIS 13
+* CIS 18
+* CIS 2
+* CIS 3
+* CIS 4
+* CIS 5
+* CIS 6
+* CIS 7
+* CIS 8
+* CIS 9
+
+##### NIST
+* DE.AE
+* DE.CM
+* ID.AM
+* ID.RA
+* PR.AC
+* PR.AT
+* PR.DS
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/
+* https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+* https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
 
 ### Phishing Payloads
 * id = 57226b40-94f3-4ce5-b101-a75f67759c27
@@ -1311,84 +1448,6 @@ This Analytic Story contains a search designed to identify attempts by attackers
 * https://capec.mitre.org/data/definitions/66.html
 * https://www.incapsula.com/web-application-security/sql-injection.html
 
-### Sunburst Malware
-* id = 758196b5-2e21-424f-a50c-6e421ce926c2
-* date = 2020-12-14
-* version = 1
-
-#### Description
-Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
-
-#### Narrative
-This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from the Sunburst malware. The threat actor behind sunburst compromised the SolarWinds.Orion.Core.BusinessLayer.dll, is a SolarWinds digitally-signed component of the Orion software framework that contains a backdoor that communicates via HTTP to third party servers. The detections in this Analytic Story are focusing on the dll loading events, file create events and network events to detect This malware.
-
-#### Detections
-* Detect Outbound SMB Traffic
-* Detect Prohibited Applications Spawning cmd exe
-* First Time Seen Running Windows Service
-* Malicious PowerShell Process - Encoded Command
-* Sc exe Manipulating Windows Services
-* Scheduled Task Deleted Or Created via CMD
-* Schtasks scheduling job on remote system
-* Sunburst Correlation DLL and Network Event
-* Supernova Webshell
-* TOR Traffic
-* Windows AdFind Exe
-
-#### Data Models
-* Endpoint
-* Network_Traffic
-* Web
-
-#### Mappings
-
-##### ATT&CK
-* T1018
-* T1027
-* T1053.005
-* T1059.003
-* T1071.001
-* T1071.002
-* T1203
-* T1505.003
-* T1543.003
-* T1569.002
-
-##### Kill Chain Phases
-* Actions on Objectives
-* Command and Control
-* Exfiltration
-* Exploitation
-* Installation
-
-###### CIS
-* CIS 12
-* CIS 13
-* CIS 18
-* CIS 2
-* CIS 3
-* CIS 4
-* CIS 5
-* CIS 6
-* CIS 7
-* CIS 8
-* CIS 9
-
-##### NIST
-* DE.AE
-* DE.CM
-* ID.AM
-* ID.RA
-* PR.AC
-* PR.AT
-* PR.DS
-* PR.IP
-* PR.PT
-
-##### References
-* https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
-* https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
-
 ### Suspicious Command-Line Executions
 * id = f4368ddf-d59f-4192-84f6-778ac5a3ffc7
 * date = 2020-02-03
@@ -1415,6 +1474,7 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 ##### ATT&CK
 * T1036.003
+* T1059
 * T1059.001
 * T1059.003
 
@@ -1621,6 +1681,7 @@ The objective of this step is to confirm the executed script code is benign or m
 #### Mappings
 
 ##### ATT&CK
+* T1059
 * T1059.003
 * T1218.005
 * T1547.001
@@ -1937,6 +1998,7 @@ Current detections focus on finding new child processes of this application on a
 #### Mappings
 
 ##### ATT&CK
+* T1059
 * T1059.003
 * T1068
 
@@ -2072,6 +2134,7 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 * Reg exe used to hide files directories via registry keys
 * Remote Registry Key modifications
 * Suspicious Reg exe Process
+* System Process Running from Unexpected Location
 * Windows DisableAntiSpyware Registry
 
 #### Data Models
@@ -2080,6 +2143,7 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 #### Mappings
 
 ##### ATT&CK
+* T1036
 * T1112
 * T1222.001
 * T1548.002
@@ -2101,6 +2165,86 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 ##### References
 * https://attack.mitre.org/wiki/Defense_Evasion
+
+### Windows Discovery Techniques
+* id = f7aba570-7d59-11eb-825e-acde48001122
+* date = 2021-03-04
+* version = 1
+
+#### Description
+Monitors for behaviors associated with adversaries discovering objects in the environment that can be leveraged in the progression of the attack.
+
+#### Narrative
+Attackers may not have much if any insight into their target's environment before the initial compromise.  Once a foothold has been established, attackers will start enumerating objects in the environment (accounts, services, network shares, etc.) that can be used to achieve their objectives.  This Analytic Story provides searches to help identify activities consistent with adversaries gaining knowledge of compromised Windows environments.
+
+#### Detections
+* Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
+* Reconnaissance and Access to Accounts and Groups via Mimikatz modules
+* Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules
+* Reconnaissance and Access to Computers and Domains via PowerSploit modules
+* Reconnaissance and Access to Computers via Mimikatz modules
+* Reconnaissance and Access to Operating System Elements via PowerSploit modules
+* Reconnaissance and Access to Processes and Services via Mimikatz modules
+* Reconnaissance and Access to Shared Resources via Mimikatz modules
+* Reconnaissance and Access to Shared Resources via PowerSploit modules
+* Reconnaissance of Access and Persistence Opportunities via PowerSploit modules
+* Reconnaissance of Connectivity via PowerSploit modules
+* Reconnaissance of Credential Stores and Services via Mimikatz modules
+* Reconnaissance of Defensive Tools via PowerSploit modules
+* Reconnaissance of Privilege Escalation Opportunities via PowerSploit modules
+* Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1007
+* T1012
+* T1021.002
+* T1039
+* T1046
+* T1047
+* T1053
+* T1055
+* T1057
+* T1068
+* T1078
+* T1083
+* T1087
+* T1098
+* T1135
+* T1199
+* T1482
+* T1484
+* T1518
+* T1543
+* T1547
+* T1574
+* T1589.001
+* T1590
+* T1590.001
+* T1590.003
+* T1591
+* T1592
+* T1592.002
+* T1595
+* T1595.002
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+* CIS 20
+
+##### NIST
+* PR.AC
+* PR.IP
+
+##### References
+* https://attack.mitre.org/tactics/TA0007/
+* https://cyberd.us/penetration-testing
 
 ### Windows DNS SIGRed CVE-2020-1350
 * id = 36dbb206-d073-11ea-87d0-0242ac130003
@@ -2154,6 +2298,7 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 #### Detections
 * Deleting Shadow Copies
+* Illegal Deletion of Logs via Mimikatz modules
 * Suspicious wevtutil Usage
 * USN Journal Deletion
 * Windows Event Log Cleared
@@ -2173,6 +2318,8 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 ###### CIS
 * CIS 10
+* CIS 16
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 6
@@ -2207,6 +2354,11 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * Certutil exe certificate extraction
 * Detect Path Interception By Creation Of program exe
 * Hiding Files And Directories With Attrib exe
+* Illegal Account Creation via PowerSploit modules
+* Illegal Enabling or Disabling of Accounts via DSInternals modules
+* Illegal Management of Active Directory Elements and Policies via DSInternals modules
+* Illegal Management of Computers and Active Directory Elements via PowerSploit modules
+* Illegal Privilege Elevation and Persistence via PowerSploit modules
 * Monitor Registry Keys for Print Monitors
 * Reg exe Manipulating Windows Services Registry Keys
 * Reg exe used to hide files directories via registry keys
@@ -2215,6 +2367,9 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * Remote Registry Key modifications
 * Sc exe Manipulating Windows Services
 * Schtasks used for forcing a reboot
+* Setting Credentials via DSInternals modules
+* Setting Credentials via Mimikatz modules
+* Setting Credentials via PowerSploit modules
 * Shim Database File Creation
 * Shim Database Installation With Suspicious Parameters
 * Suspicious Scheduled Task from Public Directory
@@ -2225,15 +2380,24 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 #### Mappings
 
 ##### ATT&CK
+* T1053
 * T1053.005
+* T1068
+* T1078
+* T1098
+* T1134
+* T1207
 * T1222.001
+* T1484
 * T1543.003
 * T1546.011
 * T1547.001
 * T1547.010
+* T1548
 * T1564.001
 * T1574.009
 * T1574.011
+* T1585
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -2242,6 +2406,8 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * Privilege Escalation
 
 ###### CIS
+* CIS 16
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 8
@@ -2274,7 +2440,9 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 #### Detections
 * Child Processes of Spoolsv exe
+* Illegal Privilege Elevation via Mimikatz modules
 * Overwriting Accessibility Binaries
+* Probing Access with Stolen Credentials via PowerSploit modules
 * Registry Keys Used For Privilege Escalation
 * Uncommon Processes On Endpoint
 
@@ -2285,16 +2453,22 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 ##### ATT&CK
 * T1068
+* T1078
+* T1098
+* T1134
 * T1204.002
 * T1546.008
 * T1546.012
+* T1548
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Exploitation
 
 ###### CIS
+* CIS 16
 * CIS 2
+* CIS 20
 * CIS 5
 * CIS 8
 
@@ -2303,6 +2477,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * ID.AM
 * PR.AC
 * PR.DS
+* PR.IP
 * PR.PT
 
 ##### References
@@ -2969,7 +3144,6 @@ This story is composed of detection searches based on endpoint that addresses th
 * O365 Excessive SSO logon errors
 * O365 New Federated Domain Added
 * Registry Keys Used For Privilege Escalation
-* Uncommon Processes On Endpoint
 
 #### Data Models
 * Endpoint
@@ -2980,7 +3154,6 @@ This story is composed of detection searches based on endpoint that addresses th
 * T1003.001
 * T1078
 * T1136.003
-* T1204.002
 * T1546.012
 * T1556
 
@@ -4303,8 +4476,16 @@ This Analytic Story lets you identify processes that are either a) not typically
 In the event an unusual process is identified, it is imperative to better understand how that process was able to execute on the host, when it first executed, and whether other hosts are affected. This extra information may provide clues that can help the analyst further investigate any suspicious activity.
 
 #### Detections
+* Credential Extraction indicative of FGDump and CacheDump with s option
+* Credential Extraction indicative of FGDump and CacheDump with v option
+* Credential Extraction indicative of use of Mimikatz modules
+* Credential Extraction native Microsoft debuggers peek into the kernel
+* Credential Extraction native Microsoft debuggers via z command line option
 * Detect Rare Executables
 * Detect processes used for System Network Configuration Discovery
+* First time seen command line argument
+* More than usual number of LOLBAS applications in short time period
+* Rare Parent-Child Process Relationship
 * RunDLL Loading DLL By Ordinal
 * System Processes Run From Unexpected Locations
 * Uncommon Processes On Endpoint
@@ -4317,24 +4498,36 @@ In the event an unusual process is identified, it is imperative to better unders
 #### Mappings
 
 ##### ATT&CK
+* T1003
 * T1016
 * T1036.003
+* T1053
+* T1059
+* T1072
+* T1117
+* T1202
+* T1203
 * T1204.002
 * T1218.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Exploitation
 * Installation
 
 ###### CIS
+* CIS 16
 * CIS 2
+* CIS 3
 * CIS 8
 
 ##### NIST
 * DE.CM
 * ID.AM
+* PR.AC
 * PR.DS
+* PR.IP
 * PR.PT
 
 ##### References
@@ -4400,6 +4593,8 @@ The Windows operating system uses a services architecture to allow for running c
 
 #### Detections
 * First Time Seen Running Windows Service
+* Illegal Service and Process Control via Mimikatz modules
+* Illegal Service and Process Control via PowerSploit modules
 * Reg exe Manipulating Windows Services Registry Keys
 * Sc exe Manipulating Windows Services
 
@@ -4409,7 +4604,10 @@ The Windows operating system uses a services architecture to allow for running c
 #### Mappings
 
 ##### ATT&CK
+* T1055
+* T1106
 * T1543.003
+* T1569
 * T1569.002
 * T1574.011
 
@@ -4418,7 +4616,9 @@ The Windows operating system uses a services architecture to allow for running c
 * Installation
 
 ###### CIS
+* CIS 16
 * CIS 2
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 8

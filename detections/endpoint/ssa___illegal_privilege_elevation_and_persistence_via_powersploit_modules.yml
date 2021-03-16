@@ -27,8 +27,8 @@ references:
 - https://github.com/PowerShellMafia/PowerSploit
 tags:
   analytic_story:
-    - Malicious PowerShell
-    - Windows Persistence Techniques
+  - Malicious PowerShell
+  - Windows Persistence Techniques
   asset_type: Windows
   cis20:
   - CIS 16
