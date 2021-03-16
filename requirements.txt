@@ -7,7 +7,7 @@ certifi==2020.12.5
 cfgv==3.2.0
 chardet==4.0.0
 coloredlogs==14.0
-configparser==5.0.1
+configparser==5.0.2
 contextlib2==0.6.0.post1
 distlib==0.3.1
 filelock==3.0.12
@@ -16,7 +16,7 @@ humanfriendly==9.1
 identify==1.5.13
 idna==2.10
 importlib-metadata==3.4.0
-importlib-resources==5.1.0
+importlib-resources==5.1.2
 Jinja2==2.11.3
 jsonschema==3.2.0
 MarkupSafe==1.1.1

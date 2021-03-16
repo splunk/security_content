@@ -1,0 +1,56 @@
+name: Suspicious Scheduled Task from Public Directory
+id: 7feb7972-7ac3-11eb-bac8-acde48001122
+version: 1
+date: '2021-03-01'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following detection identifies Scheduled Tasks registering (creating
+  a new task) a binary or script to run from a public directory which includes users\public,
+  \programdata\ and \windows\temp. Upon triage, review the binary or script in the
+  command line for legitimacy, whether an approved binary/script or not. In addition,
+  capture the binary or script in question and analyze for further behaviors. Identify
+  the source and contain the endpoint.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
+  (Processes.process=*\\users\\public\\* OR Processes.process=*\\programdata\\* OR
+  Processes.process=*windows\\temp*)  Processes.process=*/create* by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `suspicious_scheduled_task_from_public_directory_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited false positives may be present. Filter as needed by
+  parent process or command line argument.
+references:
+- https://attack.mitre.org/techniques/T1053/005/
+tags:
+  analytic_story:
+  - Ransomware
+  - Ryuk Ransomware
+  - Windows Persistence Techniques
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtasks/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1053.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint

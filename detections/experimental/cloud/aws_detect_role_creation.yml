@@ -32,4 +32,23 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - event_name
+  - action
+  - userIdentity.type
+  - requestParameters.description
+  - sourceIPAddress
+  - userIdentity.principalId
+  - userIdentity.arn
+  - action
+  - event_name
+  - awsRegion
+  - http_user_agent
+  - mfa_auth
+  - msg
+  - requestParameters.roleName
+  - requestParameters.description
+  - responseElements.role.arn
+  - responseElements.role.createDate
   security_domain: threat

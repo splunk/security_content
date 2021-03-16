@@ -1,0 +1,55 @@
+name: Detect Rogue DHCP Server
+id: 6e1ada88-7a0d-4ac1-92c6-03d354686079
+version: 1
+date: '2020-08-11'
+author: Mikael Bjerkeland, Splunk
+type: batch
+datamodel: []
+description: By enabling DHCP Snooping as a Layer 2 Security measure on the organization's
+  network devices, we will be able to detect unauthorized DHCP servers handing out
+  DHCP leases to devices on the network (Man in the Middle attack).
+search: '`cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT"
+  | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type)
+  AS message_type values(src_mac) AS src_mac BY host | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
+  `detect_rogue_dhcp_server_filter`'
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network
+  devices. The network devices must be configured with DHCP Snooping enabled (see
+  https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html)
+  and log with a severity level of minimum "5 - notification". The search also requires
+  that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
+  is used to parse the logs from the Cisco network devices.
+known_false_positives: This search might be prone to high false positives if DHCP
+  Snooping has been incorrectly configured or in the unlikely event that the DHCP
+  server has been moved to another network interface.
+references: []
+tags:
+  analytic_story:
+  - Router and Infrastructure Security
+  asset_type: Infrastructure
+  cis20:
+  - CIS 1
+  - CIS 11
+  detection_name: Detect Rogue DHCP Server
+  kill_chain_phases:
+  - Reconnaissance
+  - Delivery
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1200
+  - T1498
+  - T1557
+  nist:
+  - ID.AM
+  - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - facility
+  - mnemonic
+  - message_type
+  - src_mac
+  - host
+  security_domain: network
