@@ -232,7 +232,7 @@ known_false_positives: None
 references: []
 tags:
   analytic_story:
-    - Windows Defense Evasion Tactics
+  - Windows Defense Evasion Tactics
   cis20:
   - CIS 8
   kill_chain_phases:
