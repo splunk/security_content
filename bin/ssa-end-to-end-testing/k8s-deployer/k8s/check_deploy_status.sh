@@ -6,7 +6,7 @@ set -o nounset
 set -o errexit
 #This script is used to check the status of the smoketest k8s job: the tests pass if {.status.succeeded} returns 1.
 # Then retrieve the job logs once it's completed.
-smoketest_k8s_job=$(kubectl -n tr-st-deploy get jobs -o json | jq -r --arg COMMIT "${CI_COMMIT_SHORT_SHA}" '.items[] | select(.kind=="Job") | select(.metadata.labels.uploaderLabel==$COMMIT) | .metadata.name')
+smoketest_k8s_job=$(kubectl get jobs -o json | jq -r --arg COMMIT "${CI_COMMIT_SHORT_SHA}" '.items[] | select(.kind=="Job") | select(.metadata.labels.uploaderLabel==$COMMIT) | .metadata.name')
 echo >&2 "Create smoketest k8s job: $smoketest_k8s_job"
 smoketest_k8s_pod=$(kubectl get pods -o custom-columns=:metadata.name | grep ${smoketest_k8s_job})
 echo >&2 "Create smoketest k8s pod: $smoketest_k8s_pod"
