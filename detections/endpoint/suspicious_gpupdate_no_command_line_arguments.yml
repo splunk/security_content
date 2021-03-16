@@ -39,7 +39,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  security_domain: endpoint
   required_fields:
   - _time
   - EventID
@@ -51,3 +50,4 @@ tags:
   - ParentImage
   - ParentCommandLine
   - process_path
+  security_domain: endpoint
