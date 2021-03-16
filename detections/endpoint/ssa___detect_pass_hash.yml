@@ -24,7 +24,7 @@ references:
 - Initial ESCU implementation by Bhavin Patel and Patrick Bareiss
 tags:
   analytic_story:
-    - Lateral Movement
+  - Lateral Movement
   cis20:
   - CIS 3
   - CIS 5

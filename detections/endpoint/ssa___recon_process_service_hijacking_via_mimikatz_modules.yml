@@ -28,7 +28,7 @@ references:
 - https://en.wikipedia.org/wiki/Microsoft_Detours
 tags:
   analytic_story:
-    - Windows Discovery Techniques
+  - Windows Discovery Techniques
   asset_type: Windows
   cis20:
   - CIS 16

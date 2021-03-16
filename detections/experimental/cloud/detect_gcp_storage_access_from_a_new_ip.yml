@@ -58,7 +58,7 @@ tags:
   - _time
   - sc_status_
   - cs_object_
-  - c_ip_ 
+  - c_ip_
   - cs_uri_
   - cs_method_
   security_domain: network
