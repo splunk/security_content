@@ -41,12 +41,15 @@ class GithubService:
             # added or changed test files
             if file_path.startswith('tests'):
                 if os.path.basename(file_path).startswith('ssa'):
-                    changed_ssa_test_files.append(file_path)
+                    if file_path not in changed_ssa_test_files:
+                        changed_ssa_test_files.append(file_path)
 
             # changed detections
             if file_path.startswith('detections'):
                 if os.path.basename(file_path).startswith('ssa'):
-                    changed_ssa_test_files.append(os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test.yml')
+                    file_path_new = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test.yml'
+                    if file_path_new not in changed_ssa_test_files:
+                        changed_ssa_test_files.append(file_path_new)
 
         return changed_ssa_test_files
 
