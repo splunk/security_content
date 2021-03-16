@@ -30,9 +30,12 @@ tags:
   - Detect Zerologon Attack
   - Cloud Federated Credential Abuse
   asset_type: Windows
+  automated_detection_testing: passed
   cis20:
   - CIS 6
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
@@ -52,6 +55,3 @@ tags:
   - Computer
   - Image
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log

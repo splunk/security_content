@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - HAFNIUM Group
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_umservices.log
   kill_chain_phases:
@@ -45,7 +46,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  security_domain: endpoint
   required_fields:
   - _time
   - Processes.process_name
@@ -55,4 +55,4 @@ tags:
   - Processes.parent_process
   - Processes.process_id
   - Processes.parent_process_id
-  automated_detection_testing: passed
+  security_domain: endpoint
