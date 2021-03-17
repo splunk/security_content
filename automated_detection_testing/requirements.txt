@@ -21,7 +21,7 @@ cfgv==2.0.1
 chardet==4.0.0
 configparser==5.0.2
 contextlib2==0.6.0.post1
-cryptography==3.3.2
+cryptography==3.4.4
 Deprecated==1.2.11
 dnspython==2.1.0
 docutils==0.16
@@ -74,7 +74,7 @@ tabulate==0.8.9
 termcolor==1.1.0
 toml==0.10.2
 urllib3==1.26.3
-virtualenv==20.4.2
+virtualenv==20.4.3
 wcwidth==0.2.5
 wget==3.2
 wrapt==1.12.1
