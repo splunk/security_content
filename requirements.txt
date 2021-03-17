@@ -25,7 +25,7 @@ nodeenv==1.5.0
 pathlib2==2.3.5
 pre-commit==2.10.0
 prompt-toolkit==1.0.14
-Pygments==2.8.0
+Pygments==2.8.1
 PyInquirer==1.0.3
 pyrsistent==0.17.3
 python-dateutil==2.8.1
