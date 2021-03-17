@@ -31,19 +31,23 @@ def main(args):
     tenant = args.tenant
     branch = args.branch
 
-    # test DSP and SSA pipeline
-    ssa_detection_testing = SSADetectionTesting(env, tenant, token)
-    test_result_passed = ssa_detection_testing.test_dsp_pipeline()
-
-    if not test_result_passed:
-        sys.exit(1)
-
     # Retrieve Security Content
     github_service = GithubService(branch)
     test_files_ssa = github_service.get_changed_test_files_ssa()
     LOGGER.info('changed/added GitHub files:')
     for test_file in test_files_ssa:
         LOGGER.info(test_file)
+
+    if len(test_files_ssa)==0:
+        LOGGER.info('Nothing to test for SSA smoke test.')
+        sys.exit(0)
+
+    # test DSP and SSA pipeline
+    ssa_detection_testing = SSADetectionTesting(env, tenant, token)
+    test_result_passed = ssa_detection_testing.test_dsp_pipeline()
+
+    if not test_result_passed:
+        sys.exit(1)
 
     # # test SSA detections
     test_results = []
