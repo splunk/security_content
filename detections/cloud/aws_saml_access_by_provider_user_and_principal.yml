@@ -37,6 +37,7 @@ tags:
   mitre_attack_id:
   - T1078
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
