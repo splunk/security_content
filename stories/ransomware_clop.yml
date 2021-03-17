@@ -1,0 +1,26 @@
+name: Clop Ransomware
+id: 5a6f6849-1a26-4fae-aa05-fa730556eeb6
+version: 1
+date: '17-03-2021'
+author: Rod Soto, Teoderick Contreras, Splunk
+type: batch
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Clop ransomware, including looking for file writes associated
+  with Clope, encrypting network shares, deleting and resizing shadow volume storage, registry key modification,
+  deleting of security logs, and more.
+narrative: Clop ransomware campaigns targeting healthcare and other vertical sectors, involve the use of
+  ransomware payloads along with exfiltration of data per HHS bulletin. Malicious actors demand payment for
+  ransome of data and threaten deletion and exposure of exfiltrated data.
+references:
+- https://www.hhs.gov/sites/default/files/analyst-note-cl0p-tlp-white.pdf
+- https://securityaffairs.co/wordpress/115250/data-breach/qualys-clop-ransomware.html
+- https://www.darkreading.com/attacks-breaches/qualys-is-the-latest-victim-of-accellion-data-breach/d/d-id/1340323
+tags:
+  analytic_story: Clop Ransomware
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
