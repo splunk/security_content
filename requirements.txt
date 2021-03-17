@@ -20,10 +20,10 @@ importlib-resources==5.1.2
 Jinja2==2.11.3
 jsonschema==3.2.0
 MarkupSafe==1.1.1
-more-itertools==8.6.0
+more-itertools==8.7.0
 nodeenv==1.5.0
 pathlib2==2.3.5
-pre-commit==2.9.3
+pre-commit==2.10.0
 prompt-toolkit==3.0.16
 Pygments==2.8.0
 PyInquirer==1.0.3
