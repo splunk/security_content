@@ -164,6 +164,34 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
                 },
             ],
         },
+        {
+            # get provider
+            'type': 'list',
+            'message': 'security_domain for detection',
+            'name': 'security_domain',
+            'choices': [
+                {
+                    'name': 'access'
+                },
+                {
+                    'name': 'endpoint'
+                },
+                {
+                    'name': 'network'
+                },
+                {
+                    'name': 'threat'
+                },
+                {
+                    'name': 'identity'
+                },
+                {
+                    'name': 'audit'
+                },
+
+            ],
+            'default': 'endpoint'
+        },
     ]
 
     answers = prompt(questions)
@@ -192,7 +220,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     search= answers['detection_search'] + ' | `' + detection_file_name + '_filter`',
     type=answers['detection_type'], analytic_story_name='UPDATE_STORY_NAME', mitre_attack_id = answers['mitre_attack_ids'],
     kill_chain_phases=answers['kill_chain_phases'], dataset_url='UPDATE_DATASET_URL',
-    products=answers['products'])
+    products=answers['products'], security_domain=answers['security_domain'])
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
