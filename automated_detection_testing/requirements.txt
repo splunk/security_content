@@ -6,7 +6,7 @@ atomicwrites==1.4.0
 attackcti==0.3.4.3
 attrs==20.3.0
 azure-common==1.1.26
-azure-core==1.10.0
+azure-core==1.11.0
 azure-identity==1.5.0
 azure-mgmt-compute==19.0.0
 azure-mgmt-core==1.2.2
