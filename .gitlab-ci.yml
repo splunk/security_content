@@ -52,6 +52,7 @@ smoketest_play:
     - publish_smoketest_runner
     - publish_deployer
   image: ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
+  allow_failure: true
   script:
     - eval $(go-go vault -a ${K8S_PLAYGROUND_ROLE})
     - eval $(go-go vault -a ${DOCKER_ROLE})
