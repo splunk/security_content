@@ -1,0 +1,41 @@
+name: Clop Common Exec Parameter
+id: 5a8a2a72-8322-11eb-9ee9-acde48001122
+version: 1
+date: '2021-03-17'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytics are designed to identifies some CLOP ransomware variant that using arguments
+ to execute its main code or feature of its code. In this variant if the parameter is "runrun",
+ CLOP ransomware will try to encrypt files in network shares and if it is "temp.dat",
+ it will try to read from some stream pipe or file start encrypting files within the infected local machines.
+ This technique can be also identified as an anti-sandbox technique to make its code non-responsive since it is
+ waiting for some parameter to execute properly.
+search: '`sysmon` EventCode=1 cmdline IN ("*runrun*", "*temp.dat*") | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
+  parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
+  rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `clop_common_exec_parameter_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Operators can execute third party tools using these parameters.
+references:
+- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+tags:
+  analytic_story:
+  - Clop Ransomware
+  automated_detection_testing: tba
+  dataset:
+  - tba
+  kill_chain_phases:
+  - Obfuscation
+  mitre_attack_id:
+  - T1204
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint

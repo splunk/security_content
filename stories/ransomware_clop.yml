@@ -1,7 +1,7 @@
 name: Clop Ransomware
 id: 5a6f6849-1a26-4fae-aa05-fa730556eeb6
 version: 1
-date: '17-03-2021'
+date: '2021-03-17'
 author: Rod Soto, Teoderick Contreras, Splunk
 type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
