@@ -23,7 +23,7 @@ MarkupSafe==1.1.1
 more-itertools==8.6.0
 nodeenv==1.5.0
 pathlib2==2.3.5
-pre-commit==2.9.3
+pre-commit==2.10.0
 prompt-toolkit==1.0.14
 Pygments==2.8.0
 PyInquirer==1.0.3
