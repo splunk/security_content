@@ -26,6 +26,7 @@ tags:
   - SamSam Ransomware
   - Ransomware
   - Ryuk Ransomware
+  - Clop Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
