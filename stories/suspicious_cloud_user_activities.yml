@@ -2,6 +2,8 @@ name: Suspicious Cloud User Activities
 id: 1ed5ce7d-5469-4232-92af-89d1a3595b39
 version: 1
 date: '2020-09-04'
+author: David Dorsey, Splunk
+type: batch
 description: Detect and investigate suspicious activities by users and roles in your
   cloud environments.
 narrative: 'It seems obvious that it is critical to monitor and control the users
@@ -13,13 +15,15 @@ narrative: 'It seems obvious that it is critical to monitor and control the user
   In addition to compromising the security of your data, when bad actors leverage
   your compute resources, it can incur monumental costs, since you will be billed
   for any new instances and increased bandwidth usage.'
-author: David Dorsey, Splunk
-type: ESCU
 references:
 - https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 - https://redlock.io/blog/cryptojacking-tesla
 tags:
-  analytics_story: Suspicious Cloud User Activities
-  usecase: Security Monitoring
+  analytic_story: Suspicious Cloud User Activities
   category:
   - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

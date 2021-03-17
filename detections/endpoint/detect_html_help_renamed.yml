@@ -1,0 +1,63 @@
+name: Detect HTML Help Renamed
+id: 62fed254-513b-460e-953d-79771493a9f3
+version: 1
+date: '2021-02-11'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: The following analytic identifies a renamed instance of hh.exe (HTML
+  Help) executing a Compiled HTML Help (CHM). This particular technique will load
+  Windows script code from a compiled help file. CHM files may contain nearly any
+  file type embedded, but only execute html/htm. Upon a successful execution, the
+  following script engines may be used for execution - JScript, VBScript, VBScript.Encode,
+  JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll
+  loading into hh.exe upon execution. The "htm" and "html" file extensions were the
+  only extensions observed to be supported for the execution of Shortcut commands
+  or WSH script code. During investigation, identify script content origination. Validate
+  it is the legitimate version of hh.exe by reviewing the PE metadata. hh.exe is natively
+  found in C:\Windows\system32 and C:\Windows\syswow64.
+search: '`sysmon` EventID=1 OriginalFileName=HH.exe NOT process_name=hh.exe | stats
+  count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name,
+  process_name, OriginalFileName, process_path, CommandLine | rename Computer as dest
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_html_help_renamed_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed hh.exe may be used.
+known_false_positives: Although unlikely a renamed instance of hh.exe will be used
+  legitimately, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1218/001/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
+- https://lolbas-project.github.io/lolbas/Binaries/Hh/
+tags:
+  analytic_story:
+  - Suspicious Compiled HTML Activity
+  asset_type: Endpoint
+  automated_detection_testing: passed
+  cis20:
+  - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1218.001
+  nist:
+  - PR.PT
+  - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - OriginalFileName
+  - process_name
+  - Computer
+  - User
+  - parent_process_name
+  - process_path
+  - CommandLine
+  security_domain: endpoint

@@ -1,0 +1,31 @@
+name: Kubernetes Azure pod scan fingerprint
+id: 86aad3e0-732f-4f66-bbbc-70df448e461d
+version: 1
+date: '2020-05-20'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides information of unauthenticated requests via source
+  IP user agent, request URI and response status data against Kubernetes cluster pod
+  in Azure
+search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | search
+  responseStatus.code=401 | table  sourceIPs{} userAgent verb requestURI responseStatus.reason
+  properties.pod |`kubernetes_azure_pod_scan_fingerprint_filter`'
+how_to_implement: You must install the Add-on for Microsoft Cloud Services and Configure
+  Kube-Audit data diagnostics
+known_false_positives: Not all unauthenticated requests are malicious, but source
+  IPs, userAgent, verb, request URI and response status will provide context.
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Scanning Activity
+  asset_type: Azure AKS Kubernetes cluster
+  kill_chain_phases:
+  - Reconnaissance
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: threat

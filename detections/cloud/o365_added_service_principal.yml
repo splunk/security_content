@@ -1,0 +1,51 @@
+name: O365 Added Service Principal
+id: 1668812a-6047-11eb-ae93-0242ac130002
+version: 1
+date: '2021-01-26'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search detects the creation of a new Federation setting by alerting
+  about an specific event related to its creation.
+search: '`o365_management_activity` Workload=AzureActiveDirectory signature="Add service
+  principal credentials." | stats min(_time) as firstTime max(_time) as lastTime values(Actor{}.ID)
+  as Actor.ID values(ModifiedProperties{}.Name) as ModifiedProperties.Name values(ModifiedProperties{}.NewValue)
+  as ModifiedProperties.NewValue values(Target{}.ID) as Target.ID by ActorIpAddress
+  signature | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `o365_added_service_principal_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
+known_false_positives: The creation of a new Federation is not necessarily malicious,
+  however these events need to be followed closely, as it may indicate federated credential
+  abuse or backdoor via federated identities at a different cloud provider.
+references:
+- https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+- https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+- https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
+- https://www.sygnia.co/golden-saml-advisory
+tags:
+  analytic_story:
+  - Office 365 Detections
+  - Cloud Federated Credential Abuse
+  asset_type: Office 365
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_add_service_principal/o365_add_service_principal.json
+  kill_chain_phases:
+  - Actions on Objective
+  mitre_attack_id:
+  - T1136.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - signature
+  - Actor{}.ID
+  - ModifiedProperties{}.Name
+  - ModifiedProperties{}.NewValue
+  - Target{}.ID
+  - ActorIpAddress
+  security_domain: threat

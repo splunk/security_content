@@ -2,6 +2,8 @@ name: DHS Report TA18-074A
 id: 0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef
 version: 2
 date: '2020-01-22'
+author: Rico Valdez, Splunk
+type: batch
 description: Monitor for suspicious activities associated with DHS Technical Alert
   US-CERT TA18-074A. Some of the activities that adversaries used in these compromises
   included spearfishing attacks, malware, watering-hole domains, many and more.
@@ -27,12 +29,14 @@ narrative: 'The frequency of nation-state cyber attacks has increased significan
   may be an indication that a nation-state actor is attempting to compromise your
   environment, it is important to note that these techniques are often employed by
   other groups, as well.'
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - https://www.us-cert.gov/ncas/alerts/TA18-074A
 tags:
-  analytics_story: DHS Report TA18-074A
-  usecase: Advanced Threat Detection
+  analytic_story: DHS Report TA18-074A
   category:
   - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

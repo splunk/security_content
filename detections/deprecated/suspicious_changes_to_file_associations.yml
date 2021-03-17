@@ -2,16 +2,12 @@ name: Suspicious Changes to File Associations
 id: 1b989a0e-0129-4446-a695-f193a5b746fc
 version: 4
 date: '2020-07-22'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
 description: This search looks for changes to registry values that control Windows
   file associations, executed by a process that is not typical for legitimate, routine
   changes to this area.
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on registry changes that include the name of the process responsible for the changes
-  from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry`
-  nodes.
-type: ESCU
-references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
   as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name!=Explorer.exe
@@ -21,23 +17,34 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as registry_path count  FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\Explorer\\FileExts*
   by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | table
   process_id dest registry_path]| `suspicious_changes_to_file_associations_filter` '
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on registry changes that include the name of the process responsible for the changes
+  from your endpoints into the `Endpoint` datamodel in the `Processes` and `Registry`
+  nodes.
 known_false_positives: There may be other processes in your environment that users
   may legitimately use to modify file associations. If this is the case and you are
   finding false positives, you can modify the search to add those processes as exceptions.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Windows Registry Activities
   - Windows File Extension and Association Abuse
-  mitre_attack_id:
-  - T1546.001
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 3
   - CIS 8
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1546.001
   nist:
   - DE.CM
   - PR.PT
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
   security_domain: endpoint
-  asset_type: Endpoint

@@ -2,44 +2,60 @@ name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 version: 4
 date: '2020-07-21'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: This search looks for arguments to sc.exe indicating the creation or
   modification of a Windows service.
-type: ESCU
-references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="*
   config *") by Processes.process_name Processes.parent_process_name Processes.dest
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `sc_exe_manipulating_windows_services_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
   there may be legitimate instances of this behavior. It is important to validate
   and investigate as appropriate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Service Abuse
   - DHS Report TA18-074A
   - Orangeworm Attack Group
   - Windows Persistence Techniques
   - Disabling Security Tools
-  - Sunburst Malware
-  mitre_attack_id:
-  - T1543.003
-  kill_chain_phases:
-  - Installation
+  - NOBELIUM Group
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Installation
+  mitre_attack_id:
+  - T1543.003
   nist:
   - PR.IP
   - PR.PT
   - PR.AC
   - PR.AT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log

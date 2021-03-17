@@ -2,20 +2,15 @@ name: No Windows Updates in a time frame
 id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
 version: 1
 date: '2017-09-15'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Updates
 description: This search looks for Windows endpoints that have not generated an event
   indicating a successful Windows update in the last 60 days. Windows updates are
   typically released monthly and applied shortly thereafter. An endpoint that has
   not successfully applied an update in this time frame indicates the endpoint is
   not regularly being patched for some reason.
-how_to_implement: To successfully implement this search, it requires that the 'Update'
-  data model is being populated. This can be accomplished by ingesting Windows events
-  or the Windows Update log via a universal forwarder on the Windows endpoints you
-  wish to monitor. The Windows add-on should be also be installed and configured to
-  properly parse Windows events in Splunk. There may be other data sources which can
-  populate this data model, including vulnerability management systems.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates
   where Updates.status=Installed Updates.vendor_product="Microsoft Windows" by Updates.dest
   Updates.status Updates.vendor_product | rename Updates.dest as Host | rename Updates.status
@@ -23,14 +18,30 @@ search: '| tstats `security_content_summariesonly` max(_time) as lastTime from d
   <= relative_time(now(), "-60d@d"), 1, 0)  | `security_content_ctime(lastTime)`  |
   search isOutlier=1 | rename lastTime as "Last Update Time", | table Host, "Update
   Status", Product, "Last Update Time" | `no_windows_updates_in_a_time_frame_filter`'
+how_to_implement: To successfully implement this search, it requires that the 'Update'
+  data model is being populated. This can be accomplished by ingesting Windows events
+  or the Windows Update log via a universal forwarder on the Windows endpoints you
+  wish to monitor. The Windows add-on should be also be installed and configured to
+  properly parse Windows events in Splunk. There may be other data sources which can
+  populate this data model, including vulnerability management systems.
 known_false_positives: None identified
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor for Updates
+  asset_type: Endpoint
   cis20:
   - CIS 18
   nist:
   - PR.PT
   - PR.MA
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Updates.status
+  - Updates.vendor_product
+  - Updates.dest
   security_domain: endpoint
-  asset_type: Endpoint

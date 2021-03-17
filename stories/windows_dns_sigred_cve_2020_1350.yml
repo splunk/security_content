@@ -2,32 +2,36 @@ name: Windows DNS SIGRed CVE-2020-1350
 id: 36dbb206-d073-11ea-87d0-0242ac130003
 version: 1
 date: '2020-07-28'
-description: Uncover activity consistent with CVE-2020-1350, or SIGRed.
-  Discovered by Checkpoint researchers, this vulnerability affects Windows 2003
-  to 2019, and is triggered by a malicious DNS response (only affects DNS over TCP).
-  An attacker can use the malicious payload to cause a buffer overflow on the vulnerable
-  system, leading to compromise.  The included searches in this Analytic Story
-  are designed to identify the large response payload for SIG and KEY DNS records which can
-  be used for the exploit.
-narrative: 'When a client requests a DNS record for a particular domain, that request
-  gets routed first through the client''s locally configured DNS server, then to any DNS server(s)
-  configured as forwarders, and then onto the target domain''s own DNS server(s).  If a
-  attacker wanted to, they could host a malicious DNS server that responds to the initial
-  request with a specially crafted large response (~65KB).  This response would flow through
-  to the client''s local DNS server, which if not patched for CVE-2020-1350, would cause the buffer
-  overflow.
-  The detection searches in this Analytic Story use wire data to detect the malicious behavior.
-  Searches for Splunk Stream and Zeek are included.  The Splunk Stream search correlates
-  across stream:dns and stream:tcp, while the Zeek search correlates across bro:dns:json
-  and bro:conn:json.  These correlations are required to pick up both the DNS record types
-  (SIG and KEY) along with the payload size (>65KB).'
 author: Shannon Davis, Splunk
-type: ESCU
+type: batch
+description: Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered
+  by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and
+  is triggered by a malicious DNS response (only affects DNS over TCP). An attacker
+  can use the malicious payload to cause a buffer overflow on the vulnerable system,
+  leading to compromise.  The included searches in this Analytic Story are designed
+  to identify the large response payload for SIG and KEY DNS records which can be
+  used for the exploit.
+narrative: When a client requests a DNS record for a particular domain, that request
+  gets routed first through the client's locally configured DNS server, then to any
+  DNS server(s) configured as forwarders, and then onto the target domain's own DNS
+  server(s).  If a attacker wanted to, they could host a malicious DNS server that
+  responds to the initial request with a specially crafted large response (~65KB).  This
+  response would flow through to the client's local DNS server, which if not patched
+  for CVE-2020-1350, would cause the buffer overflow. The detection searches in this
+  Analytic Story use wire data to detect the malicious behavior. Searches for Splunk
+  Stream and Zeek are included.  The Splunk Stream search correlates across stream:dns
+  and stream:tcp, while the Zeek search correlates across bro:dns:json and bro:conn:json.  These
+  correlations are required to pick up both the DNS record types (SIG and KEY) along
+  with the payload size (>65KB).
 references:
 - https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
 - https://support.microsoft.com/en-au/help/4569509/windows-dns-server-remote-code-execution-vulnerability
 tags:
-  analytics_story: Windows DNS SIGRed CVE-2020-1350
-  usecase: Advanced Threat Detection
+  analytic_story: Windows DNS SIGRed CVE-2020-1350
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

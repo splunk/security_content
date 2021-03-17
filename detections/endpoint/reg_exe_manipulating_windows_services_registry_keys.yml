@@ -2,11 +2,12 @@ name: Reg exe Manipulating Windows Services Registry Keys
 id: 8470d755-0c13-45b3-bd63-387a373c10cf
 version: 5
 date: '2020-11-26'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The search looks for reg.exe modifying registry keys that define Windows
   services and their configurations.
-type: ESCU
-references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
   as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
@@ -14,29 +15,48 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process=*Services* by Processes.process_id Processes.dest Processes.process
   | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `reg_exe_manipulating_windows_services_registry_keys_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
 known_false_positives: It is unusual for a service to be created or modified by directly
   manipulating the registry. However, there may be legitimate instances of this behavior.
   It is important to validate and investigate, as appropriate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Service Abuse
   - Windows Persistence Techniques
-  mitre_attack_id:
-  - T1574.011
-  kill_chain_phases:
-  - Installation
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
+  kill_chain_phases:
+  - Installation
+  mitre_attack_id:
+  - T1574.011
   nist:
   - PR.IP
   - PR.PT
   - PR.AC
   - PR.AT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.user
+  - Processes.process
+  - Processes.process_id
+  - Processes.dest
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log

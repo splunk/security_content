@@ -2,17 +2,24 @@ name: Monitor Successful Backups
 id: b4d0dfb2-2195-4f6e-93a3-48468ed9734e
 version: 1
 date: '2017-09-12'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: This search is intended to give you a feel for how often successful backups
   are conducted in your environment. Fluctuations in these numbers will allow you
   to determine when you should investigate.
-how_to_implement: To successfully implement this search you must be ingesting your
-  backup logs.
-author: David Dorsey, Splunk
 search: '`netbackup` "Disk/Partition backup completed successfully." | bucket _time
   span=1d | stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time,
   MESSAGE'
+how_to_implement: To successfully implement this search you must be ingesting your
+  backup logs.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Monitor Backup Solution
   detections:
   - Unsuccessful Netbackup backups
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud

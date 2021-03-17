@@ -2,15 +2,12 @@ name: EC2 Instance Started With Previously Unseen Instance Type
 id: 65541c80-03c7-4e05-83c8-1dcd57a2e1ad
 version: 2
 date: '2020-02-07'
-description: This search looks for EC2 instances being created with previously unseen
-  instance types.  This search is deprecated and have been translated to use the latest Change Datamodel.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. This search works best when you run the "Previously Seen EC2 Instance Types"
-  support search once to create a history of previously seen instance types.
-type: ESCU
-references: []
 author: David Dorsey, Splunk
+type: batch
+datamodel: []
+description: This search looks for EC2 instances being created with previously unseen
+  instance types.  This search is deprecated and have been translated to use the latest
+  Change Datamodel.
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
   errorCode=success | fillnull value="m1.small" requestParameters.instanceType | stats
   earliest(_time) as earliest latest(_time) as latest by requestParameters.instanceType
@@ -22,15 +19,29 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   requestParameters.instanceType] | spath output=user userIdentity.arn | rename requestParameters.instanceType
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest | table
   _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_instance_type_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen EC2 Instance Types"
+  support search once to create a history of previously seen instance types.
 known_false_positives: It is possible that an admin will create a new system using
   a new instance type never used before. Verify with the creator that they intended
   to create the system with the new instance type.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
+  asset_type: AWS Instance
   cis20:
   - CIS 1
   nist:
   - ID.AM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - errorCode
+  - requestParameters.instanceType
   security_domain: endpoint
-  asset_type: AWS Instance

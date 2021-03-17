@@ -2,15 +2,12 @@ name: File with Samsam Extension
 id: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
 version: 1
 date: '2018-12-14'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The search looks for file writes with extensions consistent with a SamSam
   ransomware attack.
-how_to_implement: You must be ingesting data that records file-system activity from
-  your hosts to populate the Endpoint file-system data-model node. If you are using
-  Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you
-  want to collect data.
-type: ESCU
-references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
   as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)`
@@ -18,20 +15,35 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   field=file_name "(?<file_extension>\.[^\.]+)$" | search file_extension=.stubbin
   OR file_extension=.berkshire OR file_extension=.satoshi OR file_extension=.sophos
   OR file_extension=.keyxml | `file_with_samsam_extension_filter`'
+how_to_implement: You must be ingesting data that records file-system activity from
+  your hosts to populate the Endpoint file-system data-model node. If you are using
+  Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you
+  want to collect data.
 known_false_positives: Because these extensions are not typically used in normal operations,
   you should investigate all results.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
-  kill_chain_phases:
-  - Installation
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/samsam_extension/windows-sysmon.log
+  kill_chain_phases:
+  - Installation
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.user
+  - Filesystem.dest
+  - Filesystem.file_path
+  - Filesystem.file_name
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/samsam_extension/windows-sysmon.log

@@ -2,6 +2,8 @@ name: Malicious PowerShell
 id: 2c8ff66e-0b57-42af-8ad7-912438a403fc
 version: 4
 date: '2017-08-23'
+author: David Dorsey, Splunk
+type: batch
 description: Attackers are finding stealthy ways "live off the land," leveraging utilities
   and tools that come standard on the endpoint--such as PowerShell--to achieve their
   goals without downloading binary files. These searches can help you detect and investigate
@@ -60,13 +62,15 @@ narrative: 'The searches in this Analytic Story monitor for parameters often use
   we suggest reviewing the browsing activity from that system around the time of the
   event. If categories are given for the URLs visited, that can help you zero in on
   possible malicious sites.'
-author: David Dorsey, Splunk
-type: ESCU
 references:
 - https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 - https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 tags:
-  analytics_story: Malicious PowerShell
-  usecase: Advanced Threat Detection
+  analytic_story: Malicious PowerShell
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

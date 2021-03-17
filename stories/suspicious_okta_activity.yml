@@ -2,6 +2,8 @@ name: Suspicious Okta Activity
 id: 9cbd34af-8f39-4476-a423-bacd126c750b
 version: 1
 date: '2020-04-02'
+author: Rico Valdez, Splunk
+type: batch
 description: Monitor your Okta environment for suspicious activities. Due to the Covid
   outbreak, many users are migrating over to leverage cloud services more and more.
   Okta is a popular tool to manage multiple users and the web-based applications they
@@ -23,14 +25,16 @@ narrative: 'Okta is the leading single sign on (SSO) provider, allowing users to
   events and activity that warrant further investigation such as credential stuffing
   or password spraying attacks, and users logging in from multiple locations when
   travel is disallowed.'
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - https://attack.mitre.org/wiki/Technique/T1078
 - https://owasp.org/www-community/attacks/Credential_stuffing
 - https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
 tags:
-  analytics_story: Suspicious Okta Activity
-  usecase: Security Monitoring
+  analytic_story: Suspicious Okta Activity
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

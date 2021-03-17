@@ -105,7 +105,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         # we are duplicating the code block above for now and just changing variable names to make future
         # changes to this data structure separate from the mappings generation
         # @todo expose the JSON data structure for newer risk type
-        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytics_story']
+        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story']
         savedsearch_annotations = {}
         for key in annotation_keys:
             if key == 'mitre_attack':
@@ -154,7 +154,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     return output_path
 
 
-def generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
+def generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
 
     sto_det = map_detection_to_stories(detections)
 
@@ -280,7 +280,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                 j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                                      trim_blocks=True)
                 template = j2_env.get_template('panel.j2')
-                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml 
+                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
                 output_path = path.join(OUTPUT_PATH, file_path)
                 response_task['search']= response_task['search'].replace(">","&gt;")
                 response_task['search']= response_task['search'].replace("<","&lt;")
@@ -334,27 +334,30 @@ def get_deployments(object, deployments):
     matched_deployments = []
 
     for deployment in deployments:
-        if 'analytics_story' in deployment['tags']:
-            if type(deployment['tags']['analytics_story']) is str:
-                if 'analytics_story' in object['tags']:
-                    if deployment['tags']['analytics_story'] == object['tags']['analytics_story'] or deployment['tags']['analytics_story']=='all':
+        if 'analytic_story' in deployment['tags']:
+            if type(deployment['tags']['analytic_story']) is str:
+                if 'analytic_story' in object['tags']:
+                    if deployment['tags']['analytic_story'] == object['tags']['analytic_story'] or deployment['tags']['analytic_story']=='all':
                         matched_deployments.append(deployment)
+
             else:
-                for story in deployment['tags']['analytics_story']:
-                    if story == object['tags']['analytics_story']:
+                for story in deployment['tags']['analytic_story']:
+                    if story == object['tags']['analytic_story']:
                         matched_deployments.append(deployment)
                         continue
 
-        if 'product' in deployment['tags']:
-            if type(deployment['tags']['product']) is str:
-                if 'product' in object['tags']:
-                    if deployment['tags']['product'] == object['tags']['analytics_story'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
-                        matched_deployments.append(deployment)
-            else:
-                for story in deployment['tags']['product']:
-                    if story == object['tags']['product']:
-                        matched_deployments.append(deployment)
-                        continue
+        # Remove this check since deployment files are numbered and detections for Splunk Security Analytics for AWS will only get risk configs.
+
+        # if 'product' in deployment['tags']:
+        #     if type(deployment['tags']['product']) is str:
+        #         if 'product' in object['tags']:
+        #             if deployment['tags']['product'] == object['tags']['product'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
+        #                 matched_deployments.append(deployment)
+        #     else:
+        #         for story in deployment['tags']['product']:
+        #             if story == object['tags']['product']:
+        #                 matched_deployments.append(deployment)
+        #                 continue
 
 
         if 'detection_name' in deployment['tags']:
@@ -428,10 +431,11 @@ def get_nes_fields(search, deployment):
 def map_detection_to_stories(detections):
     sto_det = {}
     for detection in detections:
-        if 'analytics_story' in detection['tags']:
-            for story in detection['tags']['analytics_story']:
+        if 'analytic_story' in detection['tags']:
+            for story in detection['tags']['analytic_story']:
                 if 'type' in detection.keys():
-                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
+                    if detection['type'] == 'batch':
+                        rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
                 else:
                     rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
                 if not (story in sto_det):
@@ -445,10 +449,11 @@ def map_response_tasks_to_stories(response_tasks):
     sto_res = {}
     for response_task in response_tasks:
         if 'tags' in response_task:
-            if 'analytics_story' in response_task['tags']:
-                for story in response_task['tags']['analytics_story']:
+            if 'analytic_story' in response_task['tags']:
+                for story in response_task['tags']['analytic_story']:
                     if 'type' in response_task.keys():
-                        task_name = str(response_task['type'] + ' - ' + response_task['name'] + ' - Response Task' )
+                        if response_task['type'] == 'response':
+                            task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     else:
                         task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
                     if not (story in sto_res):
@@ -462,10 +467,11 @@ def map_baselines_to_stories(baselines):
     sto_bas = {}
     for baseline in baselines:
         if 'tags' in baseline:
-            if 'analytics_story' in baseline['tags']:
-                for story in baseline['tags']['analytics_story']:
+            if 'analytic_story' in baseline['tags']:
+                for story in baseline['tags']['analytic_story']:
                     if 'type' in baseline.keys():
-                        baseline_name = str(baseline['type'] + ' - ' + baseline['name'])
+                        if baseline['type'] == 'batch':
+                            baseline_name = str('ESCU - ' + baseline['name'])
                     else:
                         baseline_name = str('ESCU - ' + baseline['name'])
                     if not (story in sto_bas):
@@ -496,10 +502,11 @@ def prepare_stories(stories, detections):
     sto_to_nists = {}
     sto_to_det = {}
     for detection in detections:
-        if 'analytics_story' in detection['tags']:
-            for story in detection['tags']['analytics_story']:
+        if 'analytic_story' in detection['tags']:
+            for story in detection['tags']['analytic_story']:
                 if 'type' in detection.keys():
-                    rule_name = str(detection['type'] + ' - ' + detection['name'] + ' - Rule')
+                    if detection['type'] == 'batch':
+                        rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
                 else:
                     rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
 
@@ -595,21 +602,10 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 
 
-def main(args):
+def main(REPO_PATH, OUTPUT_PATH, VERBOSE):
 
-    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
-    This tool converts manifests to the source files to be used by products like Splunk Enterprise.
-    It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
-    parser.add_argument("-o", "--output", required=True, help="path to the output directory")
-    parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-
-    # parse them
-    args = parser.parse_args()
-    REPO_PATH = args.path
-    OUTPUT_PATH = args.output
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
-    VERBOSE = args.verbose
+
     stories = load_objects("stories/*.yml", VERBOSE, REPO_PATH)
     macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
     lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
@@ -637,14 +633,15 @@ def main(args):
     detections = sorted(detections, key=lambda d: d['name'])
 
     # only use ESCU detections to the configurations
-    detections = [object for object in detections if object["type"].lower() == "escu"]
+    detections = [object for object in detections if object["type"].lower() == "batch"]
 
     response_tasks = sorted(response_tasks, key=lambda i: i['name'])
     baselines = sorted(baselines, key=lambda b: b['name'])
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
 
-    stories = sorted(stories, key=lambda s: s['name'])
-    story_path = generate_analytics_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
+    # only use ESCU stories to the configuration
+    stories = sorted(filter(lambda s: s['type'].lower() == 'batch', stories), key=lambda s: s['name'])
+    story_path = generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
@@ -665,4 +662,18 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+
+    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
+    This tool converts manifests to the source files to be used by products like Splunk Enterprise.
+    It generates the savesearches.conf, analytics_stories.conf files for ES.""")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
+    parser.add_argument("-o", "--output", required=True, help="path to the output directory")
+    parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
+
+    # parse them
+    args = parser.parse_args()
+    REPO_PATH = args.path
+    OUTPUT_PATH = args.output
+    VERBOSE = args.verbose
+
+    main(REPO_PATH, OUTPUT_PATH, VERBOSE)

@@ -1,32 +1,46 @@
-name: Remove malicious content
-id: 26cd22c6-4b67-4dc5-b8d1-f5ef9b5d8226
-tags:
-  nist:
-    RS.RP
-description: |
-  Remove malicious content. There are multiple ways to accomplish this. Depending on the maturity and size of the incident, this can be as simple as re-imaging a single system to full remediation via a deployable package from your antivirus vendor or removal of offending file via your enterprise detection and response (EDR) tool. Network attacks external to your environment will need to be managed with the support of your ISP. Internal attacks should be segmented for containment and then removing offending systems or malicious content from those offending systems.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - create ticket
-    - deploy patch
-    - run script
-    - add tag
-    - execute action
-    - execute program
-  playbooks:
-    - scm:
-      playook:
-references:
-  - 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-requirements:
-workflow: |
-  1. Determine the correct approach based on maturity and size of the incident
-  2. Employ eradication and monitor the process to ensure the system does not get re-infected. Reinfection is an indication that your containment measures are inadequate to stop the incident.
-  3. Apply any new gold image with up to date patches on re-imaged systems.
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - create ticket
+  - deploy patch
+  - run script
+  - add tag
+  - execute action
+  - execute program
+  is_note_required: false
+  playbooks:
+  - playook: null
+    scm: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Remove malicious content. There are multiple ways to accomplish this.
+  Depending on the maturity and size of the incident, this can be as simple as re-imaging
+  a single system to full remediation via a deployable package from your antivirus
+  vendor or removal of offending file via your enterprise detection and response (EDR)
+  tool. Network attacks external to your environment will need to be managed with
+  the support of your ISP. Internal attacks should be segmented for containment and
+  then removing offending systems or malicious content from those offending systems.
+
+  '
+id: 26cd22c6-4b67-4dc5-b8d1-f5ef9b5d8226
+name: Remove malicious content
+references:
+- 3.3.4 Eradication and Recovery - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+requirements: null
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: '1. Determine the correct approach based on maturity and size of the incident
+
+  2. Employ eradication and monitor the process to ensure the system does not get
+  re-infected. Reinfection is an indication that your containment measures are inadequate
+  to stop the incident.
+
+  3. Apply any new gold image with up to date patches on re-imaged systems.
+
+  '

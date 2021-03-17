@@ -2,23 +2,29 @@ name: Suspicious Zoom Child Processes
 id: aa3749a6-49c7-491e-a03f-4eaee5fe0258
 version: 1
 date: '2020-04-13'
-description: Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new
-    child processes of zoom and provides investigative actions for this detection.
-narrative: 'Zoom is a leader in modern enterprise video communications and its usage has
-    increased dramatically with a large amount of the population under stay-at-home orders
-    due to the COVID-19 pandemic. With increased usage has come increased scrutiny and 
-    several security flaws have been found with this application on both Windows and macOS
-    systems.\
-    
-    Current detections focus on finding new child processes of this application on a per host
-    basis. Investigative searches are included to gather information needed during an investigation.'
 author: David Dorsey, Splunk
-type: ESCU
+type: batch
+description: Attackers are using Zoom as an vector to increase privileges on a sytems.
+  This story detects new child processes of zoom and provides investigative actions
+  for this detection.
+narrative: 'Zoom is a leader in modern enterprise video communications and its usage
+  has increased dramatically with a large amount of the population under stay-at-home
+  orders due to the COVID-19 pandemic. With increased usage has come increased scrutiny
+  and several security flaws have been found with this application on both Windows
+  and macOS systems.\
+
+  Current detections focus on finding new child processes of this application on a
+  per host basis. Investigative searches are included to gather information needed
+  during an investigation.'
 references:
-  - https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
-  - https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
+- https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/
+- https://threatpost.com/two-zoom-zero-day-flaws-uncovered/154337/
 tags:
-  analytics_story: Suspicious Zoom Child Processes
-  usecase: Advanced Threat Detection
+  analytic_story: Suspicious Zoom Child Processes
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

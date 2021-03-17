@@ -2,19 +2,13 @@ name: Hosts receiving high volume of network traffic from email server
 id: 7f5fb3e1-4209-4914-90db-0ec21b556368
 version: 2
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Network_Traffic
 description: This search looks for an increase of data transfers from your email server
   to your clients. This could be indicative of a malicious actor collecting data using
   your email server.
-how_to_implement: This search requires you to be ingesting your network traffic and
-  populating the Network_Traffic data model.  Your email servers must be categorized
-  as "email_server" for the search to work, as well. You may need to adjust the deviation_threshold
-  and minimum_data_samples values based on the network traffic in your environment.
-  The "deviation_threshold" field is a multiplying factor to control how much variation
-  you're willing to tolerate. The "minimum_data_samples" field is the minimum number
-  of connections of data samples required for the statistic to be valid.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_in) as bytes_in
   from datamodel=Network_Traffic where All_Traffic.dest_category=email_server by All_Traffic.src_ip
   _time span=1d | `drop_dm_object_name("All_Traffic")` | eventstats avg(bytes_in)
@@ -29,21 +23,38 @@ search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_in) as 
   = round(abs(bytes_in - per_source_avg_bytes_in) / per_source_stdev_bytes_in, 2)
   | table src_ip, _time, bytes_in, avg_bytes_in, per_source_avg_bytes_in, num_standard_deviations_away_from_server_average,
   num_standard_deviations_away_from_client_average | `hosts_receiving_high_volume_of_network_traffic_from_email_server_filter`'
+how_to_implement: This search requires you to be ingesting your network traffic and
+  populating the Network_Traffic data model.  Your email servers must be categorized
+  as "email_server" for the search to work, as well. You may need to adjust the deviation_threshold
+  and minimum_data_samples values based on the network traffic in your environment.
+  The "deviation_threshold" field is a multiplying factor to control how much variation
+  you're willing to tolerate. The "minimum_data_samples" field is the minimum number
+  of connections of data samples required for the statistic to be valid.
 known_false_positives: The false-positive rate will vary based on how you set the
   deviation_threshold and data_samples values. Our recommendation is to adjust these
   values based on your network traffic to and from your email servers.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Collection and Staging
-  mitre_attack_id:
-  - T1114.002
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 7
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1114.002
   nist:
   - PR.PT
   - DE.CM
   - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Traffic.bytes_in
+  - All_Traffic.dest_category
+  - All_Traffic.src_ip
   security_domain: network
-  asset_type: Endpoint

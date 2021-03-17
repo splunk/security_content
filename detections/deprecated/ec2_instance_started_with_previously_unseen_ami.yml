@@ -2,15 +2,12 @@ name: EC2 Instance Started With Previously Unseen AMI
 id: 347ec301-601b-48b9-81aa-9ddf9c829dd3
 version: 1
 date: '2018-03-12'
-description: This search looks for EC2 instances being created with previously unseen
-  AMIs.  This search is deprecated and have been translated to use the latest Change Datamodel.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. This search works best when you run the "Previously Seen EC2 AMIs" support
-  search once to create a history of previously seen AMIs.
-type: ESCU
-references: []
 author: David Dorsey, Splunk
+type: batch
+datamodel: []
+description: This search looks for EC2 instances being created with previously unseen
+  AMIs.  This search is deprecated and have been translated to use the latest Change
+  Datamodel.
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
   errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
   by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId
@@ -22,15 +19,29 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn
   as arn, requestParameters.instancesSet.items{}.imageId as amiID | table firstTime,
   lastTime, arn, amiID, dest, instanceType | `ec2_instance_started_with_previously_unseen_ami_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen EC2 AMIs" support
+  search once to create a history of previously seen AMIs.
 known_false_positives: After a new AMI is created, the first systems created with
   that AMI will cause this alert to fire.  Verify that the AMI being used was created
   by a legitimate user.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
+  asset_type: AWS Instance
   cis20:
   - CIS 1
   nist:
   - ID.AM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - errorCode
+  - requestParameters.instancesSet.items{}.imageId
   security_domain: endpoint
-  asset_type: AWS Instance

@@ -2,6 +2,8 @@ name: DNS Hijacking
 id: 8169f17b-ef68-4b59-aa28-586907301221
 version: 1
 date: '2020-02-04'
+author: Bhavin Patel, Splunk
+type: batch
 description: Secure your environment against DNS hijacks with searches that help you
   detect and investigate unauthorized changes to DNS records.
 narrative: 'Dubbed the Achilles heel of the Internet (see https://www.f5.com/labs/articles/threat-intelligence/dns-is-still-the-achilles-heel-of-the-internet-25613),
@@ -53,15 +55,17 @@ narrative: 'Dubbed the Achilles heel of the Internet (see https://www.f5.com/lab
 
   The searches in this Analytic Story help you detect and investigate activities that
   may indicate that DNS hijacking has taken place within your environment.'
-author: Bhavin Patel, Splunk
-type: ESCU
 references:
 - https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html
 - https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
 - http://www.noip.com/blog/2014/07/11/dynamic-dns-can-use-2/
 - https://www.splunk.com/blog/2015/08/04/detecting-dynamic-dns-domains-in-splunk.html
 tags:
-  analytics_story: DNS Hijacking
-  usecase: Advanced Threat Detection
+  analytic_story: DNS Hijacking
   category:
   - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

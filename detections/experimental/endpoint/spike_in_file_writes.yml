@@ -2,16 +2,11 @@ name: Spike in File Writes
 id: fdb0f805-74e4-4539-8c00-618927333aae
 version: 3
 date: '2020-03-16'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: The search looks for a sharp increase in the number of files written
   to a particular host
-how_to_implement: In order to implement this search, you must populate the Endpoint
-  file-system data model node. This is typically populated via endpoint detection
-  and response products, such as Carbon Black or endpoint data sources such as Sysmon.
-  The data used for this search is typically generated via logs that report reads
-  and writes to the file system.
-type: ESCU
-references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
   where Filesystem.action=created by _time span=1h, Filesystem.dest | `drop_dm_object_name(Filesystem)`
   | eventstats max(_time) as maxtime | stats count as num_data_samples max(eval(if(_time
@@ -19,19 +14,33 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   "-1d@d"), count,null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-1d@d"),
   count, null))) as stdev by "dest" | eval upperBound=(avg+stdev*4), isOutlier=if((count
   > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter` '
+how_to_implement: In order to implement this search, you must populate the Endpoint
+  file-system data model node. This is typically populated via endpoint detection
+  and response product, such as Carbon Black or endpoint data sources such as Sysmon.
+  The data used for this search is typically generated via logs that report reads
+  and writes to the file system.
 known_false_positives: It is important to understand that if you happen to install
   any new applications on your hosts or are copying a large number of files, you can
   expect to see a large increase of file modifications.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   - Ryuk Ransomware
   - Ransomware
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
   cis20:
   - CIS 8
+  kill_chain_phases:
+  - Actions on Objectives
   nist:
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.action
+  - Filesystem.dest
   security_domain: endpoint
-  asset_type: Endpoint

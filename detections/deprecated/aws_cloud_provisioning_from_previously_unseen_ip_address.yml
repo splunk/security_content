@@ -2,17 +2,13 @@ name: AWS Cloud Provisioning From Previously Unseen IP Address
 id: 42e15012-ac14-4801-94f4-f1acbe64880b
 version: 1
 date: '2018-03-16'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: 'This search looks for AWS provisioning activities from previously unseen
   IP addresses. Provisioning activities are defined broadly as any event that begins
-  with "Run" or "Create." This search is deprecated and have been translated to use the latest Change Datamodel. '
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. This search works best when you run the "Previously Seen AWS Provisioning
-  Activity Sources" support search once to create a history of previously seen locations
-  that have provisioned AWS resources.
-type: ESCU
-references: []
-author: David Dorsey, Splunk
+  with "Run" or "Create." This search is deprecated and have been translated to use
+  the latest Change Datamodel. '
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) [search `cloudtrail` (eventName=Run*
   OR eventName=Create*) | iplocation sourceIPAddress | search Country=* | stats earliest(_time)
   as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country
@@ -23,6 +19,11 @@ search: '`cloudtrail` (eventName=Run* OR eventName=Create*) [search `cloudtrail`
   >= relative_time(now(), "-70m@m"), 1, 0) | where newIP=1 | table sourceIPAddress]
   | spath output=user userIdentity.arn | rename sourceIPAddress as src_ip | table
   _time, user, src_ip, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_ip_address_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen AWS Provisioning
+  Activity Sources" support search once to create a history of previously seen locations
+  that have provisioned AWS resources.
 known_false_positives: "This is a strictly behavioral search, so we define \"false\
   \ positive\" slightly differently. Every time this fires, it will accurately reflect\
   \ the first occurrence in the time period you're searching within, plus what is\
@@ -34,12 +35,21 @@ known_false_positives: "This is a strictly behavioral search, so we define \"fal
   \ where the free version of **MaxMind GeoIP** that ships by default with Splunk\
   \ has weak resolution (particularly small countries in less economically powerful\
   \ regions), this may be much less valuable to you."
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Suspicious Provisioning Activities
+  asset_type: AWS Instance
   cis20:
   - CIS 1
   nist:
   - ID.AM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - sourceIPAddress
   security_domain: endpoint
-  asset_type: AWS Instance

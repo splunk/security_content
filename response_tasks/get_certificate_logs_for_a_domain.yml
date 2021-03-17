@@ -1,6 +1,4 @@
-name: Get Certificate logs for a domain
-id: bc91a8cf-35e7-4bb2-2240-e756cc06fd73
-version: 2
+author: Bhavin Patel, Splunk
 date: '2019-04-29'
 description: This search queries the Certificates datamodel and give you all the information
   for a specific domain. Please note that the certificates issued by "Let's Encrypt"
@@ -8,9 +6,10 @@ description: This search queries the Certificates datamodel and give you all the
 how_to_implement: You must be ingesting your certificates or SSL logs from your network
   traffic into your Certificates datamodel. Please note the wildcard(*) before domain
   in the search syntax, we use to match for all domain and subdomain combinations
-author: Bhavin Patel, Splunk
+id: bc91a8cf-35e7-4bb2-2240-e756cc06fd73
 inputs:
 - domain
+name: Get Certificate logs for a domain
 search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as lastTime
   FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*$domain$  by
   All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name
@@ -18,5 +17,9 @@ search: '| tstats `summariesonly` count min(_time) as firstTime max(_time) as la
   | `drop_dm_object_name(SSL)` | rename ssl_subject_common_name as domain | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`'
 tags:
-  analytics_story:
+  analytic_story:
   - Common Phishing Frameworks
+  product:
+  - Splunk Phantom
+type: response
+version: 2

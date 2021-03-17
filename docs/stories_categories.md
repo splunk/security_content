@@ -292,6 +292,10 @@ Another search detects incidents wherein a single password is used across multip
 
 ## Adversary Tactics
 
+* [Baron Samedit CVE-2021-3156](#Baron-Samedit-CVE-2021-3156)
+
+* [Cobalt Strike](#Cobalt-Strike)
+
 * [Collection and Staging](#Collection-and-Staging)
 
 * [Command and Control](#Command-and-Control)
@@ -310,19 +314,25 @@ Another search detects incidents wherein a single password is used across multip
 
 * [F5 TMUI RCE CVE-2020-5902](#F5-TMUI-RCE-CVE-2020-5902)
 
+* [HAFNIUM Group](#HAFNIUM-Group)
+
 * [Lateral Movement](#Lateral-Movement)
 
 * [Malicious PowerShell](#Malicious-PowerShell)
+
+* [NOBELIUM Group](#NOBELIUM-Group)
 
 * [Phishing Payloads](#Phishing-Payloads)
 
 * [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](#Possible-Backdoor-Activity-Associated-With-MUDCARP-Espionage-Campaigns)
 
+* [Silver Sparrow](#Silver-Sparrow)
+
 * [SQL Injection](#SQL-Injection)
 
-* [Sunburst Malware](#Sunburst-Malware)
-
 * [Suspicious Command-Line Executions](#Suspicious-Command-Line-Executions)
+
+* [Suspicious Compiled HTML Activity](#Suspicious-Compiled-HTML-Activity)
 
 * [Suspicious DNS Traffic](#Suspicious-DNS-Traffic)
 
@@ -331,6 +341,12 @@ Another search detects incidents wherein a single password is used across multip
 * [Suspicious MSHTA Activity](#Suspicious-MSHTA-Activity)
 
 * [Suspicious Okta Activity](#Suspicious-Okta-Activity)
+
+* [Suspicious Regsvcs Regasm Activity](#Suspicious-Regsvcs-Regasm-Activity)
+
+* [Suspicious Regsvr32 Activity](#Suspicious-Regsvr32-Activity)
+
+* [Suspicious Rundll32 Activity](#Suspicious-Rundll32-Activity)
 
 * [Suspicious Windows Registry Activities](#Suspicious-Windows-Registry-Activities)
 
@@ -344,6 +360,8 @@ Another search detects incidents wherein a single password is used across multip
 
 * [Windows Defense Evasion Tactics](#Windows-Defense-Evasion-Tactics)
 
+* [Windows Discovery Techniques](#Windows-Discovery-Techniques)
+
 * [Windows DNS SIGRed CVE-2020-1350](#Windows-DNS-SIGRed-CVE-2020-1350)
 
 * [Windows Log Manipulation](#Windows-Log-Manipulation)
@@ -351,6 +369,109 @@ Another search detects incidents wherein a single password is used across multip
 * [Windows Persistence Techniques](#Windows-Persistence-Techniques)
 
 * [Windows Privilege Escalation](#Windows-Privilege-Escalation)
+
+### Baron Samedit CVE-2021-3156
+* id = 817b0dfc-23ba-4bcc-96cc-2cb77e428fbe
+* date = 2021-01-27
+* version = 1
+
+#### Description
+Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys Research Team, this vulnerability has been found to affect sudo across multiple Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and prior). As this vulnerability was committed to code in July 2011, there will be many distributions affected. Successful exploitation of this vulnerability allows any unprivileged user to gain root privileges on the vulnerable host.
+
+#### Narrative
+A non-privledged user is able to execute the sudoedit command to trigger a buffer overflow. After the successful buffer overflow, they are then able to gain root privileges on the affected host. The conditions needed to be run are a trailing "\" along with shell and edit flags. Monitoring the /var/log directory on Linux hosts using the Splunk Universal Forwarder will allow you to pick up this behavior when using the provided detection.
+
+#### Detections
+* Detect Baron Samedit CVE-2021-3156
+* Detect Baron Samedit CVE-2021-3156 Segfault
+* Detect Baron Samedit CVE-2021-3156 via OSQuery
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1068
+
+##### Kill Chain Phases
+* Exploitation
+
+###### CIS
+* CIS 12
+* CIS 16
+* CIS 8
+
+##### NIST
+* DE.CM
+
+##### References
+* https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
+### Cobalt Strike
+* id = bcfd17e8-5461-400a-80a2-3b7d1459220c
+* date = 2021-02-16
+* version = 1
+
+#### Description
+Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility.
+
+#### Narrative
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from Cobalt Strike. Cobalt Strike has many ways to be enhanced by using aggressor scripts, malleable C2 profiles, default attack packages, and much more. For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. Many additional variables are provided for in memory operation of the beacon implant. On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike. Not every query may be specific to Cobalt Strike the tool, but the methodologies and techniques used by it.\
+Splunk Threat Research reviewed all publicly available instances of Malleabe C2 Profiles and generated a list of the most commonly used spawnto and pipenames.\
+`Spawnto_x86` and `spawnto_x64` is the process that Cobalt Strike will spawn and injects shellcode into.\
+Pipename sets the named pipe name used in Cobalt Strikes Beacon SMB C2 traffic.\
+With that, new detections were generated focused on these spawnto processes spawning without command line arguments. Similar, the named pipes most commonly used by Cobalt Strike added as a detection. In generating content for Cobalt Strike, the following is considered:\
+- Is it normal for spawnto_ value to have no command line arguments? No command line arguments and a network connection?\
+- What is the default, or normal, process lineage for spawnto_ value?\
+- Does the spawnto_ value make network connections?\
+- Is it normal for spawnto_ value to load jscript, vbscript, Amsi.dll, and clr.dll?\
+While investigating a detection related to this Analytic Story, keep in mind the parent process, process path, and any file modifications that may occur. Tuning may need to occur to remove any false positives.
+
+#### Detections
+* Cobalt Strike Named Pipes
+* Detect Regsvr32 Application Control Bypass
+* Suspicious DLLHost no Command Line Arguments
+* Suspicious GPUpdate no Command Line Arguments
+* Suspicious MSBuild Rename
+* Suspicious Rundll32 StartW
+* Suspicious Rundll32 no Command Line Arguments
+* Suspicious SearchProtocolHost no Command Line Arguments
+* Suspicious microsoft workflow compiler rename
+* Suspicious msbuild path
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1036.003
+* T1055
+* T1127, T1036.003
+* T1127.001
+* T1218.010
+* T1218.011
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Exploitation
+
+###### CIS
+* CIS 16
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://www.cobaltstrike.com/
+* https://www.infocyte.com/blog/2020/09/02/cobalt-strike-the-new-favorite-among-thieves/
+* https://bluescreenofjeff.com/2017-01-24-how-to-write-malleable-c2-profiles-for-cobalt-strike/
+* https://blog.talosintelligence.com/2020/09/coverage-strikes-back-cobalt-strike-paper.html
+* https://www.fireeye.com/blog/threat-research/2020/12/unauthorized-access-of-fireeye-red-team-tools.html
+* https://github.com/MichaelKoczwara/Awesome-CobaltStrike-Defence
+* https://github.com/zer0yu/Awesome-CobaltStrike
 
 ### Collection and Staging
 * id = 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
@@ -525,18 +646,35 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 #### Detections
 * Access LSASS Memory for Dump Creation
+* Applying Stolen Credentials via Mimikatz modules
+* Applying Stolen Credentials via PowerSploit modules
+* Assessment of Credential Strength via DSInternals modules
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
 * Attempted Credential Dump From Registry via Reg exe
-* Attempted Credential Dump From Registry via Reg exe - SSA
 * Create Remote Thread into LSASS
 * Creation of Shadow Copy
 * Creation of Shadow Copy with wmic and powershell
+* Creation of lsass Dump with Taskmgr
 * Credential Dumping via Copy Command from Shadow Copy
 * Credential Dumping via Symlink to Shadow Copy
+* Credential Extraction indicative of FGDump and CacheDump with s option
+* Credential Extraction indicative of FGDump and CacheDump with v option
+* Credential Extraction indicative of Lazagne command line options
+* Credential Extraction indicative of use of DSInternals credential conversion modules
+* Credential Extraction indicative of use of DSInternals modules
+* Credential Extraction indicative of use of Mimikatz modules
+* Credential Extraction indicative of use of PowerSploit modules
+* Credential Extraction native Microsoft debuggers peek into the kernel
+* Credential Extraction native Microsoft debuggers via z command line option
+* Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals
 * Detect Credential Dumping through LSASS access
-* Detect Dump LSASS Memory using comsvcs - SSA
+* Detect Dump LSASS Memory using comsvcs
+* Detect Kerberoasting
 * Detect Mimikatz Using Loaded Images
 * Dump LSASS via comsvcs DLL
+* Dump LSASS via procdump
+* Dump LSASS via procdump Rename
+* Ntdsutil Export NTDS
 * Unsigned Image Loaded by LSASS
 
 #### Data Models
@@ -549,7 +687,23 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 * T1003.001
 * T1003.002
 * T1003.003
+* T1055
 * T1059.001
+* T1068
+* T1078
+* T1087
+* T1098
+* T1134
+* T1201
+* T1543
+* T1547
+* T1548
+* T1552
+* T1554
+* T1555
+* T1556
+* T1558
+* T1558.003
 
 ##### Kill Chain Phases
 * Actions on Objectives
@@ -557,6 +711,7 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 ###### CIS
 * CIS 16
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 6
@@ -806,6 +961,78 @@ A client is able to perform a remote code execution on an exposed and vulnerable
 * https://support.f5.com/csp/article/K52145254
 * https://blog.cloudflare.com/cve-2020-5902-helping-to-protect-against-the-f5-tmui-rce-vulnerability/
 
+### HAFNIUM Group
+* id = beae2ab0-7c3f-11eb-8b63-acde48001122
+* date = 2021-03-03
+* version = 1
+
+#### Description
+HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVEs in the wild - CVE-2021-26855, CVE-2021-26857, CVE-2021-26858 and CVE-2021-27065.
+
+#### Narrative
+On Tuesday, March 2, 2021, Microsoft released a set of security patches for its mail server, Microsoft Exchange. These patches respond to a group of vulnerabilities known to impact Exchange 2013, 2016, and 2019. It is important to note that an Exchange 2010 security update has also been issued, though the CVEs do not reference that version as being vulnerable.\
+While the CVEs do not shed much light on the specifics of the vulnerabilities or exploits, the first vulnerability (CVE-2021-26855) has a remote network attack vector that allows the attacker, a group Microsoft named HAFNIUM, to authenticate as the Exchange server. Three additional vulnerabilities (CVE-2021-26857, CVE-2021-26858, and CVE-2021-27065) were also identified as part of this activity. When chained together along with CVE-2021-26855 for initial access, the attacker would have complete control over the Exchange server. This includes the ability to run code as SYSTEM and write to any path on the server.\
+The following Splunk detections assist with identifying the HAFNIUM groups tradecraft and methodology.
+
+#### Detections
+* Any Powershell DownloadString
+* Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
+* Detect Exchange Web Shell
+* Detect New Local Admin account
+* Detect PsExec With accepteula Flag
+* Dump LSASS via comsvcs DLL
+* Dump LSASS via procdump
+* Dump LSASS via procdump Rename
+* Email servers sending high volume traffic to hosts
+* Malicious PowerShell Process - Connect To Internet With Hidden Window
+* Malicious PowerShell Process - Execution Policy Bypass
+* Nishang PowershellTCPOneLine
+* Ntdsutil Export NTDS
+* Unified Messaging Service Spawning a Process
+* W3WP Spawning Shell
+
+#### Data Models
+* Endpoint
+* Network_Traffic
+
+#### Mappings
+
+##### ATT&CK
+* T1003.001
+* T1003.003
+* T1021.002
+* T1059.001
+* T1114.002
+* T1136.001
+* T1190
+* T1505.003
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Command and Control
+* Exploitation
+* Installation
+
+###### CIS
+* CIS 16
+* CIS 3
+* CIS 5
+* CIS 7
+* CIS 8
+
+##### NIST
+* DE.AE
+* DE.CM
+* PR.AC
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.splunk.com/en_us/blog/security/detecting-hafnium-exchange-server-zero-day-activity-in-splunk.html
+* https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/
+* https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
+* https://blog.rapid7.com/2021/03/03/rapid7s-insightidr-enables-detection-and-response-to-microsoft-exchange-0-day/
+
 ### Lateral Movement
 * id = 399d65dc-1f08-499b-a259-aad9051f38ad
 * date = 2020-02-04
@@ -823,6 +1050,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 #### Detections
 * Detect Activity Related to Pass the Hash Attacks
+* Detect Pass the Hash
 * Kerberoasting spn request with RC4 encryption
 * Remote Desktop Network Traffic
 * Remote Desktop Process Running On System
@@ -882,7 +1110,16 @@ It can also be very helpful to examine various behaviors of the process of inter
 In the event a system is suspected of having been compromised via a malicious website, we suggest reviewing the browsing activity from that system around the time of the event. If categories are given for the URLs visited, that can help you zero in on possible malicious sites.
 
 #### Detections
+* Any Powershell DownloadFile
+* Any Powershell DownloadString
 * Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
+* Credential Extraction indicative of use of DSInternals credential conversion modules
+* Credential Extraction indicative of use of DSInternals modules
+* Credential Extraction indicative of use of PowerSploit modules
+* Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals
+* Illegal Access To User Content via PowerSploit modules
+* Illegal Privilege Elevation and Persistence via PowerSploit modules
+* Illegal Service and Process Control via PowerSploit modules
 * Malicious PowerShell Process - Connect To Internet With Hidden Window
 * Malicious PowerShell Process - Encoded Command
 * Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments
@@ -894,27 +1131,123 @@ In the event a system is suspected of having been compromised via a malicious we
 #### Mappings
 
 ##### ATT&CK
+* T1003
+* T1021
 * T1027
+* T1053
+* T1055
 * T1059.001
+* T1106
+* T1113
+* T1123
+* T1134
+* T1548
+* T1563
+* T1569
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Exploitation
 * Installation
 
 ###### CIS
+* CIS 16
+* CIS 20
 * CIS 3
 * CIS 7
 * CIS 8
 
 ##### NIST
 * DE.CM
+* PR.AC
 * PR.IP
 * PR.PT
 
 ##### References
 * https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
+
+### NOBELIUM Group
+* id = 758196b5-2e21-424f-a50c-6e421ce926c2
+* date = 2020-12-14
+* version = 2
+
+#### Description
+Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
+
+#### Narrative
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) of the NOBELIUM Group. The threat actor behind sunburst compromised the SolarWinds.Orion.Core.BusinessLayer.dll, is a SolarWinds digitally-signed component of the Orion software framework that contains a backdoor that communicates via HTTP to third party servers. The detections in this Analytic Story are focusing on the dll loading events, file create events and network events to detect This malware.
+
+#### Detections
+* Detect Outbound SMB Traffic
+* Detect Prohibited Applications Spawning cmd exe
+* Detect Rundll32 Inline HTA Execution
+* First Time Seen Running Windows Service
+* Malicious PowerShell Process - Encoded Command
+* Sc exe Manipulating Windows Services
+* Scheduled Task Deleted Or Created via CMD
+* Schtasks scheduling job on remote system
+* Sunburst Correlation DLL and Network Event
+* Supernova Webshell
+* TOR Traffic
+* Windows AdFind Exe
+
+#### Data Models
+* Endpoint
+* Network_Traffic
+* Web
+
+#### Mappings
+
+##### ATT&CK
+* T1018
+* T1027
+* T1053.005
+* T1059.003
+* T1071.001
+* T1071.002
+* T1203
+* T1218.005
+* T1505.003
+* T1543.003
+* T1569.002
+
+##### Kill Chain Phases
+* Actions on Objectives
+* Command and Control
+* Exfiltration
+* Exploitation
+* Installation
+
+###### CIS
+* CIS 12
+* CIS 13
+* CIS 18
+* CIS 2
+* CIS 3
+* CIS 4
+* CIS 5
+* CIS 6
+* CIS 7
+* CIS 8
+* CIS 9
+
+##### NIST
+* DE.AE
+* DE.CM
+* ID.AM
+* ID.RA
+* PR.AC
+* PR.AT
+* PR.DS
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/
+* https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+* https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
 
 ### Phishing Payloads
 * id = 57226b40-94f3-4ce5-b101-a75f67759c27
@@ -936,7 +1269,7 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 
 #### Detections
 * Detect Oulook exe writing a  zip file
-* Suspicious LNK file launching a process
+* Process Creating LNK file in Suspicious Location
 
 #### Data Models
 
@@ -1035,6 +1368,44 @@ If behavioral searches included in this story yield positive hits, iDefense reco
 * https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
 
+### Silver Sparrow
+* id = cb4f48fe-7699-11eb-af77-acde48001122
+* date = 2021-02-24
+* version = 1
+
+#### Description
+Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking MacOS (Intel and M1) malicious software downloader utilizing JavaScript for execution and a launchAgent to establish persistence.
+
+#### Narrative
+Silver Sparrow works is a dropper and uses typical persistence mechanisms on a Mac. It is cross platform, covering both Intel and Apple M1 architecture. To this date, no implant has been downloaded for malicious purposes. During installation of the update.pkg or updater.pkg file, the malicious software utilizes JavaScript to generate files and scripts on disk for persistence.These files later download a implant from an S3 bucket every hour. This analytic assists with identifying different types of macOS malware families establishing LaunchAgent persistence. Per SentinelOne source, it is predicted that Silver Sparrow is likely selling itself as a mechanism to 3rd party “affiliates” or pay-per-install (PPI) partners, typically seen as commodity adware/malware. Additional indicators and behaviors may be found within the references.
+
+#### Detections
+* Suspicious Curl Network Connection
+* Suspicious PlistBuddy Usage
+* Suspicious PlistBuddy Usage via OSquery
+* Suspicious SQLite3 LSQuarantine Behavior
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1074
+* T1105
+* T1543.001
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+
+##### NIST
+
+##### References
+* https://redcanary.com/blog/clipping-silver-sparrows-wings/
+* https://www.sentinelone.com/blog/5-things-you-need-to-know-about-silver-sparrow/
+
 ### SQL Injection
 * id = 4f6632f5-449c-4686-80df-57625f59bab3
 * date = 2017-09-19
@@ -1077,84 +1448,6 @@ This Analytic Story contains a search designed to identify attempts by attackers
 * https://capec.mitre.org/data/definitions/66.html
 * https://www.incapsula.com/web-application-security/sql-injection.html
 
-### Sunburst Malware
-* id = 758196b5-2e21-424f-a50c-6e421ce926c2
-* date = 2020-12-14
-* version = 1
-
-#### Description
-Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
-
-#### Narrative
-This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from the Sunburst malware. The threat actor behind sunburst compromised the SolarWinds.Orion.Core.BusinessLayer.dll, is a SolarWinds digitally-signed component of the Orion software framework that contains a backdoor that communicates via HTTP to third party servers. The detections in this Analytic Story are focusing on the dll loading events, file create events and network events to detect This malware.
-
-#### Detections
-* Detect Outbound SMB Traffic
-* Detect Prohibited Applications Spawning cmd exe
-* First Time Seen Running Windows Service
-* Malicious PowerShell Process - Encoded Command
-* Sc exe Manipulating Windows Services
-* Scheduled Task Deleted Or Created via CMD
-* Schtasks scheduling job on remote system
-* Sunburst Correlation DLL and Network Event
-* Supernova Webshell
-* TOR Traffic
-* Windows AdFind Exe
-
-#### Data Models
-* Endpoint
-* Network_Traffic
-* Web
-
-#### Mappings
-
-##### ATT&CK
-* T1018
-* T1027
-* T1053.005
-* T1059.003
-* T1071.001
-* T1071.002
-* T1203
-* T1505.003
-* T1543.003
-* T1569.002
-
-##### Kill Chain Phases
-* Actions on Objectives
-* Command and Control
-* Exfiltration
-* Exploitation
-* Installation
-
-###### CIS
-* CIS 12
-* CIS 13
-* CIS 18
-* CIS 2
-* CIS 3
-* CIS 4
-* CIS 5
-* CIS 6
-* CIS 7
-* CIS 8
-* CIS 9
-
-##### NIST
-* DE.AE
-* DE.CM
-* ID.AM
-* ID.RA
-* PR.AC
-* PR.AT
-* PR.DS
-* PR.IP
-* PR.PT
-
-##### References
-* https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
-* https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/
-
 ### Suspicious Command-Line Executions
 * id = f4368ddf-d59f-4192-84f6-778ac5a3ffc7
 * date = 2020-02-03
@@ -1181,6 +1474,7 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 
 ##### ATT&CK
 * T1036.003
+* T1059
 * T1059.001
 * T1059.003
 
@@ -1202,6 +1496,49 @@ The ability to execute arbitrary commands via the Windows CLI is a primary goal 
 * https://attack.mitre.org/wiki/Technique/T1059
 * https://www.microsoft.com/en-us/wdsi/threats/macro-malware
 * https://www.fireeye.com/content/dam/fireeye-www/services/pdfs/mandiant-apt1-report.pdf
+
+### Suspicious Compiled HTML Activity
+* id = a09db4d1-3827-4833-87b8-3a397e532119
+* date = 2021-02-11
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
+
+#### Narrative
+Adversaries may abuse Compiled HTML files (.chm) to conceal malicious code. CHM files are commonly distributed as part of the Microsoft HTML Help system. CHM files are compressed compilations of various content such as HTML documents, images, and scripting/web related programming languages such VBA, JScript, Java, and ActiveX. CHM content is displayed using underlying components of the Internet Explorer browser loaded by the HTML Help executable program (hh.exe). \
+HH.exe relies upon hhctrl.ocx to load CHM topics.This will load upon execution of a chm file. \
+During investigation, review all parallel processes and child processes. It is possible for file modification events to occur and it is best to capture the CHM file and decompile it for further analysis. \
+Upon usage of InfoTech Storage Handlers, ms-its, its, mk, itss.dll will load.
+
+#### Detections
+* Detect HTML Help Renamed
+* Detect HTML Help Spawn Child Process
+* Detect HTML Help URL in Command Line
+* Detect HTML Help Using InfoTech Storage Handlers
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1218.001
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://redcanary.com/blog/introducing-atomictestharnesses/
+* https://attack.mitre.org/techniques/T1218/001/
+* https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
 
 ### Suspicious DNS Traffic
 * id = 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
@@ -1314,9 +1651,19 @@ Once a phishing message has been detected, the next steps are to answer the foll
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 #### Narrative
-One common adversary tactic is to bypass application white-listing solutions via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta suffix. In these cases, attackers use the trusted Windows utility to proxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
-The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code. \
-Triage \ Validate execution \ 1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. 2. Determine if script code was executed with MSHTA. \ Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSHTA.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is MSHTA loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
+One common adversary tactic is to bypass application control solutions via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta suffix. In these cases, attackers use the trusted Windows utility to proxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code.\
+Triage\
+Validate execution \
+1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect.\
+1. Determine if script code was executed with MSHTA.\
+Situational Awareness\
+The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSHTA.exe.\
+1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?\
+1. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is MSHTA loading any suspicious .DLLs?\
+1. Network connections. Any network connections? Review the reputation of the remote IP or domain.\
+Retrieval of script code\
+The objective of this step is to confirm the executed script code is benign or malicious.
 
 #### Detections
 * Detect MSHTA Url in Command Line
@@ -1334,6 +1681,7 @@ Triage \ Validate execution \ 1. Determine if MSHTA.exe executed. Validate the O
 #### Mappings
 
 ##### ATT&CK
+* T1059
 * T1059.003
 * T1218.005
 * T1547.001
@@ -1370,7 +1718,7 @@ While SSO is a major convenience for users, it also provides attackers with an o
 With people moving quickly to adopt web-based applications and ways to manage them, many are still struggling to understand how best to monitor these environments. This analytic story provides searches to help monitor this environment, and identify events and activity that warrant further investigation such as credential stuffing or password spraying attacks, and users logging in from multiple locations when travel is disallowed.
 
 #### Detections
-* Multiple Okta Users With Invalid Credentails From The Same IP
+* Multiple Okta Users With Invalid Credentials From The Same IP
 * Okta Account Lockout Events
 * Okta Failed SSO Attempts
 * Okta User Logins From Multiple Cities
@@ -1394,6 +1742,135 @@ With people moving quickly to adopt web-based applications and ways to manage th
 * https://attack.mitre.org/wiki/Technique/T1078
 * https://owasp.org/www-community/attacks/Credential_stuffing
 * https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
+
+### Suspicious Regsvcs Regasm Activity
+* id = 2cdf33a0-4805-4b61-b025-59c20f418fbe
+* date = 2021-02-11
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
+
+#### Narrative
+ Adversaries may abuse Regsvcs and Regasm to proxy execution of code through a trusted Windows utility. Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies. Both are digitally signed by Microsoft. The following queries assist with detecting suspicious and malicious usage of Regasm.exe and Regsvcs.exe. Upon reviewing usage of Regasm.exe Regsvcs.exe, review file modification events for possible script code written. Review parallel process events for csc.exe being utilized to compile script code.
+
+#### Detections
+* Detect Regasm Spawning a Process
+* Detect Regasm with Network Connection
+* Detect Regasm with no Command Line Arguments
+* Detect Regsvcs Spawning a Process
+* Detect Regsvcs with Network Connection
+* Detect Regsvcs with No Command Line Arguments
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1218.009
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://attack.mitre.org/techniques/T1218/009/
+* https://github.com/rapid7/metasploit-framework/blob/master/documentation/modules/evasion/windows/applocker_evasion_regasm_regsvcs.md
+* https://oddvar.moe/2017/12/13/applocker-case-study-how-insecure-is-it-really-part-1/
+
+### Suspicious Regsvr32 Activity
+* id = b8bee41e-624f-11eb-ae93-0242ac130002
+* date = 2021-01-29
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage the regsvr32.exe process to execute malicious code.
+
+#### Narrative
+One common adversary tactic is to bypass application control solutions via the regsvr32.exe process. This particular bypass was popularized with "SquiblyDoo" using the "scrobj.dll" dll to load .sct scriptlets. This technique is still widely used by adversaries to bypass detection and prevention controls. The file extension of the DLL is irrelevant (it may load a .txt file extension for example). The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging regsvr32.exe to execute malicious code. Validate execution Determine if regsvr32.exe executed. Validate the OriginalFileName of regsvr32.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. Determine if script code was executed with regsvr32. Situational Awareness - The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by regsvr32.exe. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? Module loads.  Is regsvr32 loading any suspicious .DLLs? Unsigned or signed from non-standard paths. Network connections. Any network connections? Review the reputation of the remote IP or domain. Retrieval of Script Code - confirm the executed script code is benign or malicious.
+
+#### Detections
+* Detect Regsvr32 Application Control Bypass
+* Suspicious Regsvr32 Register Suspicious Path
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1218.010
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+* CIS 8
+
+##### NIST
+* DE.CM
+
+##### References
+* https://attack.mitre.org/techniques/T1218/010/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
+* https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+
+### Suspicious Rundll32 Activity
+* id = 80a65487-854b-42f1-80a1-935e4c170694
+* date = 2021-02-03
+* version = 1
+
+#### Description
+Monitor and detect techniques used by attackers who leverage rundll32.exe to execute arbitrary malicious code.
+
+#### Narrative
+One common adversary tactic is to bypass application control solutions via the rundll32.exe process. Natively, rundll32.exe will load DLLs and is a great example of a Living off the Land Binary. Rundll32.exe may load malicious DLLs by ordinals, function names or directly. The queries in this story focus on loading default DLLs, syssetup.dll, ieadvpack.dll, advpack.dll and setupapi.dll from disk that may be abused by adversaries. Additionally, two analytics developed to assist with identifying DLLRegisterServer, Start and StartW functions being called. The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging rundll32.exe to execute malicious code.
+
+#### Detections
+* Detect Rundll32 Application Control Bypass - advpack
+* Detect Rundll32 Application Control Bypass - setupapi
+* Detect Rundll32 Application Control Bypass - syssetup
+* Dump LSASS via comsvcs DLL
+* Suspicious Rundll32 Rename
+* Suspicious Rundll32 StartW
+* Suspicious Rundll32 dllregisterserver
+* Suspicious Rundll32 no Command Line Arguments
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1003.001
+* T1036.003
+* T1218.011
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+* CIS 3
+* CIS 5
+* CIS 8
+
+##### NIST
+* DE.CM
+* PR.PT
+
+##### References
+* https://attack.mitre.org/techniques/T1218/011/
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+* https://lolbas-project.github.io/lolbas/Binaries/Rundll32
 
 ### Suspicious Windows Registry Activities
 * id = 2b1800dd-92f9-47dd-a981-fdf1351e5d55
@@ -1521,6 +1998,7 @@ Current detections focus on finding new child processes of this application on a
 #### Mappings
 
 ##### ATT&CK
+* T1059
 * T1059.003
 * T1068
 
@@ -1590,10 +2068,20 @@ The searches in this story help you detect and investigate suspicious activity t
 Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
 
 #### Narrative
-Adversaries may use MSBuild to proxy execution of code through a trusted Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio and is native to Windows. It handles XML formatted project files that define requirements for loading and building various platforms and configurations. \
-The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# code to be inserted into an XML project file. MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application control defenses that are configured to allow MSBuild.exe execution. \
-The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging msbuild.exe to execute malicious code. \
-Triage \ Validate execution \ 1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further PE metadata. 2. Determine if script code was executed with MSBuild. Situational Awareness \ The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSBuild.exe. \ 1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? 2. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is MSbuild loading any suspicious .DLLs? 3. Network connections. Any network connections? Review the reputation of the remote IP or domain. \ Retrieval of script code \ The objective of this step is to confirm the executed script code is benign or malicious.
+Adversaries may use MSBuild to proxy execution of code through a trusted Windows utility. MSBuild.exe (Microsoft Build Engine) is a software build platform used by Visual Studio and is native to Windows. It handles XML formatted project files that define requirements for loading and building various platforms and configurations.\
+The inline task capability of MSBuild that was introduced in .NET version 4 allows for C# code to be inserted into an XML project file. MSBuild will compile and execute the inline task. MSBuild.exe is a signed Microsoft binary, so when it is used this way it can execute arbitrary code and bypass application control defenses that are configured to allow MSBuild.exe execution.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging msbuild.exe to execute malicious code.\
+Triage\
+Validate execution\
+1. Determine if MSBuild.exe executed. Validate the OriginalFileName of MSBuild.exe and further PE metadata.\
+1. Determine if script code was executed with MSBuild.\
+Situational Awareness\
+The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSBuild.exe.\
+1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?\
+1. Module loads. Are the known MSBuild.exe modules being loaded by a non-standard application? Is MSbuild loading any suspicious .DLLs?\
+1. Network connections. Any network connections? Review the reputation of the remote IP or domain.\
+Retrieval of script code\
+The objective of this step is to confirm the executed script code is benign or malicious.
 
 #### Detections
 * Suspicious MSBuild Rename
@@ -1640,10 +2128,14 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 #### Detections
 * Disabling Remote User Account Control
+* Eventvwr UAC Bypass
+* FodHelper UAC Bypass
 * Hiding Files And Directories With Attrib exe
 * Reg exe used to hide files directories via registry keys
 * Remote Registry Key modifications
 * Suspicious Reg exe Process
+* System Process Running from Unexpected Location
+* Windows DisableAntiSpyware Registry
 
 #### Data Models
 * Endpoint
@@ -1651,13 +2143,18 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 #### Mappings
 
 ##### ATT&CK
+* T1036
 * T1112
 * T1222.001
 * T1548.002
+* T1562.001
 * T1564.001
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Delivery
+* Exploitation
+* Privilege Escalation
 
 ###### CIS
 * CIS 8
@@ -1668,6 +2165,86 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 ##### References
 * https://attack.mitre.org/wiki/Defense_Evasion
+
+### Windows Discovery Techniques
+* id = f7aba570-7d59-11eb-825e-acde48001122
+* date = 2021-03-04
+* version = 1
+
+#### Description
+Monitors for behaviors associated with adversaries discovering objects in the environment that can be leveraged in the progression of the attack.
+
+#### Narrative
+Attackers may not have much if any insight into their target's environment before the initial compromise.  Once a foothold has been established, attackers will start enumerating objects in the environment (accounts, services, network shares, etc.) that can be used to achieve their objectives.  This Analytic Story provides searches to help identify activities consistent with adversaries gaining knowledge of compromised Windows environments.
+
+#### Detections
+* Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
+* Reconnaissance and Access to Accounts and Groups via Mimikatz modules
+* Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules
+* Reconnaissance and Access to Computers and Domains via PowerSploit modules
+* Reconnaissance and Access to Computers via Mimikatz modules
+* Reconnaissance and Access to Operating System Elements via PowerSploit modules
+* Reconnaissance and Access to Processes and Services via Mimikatz modules
+* Reconnaissance and Access to Shared Resources via Mimikatz modules
+* Reconnaissance and Access to Shared Resources via PowerSploit modules
+* Reconnaissance of Access and Persistence Opportunities via PowerSploit modules
+* Reconnaissance of Connectivity via PowerSploit modules
+* Reconnaissance of Credential Stores and Services via Mimikatz modules
+* Reconnaissance of Defensive Tools via PowerSploit modules
+* Reconnaissance of Privilege Escalation Opportunities via PowerSploit modules
+* Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
+
+#### Data Models
+
+#### Mappings
+
+##### ATT&CK
+* T1007
+* T1012
+* T1021.002
+* T1039
+* T1046
+* T1047
+* T1053
+* T1055
+* T1057
+* T1068
+* T1078
+* T1083
+* T1087
+* T1098
+* T1135
+* T1199
+* T1482
+* T1484
+* T1518
+* T1543
+* T1547
+* T1574
+* T1589.001
+* T1590
+* T1590.001
+* T1590.003
+* T1591
+* T1592
+* T1592.002
+* T1595
+* T1595.002
+
+##### Kill Chain Phases
+* Actions on Objectives
+
+###### CIS
+* CIS 16
+* CIS 20
+
+##### NIST
+* PR.AC
+* PR.IP
+
+##### References
+* https://attack.mitre.org/tactics/TA0007/
+* https://cyberd.us/penetration-testing
 
 ### Windows DNS SIGRed CVE-2020-1350
 * id = 36dbb206-d073-11ea-87d0-0242ac130003
@@ -1721,6 +2298,7 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 #### Detections
 * Deleting Shadow Copies
+* Illegal Deletion of Logs via Mimikatz modules
 * Suspicious wevtutil Usage
 * USN Journal Deletion
 * Windows Event Log Cleared
@@ -1740,6 +2318,8 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 ###### CIS
 * CIS 10
+* CIS 16
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 6
@@ -1771,8 +2351,14 @@ Monitor for activities and techniques associated with maintaining persistence on
 Maintaining persistence is one of the first steps taken by attackers after the initial compromise. Attackers leverage various custom and built-in tools to ensure survivability and persistent access within a compromised enterprise. This Analytic Story provides searches to help you identify various behaviors used by attackers to maintain persistent access to a Windows environment.
 
 #### Detections
+* Certutil exe certificate extraction
 * Detect Path Interception By Creation Of program exe
 * Hiding Files And Directories With Attrib exe
+* Illegal Account Creation via PowerSploit modules
+* Illegal Enabling or Disabling of Accounts via DSInternals modules
+* Illegal Management of Active Directory Elements and Policies via DSInternals modules
+* Illegal Management of Computers and Active Directory Elements via PowerSploit modules
+* Illegal Privilege Elevation and Persistence via PowerSploit modules
 * Monitor Registry Keys for Print Monitors
 * Reg exe Manipulating Windows Services Registry Keys
 * Reg exe used to hide files directories via registry keys
@@ -1781,8 +2367,12 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 * Remote Registry Key modifications
 * Sc exe Manipulating Windows Services
 * Schtasks used for forcing a reboot
+* Setting Credentials via DSInternals modules
+* Setting Credentials via Mimikatz modules
+* Setting Credentials via PowerSploit modules
 * Shim Database File Creation
 * Shim Database Installation With Suspicious Parameters
+* Suspicious Scheduled Task from Public Directory
 
 #### Data Models
 * Endpoint
@@ -1790,21 +2380,34 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 #### Mappings
 
 ##### ATT&CK
+* T1053
 * T1053.005
+* T1068
+* T1078
+* T1098
+* T1134
+* T1207
 * T1222.001
+* T1484
 * T1543.003
 * T1546.011
 * T1547.001
 * T1547.010
+* T1548
 * T1564.001
 * T1574.009
 * T1574.011
+* T1585
 
 ##### Kill Chain Phases
 * Actions on Objectives
+* Exploitation
 * Installation
+* Privilege Escalation
 
 ###### CIS
+* CIS 16
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 8
@@ -1837,7 +2440,9 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 #### Detections
 * Child Processes of Spoolsv exe
+* Illegal Privilege Elevation via Mimikatz modules
 * Overwriting Accessibility Binaries
+* Probing Access with Stolen Credentials via PowerSploit modules
 * Registry Keys Used For Privilege Escalation
 * Uncommon Processes On Endpoint
 
@@ -1848,16 +2453,22 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 ##### ATT&CK
 * T1068
+* T1078
+* T1098
+* T1134
 * T1204.002
 * T1546.008
 * T1546.012
+* T1548
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Exploitation
 
 ###### CIS
+* CIS 16
 * CIS 2
+* CIS 20
 * CIS 5
 * CIS 8
 
@@ -1866,6 +2477,7 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 * ID.AM
 * PR.AC
 * PR.DS
+* PR.IP
 * PR.PT
 
 ##### References
@@ -2189,6 +2801,8 @@ Various legacy protocols operate by default in the clear, without the protection
 
 * [Cloud Cryptomining](#Cloud-Cryptomining)
 
+* [Cloud Federated Credential Abuse](#Cloud-Federated-Credential-Abuse)
+
 * [Container Implantation Monitoring and Investigation](#Container-Implantation-Monitoring-and-Investigation)
 
 * [GCP Cross Account Activity](#GCP-Cross-Account-Activity)
@@ -2507,6 +3121,70 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 ##### References
 * https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 
+### Cloud Federated Credential Abuse
+* id = cecdc1e7-0af2-4a55-8967-b9ea62c0317d
+* date = 2021-01-26
+* version = 1
+
+#### Description
+This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim's cloud environements.
+
+#### Narrative
+This story is composed of detection searches based on endpoint that addresses the use of Mimikatz, Escalation of Privileges and Abnormal processes that may indicate the extraction of Federated directory objects such as passwords, Oauth2 tokens, certificates and keys. Cloud environment (AWS, Azure) related events are also addressed in specific cloud environment detection searches.
+
+#### Detections
+* AWS SAML Access by Provider User and Principal
+* AWS SAML Update identity provider
+* Certutil exe certificate extraction
+* Detect Mimikatz Using Loaded Images
+* Detect Mimikatz Via PowerShell And EventCode 4703
+* Detect Rare Executables
+* O365 Add App Role Assignment Grant User
+* O365 Added Service Principal
+* O365 Excessive SSO logon errors
+* O365 New Federated Domain Added
+* Registry Keys Used For Privilege Escalation
+
+#### Data Models
+* Endpoint
+
+#### Mappings
+
+##### ATT&CK
+* T1003.001
+* T1078
+* T1136.003
+* T1546.012
+* T1556
+
+##### Kill Chain Phases
+* Actions on Objective
+* Actions on Objectives
+* Command and Control
+* Installation
+
+###### CIS
+* CIS 16
+* CIS 2
+* CIS 3
+* CIS 5
+* CIS 6
+* CIS 8
+
+##### NIST
+* DE.AE
+* DE.CM
+* ID.AM
+* PR.AC
+* PR.DS
+* PR.IP
+* PR.PT
+
+##### References
+* https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+* https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+* https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+
 ### Container Implantation Monitoring and Investigation
 * id = aa0e28b1-0521-4b6f-9d2a-7b87e34af246
 * date = 2020-02-20
@@ -2699,9 +3377,13 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 
 #### Detections
 * High Number of Login Failures from a single source
+* O365 Add App Role Assignment Grant User
+* O365 Added Service Principal
 * O365 Bypass MFA via Trusted IP
 * O365 Disable MFA
 * O365 Excessive Authentication Failures Alert
+* O365 Excessive SSO logon errors
+* O365 New Federated Domain Added
 * O365 PST export alert
 * O365 Suspicious Admin Email Forwarding
 * O365 Suspicious Rights Delegation
@@ -2717,6 +3399,7 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 * T1114
 * T1114.002
 * T1114.003
+* T1136.003
 * T1556
 * T1562.007
 
@@ -3095,7 +3778,7 @@ Similar to other cloud providers, GCP operates on a shared responsibility model.
 * PR.DS
 
 ##### References
-* https://cloud.google.com/blog/products/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
+* https://cloud.google.com/blog/product/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security
 * https://rhinosecuritylabs.com/gcp/google-cloud-platform-gcp-bucket-enumeration/
 
 ### Unusual AWS EC2 Modifications
@@ -3536,6 +4219,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * Scheduled tasks used in BadRabbit ransomware
 * Schtasks used for forcing a reboot
 * Spike in File Writes
+* Suspicious Scheduled Task from Public Directory
 * Suspicious wevtutil Usage
 * System Processes Run From Unexpected Locations
 * TOR Traffic
@@ -3568,6 +4252,8 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 * Actions on Objectives
 * Command and Control
 * Delivery
+* Exploitation
+* Privilege Escalation
 
 ###### CIS
 * CIS 10
@@ -3637,12 +4323,15 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 
 #### Detections
 * BCDEdit Failure Recovery Modification
+* Common Ransomware Extensions
 * Common Ransomware Notes
 * NLTest Domain Trust Discovery
 * Remote Desktop Network Bruteforce
 * Remote Desktop Network Traffic
 * Ryuk Test Files Detected
+* Ryuk Wake on LAN Command
 * Spike in File Writes
+* Suspicious Scheduled Task from Public Directory
 * WBAdmin Delete System Backups
 * Windows DisableAntiSpyware Registry
 * Windows Security Account Manager Stopped
@@ -3656,6 +4345,7 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 
 ##### ATT&CK
 * T1021.001
+* T1053.005
 * T1059.003
 * T1482
 * T1485
@@ -3668,6 +4358,8 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 * Actions on Objectives
 * Delivery
 * Exploitation
+* Lateral Movement
+* Privilege Escalation
 * Reconnaissance
 
 ###### CIS
@@ -3784,8 +4476,16 @@ This Analytic Story lets you identify processes that are either a) not typically
 In the event an unusual process is identified, it is imperative to better understand how that process was able to execute on the host, when it first executed, and whether other hosts are affected. This extra information may provide clues that can help the analyst further investigate any suspicious activity.
 
 #### Detections
+* Credential Extraction indicative of FGDump and CacheDump with s option
+* Credential Extraction indicative of FGDump and CacheDump with v option
+* Credential Extraction indicative of use of Mimikatz modules
+* Credential Extraction native Microsoft debuggers peek into the kernel
+* Credential Extraction native Microsoft debuggers via z command line option
 * Detect Rare Executables
 * Detect processes used for System Network Configuration Discovery
+* First time seen command line argument
+* More than usual number of LOLBAS applications in short time period
+* Rare Parent-Child Process Relationship
 * RunDLL Loading DLL By Ordinal
 * System Processes Run From Unexpected Locations
 * Uncommon Processes On Endpoint
@@ -3798,24 +4498,36 @@ In the event an unusual process is identified, it is imperative to better unders
 #### Mappings
 
 ##### ATT&CK
+* T1003
 * T1016
 * T1036.003
+* T1053
+* T1059
+* T1072
+* T1117
+* T1202
+* T1203
 * T1204.002
 * T1218.011
 
 ##### Kill Chain Phases
 * Actions on Objectives
 * Command and Control
+* Exploitation
 * Installation
 
 ###### CIS
+* CIS 16
 * CIS 2
+* CIS 3
 * CIS 8
 
 ##### NIST
 * DE.CM
 * ID.AM
+* PR.AC
 * PR.DS
+* PR.IP
 * PR.PT
 
 ##### References
@@ -3881,6 +4593,8 @@ The Windows operating system uses a services architecture to allow for running c
 
 #### Detections
 * First Time Seen Running Windows Service
+* Illegal Service and Process Control via Mimikatz modules
+* Illegal Service and Process Control via PowerSploit modules
 * Reg exe Manipulating Windows Services Registry Keys
 * Sc exe Manipulating Windows Services
 
@@ -3890,7 +4604,10 @@ The Windows operating system uses a services architecture to allow for running c
 #### Mappings
 
 ##### ATT&CK
+* T1055
+* T1106
 * T1543.003
+* T1569
 * T1569.002
 * T1574.011
 
@@ -3899,7 +4616,9 @@ The Windows operating system uses a services architecture to allow for running c
 * Installation
 
 ###### CIS
+* CIS 16
 * CIS 2
+* CIS 20
 * CIS 3
 * CIS 5
 * CIS 8

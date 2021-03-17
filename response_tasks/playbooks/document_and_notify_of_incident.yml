@@ -1,39 +1,59 @@
-name: Document and notify of incident
-id: 3890e0b3-bb46-4b9b-8134-184dbe644a8a
-tags:
-  nist:
-    RS.RP
-description: |
-  At this point, incident responder should acquire, preserve, secure, and document all evidence to the incident. This process will be continual through the IR process. The incident responder should perform notification pursuant to the organizational incident response policy and outlined procedures.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - create ticket
-    - create incident
-    - create case
-    - send email
-  playbooks:
-      - scm: local
-        playook: Create case or merge with known case
-references:
-  - 3.2.5 Document Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-  - 3.2.7 Incident Notification - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  The reasond for reordering of the documentation of the incident was to align documentation and incident notification into the same process flow.
-  1. The current status of the incident (new, in progress, forwarded for investigation, resolved, etc.)
-  2. A summary of the incident
-  3. Indicators related to the incident
-  4. Other incidents related to this incident
-  5. Actions taken by all incident handlers on this incident
-  6. Chain of custody, if applicable
-  7. Impact assessments related to the incident
-  8. Contact information for other involved parties (e.g., system owners, system administrators)
-  9. list of evidence gathered during the incident investigation
-  10. Comments from incident handlers
-  11. Next steps to be taken (e.g., rebuild the host, upgrade an application).
-date: '2020-04-21'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - create ticket
+  - create incident
+  - create case
+  - send email
+  is_note_required: false
+  playbooks:
+  - playook: Create case or merge with known case
+    scm: local
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-04-21'
+description: 'At this point, incident responder should acquire, preserve, secure,
+  and document all evidence to the incident. This process will be continual through
+  the IR process. The incident responder should perform notification pursuant to the
+  organizational incident response policy and outlined procedures.
+
+  '
+id: 3890e0b3-bb46-4b9b-8134-184dbe644a8a
+name: Document and notify of incident
+references:
+- 3.2.5 Document Incident - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+- 3.2.7 Incident Notification - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: 'The reasond for reordering of the documentation of the incident was to
+  align documentation and incident notification into the same process flow.
+
+  1. The current status of the incident (new, in progress, forwarded for investigation,
+  resolved, etc.)
+
+  2. A summary of the incident
+
+  3. Indicators related to the incident
+
+  4. Other incidents related to this incident
+
+  5. Actions taken by all incident handlers on this incident
+
+  6. Chain of custody, if applicable
+
+  7. Impact assessments related to the incident
+
+  8. Contact information for other involved parties (e.g., system owners, system administrators)
+
+  9. list of evidence gathered during the incident investigation
+
+  10. Comments from incident handlers
+
+  11. Next steps to be taken (e.g., rebuild the host, upgrade an application).
+
+  '

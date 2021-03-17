@@ -2,34 +2,46 @@ name: Detection of tools built by NirSoft
 id: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
 version: 3
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: This search looks for specific command-line arguments that may indicate
   the execution of tools made by Nirsoft, which are legitimate, but may be abused
   by attackers.
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the "process"
-  field in the Endpoint data model.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) values(Processes.process)
   as process max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process="*
   /stext *" OR Processes.process="* /scomma *" ) by Processes.parent_process Processes.process_name
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `detection_of_tools_built_by_nirsoft_filter`'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships from your endpoints to populate the Endpoint
+  data model in the Processes node. The command-line arguments are mapped to the "process"
+  field in the Endpoint data model.
 known_false_positives: While legitimate, these NirSoft tools are prone to abuse. You
   should verfiy that the tool was used for a legitimate purpose.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
-  mitre_attack_id:
-  - T1072
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  cis20:
-  - CIS 3
+  mitre_attack_id:
+  - T1072
   nist:
   - PR.IP
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.user
   security_domain: endpoint
-  asset_type: Endpoint

@@ -2,6 +2,8 @@ name: Monitor for Updates
 id: 9ef8d677-7b52-4213-a038-99cfc7acc2d8
 version: 1
 date: '2017-09-15'
+author: Rico Valdez, Splunk
+type: batch
 description: Monitor your enterprise to ensure that your endpoints are being patched
   and updated. Adversaries notoriously exploit known vulnerabilities that could be
   mitigated by applying routine security patches.
@@ -18,12 +20,14 @@ narrative: 'It is a common best practice to ensure that endpoints are being patc
   be installed as soon as possible after following internal testing and validation
   procedures. Patches and updates for other systems or applications are typically
   released as needed.'
-author: Rico Valdez, Splunk
-type: ESCU
 references:
 - https://learn.cisecurity.org/20-controls-download
 tags:
-  analytics_story: Monitor for Updates
-  usecase: Compliance
+  analytic_story: Monitor for Updates
   category:
   - Best Practices
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Compliance

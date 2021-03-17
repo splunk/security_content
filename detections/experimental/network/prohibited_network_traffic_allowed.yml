@@ -2,40 +2,52 @@ name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
 version: 2
 date: '2020-07-21'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Network_Traffic
 description: This search looks for network traffic defined by port and transport layer
   protocol in the Enterprise Security lookup table "lookup_interesting_ports", that
   is marked as prohibited, and has an associated 'allow' action in the Network_Traffic
   data model. This could be indicative of a misconfigured network device.
-how_to_implement: In order to properly run this search, Splunk needs to ingest data
-  from firewalls or other network control devices that mediate the traffic allowed
-  into an environment. This is necessary so that the search can identify an 'action'
-  taken on the traffic of interest. The search requires the Network_Traffic data model
-  be populated.
-type: ESCU
-references: []
-author: Rico Valdez, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by
   All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action
   | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port
   OUTPUT app is_prohibited note transport | search is_prohibited=true | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `prohibited_network_traffic_allowed_filter`'
+how_to_implement: In order to properly run this search, Splunk needs to ingest data
+  from firewalls or other network control devices that mediate the traffic allowed
+  into an environment. This is necessary so that the search can identify an 'action'
+  taken on the traffic of interest. The search requires the Network_Traffic data model
+  be populated.
 known_false_positives: None identified
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Ransomware
   - Command and Control
-  mitre_attack_id:
-  - T1048
-  kill_chain_phases:
-  - Delivery
-  - Command and Control
+  asset_type: Endpoint
   cis20:
   - CIS 9
   - CIS 12
+  kill_chain_phases:
+  - Delivery
+  - Command and Control
+  mitre_attack_id:
+  - T1048
   nist:
   - DE.AE
   - PR.AC
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Traffic.action
+  - All_Traffic.src_ip
+  - All_Traffic.dest_ip
+  - All_Traffic.dest_port
   security_domain: network
-  asset_type: Endpoint

@@ -2,46 +2,47 @@ name: Illegal Account Creation via PowerSploit modules
 id: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 version: 1
 date: '2020-11-09'
-description: This detection identifies access to PowerSploit modules that create accounts illegaly.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/PowerShellMafia/PowerSploit
-type: SSA
 author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
+description: This detection identifies access to PowerSploit modules that create accounts
+  illegaly.
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-            match_regex(cmd_line, /(?i)New-DomainUser/)=true
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)New-DomainUser/)=true )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies use of PowerSploit modules that create accounts illegaly."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
+  analytic_story:
+  - Windows Persistence Techniques
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1585/illegal_account_creation/logAllPowerSploitModulesWithOldNames.log
   kill_chain_phases:
-    - Actions on Objectives
-  mitre_technique_id:
-    - T1585
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1585
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - dest_device_id
+  - dest_user_id
+  - process
+  - _time
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-  required_fields:
-    - dest_device_id
-    - dest_user_id
-    - process
-    - _time

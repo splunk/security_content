@@ -2,17 +2,14 @@ name: Overwriting Accessibility Binaries
 id: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
 version: 4
 date: '2020-07-21'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: Microsoft Windows contains accessibility features that can be launched
   with a key combination before a user has logged in. An adversary can modify or replace
   these programs so they can get a command prompt or backdoor without logging in to
   the system. This search looks for modifications to these binaries.
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint file-system data model node. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-type: ESCU
-references: []
-author: David Dorsey, Splunk
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
   as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe*
@@ -21,22 +18,37 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Filesystem.file_path=*\\Windows\\System32\\DisplaySwitch.exe* OR Filesystem.file_path=*\\Windows\\System32\\AtBroker.exe*)
   by Filesystem.file_name Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `overwriting_accessibility_binaries_filter`'
+how_to_implement: You must be ingesting data that records the filesystem activity
+  from your hosts to populate the Endpoint file-system data model node. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
 known_false_positives: Microsoft may provide updates to these binaries. Verify that
   these changes do not correspond with your normal software update cycle.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Privilege Escalation
-  mitre_attack_id:
-  - T1546.008
-  kill_chain_phases:
-  - Actions on Objectives
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.008/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1546.008
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest
+  - Filesystem.file_path
+  - Filesystem.file_name
+  - Filesystem.dest
   security_domain: endpoint
-  asset_type: Endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.008/atomic_red_team/windows-sysmon.log

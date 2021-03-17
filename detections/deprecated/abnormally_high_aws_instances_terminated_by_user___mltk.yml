@@ -2,33 +2,44 @@ name: Abnormally High AWS Instances Terminated by User - MLTK
 id: 1c02b86a-cd85-473e-a50b-014a9ac8fe3e
 version: 2
 date: '2020-07-21'
-description: This search looks for CloudTrail events where a user successfully terminates
-  an abnormally high number of instances. This search is deprecated and have been translated to use the latest Change Datamodel.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. The threshold value should be tuned to your environment.
-type: ESCU
-references: []
 author: Jason Brewer, Splunk
+type: batch
+datamodel: []
+description: This search looks for CloudTrail events where a user successfully terminates
+  an abnormally high number of instances. This search is deprecated and have been
+  translated to use the latest Change Datamodel.
 search: '`cloudtrail` eventName=TerminateInstances errorCode=success `abnormally_high_aws_instances_terminated_by_user___mltk_filter`
   | bucket span=10m _time  | stats count as instances_terminated by _time src_user  |
   apply ec2_excessive_terminateinstances_v1  | rename "IsOutlier(instances_terminated)"
   as isOutlier  | where isOutlier=1'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. The threshold value should be tuned to your environment.
 known_false_positives: Many service accounts configured within an AWS infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter
   out service accounts from the output. Always verify if this search alerted on a
   human user.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS EC2 Activities
+  asset_type: AWS Instance
+  cis20:
+  - CIS 13
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
   - T1078.004
-  cis20:
-  - CIS 13
   nist:
   - DE.DP
   - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - errorCode
+  - src_user
   security_domain: network
-  asset_type: AWS Instance

@@ -2,47 +2,45 @@ name: Reconnaissance and Access to Computers via Mimikatz modules
 id: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
 version: 1
 date: '2020-11-06'
-description: This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
-references: 
-- https://github.com/gentilkiwi/mimikatz
-type: SSA
 author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
+description: This detection identifies use of Mimikatz modules for discovery of computers
+  and servers and access to them.
 search: '| from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       cmd_line=ucast(map_get(input_event, "process"), "string", null)
-| where cmd_line != null AND
-        ( 
-          match_regex(cmd_line, /(?i)net::ServerInfo/)=true
-        )
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  != null AND ( match_regex(cmd_line, /(?i)net::ServerInfo/)=true )
 
-| eval start_time = timestamp,
-       end_time = timestamp,
-       entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), 
-                            ucast(map_get(input_event, "dest_device_id"), "string", null)),
-       body = "TBD"
-| into write_ssa_detected_events();'
-eli5: "This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them."
-known_false_positives:
-  "None identified."
+  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/gentilkiwi/mimikatz
 tags:
-  required_fields:
-    - _time
-    - process
-    - dest_device_id
-    - dest_user_id
+  analytic_story:
+  - Windows Discovery Techniques
+  asset_type: Windows
   cis20:
-    - CIS 16
-    - CIS 20
+  - CIS 16
+  - CIS 20
   kill_chain_phases:
-    - Actions on Objectives
-  mitre_technique_id:
-    - T1592
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1592
   nist:
-    - PR.AC
-    - PR.IP
+  - PR.AC
+  - PR.IP
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - _time
+  - process
+  - dest_device_id
+  - dest_user_id
   risk_severity: high
   security_domain: endpoint
-  asset_type: Windows
-

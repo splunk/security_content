@@ -2,15 +2,12 @@ name: EC2 Instance Started With Previously Unseen User
 id: 22773e84-bac0-4595-b086-20d3f735b4f1
 version: 2
 date: '2020-07-21'
-description: This search looks for EC2 instances being created by users who have not
-  created them before. This search is deprecated and have been translated to use the latest Change Datamodel.
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. This search works best when you run the "Previously Seen EC2 Launches By
-  User" support search once to create a history of previously seen ARNs.
-type: ESCU
-references: []
 author: David Dorsey, Splunk
+type: batch
+datamodel: []
+description: This search looks for EC2 instances being created by users who have not
+  created them before. This search is deprecated and have been translated to use the
+  latest Change Datamodel.
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
   errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
   by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_launches_by_user.csv
@@ -20,18 +17,32 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   | rename arn as userIdentity.arn | table userIdentity.arn] | rename requestParameters.instanceType
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn
   as user | table _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_user_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. This search works best when you run the "Previously Seen EC2 Launches By
+  User" support search once to create a history of previously seen ARNs.
 known_false_positives: It's possible that a user will start to create EC2 instances
   when they haven't before for any number of reasons. Verify with the user that is
   launching instances that this is the intended behavior.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
-  mitre_attack_id:
-  - T1078.004
+  asset_type: AWS Instance
   cis20:
   - CIS 1
+  mitre_attack_id:
+  - T1078.004
   nist:
   - ID.AM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - errorCode
+  - userIdentity.arn
   security_domain: endpoint
-  asset_type: AWS Instance

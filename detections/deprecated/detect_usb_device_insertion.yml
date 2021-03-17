@@ -2,38 +2,50 @@ name: Detect USB device insertion
 id: 104658f4-afdc-499f-9719-17a43f9826f5
 version: 1
 date: '2017-11-27'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Change_Analysis
 description: The search is used to detect hosts that generate Windows Event ID 4663
   for successful attempts to write to or read from a removable storage and Event ID
   4656 for failures, which occurs when a USB drive is plugged in. In this scenario
   we are querying the Change_Analysis data model to look for Windows Event ID 4656
   or 4663 where the priority of the affected host is marked as high in the ES Assets
   and Identity Framework.
+search: '| tstats `security_content_summariesonly` count earliest(_time) AS earliest
+  latest(_time) AS latest from datamodel=Change_Analysis where (nodename = All_Changes)
+  All_Changes.result="Removable Storage device" (All_Changes.result_id=4663 OR All_Changes.result_id=4656)
+  (All_Changes.src_priority=high) by All_Changes.dest | `drop_dm_object_name("All_Changes")`|
+  `security_content_ctime(earliest)`| `security_content_ctime(latest)`  | `detect_usb_device_insertion_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663 and 4656. Ensure that the field from the event
   logs is being mapped to the result_id field in the Change_Analysis data model. To
   minimize the alert volume, this search leverages the Assets and Identity framework
   to filter out events from those assets not marked high priority in the Enterprise
   Security Assets and Identity Framework.
-type: ESCU
-references: []
-author: Bhavin Patel, Splunk
-search: '| tstats `security_content_summariesonly` count earliest(_time) AS earliest
-  latest(_time) AS latest from datamodel=Change_Analysis where (nodename = All_Changes)
-  All_Changes.result="Removable Storage device" (All_Changes.result_id=4663 OR All_Changes.result_id=4656)
-  (All_Changes.src_priority=high) by All_Changes.dest | `drop_dm_object_name("All_Changes")`|
-  `security_content_ctime(earliest)`| `security_content_ctime(latest)`  | `detect_usb_device_insertion_filter`'
 known_false_positives: Legitimate USB activity will also be detected. Please verify
   and investigate as appropriate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Data Protection
+  asset_type: Endpoint
+  cis20:
+  - CIS 13
   kill_chain_phases:
   - Installation
   - Actions on Objectives
-  cis20:
-  - CIS 13
   nist:
   - PR.PT
   - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.result
+  - All_Changes.result_id
+  - All_Changes.src_priority
+  - All_Changes.dest
   security_domain: endpoint
-  asset_type: Endpoint

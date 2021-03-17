@@ -80,7 +80,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/validate.py --path . --verbose
+            python contentctl.py --path . --verbose  validate
       - run:
           name: run doc-gen
           command: |
@@ -118,7 +118,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate.py --path . --output package -v
+            python contentctl.py --path . --verbose generate --output package
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
       - run:
@@ -254,6 +254,12 @@ jobs:
             source venv/bin/activate
             python bin/doc-gen.py --path . --output docs -v
       - run:
+          name: make yamls pretty
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/pretty_yaml.py --path . -v
+      - run:
           name: get cti repo for mitre-maps
           command: |
             cd security-content
@@ -283,6 +289,7 @@ jobs:
             git config --global push.default simple
             git add package/*
             git add docs/*
+            git add detections/*
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
             # Push quietly to prevent showing the token in log
             git push https://${GITHUB_TOKEN}@github.com/splunk/security-content.git ${CIRCLE_BRANCH}
@@ -339,6 +346,7 @@ jobs:
           name: update api sources
           command: |
             cd security-content
+            aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
             aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
             aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
             aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"

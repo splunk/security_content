@@ -1,19 +1,24 @@
-name: Raise personnel awareness
-id: 145a82b5-cafd-468e-b487-737fdf13d6a4
-tags:
-  nist:
-    RS.RP
-description: Raise personnel awareness regarding phishing, ransomware, social engineering, and other attacks that involve user interaction
-automation:
-    is_note_required: false
-    role:
-    sla_type: minutes
-    sla:
-    action:
-    playbook:
-references:
-  - https://attack.mitre.org/mitigations/M1017/
-workflow: Train users to be aware of access or manipulation attempts by an adversary to reduce the risk of successful spearphishing, social engineering, and other techniques that involve user interaction.
-date: '2020-07-17'
-version: 1
 author: ButterCup, Splunk, @atc_react
+automation:
+  action: null
+  is_note_required: false
+  playbook: null
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-17'
+description: Raise personnel awareness regarding phishing, ransomware, social engineering,
+  and other attacks that involve user interaction
+id: 145a82b5-cafd-468e-b487-737fdf13d6a4
+name: Raise personnel awareness
+references:
+- https://attack.mitre.org/mitigations/M1017/
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: Train users to be aware of access or manipulation attempts by an adversary
+  to reduce the risk of successful spearphishing, social engineering, and other techniques
+  that involve user interaction.

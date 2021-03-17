@@ -2,28 +2,45 @@ name: Amazon EKS Kubernetes cluster scan detection
 id: 294c4686-63dd-4fe6-93a2-ca807626704a
 version: 1
 date: '2020-04-15'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster in AWS
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch
-  EKS Logs inputs.
-type: ESCU
-references: []
-author: Rod Soto, Splunk
 search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" userAgent!="AWS
   Security Scanner" | rename sourceIPs{} as src_ip | stats count min(_time) as firstTime
   max(_time) as lastTime values(responseStatus.reason) values(source) as cluster_name
   values(responseStatus.code) values(userAgent) as http_user_agent values(verb) values(requestURI)
   by src_ip user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   |`amazon_eks_kubernetes_cluster_scan_detection_filter` '
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch
+  EKS Logs inputs.
 known_false_positives: Not all unauthenticated requests are malicious, but frequency,
   UA and source IPs will provide context.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
+  asset_type: Amazon EKS Kubernetes cluster
   kill_chain_phases:
   - Reconnaissance
   mitre_attack_id:
   - T1526
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - user.username
+  - userAgent
+  - sourceIPs{}
+  - responseStatus.reason
+  - source
+  - responseStatus.code
+  - verb
+  - requestURI
+  - src_ip
+  - user.groups{}
   security_domain: threat
-  asset_type: Amazon EKS Kubernetes cluster
