@@ -22,7 +22,7 @@ chardet==4.0.0
 configparser==5.0.2
 contextlib2==0.6.0.post1
 cryptography==3.4.4
-Deprecated==1.2.11
+Deprecated==1.2.12
 dnspython==2.1.0
 docutils==0.16
 execnet==1.8.0
