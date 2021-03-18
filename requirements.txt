@@ -44,7 +44,7 @@ stix2-patterns==1.2.1
 taxii2-client==2.2.2
 toml==0.10.2
 typing==3.7.4.3
-urllib3==1.26.3
+urllib3==1.26.4
 virtualenv==20.4.3
 wcwidth==0.2.5
 zipp==3.4.1
