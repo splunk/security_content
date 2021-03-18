@@ -8,10 +8,10 @@ attrs==20.3.0
 azure-common==1.1.26
 azure-core==1.11.0
 azure-identity==1.5.0
-azure-mgmt-compute==18.2.0
+azure-mgmt-compute==19.0.0
 azure-mgmt-core==1.2.2
 azure-mgmt-network==18.0.0
-azure-mgmt-resource==15.0.0
+azure-mgmt-resource==16.0.0
 bcrypt==3.2.0
 boto3==1.16.62
 botocore==1.20.0
@@ -30,7 +30,7 @@ gitdb==4.0.5
 GitPython==3.1.14
 identify==1.5.13
 idna==2.8
-importlib-metadata==3.4.0
+importlib-metadata==3.7.0
 Jinja2==2.11.3
 jmespath==0.10.0
 lockfile==0.12.2
@@ -48,7 +48,7 @@ path.py==12.5.0
 pexpect==4.8.0
 pluggy==0.13.1
 pre-commit==2.10.0
-protobuf==3.15.1
+protobuf==3.15.6
 psutil==5.8.0
 ptyprocess==0.7.0
 py==1.10.0
@@ -79,4 +79,4 @@ wcwidth==0.2.5
 wget==3.2
 wrapt==1.12.1
 xmltodict==0.12.0
-zipp==3.4.0
+zipp==3.4.1

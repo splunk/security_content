@@ -15,7 +15,7 @@ gitdb==4.0.5
 humanfriendly==9.1
 identify==1.5.13
 idna==2.10
-importlib-metadata==3.4.0
+importlib-metadata==3.7.0
 importlib-resources==5.1.2
 Jinja2==2.11.3
 jsonschema==3.2.0
@@ -25,7 +25,7 @@ nodeenv==1.5.0
 pathlib2==2.3.5
 pre-commit==2.10.0
 prompt-toolkit==1.0.14
-Pygments==2.8.0
+Pygments==2.8.1
 PyInquirer==1.0.3
 pyrsistent==0.17.3
 python-dateutil==2.8.1
@@ -47,4 +47,4 @@ typing==3.7.4.3
 urllib3==1.26.3
 virtualenv==20.4.2
 wcwidth==0.2.5
-zipp==3.4.0
+zipp==3.4.1
