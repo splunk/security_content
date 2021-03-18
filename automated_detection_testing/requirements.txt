@@ -74,7 +74,7 @@ tabulate==0.8.9
 termcolor==1.1.0
 toml==0.10.2
 urllib3==1.26.3
-virtualenv==20.4.2
+virtualenv==20.4.3
 wcwidth==0.2.5
 wget==3.2
 wrapt==1.12.1
