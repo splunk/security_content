@@ -5,7 +5,6 @@ import sys
 import re
 from os import path, walk
 import json
-import jsonschema2md
 from jinja2 import Environment, FileSystemLoader
 from attackcti import attack_client
 from pyattck import Attck
@@ -37,42 +36,6 @@ def get_mitre_enrichment_new(attack, mitre_attack_id):
             mitre_attack = mitre_attack_object(technique, attack)
             return mitre_attack
     return []
-
-def generate_doc_specs(REPO_PATH, OUTPUT_DIR, messages, VERBOSE):
-    spec_files = []
-
-    for root, dirs, files in walk(REPO_PATH + '/spec'):
-        for file in files:
-            if file.endswith(".json"):
-                spec_files.append((path.join(root, file)))
-
-    parser = jsonschema2md.Parser()
-    spec_objects = []
-    for spec in spec_files:
-        spec_object = dict()
-        if VERBOSE:
-            print("processing spec {0}".format(spec))
-        with open(spec, 'r') as stream:
-            try:
-                markdown_lines = parser.parse_schema(json.load(stream))
-            except json.JSONError as exc:
-                print(exc)
-                print("Error reading {0}".format(spec))
-                sys.exit(1)
-
-        spec_object['file'] = spec
-        spec_object['markdown'] = markdown_lines
-        spec_objects.append(spec_object)
-
-    for spec in spec_objects:
-        # write markdown
-        file = spec['file'].split("/")[-1].split(".")[0]
-        output_path = path.join(OUTPUT_DIR + "/" + file + '.md' )
-        with open(output_path, 'w', encoding="utf-8") as f:
-            f.write("\n".join(spec['markdown']))
-        messages.append("doc_gen.py wrote {0} spec file documentation in markdown to: {1}".format(file,output_path))
-
-    return messages
 
 def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE):
     manifest_files = []
@@ -283,20 +246,11 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-    parser.add_argument("-t", "--type", required=False, default="all", help="type of content to generate documentation for, supports `detections`, `stories`, `spec`, and `all`, defaults to `all`" )
-
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     VERBOSE = args.verbose
-    type = args.type
-
-    allowed_types = ['stories', 'detections', 'spec', 'all']
-    if type not in allowed_types:
-        print("ERROR: the type {0} is not support, the current support types are: {1}".format(type,allowed_types))
-        parser.print_help()
-        sys.exit(1)
 
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
@@ -305,16 +259,8 @@ if __name__ == "__main__":
     attack = Attck()
 
     messages = []
-    if type == 'all':
-        sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE)
-        sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE)
-    elif type == 'detections':
-        sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE)
-    elif type == 'stories':
-        sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE)
-        sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE)
-    elif type == 'spec':
-        messages = generate_doc_specs(REPO_PATH, OUTPUT_DIR, messages, VERBOSE)
+    sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE)
+    sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE)
 
     # print all the messages from generation
     for m in messages:
