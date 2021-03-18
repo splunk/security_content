@@ -42,7 +42,7 @@ class GithubService:
             changed_files = differ.splitlines()
         else:
             # If branch is develop (nightly run), then we will run all possible tests
-            changed_files = g.ls_tree('-r', 'develop', '--name-only')
+            changed_files = g.ls_tree('-r', 'develop', '--name-only').splitlines()
 
         changed_ssa_test_files = []
 
