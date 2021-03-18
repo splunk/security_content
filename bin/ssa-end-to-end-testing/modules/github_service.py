@@ -25,17 +25,26 @@ class GithubService:
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
 
-
     def get_changed_test_files_ssa(self):
+        """
+        Compares the target branch to `develop` and decides which tests need to be
+        executed by the CI job.
+        If target branch is `develop` returns a list of all tests available (daily sanity runs).
+        :return:
+            Lists of tests for CI jobs
+        """
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
-        differ = g.diff('--name-only', branch1, branch2)
-        changed_files = differ.splitlines()
+
+        if branch1 != 'develop':
+            differ = g.diff('--name-only', branch1, branch2)
+            changed_files = differ.splitlines()
+        else:
+            # If branch is develop (nightly run), then we will run all possible tests
+            changed_files = g.ls_tree('-r', 'develop', '--name-only')
 
         changed_ssa_test_files = []
-
-        #tests = self.read_security_content_test_files()
 
         for file_path in changed_files:
             # added or changed test files
