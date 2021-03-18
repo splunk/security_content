@@ -8,11 +8,11 @@ variables:
   SRCBRANCH: $CI_COMMIT_REF_NAME
 
 stages:
+  - ssa-validate
   - publish_smoketest_runner
   - publish_deployer
   - smoketest_staging
   - smoketest_play
-  - ssa-validate
 
 validate:
   stage: ssa-validate
