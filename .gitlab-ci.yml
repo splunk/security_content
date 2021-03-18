@@ -48,6 +48,7 @@ publish_smoketest_runner:
 
 smoketest_play:
   stage: smoketest_play
+  resource_group: playground
   dependencies:
     - publish_smoketest_runner
     - publish_deployer
@@ -65,6 +66,7 @@ smoketest_play:
 
 smoketest_staging:
   stage: smoketest_staging
+  resource_group: staging
   dependencies:
     - publish_smoketest_runner
     - publish_deployer
