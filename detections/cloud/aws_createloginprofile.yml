@@ -11,7 +11,7 @@ search: '`cloudtrail` eventName = CreateLoginProfile
 | table src_ip eventName new_login_profile userName
 | join new_login_profile src_ip 
     [| search `cloudtrail` eventName = ConsoleLogin 
-    | rename userName as new_login_profile | table eventName new_login_profile src_ip ]`aws_createloginprofile_filter`'
+    | rename userName as new_login_profile | table eventName new_login_profile src_ip ]|`aws_createloginprofile_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudtrail logs.
 known_false_positives: While this search has no known false positives, it is possible
