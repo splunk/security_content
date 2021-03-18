@@ -31,7 +31,7 @@ pyrsistent==0.17.3
 python-dateutil==2.8.1
 pytz==2021.1
 PyYAML==5.4.1
-regex==2020.11.13
+regex==2021.3.17
 requests==2.25.1
 scandir==1.10.0
 semantic-version==2.8.5
