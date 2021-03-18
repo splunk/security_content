@@ -660,8 +660,6 @@ def main(REPO_PATH, OUTPUT_PATH, VERBOSE):
         print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
         print("security content generation completed..")
 
-    return True
-
 
 if __name__ == "__main__":
 
