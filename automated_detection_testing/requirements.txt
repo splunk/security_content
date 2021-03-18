@@ -30,7 +30,7 @@ gitdb==4.0.5
 GitPython==3.1.14
 identify==1.5.13
 idna==2.8
-importlib-metadata==3.7.0
+importlib-metadata==3.7.3
 Jinja2==2.11.3
 jmespath==0.10.0
 lockfile==0.12.2
