@@ -13,16 +13,14 @@ description: 'The following query identifies suspicious .aspx created in 3 paths
   name of 8 characters long. Review the file for suspect commands. Identify additional
   log sources, IIS included, to review source and other potential exploitation.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*",
-"*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name="*.aspx"
-by _time span=1h Filesystem.file_create_time Filesystem.file_name Filesystem.file_path
-| `drop_dm_object_name(Filesystem)` | join process_id, _time [| tstats `security_content_summariesonly`
-  count FROM datamodel=Endpoint.Processes where Processes.process_name=System  by
-  _time span=1h Processes.process_id Processes.process_name
-  Processes.dest Processes.process_path Processes.process | `drop_dm_object_name(Processes)`
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*",
+  "*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name="*.aspx"
+  by _time span=1h Filesystem.file_create_time Filesystem.file_name Filesystem.file_path
+  | `drop_dm_object_name(Filesystem)` | join process_id, _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=System by _time span=1h Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process 
+  | `drop_dm_object_name(Processes)`
   | fields _time process_guid dest process_name process_path process]
-| table file_create_time, file_name, file_path, process_name
-| `detect_exchange_web_shell_filter`'
+  | table file_create_time, file_name, file_path, process_name
+  | `detect_exchange_web_shell_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
