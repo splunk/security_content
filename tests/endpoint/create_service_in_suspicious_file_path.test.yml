@@ -1,0 +1,12 @@
+name: Create Service In Suspicious File Path Unit Test
+tests:
+- name: Create Service In Suspicious File Path
+  file: detections/endpoint/create_service_in_suspicious_file_path.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-system.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_service_simulated/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog

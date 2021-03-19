@@ -1,0 +1,36 @@
+name: Create Service In Suspicious File Path
+id: 429141be-8311-11eb-adb6-acde48001122
+version: 1
+date: '2021-03-12'
+author: Teoderick Contreras
+type: batch
+datamodel:
+- Endpoint
+description: This detection is to identify a creation of "user mode service" where the service file path is located in non-common service folder in windows.
+search: ' `wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe"
+ NOT (Service_File_Name IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*"))
+ Service_Type = "user mode service" 
+ | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)` | `create_service_in_suspicious_file_path_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the Service name, Service File Name Service Start type, and Service Type from your
+  endpoints. 
+known_false_positives: unknown
+references:
+- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+tags:
+  analytic_story:
+  - Clop Ransomware
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_service_simulated/windows-system.log
+  kill_chain_phases:
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1569.001, T1569.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  
