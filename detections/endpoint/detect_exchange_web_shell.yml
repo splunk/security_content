@@ -1,0 +1,54 @@
+name: Detect Exchange Web Shell
+id: 44465d80-810b-11eb-aa30-acde48001122
+version: 1
+date: '2021-03-09'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: 'The following query identifies suspicious .aspx created in 3 paths identified
+  by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM
+  group. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`,
+  and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will have a randomized
+  name of 8 characters long. Review the file for suspect commands. Identify additional
+  log sources, IIS included, to review source and other potential exploitation.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*",
+"*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name="*.aspx"
+by _time span=1h Filesystem.file_create_time Filesystem.file_name Filesystem.file_path
+| `drop_dm_object_name(Filesystem)` | join process_id, _time [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Processes where Processes.process_name=System  by
+  _time span=1h Processes.process_id Processes.process_name
+  Processes.dest Processes.process_path Processes.process | `drop_dm_object_name(Processes)`
+  | fields _time process_guid dest process_name process_path process]
+| table file_create_time, file_name, file_path, process_name
+| `detect_exchange_web_shell_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
+  node.
+known_false_positives: The query is structured in a way that `action` (read, create)
+  is not defined. Review the results of this query, filter, and tune as necessary.
+  It may be necessary to generate this query specific to your endpoint product.
+references:
+- https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv
+tags:
+  analytic_story:
+  - HAFNIUM Group
+  dataset: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1505.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_path
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.file_hash
+  - Filesystem.user
+  security_domain: endpoint
