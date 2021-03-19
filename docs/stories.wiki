@@ -664,7 +664,7 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003.003/ T1003.003]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.003/ T1003.003]
 * '''Last Updated''': 2020-02-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -722,12 +722,12 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | PowerShell
 | Execution
 |-
-| T1003
-| OS Credential Dumping
-| Credential Access
-|-
 | T1003.002
 | Security Account Manager
+| Credential Access
+|-
+| T1003
+| OS Credential Dumping
 | Credential Access
 |-
 | T1003.003

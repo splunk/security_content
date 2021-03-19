@@ -5,6 +5,7 @@ import sys
 import re
 from os import path, walk
 import json
+import jsonschema2md
 from jinja2 import Environment, FileSystemLoader
 from attackcti import attack_client
 from pyattck import Attck
@@ -246,6 +247,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
+
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path

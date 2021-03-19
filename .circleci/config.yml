@@ -82,11 +82,11 @@ jobs:
             source venv/bin/activate
             python bin/validate.py --path . --verbose
       - run:
-          name: run doc-gen
+          name: generate documentation
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/doc-gen.py --path . --output docs -v
+            python bin/doc_gen.py --path . --output docs -v
 
   build-sources:
     executor: content-executor
