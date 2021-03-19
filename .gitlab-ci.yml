@@ -23,8 +23,6 @@ validate:
     - python3 bin/ssa_validate.py --skip-error detections/*/*
     - python3 bin/ssa_test.py --skip-error tests/*/*
     - python3 bin/testing_coverage.py --type streaming --min-coverage 1.0
-  only:
-    - /^ssa.*$/
 
 publish_deployer:
   stage: publish_deployer
@@ -36,8 +34,6 @@ publish_deployer:
     - cd bin/ssa-end-to-end-testing/k8s-deployer
     - docker build . -t ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
     - docker push ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
-  only:
-    - /^ssa.*$/
 
 publish_smoketest_runner:
   stage: publish_smoketest_runner
@@ -48,8 +44,6 @@ publish_smoketest_runner:
     - eval $(go-go vault -a ${DOCKER_ROLE})
     - docker build bin/ssa-end-to-end-testing/smoke-test-runner -t ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA} --build-arg SRCBRANCH=$CI_COMMIT_REF_NAME
     - docker push ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
-  only:
-    - /^ssa.*$/
 
 smoketest_staging:
   stage: smoketest_staging
@@ -67,5 +61,3 @@ smoketest_staging:
   variables:
     SCSENV: app_staging1
     SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
-  only:
-    - /^ssa.*$/
