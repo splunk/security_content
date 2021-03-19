@@ -47,7 +47,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   OR process_name="pcalua.exe" OR process_name="cmdkey.exe" OR process_name="msconfig.exe")
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id,
-  dest_user_id), body = "TBD"'
+  dest_user_id), body = "TBD" | into write_null();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: 'Some custom tools used by admins could be used rarely to launch
   remotely applications. This might trigger false positives at the beginning when
