@@ -6,7 +6,9 @@ author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
 description: This search looks for CloudTrail events where a user A who has already
-  permission to update login profile, makes an API call to update login profile for another user B . Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
+  permission to update login profile, makes an API call to update login profile for
+  another user B . Attackers have been know to use this technique for Privilege Escalation
+  in case new victim(user B) has more permissions than old victim(user B)
 search: '`cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com
   errorCode = success| search userName!=requestParameters.userName  |  stats count
   min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName src
@@ -48,3 +50,6 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json
