@@ -31,6 +31,7 @@ class DataManipulation:
         if len(lst_matches) > 0:
             latest_event  = datetime.strptime(lst_matches[-1],"%m/%d/%Y %I:%M:%S %p")
             self.difference = self.now - latest_event
+
             f.close()
 
             result = re.sub(regex, self.replacement_function, data)

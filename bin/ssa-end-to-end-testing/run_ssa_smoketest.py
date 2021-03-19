@@ -55,7 +55,7 @@ def main(args):
     for test_file in test_files_ssa:
         test_obj, attack_data_folder = prepare_test(test_file)
         test_result = ssa_detection_testing.test_ssa_detections(test_obj)
-        test_results.append(test_result)
+        test_results.append(test_result.copy())
         remove_attack_data(attack_data_folder)
 
     LOGGER.info('-----------------------------------')
