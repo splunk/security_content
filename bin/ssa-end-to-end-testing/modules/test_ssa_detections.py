@@ -18,7 +18,7 @@ SLEEP_TIME_CREATE_INDEX = 10
 SLEEP_TIME_ACTIVATE_PIPELINE = 10
 SLEEP_TIME_SEND_DATA = 30
 WAIT_CYCLE = 20
-MAX_EXECUTION_TIME_LIMIT = 1200  # per detection test
+MAX_EXECUTION_TIME_LIMIT = 600  # per detection test
 
 TEST_DATASET = 'windows-security_small.txt'
 
@@ -64,7 +64,7 @@ class SSADetectionTesting:
 
 
     def test_ssa_detections(self, test_obj):
-
+        LOGGER.info('Test SSA Detection: ' + test_obj["detection_obj"]["name"])
         self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
         file_path_attack_data = os.path.join(os.path.dirname(__file__), "../", test_obj["attack_data_file_path"])
 
@@ -135,6 +135,8 @@ class SSADetectionTesting:
 
         if len(data) == 0:
             LOGGER.warning("No events to send, skip to next test.")
+            self.execution_passed = False
+            self.write_test_results(test_name)
             return self.test_results
 
         for d in data:
