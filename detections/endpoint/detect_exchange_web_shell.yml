@@ -1,6 +1,6 @@
 name: Detect Exchange Web Shell
-id: 44465d80-810b-11eb-aa30-acde48001122
-version: 1
+id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
+version: 2
 date: '2021-03-09'
 author: Michael Haag, Splunk
 type: batch
