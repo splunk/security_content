@@ -35,8 +35,6 @@ class GithubService:
 
         changed_ssa_test_files = []
 
-        #tests = self.read_security_content_test_files()
-
         for file_path in changed_files:
             # added or changed test files
             if file_path.startswith('tests'):
@@ -47,7 +45,10 @@ class GithubService:
             # changed detections
             if file_path.startswith('detections'):
                 if os.path.basename(file_path).startswith('ssa'):
-                    file_path_new = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test.yml'
+                    file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
+                    file_path_new = file_path_base + '.yml'
+                    if not os.path.exists(file_path_new):
+                        file_path_new = file_path_base + '.yaml'
                     if file_path_new not in changed_ssa_test_files:
                         changed_ssa_test_files.append(file_path_new)
 

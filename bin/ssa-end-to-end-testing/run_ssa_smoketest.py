@@ -38,7 +38,7 @@ def main(args):
     for test_file in test_files_ssa:
         LOGGER.info(test_file)
 
-    if len(test_files_ssa)==0:
+    if len(test_files_ssa) == 0:
         LOGGER.info('Nothing to test for SSA smoke test.')
         sys.exit(0)
 
