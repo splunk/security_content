@@ -28,7 +28,7 @@ references:
 - https://github.com/PowerShellMafia/PowerSploit
 tags:
   analytic_story:
-    - Malicious PowerShell
+  - Malicious PowerShell
   asset_type: Windows
   cis20:
   - CIS 16

@@ -41,4 +41,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Logon_Type
+  - Logon_Process
+  - WorkstationName
+  - user
+  - dest
   security_domain: access

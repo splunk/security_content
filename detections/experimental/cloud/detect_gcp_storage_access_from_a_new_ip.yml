@@ -54,4 +54,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - sc_status_
+  - cs_object_
+  - c_ip_
+  - cs_uri_
+  - cs_method_
   security_domain: network

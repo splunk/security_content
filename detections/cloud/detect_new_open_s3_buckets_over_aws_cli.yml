@@ -44,6 +44,19 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventSource
+  - eventName
+  - requestParameters.accessControlList.x-amz-grant-read-acp
+  - requestParameters.accessControlList.x-amz-grant-write
+  - requestParameters.accessControlList.x-amz-grant-write-acp
+  - requestParameters.accessControlList.x-amz-grant-full-control
+  - requestParameters.bucketName
+  - userName
+  - userIdentity.principalId
+  - userAgent
+  - bucketName
   risk_object: src
   risk_object_type: system
   risk_score: 20

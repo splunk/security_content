@@ -40,4 +40,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - requestParameters.principalArn
+  - requestParameters.roleArn
+  - requestParameters.roleSessionName
+  - recipientAccountId
+  - responseElements.issuer
+  - sourceIPAddress
+  - userAgent
   security_domain: threat

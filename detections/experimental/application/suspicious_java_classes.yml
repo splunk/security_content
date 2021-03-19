@@ -33,4 +33,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - http_method
+  - http_content_length
+  - src_ip
+  - url
+  - status
+  - http_user_agent
+  - src
+  - dest
   security_domain: threat
