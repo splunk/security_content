@@ -70,7 +70,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     errors = []
 
     for lookup in objects['lookups']:
-        lookup_errors = validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
+        errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
     objects_array = objects['stories'] + objects['detections'] + objects['baselines'] + objects['response_tasks'] + objects['responses']
     for object in objects_array:
@@ -88,8 +88,6 @@ def validate_objects(REPO_PATH, objects, verbose):
 
     for object in objects['tests']:
         errors = errors + validate_tests(REPO_PATH, object)
-
-    errors = lookup_errors + errors
 
     return errors
 
