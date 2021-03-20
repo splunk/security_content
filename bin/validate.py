@@ -85,7 +85,6 @@ def validate_objects(REPO_PATH, objects, verbose):
     for object in objects['baselines']:
         errors = errors + validate_baseline_search(object, objects['macros'])
 
-
     for object in objects['tests']:
         errors = errors + validate_tests(REPO_PATH, object)
 
