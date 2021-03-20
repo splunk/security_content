@@ -47,10 +47,10 @@ def validate_schema(REPO_PATH, type, objects, verbose):
                 print("Error reading {0}".format(manifest_file))
                 error = True
                 continue
-        try:
-            jsonschema.validate(instance=object, schema=schema)
-        except jsonschema.exceptions.ValidationError as json_ve:
-            errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file))
+
+        validator = jsonschema.Draft7Validator(schema, format_checker=jsonschema.FormatChecker())
+        for schema_error in validator.iter_errors(object):
+            errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(schema_error.message), manifest_file))
             error = True
 
         if type in objects:
