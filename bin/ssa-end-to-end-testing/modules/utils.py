@@ -75,6 +75,12 @@ def request_headers(header_token):
     return headers
 
 
+def check_source_sink(spl):
+    match_source = re.match(r"^\s*\|\s+from\s+read_ssa_enriched_events\(\s*\)", spl)
+    match_sink = re.match(r".*into\s+write_ssa_detected_events\(\s*\)\s*;", spl)
+    return match_source and match_sink
+
+
 def manipulate_spl(env, spl, results_index):
     # Obtain the SSA source
     pulsar_source_connection_id, pulsar_source_topic = return_macros(env)

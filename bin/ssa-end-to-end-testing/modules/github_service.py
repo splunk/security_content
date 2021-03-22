@@ -2,8 +2,6 @@
 import git
 import os
 import logging
-from os import path
-import sys
 
 
 # Logger
@@ -24,7 +22,6 @@ class GithubService:
         LOGGER.info(f"Clone Security Content Project")
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
-
 
     def get_changed_test_files_ssa(self):
         branch1 = self.security_content_branch
