@@ -6,28 +6,26 @@ author: Teoderick Contreras
 type: batch
 datamodel:
 - Endpoint
-description: The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta)
-  file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry
-  or the ransomware note filename is not in your lookup table list for monitoring.
-
-search: '`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") 
-  | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename) as unique_readme_path_count values(TargetFilename) as list_of_readme_path  
-  by Computer Image file_name 
-  | where unique_readme_path_count >= 50 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytics identifies a big number of instance of ransomware
+  notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This
+  behavior is a good sensor if the ransomware note filename is quite new for security
+  industry or the ransomware note filename is not in your lookup table list for monitoring.
+search: '`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") | stats
+  min(_time) as firstTime max(_time) as lastTime dc(TargetFilename) as unique_readme_path_count
+  values(TargetFilename) as list_of_readme_path by Computer Image file_name | where
+  unique_readme_path_count >= 50 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `ransomware_notes_bulk_creation_filter`'
-how_to_implement: "You must be ingesting data that records the filesystem activity
+how_to_implement: You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint file-system data model node. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data."
+  you want to collect data.
 known_false_positives: unknown
 references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
   analytic_story:
-   - Clop Ransomware
+  - Clop Ransomware
   kill_chain_phases:
   - Obfuscation
   mitre_attack_id:
@@ -44,5 +42,7 @@ tags:
   - Computer
   - Image
   - user
-  security_domain: endpoint  
-  
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
