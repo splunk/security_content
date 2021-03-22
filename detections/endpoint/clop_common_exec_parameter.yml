@@ -6,20 +6,19 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytics are designed to identifies some CLOP ransomware variant that using arguments
-  to execute its main code or feature of its code. In this variant if the parameter is "runrun",
-  CLOP ransomware will try to encrypt files in network shares and if it is "temp.dat",
-  it will try to read from some stream pipe or file start encrypting files within the infected local machines.
-  This technique can be also identified as an anti-sandbox technique to make its code non-responsive since it is
-  waiting for some parameter to execute properly.
+description: The following analytics are designed to identifies some CLOP ransomware
+  variant that using arguments to execute its main code or feature of its code. In
+  this variant if the parameter is "runrun", CLOP ransomware will try to encrypt files
+  in network shares and if it is "temp.dat", it will try to read from some stream
+  pipe or file start encrypting files within the infected local machines. This technique
+  can be also identified as an anti-sandbox technique to make its code non-responsive
+  since it is waiting for some parameter to execute properly.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as cmdline
-  values(Processes.parent_process_name) as parent_process 
-  values(Processes.process_name) count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" 
-  by Processes.parent_process_name Processes.process_name Processes.process Processes.dest Processes.user 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `clop_common_exec_parameter_filter`'
+  values(Processes.parent_process_name) as parent_process values(Processes.process_name)
+  count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" by Processes.parent_process_name
+  Processes.process_name Processes.process Processes.dest Processes.user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `clop_common_exec_parameter_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -31,7 +30,7 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
-  automated_detection_testing: tba
+  automated_detection_testing: passed
   kill_chain_phases:
   - Obfuscation
   mitre_attack_id:
@@ -46,5 +45,7 @@ tags:
   - _time
   - Processes.process_name
   - Processes.dest
-  - Processes.user 
+  - Processes.user
   security_domain: endpoint
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_b/windows-sysmon.log
