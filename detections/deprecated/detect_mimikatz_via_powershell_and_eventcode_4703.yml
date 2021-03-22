@@ -45,4 +45,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - signature_id
+  - Process_Name
+  - Message
+  - dest
+  - Process_ID
   security_domain: access

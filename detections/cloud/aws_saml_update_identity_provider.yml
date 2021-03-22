@@ -36,4 +36,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - eventType
+  - requestParameters.sAMLProviderArn
+  - userIdentity.sessionContext.sessionIssuer.arn
+  - sourceIPAddress
+  - userIdentity.accessKeyId
+  - userIdentity.principalId
   security_domain: threat

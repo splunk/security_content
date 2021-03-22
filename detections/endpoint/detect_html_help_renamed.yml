@@ -50,4 +50,14 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - OriginalFileName
+  - process_name
+  - Computer
+  - User
+  - parent_process_name
+  - process_path
+  - CommandLine
   security_domain: endpoint

@@ -1,0 +1,58 @@
+name: Unified Messaging Service Spawning a Process
+id: f1126df0-7bd5-11eb-988f-acde48001122
+version: 1
+date: '2021-03-02'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This detection identifies Microsoft Exchange Server's Unified Messaging
+  services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating
+  possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe
+  and wermgr.exe mostly due to potential false positives, however, if there is an
+  excessive amount of "wermgr.exe" or "WerFault.exe" failures, it may be due to the
+  active exploitation. During triage, identify any additional suspicious parallel
+  processes. Identify any recent out of place file modifications. Review Exchange
+  logs following Microsofts guide. To contain, perform egress filtering or restrict
+  public access to Exchange. In final, patch the vulnerablity and monitor.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="umworkerprocess.exe"
+  OR Processes.parent_process_name="UMService.exe" (Processes.process_name!="wermgr.exe"
+  OR Processes.process_name!="werfault.exe") by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `unified_messaging_service_spawning_a_process_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: Unknown. Tune out child processes as needed to limit volume
+  of false positives.
+references:
+- https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/
+- https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
+- https://blog.rapid7.com/2021/03/03/rapid7s-insightidr-enables-detection-and-response-to-microsoft-exchange-0-day/
+tags:
+  analytic_story:
+  - HAFNIUM Group
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_umservices.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1190
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint

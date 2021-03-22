@@ -13,10 +13,11 @@ import argparse
 import datetime
 import string
 import re
+from pathlib import Path
 from os import path, walk
 
 
-def validate_schema(REPO_PATH, type, objects):
+def validate_schema(REPO_PATH, type, objects, verbose):
 
     error = False
     errors = []
@@ -79,11 +80,31 @@ def validate_objects(REPO_PATH, objects, verbose):
     for object in objects['detections']:
         if object['type'] == 'batch':
             errors = errors + validate_detection_search(object, objects['macros'])
+            errors = errors + validate_fields(object)
 
     for object in objects['baselines']:
         errors = errors + validate_baseline_search(object, objects['macros'])
 
+
+    for object in objects['tests']:
+        errors = errors + validate_tests(REPO_PATH, object)
+
     errors = lookup_errors + errors
+
+    return errors
+
+
+def validate_fields(object):
+    errors = []
+
+    if 'tags' in object:
+
+        # check if required_fields is present
+        if 'required_fields' not in object['tags']:
+            errors.append("ERROR: a `required_fields` tag is required for object: %s" % object['name'])
+
+        if 'security_domain' not in object['tags']:
+            errors.append("ERROR: a `security_domain` tag is required for object: %s" % object['name'])
 
     return errors
 
@@ -223,26 +244,30 @@ def validate_lookups_content(REPO_PATH, lookup_path, lookup):
     return errors
 
 
-if __name__ == "__main__":
-    # grab arguments
-    parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.
-        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
-    parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
-    # parse them
-    args = parser.parse_args()
-    REPO_PATH = args.path
-    verbose = args.verbose
+def validate_tests(REPO_PATH, object):
+    errors = []
 
-    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments']
+    # check detection file exists
+    for test in object['tests']:
+        if 'file' in test:
+            detection_file_path = Path(REPO_PATH + '/detections/' + test['file'])
+            if not detection_file_path.is_file():
+                errors.append('ERROR: orphaned test: {0}, detection file: {1} no longer exists or incorrect detection path under `file`'.format(object['name'], detection_file_path))
+        else:
+            errors.append('ERROR: test: {0} does not have a detection `file` associated with detection: {1}'.format(object['name'], test['name']))
+        test['file']
+    return errors
+
+def main(REPO_PATH, verbose):
+
+    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments', 'tests']
 
     objects = {}
     schema_error = False
     schema_errors = []
 
     for validation_object in validation_objects:
-        objects, error, errors = validate_schema(REPO_PATH, validation_object, objects)
+        objects, error, errors = validate_schema(REPO_PATH, validation_object, objects, verbose)
         schema_error = schema_error or error
         if len(errors) > 0:
             schema_errors = schema_errors + errors
@@ -258,3 +283,18 @@ if __name__ == "__main__":
         sys.exit("Errors found")
     else:
         print("No Errors found")
+
+
+if __name__ == "__main__":
+    # grab arguments
+    parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
+        Validates security manifest for correctness, adhering to spec and other common items.
+        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
+    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
+    parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
+    # parse them
+    args = parser.parse_args()
+    REPO_PATH = args.path
+    verbose = args.verbose
+
+    main(REPO_PATH, verbose)

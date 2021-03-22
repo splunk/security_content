@@ -1,0 +1,36 @@
+name: {{name}}
+id: {{uuid}}
+version: 1
+date: '{{date}}'
+author: {{author}}
+type: {{type}}
+datamodel:
+{% for datamodel in datamodels -%}
+ - {{datamodel}}
+{% endfor -%}
+description: {{description}}
+search: '{{search}}'
+how_to_implement: {{how_to_implement}}
+known_false_positives: {{known_false_positives}}
+references:
+{% for reference in references -%}
+ - {{reference}}
+{% endfor -%}
+tags:
+  analytic_story:
+  - {{analytic_story_name}}
+  dataset:
+  - {{dataset_url}}
+  kill_chain_phases:
+  {% for kill_chain_phase in kill_chain_phases -%}
+  - {{kill_chain_phase}}
+  {% endfor -%}
+  mitre_attack_id:
+  - {{mitre_attack_id}}
+  product:
+  {% for product in products -%}
+  - {{product}}
+  {% endfor -%}
+  required_fields:
+  - _time
+  security_domain: {{security_domain}}

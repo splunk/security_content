@@ -1,0 +1,55 @@
+name: Detect Traffic Mirroring
+id: 42b3b753-5925-49c5-9742-36fa40a73990
+version: 1
+date: '2020-10-28'
+author: Mikael Bjerkeland, Splunk
+type: batch
+datamodel: []
+description: Adversaries may leverage traffic mirroring in order to automate data
+  exfiltration over compromised network infrastructure. Traffic mirroring is a native
+  feature for some network devices and used for network analysis and may be configured
+  to duplicate traffic and forward to one or more destinations for analysis by a network
+  analyzer or other monitoring device.
+search: '`cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN"
+  mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD"
+  command="monitor session*") | stats min(_time) AS firstTime max(_time) AS lastTime
+  count BY host facility mnemonic | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
+  | `detect_traffic_mirroring_filter`'
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network
+  devices. The network devices must log with a severity level of minimum "5 - notification".
+  The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
+  is used to parse the logs from the Cisco network devices and that the devices have
+  been configured according to the documentation of the Cisco Networks Add-on. Also
+  note that an attacker may disable logging from the device prior to enabling traffic
+  mirroring.
+known_false_positives: This search will return false positives for any legitimate
+  traffic captures by network administrators.
+references: []
+tags:
+  analytic_story:
+  - Router and Infrastructure Security
+  asset_type: Infrastructure
+  cis20:
+  - CIS 1
+  - CIS 11
+  detection_name: Detect Traffic Mirroring
+  kill_chain_phases:
+  - Delivery
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1200
+  - T1498
+  - T1020.001
+  nist:
+  - ID.AM
+  - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - facility
+  - mnemonic
+  - host
+  security_domain: network

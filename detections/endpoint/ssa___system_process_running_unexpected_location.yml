@@ -231,6 +231,8 @@ how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: None
 references: []
 tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
   cis20:
   - CIS 8
   kill_chain_phases:
