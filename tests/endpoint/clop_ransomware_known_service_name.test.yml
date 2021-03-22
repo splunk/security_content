@@ -1,12 +1,12 @@
 name: Clop Ransomware Known Service Name Unit Test
 tests:
 - name: Clop Ransomware Known Service Name
-  file: detections/endpoint/clop_ransomware_known_service_name.yml
+  file: endpoint/clop_ransomware_known_service_name.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
   attack_data:
   - file_name: windows-system.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_service_simulated/windows-system.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog

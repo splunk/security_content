@@ -1,7 +1,7 @@
 name: High File Deletion Frequency Unit Test
 tests:
 - name: High File Deletion Frequency
-  file: detections/endpoint/high_file_deletion_frequency.yml
+  file: endpoint/high_file_deletion_frequency.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

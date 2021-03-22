@@ -1,7 +1,7 @@
 name: Clop Common Exec Parameter Unit Test
 tests:
 - name: Clop Common Exec Parameter
-  file: detections/endpoint/clop_ransomware_common_exec_parameter.yml
+  file: endpoint/clop_ransomware_common_exec_parameter.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

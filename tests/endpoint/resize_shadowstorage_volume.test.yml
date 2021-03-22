@@ -1,7 +1,7 @@
 name: Resize ShadowStorage volume Unit Test
 tests:
 - name: Resize ShadowStorage volume
-  file: detections/endpoint/resize_shadowstorage_volume.yml
+  file: endpoint/resize_shadowstorage_volume.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
