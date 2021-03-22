@@ -87,7 +87,7 @@ class SSADetectionTesting:
     def ssa_detection_test_init(self):
         self.test_results["result"] = True
         self.test_results["msg"] = ""
-        self.result_indexes = [self.api.create_temp_index("mc")]
+        self.results_index = self.api.create_temp_index("mc")
         self.created_pipelines = []
         self.activated_pipelines = []
 
@@ -166,15 +166,14 @@ class SSADetectionTesting:
         """
         deactivate_pipeline = lambda p: self.api.deactivate_pipeline(p).status_code == HTTPStatus.OK
         delete_pipeline = lambda p: self.api.delete_pipeline(p).status_code == HTTPStatus.NO_CONTENT
-        delete_index = lambda p: self.api.delete_temp_index(self.results_index["id"]) == HTTPStatus.NO_CONTENT
+        delete_index = lambda p: self.api.delete_temp_index(p["id"]) == HTTPStatus.NO_CONTENT
         self.activated_pipelines = [p for p in self.activated_pipelines if not deactivate_pipeline(p)]
         self.created_pipelines = [p for p in self.created_pipelines if not delete_pipeline(p)]
-        self.result_indexes = [p for p in self.result_indexes if not delete_index]
-        if len(self.activated_pipelines) > 0 or len(self.created_pipelines) > 0 or len(self.result_indexes) > 0:
+        if len(self.activated_pipelines) > 0 or len(self.created_pipelines) > 0 or not delete_index(self.results_index):
             LOGGER.warning("Not all SCS resources fred up")
             LOGGER.info(f"Created Pipelines: {','.join(self.created_pipelines)}")
             LOGGER.info(f"Active Pipelines: {','.join(self.activated_pipelines)}")
-            LOGGER.info(f"Result Indexes: {','.join(self.result_indexes)}")
+            LOGGER.info(f"Result Indexes: {self.results_index}")
         else:
             LOGGER.info("Testing successfully cleaned up")
 
