@@ -5,9 +5,7 @@ import sys
 import re
 from os import path, walk
 import json
-import jsonschema2md
 from jinja2 import Environment, FileSystemLoader
-from attackcti import attack_client
 from pyattck import Attck
 
 
