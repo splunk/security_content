@@ -1,4 +1,4 @@
-name: High Process Termination Frequency  Unit Test
+name: High Process Termination Frequency Unit Test
 tests:
 - name: High Process Termination Frequency 
   file: endpoint/high_process_termination_frequency_.yml
