@@ -189,6 +189,11 @@ class SSADetectionTesting:
             LOGGER.error(e.args[0])
             return {"result": False,
                     "msg": f"Detection test failure for {test_name}"}
+        except Exception as e:
+            self.ssa_detection_test_teardown()
+            LOGGER.error(e)
+            return {"result": False,
+                    "msg": f"Detection test failure for {test_name} (perhaps SCS problems)"}
 
     # only for troubleshooting
     # def ssa_detection_in_dsp_with_preview_session(self, spl, source, test_name):
