@@ -164,9 +164,9 @@ class SSADetectionTesting:
         :return:
         None
         """
-        deactivate_pipeline = lambda p: self.api.deactivate_pipeline(p).status_code == HTTPStatus.OK
-        delete_pipeline = lambda p: self.api.delete_pipeline(p).status_code == HTTPStatus.NO_CONTENT
-        delete_index = lambda p: self.api.delete_temp_index(p["id"]) == HTTPStatus.NO_CONTENT
+        deactivate_pipeline = lambda p: self.api.deactivate_pipeline(p)[0].status_code == HTTPStatus.OK
+        delete_pipeline = lambda p: self.api.delete_pipeline(p)[0].status_code == HTTPStatus.NO_CONTENT
+        delete_index = lambda p: self.api.delete_temp_index(p["id"])[0] == HTTPStatus.NO_CONTENT
         self.activated_pipelines = [p for p in self.activated_pipelines if not deactivate_pipeline(p)]
         self.created_pipelines = [p for p in self.created_pipelines if not delete_pipeline(p)]
         if len(self.activated_pipelines) > 0 or len(self.created_pipelines) > 0 or not delete_index(self.results_index):
