@@ -96,6 +96,7 @@ class SSADetectionTesting:
 
         self.wait_time(SLEEP_TIME_CREATE_INDEX)
 
+        check_ssa_spl = check_source_sink(spl)
         spl = manipulate_spl(self.api.env, spl, self.results_index)
         assert spl is not None, "fail to manipulate spl file"
 
@@ -112,7 +113,7 @@ class SSADetectionTesting:
 
         self.wait_time(SLEEP_TIME_ACTIVATE_PIPELINE)
 
-        if not check_source_sink(spl):
+        if not check_ssa_spl:
             msg = f"Detection test successful for {test_name}"
             LOGGER.warning(f"Test not completed. Detection seems deprecated, and will not send messages to SSA")
             self.test_results["msg"] = msg
