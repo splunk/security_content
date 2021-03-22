@@ -2,7 +2,7 @@ name: Detect Exchange Web Shell
 id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
 version: 2
 date: '2021-03-09'
-author: Michael Haag, Splunk
+author: Michael Haag, Shannon Davis, Splunk
 type: batch
 datamodel:
 - Endpoint
