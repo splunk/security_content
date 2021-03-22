@@ -1,4 +1,4 @@
-name: High Process Termination Frequency 
+name: High Process Termination Frequency
 id: 17cd75b2-8666-11eb-9ab4-acde48001122
 version: 1
 date: '2021-03-16'
@@ -7,11 +7,11 @@ type: batch
 datamodel:
 - Endpoint
 description: This analytics are designed to indentify a high frequency of process termination on a machine which is a common behavior of ransomware malware before encrypting files. 
- This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
+  This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
 search: '`sysmon`EventCode=5
- |bin _time span=3s
- |stats values(Image) as proc_terminated min(_time) as firstTime max(_time) as lastTime  count by Computer EventCode | where count >= 15
- | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `high_process_termination_frequency__filter`'
+  |bin _time span=3s
+  |stats values(Image) as proc_terminated min(_time) as firstTime max(_time) as lastTime  count by Computer EventCode | where count >= 15
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `high_process_termination_frequency_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Image (process full path of terminated process) from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -23,8 +23,6 @@ references:
 tags:
   analytic_story:
    - Clop Ransomware
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -33,4 +31,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  
+  required_fields:
+  - EventCode
+  - Image
+  - Computer
+  - _time
+  security_domain: endpoint    

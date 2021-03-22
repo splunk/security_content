@@ -7,12 +7,13 @@ type: batch
 datamodel:
 - Endpoint
 description: This detection is to identify the common service name created by the CLOP ransomware as part of its persistence
- and  high privilege code execution in the infected machine.
+  and  high privilege code execution in the infected machine.
 search: '`sysmon`EventCode=1 cmdline IN ("*runrun*","*temp.dat*")
- | stats count min(_time) as firstTime max(_time) as lastTime count by Computer User EventCode parent_process_name process_name OriginalFileName process_path cmdline 
- | `security_content_ctime(firstTime)`
- | `security_content_ctime(lastTime)` 
- | `clop_ransomware_known_service_name_filter`'
+  | stats count min(_time) as firstTime max(_time) as lastTime count 
+  by Computer User EventCode parent_process_name process_name OriginalFileName process_path cmdline 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `clop_ransomware_known_service_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type from your
   endpoints. 
@@ -23,8 +24,6 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_service_simulated/windows-system.log
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
@@ -33,4 +32,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - EventCode
+  - cmdline
+  - _time
+  - parent_process_name
+  - process_name
+  - OriginalFileName
+  - process_path
+  security_domain: endpoint
   
