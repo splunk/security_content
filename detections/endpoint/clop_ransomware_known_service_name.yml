@@ -8,9 +8,8 @@ datamodel:
 - Endpoint
 description: This detection is to identify the common service name created by the CLOP ransomware as part of its persistence
   and  high privilege code execution in the infected machine.
-search: '`sysmon`EventCode=1 cmdline IN ("*runrun*","*temp.dat*")
-  | stats count min(_time) as firstTime max(_time) as lastTime count 
-  by Computer User EventCode parent_process_name process_name OriginalFileName process_path cmdline 
+search: '`wineventlog_system` EventCode=7045 Service_Name IN ("SecurityCenterIBM", "WinCheckDRVs")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `clop_ransomware_known_service_name_filter`'
