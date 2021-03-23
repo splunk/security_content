@@ -9,10 +9,10 @@ datamodel:
 description: This detection is to identify a suspicious process that tries to delete the process file path related to its process.
   This technique is known to be defense evasion once a certain condition of malware is satisfied or not. 
   Clop ransomware use this technique where it will try to delete its process file path using a .bat command if the keyboard layout is not the layout it tries to infect.
-search: '`sysmon`EventCode=1 cmdline = "*/c del*" Image = "*\\cmd.exe" 
+search: '`sysmon` EventCode=1 cmdline = "*/c del*" Image = "*\\cmd.exe" 
   |eval result = if(like(process,"%".parent_process."%"), "Found", "Not Found") 
   | stats min(_time) as firstTime max(_time) as lastTime count by Computer user ParentImage ParentCommandLine Image cmdline EventCode ProcessID result 
-  | where result = "contained"
+  | where result = "Found"
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `process_deleting_its_process_file_path_filter`'

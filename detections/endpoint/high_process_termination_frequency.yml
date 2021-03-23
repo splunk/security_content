@@ -8,9 +8,9 @@ datamodel:
 - Endpoint
 description: This analytics are designed to indentify a high frequency of process termination on a machine which is a common behavior of ransomware malware before encrypting files. 
   This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
-search: '`sysmon`EventCode=5
+search: '`sysmon` EventCode=5
   |bin _time span=3s
-  |stats values(Image) as proc_terminated min(_time) as firstTime max(_time) as lastTime  count by Computer EventCode | where count >= 15
+  |stats values(Image) as proc_terminated min(_time) as firstTime max(_time) as lastTime  count by Computer EventCode ProcessID | where count >= 15
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `high_process_termination_frequency_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Image (process full path of terminated process) from your
@@ -36,4 +36,5 @@ tags:
   - Image
   - Computer
   - _time
+  - ProcessID
   security_domain: endpoint    

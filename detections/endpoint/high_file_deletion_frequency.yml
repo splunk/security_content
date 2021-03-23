@@ -9,7 +9,7 @@ datamodel:
 description: This search looks for high frequency of file deletion relative to process name and process id. 
   These events usually happen when the ransomware tries to encrypt the files with the ransomware file extensions and sysmon treat the 
   original files to be deleted as soon it was replace as encrypted data.
-search: '`sysmon`EventCode=23
+search: '`sysmon` EventCode=23
   TargetFilename IN ("*\.cmd", "*\.ini","*\.gif", "*\.jpg", "*\.jpeg", "*\.db", "*\.ps1", "*\.doc*", "*\.xls*", "*\.ppt*", "*\.bmp","*\.zip", "*\.rar", "*\.7z", "*\.chm", "*\.png", "*\.log", "*\.vbs", "*\.js")
   | stats values(TargetFilename) as deleted_files min(_time) as firstTime max(_time) as lastTime count by Computer user EventCode Image ProcessID
   |where count >=100 
