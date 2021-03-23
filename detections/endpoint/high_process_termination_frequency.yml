@@ -17,7 +17,7 @@ search: '`sysmon` EventCode=5 |bin _time span=3s |stats values(Image) as proc_te
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Image (process full path of terminated process) from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+known_false_positives: admin or user tool that can terminate multiple process.
 references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
