@@ -40,6 +40,8 @@
 
 ### Arrays
 
+*   [Untitled array in Baseline Schema](./baselines-properties-datamodel.md "datamodel used in the search") – `#/properties/datamodel#/properties/datamodel`
+
 *   [Untitled array in Detection Schema](./detections-properties-references.md "A list of references for this detection") – `#/properties/references#/properties/references`
 
 *   [Untitled array in Macro Manifest](./macros-properties-arguments.md "A list of the arguments being passed to this macro") – `https://api.splunkresearch.com/schemas/macros.json#/properties/arguments`
