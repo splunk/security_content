@@ -1,0 +1,48 @@
+name: High File Deletion Frequency
+id: 45b125c4-866f-11eb-a95a-acde48001122
+version: 1
+date: '2021-03-16'
+author: Teoderick Contreras
+type: batch
+datamodel:
+- Endpoint
+description: This search looks for high frequency of file deletion relative to process
+  name and process id. These events usually happen when the ransomware tries to encrypt
+  the files with the ransomware file extensions and sysmon treat the original files
+  to be deleted as soon it was replace as encrypted data.
+search: '`sysmon` EventCode=23 TargetFilename IN ("*\.cmd", "*\.ini","*\.gif", "*\.jpg",
+  "*\.jpeg", "*\.db", "*\.ps1", "*\.doc*", "*\.xls*", "*\.ppt*", "*\.bmp","*\.zip",
+  "*\.rar", "*\.7z", "*\.chm", "*\.png", "*\.log", "*\.vbs", "*\.js") | stats values(TargetFilename)
+  as deleted_files min(_time) as firstTime max(_time) as lastTime count by Computer
+  user EventCode Image ProcessID |where count >=100 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `high_file_deletion_frequency_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the deleted target file name, process name and process id  from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: user may delete bunch of pictures or files in a folder.
+references:
+- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+tags:
+  analytic_story:
+  - Clop Ransomware
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1485
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - EventCode
+  - TargetFilename
+  - Computer
+  - user
+  - Image
+  - ProcessID
+  - _time
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
