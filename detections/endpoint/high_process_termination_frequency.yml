@@ -6,23 +6,24 @@ author: Teoderick Contreras
 type: batch
 datamodel:
 - Endpoint
-description: This analytics are designed to indentify a high frequency of process termination on a machine which is a common behavior of ransomware malware before encrypting files. 
-  This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
-search: '`sysmon` EventCode=5
-  |bin _time span=3s
-  |stats values(Image) as proc_terminated min(_time) as firstTime max(_time) as lastTime  count by Computer EventCode ProcessID | where count >= 15
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `high_process_termination_frequency_filter`'
+description: This analytics are designed to indentify a high frequency of process
+  termination on a machine which is a common behavior of ransomware malware before
+  encrypting files. This technique is designed to avoid an exception error while accessing
+  (docs, images, database and etc..) in the infected machine for encryption.
+search: '`sysmon` EventCode=5 |bin _time span=3s |stats values(Image) as proc_terminated
+  min(_time) as firstTime max(_time) as lastTime  count by Computer EventCode ProcessID
+  | where count >= 15 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `high_process_termination_frequency_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the Image (process full path of terminated process) from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+  logs with the Image (process full path of terminated process) from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
-references: 
+references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 tags:
   analytic_story:
-   - Clop Ransomware
+  - Clop Ransomware
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -37,4 +38,7 @@ tags:
   - Computer
   - _time
   - ProcessID
-  security_domain: endpoint    
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
