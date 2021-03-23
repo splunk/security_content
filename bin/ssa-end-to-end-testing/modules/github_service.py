@@ -27,7 +27,7 @@ class GithubService:
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
-        differ = g.diff('--name-only', branch1, branch2)
+        differ = g.diff('--name-only --diff-filter=AMR', branch1, branch2)
         changed_files = differ.splitlines()
 
         changed_ssa_test_files = []
