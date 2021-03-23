@@ -29,6 +29,7 @@ tags:
   - Windows Log Manipulation
   - SamSam Ransomware
   - Ransomware
+  - Clop Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
