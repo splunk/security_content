@@ -20,6 +20,7 @@ tags:
   analytic_story:
   - Windows Log Manipulation
   - Ransomware
+  - Clop Ransomware 
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -43,4 +44,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - dest
   security_domain: endpoint

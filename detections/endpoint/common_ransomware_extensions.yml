@@ -40,6 +40,7 @@ tags:
   - SamSam Ransomware
   - Ryuk Ransomware
   - Ransomware
+  - Clop Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -57,4 +58,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.user
+  - Filesystem.dest
+  - Filesystem.file_path
+  - Filesystem.file_name
   security_domain: endpoint

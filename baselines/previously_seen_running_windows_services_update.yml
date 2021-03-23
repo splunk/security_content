@@ -23,7 +23,7 @@ tags:
   analytic_story:
   - Orangeworm Attack Group
   - Windows Service Abuse
-  - Sunburst Malware
+  - NOBELIUM Group
   deployments:
   - Hourly Cache Updates
   detections:
