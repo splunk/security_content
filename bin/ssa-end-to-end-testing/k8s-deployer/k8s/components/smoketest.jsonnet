@@ -13,7 +13,7 @@ local job = {
         },
     },
     spec: {
-        activeDeadlineSeconds: 1800,
+        activeDeadlineSeconds: 7200,
         ttlSecondsAfterFinished: 100,
         template: {
             metadata: {
