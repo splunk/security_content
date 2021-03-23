@@ -82,11 +82,17 @@ jobs:
             source venv/bin/activate
             python contentctl.py --path . --verbose  validate
       - run:
-          name: run doc-gen
+          name: generate documentation
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/doc-gen.py --path . --output docs -v
+            python bin/doc_gen.py --path . --output docs -v
+            # now generate spec docs
+            sudo apt-get install -y npm -qq
+            sudo npm install -g @adobe/jsonschema2md
+            jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
+            # clean up extra properties on docs
+            rm -rf docs/spec/*-*.md
 
   build-sources:
     executor: content-executor
