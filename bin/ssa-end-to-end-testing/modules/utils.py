@@ -75,14 +75,26 @@ def request_headers(header_token):
     return headers
 
 
+def check_source_sink(spl):
+    match_source = re.match(r"^\s*\|\s+from\s+read_ssa_enriched_events\(\s*\)", spl)
+    match_sink = re.search(r"\|\s*into\s+write_ssa_detected_events\(\s*\)\s*;", spl)
+    return match_source and match_sink
+
+
 def manipulate_spl(env, spl, results_index):
-    spl = replace_ssa_macros(env, spl)
+    # Obtain the SSA source
+    pulsar_source_connection_id, pulsar_source_topic = return_macros(env)
+    source = READ_SSA_ENRICHED_EVENTS_EXPANDED\
+        .replace("__PULSAR_SOURCE_CONNECTION_ID__", pulsar_source_connection_id)\
+        .replace("__PULSAR_SOURCE_TOPIC__", pulsar_source_topic)
+    # Obtain the test sink
+    sink = ";"
     if results_index is not None:
-        # When an index is defined for a test, it writes the output of this pipeline to this index.
-        # original_pipeline; => original_pipeline | into index("module", "index");
         module = results_index["module"]
         index = results_index["name"]
-        spl = spl[:spl.rindex(";")] + f" | into index(\"{module}\", \"{index}\");"
+        sink = f"| into index(\"{module}\", \"{index}\");"
+    # Replace spl template with its `source` and `sink`
+    spl = replace_ssa_macros(source, sink, spl)
     LOGGER.info(f"spl: {spl}")
     return spl
 
@@ -93,13 +105,9 @@ def read_spl(file_path, file_name):
     return spl
 
 
-def replace_ssa_macros(env, spl):
-    pulsar_source_connection_id, pulsar_source_topic = return_macros(env)
-    macro_expanded = READ_SSA_ENRICHED_EVENTS_EXPANDED.replace("__PULSAR_SOURCE_CONNECTION_ID__", pulsar_source_connection_id)
-    macro_expanded = macro_expanded.replace("__PULSAR_SOURCE_TOPIC__", pulsar_source_topic)
-    spl = spl.replace(READ_SSA_ENRICHED_EVENTS, macro_expanded)
-    spl = spl.replace(WRITE_SSA_DETECTED_EVENTS, ";")
-    #spl = spl.replace("\n", " ")
+def replace_ssa_macros(source, sink, spl):
+    spl = spl.replace(READ_SSA_ENRICHED_EVENTS, source)
+    spl = spl.replace(WRITE_SSA_DETECTED_EVENTS, sink)
     return spl
 
 
