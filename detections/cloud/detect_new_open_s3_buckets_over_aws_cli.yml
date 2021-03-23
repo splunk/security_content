@@ -41,6 +41,7 @@ tags:
   - PR.AC
   - DE.CM
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

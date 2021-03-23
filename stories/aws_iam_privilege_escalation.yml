@@ -2,7 +2,7 @@ name: AWS IAM Privilege Escalation
 id: ced74200-8465-4bc3-bd2c-22782eec6750
 version: 1
 date: '2021-03-08'
-author: David Dorsey, Splunk
+author: Bhavin Patel, Splunk
 type: batch
 description: This analytic story contains detections that query your AWS Cloudtrail for activities related to privilege escalation. 
 narrative: 'Amazon Web Services provides a neat feature called Identity and Access Management (IAM) that enables organizations to manage various AWS services and resources in a secure way. All IAM users have roles, groups and policies associated with them which governs and sets permissions to allow a user to access specific restrictions. \
