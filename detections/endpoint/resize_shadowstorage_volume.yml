@@ -20,7 +20,10 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   =  "wmic.exe" Processes.process_name = "vssadmin.exe" Processes.process="*resize*"
   Processes.process="*shadowstorage*" Processes.process="*/maxsize*" by Processes.parent_process_name
   Processes.parent_process Processes.process_name Processes.process Processes.dest
-  Processes.user | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
+  Processes.user Processes.process_id Processes.process_guid 
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` 
+  |`security_content_ctime(lastTime)`
   | `resize_shadowstorage_volume_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
