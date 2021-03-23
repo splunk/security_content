@@ -6,16 +6,16 @@ author: Teoderick Contreras
 type: batch
 datamodel:
 - Endpoint
-description: This detection is to identify a creation of "user mode service" where the service file path is located in non-common service folder in windows.
-search: ' `wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe"
-  NOT (Service_File_Name IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*"))
-  Service_Type = "user mode service" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `create_service_in_suspicious_file_path_filter`'
+description: This detection is to identify a creation of "user mode service" where
+  the service file path is located in non-common service folder in windows.
+search: ' `wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe" NOT (Service_File_Name
+  IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*"))
+  Service_Type = "user mode service" | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `create_service_in_suspicious_file_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the Service name, Service File Name Service Start type, and Service Type from your
-  endpoints. 
+  logs with the Service name, Service File Name Service Start type, and Service Type
+  from your endpoints.
 known_false_positives: unknown
 references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
@@ -38,4 +38,7 @@ tags:
   - _time
   - Service_Name
   - Service_Start_Type
-  security_domain: endpoint  
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
