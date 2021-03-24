@@ -5779,5 +5779,3 @@ Reduce the risk of CVE-2018-11409, an information disclosure vulnerability withi
 ''# Author: Splunk Security Research''
 ''# Contact: research@splunk.com''
 ''#############''
-
-[[Category:V:ESSOC:drafts]]

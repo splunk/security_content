@@ -25196,5 +25196,3 @@ As is common with many fraud-related searches, we are usually looking to attribu
 ''# Author: Splunk Security Research''
 ''# Contact: research@splunk.com''
 ''#############''
-
-[[Category:V:ESSOC:drafts]]
