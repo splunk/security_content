@@ -18,7 +18,7 @@ validate:
   image: docker.repo.splunkdev.net/ci-cd/ci-container:alpine-3.11
   before_script:
     - apk add --update python3 python3-dev py-pip build-base openjdk8-jre && pip install virtualenv && rm -rf /var/cache/apk/*
-    - pip3 install --upgrade pip3 && pip3 install -r requirements.txt
+    - pip3 install --upgrade pip && pip3 install -r requirements.txt
   script:
     - python3 bin/ssa_validate.py --skip-error detections/*/*
     - python3 bin/ssa_test.py --skip-error tests/*/*
