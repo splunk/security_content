@@ -24,7 +24,6 @@ references: []
 tags:
   analytic_story:
   - Disabling Security Tools
-  - 'Subvert Trust Controls: Install Root Certificate'
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
