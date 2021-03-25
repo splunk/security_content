@@ -41,6 +41,7 @@ tags:
   detections:
   - Abnormally High Number Of Cloud Instances Launched
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
