@@ -5,6 +5,9 @@ tests:
     pass_condition: '@count_gt(0)'
     description: Test illegal service and process control detections
     attack_data:
-      - file_name: logAllPowerSploitModulesWithOldNames.log
-        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+      - file_name: logAllPowerSploitModulesWithOldNames.log 
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
+        source: WinEventLog:Security
+        sourcetype: xmlwineventlog
+        update_timestamp: True
 
