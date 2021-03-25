@@ -31,6 +31,7 @@ tags:
   - Cloud Provisioning Activity From Previously Unseen Country
   - Cloud Provisioning Activity From Previously Unseen Region
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

@@ -26,6 +26,7 @@ tags:
   detections:
   - Cloud Compute Instance Created With Previously Unseen Image
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

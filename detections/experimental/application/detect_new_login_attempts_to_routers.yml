@@ -36,4 +36,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Authentication.dest_category
+  - Authentication.dest
+  - Authentication.user
   security_domain: network

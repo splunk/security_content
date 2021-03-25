@@ -1,0 +1,47 @@
+name: Detect SNICat SNI Exfiltration
+id: 82d06410-134c-11eb-adc1-0242ac120002
+version: 1
+date: '2020-10-21'
+author: Shannon Davis, Splunk
+type: batch
+datamodel: []
+description: This search looks for commands that the SNICat tool uses in the TLS SNI
+  field.
+search: '`zeek_ssl` | rex field=server_name "(?<snicat>(LIST|LS|SIZE|LD|CB|CD|EX|ALIVE|EXIT|WHERE|finito)-[A-Za-z0-9]{16}\.)"
+  | stats count by src_ip dest_ip server_name snicat | where count>0 | table src_ip
+  dest_ip server_name snicat | `detect_snicat_sni_exfiltration_filter`'
+how_to_implement: You must be ingesting Zeek SSL data into Splunk. Zeek data should
+  also be getting ingested in JSON format.  We are detecting when any of the predefined
+  SNICat commands are found within the server_name (SNI) field. These commands are
+  LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito.  You can go further
+  once this has been detected, and run other searches to decode the SNI data to prove
+  or disprove if any data exfiltration has taken place.
+known_false_positives: Unknown
+references:
+- https://www.mnemonic.no/blog/introducing-snicat/
+- https://github.com/mnemonic-no/SNIcat
+- https://attack.mitre.org/techniques/T1041/
+tags:
+  analytic_story:
+  - Data Exfiltration
+  asset_type: Network
+  cis20:
+  - CIS 13
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1041
+  nist:
+  - PR.DS
+  - DE.CM
+  - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - server_name
+  - src_ip
+  - dest_ip
+  security_domain: network

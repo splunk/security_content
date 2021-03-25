@@ -80,13 +80,19 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/validate.py --path . --verbose
+            python contentctl.py --path . --verbose  validate
       - run:
           name: generate documentation
           command: |
             cd security-content
             source venv/bin/activate
             python bin/doc_gen.py --path . --output docs -v
+            # now generate spec docs
+            sudo apt-get install -y npm -qq
+            sudo npm install -g @adobe/jsonschema2md
+            jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
+            # clean up extra properties on docs
+            rm -rf docs/spec/*-*.md
 
   build-sources:
     executor: content-executor
@@ -118,7 +124,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/generate.py --path . --output package -v
+            python contentctl.py --path . --verbose generate --output package
             # make a copy of use_case_lib in order to have ES work :-(
             cp package/default/use_case_library.conf package/default/analyticstories.conf
       - run:

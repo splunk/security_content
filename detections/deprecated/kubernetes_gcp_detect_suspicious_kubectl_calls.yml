@@ -1,0 +1,33 @@
+name: Kubernetes GCP detect suspicious kubectl calls
+id: a5bed417-070a-41f2-a1e4-82b6aa281557
+version: 1
+date: '2020-07-11'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search provides information on anonymous Kubectl calls with IP,
+  verb namespace and object access context
+search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerSuppliedUserAgent=kubectl*
+  src_user=system:unsecured OR src_user=system:anonymous | table src_ip src_user data.protoPayload.requestMetadata.callerSuppliedUserAgent
+  data.protoPayload.authorizationInfo{}.granted object_path |dedup src_ip src_user
+  |`kubernetes_gcp_detect_suspicious_kubectl_calls_filter`'
+how_to_implement: You must install splunk add on for GCP. This search works with pubsub
+  messaging logs.
+known_false_positives: Kubectl calls are not malicious by nature. However source IP,
+  source user, user agent, object path, and authorization context can reveal potential
+  malicious activity, specially anonymous suspicious IPs and sensitive objects such
+  as configmaps or secrets
+references: []
+tags:
+  analytic_story:
+  - Kubernetes Sensitive Object Access Activity
+  asset_type: GCP GKE Kubernetes cluster
+  kill_chain_phases:
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: threat

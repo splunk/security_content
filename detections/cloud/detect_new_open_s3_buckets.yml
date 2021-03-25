@@ -40,9 +40,20 @@ tags:
   - PR.AC
   - DE.CM
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventSource
+  - eventName
+  - requestParameters.bucketName
+  - userName
+  - userIdentity.principalId
+  - userAgent
+  - uri
+  - permission
   risk_object: src
   risk_object_type: system
   risk_score: 20

@@ -31,7 +31,18 @@ tags:
   mitre_attack_id:
   - T1556
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - LogonError
+  - ActorIpAddress
+  - UserAgent
+  - UserId
+  risk_object: user
+  risk_object_type: user
+  risk_score: 20
   security_domain: threat

@@ -28,7 +28,7 @@ tags:
   - Orangeworm Attack Group
   - Windows Persistence Techniques
   - Disabling Security Tools
-  - Sunburst Malware
+  - NOBELIUM Group
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
@@ -51,4 +51,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
   security_domain: endpoint

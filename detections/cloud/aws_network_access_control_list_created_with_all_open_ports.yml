@@ -41,9 +41,22 @@ tags:
   - DE.DP
   - DE.AE
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - requestParameters.ruleAction
+  - requestParameters.egress
+  - requestParameters.aclProtocol
+  - requestParameters.portRange.to
+  - requestParameters.portRange.from
+  - requestParameters.cidrBlock
+  - userName
+  - userIdentity.principalId
+  - userAgent
   risk_object: userName
   risk_object_type: user
   risk_score: 10

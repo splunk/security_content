@@ -602,21 +602,10 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 
 
-def main(args):
+def main(REPO_PATH, OUTPUT_PATH, VERBOSE):
 
-    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
-    This tool converts manifests to the source files to be used by products like Splunk Enterprise.
-    It generates the savesearches.conf, analytics_stories.conf files for ES.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
-    parser.add_argument("-o", "--output", required=True, help="path to the output directory")
-    parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-
-    # parse them
-    args = parser.parse_args()
-    REPO_PATH = args.path
-    OUTPUT_PATH = args.output
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
-    VERBOSE = args.verbose
+
     stories = load_objects("stories/*.yml", VERBOSE, REPO_PATH)
     macros = load_objects("macros/*.yml", VERBOSE, REPO_PATH)
     lookups = load_objects("lookups/*.yml", VERBOSE, REPO_PATH)
@@ -650,7 +639,8 @@ def main(args):
     baselines = sorted(baselines, key=lambda b: b['name'])
     detection_path = generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH)
 
-    stories = sorted(stories, key=lambda s: s['name'])
+    # only use ESCU stories to the configuration
+    stories = sorted(filter(lambda s: s['type'].lower() == 'batch', stories), key=lambda s: s['name'])
     story_path = generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
@@ -672,4 +662,18 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+
+    parser = argparse.ArgumentParser(description="generates splunk conf files out of security_content manifests", epilog="""
+    This tool converts manifests to the source files to be used by products like Splunk Enterprise.
+    It generates the savesearches.conf, analytics_stories.conf files for ES.""")
+    parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
+    parser.add_argument("-o", "--output", required=True, help="path to the output directory")
+    parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
+
+    # parse them
+    args = parser.parse_args()
+    REPO_PATH = args.path
+    OUTPUT_PATH = args.output
+    VERBOSE = args.verbose
+
+    main(REPO_PATH, OUTPUT_PATH, VERBOSE)

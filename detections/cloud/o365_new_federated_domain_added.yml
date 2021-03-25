@@ -35,7 +35,21 @@ tags:
   mitre_attack_id:
   - T1136.003
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - Parameters{}.Value
+  - ObjectId
+  - OrganizationName
+  - OriginatingServer
+  - UserId
+  - UserKey
+  risk_object: UserId
+  risk_object_type: user
+  risk_score: 20
   security_domain: threat

@@ -33,7 +33,20 @@ tags:
   mitre_attack_id:
   - T1078
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - eventType
+  - requestParameters.sAMLProviderArn
+  - userIdentity.sessionContext.sessionIssuer.arn
+  - sourceIPAddress
+  - userIdentity.accessKeyId
+  - userIdentity.principalId
+  risk_object: sourceIPAddress
+  risk_object_type: system
+  risk_score: 20
   security_domain: threat
