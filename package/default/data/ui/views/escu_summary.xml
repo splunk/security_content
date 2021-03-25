@@ -1,9 +1,13 @@
 <form theme="dark">
   <label>Content Library</label>
-  <description>Explore the Analytic Stories included with ES Content Updates.</description>
   <!-- Example uses stats transforming command -->
   <!-- This limits evnts passed to post-process search -->
   <title>Splunk Security Content</title>
+    <row>
+          <html>
+        <h2 style="color:red">Explore the Analytic Stories included with Splunk Security via <a href="https://www.splunk.com/en_us/resources/videos/splunk-enterprise-security-use-case-library.html">ES Use Case Library</a> or <a href="https://splunkbase.splunk.com/app/3435/">Splunk Security Essentials</a>.</h2>
+      </html>
+  </row>
   <search id="baseSS">
     <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *"</query>
   </search>
@@ -72,7 +76,6 @@
         <option name="rangeValues">[0]</option>
       </single>
     </panel>
-
     <panel>
       <single>
         <title>ESCU App Version</title>
@@ -135,7 +138,6 @@
   </row>
   <row id="analytic_stories_details_table">
     <panel>
-
       <input type="dropdown" token="as_story">
         <label>Analytic Story</label>
         <choice value="*">All</choice>
@@ -149,8 +151,6 @@
         <prefix>"</prefix>
         <suffix>"</suffix>
       </input>
-
-
       <input type="dropdown" token="detection">
         <label>Detections</label>
         <choice value="*">All</choice>
@@ -164,7 +164,6 @@
         <suffix>"</suffix>
         <default>*</default>
       </input>
-
       <input type="dropdown" token="as_category">
         <label>Category</label>
         <choice value="*">All</choice>
@@ -178,7 +177,6 @@
         <prefix>"</prefix>
         <suffix>"</suffix>
       </input>
-
       <input type="dropdown" token="as_attack_id">
         <label>MITRE Technique ID</label>
         <choice value="*">All</choice>
@@ -192,7 +190,6 @@
         <suffix>"</suffix>
         <default>*</default>
       </input>
-
       <input type="dropdown" token="as_data_models">
         <label>Data Models</label>
         <choice value="*">All</choice>
@@ -206,7 +203,6 @@
         <prefix>"</prefix>
         <suffix>"</suffix>
       </input>
-
       <html>
             <input id="analytic_filter_clear" class="btn btn-primary" type="button" value="Clear All"/>
         </html>
