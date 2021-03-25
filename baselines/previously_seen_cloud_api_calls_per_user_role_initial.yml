@@ -26,6 +26,7 @@ tags:
   detections:
   - Cloud API Calls From Previously Unseen User Roles
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
