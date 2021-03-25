@@ -12,7 +12,8 @@ search: '`o365_management_activity` Operation=Set-Mailbox | spath input=Paramete
   AS count_src_user earliest(_time) as firstTime latest(_time) as lastTime values(src_user)
   AS src_user values(user) AS user by ForwardingSmtpAddress | where count_src_user
   > 1 |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`o365_suspicious_user_email_forwarding_filter`'
-how_to_implement: ''
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
+  works with o365:management:activity
 known_false_positives: unknown
 references: []
 tags:
@@ -32,6 +33,7 @@ tags:
   - DE.DP
   - DE.AE
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -39,4 +41,7 @@ tags:
   - _time
   - Operation
   - Parameters
+  risk_object: ForwardingSmtpAddress
+  risk_object_type: system
+  risk_score: 20
   security_domain: threat
