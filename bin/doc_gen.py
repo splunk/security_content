@@ -7,6 +7,9 @@ from os import path, walk
 import json
 from jinja2 import Environment, FileSystemLoader
 from pyattck import Attck
+import datetime
+
+
 
 
 def mitre_attack_object(technique, attack):
@@ -148,7 +151,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     # write markdown
     template = j2_env.get_template('doc_stories_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/stories.md')
-    output = template.render(categories=categories)
+    output = template.render(categories=categories,time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote {0} stories documentation in markdown to: {1}".format(len(stories),output_path))
@@ -156,7 +159,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     # write wikimarkup
     template = j2_env.get_template('doc_stories_wiki.j2')
     output_path = path.join(OUTPUT_DIR + '/stories.wiki')
-    output = template.render(categories=categories)
+    output = template.render(categories=categories, time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote {0} stories documentation in mediawiki to: {1}".format(len(stories),output_path))
@@ -206,7 +209,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
     # write markdown
     template = j2_env.get_template('doc_detections_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/detections.md')
-    output = template.render(detections=sorted_detections)
+    output = template.render(detections=sorted_detections, time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),output_path))
@@ -231,7 +234,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
     # write wikimarkup
     template = j2_env.get_template('doc_detections_wiki.j2')
     output_path = path.join(OUTPUT_DIR + '/detections.wiki')
-    output = template.render(kinds=kinds)
+    output = template.render(kinds=kinds, time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))
