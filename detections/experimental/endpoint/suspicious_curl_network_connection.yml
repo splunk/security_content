@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Silver Sparrow
+  - Ingress Tool Transfer
   asset_type: Endpoint
   dataset: []
   kill_chain_phases:
