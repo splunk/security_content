@@ -25,8 +25,11 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
+  automated_detection_testing: passed
   cis20:
   - CIS 13
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
@@ -50,6 +53,3 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json
