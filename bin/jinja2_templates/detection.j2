@@ -26,7 +26,9 @@ tags:
   - {{kill_chain_phase}}
   {% endfor -%}
   mitre_attack_id:
-  - {{mitre_attack_id}}
+  {% for id in mitre_attack_id -%}
+  - {{id}}
+  {% endfor -%}
   product:
   {% for product in products -%}
   - {{product}}
