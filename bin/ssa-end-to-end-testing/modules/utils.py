@@ -120,17 +120,19 @@ def read_data(file_name):
     date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
     count = len(open(modified_file).readlines())
     i = 0
+    tmp_counter = 0
     for line in fileinput.input(files=modified_file):
         i = i + 1
         if event != "" and re.match(date_rex, line):
             data.append(event)
+            tmp_counter = 0
             event = line
         else:
+            tmp_counter = tmp_counter + 1
             event = event + line
 
-        if i == count:
-            if len(data) == 0:
-                data.append(event)
+        if i == count and tmp_counter > 10:
+            data.append(event)
 
     return data
 

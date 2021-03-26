@@ -6,5 +6,7 @@ tests:
     description: Test illegal access to user content detections
     attack_data:
       - file_name: logAllPowerSploitModulesWithOldNames.log
-        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
-
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/illegal_access_to_content/logAllPowerSploitModulesWithOldNames.log
+        source: WinEventLog:Security
+        sourcetype: xmlwineventlog
+        update_timestamp: True
