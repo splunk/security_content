@@ -42,7 +42,7 @@ tags:
   - CIS 16
   - CIS 20
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569/logAllPowerSploitModulesWithOldNames.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
