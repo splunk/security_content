@@ -2,6 +2,7 @@
 import git
 import os
 import logging
+import glob
 
 
 # Logger
@@ -27,8 +28,12 @@ class GithubService:
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
-        differ = g.diff('--name-only', branch1, branch2)
-        changed_files = differ.splitlines()
+        if branch1 != 'develop':
+            differ = g.diff('--name-only', branch1, branch2)
+            changed_files = differ.splitlines()
+        else:
+            # If branch is develop (nightly run), then we will run all possible tests
+            changed_files = sorted(glob.glob('security_content/tests/'))
 
         changed_ssa_test_files = []
 
@@ -44,11 +49,10 @@ class GithubService:
                 if os.path.basename(file_path).startswith('ssa'):
                     file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
                     file_path_new = file_path_base + '.yml'
-                    if not os.path.exists(file_path_new):
-                        file_path_new = file_path_base + '.yaml'
                     if file_path_new not in changed_ssa_test_files:
                         changed_ssa_test_files.append(file_path_new)
 
         return changed_ssa_test_files
+
 
 

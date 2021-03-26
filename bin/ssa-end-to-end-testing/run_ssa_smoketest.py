@@ -42,33 +42,33 @@ def main(args):
         LOGGER.info('Nothing to test for SSA smoke test.')
         sys.exit(0)
 
-    # test DSP and SSA pipeline
-    ssa_detection_testing = SSADetectionTesting(env, tenant, token)
-    test_result_passed = ssa_detection_testing.test_dsp_pipeline()
+    # # test DSP and SSA pipeline
+    # ssa_detection_testing = SSADetectionTesting(env, tenant, token)
+    # test_result_passed = ssa_detection_testing.test_dsp_pipeline()
 
-    if not test_result_passed:
-        sys.exit(1)
+    # if not test_result_passed:
+    #     sys.exit(1)
 
-    # # test SSA detections
-    test_results = []
-    test_passed = True
-    for test_file in test_files_ssa:
-        test_obj, attack_data_folder = prepare_test(test_file)
-        test_result = ssa_detection_testing.test_ssa_detections(test_obj)
-        test_results.append(test_result.copy())
-        remove_attack_data(attack_data_folder)
+    # # # test SSA detections
+    # test_results = []
+    # test_passed = True
+    # for test_file in test_files_ssa:
+    #     test_obj, attack_data_folder = prepare_test(test_file)
+    #     test_result = ssa_detection_testing.test_ssa_detections(test_obj)
+    #     test_results.append(test_result.copy())
+    #     remove_attack_data(attack_data_folder)
 
-    LOGGER.info('-----------------------------------')
-    LOGGER.info('------- test SSA detections -------')
-    LOGGER.info('-----------------------------------')
-    for test_result in test_results:
-        test_passed = test_passed and test_result['result']
-        LOGGER.info(test_result['msg'])
-    LOGGER.info('-----------------------------------')
+    # LOGGER.info('-----------------------------------')
+    # LOGGER.info('------- test SSA detections -------')
+    # LOGGER.info('-----------------------------------')
+    # for test_result in test_results:
+    #     test_passed = test_passed and test_result['result']
+    #     LOGGER.info(test_result['msg'])
+    # LOGGER.info('-----------------------------------')
 
-    remove_security_content()
-    exit_code = not test_passed
-    sys.exit(exit_code)
+    # remove_security_content()
+    # exit_code = not test_passed
+    # sys.exit(exit_code)
 
 
 
