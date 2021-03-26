@@ -23,6 +23,9 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
@@ -39,6 +42,3 @@ tags:
   - Service_Name
   - Service_Start_Type
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
