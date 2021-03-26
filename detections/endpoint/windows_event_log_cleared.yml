@@ -20,7 +20,7 @@ tags:
   analytic_story:
   - Windows Log Manipulation
   - Ransomware
-  - Clop Ransomware 
+  - Clop Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
