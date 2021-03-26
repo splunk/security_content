@@ -1,4 +1,3 @@
-
 name: AWS Create Policy Version to allow all resources
 id: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
 version: 2
@@ -29,8 +28,11 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
+  automated_detection_testing: passed
   cis20:
   - CIS 13
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
@@ -54,6 +56,3 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
