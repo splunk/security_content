@@ -195,7 +195,11 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     ]
 
     answers = prompt(questions)
-    mitre_attack_id = answers['mitre_attack_ids'].split(',')
+
+    mitre_attack_id = [x.strip() for x in answers['mitre_attack_ids'].split(',')]
+
+    print(mitre_attack_id)
+
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                      trim_blocks=True)
 
@@ -218,7 +222,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     description='UPDATE_DESCRIPTION', how_to_implement='UPDATE_HOW_TO_IMPLEMENT', known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
     references='',datamodels=answers['datamodels'],
     search= answers['detection_search'] + ' | `' + detection_file_name + '_filter`',
-    type=answers['detection_type'], analytic_story_name='UPDATE_STORY_NAME', mitre_attack_id = answers['mitre_attack_ids'],
+    type=answers['detection_type'], analytic_story_name='UPDATE_STORY_NAME', mitre_attack_id=mitre_attack_id,
     kill_chain_phases=answers['kill_chain_phases'], dataset_url='UPDATE_DATASET_URL',
     products=answers['products'], security_domain=answers['security_domain'])
     with open(output_path, 'w', encoding="utf-8") as f:

@@ -32,6 +32,7 @@ tags:
   - Detect AWS Console Login by User from New City
   - Detect AWS Console Login by New User
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

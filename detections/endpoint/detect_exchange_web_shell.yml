@@ -34,6 +34,7 @@ references:
 tags:
   analytic_story:
   - HAFNIUM Group
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
   kill_chain_phases:
@@ -52,4 +53,3 @@ tags:
   - Filesystem.file_hash
   - Filesystem.user
   security_domain: endpoint
-  automated_detection_testing: passed

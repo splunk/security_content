@@ -30,6 +30,7 @@ tags:
   mitre_attack_id:
   - T1114
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -41,4 +42,7 @@ tags:
   - Severity
   - AlertEntityId
   - Operation
+  risk_object: Source
+  risk_object_type: system
+  risk_score: 20
   security_domain: threat

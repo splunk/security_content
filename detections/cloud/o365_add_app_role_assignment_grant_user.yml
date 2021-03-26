@@ -33,6 +33,7 @@ tags:
   mitre_attack_id:
   - T1136.003
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -45,4 +46,7 @@ tags:
   - ActorIpAddress
   - dest
   - ResultStatus
+  risk_object: dest
+  risk_object_type: system
+  risk_score: 20
   security_domain: threat
