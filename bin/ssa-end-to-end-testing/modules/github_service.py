@@ -44,10 +44,10 @@ class GithubService:
                 if os.path.basename(file_path).startswith('ssa'):
                     file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
                     file_path_new = file_path_base + '.yml'
-                    if not os.path.exists(file_path_new):
+                    if not os.path.exists('security_content' + file_path_new):
                         LOGGER.info(f"Could not find file {file_path_new} will try .yaml extension")
                         file_path_new = file_path_base + '.yaml'
-                    if not os.path.exists(file_path_new):
+                    if not os.path.exists('security_content' + file_path_new):
                         LOGGER.warning(f"Could not find file {file_path_new}. Detection {file_path} does not have testing file.")
                     if file_path_new not in changed_ssa_test_files:
                         changed_ssa_test_files.append(file_path_new)
