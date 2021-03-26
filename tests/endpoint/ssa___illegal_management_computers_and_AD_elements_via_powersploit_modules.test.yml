@@ -8,5 +8,3 @@ tests:
       - file_name: logAllPowerSploitModulesWithOldNames.log
         data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/logAllPowerSploitModulesWithOldNames.log
         source: WinEventLog:Security
-        sourcetype: xmlwineventlog
-        update_timestamp: True
