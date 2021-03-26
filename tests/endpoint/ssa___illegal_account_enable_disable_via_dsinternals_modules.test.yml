@@ -6,5 +6,5 @@ tests:
     description: Test enabling or disabling of accounts detections
     attack_data:
       - file_name: logAllDSInternalsModules.log
-        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllDSInternalsModules.log
-
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllDSInternalsModules.log
+        source: WinEventLog:Security
