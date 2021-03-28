@@ -258,7 +258,7 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python bin/doc-gen.py --path . --output docs -v
+            python bin/doc_gen.py --path . --output docs -v
       - run:
           name: make yamls pretty
           command: |

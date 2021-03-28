@@ -28,6 +28,9 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -48,6 +51,3 @@ tags:
   - result
   - _time
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
