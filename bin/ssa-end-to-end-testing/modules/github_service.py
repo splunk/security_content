@@ -9,7 +9,7 @@ import glob
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
 
-SECURITY_CONTENT_URL = f"https://github.com/splunk/security_content"
+SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 
 class GithubService:
