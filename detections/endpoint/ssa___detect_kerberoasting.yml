@@ -15,7 +15,7 @@ search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_
   | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"]
   | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID
   | eval start_time=_time, end_time=_time, body="TBD", entities="TBD" | select start_time,
-  end_time, entities, body | into write_ssa_detected_events(); '
+  end_time, entities, body | into write_null(); '
 how_to_implement: The test data is converted from Windows Security Event logs generated
   from Attach Range simulation and used in SPL search and extended to SPL2
 known_false_positives: Older systems that support kerberos RC4 by default NetApp may
