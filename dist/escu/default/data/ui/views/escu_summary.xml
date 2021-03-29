@@ -58,7 +58,7 @@
       <single>
         <title>Total Detections</title>
         <search base="baseSS">
-          <query>stats count by action.correlationsearch.label</query>
+			<query>stats count by action.correlationsearch.label|  eventstats sum(count) as total_detection_count|  fields total_detection_count</query>
         </search>
         <!-- post-process search -->
         <option name="colorBy">value</option>
