@@ -16,7 +16,7 @@ SLEEP_TIME_CREATE_INDEX = 10
 SLEEP_TIME_ACTIVATE_PIPELINE = 10
 SLEEP_TIME_SEND_DATA = 30
 WAIT_CYCLE = 20
-MAX_EXECUTION_TIME_LIMIT = 600  # per detection test
+MAX_EXECUTION_TIME_LIMIT = 300  # per detection test
 
 TEST_DATASET = 'windows-security_small.txt'
 
@@ -187,11 +187,13 @@ class SSADetectionTesting:
         except AssertionError as e:
             self.ssa_detection_test_teardown()
             LOGGER.error(e.args[0])
+            LOGGER.error(f"Detection test failure for {test_name}")
             return {"result": False,
                     "msg": f"Detection test failure for {test_name}"}
         except Exception as e:
             self.ssa_detection_test_teardown()
             LOGGER.error(e)
+            LOGGER.error(f"Detection test failure for {test_name} (perhaps SCS problems)")
             return {"result": False,
                     "msg": f"Detection test failure for {test_name} (perhaps SCS problems)"}
 
