@@ -7,15 +7,17 @@ type: streaming
 datamodel: []
 description: This search looks for specific authentication events from the Windows
   Security Event logs to detect potential attempts using Pass-the-Hash technique.
-search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_time"),
-  EventCode=map_get(input_event, "event_code"), LogonType=map_get(input_event, "logon_type"),
-  LogonProcess=map_get(input_event, "logon_process"), ComputerName=map_get(input_event,
-  "dest_ip_primary_artifact"), AccountName=map_get(input_event, "dest_user_primary_artifact")
-  | where (LogonType="3" AND LogonProcess="NtLmSsp" AND AccountName IS NOT NULL) OR
-  (LogonType="9" AND LogonProcess="seclogo") | first_time_event input_columns=["EventCode","LogonProcess","ComputerName"]
-  | where first_time_EventCode_LogonProcess_ComputerName | eval start_time=_time,
-  end_time=_time, body="TBD", entities="TBD" | select start_time, end_time, entities,
-  body | into write_ssa_detected_events(); '
+search: ' | from read_ssa_enriched_events() 
+  
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
+  | eval signature_id=map_get(input_event, "signature_id"), authentication_type=map_get(input_event, "authentication_type"),
+  authentication_method=map_get(input_event, "authentication_method"), origin_device_domain=map_get(input_event,
+  "origin_device_domain")
+  | where (authentication_type="3" AND authentication_method="NtLmSsp") OR
+  (authentication_type="9" AND authentication_method="seclogo") 
+
+  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
+  dest_user_id), body="TBD" | into write_ssa_detected_events();'
 how_to_implement: The test data is converted from Windows Security Event logs generated
   from Attach Range simulation and used in SPL search and extended to SPL2
 known_false_positives: Legitimate logon activity by authorized NTLM systems may be
