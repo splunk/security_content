@@ -24,16 +24,29 @@ def main(args):
                         help="specify the tenant in the environment")
     parser.add_argument("-b", "--branch", required=True,
                         help="specify the security content branch")
+    parser.add_argument("-tf", "--test_file", required=False,
+                        help="specify the path to the ssa test file")
+    parser.add_argument("-f", "--fast", required=False, default=False, action='store_true', 
+                        help="skips testing of SSA and DSP availability")
 
     args = parser.parse_args()
     token = args.token
     env = args.env
     tenant = args.tenant
     branch = args.branch
+    test_file = args.test_file
+    fast = args.fast
 
     # Retrieve Security Content
     github_service = GithubService(branch)
-    test_files_ssa = github_service.get_changed_test_files_ssa()
+    if test_file:
+        if not os.path.isfile('security_content/tests/' + test_file):
+            LOGGER.error('Can not find specified test file')
+            sys.exit(1)
+        test_files_ssa = [str("tests/" + test_file)]
+    else:
+        test_files_ssa = github_service.get_changed_test_files_ssa()
+    
     LOGGER.info('changed/added GitHub files:')
     for test_file in test_files_ssa:
         LOGGER.info(test_file)
@@ -44,10 +57,11 @@ def main(args):
 
     # test DSP and SSA pipeline
     ssa_detection_testing = SSADetectionTesting(env, tenant, token)
-    test_result_passed = ssa_detection_testing.test_dsp_pipeline()
+    if not fast:
+        test_result_passed = ssa_detection_testing.test_dsp_pipeline()
 
-    if not test_result_passed:
-        sys.exit(1)
+        if not test_result_passed:
+            sys.exit(1)
 
     # # test SSA detections
     test_results = []

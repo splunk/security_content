@@ -7,4 +7,5 @@ tests:
     attack_data:
       - file_name: T1558.003.json
         data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1558.003/T1558.003.json
+        source: WinEventLog:Security
 
