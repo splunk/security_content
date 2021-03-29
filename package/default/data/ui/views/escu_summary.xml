@@ -58,7 +58,7 @@
       <single>
         <title>Total Detections</title>
         <search base="baseSS">
-          <query>stats count</query>
+          <query>stats count by action.correlationsearch.label</query>
         </search>
         <!-- post-process search -->
         <option name="colorBy">value</option>
