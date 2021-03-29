@@ -12,7 +12,9 @@ search: ' | from read_ssa_enriched_events()
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
   | eval signature_id=map_get(input_event, "signature_id"), authentication_type=map_get(input_event, "authentication_type"),
   authentication_method=map_get(input_event, "authentication_method"), origin_device_domain=map_get(input_event,
-  "origin_device_domain")
+  "origin_device_domain"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  
   | where (authentication_type="3" AND authentication_method="NtLmSsp") OR
   (authentication_type="9" AND authentication_method="seclogo") 
 
