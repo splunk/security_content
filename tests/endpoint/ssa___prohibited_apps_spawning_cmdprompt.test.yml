@@ -5,5 +5,6 @@ tests:
     pass_condition: '@count_gt(0)'
     description: Test prohibited apps spawning cmd.exe
     attack_data:
-      - file_name: unit_test_detect_prohibited_applications_spawning_cmd_exe.json
-        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/unit_test_detect_prohibited_applications_spawning_cmd_exe.json
+      - file_name: windows-security.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/powershell_spawn_cmd/windows-security.log
+        source: WinEventLog:Security
