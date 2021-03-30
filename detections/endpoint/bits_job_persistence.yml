@@ -1,0 +1,46 @@
+name: BITS Job Persistence
+id: e97a5ffe-90bf-11eb-928a-acde48001122
+version: 1
+date: '2021-03-29'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following query identifies Microsoft Background Intelligent Transfer Service utility `bitsadmin.exe` scheduling a BITS job to persist on an endpoint. The query identifies the parameters used to create, resume or add a file to a BITS job
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=bitsadmin.exe Processes.process IN 
+  (*create*, *addfile*, *setnotifyflags*, *setnotifycmdline*, *setminretrydelay*, *setcustomheaders*, *resume* ) by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `bits_job_persistence_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited false positives will be present. Typically, applications will use `BitsAdmin.exe`. Any filtering should be done based on command-line arguments (legitimate applications) or parent process.
+references:
+- https://attack.mitre.org/techniques/T1197/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md#atomic-test-3---persist-download--execute
+- https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+tags:
+  analytic_story:
+  - BITS Jobs
+  dataset: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1197
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.user
+  - Processes.dest
+  security_domain: endpoint
