@@ -205,7 +205,6 @@ jobs:
               mv dist/mustang DA-ESS-ContentUpdate-Mustang
               slim package -o upload DA-ESS-ContentUpdate
               slim package -o upload DA-ESS-ContentUpdate-Mustang
-              cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
       - store_artifacts:
           path: ~/build/upload
           destination: package/
