@@ -76,9 +76,8 @@ def request_headers(header_token):
 
 
 def check_source_sink(spl):
-    match_source = re.match(r"^\s*\|\s+from\s+read_ssa_enriched_events\(\s*\)", spl)
     match_sink = re.search(r"\|\s*into\s+write_ssa_detected_events\(\s*\)\s*;", spl)
-    return match_source and match_sink
+    return match_sink
 
 
 def manipulate_spl(env, spl, results_index):
