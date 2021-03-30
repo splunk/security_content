@@ -202,11 +202,11 @@ jobs:
               tar -zxf content-pack-build-escu.tar.gz
               tar -zxf content-pack-build-mustang.tar.gz
               mv dist/escu DA-ESS-ContentUpdate
-              mv dist/mustang DA-ESS-ContentUpdate-Mustang
+              mv dist/mustang DA-ESS-ContentUpdateMustang
               slim package -o upload DA-ESS-ContentUpdate
-              slim package -o upload DA-ESS-ContentUpdate-Mustang
-              cp upload/DA-ESS-ContentUpdate-3.18.0.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
-              cp upload/DA-ESS-ContentUpdate-Mustang-3.18.0.tar.gz DA-ESS-ContentUpdate-Mustang-latest.tar.gz
+              slim package -o upload DA-ESS-ContentUpdateMustang
+              cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+              cp upload/DA-ESS-ContentUpdateMustang-*tar.gz DA-ESS-ContentUpdateMustang-latest.tar.gz
       - store_artifacts:
           path: ~/build/upload
           destination: package/
@@ -214,7 +214,7 @@ jobs:
           root: ~/build
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-             - DA-ESS-ContentUpdate-Mustang-latest.tar.gz
+             - DA-ESS-ContentUpdateMustang-latest.tar.gz
 
   run-appinspect:
     executor: content-executor
