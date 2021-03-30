@@ -74,7 +74,7 @@ def generate(args):
         sys.exit(1)
 
     print("contentctl is generating a new splunk_app under ".format(output))
-    generator.main(security_content_path, args.output, args.verbose)
+    generator.main(security_content_path, args.output, args.category, args.verbose)
 
 
 def main(args):
@@ -111,6 +111,8 @@ def main(args):
                                  help="Format of our deployment package, defaults to `splunk_app`.\n The deployment `splunk_app` runs on product Splunk Enterprise Security and Splunk Enterprise.")
     generate_parser.add_argument("-o", "--output", required=False, type=str, default="package",
                                      help="Path where to store the deployment package, defaults to `package`")
+    generate_parser.add_argument("-c", "--category", required=False, type=str, default="ESCU",
+                                 help="Type of package to create, choose between `ESCU`, or `MUSTANG`. Defaults to `ESCU`")                            
     generate_parser.set_defaults(func=generate)
 
     # # parse them
