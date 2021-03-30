@@ -602,7 +602,7 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 
 
-def main(REPO_PATH, OUTPUT_PATH, CATEGORY, VERBOSE):
+def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
@@ -619,7 +619,7 @@ def main(REPO_PATH, OUTPUT_PATH, CATEGORY, VERBOSE):
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
     detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
-    if CATEGORY == "MUSTANG": detections = [object for object in detections if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+    if PRODUCT == "MUSTANG": detections = [object for object in detections if 'Splunk Security Analytics for AWS' in object['tags']['product']]
     
     try:
         if VERBOSE:
@@ -644,7 +644,7 @@ def main(REPO_PATH, OUTPUT_PATH, CATEGORY, VERBOSE):
     # only use ESCU stories to the configuration
     stories = sorted(filter(lambda s: s['type'].lower() == 'batch', stories), key=lambda s: s['name'])
 
-    if CATEGORY == "MUSTANG": stories = [object for object in stories if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+    if PRODUCT == "MUSTANG": stories = [object for object in stories if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
 
     story_path = generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
@@ -675,13 +675,13 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
-    parser.add_argument("-c", "--category", required=True, default="ESCU", help="package type")
+    parser.add_argument("--product", required=True, default="ESCU", help="package type")
 
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
-    CATEGORY = args.category
+    PRODUCT = args.product
 
-    main(REPO_PATH, OUTPUT_PATH, CATEGORY, VERBOSE)
+    main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
