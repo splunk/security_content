@@ -124,8 +124,8 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python contentctl.py --path . --verbose generate --category ESCU --output dist/escu
-            python contentctl.py --path . --verbose generate --category MUSTANG --output dist/mustang
+            python contentctl.py --path . --verbose generate --product ESCU --output dist/escu
+            python contentctl.py --path . --verbose generate --product MUSTANG --output dist/mustang
             # make a copy of use_case_lib in order to have ES work :-(
             cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
             cp dist/mustang/default/use_case_library.conf dist/mustang/default/analyticstories.conf
@@ -205,6 +205,8 @@ jobs:
               mv dist/mustang DA-ESS-ContentUpdate-Mustang
               slim package -o upload DA-ESS-ContentUpdate
               slim package -o upload DA-ESS-ContentUpdate-Mustang
+              cp upload/DA-ESS-ContentUpdate-3.18.0.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+              cp upload/DA-ESS-ContentUpdate-Mustang-3.18.0.tar.gz DA-ESS-ContentUpdate-Mustang-latest.tar.gz
       - store_artifacts:
           path: ~/build/upload
           destination: package/
