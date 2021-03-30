@@ -6,5 +6,5 @@ tests:
     description: Test illegal service and process control detections
     attack_data:
       - file_name: logAllMimikatzModules.log
-        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllMimikatzModules.log
-
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log
+        source: WinEventLog:Security

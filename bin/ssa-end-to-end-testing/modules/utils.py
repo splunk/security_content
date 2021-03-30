@@ -76,9 +76,8 @@ def request_headers(header_token):
 
 
 def check_source_sink(spl):
-    match_source = re.match(r"^\s*\|\s+from\s+read_ssa_enriched_events\(\s*\)", spl)
     match_sink = re.search(r"\|\s*into\s+write_ssa_detected_events\(\s*\)\s*;", spl)
-    return match_source and match_sink
+    return match_sink
 
 
 def manipulate_spl(env, spl, results_index):
@@ -120,17 +119,19 @@ def read_data(file_name):
     date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
     count = len(open(modified_file).readlines())
     i = 0
+    tmp_counter = 0
     for line in fileinput.input(files=modified_file):
         i = i + 1
         if event != "" and re.match(date_rex, line):
             data.append(event)
+            tmp_counter = 0
             event = line
         else:
+            tmp_counter = tmp_counter + 1
             event = event + line
 
-        if i == count:
-            if len(data) == 0:
-                data.append(event)
+        if i == count and tmp_counter > 10:
+            data.append(event)
 
     return data
 
