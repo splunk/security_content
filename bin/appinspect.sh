@@ -46,7 +46,7 @@ do
 	# REPORT FINISHED CHECK RESULTS
     then
     	echo "appinspect completed inspection"
-        curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: text/html' -o report/appinspect_report.html
+        curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: text/html' -o report/appinspect_report_$PACKAGE_NAME.html
         FAILS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r '.summary | .failure')
         ERRORS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/report/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" --header 'Content-Type: application/json' | jq -r '.summary | .error')
         if [ $FAILS -gt 0 -o $ERRORS -gt 0 ]
