@@ -1,7 +1,7 @@
 name: DSQuery Domain Discovery Unit Test
 tests:
 - name: DSQuery Domain Discovery
-  file: detections/endpoint/dsquery_domain_discovery.yml
+  file: endpoint/dsquery_domain_discovery.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
