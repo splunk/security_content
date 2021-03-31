@@ -619,8 +619,12 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
     detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
-    if PRODUCT == "MUSTANG": detections = [object for object in detections if 'Splunk Security Analytics for AWS' in object['tags']['product']]
-    
+    if PRODUCT == "MUSTANG": 
+        detections = [object for object in detections if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+        stories = [object for object in stories if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+        baselines = [object for object in baselines if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+        response_tasks = [object for object in response_tasks if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+
     try:
         if VERBOSE:
             print("generating Mitre lookups")
@@ -644,7 +648,6 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     # only use ESCU stories to the configuration
     stories = sorted(filter(lambda s: s['type'].lower() == 'batch', stories), key=lambda s: s['name'])
 
-    if PRODUCT == "MUSTANG": stories = [object for object in stories if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
 
     story_path = generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
