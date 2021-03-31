@@ -8,9 +8,13 @@ datamodel:
 - Endpoint
 description: 'The following analytic identifies "dsquery.exe" execution with arguments looking for `TrustedDomain` query directly on the command-line. This is typically indicative of an Administrator or adversary perform domain trust discovery. Note that this query does not identify any other variations of "Dsquery.exe" usage.\
   Within this detection, it is assumed `dsquery.exe` is not moved or renamed.\
+
   The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "dsquery.exe" and its parent process.\
-  DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64` and only on Server operating systems.\ 
+
+  DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64` and only on Server operating system.\ 
+
   The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it is possible dsquery is running within that process context in memory.\
+  
   In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=dsquery.exe
