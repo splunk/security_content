@@ -236,10 +236,15 @@ jobs:
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - run:
-          name: submit package to appinspect API
+          name: submit ESCU package to appinspect API
           command: |
             cd security-content/bin
-            ./appinspect.sh ~/ $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
+            ./appinspect.sh ~/ DA-ESS-ContentUpdate-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
+      - run:
+          name: submit MUSTANG package to appinspect API
+          command: |
+            cd security-content/bin
+            ./appinspect.sh ~/ DA-ESS-ContentUpdateMustang-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD            
       - store_artifacts:
           path: ~/report
           destination: report/
