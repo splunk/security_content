@@ -9,7 +9,8 @@ datamodel:
 description: The following query identifies Microsoft Background Intelligent Transfer
   Service utility `bitsadmin.exe` scheduling a BITS job to persist on an endpoint.
   The query identifies the parameters used to create, resume or add a file to a BITS
-  job
+  job. Typically seen combined in a oneliner or ran in sequence. If identified, review the BITS job created and capture any files written to disk. It is possible for BITS to be used to upload files and this may require further network data analysis to identify. You can use `bitsadmin /list /verbose`
+  to list out the jobs during investigation.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=bitsadmin.exe
   Processes.process IN (*create*, *addfile*, *setnotifyflags*, *setnotifycmdline*,
