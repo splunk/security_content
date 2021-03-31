@@ -1,0 +1,44 @@
+name: Disable Registry Tool
+id: cd2cf33c-9201-11eb-a10a-acde48001122
+version: 1
+date: '2021-03-31'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to identifies modification of registry to disable the regedit or registry tools of windows operating system.
+  Since registry tool is a swiss knife in analyzing registry, malware such as RAT or trojan Spy disable this application to prevent the removal 
+  of their registry entry such as persistence, file less components and defense evasion.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools" 
+  Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` 
+  | `disable_registry_tool_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config
+  files ex. sysmon config to be monitored.
+known_false_positives: admin may disable this application for non technical user.
+references:
+- https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+tags:
+  analytic_story:
+  -  Windows Defense Evasion Tactics
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1562.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  security_domain: endpoint
