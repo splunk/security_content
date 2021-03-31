@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: 'The following analytic identifies "dsquery.exe" execution with arguments looking for `TrustedDomain` query directly on the command-line. This is typically indicative of an Administrator or adversary perform domain trust discovery. Note that this query does not identify any other variations of "Dsquery.exe" usage.\
 
-  Within this detection, it is assumed `dsquery.exe` is not moved or renamed. \
+  Within this detection, it is assumed `dsquery.exe` is not moved or renamed.\
 
   The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "dsquery.exe" and its parent process.\
 
@@ -23,7 +23,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `dsquery_domain_discovery_filter`'
+  | `security_content_ctime(lastTime)` 
+  | `dsquery_domain_discovery_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
