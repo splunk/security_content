@@ -1,7 +1,7 @@
 name: Disabling Firewall with Netsh Unit Test
 tests:
 - name: Disabling Firewall with Netsh
-  file: detections/endpoint/disabling_firewall_with_netsh.yml
+  file: endpoint/disabling_firewall_with_netsh.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

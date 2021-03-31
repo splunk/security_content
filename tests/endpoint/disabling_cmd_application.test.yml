@@ -1,7 +1,7 @@
 name: Disabling CMD Application Unit Test
 tests:
 - name: Disabling CMD Application
-  file: detections/endpoint/disabling_cmd_application.yml
+  file: endpoint/disabling_cmd_application.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

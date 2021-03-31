@@ -1,7 +1,7 @@
 name: Disable Windows Behavior Monitoring Unit Test
 tests:
 - name: Disable Windows Behavior Monitoring
-  file: detections/endpoint/disable_windows_behavior_monitoring.yml
+  file: endpoint/disable_windows_behavior_monitoring.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

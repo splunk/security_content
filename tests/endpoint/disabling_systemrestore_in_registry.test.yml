@@ -1,7 +1,7 @@
 name: Disabling SystemRestore In Registry Unit Test
 tests:
 - name: Disabling SystemRestore In Registry
-  file: detections/endpoint/disabling_systemrestore_in_registry.yml
+  file: endpoint/disabling_systemrestore_in_registry.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

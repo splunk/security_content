@@ -1,7 +1,7 @@
 name: Disable Windows SmartScreen Protection Unit Test
 tests:
 - name: Disable Windows SmartScreen Protection
-  file: detections/endpoint/disable_windows_smartscreen_protection.yml
+  file: endpoint/disable_windows_smartscreen_protection.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

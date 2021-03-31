@@ -1,7 +1,7 @@
 name: Disable Show Hidden Files Unit Test
 tests:
 - name: Disable Show Hidden Files
-  file: detections/endpoint/disable_show_hidden_files.yml
+  file: endpoint/disable_show_hidden_files.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

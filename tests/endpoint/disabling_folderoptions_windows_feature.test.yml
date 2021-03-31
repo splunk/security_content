@@ -1,7 +1,7 @@
 name: Disabling FolderOptions Windows Feature Unit Test
 tests:
 - name: Disabling FolderOptions Windows Feature
-  file: detections/endpoint/disabling_folderoptions_windows_feature.yml
+  file: endpoint/disabling_folderoptions_windows_feature.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
