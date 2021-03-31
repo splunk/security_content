@@ -14,7 +14,7 @@ description: 'The following analytic identifies "dsquery.exe" execution with arg
 
   DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64` and only on Server operation systems.\ 
 
-  The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it's possible dsquery is running within that process context in memory.\
+  The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it is possible dsquery is running within that process context in memory.\
   
   In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
