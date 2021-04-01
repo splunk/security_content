@@ -252,6 +252,7 @@ jobs:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
+             - DA-ESS-ContentUpdateMustang-latest.tar.gz
   update-sources-github:
     executor: content-executor
     steps:
