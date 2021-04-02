@@ -124,47 +124,60 @@ jobs:
           command: |
             cd security-content
             source venv/bin/activate
-            python contentctl.py --path . --verbose generate --output package
+            python contentctl.py --path . --verbose generate --product ESCU --output dist/escu
+            python contentctl.py --path . --verbose generate --product MUSTANG --output dist/mustang
             # make a copy of use_case_lib in order to have ES work :-(
-            cp package/default/use_case_library.conf package/default/analyticstories.conf
+            cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
+            cp dist/mustang/default/use_case_library.conf dist/mustang/default/analyticstories.conf
       - run:
           name: copy lookups .csv files
           command: |
             cd security-content
             # clean up current lookups
-            rm -rf package/lookups
-            mkdir package/lookups
+            rm -rf dist/escu/lookups
+            rm -rf dist/mustang/lookups
+            mkdir dist/escu/lookups
+            mkdir dist/mustang/lookups
             # copy over lookups
             cd lookups
-            cp -rv *.csv ../package/lookups
+            cp -rv *.csv ../dist/escu/lookups
+            cp -rv *.csv ../dist/mustang/lookups
       - run:
           name: update version and build number
           command: |
             cd security-content
             # check if tag is set, get build number from the tag if set
             if [ -z "${CIRCLE_TAG}" ]; then
-                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" package/default/content-version.conf)
+                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
             else
                 CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d+.\d+.\d+")
                 echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
             fi
-            # update build number and version
-            sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" package/default/app.conf
-            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" package/default/app.conf
-            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" package/app.manifest
-            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" package/default/content-version.conf
-            tar -czf content-pack-build.tar.gz package/*
+            # update build number and version for ESCU
+            sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" dist/escu/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
+            tar -czf content-pack-build-escu.tar.gz dist/escu/*
+            # update build number and version for MUSTANG
+            sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" dist/mustang/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/mustang/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/mustang/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/mustang/default/content-version.conf
+            tar -czf content-pack-build-mustang.tar.gz dist/mustang/*
+
       - persist_to_workspace:
           root: security-content/
           paths:
-              - content-pack-build.tar.gz
+              - content-pack-build-escu.tar.gz
+              - content-pack-build-mustang.tar.gz
 
   build-package:
     executor: content-executor
     steps:
       - attach_workspace:
-          at: ~/dist
+          at: ~/build
       - run:
           name: grab splunk packaging toolkit
           command: |
@@ -185,18 +198,23 @@ jobs:
           name: create a .spl for this build using slim
           command: |
               source ~/slim-latest/venv/bin/activate
-              cd ~/dist
-              tar -zxf content-pack-build.tar.gz
-              mv package DA-ESS-ContentUpdate
+              cd ~/build
+              tar -zxf content-pack-build-escu.tar.gz
+              tar -zxf content-pack-build-mustang.tar.gz
+              mv dist/escu DA-ESS-ContentUpdate
+              mv dist/mustang DA-ESS-ContentUpdateMustang
               slim package -o upload DA-ESS-ContentUpdate
-              cp upload/*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+              slim package -o upload DA-ESS-ContentUpdateMustang
+              cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+              cp upload/DA-ESS-ContentUpdateMustang-*tar.gz DA-ESS-ContentUpdateMustang-latest.tar.gz
       - store_artifacts:
-          path: ~/dist/upload
+          path: ~/build/upload
           destination: package/
       - persist_to_workspace:
-          root: ~/dist
+          root: ~/build
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
+             - DA-ESS-ContentUpdateMustang-latest.tar.gz
 
   run-appinspect:
     executor: content-executor
@@ -218,10 +236,15 @@ jobs:
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - run:
-          name: submit package to appinspect API
+          name: submit ESCU package to appinspect API
           command: |
             cd security-content/bin
-            ./appinspect.sh ~/ $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
+            ./appinspect.sh ~/ DA-ESS-ContentUpdate-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
+      - run:
+          name: submit MUSTANG package to appinspect API
+          command: |
+            cd security-content/bin
+            ./appinspect.sh ~/ DA-ESS-ContentUpdateMustang-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD            
       - store_artifacts:
           path: ~/report
           destination: report/
@@ -229,6 +252,7 @@ jobs:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
+             - DA-ESS-ContentUpdateMustang-latest.tar.gz
   update-sources-github:
     executor: content-executor
     steps:
