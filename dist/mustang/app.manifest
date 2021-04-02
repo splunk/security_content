@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0", 
   "info": {
-    "title": "ES Content Updates", 
+    "title": "Splunk Security Analytics for AWS Content", 
     "id": {
       "group": null, 
       "name": "DA-ESS-ContentUpdateMustang", 
@@ -15,7 +15,7 @@
       }
     ], 
     "releaseDate": null, 
-    "description": "Explore the Analytic Stories included with ES Content Updates.", 
+    "description": "Explore the Analytic Stories included with Splunk Security Analytics for AWS Content", 
     "classification": {
       "intendedAudience": null, 
       "categories": [], 
