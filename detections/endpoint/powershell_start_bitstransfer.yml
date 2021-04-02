@@ -1,0 +1,52 @@
+name: PowerShell Start-BitsTransfer
+id: 39e2605a-90d8-11eb-899e-acde48001122
+version: 1
+date: '2021-03-29'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar
+  functionality is present. This technique variation is not as commonly used by adversaries,
+  but has been abused in the past. Lesser known uses include the ability to set the
+  `-TransferType` to `Upload` for exfiltration of files. In an instance where `Upload`
+  is used, it is highly possible files will be archived. During triage, review parallel
+  processes and process lineage. Capture any files on disk and review. For the remote
+  domain or IP, what is the reputation?
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
+  Processes.process=*start-bitstransfer* by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `powershell_start_bitstransfer_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited false positives. It is possible administrators will
+  utilize Start-BitsTransfer for administrative tasks, otherwise filter based parent
+  process or command-line arguments.
+references:
+- https://isc.sans.edu/diary/Investigating+Microsoft+BITS+Activity/23281
+- https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
+tags:
+  analytic_story:
+  - BITS Jobs
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1197
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.user
+  - Processes.dest
+  security_domain: endpoint
+  automated_detection_testing: passed

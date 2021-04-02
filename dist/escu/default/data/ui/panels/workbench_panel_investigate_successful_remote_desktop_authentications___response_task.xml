@@ -1,0 +1,9 @@
+<panel>
+  <table>
+    <search>
+      <query>| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature_id=4624 Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app Authentication.user Authentication.signature Authentication.src_nt_domain | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name("Authentication")` | search dest=$dest$ | table firstTime lastTime src src_nt_domain dest user app count | sort count</query>
+    </search>
+    <option name="drilldown">cell</option>
+    <option name="wrap">false</option>
+  </table>
+</panel>
