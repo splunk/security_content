@@ -8190,7 +8190,7 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" by Processes.parent_process_name Processes.process_name Processes.process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name != "*temp.dat*" Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" by Processes.parent_process_name Processes.process_name Processes.process Processes.dest Processes.user Processes.process_id Processes.process_guid 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
