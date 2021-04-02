@@ -3096,7 +3096,7 @@ _version_: 1
 ### AWS Network ACL Activity
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
 - **Last Updated**: 2018-05-21
@@ -3143,7 +3143,7 @@ _version_: 2
 ### AWS Security Hub Alerts
 This story is focused around detecting Security Hub alerts generated from AWS
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: 
 - **Last Updated**: 2020-08-04
@@ -3267,7 +3267,7 @@ _version_: 1
 ### Cloud Cryptomining
 Monitor your cloud compute instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or compute instances started by previously unseen users are just a few examples of potentially malicious behavior.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
 - **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1535](https://attack.mitre.org/techniques/T1535/)
 - **Last Updated**: 2019-10-02
@@ -3313,7 +3313,7 @@ _version_: 1
 ### Cloud Federated Credential Abuse
 This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim's cloud environements.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
 - **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1136.003](https://attack.mitre.org/techniques/T1136.003/), [T1546.012](https://attack.mitre.org/techniques/T1546.012/), [T1556](https://attack.mitre.org/techniques/T1556/)
 - **Last Updated**: 2021-01-26
@@ -3615,7 +3615,7 @@ _version_: 1
 ### Office 365 Detections
 This story is focused around detecting Office 365 Attacks.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1110](https://attack.mitre.org/techniques/T1110/), [T1110.001](https://attack.mitre.org/techniques/T1110.001/), [T1114](https://attack.mitre.org/techniques/T1114/), [T1114.002](https://attack.mitre.org/techniques/T1114.002/), [T1114.003](https://attack.mitre.org/techniques/T1114.003/), [T1136.003](https://attack.mitre.org/techniques/T1136.003/), [T1556](https://attack.mitre.org/techniques/T1556/), [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
 - **Last Updated**: 2020-12-16
@@ -3733,7 +3733,7 @@ _version_: 1
 ### Suspicious AWS Login Activities
 Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
 - **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1535](https://attack.mitre.org/techniques/T1535/)
 - **Last Updated**: 2019-05-01
@@ -3777,7 +3777,7 @@ _version_: 1
 ### Suspicious AWS S3 Activities
 Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1530](https://attack.mitre.org/techniques/T1530/)
 - **Last Updated**: 2018-07-24
@@ -3860,7 +3860,7 @@ _version_: 1
 ### Suspicious Cloud Authentication Activities
 Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
 - **ATT&CK**: [T1535](https://attack.mitre.org/techniques/T1535/)
 - **Last Updated**: 2020-06-04
@@ -3908,7 +3908,7 @@ _version_: 1
 ### Suspicious Cloud Instance Activities
 Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
 - **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
 - **Last Updated**: 2020-08-25
@@ -3949,7 +3949,7 @@ _version_: 1
 ### Suspicious Cloud Provisioning Activities
 Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/)
 - **Last Updated**: 2018-08-20
@@ -3990,7 +3990,7 @@ _version_: 1
 ### Suspicious Cloud User Activities
 Detect and investigate suspicious activities by users and roles in your cloud environments.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
 - **Last Updated**: 2020-09-04
@@ -4658,7 +4658,7 @@ _version_: 1
 ### Ransomware Cloud
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1486](https://attack.mitre.org/techniques/T1486/)
 - **Last Updated**: 2020-10-27

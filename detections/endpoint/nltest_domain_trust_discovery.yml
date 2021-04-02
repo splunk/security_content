@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Ryuk Ransomware
+  - Domain Trust Discovery
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
