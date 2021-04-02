@@ -30,7 +30,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
 tags:
   analytic_story:
-  - Bits Jobs
+  - BITS Jobs
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
