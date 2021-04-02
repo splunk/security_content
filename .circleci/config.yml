@@ -464,7 +464,9 @@ workflows:
             - build-package
           filters:
             tags:
-              only: /.*/
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - create-report:
           requires:
             - validate-content
@@ -474,6 +476,8 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
       - update-sources-github:
         # update package and docs in github if is a tag
           requires:
