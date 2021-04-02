@@ -25,7 +25,15 @@ PACKAGE_PATH="/home/circleci/"$PACKAGE_NAME
 
 
 cd $APP_PATH
-mkdir report
+
+# check if report exists
+if [ -d report ]
+then
+    echo "report/ Directory exists"
+else
+	mkdir report
+fi
+
 # get a JWT token
 AUTH_TOKEN=$(echo -n "$USERNAME:$PASSWORD" | base64)
 APPINSPECT_TOKEN=$(curl -s --location --request GET 'https://api.splunk.com/2.0/rest/login/splunk' --header "Authorization: Basic $AUTH_TOKEN" | jq -r '.data | .token')
