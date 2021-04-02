@@ -1,0 +1,66 @@
+name: DSQuery Domain Discovery
+id: cc316032-924a-11eb-91a2-acde48001122
+version: 1
+date: '2021-03-31'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: 'The following analytic identifies "dsquery.exe" execution with arguments
+  looking for `TrustedDomain` query directly on the command-line. This is typically
+  indicative of an Administrator or adversary perform domain trust discovery. Note
+  that this query does not identify any other variations of "Dsquery.exe" usage.\
+  
+  Within this detection, it is assumed `dsquery.exe` is not moved or renamed.\
+
+  The search will return the first time and last time these command-line arguments
+  were used for these executions, as well as the target system, the user, process
+  "dsquery.exe" and its parent process.\
+
+  DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`
+  and only on Server operating system.\
+
+  The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found
+  loaded by another process, it is possible dsquery is running within that process
+  context in memory.\
+
+  In addition to trust discovery, review parallel processes for additional behaviors
+  performed. Identify the parent process and capture any files (batch files, for example)
+  being used.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=dsquery.exe
+  Processes.process=*trustedDomain* by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `dsquery_domain_discovery_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited false positives. If there is a true false positive,
+  filter based on command-line or parent process.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md
+- http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732952(v=ws.11)
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc754232(v=ws.11)
+tags:
+  analytic_story:
+  - Domain Trust Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1482
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.user
+  - Processes.dest
+  security_domain: endpoint
+  automated_detection_testing: passed
