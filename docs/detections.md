@@ -9483,7 +9483,7 @@ This detection is to identify a creation of "user mode service" where the servic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1569.001, T1569.002](https://attack.mitre.org/techniques/T1569.001, T1569.002/)
+- **ATT&CK**: [T1569.001](https://attack.mitre.org/techniques/T1569.001/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2021-03-12
 
 <details>
@@ -9525,7 +9525,8 @@ To successfully implement this search, you need to be ingesting logs with the Se
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-|  |  |  |
+| T1569.001 | Launchctl | Execution |
+| T1569.002 | Service Execution | Execution |
 
 
 #### Kill Chain Phase
@@ -13182,7 +13183,7 @@ This search detects a potential kerberoasting attack via service principal name 
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID 
 | eval start_time=_time, end_time=_time, body="TBD", entities="TBD" 
 | select start_time, end_time, entities, body 
-| into write_ssa_detected_events(); 
+| into write_null(); 
 ```
 #### Associated Analytic Story
 
@@ -14191,14 +14192,15 @@ This search looks for specific authentication events from the Windows Security E
 #### Search
 ```
  
-| from read_ssa_enriched_events() 
-| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), LogonType=map_get(input_event, "logon_type"), LogonProcess=map_get(input_event, "logon_process"), ComputerName=map_get(input_event, "dest_ip_primary_artifact"), AccountName=map_get(input_event, "dest_user_primary_artifact") 
-| where (LogonType="3" AND LogonProcess="NtLmSsp" AND AccountName IS NOT NULL) OR (LogonType="9" AND LogonProcess="seclogo") 
-| first_time_event input_columns=["EventCode","LogonProcess","ComputerName"] 
-| where first_time_EventCode_LogonProcess_ComputerName 
-| eval start_time=_time, end_time=_time, body="TBD", entities="TBD" 
-| select start_time, end_time, entities, body 
-| into write_ssa_detected_events(); 
+| from read_ssa_enriched_events()
+
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval signature_id=map_get(input_event, "signature_id"), authentication_type=map_get(input_event, "authentication_type"), authentication_method=map_get(input_event, "authentication_method"), origin_device_domain=map_get(input_event, "origin_device_domain"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+
+| where (authentication_type="3" AND authentication_method="NtLmSsp") OR (authentication_type="9" AND authentication_method="seclogo")
+
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body="TBD" 
+| into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
 
@@ -21017,7 +21019,7 @@ None identified.
 
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569/logAllMimikatzModules.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log
 
 
 _version_: 1
@@ -21094,7 +21096,7 @@ None identified.
 
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569/logAllPowerSploitModulesWithOldNames.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
 
 
 _version_: 1
@@ -22984,7 +22986,7 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000L 
 | where label AND quantile>0.99 
 | eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body = "TBD" 
-| into write_ssa_detected_events();
+| into write_null();
 ```
 #### Associated Analytic Story
 
