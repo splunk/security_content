@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
+  - Ingress Tool Transfer
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
