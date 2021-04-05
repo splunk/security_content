@@ -1,5 +1,7 @@
 <nav search_view="search" color="#65A637">
   <view name="escu_summary" default="true"/>
+  <view name="analytic_story_details"/>
+  <view name="explore_analytic_stories"/>
   <view name="feedback"/>
   <view name="search"/>
   <view name="escu_usage"/>
