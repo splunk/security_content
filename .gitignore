@@ -4,6 +4,9 @@ detections/*/.yml.example
 stories/*.yml.example
 tests/*/*.yml.example
 
+# IDE
+.vscode/
+
 # usual mac files
 .DS_Store
 #vim files
