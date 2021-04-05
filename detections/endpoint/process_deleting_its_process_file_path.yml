@@ -1,0 +1,53 @@
+name: Process Deleting Its Process File Path
+id: f7eda4bc-871c-11eb-b110-acde48001122
+version: 1
+date: '2021-03-17'
+author: Teoderick Contreras
+type: batch
+datamodel:
+- Endpoint
+description: This detection is to identify a suspicious process that tries to delete
+  the process file path related to its process. This technique is known to be defense
+  evasion once a certain condition of malware is satisfied or not. Clop ransomware
+  use this technique where it will try to delete its process file path using a .bat
+  command if the keyboard layout is not the layout it tries to infect.
+search: '`sysmon` EventCode=1 cmdline = "*/c del*" Image = "*\\cmd.exe" |eval result
+  = if(like(process,"%".parent_process."%"), "Found", "Not Found") | stats min(_time)
+  as firstTime max(_time) as lastTime count by Computer user ParentImage ParentCommandLine
+  Image cmdline EventCode ProcessID result | where result = "Found" | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `process_deleting_its_process_file_path_filter`'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: unknown
+references:
+- https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+tags:
+  analytic_story:
+  - Clop Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1003.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - EventCode
+  - Computer
+  - user
+  - ParentImage
+  - ParentCommandLine
+  - Image
+  - cmdline
+  - ProcessID
+  - result
+  - _time
+  security_domain: endpoint

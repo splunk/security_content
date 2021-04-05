@@ -6,9 +6,9 @@ http://example.com/example.json
 
 schema for detections
 
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                    |
-| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :---------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Allowed               | none                | [detections.spec.json](../../out/detections.spec.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                     |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Allowed               | none                | [detections.spec.json](../../spec/detections.spec.json "open original schema") |
 
 ## Detection Schema Type
 
@@ -29,6 +29,7 @@ schema for detections
 | [search](#search)                               | `string`  | Required | cannot be null | [Detection Schema](detections-properties-search.md "#/properties/search#/properties/search")                                              |
 | [tags](#tags)                                   | `object`  | Required | cannot be null | [Detection Schema](detections-properties-tags.md "#/properties/tags#/properties/tags")                                                    |
 | [type](#type)                                   | `string`  | Required | cannot be null | [Detection Schema](detections-properties-type.md "#/properties/type#/properties/type")                                                    |
+| [datamodel](#datamodel)                         | `array`   | Optional | cannot be null | [Detection Schema](detections-properties-datamodel.md "#/properties/datamodel#/properties/datamodel")                                     |
 | [version](#version)                             | `integer` | Required | cannot be null | [Detection Schema](detections-properties-version.md "#/properties/version#/properties/version")                                           |
 | Additional Properties                           | Any       | Optional | can be null    |                                                                                                                                           |
 
@@ -351,6 +352,31 @@ type of detection
 
 ```yaml
 streaming
+
+```
+
+## datamodel
+
+datamodel used in the search
+
+`datamodel`
+
+*   is optional
+
+*   Type: `string[]`
+
+*   cannot be null
+
+*   defined in: [Detection Schema](detections-properties-datamodel.md "#/properties/datamodel#/properties/datamodel")
+
+### datamodel Type
+
+`string[]`
+
+### datamodel Examples
+
+```yaml
+Endpoint
 
 ```
 
