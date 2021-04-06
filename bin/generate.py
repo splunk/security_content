@@ -133,6 +133,8 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
             baseline['data_model'] = data_model
+        if (OUTPUT_PATH) == 'dist/mustang':
+            baseline['disabled'] = 'false'
 
         matched_deployment = get_deployments(baseline, deployments)
         baseline['deployment'] = matched_deployment

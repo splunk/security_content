@@ -138,7 +138,11 @@ action.escu.how_to_implement = {{ baseline.how_to_implement }}
 {% else %}
 action.escu.how_to_implement = none
 {% endif %}
+{% if baseline.disabled is defined %}
+disabled = false
+{% else %}
 disabled = true
+{% endif %}
 is_visible = false
 search = {{ baseline.search }}
 
