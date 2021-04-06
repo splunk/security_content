@@ -1,9 +1,9 @@
-name: More than usual number of LOLBAS applications in short time period - SSA Unit Test
+name: First Time Seen DLLs LOLBAS - SSA Unit Test
 tests:
-  - name: More than usual number of LOLBAS applications in short time period
+  - name: Detection of first time seen DLL's
     file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
     pass_condition: '@count_gt(0)'
-    description: Test more than usual lolbas being executed in a short period of time
+    description: Test for first time seen DLLs across windows endpoints
     attack_data:
       - file_name: T1059.all.labeled.lolbas-test.json
         data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json

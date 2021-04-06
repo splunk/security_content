@@ -7,5 +7,4 @@ tests:
     attack_data:
       - file_name: T1550.002.json
         data: https://attack-range-attack-data.s3-us-west-2.amazonaws.com/T1550.002/T1550.002.json
-
 | from read_text("s3://smle-experiments/datasets/ssa/WindowsEventSample.log.sep.sorted.gz")
