@@ -82,7 +82,11 @@ action.email.useNSSubject = 1
 {% endif %}
 {% endif %}
 alert.digest_mode = 1
+{% if detection.disabled is defined %}
+disabled = false
+{% else %}
 disabled = true
+{% endif %}
 enableSched = 1
 counttype = number of events
 relation = greater than
