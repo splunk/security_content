@@ -1,0 +1,51 @@
+name: Disable Windows Behavior Monitoring
+id: 79439cae-9200-11eb-a4d3-acde48001122
+version: 1
+date: '2021-03-31'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to identifies a modification in registry to disable the
+  windows denfender real time behavior monitoring. This event or technique is commonly
+  seen in RAT, bot, or Trojan to disable AV to evade detections.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows
+  Defender\\Real-Time Protection\\DisableBehaviorMonitoring" OR Registry.registry_path=
+  "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection"
+  OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time
+  Protection\\DisableScanOnRealtimeEnable" Registry.registry_value_name = "DWORD (0x00000001)"
+  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `disable_windows_behavior_monitoring_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: admin or user may choose to disable this windows features.
+references:
+- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1562.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
