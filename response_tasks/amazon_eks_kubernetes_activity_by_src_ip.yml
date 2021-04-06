@@ -19,5 +19,6 @@ tags:
   - Kubernetes Scanning Activity
   product:
   - Splunk Phantom
+  - Splunk Security Analytics for AWS
 type: response
 version: 1
