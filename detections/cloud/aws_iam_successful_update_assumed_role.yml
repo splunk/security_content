@@ -1,0 +1,38 @@
+name: AWS IAM Successful Update Assumed Role
+id: 63787a0e-9302-11eb-961a-acde48001122
+version: 1
+date: '2021-04-01'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: The following detection identifies a succesful account assuming a role - receiving access. 
+search: '`cloudtrail` index="aws-cloudtrail"  sourcetype=aws:cloudtrail  eventName=UpdateAssumeRolePolicy errorCode=success
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.roleName) as role by src eventName eventSource aws_account_id errorCode requestParameters.policyDocument userAgent eventID awsRegion userIdentity.principalId user_arn 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `aws_iam_successful_update_assumed_role_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to grant role access (least privilege). 
+references:
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html
+- https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities/
+- https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset: []
+  kill_chain_phases:
+  - Privilege Escalation
+  mitre_attack_id: []
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Security Analytics for AWS
+  required_fields:
+  - _time
+  - eventName
+  - userAgent
+  - errorCode
+  - requestParameters.roleName
+  security_domain: access

@@ -1,0 +1,39 @@
+name: AWS IAM Successful Group Deletion
+id: e776d06c-9267-11eb-819b-acde48001122
+version: 1
+date: '2021-03-31'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: The following query uses IAM events to track the success of a group being deleted on AWS. This is typically not indicative of malicious behavior, but a precurser to additional events thay may unfold. Review parallel IAM events - recently added users, new groups and so forth. Inversely, review failed attempts in a similar manner.
+search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success 
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) as group_name by src eventName eventSource aws_account_id errorCode errorMessage userAgent eventID awsRegion userIdentity.principalId user_arn 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `aws_iam_successful_group_deletion_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege). 
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset: []
+  kill_chain_phases:
+  - Denial of Service
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1069.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Security Analytics for AWS
+  required_fields:
+  - _time
+  - eventName
+  - userAgent
+  - errorCode
+  - requestParameters.groupName
+  security_domain: identity

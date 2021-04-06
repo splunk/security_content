@@ -1,0 +1,47 @@
+name: AWS IAM AccessDenied Discovery Events
+id: 3e1f1568-9633-11eb-a69c-acde48001122
+version: 1
+date: '2021-04-05'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+description: The following detection identifies excessive AccessDenied events within an hour timeframe
+search: '`cloudtrail` errorCode = "AccessDenied" userIdentity.type=IAMUser
+| bucket _time span=1h 
+| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources values(userIdentity.arn) by src_ip, userIdentity.arn, _time
+| where failures >= 5 and methods >= 1 and sources >= 1
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `aws_iam_accessdenied_discovery_events_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Security Analytics for AWS
+  required_fields:
+  - _time
+  - eventName
+  - eventSource
+  - userAgent
+  - errorCode
+  - userIdentity.type
+  security_domain: access
+
+  index=aws_all errorCode = "AccessDenied"
+| bucket _time span=1h 
+| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(src)  by _time, "userIdentity.type", eventSource, errorMessage,errorCode src_ip, userName
+| where failures >= 5
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`

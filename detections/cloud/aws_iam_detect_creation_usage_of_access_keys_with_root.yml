@@ -1,0 +1,34 @@
+name: AWS IAM Detect Creation Usage of Access Keys with Root
+id: 42528528-9329-11eb-9fe1-acde48001122
+version: 1
+date: '2021-04-01'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: UPDATE_DESCRIPTION
+search: '`cloudtrail` eventName IN (CreateKey, CreateAccessKey) userIdentity.userName=root
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.userName) as username by src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn
+| where username=root
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `aws_iam_detect_creation_usage_of_access_keys_with_root_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html
+tags:
+  analytic_story: 
+  - UPDATE_STORY_NAME
+  dataset: []
+  kill_chain_phases:
+  - Privilege Escalation
+  mitre_attack_id:
+  - T
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Security Analytics for AWS
+  required_fields:
+  - _time
+  security_domain: access
