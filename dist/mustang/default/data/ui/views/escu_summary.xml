@@ -3,11 +3,11 @@
   <!-- Example uses stats transforming command -->
   <!-- This limits evnts passed to post-process search -->
   <title>Splunk Security Content</title>
-  <search id="baseSS">
-    <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *"</query>
+   <search id="baseSS">
+    <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *" action.escu.product="*Splunk Security Analytics for AWS*"</query>
   </search>
   <search id="baseAS">
-    <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0</query>
+    <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | search product="*Splunk Security Analytics for AWS*"</query>
   </search>
   <init>
     <set token="form.as_category">*</set>
