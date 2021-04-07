@@ -25,7 +25,6 @@ validate:
     - python3 bin/testing_coverage.py --type streaming --min-coverage 1.0
   only:
     - /^ssa.*$/
-    - develop
 
 publish_deployer:
   stage: publish_deployer
@@ -39,7 +38,6 @@ publish_deployer:
     - docker push ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
   only:
     - /^ssa.*$/
-    - develop
 
 publish_smoketest_runner:
   stage: publish_smoketest_runner
@@ -52,7 +50,6 @@ publish_smoketest_runner:
     - docker push ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
   only:
     - /^ssa.*$/
-    - develop
 
 smoketest_staging:
   stage: smoketest_staging
@@ -72,4 +69,3 @@ smoketest_staging:
     SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
   only:
     - /^ssa.*$/
-    - develop
