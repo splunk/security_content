@@ -124,11 +124,17 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_score'] = detection['tags']['risk_score']
         if 'product' in detection['tags']:
             detection['product'] = detection['tags']['product']
+        if (OUTPUT_PATH) == 'dist/mustang':
+            detection['disabled'] = 'false'
+            
+
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
             baseline['data_model'] = data_model
+        if (OUTPUT_PATH) == 'dist/mustang':
+            baseline['disabled'] = 'false'
 
         matched_deployment = get_deployments(baseline, deployments)
         baseline['deployment'] = matched_deployment
