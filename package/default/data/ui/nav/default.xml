@@ -1,7 +1,0 @@
-<nav search_view="search" color="#65A637">
-  <view name="escu_summary" default="true"/>
-  <view name="feedback"/>
-  <view name="search"/>
-  <view name="escu_usage"/>
-  <a href="http://docs.splunk.com/Documentation/ESSOC">Docs</a>
-</nav>
