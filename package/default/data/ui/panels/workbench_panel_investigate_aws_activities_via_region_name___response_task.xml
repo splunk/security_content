@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| search sourcetype=aws:cloudtrail vendor_region=$vendor_region$| rename requestParameters.instancesSet.items{}.instanceId as instanceId | stats values(eventName) by user instanceId vendor_region</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>
