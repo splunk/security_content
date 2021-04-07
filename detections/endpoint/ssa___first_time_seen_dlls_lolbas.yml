@@ -1,45 +1,31 @@
 name: First time seen dlls lolbas
 id: 5f0b54ba-c884-4413-ba4d-5c187b6b17ed
 version: 1
-date: 2021-3-1
-author: Joseph Zadeh, Splunk
+date: '2021-3-1'
+author: 'Joseph Zadeh, Splunk'
 type: streaming
 datamodel: []
 description: Identify dlls that have been observed for the first time
   in windows active directory logs.
 search: '| from read_ssa_enriched_events()
          | eval timestamp=parse_long(ucast(map_get(input_event,"_time"), "string", null))
-         | eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)),
-         dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
-         dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
-         | select process_name, timestamp, dest_device_id, dest_user_id
+         | eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+         | select process_name, dest_user_id, dest_device_id, timestamp
          | first_time_event input_columns=["process_name"]
-         | where first_time_process_name != false
-         | select process_name, timestamp, dest_device_id, dest_user_id
-         | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body = "TBD"
-         | into write_ssa_detected_events();'
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-  Furthermore you must be populating the endpoint data model for SSA and
-  specifically the process_name.
-known_false_positives: Depending on the environment,
-  false positives can include developer or security team workstations
-  where there are frequent occurrences of modification/programmatic changes to DLLs.
-references: []
+         | where first_time_process_name
+         | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body = "TBD" | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging. Furthermore you must be populating the endpoint data model for SSA and specifically the process_name.
+known_false_positives: Depending on the environment, false positives can include developer or security team workstations where there are frequent occurrences of modification/programmatic changes to DLLs.
+references:
+- https://github:com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 tags:
   analytic_story:
-    - Unusual Processes
-  cis20:
-  - CIS 16
-  - CIS 20
-  kill_chain_phases:
+  - Unusual Processes
+  phases:
   - Actions on Objectives
+  - Exploitation
   mitre_attack_id:
   - T1078
-  - T1098
-  nist:
-  - PR.AC
-  - PR.IP
   product:
   - UEBA for Security Cloud
   required_fields:

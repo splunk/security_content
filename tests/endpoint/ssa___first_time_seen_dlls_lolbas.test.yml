@@ -1,9 +1,9 @@
-name: First Time Seen DLLs LOLBAS - SSA Unit Test
+name: First time seen dlls lolbas - SSA Unit Test
 tests:
-  - name: Detection of first time seen DLL's
-    file: endpoint/ssa___unusual_lolbas_in_short_period_of_time.yml
+  - name: First time seen dlls lolbas
+    file: endpoint/ssa___first_time_seen_dlls_lolbas.yml
     pass_condition: '@count_gt(0)'
-    description: Test for first time seen DLLs across windows endpoints
+    description: Test the logic of first time seen DLLs across windows endpoints
     attack_data:
       - file_name: windows-security.log
         data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/cmd_arguments/windows-security.log
