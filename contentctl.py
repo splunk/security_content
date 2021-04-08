@@ -109,8 +109,8 @@ def main(args):
     # generate arguments
     generate_parser.add_argument("-f", "--format", required=False, type=str, default="splunk_app",
                                  help="Format of our deployment package, defaults to `splunk_app`.\n The deployment `splunk_app` runs on product Splunk Enterprise Security and Splunk Enterprise.")
-    generate_parser.add_argument("-o", "--output", required=False, type=str, default="package",
-                                     help="Path where to store the deployment package, defaults to `package`")
+    generate_parser.add_argument("-o", "--output", required=False, type=str, default="dist/escu",
+                                     help="Path where to store the deployment package, defaults to `dist/escu`")
     generate_parser.add_argument("--product", required=False, type=str, default="ESCU",
                                  help="Type of package to create, choose between `ESCU`, or `MUSTANG`. Defaults to `ESCU`")                            
     generate_parser.set_defaults(func=generate)
