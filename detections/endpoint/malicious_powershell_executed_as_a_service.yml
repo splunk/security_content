@@ -12,7 +12,8 @@ search: ' `wineventlog_system` EventCode=7045 Service_File_Name IN ("*powershell
 | stats count min(_time) as firstTime max(_time)
   as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type Service_Account user
 | `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`'
+| `security_content_ctime(lastTime)`
+| `malicious_powershell_executed_as_a_service_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting Windows System
   logs with the Service name, Service File Name Service Start type, and Service Type
   from your endpoints.
