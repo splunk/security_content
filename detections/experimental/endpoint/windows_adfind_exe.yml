@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - NOBELIUM Group
+  - Domain Trust Discovery
   asset_type: Endpoint
   cis20:
   - CIS 8
