@@ -1,4 +1,4 @@
-name: Suspicious Command Executed as a Service
+name: Malicious Powershell Executed As A Service
 id: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 version: 1
 date: '2021-04-07'
