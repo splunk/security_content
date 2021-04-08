@@ -124,11 +124,17 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_score'] = detection['tags']['risk_score']
         if 'product' in detection['tags']:
             detection['product'] = detection['tags']['product']
+        if (OUTPUT_PATH) == 'dist/mustang':
+            detection['disabled'] = 'false'
+            
+
 
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
             baseline['data_model'] = data_model
+        if (OUTPUT_PATH) == 'dist/mustang':
+            baseline['disabled'] = 'false'
 
         matched_deployment = get_deployments(baseline, deployments)
         baseline['deployment'] = matched_deployment
@@ -602,7 +608,7 @@ def generate_mitre_lookup(OUTPUT_PATH):
 
 
 
-def main(REPO_PATH, OUTPUT_PATH, VERBOSE):
+def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
@@ -618,6 +624,12 @@ def main(REPO_PATH, OUTPUT_PATH, VERBOSE):
     detections = []
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
     detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
+
+    if PRODUCT == "MUSTANG": 
+        detections = [object for object in detections if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+        stories = [object for object in stories if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+        baselines = [object for object in baselines if 'Splunk Security Analytics for AWS' in object['tags']['product']]
+        response_tasks = [object for object in response_tasks if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
     try:
         if VERBOSE:
@@ -641,6 +653,9 @@ def main(REPO_PATH, OUTPUT_PATH, VERBOSE):
 
     # only use ESCU stories to the configuration
     stories = sorted(filter(lambda s: s['type'].lower() == 'batch', stories), key=lambda s: s['name'])
+
+
+
     story_path = generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
 
     use_case_lib_path = generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH)
@@ -669,11 +684,13 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
+    parser.add_argument("--product", required=True, default="ESCU", help="package type")
 
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_PATH = args.output
     VERBOSE = args.verbose
+    PRODUCT = args.product
 
-    main(REPO_PATH, OUTPUT_PATH, VERBOSE)
+    main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
