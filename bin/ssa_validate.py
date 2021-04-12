@@ -30,7 +30,7 @@ def main(args):
         if os.path.isfile(detection_file):
             with open(detection_file, 'r') as detection_fh:
                 detection = yaml.safe_load(detection_fh)
-                if detection['type'] == "SSA":
+                if detection['type'] == "streaming":
                     # Parsed file is a SSA detection
                     log(logging.INFO, "Validating %s" % detection['name'])
                     cur_status = validate_tags(detection)
