@@ -87,7 +87,7 @@ def main(args):
 
     try:
         module = __import__('generate')
-        results = module.main(REPO_PATH = 'security_content' , OUTPUT_PATH = 'security_content/package', VERBOSE = 'True' )
+        results = module.main(REPO_PATH = 'security_content' , OUTPUT_PATH = 'security_content/dist/escu', VERBOSE = 'True' )
     except Exception as e:
         print('Error: ' + str(e))
 
