@@ -124,7 +124,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['risk_score'] = detection['tags']['risk_score']
         if 'product' in detection['tags']:
             detection['product'] = detection['tags']['product']
-        if (OUTPUT_PATH) == 'dist/mustang':
+        if (OUTPUT_PATH) == 'dist/saaws':
             detection['disabled'] = 'false'
 
 
@@ -133,7 +133,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
             baseline['data_model'] = data_model
-        if (OUTPUT_PATH) == 'dist/mustang':
+        if (OUTPUT_PATH) == 'dist/saaws':
             baseline['disabled'] = 'false'
 
         matched_deployment = get_deployments(baseline, deployments)
@@ -590,7 +590,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
     detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
-    if PRODUCT == "MUSTANG":
+    if PRODUCT == "SAAWS":
         detections = [object for object in detections if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         stories = [object for object in stories if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         baselines = [object for object in baselines if 'Splunk Security Analytics for AWS' in object['tags']['product']]
