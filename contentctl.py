@@ -112,7 +112,7 @@ def main(args):
     generate_parser.add_argument("-o", "--output", required=False, type=str, default="dist/escu",
                                      help="Path where to store the deployment package, defaults to `dist/escu`")
     generate_parser.add_argument("--product", required=False, type=str, default="ESCU",
-                                 help="Type of package to create, choose between `ESCU`, or `MUSTANG`. Defaults to `ESCU`")                            
+                                 help="Type of package to create, choose between `ESCU`, or `SAAWS`. Defaults to `ESCU`")                            
     generate_parser.set_defaults(func=generate)
 
     # # parse them
