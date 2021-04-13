@@ -356,7 +356,7 @@ def get_deployments(object, deployments):
 
                     for tag_value_deployment in tag_array_deployment:
                         if tag_value == tag_value_deployment:
-                            print("tag value: {}, matched deployment tag: {} on deployment: {}".format(tag_value,tag_value_deployment, deployment))
+                            # print("tag value: {}, matched deployment tag: {} on deployment: {}".format(tag_value,tag_value_deployment, deployment))
                             matched_deployments.append(deployment)
                             continue
 
@@ -370,7 +370,7 @@ def get_deployments(object, deployments):
         last_deployment = matched_deployments[-1]
         last_deployment = replace_vars_in_deployment(last_deployment, object)
 
-    print(last_deployment)
+    # print(last_deployment)
     return last_deployment
 
 
