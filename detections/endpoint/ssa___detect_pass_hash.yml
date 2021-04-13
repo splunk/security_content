@@ -46,11 +46,12 @@ tags:
   product:
   - UEBA for Security Cloud
   required_fields:
-  - logon_process
-  - dest_user_primary_artifact
+  - signature_id
+  - authentication_type
   - _time
-  - event_code
-  - dest_ip_primary_artifact
-  - logon_type
+  - authentication_method
+  - origin_device_domain
+  - dest_user_id
+  - dest_device_id
   risk_severity: low
   security_domain: endpoint
