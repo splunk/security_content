@@ -4,7 +4,7 @@
     "title": "Splunk Security Analytics for AWS Content", 
     "id": {
       "group": null, 
-      "name": "Splunk_DA-ESS_AmazonWebServices_Content", 
+      "name": "DA-ESS_AmazonWebServices_Content", 
       "version": "3.18.0"
     }, 
     "author": [
