@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: batch
 datamodel: []
 description: The following detection identifies any malformed policy document exceptions with a status of `failure`. Meaning, when an adversary is attempting to identify a role name, multiple failures will occur.
-search: '`cloudtrail` errorCode=MalformedPolicyDocumentException status=failure
+search: '`cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failure
 | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyName) as policy_name by src eventName eventSource aws_account_id errorCode requestParameters.policyDocument userAgent eventID awsRegion userIdentity.principalId user_arn 
 | where count >= 2
 | `security_content_ctime(firstTime)`
@@ -17,11 +17,13 @@ known_false_positives: This detection will require tuning to provide high fideli
 references:
 - https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html
 tags:
-  analytic_story: []
+  analytic_story:
+  - AWS IAM Privilege Escalation
   dataset: []
   kill_chain_phases:
   - Privilege Escalation
-  mitre_attack_id: []
+  mitre_attack_id:
+  - T1580
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

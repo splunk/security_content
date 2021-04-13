@@ -19,7 +19,7 @@ references:
 - https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - AWS IAM Privilege Escalation
   dataset: []
   kill_chain_phases:
   - Privilege Escalation

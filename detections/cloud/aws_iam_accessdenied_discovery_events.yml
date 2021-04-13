@@ -5,26 +5,26 @@ date: '2021-04-05'
 author: Michael Haag, Splunk
 type: batch
 datamodel:
-description: The following detection identifies excessive AccessDenied events within an hour timeframe
-search: '`cloudtrail` errorCode = "AccessDenied" userIdentity.type=IAMUser
-| bucket _time span=1h 
-| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources values(userIdentity.arn) by src_ip, userIdentity.arn, _time
-| where failures >= 5 and methods >= 1 and sources >= 1
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`
-| `aws_iam_accessdenied_discovery_events_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+description: The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
+search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
+  | bucket _time span=1h 
+  | stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources values(userIdentity.arn) by src_ip, userIdentity.arn, _time
+  | where failures >= 5 and methods >= 1 and sources >= 1
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `aws_iam_accessdenied_discovery_events_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+known_false_positives: It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
 references:
+  - https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
-  dataset:
-  - UPDATE_DATASET_URL
+  - AWS IAM Privilege Escalation
+  dataset: []
   kill_chain_phases:
   - Reconnaissance
   mitre_attack_id:
-  - T1003
+  - T1580
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,10 +38,3 @@ tags:
   - errorCode
   - userIdentity.type
   security_domain: access
-
-  index=aws_all errorCode = "AccessDenied"
-| bucket _time span=1h 
-| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(src)  by _time, "userIdentity.type", eventSource, errorMessage,errorCode src_ip, userName
-| where failures >= 5
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`

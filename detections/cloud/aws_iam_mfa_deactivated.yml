@@ -17,12 +17,12 @@ references:
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - AWS IAM Privilege Escalation
   dataset: []
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
-  - T1003.002
+  - T1078.004
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

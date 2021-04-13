@@ -18,7 +18,7 @@ references:
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - AWS IAM Privilege Escalation
   dataset: []
   kill_chain_phases:
   - Privilege Escalation

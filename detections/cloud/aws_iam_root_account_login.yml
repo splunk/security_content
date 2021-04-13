@@ -16,12 +16,12 @@ known_false_positives: False positives should be limited as the root account sho
 references:
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - AWS IAM Privilege Escalation
   dataset: []
   kill_chain_phases:
   - Intrusion
   mitre_attack_id:
-  - T1003.002
+  - T1078.004
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

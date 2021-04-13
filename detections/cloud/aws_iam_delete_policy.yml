@@ -18,7 +18,7 @@ references:
 - https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - AWS IAM Privilege Escalation
   dataset: []
   kill_chain_phases:
   - Privilege Escalation
