@@ -125,23 +125,23 @@ jobs:
             cd security-content
             source venv/bin/activate
             python contentctl.py --path . --verbose generate --product ESCU --output dist/escu
-            python contentctl.py --path . --verbose generate --product MUSTANG --output dist/mustang
+            python contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
             # make a copy of use_case_lib in order to have ES work :-(
             cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
-            cp dist/mustang/default/use_case_library.conf dist/mustang/default/analyticstories.conf
+            cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
       - run:
           name: copy lookups .csv files
           command: |
             cd security-content
             # clean up current lookups
             rm -rf dist/escu/lookups
-            rm -rf dist/mustang/lookups
+            rm -rf dist/saaws/lookups
             mkdir dist/escu/lookups
-            mkdir dist/mustang/lookups
+            mkdir dist/saaws/lookups
             # copy over lookups
             cd lookups
             cp -rv *.csv ../dist/escu/lookups
-            cp -rv *.csv ../dist/mustang/lookups
+            cp -rv *.csv ../dist/saaws/lookups
       - run:
           name: update version and build number
           command: |
@@ -160,18 +160,18 @@ jobs:
             sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
             tar -czf content-pack-build-escu.tar.gz dist/escu/*
-            # update build number and version for MUSTANG
-            sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" dist/mustang/default/app.conf
-            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/mustang/default/app.conf
-            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/mustang/app.manifest
-            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/mustang/default/content-version.conf
-            tar -czf content-pack-build-mustang.tar.gz dist/mustang/*
+            # update build number and version for saaws
+            sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" dist/saaws/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/saaws/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
+            tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
 
       - persist_to_workspace:
           root: security-content/
           paths:
               - content-pack-build-escu.tar.gz
-              - content-pack-build-mustang.tar.gz
+              - content-pack-build-saaws.tar.gz
 
   build-package:
     executor: content-executor
@@ -200,13 +200,13 @@ jobs:
               source ~/slim-latest/venv/bin/activate
               cd ~/build
               tar -zxf content-pack-build-escu.tar.gz
-              tar -zxf content-pack-build-mustang.tar.gz
+              tar -zxf content-pack-build-saaws.tar.gz
               mv dist/escu DA-ESS-ContentUpdate
-              mv dist/mustang DA-ESS-ContentUpdateMustang
+              mv dist/saaws DA-ESS_AmazonWebServices_Content
               slim package -o upload DA-ESS-ContentUpdate
-              slim package -o upload DA-ESS-ContentUpdateMustang
+              slim package -o upload DA-ESS_AmazonWebServices_Content
               cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
-              cp upload/DA-ESS-ContentUpdateMustang-*tar.gz DA-ESS-ContentUpdateMustang-latest.tar.gz
+              cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
       - store_artifacts:
           path: ~/build/upload
           destination: package/
@@ -214,7 +214,7 @@ jobs:
           root: ~/build
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-             - DA-ESS-ContentUpdateMustang-latest.tar.gz
+             - DA-ESS_AmazonWebServices_Content-latest.tar.gz
 
   run-appinspect:
     executor: content-executor
@@ -241,10 +241,10 @@ jobs:
             cd security-content/bin
             ./appinspect.sh ~/ DA-ESS-ContentUpdate-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
       - run:
-          name: submit MUSTANG package to appinspect API
+          name: submit saaws package to appinspect API
           command: |
             cd security-content/bin
-            ./appinspect.sh ~/ DA-ESS-ContentUpdateMustang-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD            
+            ./appinspect.sh ~/ DA-ESS_AmazonWebServices_Content-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD            
       - store_artifacts:
           path: ~/report
           destination: report/
@@ -252,7 +252,7 @@ jobs:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-             - DA-ESS-ContentUpdateMustang-latest.tar.gz
+             - DA-ESS_AmazonWebServices_Content-latest.tar.gz
   update-sources-github:
     executor: content-executor
     steps:
