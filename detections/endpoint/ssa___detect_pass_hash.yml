@@ -52,6 +52,6 @@ tags:
   - authentication_method
   - origin_device_domain
   - dest_user_id
-  - dest_device_id=
+  - dest_device_id
   risk_severity: low
   security_domain: endpoint
