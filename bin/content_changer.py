@@ -10,10 +10,10 @@ from urllib3.exceptions import InsecureRequestWarning
 
 from os import path
 
-BASE_URL = f"https://18.198.253.138:8089"
+BASE_URL = f"https://ip:8089"
 SEARCH_PARSER_ENDPOINT = f"/services/search/parser"
 USER = f"admin"
-PASSWORD = f"Pl3ase-k1Ll-me:p1"
+PASSWORD = f"password"
 parsed_fields = dict()
 
 
