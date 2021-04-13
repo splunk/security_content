@@ -202,11 +202,11 @@ jobs:
               tar -zxf content-pack-build-escu.tar.gz
               tar -zxf content-pack-build-saaws.tar.gz
               mv dist/escu DA-ESS-ContentUpdate
-              mv dist/saaws Splunk_DA-ESS_AmazonWebServices_Content
+              mv dist/saaws DA-ESS_AmazonWebServices_Content
               slim package -o upload DA-ESS-ContentUpdate
-              slim package -o upload Splunk_DA-ESS_AmazonWebServices_Content
+              slim package -o upload DA-ESS_AmazonWebServices_Content
               cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
-              cp upload/Splunk_DA-ESS_AmazonWebServices_Content-*tar.gz Splunk_DA-ESS_AmazonWebServices_Content-latest.tar.gz
+              cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
       - store_artifacts:
           path: ~/build/upload
           destination: package/
@@ -214,7 +214,7 @@ jobs:
           root: ~/build
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-             - Splunk_DA-ESS_AmazonWebServices_Content-latest.tar.gz
+             - DA-ESS_AmazonWebServices_Content-latest.tar.gz
 
   run-appinspect:
     executor: content-executor
@@ -244,7 +244,7 @@ jobs:
           name: submit saaws package to appinspect API
           command: |
             cd security-content/bin
-            ./appinspect.sh ~/ Splunk_DA-ESS_AmazonWebServices_Content-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD            
+            ./appinspect.sh ~/ DA-ESS_AmazonWebServices_Content-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD            
       - store_artifacts:
           path: ~/report
           destination: report/
@@ -252,7 +252,7 @@ jobs:
           root: ~/
           paths:
              - DA-ESS-ContentUpdate-latest.tar.gz
-             - Splunk_DA-ESS_AmazonWebServices_Content-latest.tar.gz
+             - DA-ESS_AmazonWebServices_Content-latest.tar.gz
   update-sources-github:
     executor: content-executor
     steps:
