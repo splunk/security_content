@@ -8,7 +8,7 @@ datamodel: []
 description: This search monitors for remote modifications to registry keys.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path="\\\\*"  by
+  as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where  Registry.registry_path="\\\\*"  by
   Registry.dest , Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `remote_registry_key_modifications_filter`'
 how_to_implement: To successfully implement this search, you must populate the `Endpoint`
