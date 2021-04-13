@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: batch
 datamodel:
 description: This detection looks for the successful event of MFA being deactivated on an account. 
-search: '`cloudtrail` errorCode=DeactivateMFADevice status=success
+search: '`cloudtrail` errorCode=DeactivateMFADevice status=success (userAgent!=*.amazonaws.com)
 | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyName) as policy_name by src eventName eventSource aws_account_id errorCode requestParameters.policyDocument userAgent eventID awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`

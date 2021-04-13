@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: batch
 datamodel: []
 description: The following detection identifies a succesful account assuming a role - receiving access. 
-search: '`cloudtrail` index="aws-cloudtrail"  sourcetype=aws:cloudtrail  eventName=UpdateAssumeRolePolicy errorCode=success
+search: '`cloudtrail` index="aws-cloudtrail"  sourcetype=aws:cloudtrail  eventName=UpdateAssumeRolePolicy errorCode=success (userAgent!=*.amazonaws.com)
 | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.roleName) as role by src eventName eventSource aws_account_id errorCode requestParameters.policyDocument userAgent eventID awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`

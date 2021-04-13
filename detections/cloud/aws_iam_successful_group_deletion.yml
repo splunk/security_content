@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: batch
 datamodel: []
 description: The following query uses IAM events to track the success of a group being deleted on AWS. This is typically not indicative of malicious behavior, but a precurser to additional events thay may unfold. Review parallel IAM events - recently added users, new groups and so forth. Inversely, review failed attempts in a similar manner.
-search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success 
+search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success (userAgent!=*.amazonaws.com)
 | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) by src eventName eventSource errorCode user_agent awsRegion userIdentity.principalId user_arn
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`

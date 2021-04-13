@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: batch
 datamodel: []
 description: The following detection identifies the use of the account `root` on the given AWS instance. Per AWS best practices, this account should have MFA enabled and not used for day to day activity. 
-search: '`cloudtrail` eventName=ConsoleLogin eventSource=signin.amazonaws.com userName=root
+search: '`cloudtrail` eventName=ConsoleLogin eventSource=signin.amazonaws.com userName=root (userAgent!=*.amazonaws.com)
 | stats count min(_time) as firstTime max(_time) as lastTime values(responseElements.ConsoleLogin) as Console_login by src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 

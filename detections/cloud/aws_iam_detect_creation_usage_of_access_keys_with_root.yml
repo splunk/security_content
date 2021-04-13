@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: batch
 datamodel: []
 description: THe following detection is aimed at detecting the Root user account creating keys. This is generally not an activity that would be performed after the Root account is locked down.
-search: '`cloudtrail` eventName IN (CreateKey, CreateAccessKey) userName=root
+search: '`cloudtrail` eventName IN (CreateKey, CreateAccessKey) userName=root (userAgent!=*.amazonaws.com)
 | stats count min(_time) as firstTime max(_time) as lastTime values(userName) by src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
