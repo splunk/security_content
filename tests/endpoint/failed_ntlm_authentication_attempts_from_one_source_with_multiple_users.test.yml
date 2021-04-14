@@ -1,0 +1,12 @@
+name: Failed NTLM Authentication attempts from one source with multiple valid users Unit Test
+tests:
+- name: Multiple Failed NTLM Authentication attempts from one source with multiple valid users
+  file: detections/endpoint/multiple_failed_ntlm_authentication_attempts_from_one_source_with_multiple_valid_users.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: UPDATE_FILE_NAME
+    data: UPDATE_DATASET_URL
+    source: UPDATE_SPLUNK_SOURCE
+    sourcetype: UPDATE_SPLUNK_SOURCETYPE
