@@ -126,7 +126,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
             detection['product'] = detection['tags']['product']
         if (OUTPUT_PATH) == 'dist/saaws':
             detection['disabled'] = 'false'
-            
+
 
 
     for baseline in baselines:
@@ -340,41 +340,6 @@ def get_deployments(object, deployments):
     matched_deployments = []
 
     for deployment in deployments:
-        if 'analytic_story' in deployment['tags']:
-            if type(deployment['tags']['analytic_story']) is str:
-                if 'analytic_story' in object['tags']:
-                    if deployment['tags']['analytic_story'] == object['tags']['analytic_story'] or deployment['tags']['analytic_story']=='all':
-                        matched_deployments.append(deployment)
-
-            else:
-                for story in deployment['tags']['analytic_story']:
-                    if story == object['tags']['analytic_story']:
-                        matched_deployments.append(deployment)
-                        continue
-
-        # Remove this check since deployment files are numbered and detections for Splunk Security Analytics for AWS will only get risk configs.
-
-        # if 'product' in deployment['tags']:
-        #     if type(deployment['tags']['product']) is str:
-        #         if 'product' in object['tags']:
-        #             if deployment['tags']['product'] == object['tags']['product'] or deployment['tags']['product']=='Splunk Security Analytics for AWS':
-        #                 matched_deployments.append(deployment)
-        #     else:
-        #         for story in deployment['tags']['product']:
-        #             if story == object['tags']['product']:
-        #                 matched_deployments.append(deployment)
-        #                 continue
-
-
-        if 'detection_name' in deployment['tags']:
-            if type(deployment['tags']['detection_name']) is str:
-                if deployment['tags']['detection_name'] == object['name']:
-                    matched_deployments.append(deployment)
-            else:
-                for detection in deployment['tags']['detection_name']:
-                    if detection == object['name']:
-                        matched_deployments.append(deployment)
-                        continue
 
         for tag in object['tags'].keys():
             if tag in deployment['tags'].keys():
@@ -391,21 +356,21 @@ def get_deployments(object, deployments):
 
                     for tag_value_deployment in tag_array_deployment:
                         if tag_value == tag_value_deployment:
+                            # print("tag value: {}, matched deployment tag: {} on deployment: {}".format(tag_value,tag_value_deployment, deployment))
                             matched_deployments.append(deployment)
                             continue
 
+    # grab default for all stories if deployment not set
     if len(matched_deployments) == 0:
-        default_deployment = {}
-        default_deployment['scheduling'] = {}
-        default_deployment['scheduling']['cron_schedule'] = '0 * * * *'
-        default_deployment['scheduling']['earliest_time'] = '-70m@m'
-        default_deployment['scheduling']['latest_time'] = '-10m@m'
-        default_deployment['scheduling']['schedule_window'] = 'auto'
-        last_deployment = default_deployment
+        for deployment in deployments:
+            if 'analytic_story' in deployment['tags']:
+                if deployment['tags']['analytic_story'] == 'all':
+                    last_deployment = deployment
     else:
         last_deployment = matched_deployments[-1]
         last_deployment = replace_vars_in_deployment(last_deployment, object)
 
+    # print(last_deployment)
     return last_deployment
 
 
@@ -625,7 +590,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     detections = load_objects("detections/*/*.yml", VERBOSE, REPO_PATH)
     detections.extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
-    if PRODUCT == "SAAWS": 
+    if PRODUCT == "SAAWS":
         detections = [object for object in detections if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         stories = [object for object in stories if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         baselines = [object for object in baselines if 'Splunk Security Analytics for AWS' in object['tags']['product']]
