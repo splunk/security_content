@@ -11,4 +11,5 @@ scheduling:
   latest_time: -10m@m
   schedule_window: auto
 tags:
-  product: Splunk Security Analytics for AWS
+  product: 
+    - Splunk Security Analytics for AWS

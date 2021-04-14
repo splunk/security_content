@@ -18,4 +18,4 @@ alert_action:
     - dest
     - src
 tags:
-  analytics_story: all
+  analytic_story: all
