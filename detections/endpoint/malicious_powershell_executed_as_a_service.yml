@@ -6,18 +6,18 @@ author: Ryan Becwar
 type: batch
 datamodel:
 - Endpoint
-description: This detection is to identify the abuse the Windows SC.exe to
- execute malicious commands or payloads via PowerShell. 
-search: ' `wineventlog_system` EventCode=7045 Service_File_Name IN ("*powershell.exe*", "*-nop*", "*hid*") 
-| stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type Service_Account user
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `malicious_powershell_executed_as_a_service_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting Windows System
-  logs with the Service name, Service File Name Service Start type, and Service Type
-  from your endpoints.
-known_false_positives: Creating a hidden powershell service is rare and could key off of those instances.
+description: This detection is to identify the abuse the Windows SC.exe to execute
+  malicious commands or payloads via PowerShell.
+search: ' `wineventlog_system` EventCode=7045 Service_File_Name IN ("*powershell.exe*",
+  "*-nop*", "*hid*") | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type Service_Account
+  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `malicious_powershell_executed_as_a_service_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows System logs with the Service name, Service File Name Service Start type,
+  and Service Type from your endpoints.
+known_false_positives: Creating a hidden powershell service is rare and could key
+  off of those instances.
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/dosfuscation-report.pdf
 - http://az4n6.blogspot.com/2017/
@@ -42,6 +42,7 @@ tags:
   - _time
   - Service_Name
   - Service_Start_Type
-  - Service_Account 
+  - Service_Account
   - user
   security_domain: endpoint
+  automated_detection_testing: passed
