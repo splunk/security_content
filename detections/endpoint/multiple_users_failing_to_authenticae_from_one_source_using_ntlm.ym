@@ -1,4 +1,4 @@
-name: Failed NTLM Authentication attempts from one source with multiple valid users
+name: Multiple Valid Users Failing To Authenticate From One Source Using NTLM
 id: 7ed272a4-9c77-11eb-af22-acde48001122
 version: 1
 date: '2021-04-13'

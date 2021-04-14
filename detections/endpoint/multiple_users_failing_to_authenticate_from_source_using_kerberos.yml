@@ -1,4 +1,4 @@
-name: Failed Kerberos Authentication attempts from one source with multiple valid users
+name: Multiple Valid Users Failing To Autheticate From One Source Using Kerberos
 id: 3a91a212-98a9-11eb-b86a-acde48001122
 version: 1
 date: '2021-04-08'
