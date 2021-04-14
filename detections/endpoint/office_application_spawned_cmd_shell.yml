@@ -6,16 +6,18 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect a potential malicious office macro document that spawn command shell to execute malicious batch, powershell, vb/js script.
-  this technique is common on malicious ms office macro document used by threat actor to load payloads, download payloads or other malware.
-search: '| tstats `security_content_summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name = "wordpad.exe") 
-  Processes.process_name= "cmd.exe"  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid
-  Processes.user Processes.dest 
-  | `drop_dm_object_name("Processes")` 
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` 
-  | `office_application_spawned_cmd_shell_filter`'
+description: this search is to detect a potential malicious office macro document
+  that spawn command shell to execute malicious batch, powershell, vb/js script. this
+  technique is common on malicious ms office macro document used by threat actor to
+  load payloads, download payloads or other malware.
+search: '| tstats `security_content_summariesonly` count values(Processes.process)
+  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name
+  = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name
+  = "wordpad.exe") Processes.process_name= "cmd.exe"  by Processes.parent_process
+  Processes.process_name Processes.process_id Processes.process_guid Processes.user
+  Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `office_application_spawned_cmd_shell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -43,3 +45,6 @@ tags:
   - Processes.user
   - Processes.process_id
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
