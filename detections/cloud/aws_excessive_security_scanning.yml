@@ -6,11 +6,12 @@ author: Patrick Bareiss, Splunk
 type: batch
 datamodel: []
 description: This search looks for CloudTrail events and analyse the amount of eventNames
-  which starts with Describe by a single user. This indicates that this user scans the configuration of
-  your AWS cloud environment.
-search: '`cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  | stats dc(eventName) as dc_events min(_time) as firstTime 
-  max(_time) as lastTime values(eventName) as eventName values(src) as src values(userAgent) as userAgent 
-  by user userIdentity.arn | where dc_events > 50 | `security_content_ctime(firstTime)` 
+  which starts with Describe by a single user. This indicates that this user scans
+  the configuration of your AWS cloud environment.
+search: '`cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  |
+  stats dc(eventName) as dc_events min(_time) as firstTime max(_time) as lastTime
+  values(eventName) as eventName values(src) as src values(userAgent) as userAgent
+  by user userIdentity.arn | where dc_events > 50 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`|`aws_excessive_security_scanning_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudtrail logs.
@@ -47,3 +48,6 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/aws_security_scanner/aws_security_scanner.json
