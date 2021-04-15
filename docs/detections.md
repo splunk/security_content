@@ -43,6 +43,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [AWS Excessive Security Scanning](#aws-excessive-security-scanning)
+
+
+
 - [AWS Network Access Control List Created with All Open Ports](#aws-network-access-control-list-created-with-all-open-ports)
 
 
@@ -141,6 +145,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Cloud API Calls From Previously Unseen User Roles](#cloud-api-calls-from-previously-unseen-user-roles)
 
 
@@ -180,6 +188,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Cloud Provisioning Activity From Previously Unseen Region](#cloud-provisioning-activity-from-previously-unseen-region)
+
+
 
 
 
@@ -481,6 +491,28 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [GCP Detect gcploit framework](#gcp-detect-gcploit-framework)
 
 
@@ -540,6 +572,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Kubernetes AWS detect suspicious kubectl calls](#kubernetes-aws-detect-suspicious-kubectl-calls)
+
+
 
 
 
@@ -913,6 +947,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [aws detect attach to role policy](#aws-detect-attach-to-role-policy)
 
 
@@ -939,6 +975,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Endpoint
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -1041,6 +1079,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [BCDEdit Failure Recovery Modification](#bcdedit-failure-recovery-modification)
+
+
+
+- [BITS Job Persistence](#bits-job-persistence)
+
+
+
+- [BITSAdmin Download File](#bitsadmin-download-file)
 
 
 
@@ -1193,6 +1239,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+- [DSQuery Domain Discovery](#dsquery-domain-discovery)
 
 
 
@@ -1452,7 +1502,51 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Disable Registry Tool](#disable-registry-tool)
+
+
+
+- [Disable Show Hidden Files](#disable-show-hidden-files)
+
+
+
+- [Disable Windows Behavior Monitoring](#disable-windows-behavior-monitoring)
+
+
+
+- [Disable Windows SmartScreen Protection](#disable-windows-smartscreen-protection)
+
+
+
+- [Disabling CMD Application](#disabling-cmd-application)
+
+
+
+- [Disabling ControlPanel](#disabling-controlpanel)
+
+
+
+- [Disabling Firewall with Netsh](#disabling-firewall-with-netsh)
+
+
+
+- [Disabling FolderOptions Windows Feature](#disabling-folderoptions-windows-feature)
+
+
+
+- [Disabling NoRun Windows App](#disabling-norun-windows-app)
+
+
+
 - [Disabling Remote User Account Control](#disabling-remote-user-account-control)
+
+
+
+- [Disabling SystemRestore In Registry](#disabling-systemrestore-in-registry)
+
+
+
+- [Disabling Task Manager](#disabling-task-manager)
 
 
 
@@ -1656,6 +1750,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Malicious Powershell Executed As A Service](#malicious-powershell-executed-as-a-service)
+
+
+
 
 
 
@@ -1723,6 +1821,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 - [Overwriting Accessibility Binaries](#overwriting-accessibility-binaries)
 
 
+
+
+
+- [PowerShell Start-BitsTransfer](#powershell-start-bitstransfer)
 
 
 
@@ -2331,11 +2433,19 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [DNS Query Length Outliers - MLTK](#dns-query-length-outliers---mltk)
 
 
 
 - [DNS Query Length With High Standard Deviation](#dns-query-length-with-high-standard-deviation)
+
+
 
 
 
@@ -2569,6 +2679,28 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Excessive DNS Failures](#excessive-dns-failures)
 
 
@@ -2678,6 +2810,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Large Volume of DNS ANY Queries](#large-volume-of-dns-any-queries)
+
+
+
+
 
 
 
@@ -3270,7 +3406,37 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 - [Detect New Login Attempts to Routers](#detect-new-login-attempts-to-routers)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3405,6 +3571,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Email servers sending high volume traffic to hosts](#email-servers-sending-high-volume-traffic-to-hosts)
+
+
 
 
 
@@ -3738,6 +3906,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Suspicious Email Attachment Extensions](#suspicious-email-attachment-extensions)
 
 
@@ -3868,6 +4038,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Web
 <details>
   <summary>details</summary>
+
+
+
+
+
+
+
+
 
 
 
@@ -4369,7 +4547,33 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
 
 
 
@@ -5487,6 +5691,80 @@ Sensitive object access is not necessarily malicious but user and object context
 
 
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS Excessive Security Scanning
+This search looks for CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1526](https://attack.mitre.org/techniques/T1526/)
+- **Last Updated**: 2021-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  
+| stats dc(eventName) as dc_events min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName values(src) as src values(userAgent) as userAgent by user userIdentity.arn 
+| where dc_events > 50 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+|`aws_excessive_security_scanning_filter`
+```
+#### Associated Analytic Story
+
+* AWS User Monitoring
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* src
+
+* userAgent
+
+* user
+
+* userIdentity.arn
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1526 | Cloud Service Discovery | Discovery |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+While this search has no known false positives.
+
+#### Reference
+
+* https://github.com/aquasecurity/cloudsploit
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/aws_security_scanner/aws_security_scanner.json
 
 
 _version_: 1
@@ -6828,6 +7106,8 @@ The following analytic identifies the use of PowerShell downloading a file using
 
 * Malicious PowerShell
 
+* Ingress Tool Transfer
+
 
 #### How To Implement
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -6913,6 +7193,8 @@ The following analytic identifies the use of PowerShell downloading a file using
 * Malicious PowerShell
 
 * HAFNIUM Group
+
+* Ingress Tool Transfer
 
 
 #### How To Implement
@@ -7646,6 +7928,169 @@ Administrators may modify the boot configuration.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### BITS Job Persistence
+The following query identifies Microsoft Background Intelligent Transfer Service utility `bitsadmin.exe` scheduling a BITS job to persist on an endpoint. The query identifies the parameters used to create, resume or add a file to a BITS job. Typically seen combined in a oneliner or ran in sequence. If identified, review the BITS job created and capture any files written to disk. It is possible for BITS to be used to upload files and this may require further network data analysis to identify. You can use `bitsadmin /list /verbose` to list out the jobs during investigation.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1197](https://attack.mitre.org/techniques/T1197/)
+- **Last Updated**: 2021-03-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=bitsadmin.exe Processes.process IN (*create*, *addfile*, *setnotifyflags*, *setnotifycmdline*, *setminretrydelay*, *setcustomheaders*, *resume* ) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `bits_job_persistence_filter`
+```
+#### Associated Analytic Story
+
+* BITS Jobs
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.user
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives will be present. Typically, applications will use `BitsAdmin.exe`. Any filtering should be done based on command-line arguments (legitimate applications) or parent process.
+
+#### Reference
+
+* https://attack.mitre.org/techniques/T1197/
+
+* https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md#atomic-test-3---persist-download--execute
+
+* https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### BITSAdmin Download File
+The following query identifies Microsoft Background Intelligent Transfer Service utility `bitsadmin.exe` using the `transfer` parameter to download a remote object. In addition, look for `download` or `upload` on the command-line, the switches are not required to perform a transfer. Capture any files downloaded. Review the reputation of the IP or domain used. Typically once executed, a follow on command will be used to execute the dropped file. Note that the network connection or file modification events related will not spawn or create from `bitsadmin.exe`, but the artifacts will appear in a parallel process of `svchost.exe` with a command-line similar to `svchost.exe -k netsvcs -s BITS`. It's important to review all parallel and child processes to capture any behaviors and artifacts. In some suspicious and malicious instances, BITS jobs will be created. You can use `bitsadmin /list /verbose` to list out the jobs during investigation.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1197](https://attack.mitre.org/techniques/T1197/), [T1105](https://attack.mitre.org/techniques/T1105/)
+- **Last Updated**: 2021-03-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=bitsadmin.exe Processes.process=*transfer* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `bitsadmin_download_file_filter`
+```
+#### Associated Analytic Story
+
+* Ingress Tool Transfer
+
+* BITS Jobs
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.user
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
+| T1105 | Ingress Tool Transfer | Command and Control |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives, however it may be required to filter based on parent process name or network connection.
+
+#### Reference
+
+* https://github.com/redcanaryco/atomic-red-team/blob/8eb52117b748d378325f7719554a896e37bccec7/atomics/T1105/T1105.md#atomic-test-9---windows---bitsadmin-bits-download
+
+* https://github.com/redcanaryco/atomic-red-team/blob/bc705cb7aaa5f26f2d96585fac8e4c7052df0ff9/atomics/T1197/T1197.md
+
+* https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
+
+* https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
 
 
 _version_: 1
@@ -11162,6 +11607,89 @@ _version_: 3
 
 ---
 
+### DSQuery Domain Discovery
+The following analytic identifies "dsquery.exe" execution with arguments looking for `TrustedDomain` query directly on the command-line. This is typically indicative of an Administrator or adversary perform domain trust discovery. Note that this query does not identify any other variations of "Dsquery.exe" usage.\
+Within this detection, it is assumed `dsquery.exe` is not moved or renamed.\
+The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process "dsquery.exe" and its parent process.\
+DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64` and only on Server operating system.\
+The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it is possible dsquery is running within that process context in memory.\
+In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1482](https://attack.mitre.org/techniques/T1482/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=dsquery.exe Processes.process=*trustedDomain* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `dsquery_domain_discovery_filter`
+```
+#### Associated Analytic Story
+
+* Domain Trust Discovery
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.user
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1482 | Domain Trust Discovery | Discovery |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives. If there is a true false positive, filter based on command-line or parent process.
+
+#### Reference
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md
+
+* http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/
+
+* https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732952(v=ws.11)
+
+* https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc754232(v=ws.11)
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Deleting Shadow Copies
 The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service.  Wmic is an interface to the Windows Management Instrumentation.  This search looks for either of these tools being used to delete shadow copies.
 
@@ -14212,17 +14740,19 @@ The test data is converted from Windows Security Event logs generated from Attac
 
 #### Required field
 
-* logon_process
+* signature_id
 
-* dest_user_primary_artifact
+* authentication_type
 
 * _time
 
-* event_code
+* authentication_method
 
-* dest_ip_primary_artifact
+* origin_device_domain
 
-* logon_type
+* dest_user_id
+
+* dest_device_id
 
 
 
@@ -17800,6 +18330,717 @@ _version_: 3
 
 ---
 
+### Disable Registry Tool
+This search is to identifies modification of registry to disable the regedit or registry tools of windows operating system. Since registry tool is a swiss knife in analyzing registry, malware such as RAT or trojan Spy disable this application to prevent the removal of their registry entry such as persistence, file less components and defense evasion.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disable_registry_tool_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin may disable this application for non technical user.
+
+#### Reference
+
+* https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disable Show Hidden Files
+The following search is to idetifies a modification in registry to prevent the user seeing all the files with hidden attributes. This event or techniques are known on some worm and trojan spy malware that will drop hidden files on the infected machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564.001/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt" Registry.registry_value_name = "DWORD (0x00000001)") OR (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden" Registry.registry_value_name = "DWORD (0x00000000)") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disable_show_hidden_files_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_nam
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1564.001 | Hidden Files and Directories | Defense Evasion |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+* https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disable Windows Behavior Monitoring
+This search is to identifies a modification in registry to disable the windows denfender real time behavior monitoring. This event or technique is commonly seen in RAT, bot, or Trojan to disable AV to evade detections.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableScanOnRealtimeEnable" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disable_windows_behavior_monitoring_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin or user may choose to disable this windows features.
+
+#### Reference
+
+* https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disable Windows SmartScreen Protection
+The following search identifies a modification of registry to disable the smartscreen protection of windows machine. This is windows feature provide an early warning system against website that might engage in phishing attack or malware distribution. This modification are seen in RAT malware to cover their tracks upon downloading other of its component or other payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled"  Registry.registry_value_name = "Off" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disable_windows_smartscreen_protection_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_nam
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin or user may choose to disable this windows features.
+
+#### Reference
+
+* https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disabling CMD Application
+this search is to identify modification in registry to disable cmd prompt application. This technique is commonly seen in RAT, Trojan or WORM to prevent triaging or deleting there samples through cmd application which is one of the tool of analyst to traverse on directory and files.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disabling_cmd_application_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin may disable this application for non technical user.
+
+#### Reference
+
+* https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disabling ControlPanel
+this search is to identify registry modification to disable control panel window. This technique is commonly seen in malware to prevent their artifacts , persistence removed on the infected machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `disabling_controlpanel_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin may disable this application for non technical user.
+
+#### Reference
+
+* https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disabling Firewall with Netsh
+This search is to identifies suspicious firewall disabling using netsh application. this technique is commonly seen in malware that tries to communicate or download its component or other payload to its C2 server.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe Processes.process= "*firewall*" (Processes.process= "*off*" OR  Processes.process= "*disable*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `disabling_firewall_with_netsh_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin may disable firewall during testing or fixing network problem.
+
+#### Reference
+
+* https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.htm
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disabling FolderOptions Windows Feature
+This search is to identify registry modification to disable folder options feature of windows to show hidden files, file extension and etc. This technique used by malware in combination if disabling show hidden files feature to hide their files and also to hide the file extension to lure the user base on file icons or fake file extensions.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFolderOptions" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `disabling_folderoptions_windows_feature_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin may disable this application for non technical user.
+
+#### Reference
+
+* https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disabling NoRun Windows App
+This search is to identify modification of registry to disable run application in window start menu. this application is known to be a helpful shortcut to windows OS user to run known application and also to execute some reg or batch script. This technique is used malware to make cleaning of its infection more harder by preventing known application run easily through run shortcut.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `disabling_norun_windows_app_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin may disable this application for non technical user.
+
+#### Reference
+
+* https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
+* https://blog.malwarebytes.com/detections/pum-optional-norun/
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Disabling Remote User Account Control
 The search looks for modifications to registry keys that control the enforcement of Windows User Account Control (UAC).
 
@@ -17870,6 +19111,164 @@ This registry key may be modified via administrators to implement a change in sy
 
 
 _version_: 4
+</details>
+
+---
+
+### Disabling SystemRestore In Registry
+The following search identifies the modification of registry related in disabling the system restore of a machine. This event or behavior are seen in some RAT malware to make the restore of the infected machine  difficult and keep their infection on the box.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableSR" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableConfig" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disabling_systemrestore_in_registry_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+in some cases admin can disable systemrestore on a machine.
+
+#### Reference
+
+* https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Disabling Task Manager
+This search is to identifies modification of registry to disable the task manager of windows operating system. this event or technique are commonly seen in malware such as RAT, Trojan, TrojanSpy or worm to prevent the user to terminate their process.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableTaskMgr" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `disabling_task_manager_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin may disable this application for non technical user.
+
+#### Reference
+
+* https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
+* https://blog.talosintelligence.com/2020/05/threat-roundup-0424-0501.html
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -22708,6 +24107,96 @@ _version_: 4
 
 ---
 
+### Malicious Powershell Executed As A Service
+This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **Last Updated**: 2021-04-07
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ `wineventlog_system` EventCode=7045 
+| eval l_Service_File_Name=lower(Service_File_Name) 
+| regex l_Service_File_Name="powershell[.\s]
+|powershell_ise[.\s]
+|pwsh[.\s]
+|psexec[.\s]" 
+| regex l_Service_File_Name="-nop[rofile]*
+|-w[indowstyle]*\s+hid[den]*
+|-noe[xit]*
+|-enc[odedcommand]*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type Service_Account user 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `malicious_powershell_executed_as_a_service_filter`
+```
+#### Associated Analytic Story
+
+* Malicious Powershell
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows System logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
+
+#### Required field
+
+* EventCode
+
+* Service_File_Name
+
+* Service_Type
+
+* _time
+
+* Service_Name
+
+* Service_Start_Type
+
+* Service_Account
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1569.002 | Service Execution | Execution |
+
+
+#### Kill Chain Phase
+
+* Privilege Escalation
+
+
+#### Known False Positives
+Creating a hidden powershell service is rare and could key off of those instances.
+
+#### Reference
+
+* https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/dosfuscation-report.pdf
+
+* http://az4n6.blogspot.com/2017/
+
+* https://www.danielbohannon.com/blog-1/2017/3/12/powershell-execution-argument-obfuscation-how-it-can-make-detection-easier
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Monitor DNS For Brand Abuse
 This search looks for DNS requests for faux domains similar to the domains that you want to have monitored for abuse.
 
@@ -23132,6 +24621,8 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 #### Associated Analytic Story
 
 * Ryuk Ransomware
+
+* Domain Trust Discovery
 
 
 #### How To Implement
@@ -24776,6 +26267,82 @@ Because of imbalance of anomaly data in training, the model will less likely rep
 
 
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### PowerShell Start-BitsTransfer
+Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar functionality is present. This technique variation is not as commonly used by adversaries, but has been abused in the past. Lesser known uses include the ability to set the `-TransferType` to `Upload` for exfiltration of files. In an instance where `Upload` is used, it is highly possible files will be archived. During triage, review parallel processes and process lineage. Capture any files on disk and review. For the remote domain or IP, what is the reputation?
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1197](https://attack.mitre.org/techniques/T1197/)
+- **Last Updated**: 2021-03-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe Processes.process=*start-bitstransfer* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `powershell_start_bitstransfer_filter`
+```
+#### Associated Analytic Story
+
+* BITS Jobs
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.user
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives. It is possible administrators will utilize Start-BitsTransfer for administrative tasks, otherwise filter based parent process or command-line arguments.
+
+#### Reference
+
+* https://isc.sans.edu/diary/Investigating+Microsoft+BITS+Activity/23281
+
+* https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
 
 
 _version_: 1
@@ -27510,7 +29077,7 @@ This search monitors for remote modifications to registry keys.
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where  Registry.registry_path="\\\\*"  by Registry.dest , Registry.user 
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where  Registry.registry_path="\\\\*"  by Registry.dest , Registry.user 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
@@ -29501,7 +31068,7 @@ This search looks for changes to registry values that control Windows file assoc
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | join [
-| tstats `security_content_summariesonly` values(Registry.registry_path) as registry_path count  FROM datamodel=Endpoint.Registry where Registry.registry_path=*\\Explorer\\FileExts* by Registry.process_id Registry.dest 
+| tstats `security_content_summariesonly` values(Registry.registry_path) as registry_path count from datamodel=Endpoint.Registry where Registry.registry_path=*\\Explorer\\FileExts* by Registry.process_id Registry.dest 
 | `drop_dm_object_name("Registry")` 
 | table process_id dest registry_path]
 | `suspicious_changes_to_file_associations_filter` 
@@ -33463,6 +35030,8 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 #### Associated Analytic Story
 
 * NOBELIUM Group
+
+* Domain Trust Discovery
 
 
 #### How To Implement
