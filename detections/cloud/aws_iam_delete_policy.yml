@@ -5,21 +5,31 @@ date: '2021-04-01'
 author: Michael Haag, Splunk
 type: batch
 datamodel: []
-description: The following detection identifes when a policy is deleted on AWS. This does not identify whether successful or failed, but the error messages tell a story of suspicious attempts. There is a specific process to follow when deleting a policy. First, detach the policy from all users, groups, and roles that the policy is attached to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
-search: '`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com)
-| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn) as policyArn by src eventName eventSource aws_account_id errorCode errorMessage userAgent eventID awsRegion userIdentity.principalId userIdentity.arn 
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`
-| `aws_iam_delete_policy_filter`'
-how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
-known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete policies (least privilege). In addition, this may be saved seperately and tuned for failed or success attempts only.
+description: The following detection identifes when a policy is deleted on AWS. This
+  does not identify whether successful or failed, but the error messages tell a story
+  of suspicious attempts. There is a specific process to follow when deleting a policy.
+  First, detach the policy from all users, groups, and roles that the policy is attached
+  to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
+search: '`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com) | stats
+  count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
+  as policyArn by src eventName eventSource aws_account_id errorCode errorMessage
+  userAgent eventID awsRegion userIdentity.principalId userIdentity.arn | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `aws_iam_delete_policy_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
+  this data. The search requires AWS Cloudtrail logs.
+known_false_positives: This detection will require tuning to provide high fidelity
+  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
+  or by groups of users. Not every user with AWS access should have permission to
+  delete policies (least privilege). In addition, this may be saved seperately and
+  tuned for failed or success attempts only.
 references:
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html
 - https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
@@ -36,3 +46,4 @@ tags:
   - errorCode
   - requestParameters.policyArn
   security_domain: access
+  automated_detection_testing: passed
