@@ -24,7 +24,7 @@ references:
 - https://any.run/report/47561b4e949041eff0a0f4693c59c81726591779fe21183ae9185b5eb6a69847/aba3722a-b373-4dae-8273-8730fb40cdbe
 tags:
   analytic_story:
-  - Spearphishing Attachments
+  - Phishing Payloads
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

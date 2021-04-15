@@ -30,7 +30,7 @@ references:
 - https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
 tags:
   analytic_story:
-  - Spearphishing Attachments
+  - Phishing Payloads
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
