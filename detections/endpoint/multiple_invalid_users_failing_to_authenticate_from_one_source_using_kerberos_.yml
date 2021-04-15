@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: The following analytic identifies one source endpoint failing to authenticate with multiple invalid domain users using the Kerberos protocol. 
   This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain 
-  initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. I certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. 
+  initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. 
   In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
   Event 4768 is generated every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code 0x6 means 
   'client not found in Kerberos database' (the attempted user is not a valid domain user).
@@ -25,8 +25,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Password Spraying
-  dataset:
-  - UPDATE_DATASET_URL
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

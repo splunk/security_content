@@ -1,25 +1,25 @@
-name: Multiple Valid Users Failing To Authenticate From One Source Using NTLM
-id: 7ed272a4-9c77-11eb-af22-acde48001122
+name: Multiple Invalid Users Failing To Authenticate From One Source Using NTLM
+id: 57ad5a64-9df7-11eb-a290-acde48001122
 version: 1
-date: '2021-04-13'
+date: '2021-04-15'
 author: Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the NTLM protocol. 
+description: The following analytic identifies one source endpoint failing to authenticate with multiple invalid users using the NTLM protocol. 
   This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using NTLM to obtain 
-  initial access or elevate privileges. 
+  initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. 
   In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
   Event 4776 is generated on the computer that is authoritative for the provided credentials. For domain accounts, the domain controller is authoritative.
-  For local accounts, the local computer is authoritative. Error code 0xC000006A means 'misspelled or bad password' (the attempted user is a legitimate domain user).
+  For local accounts, the local computer is authoritative. Error code 0xC0000064 means 'The username you typed does not exis' (the attempted user is a legitimate domain user).
 
   This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
 
   The analytic's returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
-search: 'EventCode=4776 action=failure 0xC000006A | stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by Source_Workstation | where unique_accounts > 10'
+search: 'EventCode=4776 action=failure 0xC0000064 | stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by Source_Workstation | where unique_accounts > 10'
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting 'Audit Credential
 Validation' within 'Account Logon' needs to be enabled.
-known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios 
+known_false_positives: A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios 
 include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could 
 represent a password spraying attack against the host's local accounts.
 references:
