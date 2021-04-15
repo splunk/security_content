@@ -1,6 +1,6 @@
-name: Multiple Valid Users Failing To Autheticate From One Source Using Kerberos Unit Test
+name: Multiple Valid Users Failing To Authenticate From One Source Using Kerberos Unit Test
 tests:
-- name: Multiple Valid Users Failing To Autheticate From One Source Using Kerberos
+- name: Multiple Valid Users Failing To Authenticate From One Source Using Kerberos
   file: endpoint/multiple_users_failing_to_authenticate_from_source_using_kerberos.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'

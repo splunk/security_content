@@ -1,0 +1,42 @@
+name: Multiple Users Remotely Failing To Authenticate From One Source Against Multiple Targets
+id: e345917c-9ded-11eb-a15f-acde48001122
+version: 1
+date: '2021-04-15'
+author: Mauricio Velazco, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies a source host failing to authenticate against several remote hosts with multiple users in a distributed way.
+This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. 
+ In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
+ Event 4625 documents each and every failed attempt to logon to the local computer. This event generates on domain controllers, member servers and workstations. Logon Type 3 
+ describes an remote authentication attempt.
+
+ This detection will trigger on the hosts that are the targets of the password spraying attack. These could be domain controllers and/or member servers or workstations.
+
+ The analytic's returned fields allow analysts to investigate the event further by providing fields like source ip, target hosts and target users.
+
+search: 'EventCode=4625 Logon_Type=3 Source_Network_Address!="-" | eval Destination_Account = mvindex(Account_Name, 1) | stats dc(Destination_Account) AS unique_accounts values(ComputerName) as target_hosts values(Destination_Account) as tried_accounts by Source_Network_Address | where unique_accounts > 3'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as 
+as well as member servers and workstations. The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs to be enabled.
+known_false_positives: A host failing to authenticate with multiple users against multiple targets is not common behavior for a legitimate system. Possible false positive scenarios 
+include but are not limited to vulnerability scanners, remote administration tools and missconfigured systems.
+references:
+  - https://attack.mitre.org/techniques/T1110/003/ 
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
+  - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
+tags:
+  analytic_story:
+  - Active Directory Password Spraying
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1110.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint

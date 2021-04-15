@@ -29,9 +29,7 @@ references:
   - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
-  dataset:
-  - UPDATE_DATASET_URL
+  - Active Directory Password Spraying
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
