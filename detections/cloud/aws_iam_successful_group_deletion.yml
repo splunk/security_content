@@ -25,6 +25,7 @@ tags:
   - Privilege Escalation
   mitre_attack_id:
   - T1069.003
+  - T1098
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

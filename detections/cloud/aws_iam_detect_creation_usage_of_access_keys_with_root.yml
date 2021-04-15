@@ -30,4 +30,9 @@ tags:
   - Splunk Security Analytics for AWS
   required_fields:
   - _time
+  - eventName
+  - userAgent
+  - errorCode
+  - eventSource
+  - user_arn
   security_domain: access

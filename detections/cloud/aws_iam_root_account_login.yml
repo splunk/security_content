@@ -14,6 +14,7 @@ search: '`cloudtrail` eventName=ConsoleLogin eventSource=signin.amazonaws.com us
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
 known_false_positives: False positives should be limited as the root account should not be used in day to day activity. The detection may be filtered down based on the `action` field - success / failure.
 references:
+- https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation

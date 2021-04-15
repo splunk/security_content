@@ -1,7 +1,7 @@
 name: AWS IAM MFA Deactivated Unit Test
 tests:
 - name: AWS IAM MFA Deactivated
-  file: detections/cloud/aws_iam_mfa_deactivated.yml
+  file: cloud/aws_iam_mfa_deactivated.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

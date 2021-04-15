@@ -15,6 +15,7 @@ search: '`cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failur
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs. Set the `where count` greater than a value to identify suspicious activity in your environment.
 known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. 
 references:
+- https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities
 - https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html
 tags:
   analytic_story:
@@ -24,6 +25,7 @@ tags:
   - Privilege Escalation
   mitre_attack_id:
   - T1580
+  - T1110
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -4,7 +4,7 @@ version: 1
 date: '2021-04-05'
 author: Michael Haag, Splunk
 type: batch
-datamodel:
+datamodel: []
 description: The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
 search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
   | bucket _time span=1h 

@@ -4,7 +4,7 @@ version: 1
 date: '2021-04-05'
 author: Michael Haag, Splunk
 type: batch
-datamodel:
+datamodel: []
 description: The following detection identifies distict list commands ran against the AWS environment over a 1 hour period of time. The idea is that, if a AWS key is lost/stolen, the adversary will begin to perform many list-* queries against the environment to gather further information about the account. 
 search: '`cloudtrail` (command = List*) user_type=IAMUser (userAgent!=*.amazonaws.com)
   | bucket _time span=1h 
