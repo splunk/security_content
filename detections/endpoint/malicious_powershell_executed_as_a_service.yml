@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Malicious Powershell
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log
   kill_chain_phases:
@@ -46,4 +47,3 @@ tags:
   - Service_Account
   - user
   security_domain: endpoint
-  automated_detection_testing: passed
