@@ -1,7 +1,7 @@
 name: DLLHost with no Command Line Arguments with Network Unit Test
 tests:
 - name: DLLHost with no Command Line Arguments with Network
-  file: detections/endpoint/dllhost_with_no_command_line_arguments_with_network.yml
+  file: endpoint/dllhost_with_no_command_line_arguments_with_network.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
