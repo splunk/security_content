@@ -24,6 +24,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   endpoints. Tune and filter known instances of Task schedule used in your environment.
 known_false_positives: unknown
 references:
+- https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
 tags:
   analytic_story:
   - Windows Persistence Techniques

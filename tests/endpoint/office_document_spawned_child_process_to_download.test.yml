@@ -1,7 +1,7 @@
 name: Office Document Spawned Child Process To Download Unit Test
 tests:
 - name: Office Document Spawned Child Process To Download
-  file: detections/endpoint/office_document_spawned_child_process_to_download.yml
+  file: endpoint/office_document_spawned_child_process_to_download.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
