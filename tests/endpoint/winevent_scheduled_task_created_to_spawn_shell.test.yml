@@ -7,7 +7,7 @@ tests:
   latest_time: 'now'
   attack_data:
   - file_name: windows-sysmon.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
     update_timestamp: True
