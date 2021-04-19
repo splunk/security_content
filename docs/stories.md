@@ -284,6 +284,50 @@ _version_: 1
 <details>
   <summary>details</summary>
 
+### BITS Jobs
+Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1105](https://attack.mitre.org/techniques/T1105/), [T1197](https://attack.mitre.org/techniques/T1197/)
+- **Last Updated**: 2021-03-26
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [BITS Job Persistence](detections.md#bits-job-persistence)
+
+* [BITSAdmin Download File](detections.md#bitsadmin-download-file)
+
+* [PowerShell Start-BitsTransfer](detections.md#powershell-start-bitstransfer)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
+| T1105 | Ingress Tool Transfer | Command and Control |
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Reference
+
+* https://attack.mitre.org/techniques/T1197/
+
+* https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
+
+
+_version_: 1
+</details>
+
+---
+
 ### Baron Samedit CVE-2021-3156
 Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys Research Team, this vulnerability has been found to affect sudo across multiple Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and prior). As this vulnerability was committed to code in July 2011, there will be many distributions affected. Successful exploitation of this vulnerability allows any unprivileged user to gain root privileges on the vulnerable host.
 
@@ -924,6 +968,48 @@ _version_: 2
 
 ---
 
+### Domain Trust Discovery
+Adversaries may attempt to gather information on domain trust relationships that may be used to identify lateral movement opportunities in Windows multi-domain/forest environments.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1018](https://attack.mitre.org/techniques/T1018/), [T1482](https://attack.mitre.org/techniques/T1482/)
+- **Last Updated**: 2021-03-25
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [DSQuery Domain Discovery](detections.md#dsquery-domain-discovery)
+
+* [NLTest Domain Trust Discovery](detections.md#nltest-domain-trust-discovery)
+
+* [Windows AdFind Exe](detections.md#windows-adfind-exe)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1482 | Domain Trust Discovery | Discovery |
+| T1018 | Remote System Discovery | Discovery |
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Reference
+
+* https://attack.mitre.org/techniques/T1482/
+
+
+_version_: 1
+</details>
+
+---
+
 ### F5 TMUI RCE CVE-2020-5902
 Uncover activity consistent with CVE-2020-5902. Discovered by Positive Technologies researchers, this vulnerability affects F5 BIG-IP, BIG-IQ. and Traffix SDC devices (vulnerable versions in F5 support link below). This vulnerability allows unauthenticated users, along with authenticated users, who have access to the configuration utility to execute system commands, create/delete files, disable services, and/or execute Java code.  This vulnerability can result in full system compromise.
 
@@ -1054,13 +1140,19 @@ Adversaries may transfer tools or other files from an external system into a com
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1105](https://attack.mitre.org/techniques/T1105/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1105](https://attack.mitre.org/techniques/T1105/), [T1197](https://attack.mitre.org/techniques/T1197/)
 - **Last Updated**: 2021-03-24
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Any Powershell DownloadFile](detections.md#any-powershell-downloadfile)
+
+* [Any Powershell DownloadString](detections.md#any-powershell-downloadstring)
+
+* [BITSAdmin Download File](detections.md#bitsadmin-download-file)
 
 * [CertUtil Download With URLCache and Split Arguments](detections.md#certutil-download-with-urlcache-and-split-arguments)
 
@@ -1073,7 +1165,21 @@ Adversaries may transfer tools or other files from an external system into a com
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1059.001 | PowerShell | Execution |
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
 | T1105 | Ingress Tool Transfer | Command and Control |
+| T1003 | OS Credential Dumping | Credential Access |
+| T1021 | Remote Services | Lateral Movement |
+| T1113 | Screen Capture | Collection |
+| T1123 | Audio Capture | Collection |
+| T1563 | Remote Service Session Hijacking | Lateral Movement |
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1106 | Native API | Execution |
+| T1569 | System Services | Execution |
+| T1027 | Obfuscated Files or Information | Defense Evasion |
 
 #### Kill Chain Phase
 
@@ -1189,6 +1295,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
+| T1105 | Ingress Tool Transfer | Command and Control |
 | T1003 | OS Credential Dumping | Credential Access |
 | T1021 | Remote Services | Lateral Movement |
 | T1113 | Screen Capture | Collection |
@@ -2042,16 +2150,12 @@ Monitor and detect registry changes initiated from remote locations, which can b
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
-| T1112 | Modify Registry | Defense Evasion |
-| T1222.001 | Windows File and Directory Permissions Modification | Defense Evasion |
 | T1547.010 | Port Monitors | Persistence, Privilege Escalation |
 | T1564.001 | Hidden Files and Directories | Defense Evasion |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 | T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
 | T1546.011 | Application Shimming | Persistence, Privilege Escalation |
 | T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
-| T1036 | Masquerading | Defense Evasion |
-| T1562.001 | Disable or Modify Tools | Defense Evasion |
 
 #### Kill Chain Phase
 
@@ -2267,7 +2371,29 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 #### Detection Profile
 
+* [Disable Registry Tool](detections.md#disable-registry-tool)
+
+* [Disable Show Hidden Files](detections.md#disable-show-hidden-files)
+
+* [Disable Windows Behavior Monitoring](detections.md#disable-windows-behavior-monitoring)
+
+* [Disable Windows SmartScreen Protection](detections.md#disable-windows-smartscreen-protection)
+
+* [Disabling CMD Application](detections.md#disabling-cmd-application)
+
+* [Disabling ControlPanel](detections.md#disabling-controlpanel)
+
+* [Disabling Firewall with Netsh](detections.md#disabling-firewall-with-netsh)
+
+* [Disabling FolderOptions Windows Feature](detections.md#disabling-folderoptions-windows-feature)
+
+* [Disabling NoRun Windows App](detections.md#disabling-norun-windows-app)
+
 * [Disabling Remote User Account Control](detections.md#disabling-remote-user-account-control)
+
+* [Disabling SystemRestore In Registry](detections.md#disabling-systemrestore-in-registry)
+
+* [Disabling Task Manager](detections.md#disabling-task-manager)
 
 * [Eventvwr UAC Bypass](detections.md#eventvwr-uac-bypass)
 
@@ -2290,17 +2416,12 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1564.001 | Hidden Files and Directories | Defense Evasion |
 | T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
 | T1112 | Modify Registry | Defense Evasion |
 | T1222.001 | Windows File and Directory Permissions Modification | Defense Evasion |
-| T1547.010 | Port Monitors | Persistence, Privilege Escalation |
-| T1564.001 | Hidden Files and Directories | Defense Evasion |
-| T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
-| T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
 | T1036 | Masquerading | Defense Evasion |
-| T1562.001 | Disable or Modify Tools | Defense Evasion |
 
 #### Kill Chain Phase
 
@@ -3222,13 +3343,15 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1526](https://attack.mitre.org/techniques/T1526/)
 - **Last Updated**: 2018-03-12
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [AWS Excessive Security Scanning](detections.md#aws-excessive-security-scanning)
 
 * [Detect API activity from users without MFA](detections.md#detect-api-activity-from-users-without-mfa)
 
@@ -3245,6 +3368,7 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1526 | Cloud Service Discovery | Discovery |
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
@@ -3990,7 +4114,7 @@ _version_: 1
 ### Suspicious Cloud User Activities
 Detect and investigate suspicious activities by users and roles in your cloud environments.
 
-- **Product**: Splunk Security Analytics for AWS, Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
 - **Last Updated**: 2020-09-04
