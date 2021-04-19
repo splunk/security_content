@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "security_content"
+version = "0.1.0"
+description = "Splunk Security Content"
+authors = ["Threat Research <research@splunk.com>"]
+license = "Apache 2.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+jsonschema = "^3.2.0"
+PyYAML = "^5.4.1"
+Jinja2 = "^2.11.3"
+attackcti = "^0.3.4"
+PyInquirer = "^1.0.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
