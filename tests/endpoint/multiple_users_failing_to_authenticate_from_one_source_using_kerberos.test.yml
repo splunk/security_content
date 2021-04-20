@@ -1,0 +1,12 @@
+name: Multiple Valid Users Failing To Authenticate From One Source Using Kerberos Unit Test
+tests:
+- name: Multiple Valid Users Failing To Authenticate From One Source Using Kerberos
+  file: endpoint/multiple_users_failing_to_authenticate_from_one_source_using_kerberos.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data: 
+  - file_name: windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log
+    source: WinEventLog:Security
+    sourcetype: WinEventLog

@@ -10,7 +10,7 @@ description: The following analytic identifies a source host failing to authenti
 This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. 
  In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
  Event 4625 documents each and every failed attempt to logon to the local computer. This event generates on domain controllers, member servers and workstations. Logon Type 3 
- describes an remote authentication attempt.
+ describes an remote authentication attempt.\
 
  This detection will trigger on the hosts that are the targets of the password spraying attack. These could be domain controllers and/or member servers or workstations.
 
@@ -35,7 +35,7 @@ tags:
   - T1110.003
   product:
   - Splunk Enterprise
-  - Splunk Enterprise Security
+  - Splunk Enterprise Security`
   - Splunk Cloud
   required_fields:
   - _time

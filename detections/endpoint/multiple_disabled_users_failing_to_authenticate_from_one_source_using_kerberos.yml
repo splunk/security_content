@@ -11,7 +11,7 @@ description: The following analytic identifies one source endpoint failing to au
   initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. I certain scenarios, adversaries may execute a password spraying attack against disabled users. 
   In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
   Event 4768 is generated every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code 0x12 means 
-  'client’s credentials have been revoked' (account disabled, expired or locked out.
+  'client’s credentials have been revoked' (account disabled, expired or locked out.\
 
   This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
 
@@ -25,8 +25,6 @@ references:
 tags:
   analytic_story:
   - Active Directory Password Spraying
-  dataset:
-  - UPDATE_DATASET_URL
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

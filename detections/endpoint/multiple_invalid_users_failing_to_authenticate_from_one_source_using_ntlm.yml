@@ -11,7 +11,7 @@ description: The following analytic identifies one source endpoint failing to au
   initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. 
   In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
   Event 4776 is generated on the computer that is authoritative for the provided credentials. For domain accounts, the domain controller is authoritative.
-  For local accounts, the local computer is authoritative. Error code 0xC0000064 means 'The username you typed does not exis' (the attempted user is a legitimate domain user).
+  For local accounts, the local computer is authoritative. Error code 0xC0000064 means 'The username you typed does not exis' (the attempted user is a legitimate domain user).\
 
   This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
 
