@@ -22,7 +22,8 @@ search: '  | tstats `security_content_summariesonly` count FROM datamodel=Endpoi
   | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port
   | `drop_dm_object_name(Ports)` 
   | rename  dest as connection_to_CNC] 
-  | table _time dest  parent_process_name process_name process_path process_id  connection_to_CNC dest_port | `dllhost_with_no_command_line_arguments_with_network_filter`'
+  | table _time dest parent_process_name process_name process_path process process_id connection_to_CNC
+  dest_port | `dllhost_with_no_command_line_arguments_with_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
