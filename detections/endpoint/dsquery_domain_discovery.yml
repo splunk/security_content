@@ -10,7 +10,7 @@ description: 'The following analytic identifies "dsquery.exe" execution with arg
   looking for `TrustedDomain` query directly on the command-line. This is typically
   indicative of an Administrator or adversary perform domain trust discovery. Note
   that this query does not identify any other variations of "Dsquery.exe" usage.\
-  
+
   Within this detection, it is assumed `dsquery.exe` is not moved or renamed.\
 
   The search will return the first time and last time these command-line arguments
@@ -46,6 +46,7 @@ references:
 tags:
   analytic_story:
   - Domain Trust Discovery
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
@@ -63,4 +64,3 @@ tags:
   - Processes.user
   - Processes.dest
   security_domain: endpoint
-  automated_detection_testing: passed

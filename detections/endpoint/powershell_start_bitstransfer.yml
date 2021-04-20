@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - BITS Jobs
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
@@ -49,4 +50,3 @@ tags:
   - Processes.user
   - Processes.dest
   security_domain: endpoint
-  automated_detection_testing: passed
