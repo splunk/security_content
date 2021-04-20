@@ -1,0 +1,66 @@
+.btn-pill  {
+    display: inline;
+}
+
+.killchain-phases {
+    width: 100%;
+    margin-left: 6%;
+}
+
+.killchain_card {
+    width: 14%;
+    float:left;
+}
+
+.killchain {
+    height: 55px;
+    line-height: 55px;
+    -webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+    clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+}
+
+.killchain-text {
+    font-size: 300%;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    white-space: wrap;
+}
+
+
+.killchain-label {
+    margin-top: 7px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 10%;
+    width: 60%;
+}
+
+.killchain-text-one-line {
+    font-size: 16px;
+    color: #fff;
+    font-family: system-ui;
+    white-space: wrap;
+    width: 100%;
+    padding-top: 7%;
+    padding-left: 26%;
+}
+
+.killchain-text-second {
+    font-size: 16px;
+    color: #fff;
+    font-family: system-ui;
+    margin-top: -10px;
+    padding-left: 26%;
+}
+
+.killchain-phases {
+    display: inline-block;
+    width: 100%;
+}
+
+.notfirst {
+    margin-left: -2%;
+}
