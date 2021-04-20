@@ -57,9 +57,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 {{ detection.known_false_positives}}
 
 ====Reference====
+{% if detection.references %}
 {% for reference in detection.references %}
 * {{ reference }}
 {% endfor %}
+{% endif %}
 
 ====Test Dataset====
 {% for dataset in detection.tags.dataset %}

@@ -1,0 +1,19 @@
+#tabs {
+    border-bottom: 0px;
+}
+
+#tabs>.dashboard-cell>.dashboard-panel {
+    margin-bottom: 0px;
+    border-bottom: 0px;
+}
+
+#element1>.html {
+    padding-left: 0px;
+    /* This fixes some weirdness where the first tab doesn't look right due to the left part of the tab showing */
+    padding-right: 0px;
+    padding-top: 0px;
+}
+
+#tab_1>.dashboard-cell>.dashboard-panel {
+    border-top: 0px;
+}
