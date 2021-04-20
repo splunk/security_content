@@ -1,4 +1,4 @@
-name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
+name: Set PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
 version: 6
 date: '2020-11-06'
