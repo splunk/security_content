@@ -13,7 +13,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted
   OR Registry.registry_value_name=Bypass) by Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
-  | `attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
+  | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Registry node. You must also be
   ingesting logs with the fields registry_path, registry_key_name, and registry_value_name
