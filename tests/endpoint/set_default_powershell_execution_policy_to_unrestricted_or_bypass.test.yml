@@ -1,7 +1,7 @@
-name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass Unit Test
+name: Set Default PowerShell Execution Policy To Unrestricted or Bypass Unit Test
 tests:
-- name: Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
-  file: endpoint/attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass.yml
+- name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
+  file: endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
