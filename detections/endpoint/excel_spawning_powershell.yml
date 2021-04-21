@@ -23,6 +23,8 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives should be limited, but if any are present,
   filter as needed.
 references:
+  - https://redcanary.com/threat-detection-report/techniques/powershell/
+  - https://attack.mitre.org/techniques/T1566/001/
 tags:
   analytic_story:
   - Spearphishing Attachments
