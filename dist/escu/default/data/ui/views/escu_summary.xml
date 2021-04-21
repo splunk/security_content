@@ -1,242 +1,458 @@
-<form theme="dark">
+<form script="escu_summary.js">
   <label>Content Library</label>
+  <description>Explore the Analytic Stories included with ES Content Updates.</description>
   <!-- Example uses stats transforming command -->
   <!-- This limits evnts passed to post-process search -->
-  <title>Splunk Security Content</title>
-    <row>
-          <html>
-        <h2 style="color:red">Explore the Analytic Stories included with Splunk Security via <a href="https://www.splunk.com/en_us/resources/videos/splunk-enterprise-security-use-case-library.html">ES Use Case Library</a> or <a href="https://splunkbase.splunk.com/app/3435/">Splunk Security Essentials</a>.</h2>
-      </html>
-  </row>
+  <title>Content Library</title>
   <search id="baseSS">
     <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *"</query>
   </search>
   <search id="baseAS">
     <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0</query>
   </search>
-  <init>
-    <set token="form.as_category">*</set>
-    <set token="form.detection">*</set>
-    <set token="form.as_story">*</set>
-    <set token="form.as_attack_id">*</set>
-  </init>
-  <!-- Rows for  Analytic Story Stats -->
-  <!-- Rows for  Analytic Story Table -->
-  <!-- Rows for  Search Stats -->
-  <fieldset submitButton="false"></fieldset>
   <row depends="$explore-use-case-es-show$">
-    <panel>
-      <html>
-        <div id="explore-use-case-es-info"/>
+    <html>
+        <div id="explore-use-case-es-info" />
     </html>
-    </panel>
   </row>
-  <row id="analytic_stories_header_stats">
-    <panel>
-      <single>
-        <title>Total Analytic Stories</title>
-        <search base="baseAS">
-          <query>stats count</query>
-        </search>
-        <!-- post-process search -->
-        <option name="colorBy">value</option>
-        <option name="colorMode">block</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trendColorInterpretation">standard</option>
-        <option name="trendDisplayMode">absolute</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-        <option name="rangeColors">["0x555","0x65a637"]</option>
-        <option name="rangeValues">[0]</option>
-      </single>
-    </panel>
-    <panel>
-      <single>
-        <title>Total Detections</title>
-        <search base="baseSS">
-			<query>stats count by action.correlationsearch.label|  eventstats sum(count) as total_detection_count|  fields total_detection_count</query>
-        </search>
-        <!-- post-process search -->
-        <option name="colorBy">value</option>
-        <option name="colorMode">block</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trendColorInterpretation">standard</option>
-        <option name="trendDisplayMode">absolute</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-        <option name="rangeColors">["0x555","0x65a637"]</option>
-        <option name="rangeValues">[0]</option>
-      </single>
-    </panel>
-    <panel>
-      <single>
-        <title>ESCU App Version</title>
-        <search id="version">
-          <query>| rest /services/configs/conf-content-version splunk_server=local count=0 | table version</query>
-        </search>
-        <option name="colorBy">value</option>
-        <option name="colorMode">block</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x555","0x65a637"]</option>
-        <option name="rangeValues">[0]</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trendColorInterpretation">standard</option>
-        <option name="trendDisplayMode">absolute</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-      </single>
-    </panel>
+
+  <init>
+    <set token="form.as_cis">*</set>
+    <set token="form.as_category">*</set>
+    <set token="form.cis_token">*</set>
+    <set token="form.searchtype">*</set>
+  </init>
+
+  <row id="tabs">
+        <panel>
+            <html>
+                <ul id="tabs_list" class="nav nav-tabs">
+                  <li class="active">
+                      <a href="#" class="toggle-tab es-soc-analytic-story-stats" data-toggle="tab" data-elements="analytic_stories_header_stats,analytic_stories_viz,kill_chain_viz,analytic_stories_details_table">
+                        Analytic Story Summary
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#" class="toggle-tab es-soc-search-stats" data-toggle="tab" data-elements="search_stats_header,search_stats_viz,tab_search_type_table">
+                        Search Summary
+                      </a>
+                  </li>
+                </ul>
+            </html>
+        </panel>
   </row>
-  <row id="analytic_stories_viz">
-    <panel>
-      <title>Story Categories</title>
-      <chart>
-        <search>
-          <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | stats count by category</query>
-        </search>
-        <drilldown>
-          <set token="form.as_category">$click.value$</set>
-          <set token="as_category" prefix="&quot;" suffix="&quot;">$click.value$</set>
-        </drilldown>
-        <option name="charting.chart">bar</option>
-        <option name="charting.drilldown">all</option>
-        <option name="charting.legend.placement">none</option>
-        <option name="charting.axisLabelsX.integerUnits">true</option>
-        <option name="charting.axisTitleX.visibility">collapsed</option>
-        <option name="charting.axisTitleY.visibility">collapsed</option>
-      </chart>
-    </panel>
-    <panel>
-      <title>Analytic Stories by MITRE Technique ID</title>
-      <chart>
-        <search>
-          <query>
+
+  <!-- Rows for  Analytic Story Stats -->
+    <row id="analytic_stories_header_stats">
+        <panel>
+            <single>
+                <title>Total Analytic Stories</title>
+                <search base="baseAS">
+                <query>stats count</query>
+                </search>
+                <!-- post-process search -->
+                <option name="colorBy">value</option>
+                <option name="colorMode">block</option>
+                <option name="drilldown">none</option>
+                <option name="numberPrecision">0</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="unitPosition">after</option>
+                <option name="useColors">1</option>
+                <option name="useThousandSeparators">1</option>
+                <option name="rangeColors">["0x555","0x65a637"]</option>
+                <option name="rangeValues">[0]</option>
+            </single>
+        </panel>
+        <panel>
+            <single>
+                <title>ESCU App Version</title>
+                <search id="version">
+                    <query>| rest /services/configs/conf-content-version splunk_server=local count=0 | table version</query>
+                </search>
+                <option name="colorBy">value</option>
+                <option name="colorMode">block</option>
+                <option name="drilldown">none</option>
+                <option name="numberPrecision">0</option>
+                <option name="rangeColors">["0x555","0x65a637"]</option>
+                <option name="rangeValues">[0]</option>
+                <option name="refresh.display">progressbar</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="unitPosition">after</option>
+                <option name="useColors">1</option>
+                <option name="useThousandSeparators">1</option>
+            </single>
+        </panel>
+    </row>
+    <row id="analytic_stories_viz">
+        <panel>
+            <title>
+                Story Categories
+            </title>
+            <chart>
+                <search>
+                    <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | stats count by category</query>
+                </search>
+                <drilldown>
+                    <set token="form.as_category">$click.value$</set>
+                    <set token="as_category" prefix="&quot;" suffix="&quot;">$click.value$</set>
+                </drilldown>
+                <option name="charting.chart">bar</option>
+                <option name="charting.drilldown">all</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="charting.axisLabelsX.integerUnits">true</option>
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+            </chart>
+        </panel>
+        <panel>
+            <title>
+                Analytic Stories by CIS Critical Security Control
+            </title>
+            <chart>
+                <search>
+                    <query>
                     | rest /services/configs/conf-analytic_stories splunk_server=local count=0
-                    | spath input=mappings path=mitre_attack{} output="MITRE Technique ID"
-                    | stats dc(title) as "Analytic Stories" by "MITRE Technique ID"
-          </query>
-        </search>
-        <drilldown>
-          <set token="form.as_attack_id">$click.value$</set>
-          <set token="as_attack_id">$click.value$</set>
-        </drilldown>
-        <option name="charting.legend.placement">none</option>
-      </chart>
-    </panel>
-  </row>
-  <row id="analytic_stories_details_table">
-    <panel>
-      <input type="dropdown" token="as_story">
-        <label>Analytic Story</label>
-        <choice value="*">All</choice>
-        <search base="baseAS">
-          <latest>now</latest>
-          <query>| dedup title | rename title as story | fields story</query>
-        </search>
-        <fieldForLabel>story</fieldForLabel>
-        <fieldForValue>story</fieldForValue>
-        <default>*</default>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-      </input>
-      <input type="dropdown" token="detection">
-        <label>Detections</label>
-        <choice value="*">All</choice>
-        <search base="baseSS">
-          <latest>now</latest>
-          <query>rename action.correlationsearch.label as Detection | dedup Detection |  fields Detection</query>
-        </search>
-        <fieldForLabel>Detection</fieldForLabel>
-        <fieldForValue>Detection</fieldForValue>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-        <default>*</default>
-      </input>
-      <input type="dropdown" token="as_category">
-        <label>Category</label>
-        <choice value="*">All</choice>
-        <search base="baseAS">
-          <latest>now</latest>
-          <query>| dedup category | fields category</query>
-        </search>
-        <fieldForLabel>category</fieldForLabel>
-        <fieldForValue>category</fieldForValue>
-        <default>*</default>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-      </input>
-      <input type="dropdown" token="as_attack_id">
-        <label>MITRE Technique ID</label>
-        <choice value="*">All</choice>
-        <search base="baseAS">
-          <latest>now</latest>
-          <query>| spath input=mappings path=mitre_attack{} output="MITRE Technique ID" | mvexpand "MITRE Technique ID"| dedup "MITRE Technique ID" | fields "MITRE Technique ID"</query>
-        </search>
-        <fieldForLabel>MITRE Technique ID</fieldForLabel>
-        <fieldForValue>MITRE Technique ID</fieldForValue>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-        <default>*</default>
-      </input>
-      <input type="dropdown" token="as_data_models">
-        <label>Data Models</label>
-        <choice value="*">All</choice>
-        <search base="baseAS">
-          <latest>now</latest>
-          <query>| spath input=data_models path={} output=dm | mvexpand dm | dedup dm | fields dm</query>
-        </search>
-        <fieldForLabel>dm</fieldForLabel>
-        <fieldForValue>dm</fieldForValue>
-        <default>*</default>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-      </input>
-      <html>
+                    | spath input=mappings path=cis20{} output="cis"
+                    | rex field=cis "CIS\s(?&lt;num&gt;\d+)" | stats dc(title) as "Analytic Stories" by num | sort +num
+                    | rename num as "Critical Security Control"</query>
+                </search>
+                 <drilldown>
+                    <set token="form.as_cis">$click.value$</set>
+                    <set token="as_cis">$click.value$</set>
+                </drilldown>
+                <option name="charting.legend.placement">none</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row id="kill_chain_viz">
+        <panel>
+            <title>Kill Chain Phases</title>
+            <html>
+                <div class="killchain-phases">
+                    <div class="killchain_card">
+                        <div class="killchain" style="background-color:#555;">
+                            <div class="killchain-text" id="reconnaissance">0</div>
+                        </div>
+                        <div>
+                            <p class="killchain-label">Reconnaissance</p>
+                        </div>
+                    </div>
+                    <div class="killchain_card notfirst">
+                        <div class="killchain" style="background-color:#675551;">
+                            <div class="killchain-text" id="weaponization">0</div>
+                        </div>
+                        <div>
+                            <p class="killchain-label">Weaponization</p>
+                        </div>
+                    </div>
+                    <div class="killchain_card notfirst">
+                        <div class="killchain" style="background-color:#78554E;">
+                            <div class="killchain-text" id="delivery">0</div>
+                        </div>
+                        <div>
+                            <p class="killchain-label">Delivery</p>
+                        </div>
+                    </div>
+                    <div class="killchain_card notfirst">
+                        <div class="killchain" style="background-color:#8A554B;">
+                            <div class="killchain-text" id="exploitation">0</div>
+                        </div>
+                        <div>
+                            <p class="killchain-label">Exploitation</p>
+                        </div>
+                    </div>
+                    <div class="killchain_card notfirst">
+                        <div class="killchain" style="background-color:#9C5647;">
+                            <div class="killchain-text" id="installation">0</div>
+                        </div>
+                        <div>
+                            <p class="killchain-label">Installation</p>
+                        </div>
+                    </div>
+                    <div class="killchain_card notfirst">
+                        <div class="killchain" style="background-color:#AD5644;">
+                            <div class="killchain-text" id="commandandcontrol">0</div>
+                        </div>
+                        <div>
+                            <p class="killchain-label">Command &amp; Control</p>
+                        </div>
+                    </div>
+                    <div class="killchain_card notfirst">
+                        <div class="killchain" style="background-color:#D6563C;">
+                            <div class="killchain-text" id="actionsonobjectives">0</div>
+                        </div>
+                        <div>
+                            <p class="killchain-label">Actions on Objectives</p>
+                        </div>
+                    </div>
+                </div>
+            </html>
+        </panel>
+    </row>
+
+  <!-- Rows for  Analytic Story Table -->
+    <row id="analytic_stories_details_table">
+        <panel>
+        <input type="dropdown" token="as_category">
+            <label>Category</label>
+            <choice value="*">All</choice>
+            <search base="baseAS">
+                <latest>now</latest>
+                <query>| dedup category | fields category</query>
+            </search>
+            <fieldForLabel>category</fieldForLabel>
+            <fieldForValue>category</fieldForValue>
+            <default>*</default>
+            <prefix>"</prefix>
+            <suffix>"</suffix>
+        </input>
+        <input type="dropdown" token="as_kill_chain_phase">
+            <label>Kill Chain Phases</label>
+            <choice value="*">All</choice>
+            <choice value="Reconnaissance">Reconnaissance</choice>
+            <choice value="Weaponization">Weaponization</choice>
+            <choice value="Delivery">Delivery</choice>
+            <choice value="Exploitation">Exploitation</choice>
+            <choice value="Installation">Installation</choice>
+            <choice value="Command and Control">Command &amp; Control</choice>
+            <choice value="Actions on Objectives">Actions on Objectives</choice>
+            <prefix>"</prefix>
+            <suffix>"</suffix>
+            <default>*</default>
+        </input>
+        <input type="dropdown" token="as_data_models">
+            <label>Data Models</label>
+            <choice value="*">All</choice>
+            <search base="baseAS">
+                <latest>now</latest>
+                <query>| spath input=data_models path={} output=dm | mvexpand dm | dedup dm | fields dm</query>
+            </search>
+            <fieldForLabel>dm</fieldForLabel>
+            <fieldForValue>dm</fieldForValue>
+            <default>*</default>
+            <prefix>"</prefix>
+            <suffix>"</suffix>
+        </input>
+        <input type="dropdown" token="as_cis">
+            <label>CIS Critical Security Controls</label>
+            <choice value="*">All</choice>
+            <search base="baseAS">
+                <latest>now</latest>
+                <query>
+                    | spath input=mappings path=cis20{} output=cis
+                    | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
+                    | fields num
+                    | mvexpand num
+                    | dedup num
+                    | sort +num
+                </query>
+            </search>
+            <fieldForLabel>num</fieldForLabel>
+            <fieldForValue>num</fieldForValue>
+            <default>*</default>
+            <prefix>"</prefix>
+            <suffix>"</suffix>
+        </input>
+        <html>
             <input id="analytic_filter_clear" class="btn btn-primary" type="button" value="Clear All"/>
         </html>
-      <table>
-        <title>Analytic Story Details</title>
-        <search base="baseAS">
-          <query>
+        <table>
+            <title>Analytic Story Details</title>
+            <search base="baseAS">
+            <query>
                 spath input=data_models path={} output="Data Models"
                 | spath input=mappings path=kill_chain_phases{} output="Kill Chain Phases"
-                | spath input=detection_searches path={} output="Detections"
-                | spath input=mappings path=mitre_attack{} output="MITRE Technique ID"
-                | rename title as "Analytic Story" description as "Description" category as "Category" modification_date as "Last Updated"
+                | spath input=mappings path=cis20{} output=cis
+                | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
+                | rename num as CIS
+                | rename title as "Analytic Story" description as "Description" category as "Category" creation_date as "Created" modification_date as "Last Updated"
                 | fillnull value="-"
-                | search "Analytic Story"=$as_story$
                 | search "Data Models"=$as_data_models$
+                | search "Kill Chain Phases"=$as_kill_chain_phase$
                 | search "Category"=$as_category$
-                | search "MITRE Technique ID"=$as_attack_id$
-                | search "Detections"=$detection$
-                | table "Analytic Story", Description, Category, "MITRE Technique ID", "Data Models", Detections, "Last Updated"
-           </query>
-        </search>
-        <drilldown>
-          <link target="_blank">
-            <![CDATA[
-              /app/SplunkEnterpriseSecuritySuite/ess_analytic_story_details?analytic_story=$row.Analytic Story$
-            ]]>
-          </link>
-        </drilldown>
-        <option name="drilldown">row</option>
-        <option name="wrap">true</option>
-        <option name="rowNumbers">true</option>
-        <option name="dataOverlayMode">none</option>
-        <option name="count">5</option>
-      </table>
-    </panel>
-  </row>
+                | search CIS=$as_cis$
+                | table "Analytic Story" Description Category "Kill Chain Phases" , CIS, "Data Models" "Created" "Last Updated"</query>
+            </search>
+            <drilldown>
+                <link target="_blank">
+                    <![CDATA[
+                    /app/DA-ESS-ContentUpdate/analytic_story_details?hideFilters=true&form.analytic_story_name=$row.Analytic Story$
+                    ]]>
+                </link>
+            </drilldown>
+            <option name="drilldown">row</option>
+            <option name="wrap">true</option>
+            <option name="rowNumbers">true</option>
+            <option name="dataOverlayMode">none</option>
+            <option name="count">5</option>
+        </table>
+        </panel>
+    </row>
+  <!-- Rows for  Search Stats -->
+    <row id="search_stats_header">
+        <panel>
+            <single>
+                <title>Total Searches</title>
+                <search base="baseSS">
+                <query>stats count</query>
+                </search>
+                <!-- post-process search -->
+                <option name="colorBy">value</option>
+                <option name="colorMode">block</option>
+                <option name="drilldown">none</option>
+                <option name="numberPrecision">0</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="unitPosition">after</option>
+                <option name="useColors">1</option>
+                <option name="useThousandSeparators">1</option>
+                <option name="rangeColors">["0x555","0x65a637"]</option>
+                <option name="rangeValues">[0]</option>
+            </single>
+        </panel>
+    </row>
+    <row id="search_stats_viz">
+        <panel>
+            <title>
+                Searches by CIS Critical Security Control
+            </title>
+            <chart>
+                <title></title>
+                <search>
+                <query>
+                    | rest /services/saved/searches splunk_server=local count=0
+                    | search title="ESCU - *" action.escu.search_type=detection
+                    | spath input=action.escu.analytic_story path={} output=uc | mvexpand uc
+                    | spath input=action.escu.mappings path=cis20{} output=cis
+                    | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
+                    | stats dc(action.escu.full_search_name) AS Searches by num
+                    | sort +num | rename num AS "Critical Security Control"
+                </query>
+                <earliest>-24h</earliest>
+                <latest>now</latest>
+                </search>
+                <drilldown>
+                    <set token="form.cis_token">$click.value$</set>
+                    <set token="cis_token">$click.value$</set>
+                </drilldown>
+            </chart>
+        </panel>
+        <panel>
+            <title>
+                Search Types
+            </title>
+            <chart>
+                <search>
+                <query>
+                | rest /services/saved/searches splunk_server=local count=0
+                | search title="ESCU - *" | rename action.escu.search_type AS search_type
+                | eval search_type = upper(substr(search_type,1,1)) + lower(substr(search_type,2))
+                | stats count by search_type
+                </query>
+                </search>
+                <drilldown>
+                    <set token="searchtype">$click.value$</set>
+                    <set token="form.searchtype">$click.value$</set>
+                </drilldown>
+                <option name="charting.chart">bar</option>
+                <option name="charting.drilldown">all</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+            </chart>
+        </panel>
+    </row>
+    <row id="tab_search_type_table">
+        <panel>
+            <input type="dropdown" token="searchtype">
+                <label>Search Type</label>
+                <choice value="*">All</choice>
+                <choice value="detection">Detection</choice>
+                <choice value="investigative">Investigative</choice>
+                <choice value="contextual">Contextual</choice>
+                <choice value="support">Support</choice>
+                <default>$searchtype$</default>
+            </input>
+            <input type="dropdown" token="kill_chain_phase">
+                <label>Kill Chain Phases</label>
+                <choice value="*">All</choice>
+                <choice value="Reconnaissance">Reconnaissance</choice>
+                <choice value="Weaponization">Weaponization</choice>
+                <choice value="Delivery">Delivery</choice>
+                <choice value="Exploitation">Exploitation</choice>
+                <choice value="Installation">Installation</choice>
+                <choice value="Command and Control">Command &amp; Control</choice>
+                <choice value="Actions on Objectives">Actions on Objectives</choice>
+                <prefix>"</prefix>
+                <suffix>"</suffix>
+                <default>*</default>
+            </input>
+            
+            <input type="dropdown" token="data_models">
+                <label>Data Models</label>
+                <choice value="*">All</choice>
+                <search base="baseSS">
+                    <latest>now</latest>
+                    <query>| spath input=action.escu.data_models path={} output=dm | dedup dm | fields dm</query>
+                </search>
+                <fieldForLabel>dm</fieldForLabel>
+                <fieldForValue>dm</fieldForValue>
+                <default>*</default>
+                <prefix>"</prefix>
+                <suffix>"</suffix>
+            </input>
+            <input type="dropdown" token="cis_token">
+                <label>CIS Critical Security Controls</label>
+                <choice value="*">All</choice>
+                <search base="baseSS">
+                    <latest>now</latest>
+                    <query>
+                        | spath input=action.escu.mappings path=cis20{} output=cis
+                        | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
+                        | mvexpand num
+                        | dedup num
+                        | sort +num
+                        | fields num
+                    </query>
+                </search>
+                <fieldForLabel>num</fieldForLabel>
+                <fieldForValue>num</fieldForValue>
+                <default>*</default>
+                <prefix>"</prefix>
+                <suffix>"</suffix>
+            </input>
+            <html>
+                <input id="search_filter_clear" class="btn btn-primary" type="button" value="Clear All"/>
+            </html>
+            <table id="type">
+                <title>Search Details</title>
+                <search base="baseSS">
+                <query>
+                spath input=action.escu.data_models path={} output="Data Models"
+                | spath input=action.escu.mappings path=kill_chain_phases{} output="Kill Chain Phases"
+                | spath input=action.escu.mappings path=cis20{} output=cis
+                | rex field=cis "CIS\s(?&lt;num&gt;\d+)"
+                | rename num as CIS
+                | fillnull value="-"
+                | search CIS=$cis_token$
+                | search "Data Models"=$data_models$
+                | search "Kill Chain Phases"=$kill_chain_phase$
+                | search action.escu.search_type=$searchtype$
+                | rename action.escu.asset_at_risk AS "Asset at Risk" | rename title as "Search Name"| rename modification_date as "Last Updated"
+                | table "Search Name" description "Kill Chain Phases" CIS "Data Models" "Last Updated"</query>
+                <earliest>0</earliest>
+                <latest></latest>
+                </search>
+            </table>
+        </panel>
+    </row>
 </form>
