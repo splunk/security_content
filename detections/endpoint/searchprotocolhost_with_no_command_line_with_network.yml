@@ -46,7 +46,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - EventID
   - process_name
   - process_id
   - parent_process_name
