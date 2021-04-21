@@ -1,4 +1,4 @@
-name: Multiple Users Remotely Failing To Authenticate From One Source
+name: Multiple Users Remotely Failing To Authenticate From Host
 id: 80f9d53e-9ca1-11eb-b0d6-acde48001122
 version: 1
 date: '2021-04-13'
@@ -12,12 +12,11 @@ description: The following analytic identifies a source host failing to authenti
  Event 4625 documents each and every failed attempt to logon to the local computer. This event generates on domain controllers, member servers, and workstations. Logon Type 3 
  describes an remote authentication attempt.\
 
- This detection will trigger on the host that is the target of the password spraying attack. This could be a domain controller as well as a member server orworkstation.
+ This detection will trigger on the host that is the target of the password spraying attack. This could be a domain controller as well as a member server or workstation.\
 
  The analytic's returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
-search: 'EventCode=4625 Logon_Type=3  Source_Network_Address!="-" | eval Destination_Account = mvindex(Account_Name, 1)   | 
- stats  dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts by Source_Network_Address, ComputerName | where  unique_accounts > 10'
+search: ' `wineventlog_security` EventCode=4625  Logon_Type=3 | eval Destination_Account = mvindex(Account_Name, 1)  | stats dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts by Source_Network_Address, ComputerName  | where  unique_accounts > 10' 
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as 
 as well as member servers and workstations. The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple valid users against a remote host is not a common behavior for legitimate systems. 

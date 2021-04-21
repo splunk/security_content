@@ -1,4 +1,4 @@
-name: Multiple Users Remotely Failing To Authenticate From One Source Against Multiple Targets
+name: Multiple Users Remotely Failing To Authenticate From Host Against Multiple Targets
 id: e345917c-9ded-11eb-a15f-acde48001122
 version: 1
 date: '2021-04-15'
@@ -16,7 +16,7 @@ This behavior could represent an adversary performing a Password Spraying attack
 
  The analytic's returned fields allow analysts to investigate the event further by providing fields like source ip, target hosts and target users.
 
-search: 'EventCode=4625 Logon_Type=3 Source_Network_Address!="-" | eval Destination_Account = mvindex(Account_Name, 1) | stats dc(Destination_Account) AS unique_accounts values(ComputerName) as target_hosts values(Destination_Account) as tried_accounts by Source_Network_Address | where unique_accounts > 3'
+search: ' `wineventlog_security`  EventCode=4625 Logon_Type=3 Source_Network_Address!="-" | eval Destination_Account = mvindex(Account_Name, 1) | stats dc(Destination_Account) AS unique_accounts values(ComputerName) as target_hosts values(Destination_Account) as tried_accounts by Source_Network_Address | where unique_accounts > 3'
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as 
 as well as member servers and workstations. The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple users against multiple targets is not common behavior for a legitimate system. Possible false positive scenarios 

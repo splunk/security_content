@@ -1,7 +1,7 @@
-name: FMultiple Valid Users Failing To Authenticate From One Source Using NTLM Unit Test
+name: FMultiple Valid Users Failing To Authenticate From Host Using NTLM Unit Test
 tests:
-- name: Multiple Valid Users Failing To Authenticate From One Source Using NTLM
-  file: detections/endpoint/multiple_users_failing_to_authenticae_from_one_source_using_ntlm.yml
+- name: Multiple Valid Users Failing To Authenticate From Host Using NTLM
+  file: detections/endpoint/multiple_users_failing_to_authenticae_from_host_using_ntlm.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
