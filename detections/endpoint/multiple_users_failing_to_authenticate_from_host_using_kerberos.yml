@@ -1,4 +1,4 @@
-name: Multiple Valid Users Failing To Authenticate From Host Using Kerberos
+name: Multiple Users Failing To Authenticate From Host Using Kerberos
 id: 3a91a212-98a9-11eb-b86a-acde48001122
 version: 1
 date: '2021-04-08'
@@ -6,21 +6,21 @@ author: Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the Kerberos protocol. 
+description: 'The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the Kerberos protocol. 
   This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain 
   initial access or elevate privileges. 
-  In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
+  In this logic, the number of unique users is hardcoded to `10` but can/should be customized to fit especific environments.
   Event 4771 is generated when the Key Distribution Center fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 0x18 means 
-  'wrong passowrd provided' (the attempted user is a legitimate domain user).
+  `wrong passowrd provided` (the attempted user is a legitimate domain user).\
 
-  This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
+  This detection will trigger on the domain controller against which the offending host performs the password spraying attack.\
 
-  The analytic's returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
-search: '`wineventlog_security` EventCode=4771 Failure_Code=0x18 | stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by Client_Address | where unique_accounts > 10'
+  The analytic`s returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.'
+search: '`wineventlog_security` EventCode=4771 Failure_Code=0x18 | stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by Client_Address | where unique_accounts > 10 | `multiple_users_failing_to_authenticate_from_host_using_kerberos_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting 
-'Audit Kerberos Authentication Service' within 'Account Logon' needs to be enabled.
+  'Audit Kerberos Authentication Service' within 'Account Logon' needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios 
-include but are not limited to vulnerability scanners and missconfigured systems.
+  include but are not limited to vulnerability scanners and missconfigured systems.
 references:
   - https://attack.mitre.org/techniques/T1110/003/ 
   - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319109(v=ws.11)
@@ -37,7 +37,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-   - _time
+  - _time
   - EventCode
   - Result_Code
   - Account_Name

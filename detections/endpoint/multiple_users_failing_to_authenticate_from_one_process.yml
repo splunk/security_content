@@ -1,4 +1,4 @@
-name: Multiple Users Failing To Authentication From One Process
+name: Multiple Users Failing To Authenticate From One Process
 id: 9015385a-9c84-11eb-bef2-acde48001122
 version: 1
 date: '2021-04-13'
@@ -17,11 +17,11 @@ description: The following analytic identifies a source process name failing to 
 
  The analytic's returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
-search: ' `wineventlog_security` EventCode=4625 Logon_Type=2  !="-" | eval Source_Account = mvindex(Security_ID, 0) | eval Destination_Account = mvindex(Account_Name, 1)  | stats  dc(Destination_Account) AS unique_accounts values(Account_Name) as tried_accounts by Caller_Process_Name, Source_Account, ComputerName  | where  unique_accounts > 10'
+search: ' `wineventlog_security` EventCode=4625 Logon_Type=2  !="-" | eval Source_Account = mvindex(Security_ID, 0) | eval Destination_Account = mvindex(Account_Name, 1)  | stats  dc(Destination_Account) AS unique_accounts values(Account_Name) as tried_accounts by Caller_Process_Name, Source_Account, ComputerName  | where  unique_accounts > 10 | `multiple_users_failing_to_authenticate_from_one_process_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas 
-well as member servers and workstations. The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs to be enabled.
+  well as member servers and workstations. The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs to be enabled.
 known_false_positives: A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios 
-include but are not limited to vulnerability scanners and missconfigured systems.
+  include but are not limited to vulnerability scanners and missconfigured systems.
 references:
   - https://attack.mitre.org/techniques/T1110/003/ 
   - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625

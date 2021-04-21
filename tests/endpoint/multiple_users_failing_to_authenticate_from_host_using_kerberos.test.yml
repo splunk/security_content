@@ -1,6 +1,6 @@
-name: Multiple Valid Users Failing To Authenticate From Host Using Kerberos Unit Test
+name: Multiple Users Failing To Authenticate From Host Using Kerberos Unit Test
 tests:
-- name: Multiple Valid Users Failing To Authenticate From Host Using Kerberos
+- name: Multiple Users Failing To Authenticate From Host Using Kerberos
   file: endpoint/multiple_users_failing_to_authenticate_from_host_using_kerberos.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'

@@ -1,6 +1,6 @@
-name: Multiple Users Failing To Authentication From One Process Unit Test
+name: Multiple Users Failing To Authenticate From One Process Unit Test
 tests:
-- name: Multiple Users Failing To Authentication From One Process
+- name: Multiple Users Failing To Authenticate From One Process
   file: endpoint/multiple_users_failing_to_authenticate_from_one_process.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
