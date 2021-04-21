@@ -1,0 +1,51 @@
+name: Office Application Spawn rundll32 process
+id: 958751e4-9c5f-11eb-b103-acde48001122
+version: 1
+date: '2021-04-13'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this detection was designed to identifies suspicious spawned process
+  of known MS office application due to macro or malicious code. this technique can
+  be seen in so many malware like trickbot that used MS office as its weapon or attack
+  vector to initially infect the machines.
+search: '| tstats `security_content_summariesonly` count values(Processes.process)
+  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name
+  = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name
+  = "wordpad.exe") Processes.process_name=rundll32.exe  by Processes.parent_process
+  Processes.process_name Processes.process_id Processes.process_guid Processes.user
+  Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
+  | `office_application_spawn_rundll32_process_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: unknown
+references:
+- https://any.run/malware-trends/trickbot
+- https://any.run/report/47561b4e949041eff0a0f4693c59c81726591779fe21183ae9185b5eb6a69847/aba3722a-b373-4dae-8273-8730fb40cdbe
+tags:
+  analytic_story:
+  - Phishing Payloads
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1566.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Processes.process
+  - Processes.parent_process_name
+  - _time
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.process_id
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
