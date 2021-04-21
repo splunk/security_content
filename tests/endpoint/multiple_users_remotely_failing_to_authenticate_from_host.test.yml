@@ -1,7 +1,7 @@
 name: Multiple Users Remotely Failing To Authenticate From Host Unit Test
 tests:
 - name: Multiple Users Remotely Failing To Authenticate From Host
-  file: detections/endpoint/multiple_users_remotely_failing_to_authenticate_from_host.yml
+  file: endpoint/multiple_users_remotely_failing_to_authenticate_from_host.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
