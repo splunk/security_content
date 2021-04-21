@@ -8,17 +8,17 @@ datamodel:
 - Endpoint
 description: 'The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the Kerberos protocol. 
   This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain 
-  initial access or elevate privileges. 
+  initial access or elevate privileges.\ 
   In this logic, the number of unique users is hardcoded to `10` but can/should be customized to fit especific environments.
   Event 4771 is generated when the Key Distribution Center fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 0x18 means 
   `wrong passowrd provided` (the attempted user is a legitimate domain user).\
 
   This detection will trigger on the domain controller against which the offending host performs the password spraying attack.\
 
-  The analytic`s returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.'
+  The analytic's returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4771 Failure_Code=0x18 | stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by Client_Address | where unique_accounts > 10 | `multiple_users_failing_to_authenticate_from_host_using_kerberos_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting 
-  'Audit Kerberos Authentication Service' within 'Account Logon' needs to be enabled.
+  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios 
   include but are not limited to vulnerability scanners and missconfigured systems.
 references:
