@@ -6,26 +6,33 @@ author: Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following detection identifies Microsoft Word spawning PowerShell. Typically, this is not common behavior and not default with winword.exe.
-  Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). PowerShell spawning from winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command executed will most likely be encoded and captured via another detection. 
-  During triage, review parallel processes and identify any files that may have been written. 
+description: The following detection identifies Microsoft Word spawning PowerShell.
+  Typically, this is not common behavior and not default with winword.exe. Winword.exe
+  will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16`
+  (version will vary). PowerShell spawning from winword.exe is common for a spearphishing
+  attachment and is actively used. Albeit, the command executed will most likely be
+  encoded and captured via another detection. During triage, review parallel processes
+  and identify any files that may have been written.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe" Processes.process_name IN ("powershell.exe", "pwsh.exe") by Processes.dest
-  Processes.user Processes.parent_process Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `winword_spawning_powershell_filter`'
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe"
+  Processes.process_name IN ("powershell.exe", "pwsh.exe") by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `winword_spawning_powershell_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: False positives should be limited, but if any are present, filter as needed.
+known_false_positives: False positives should be limited, but if any are present,
+  filter as needed.
 references:
-  - https://redcanary.com/threat-detection-report/techniques/powershell/
-  - https://attack.mitre.org/techniques/T1566/001/
-  - https://app.any.run/tasks/b79fa381-f35c-4b3e-8d02-507e7ee7342f/
+- https://redcanary.com/threat-detection-report/techniques/powershell/
+- https://attack.mitre.org/techniques/T1566/001/
+- https://app.any.run/tasks/b79fa381-f35c-4b3e-8d02-507e7ee7342f/
 tags:
   analytic_story:
   - Spearphishing Attachments
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -43,3 +50,4 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
+  automated_detection_testing: passed
