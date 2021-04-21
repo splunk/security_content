@@ -16,7 +16,7 @@ description: The following analytic identifies one source endpoint failing to au
   This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
 
   The analytic's returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
-search: ' `wineventlog_security` EventCode=4768 Result_Code=0x12 | stats  dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by Client_Address  | where  unique_accounts > 10'
+search: ' `wineventlog_security` EventCode=4768 Result_Code=0x12 | stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by Client_Address  | where  unique_accounts > 10'
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting 
 'Audit Kerberos Authentication Service' within 'Account Logon' needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple disabled domain users is not a common behavior for legitimate systems. Possible false positive scenarios 
@@ -35,4 +35,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - EventCode
+  - Result_Code
+  - Account_Name
+  - Client_Address
   security_domain: endpoint

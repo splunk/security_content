@@ -39,4 +39,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - EventCode
+  - action
+  - Logon_Account
+  - Source_Workstation
   security_domain: endpoint

@@ -35,4 +35,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - EventCode
+  - Result_Code
+  - Account_Name
+  - Client_Address
   security_domain: endpoint

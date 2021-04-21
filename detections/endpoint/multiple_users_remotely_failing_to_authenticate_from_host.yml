@@ -38,5 +38,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
+   - _time
+  - EventCode
+  - Logon_Type
+  - Security_ID
+  - Account_Name
+  - ComputerName
+  - Source_Network_Address
   security_domain: endpoint
