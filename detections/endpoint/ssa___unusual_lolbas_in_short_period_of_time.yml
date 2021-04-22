@@ -63,7 +63,7 @@ tags:
   - PR.PT
   - DE.CM
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - dest_device_id
   - _time
