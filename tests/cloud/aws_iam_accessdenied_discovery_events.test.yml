@@ -1,0 +1,13 @@
+name: AWS IAM AccessDenied Discovery Events Unit Test
+tests:
+- name: AWS IAM AccessDenied Discovery Events
+  file: cloud/aws_iam_accessdenied_discovery_events.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_iam_accessdenied_discovery_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True
