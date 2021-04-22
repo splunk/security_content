@@ -1,0 +1,55 @@
+name: GPUpdate with no Command Line Arguments with Network
+id: 2c853856-a140-11eb-a5b5-acde48001122
+version: 1
+date: '2021-04-19'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies gpupdate.exe with no command line arguments
+  and with a network connection. It is unusual for gpupdate.exe to execute with no
+  command line arguments present. This particular behavior is common with malicious
+  software, including Cobalt Strike. During investigation, triage any network connections
+  and parallel processes. Identify any suspicious module loads related to credential
+  dumping or file writes. gpupdate.exe is natively found in C:\Windows\system32 and
+  C:\Windows\syswow64.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_id
+  Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | regex process="(gpupdate\.exe.{0,4}$)" | join  process_id [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id
+  Ports.dest Ports.dest_port| `drop_dm_object_name(Ports)` | rename  dest as connection_to_CNC]
+  | table _time dest parent_process_name process_name process_path process process_id connection_to_CNC
+  dest_port | `gpupdate_with_no_command_line_arguments_with_network_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited false positives may be present in small environments.
+  Tuning may be required based on parent process.
+references:
+- https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile
+- https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+tags:
+  analytic_story:
+  - Cobalt Strike
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1055
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - process_name
+  - process_id
+  - parent_process_name
+  - dest_port
+  - process_path
+  security_domain: endpoint
+  automated_detection_testing: passed
