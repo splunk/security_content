@@ -16,7 +16,7 @@ description: The following detection identifies Microsoft Winword.exe spawning W
   be obfuscated and captured via another detection. During triage, review parallel
   processes and identify any files that may have been written. Review the reputation
   of the remote destination and block accordingly.
-search: '  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe" Processes.process_name IN ("cscript.exe", "wscript.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` 
