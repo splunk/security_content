@@ -7,24 +7,21 @@ type: batch
 datamodel:
 - Endpoint
 description: The following analytic identifies searchprotocolhost.exe with no command
-  line arguments and with a network connection. It is unusual for searchprotocolhost.exe to execute with no command
-  line arguments present. This particular behavior is common with malicious software,
-  including Cobalt Strike. During investigation, identify any network connections
-  and parallel processes. Identify any suspicious module loads related to credential
-  dumping or file writes. searchprotocolhost.exe is natively found in C:\Windows\system32
-  and C:\Windows\syswow64.
+  line arguments and with a network connection. It is unusual for searchprotocolhost.exe
+  to execute with no command line arguments present. This particular behavior is common
+  with malicious software, including Cobalt Strike. During investigation, identify
+  any network connections and parallel processes. Identify any suspicious module loads
+  related to credential dumping or file writes. searchprotocolhost.exe is natively
+  found in C:\Windows\system32 and C:\Windows\syswow64.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_id Processes.process_name
-  Processes.dest Processes.process_path Processes.process Processes.parent_process_name 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | regex process="(searchprotocolhost\.exe.{0,4}$)" 
-  | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port
-  | `drop_dm_object_name(Ports)` 
-  | rename  dest as connection_to_CNC] 
-  | table _time dest parent_process_name process_name process_path process process_id connection_to_CNC
-  dest_port | `searchprotocolhost_with_no_command_line_with_network_filter`'
+  where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_id
+  Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | regex process="(searchprotocolhost\.exe.{0,4}$)" | join  process_id [| tstats
+  `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port
+  !="0" by Ports.process_id Ports.dest Ports.dest_port | `drop_dm_object_name(Ports)`
+  | rename  dest as connection_to_CNC] | table _time dest parent_process_name process_name
+  process_path process process_id connection_to_CNC dest_port | `searchprotocolhost_with_no_command_line_with_network_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` and `ports` node.
@@ -35,7 +32,8 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -52,3 +50,4 @@ tags:
   - dest_port
   - process_path
   security_domain: endpoint
+  automated_detection_testing: passed
