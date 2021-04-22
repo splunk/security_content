@@ -24,7 +24,7 @@ references:
 - https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
 tags:
   analytic_story:
-  - AWS IAM Privilege Escalation
+  - Suspicious Cloud User Activities
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
   kill_chain_phases:
