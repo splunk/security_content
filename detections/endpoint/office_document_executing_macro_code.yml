@@ -27,7 +27,7 @@ references:
 - https://www.joesandbox.com/analysis/386500/0/html
 tags:
   analytic_story:
-  - Phishing Payloads
+  - Spearphishing Attachments
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

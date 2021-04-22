@@ -1,4 +1,4 @@
-name: Detect Oulook exe writing a  zip file
+name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
 version: 3
 date: '2020-07-21'
@@ -22,7 +22,7 @@ search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(
   | rename process_id as malicious_id| fields malicious_id outlook_id dest file_path
   file_name file_hash count file_id] | table firstTime lastTime user malicious_id
   outlook_id process_name parent_process_name file_name  file_path | where file_name
-  != "" | `detect_oulook_exe_writing_a__zip_file_filter` '
+  != "" | `detect_outlook_exe_writing_a_zip_file_filter` '
 how_to_implement: You must be ingesting data that records filesystem and process activity
   from your hosts to populate the Endpoint data model. This is typically populated
   via endpoint detection-and-response product, such as Carbon Black, or endpoint data
@@ -32,7 +32,7 @@ known_false_positives: It is not uncommon for outlook to write legitimate zip fi
 references: []
 tags:
   analytic_story:
-  - Phishing Payloads
+  - Spearphishing Attachments
   asset_type: Endpoint
   cis20:
   - CIS 7
