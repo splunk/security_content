@@ -7259,7 +7259,7 @@ _version_: 1
 ### Applying Stolen Credentials via Mimikatz modules
 This detection indicates use of Mimikatz modules that facilitate Pass-the-Token attack, Golden or Silver kerberos ticket attack, and Skeleton key attack.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1547](https://attack.mitre.org/techniques/T1547/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1554](https://attack.mitre.org/techniques/T1554/), [T1556](https://attack.mitre.org/techniques/T1556/), [T1558](https://attack.mitre.org/techniques/T1558/)
 - **Last Updated**: 2020-11-03
@@ -7343,7 +7343,7 @@ _version_: 1
 ### Applying Stolen Credentials via PowerSploit modules
 Stolen credentials are applied by methods such as user impersonation, credential injection, spoofing of authentication processes or getting hold of critical accounts. This detection indicates such activities carried out by PowerSploit exploit kit APIs.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1547](https://attack.mitre.org/techniques/T1547/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1554](https://attack.mitre.org/techniques/T1554/), [T1555](https://attack.mitre.org/techniques/T1555/), [T1558](https://attack.mitre.org/techniques/T1558/)
 - **Last Updated**: 2020-11-03
@@ -7425,7 +7425,7 @@ _version_: 1
 ### Assessment of Credential Strength via DSInternals modules
 This detection identifies use of DSInternals modules that verify password strength, i.e., identify week accounts that would be easily compromised.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1201](https://attack.mitre.org/techniques/T1201/), [T1552](https://attack.mitre.org/techniques/T1552/), [T1555](https://attack.mitre.org/techniques/T1555/)
 - **Last Updated**: 2020-11-03
@@ -7790,7 +7790,7 @@ _version_: 4
 ### Attempted Credential Dump From Registry via Reg exe
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-6-04
@@ -10537,7 +10537,7 @@ _version_: 1
 ### Credential Extraction indicative of FGDump and CacheDump with s option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system's registry.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -10615,7 +10615,7 @@ _version_: 1
 ### Credential Extraction indicative of FGDump and CacheDump with v option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system's registry.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -10691,7 +10691,7 @@ _version_: 1
 ### Credential Extraction indicative of Lazagne command line options
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. LaZagne is a tool that extracts various kinds of credentials from a local computer, including account passwords, domain passwords, browser passwords, etc.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1555](https://attack.mitre.org/techniques/T1555/)
 - **Last Updated**: 2020-10-18
@@ -10762,7 +10762,7 @@ _version_: 1
 ### Credential Extraction indicative of use of DSInternals credential conversion modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -10842,7 +10842,7 @@ _version_: 1
 ### Credential Extraction indicative of use of DSInternals modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -10922,7 +10922,7 @@ _version_: 1
 ### Credential Extraction indicative of use of Mimikatz modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Mimikatz is a collection of tools and modules commonly employed in Windows exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -10996,7 +10996,7 @@ _version_: 1
 ### Credential Extraction indicative of use of PowerSploit modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit is a collection of Microsoft PowerShell modules commonly employed in exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -11070,7 +11070,7 @@ _version_: 1
 ### Credential Extraction native Microsoft debuggers peek into the kernel
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -11148,7 +11148,7 @@ _version_: 1
 ### Credential Extraction native Microsoft debuggers via z command line option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -11222,7 +11222,7 @@ _version_: 1
 ### Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit and DSInternals are common exploit APIs offering PowerShell modules for various exploits of Windows and Active Directory environments.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -12802,7 +12802,7 @@ _version_: 2
 ### Detect Dump LSASS Memory using comsvcs
 This search detects the memory of lsass.exe being dumped for offline credential theft attack.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
 - **Last Updated**: 2020-09-15
@@ -13693,7 +13693,7 @@ _version_: 1
 ### Detect Kerberoasting
 This search detects a potential kerberoasting attack via service principal name requests
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558.003/)
 - **Last Updated**: 2020-10-21
@@ -14709,7 +14709,7 @@ _version_: 3
 ### Detect Pass the Hash
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts using Pass-the-Hash technique.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550.002/)
 - **Last Updated**: 2020-10-21
@@ -15035,7 +15035,7 @@ _version_: 5
 ### Detect Prohibited Applications Spawning cmd exe
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/)
 - **Last Updated**: 2020-7-13
@@ -20650,7 +20650,7 @@ _version_: 4
 ### First time seen command line argument
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/), [T1117](https://attack.mitre.org/techniques/T1117/), [T1202](https://attack.mitre.org/techniques/T1202/)
 - **Last Updated**: 2021-2-1
@@ -21765,7 +21765,7 @@ _version_: 1
 ### Illegal Access To User Content via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1021](https://attack.mitre.org/techniques/T1021/), [T1113](https://attack.mitre.org/techniques/T1113/), [T1123](https://attack.mitre.org/techniques/T1123/), [T1563](https://attack.mitre.org/techniques/T1563/)
 - **Last Updated**: 2020-11-09
@@ -21840,7 +21840,7 @@ _version_: 1
 ### Illegal Account Creation via PowerSploit modules
 This detection identifies access to PowerSploit modules that create accounts illegaly.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1585](https://attack.mitre.org/techniques/T1585/)
 - **Last Updated**: 2020-11-09
@@ -21912,7 +21912,7 @@ _version_: 1
 ### Illegal Deletion of Logs via Mimikatz modules
 This detection identifies access to PowerSploit modules that delete event logs.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1070](https://attack.mitre.org/techniques/T1070/)
 - **Last Updated**: 2020-11-09
@@ -21984,7 +21984,7 @@ _version_: 1
 ### Illegal Enabling or Disabling of Accounts via DSInternals modules
 This detection identifies use of DSInternals modules that enable or disable accounts illegaly.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-09
@@ -22057,7 +22057,7 @@ _version_: 1
 ### Illegal Management of Active Directory Elements and Policies via DSInternals modules
 This detection identifies use of DSInternals modules for illegal management of Active Directoty elements and policies.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1098](https://attack.mitre.org/techniques/T1098/), [T1207](https://attack.mitre.org/techniques/T1207/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-09
@@ -22131,7 +22131,7 @@ _version_: 1
 ### Illegal Management of Computers and Active Directory Elements via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegal management of computers and Active Directory elements.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1098](https://attack.mitre.org/techniques/T1098/), [T1207](https://attack.mitre.org/techniques/T1207/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-09
@@ -22206,7 +22206,7 @@ _version_: 1
 ### Illegal Privilege Elevation and Persistence via PowerSploit modules
 This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable manipulation of registry, task scheduling, persistent WMI, access to OS objects under desired identities.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1548](https://attack.mitre.org/techniques/T1548/)
 - **Last Updated**: 2020-11-09
@@ -22282,7 +22282,7 @@ _version_: 1
 ### Illegal Privilege Elevation via Mimikatz modules
 This detection identifies use of Mimikatz modules for illegal privilege elevation.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1134](https://attack.mitre.org/techniques/T1134/), [T1548](https://attack.mitre.org/techniques/T1548/)
 - **Last Updated**: 2020-11-09
@@ -22355,7 +22355,7 @@ _version_: 1
 ### Illegal Service and Process Control via Mimikatz modules
 This detection identifies use of Mimikatz modules for illegal control over services and processes, including the authentication service.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1569](https://attack.mitre.org/techniques/T1569/)
 - **Last Updated**: 2020-11-09
@@ -22429,7 +22429,7 @@ _version_: 1
 ### Illegal Service and Process Control via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1569](https://attack.mitre.org/techniques/T1569/)
 - **Last Updated**: 2020-11-09
@@ -24455,7 +24455,7 @@ _version_: 1
 ### More than usual number of LOLBAS applications in short time period
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/), [T1053](https://attack.mitre.org/techniques/T1053/)
 - **Last Updated**: 2020-08-25
@@ -26215,7 +26215,7 @@ _version_: 4
 ### Phishing Email Detection by Machine Learning Method - SSA
 Malicious mails can conduct phishing that induces readers to open attachment, click links or trigger third party service. This detect uses Natural Language Processing (NLP) approach to analyze an email message's content (Sender, Subject and Body) and judge whether it is a phishing email. The detection adopts a deep learning (neural network) model that employs character level embeddings plus LSTM layers to perform classification. The model is pre-trained and then published as ONNX format. Current sample model is trained using the dataset published at https://github.com/splunk/attack_data/tree/master/datasets/T1566_Phishing_Email/splunk_train.json User are expected to re-train the model by combining with their own training data for better accuracy using the provided model file (SMLE notebook). DSP pipeline then processes the email message and passes it as an event to Apply ML Models function, which returns the probability of a phishing email. Current implementation assumes the email is fed to DSP in JSON format contains at least email's sender, subject and its message body, including reply content, if any.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1566](https://attack.mitre.org/techniques/T1566/)
 - **Last Updated**: 2020-08-25
@@ -26353,7 +26353,7 @@ _version_: 1
 ### Probing Access with Stolen Credentials via PowerSploit modules
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-04
@@ -27228,7 +27228,7 @@ _version_: 1
 ### Rare Parent-Child Process Relationship
 An attacker may use LOLBAS tools spawned from vulnerable applications not typically used by system administrators. This search leverages the Splunk Streaming ML DSP plugin to find rare parent/child relationships. The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1203](https://attack.mitre.org/techniques/T1203/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1072](https://attack.mitre.org/techniques/T1072/)
 - **Last Updated**: 2020-08-13
@@ -27308,7 +27308,7 @@ _version_: 1
 ### Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover accounts, groups and policies that can be accessed or taken over.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-05
@@ -27380,7 +27380,7 @@ _version_: 1
 ### Reconnaissance and Access to Accounts and Groups via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of accounts and groups and access to them.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-05
@@ -27452,7 +27452,7 @@ _version_: 1
 ### Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules
 This detection identifies access to PowerSploit modules for reconnaissance and access to elements of Active Directory infrastructure, such as domain identifiers, AD sites and forests, and trust relations.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1199](https://attack.mitre.org/techniques/T1199/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1590](https://attack.mitre.org/techniques/T1590/), [T1591](https://attack.mitre.org/techniques/T1591/), [T1595](https://attack.mitre.org/techniques/T1595/)
 - **Last Updated**: 2020-11-06
@@ -27526,7 +27526,7 @@ _version_: 1
 ### Reconnaissance and Access to Computers and Domains via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1592](https://attack.mitre.org/techniques/T1592/), [T1590](https://attack.mitre.org/techniques/T1590/), [T1087](https://attack.mitre.org/techniques/T1087/)
 - **Last Updated**: 2020-11-06
@@ -27598,7 +27598,7 @@ _version_: 1
 ### Reconnaissance and Access to Computers via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2020-11-06
@@ -27668,7 +27668,7 @@ _version_: 1
 ### Reconnaissance and Access to Operating System Elements via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover and access operating system elements, such as processes, services, registry locations, security packages and files.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1012](https://attack.mitre.org/techniques/T1012/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1057](https://attack.mitre.org/techniques/T1057/), [T1083](https://attack.mitre.org/techniques/T1083/), [T1518](https://attack.mitre.org/techniques/T1518/), [T1592.002](https://attack.mitre.org/techniques/T1592.002/)
 - **Last Updated**: 2020-11-06
@@ -27745,7 +27745,7 @@ _version_: 1
 ### Reconnaissance and Access to Processes and Services via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery and access to services and processes.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1057](https://attack.mitre.org/techniques/T1057/)
 - **Last Updated**: 2020-11-06
@@ -27817,7 +27817,7 @@ _version_: 1
 ### Reconnaissance and Access to Shared Resources via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery and access to network shares.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
@@ -27889,7 +27889,7 @@ _version_: 1
 ### Reconnaissance and Access to Shared Resources via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover and access network and distributed file system shares.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
@@ -27961,7 +27961,7 @@ _version_: 1
 ### Reconnaissance of Access and Persistence Opportunities via PowerSploit modules
 This detection identifies use of PowerSploit modules that discover opportunities for malicious access and persistence. Some examples include access to admin accounts, weak access control policies, landing paths for dropping malicious software or data to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities, as well as services and system files that can be compromised.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1547](https://attack.mitre.org/techniques/T1547/), [T1574](https://attack.mitre.org/techniques/T1574/)
 - **Last Updated**: 2020-11-05
@@ -28036,7 +28036,7 @@ _version_: 1
 ### Reconnaissance of Connectivity via PowerSploit modules
 This detection identifies access to PowerSploit modules for reconnaissance of connectivity.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
@@ -28108,7 +28108,7 @@ _version_: 1
 ### Reconnaissance of Credential Stores and Services via Mimikatz modules
 This detection identifies reconnaissance of credential stores and use of CryptoAPI services by Mimikatz modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1589.001](https://attack.mitre.org/techniques/T1589.001/), [T1590.001](https://attack.mitre.org/techniques/T1590.001/), [T1590.003](https://attack.mitre.org/techniques/T1590.003/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
@@ -28183,7 +28183,7 @@ _version_: 1
 ### Reconnaissance of Defensive Tools via PowerSploit modules
 This detection identifies use of PowerSploit modules for assessment of presence of defensive tools.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1595.002](https://attack.mitre.org/techniques/T1595.002/), [T1592.002](https://attack.mitre.org/techniques/T1592.002/)
 - **Last Updated**: 2020-11-05
@@ -28254,7 +28254,7 @@ _version_: 1
 ### Reconnaissance of Privilege Escalation Opportunities via PowerSploit modules
 This detection identifies use of PowerSploit modules for assessment of privilege escalation opportunities.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-05
@@ -28326,7 +28326,7 @@ _version_: 1
 ### Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of process or service hijacking opportunities via Microsoft Detours compatibility. Microsoft Detours is an open source library for intercepting, monitoring and instrumenting binary functions on Microsoft Windows. Detours intercepts Win32 functions by re-writing the in-memory code for target functions. The Detours package also contains utilities to attach arbitrary DLLs and data segments called payloads to any Win32 binary.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1543](https://attack.mitre.org/techniques/T1543/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1574](https://attack.mitre.org/techniques/T1574/)
 - **Last Updated**: 2020-11-05
@@ -30224,7 +30224,7 @@ _version_: 3
 ### Setting Credentials via DSInternals modules
 This detection identifies illegal setting of credentials via DSInternals modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
@@ -30304,7 +30304,7 @@ _version_: 1
 ### Setting Credentials via Mimikatz modules
 This detection identifies illegal setting of credentials via Mimikatz modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
@@ -30378,7 +30378,7 @@ _version_: 1
 ### Setting Credentials via PowerSploit modules
 This detection identifies illegal setting of credentials via PowerSploit modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
@@ -33413,7 +33413,7 @@ _version_: 1
 ### System Process Running from Unexpected Location
 An attacker tries might try to use different version of a system command without overriding original, or they might try to avoid some detection running the process from a different folder. This detection checks that a list of system processes run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1036](https://attack.mitre.org/techniques/T1036/)
 - **Last Updated**: 2020-08-25
@@ -34075,7 +34075,7 @@ _version_: 1
 ### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: 
 - **Last Updated**: 2020-10-06
