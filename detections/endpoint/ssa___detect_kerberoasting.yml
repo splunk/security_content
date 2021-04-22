@@ -35,7 +35,7 @@ tags:
   nist:
   - DE.CM
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - service_name
   - _time

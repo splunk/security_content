@@ -47,7 +47,7 @@ tags:
   - PR.PT
   - DE.CM
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - process_name
   - parent_process_name
