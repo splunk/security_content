@@ -9,10 +9,8 @@ datamodel:
 description: This search is designed to detect high frequecy archive files data exfiltration through HTTP POST method protocol.
   This are one of the common techniques used by APT or trojan spy after doing the data collection like screenshot, recording, sensitive data to the infected machines.
   The attacker may execute archiving command to the collected data, save it a temp folder with a hidden attribute then send it to its c2 through http post.
-  Sometimes it rename the archive files or encode/encrypt to cover it tracks.
-
-  This detection can detect a renamed archive files transfer to HTTP POST since it checks the request body header. Unfortunately this detection cannot support archive that
-  was encrypted or encoded before doing the exfiltration.
+  Sometimes it rename the archive files or encode/encrypt to cover it tracks. This detection can detect a renamed archive files transfer to HTTP POST since it checks the request body header. 
+  Unfortunately this detection cannot support archive that was encrypted or encoded before doing the exfiltration.
 search: '`stream_http` http_method=POST 
   |eval archive_hdr1=substr(form_data,1,2)
   | eval archive_hdr2 = substr(form_data,1,4)
