@@ -1,0 +1,49 @@
+name: AWS IAM Failure Group Deletion
+id: 723b861a-92eb-11eb-93b8-acde48001122
+version: 1
+date: '2021-04-01'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: This detection identifies failure attempts to delete groups. We want to identify
+  when a group is attempting to be deleted, but either access is denied, there is
+  a conflict or there is no group. This is indicative of administrators performing
+  an action, but also could be suspicious behavior occurring. Review parallel IAM
+  events - recently added users, new groups and so forth.
+search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode
+  IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com)
+  | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName)
+  as group_name by src eventName eventSource aws_account_id errorCode errorMessage
+  userAgent eventID awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `aws_iam_failure_group_deletion_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
+  this data. The search requires AWS Cloudtrail logs.
+known_false_positives: This detection will require tuning to provide high fidelity
+  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
+  or by groups of users. Not every user with AWS access should have permission to
+  delete groups (least privilege).
+references:
+- https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+tags:
+  analytic_story:
+  - AWS IAM Privilege Escalation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1098
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Security Analytics for AWS
+  required_fields:
+  - _time
+  - eventName
+  - userAgent
+  - errorCode
+  - requestParameters.groupName
+  security_domain: identity
+  automated_detection_testing: passed
