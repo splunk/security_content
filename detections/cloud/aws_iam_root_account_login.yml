@@ -20,7 +20,7 @@ tags:
   - Suspicious Cloud Authentication Activities
   dataset: []
   kill_chain_phases:
-  - Intrusion
+  - Exploitation
   mitre_attack_id:
   - T1078.004
   product:
