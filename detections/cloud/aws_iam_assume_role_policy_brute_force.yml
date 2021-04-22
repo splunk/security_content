@@ -30,7 +30,7 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json
   kill_chain_phases:
-  - Privilege Escalation
+  - Reconnaissance
   mitre_attack_id:
   - T1580
   - T1110
