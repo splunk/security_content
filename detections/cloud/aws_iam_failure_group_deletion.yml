@@ -31,8 +31,7 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
   kill_chain_phases:
-  - Privilege Escalation
-  - Denial of Service
+  - Actions on Objectives
   mitre_attack_id:
   - T1098
   product:
