@@ -1,0 +1,53 @@
+name: Multiple Archive Files Http Post Traffic
+id: 4477f3ea-a28f-11eb-b762-acde48001122
+version: 1
+date: '2021-04-21'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Network_Traffic
+description: This search is designed to detect high frequecy archive files data exfiltration through HTTP POST method protocol.
+  This are one of the common techniques used by APT or trojan spy after doing the data collection like screenshot, recording, sensitive data to the infected machines.
+  The attacker may execute archiving command to the collected data, save it a temp folder with a hidden attribute then send it to its c2 through http post.
+  Sometimes it rename the archive files or encode/encrypt to cover it tracks.
+
+  This detection can detect a renamed archive files transfer to HTTP POST since it checks the request body header. Unfortunately this detection cannot support archive that
+  was encrypted or encoded before doing the exfiltration.
+search: '`stream_http` http_method=POST 
+  |eval archive_hdr1=substr(form_data,1,2)
+  | eval archive_hdr2 = substr(form_data,1,4)
+  |stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent uri_path url bytes_in bytes_out archive_hdr1 archive_hdr2 
+  |where count >20 AND (archive_hdr1 = "7z" OR archive_hdr1 = "PK" OR archive_hdr2="Rar!") 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `multiple_archive_files_http_post_traffic_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the stream HTTP logs or network logs that catch network traffic.
+  Make sure that the http-request-body, payload, or request field is enabled in stream http configuration.
+known_false_positives: normal archive transfer to HTTP protocol
+references:
+ - https://attack.mitre.org/techniques/T1560/001/
+ - https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html
+ - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+tags:
+  analytic_story:
+  - Command and Control
+  kill_chain_phases:
+  - Exfiltration
+  mitre_attack_id:
+  - T1048.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - http_method
+  - http_user_agent
+  - uri_path
+  - url
+  - bytes_in
+  - bytes_out
+  - archive_hdr1
+  - archive_hdr2 
+  security_domain: network
