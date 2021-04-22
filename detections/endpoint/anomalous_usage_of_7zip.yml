@@ -1,0 +1,50 @@
+name: Anomalous usage of 7zip
+id: 9364ee8e-a39a-11eb-8f1d-acde48001122
+version: 1
+date: '2021-04-22'
+author: Michael Haag, Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllhost.exe`. 
+  It is assumed that the adversary has brought in `7z.exe` and `7z.dll`. It has been observed where an adversary will rename `7z.exe`. Additional coverage may be required to identify the behavior of renamed instances of `7z.exe`.
+  During triage, identify the source of injection into `Rundll32.exe` or `Dllhost.exe`. Capture any files written to disk and analyze as needed. Review parallel processes for additional behaviors. Typically, archiving files will result in exfiltration.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("rundll32.exe", "dllhost.exe")
+  Processes.process_name=*7z* by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`| `anomalous_usage_of_7zip_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: False positives should be limited as this behavior is not normal for `rundll32.exe` or `dllhost.exe` to spawn and run 7zip.
+references:
+- https://attack.mitre.org/techniques/T1560/001/
+- https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+- https://thedfirreport.com/2021/01/31/bazar-no-ryuk/
+tags:
+  analytic_story:
+  - Cobalt Strike
+  - NOBELIUM Group
+  dataset: []
+  kill_chain_phases:
+  - Actions on Objective
+  mitre_attack_id:
+  - T1560.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
