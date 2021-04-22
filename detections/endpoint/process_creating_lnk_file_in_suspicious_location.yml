@@ -30,7 +30,7 @@ references:
 - https://www.trendmicro.com/en_us/research/17/e/rising-trend-attackers-using-lnk-files-download-malware.html
 tags:
   analytic_story:
-  - Phishing Payloads
+  - Spearphishing Attachments
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
