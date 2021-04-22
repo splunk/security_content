@@ -455,7 +455,7 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1127.001/ T1127.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1127/ T1127]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1127.001/ T1127.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1127/ T1127]
 * '''Last Updated''': 2021-02-16
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -465,7 +465,15 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 * [[Documentation:ESSOC:detections:Detections#Cobalt_strike_named_pipes|Cobalt Strike Named Pipes]]
 
+* [[Documentation:ESSOC:detections:Detections#Dllhost_with_no_command_line_arguments_with_network|DLLHost with no Command Line Arguments with Network]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_regsvr32_application_control_bypass|Detect Regsvr32 Application Control Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Gpupdate_with_no_command_line_arguments_with_network|GPUpdate with no Command Line Arguments with Network]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_with_no_command_line_arguments_with_network|Rundll32 with no Command Line Arguments with Network]]
+
+* [[Documentation:ESSOC:detections:Detections#Searchprotocolhost_with_no_command_line_with_network|SearchProtocolHost with no Command Line with Network]]
 
 * [[Documentation:ESSOC:detections:Detections#Suspicious_dllhost_no_command_line_arguments|Suspicious DLLHost no Command Line Arguments]]
 
@@ -499,16 +507,16 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | Regsvr32
 | Defense Evasion
 |-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|-
 | T1127.001
 | MSBuild
 | Defense Evasion
 |-
 | T1036.003
 | Rename System Utilities
-| Defense Evasion
-|-
-| T1218.011
-| Rundll32
 | Defense Evasion
 |-
 | T1127
@@ -761,7 +769,7 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1068/ T1068], [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1098/ T1098], [https://attack.mitre.org/techniques/T1134/ T1134], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1547/ T1547], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1554/ T1554], [https://attack.mitre.org/techniques/T1556/ T1556], [https://attack.mitre.org/techniques/T1558/ T1558], [https://attack.mitre.org/techniques/T1555/ T1555], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1201/ T1201], [https://attack.mitre.org/techniques/T1552/ T1552], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1558.003/ T1558.003]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1068/ T1068], [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1098/ T1098], [https://attack.mitre.org/techniques/T1134/ T1134], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1547/ T1547], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1554/ T1554], [https://attack.mitre.org/techniques/T1556/ T1556], [https://attack.mitre.org/techniques/T1558/ T1558], [https://attack.mitre.org/techniques/T1555/ T1555], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1201/ T1201], [https://attack.mitre.org/techniques/T1552/ T1552], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1558.003/ T1558.003], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 * '''Last Updated''': 2020-02-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -776,8 +784,6 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * [[Documentation:ESSOC:detections:Detections#Applying_stolen_credentials_via_powersploit_modules|Applying Stolen Credentials via PowerSploit modules]]
 
 * [[Documentation:ESSOC:detections:Detections#Assessment_of_credential_strength_via_dsinternals_modules|Assessment of Credential Strength via DSInternals modules]]
-
-* [[Documentation:ESSOC:detections:Detections#Attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass|Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
 
 * [[Documentation:ESSOC:detections:Detections#Attempted_credential_dump_from_registry_via_reg_exe|Attempted Credential Dump From Registry via Reg exe]]
 
@@ -828,6 +834,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump_rename|Dump LSASS via procdump Rename]]
 
 * [[Documentation:ESSOC:detections:Detections#Ntdsutil_export_ntds|Ntdsutil Export NTDS]]
+
+* [[Documentation:ESSOC:detections:Detections#Set_default_powershell_execution_policy_to_unrestricted_or_bypass|Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
 
 * [[Documentation:ESSOC:detections:Detections#Unsigned_image_loaded_by_lsass|Unsigned Image Loaded by LSASS]]
 
@@ -903,10 +911,6 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | Unsecured Credentials
 | Credential Access
 |-
-| T1059.001
-| PowerShell
-| Execution
-|-
 | T1003.002
 | Security Account Manager
 | Credential Access
@@ -922,6 +926,10 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1558.003
 | Kerberoasting
 | Credential Access
+|-
+| T1059.001
+| PowerShell
+| Execution
 |}
 
 
@@ -1375,8 +1383,6 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 
 * [[Documentation:ESSOC:detections:Detections#Any_powershell_downloadstring|Any Powershell DownloadString]]
 
-* [[Documentation:ESSOC:detections:Detections#Attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass|Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
-
 * [[Documentation:ESSOC:detections:Detections#Detect_exchange_web_shell|Detect Exchange Web Shell]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_new_local_admin_account|Detect New Local Admin account]]
@@ -1398,6 +1404,8 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 * [[Documentation:ESSOC:detections:Detections#Nishang_powershelltcponeline|Nishang PowershellTCPOneLine]]
 
 * [[Documentation:ESSOC:detections:Detections#Ntdsutil_export_ntds|Ntdsutil Export NTDS]]
+
+* [[Documentation:ESSOC:detections:Detections#Set_default_powershell_execution_policy_to_unrestricted_or_bypass|Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
 
 * [[Documentation:ESSOC:detections:Detections#Unified_messaging_service_spawning_a_process|Unified Messaging Service Spawning a Process]]
 
@@ -1670,8 +1678,6 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [[Documentation:ESSOC:detections:Detections#Any_powershell_downloadstring|Any Powershell DownloadString]]
 
-* [[Documentation:ESSOC:detections:Detections#Attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass|Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
-
 * [[Documentation:ESSOC:detections:Detections#Credential_extraction_indicative_of_use_of_dsinternals_credential_conversion_modules|Credential Extraction indicative of use of DSInternals credential conversion modules]]
 
 * [[Documentation:ESSOC:detections:Detections#Credential_extraction_indicative_of_use_of_dsinternals_modules|Credential Extraction indicative of use of DSInternals modules]]
@@ -1693,6 +1699,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 * [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_multiple_suspicious_command-line_arguments|Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_with_obfuscation_techniques|Malicious PowerShell Process With Obfuscation Techniques]]
+
+* [[Documentation:ESSOC:detections:Detections#Set_default_powershell_execution_policy_to_unrestricted_or_bypass|Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
 
 
 
@@ -1907,59 +1915,6 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 ----
 
-===Phishing payloads===
-Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
-
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1566.002/ T1566.002]
-* '''Last Updated''': 2019-04-29
-
-<div class="toccolours mw-collapsible mw-collapsed">
-<div class="mw-collapsible-content">
-
-====Detection Profile====
-
-* [[Documentation:ESSOC:detections:Detections#Detect_oulook_exe_writing_a__zip_file|Detect Oulook exe writing a  zip file]]
-
-* [[Documentation:ESSOC:detections:Detections#Process_creating_lnk_file_in_suspicious_location|Process Creating LNK file in Suspicious Location]]
-
-
-
-====ATT&CK====
-{|
-! style="text-align:left;"| ID
-! Technique
-! Tactic
-|-
-| T1566.001
-| Spearphishing Attachment
-| Initial Access
-|-
-| T1566.002
-| Spearphishing Link
-| Initial Access
-|}
-
-
-====Kill Chain Phase====
-
-* Actions on Objectives
-
-* Installation
-
-
-====Reference====
-
-* https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
-
-
-''version'': 1
-</div>
-</div>
-
-----
-
 ===Possible backdoor activity associated with mudcarp espionage campaigns===
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
@@ -2125,6 +2080,83 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 * https://redcanary.com/blog/clipping-silver-sparrows-wings/
 
 * https://www.sentinelone.com/blog/5-things-you-need-to-know-about-silver-sparrow/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Spearphishing attachments===
+Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1566.002/ T1566.002]
+* '''Last Updated''': 2019-04-29
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_outlook_exe_writing_a_zip_file|Detect Outlook exe writing a zip file]]
+
+* [[Documentation:ESSOC:detections:Detections#Excel_spawning_powershell|Excel Spawning PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Excel_spawning_windows_script_host|Excel Spawning Windows Script Host]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_application_spawn_rundll32_process|Office Application Spawn rundll32 process]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_document_creating_schedule_task|Office Document Creating Schedule Task]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_document_executing_macro_code|Office Document Executing Macro Code]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_document_spawned_child_process_to_download|Office Document Spawned Child Process To Download]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_product_spawning_rundll32_with_no_dll|Office Product Spawning Rundll32 with no DLL]]
+
+* [[Documentation:ESSOC:detections:Detections#Process_creating_lnk_file_in_suspicious_location|Process Creating LNK file in Suspicious Location]]
+
+* [[Documentation:ESSOC:detections:Detections#Winword_spawning_cmd|Winword Spawning Cmd]]
+
+* [[Documentation:ESSOC:detections:Detections#Winword_spawning_powershell|Winword Spawning PowerShell]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|-
+| T1003.002
+| Security Account Manager
+| Credential Access
+|-
+| T1566.002
+| Spearphishing Link
+| Initial Access
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+* Installation
+
+
+====Reference====
+
+* https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
 
 
 ''version'': 1
@@ -2670,6 +2702,8 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_comsvcs_dll|Dump LSASS via comsvcs DLL]]
 
+* [[Documentation:ESSOC:detections:Detections#Rundll32_with_no_command_line_arguments_with_network|Rundll32 with no Command Line Arguments with Network]]
+
 * [[Documentation:ESSOC:detections:Detections#Suspicious_rundll32_rename|Suspicious Rundll32 Rename]]
 
 * [[Documentation:ESSOC:detections:Detections#Suspicious_rundll32_startw|Suspicious Rundll32 StartW]]
@@ -2703,6 +2737,8 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 ====Kill Chain Phase====
 
 * Actions on Objectives
+
+* Exploitation
 
 
 ====Reference====
@@ -3522,11 +3558,17 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 * [[Documentation:ESSOC:detections:Detections#Setting_credentials_via_powersploit_modules|Setting Credentials via PowerSploit modules]]
 
+* [[Documentation:ESSOC:detections:Detections#Shedule_task_with_http_command_arguments|Shedule Task with HTTP Command Arguments]]
+
 * [[Documentation:ESSOC:detections:Detections#Shim_database_file_creation|Shim Database File Creation]]
 
 * [[Documentation:ESSOC:detections:Detections#Shim_database_installation_with_suspicious_parameters|Shim Database Installation With Suspicious Parameters]]
 
 * [[Documentation:ESSOC:detections:Detections#Suspicious_scheduled_task_from_public_directory|Suspicious Scheduled Task from Public Directory]]
+
+* [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_within_public_path|WinEvent Scheduled Task Created Within Public Path]]
+
+* [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_to_spawn_shell|WinEvent Scheduled Task Created to Spawn Shell]]
 
 
 
@@ -4186,7 +4228,7 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1136.003/ T1136.003]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1136.003/ T1136.003], [https://attack.mitre.org/techniques/T1580/ T1580], [https://attack.mitre.org/techniques/T1110/ T1110], [https://attack.mitre.org/techniques/T1098/ T1098], [https://attack.mitre.org/techniques/T1069.003/ T1069.003]
 * '''Last Updated''': 2021-03-08
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -4199,6 +4241,14 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 * [[Documentation:ESSOC:detections:Detections#Aws_createaccesskey|AWS CreateAccessKey]]
 
 * [[Documentation:ESSOC:detections:Detections#Aws_createloginprofile|AWS CreateLoginProfile]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_iam_assume_role_policy_brute_force|AWS IAM Assume Role Policy Brute Force]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_iam_delete_policy|AWS IAM Delete Policy]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_iam_failure_group_deletion|AWS IAM Failure Group Deletion]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_iam_successful_group_deletion|AWS IAM Successful Group Deletion]]
 
 * [[Documentation:ESSOC:detections:Detections#Aws_setdefaultpolicyversion|AWS SetDefaultPolicyVersion]]
 
@@ -4219,12 +4269,30 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 | T1136.003
 | Cloud Account
 | Persistence
+|-
+| T1580
+| Cloud Infrastructure Discovery
+| Discovery
+|-
+| T1110
+| Brute Force
+| Credential Access
+|-
+| T1098
+| Account Manipulation
+| Persistence
+|-
+| T1069.003
+| Cloud Groups
+| Discovery
 |}
 
 
 ====Kill Chain Phase====
 
 * Actions on Objectives
+
+* Reconnaissance
 
 
 ====Reference====
@@ -5304,13 +5372,15 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Change
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1078/ T1078]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1580/ T1580], [https://attack.mitre.org/techniques/T1078.004/ T1078.004], [https://attack.mitre.org/techniques/T1078/ T1078]
 * '''Last Updated''': 2020-09-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Aws_iam_accessdenied_discovery_events|AWS IAM AccessDenied Discovery Events]]
 
 * [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_infrastructure_api_calls|Abnormally High Number Of Cloud Infrastructure API Calls]]
 
@@ -5326,6 +5396,10 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 ! Technique
 ! Tactic
 |-
+| T1580
+| Cloud Infrastructure Discovery
+| Discovery
+|-
 | T1078.004
 | Cloud Accounts
 | Defense Evasion, Initial Access, Persistence, Privilege Escalation
@@ -5339,6 +5413,8 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 ====Kill Chain Phase====
 
 * Actions on Objectives
+
+* Reconnaissance
 
 
 ====Reference====
@@ -6106,6 +6182,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Wbadmin_delete_system_backups|WBAdmin Delete System Backups]]
 
+* [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_within_public_path|WinEvent Scheduled Task Created Within Public Path]]
+
+* [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_to_spawn_shell|WinEvent Scheduled Task Created to Spawn Shell]]
+
 * [[Documentation:ESSOC:detections:Detections#Windows_event_log_cleared|Windows Event Log Cleared]]
 
 
@@ -6295,6 +6375,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Suspicious_scheduled_task_from_public_directory|Suspicious Scheduled Task from Public Directory]]
 
 * [[Documentation:ESSOC:detections:Detections#Wbadmin_delete_system_backups|WBAdmin Delete System Backups]]
+
+* [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_within_public_path|WinEvent Scheduled Task Created Within Public Path]]
+
+* [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_to_spawn_shell|WinEvent Scheduled Task Created to Spawn Shell]]
 
 * [[Documentation:ESSOC:detections:Detections#Windows_disableantispyware_registry|Windows DisableAntiSpyware Registry]]
 
@@ -6997,7 +7081,7 @@ Reduce the risk of CVE-2018-11409, an information disclosure vulnerability withi
 ''
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-04-15 19:33:38.229931 UTC
+# On Date: 2021-04-22 21:48:48.069505 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############

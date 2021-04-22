@@ -5,9 +5,9 @@ date: '2021-04-01'
 author: Michael Haag, Splunk
 type: batch
 datamodel: []
-description: This detection identifies failure attempts to delete groups. We want to identify
-  when a group is attempting to be deleted, but either access is denied, there is
-  a conflict or there is no group. This is indicative of administrators performing
+description: This detection identifies failure attempts to delete groups. We want
+  to identify when a group is attempting to be deleted, but either access is denied,
+  there is a conflict or there is no group. This is indicative of administrators performing
   an action, but also could be suspicious behavior occurring. Review parallel IAM
   events - recently added users, new groups and so forth.
 search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
   kill_chain_phases:
@@ -46,4 +47,3 @@ tags:
   - errorCode
   - requestParameters.groupName
   security_domain: identity
-  automated_detection_testing: passed
