@@ -26,7 +26,7 @@ references:
 - https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/#
 tags:
   analytic_story:
-  - Phishing Payloads
+  - Spearphishing Attachments
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
