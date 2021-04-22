@@ -28,6 +28,7 @@ references:
 - https://redcanary.com/threat-detection-report/techniques/powershell/
 - https://attack.mitre.org/techniques/T1566/001/
 - https://app.any.run/tasks/b79fa381-f35c-4b3e-8d02-507e7ee7342f/
+- https://app.any.run/tasks/181ac90b-0898-4631-8701-b778a30610ad/
 tags:
   analytic_story:
   - Spearphishing Attachments
