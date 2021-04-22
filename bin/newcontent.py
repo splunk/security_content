@@ -206,7 +206,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     if answers['detection_type'] == 'batch':
         answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
     elif answers['detection_type'] == 'streaming':
-        answers['products'] = ['UEBA for Security Cloud']
+        answers['products'] = ['Splunk Behavioral Analytics']
 
     # grab some vars for the test
     detection_kind = answers['detection_kind']
@@ -384,7 +384,7 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
     if answers['story_type'] == 'batch':
         answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
     elif answers['story_type'] == 'streaming':
-        answers['products'] = ['UEBA for Security Cloud']
+        answers['products'] = ['Splunk Behavioral Analytics']
 
     template = j2_env.get_template('story.j2')
     story_name = answers['story_name']
