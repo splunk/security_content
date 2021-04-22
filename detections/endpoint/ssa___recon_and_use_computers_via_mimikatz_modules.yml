@@ -36,7 +36,7 @@ tags:
   - PR.AC
   - PR.IP
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - process

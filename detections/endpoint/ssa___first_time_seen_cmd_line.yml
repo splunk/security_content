@@ -48,7 +48,7 @@ tags:
   - DE.CM
   - PR.IP
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - process_name
   - _time
