@@ -33,6 +33,9 @@ references:
 tags:
   analytic_story:
   - Windows Persistence Techniques
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -51,6 +54,3 @@ tags:
   - Hidden
   - Arguments
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
