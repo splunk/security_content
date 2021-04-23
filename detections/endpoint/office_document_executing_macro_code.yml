@@ -1,0 +1,52 @@
+name: Office Document Executing Macro Code
+id: b12c89bc-9d06-11eb-a592-acde48001122
+version: 1
+date: '2021-04-14'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this detection was designed to identifies suspicious office documents
+  that using macro code. Macro code is known to be one of the prevalent weaponization
+  or attack vector of threat actor. This malicious macro code is embed to a office
+  document as an attachment that may execute malicious payload, download malware payload
+  or other malware component. It is really good practice to disable macro by default
+  to avoid automatically execute macro code while opening or closing a office document
+  files.
+search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE",
+  "wordpad.exe")  ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL")
+  | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded
+  count by Computer EventCode Image process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `office_document_executing_macro_code_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Also be sure to include those monitored dll to your own sysmon config.
+known_false_positives: Normal Office Document macro use for automation
+references:
+- https://www.joesandbox.com/analysis/386500/0/html
+tags:
+  analytic_story:
+  - Spearphishing Attachments
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1566.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - ImageLoaded
+  - AllImageLoaded
+  - Computer
+  - EventCode
+  - Image
+  - process_name
+  - ProcessId
+  - ProcessGuid
+  - _time
+  security_domain: endpoint
