@@ -7,18 +7,17 @@ type: batch
 datamodel:
 - Network_Traffic
 description: This search is to detect potential plain http post method data exfiltration.
-  This network traffic is commonly used by trickbot, trojanspy, keylogger or APT attacker where they send a plain txt file 
-  C2 server through http post method as part of data exfiltration.
-search: '`stream_http` http_method=POST 
-  form_data IN ("*wermgr.exe*","*svchost.exe*", "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*")
-  |stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count 
-  by http_method http_user_agent uri_path url bytes_in bytes_out 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `plain_http_post_exfiltrated_data_filter`'
+  This network traffic is commonly used by trickbot, trojanspy, keylogger or APT attacker
+  where they send a plain txt file C2 server through http post method as part of data
+  exfiltration.
+search: '`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*",
+  "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") |stats values(form_data)
+  as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method
+  http_user_agent uri_path url bytes_in bytes_out | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `plain_http_post_exfiltrated_data_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the stream HTTP logs or network logs that catch network traffic.
-  Make sure that the http-request-body, payload, or request field is enabled.
+  logs with the stream HTTP logs or network logs that catch network traffic. Make
+  sure that the http-request-body, payload, or request field is enabled.
 known_false_positives: unknown
 references:
 - https://blog.talosintelligence.com/2020/03/trickbot-primer.html
@@ -42,3 +41,6 @@ tags:
   - bytes_in
   - bytes_out
   security_domain: network
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
