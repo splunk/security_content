@@ -46,6 +46,7 @@ tags:
   - Windows Persistence Techniques
   - Ransomware
   - Ryuk Ransomware
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-security.log
   kill_chain_phases:
@@ -63,4 +64,3 @@ tags:
   - Description
   - Command
   security_domain: endpoint
-  automated_detection_testing: passed

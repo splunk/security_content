@@ -25,6 +25,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
   kill_chain_phases:
@@ -44,4 +45,3 @@ tags:
   - errorCode
   - userIdentity.type
   security_domain: access
-  automated_detection_testing: passed
