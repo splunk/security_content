@@ -56,6 +56,7 @@ def main(args):
     for test in tests:
         counter_tests=counter_tests+1
 
+    
     detection_coverage = "{:.0%}".format(counter_tests/counter_detection)
 
     TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'jinja2_templates')
