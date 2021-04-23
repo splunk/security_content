@@ -8,5 +8,5 @@ tests:
   attack_data:
   - file_name: stream_http_events.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
-    source: stream:http
+    source: stream
     sourcetype: stream:http
