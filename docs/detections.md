@@ -5448,7 +5448,7 @@ This search looks for CloudTrail events where a user created a policy version th
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2021-02-22
 
 <details>
@@ -5527,7 +5527,7 @@ This search looks for CloudTrail events where a user A who has already permissio
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -5603,7 +5603,7 @@ This search looks for CloudTrail events where a user A(victim A) creates a login
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -6357,7 +6357,7 @@ The following query uses IAM events to track the success of a group being delete
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
-- **ATT&CK**: [T1069.003](https://attack.mitre.org/techniques/T1069.003/), [T1098](https://attack.mitre.org/techniques/T1098/)
+- **ATT&CK**: [T1069.003](https://attack.mitre.org/techniques/T1069/003/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -6433,7 +6433,7 @@ The search looks for CloudTrail events to detect if any network ACLs were create
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2021-01-11
 
 <details>
@@ -6518,7 +6518,7 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -6760,7 +6760,7 @@ This search looks for CloudTrail events where a user has set a default policy ve
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -6837,7 +6837,7 @@ This search looks for CloudTrail events where a user A who has already permissio
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -6913,7 +6913,7 @@ This search looks for CloudTrail events where a user successfully launches an ab
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -6985,7 +6985,7 @@ This search looks for CloudTrail events where a user successfully launches an ab
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -7053,7 +7053,7 @@ This search looks for CloudTrail events where an abnormally high number of insta
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -7123,7 +7123,7 @@ This search looks for CloudTrail events where a user successfully terminates an 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -7189,7 +7189,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-09-07
 
 <details>
@@ -7268,7 +7268,7 @@ This search finds for the number successfully destroyed cloud instances for ever
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-08-21
 
 <details>
@@ -7348,7 +7348,7 @@ This search finds for the number successfully created cloud instances for every 
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-08-21
 
 <details>
@@ -7430,7 +7430,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-09-07
 
 <details>
@@ -7511,7 +7511,7 @@ Detect memory dumping of the LSASS process.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-06
 
 <details>
@@ -7753,7 +7753,7 @@ The following analytic identifies the use of PowerShell downloading a file using
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -7841,7 +7841,7 @@ The following analytic identifies the use of PowerShell downloading a file using
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -8178,7 +8178,7 @@ Attempt To Add Certificate To Untrusted Store
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1553.004](https://attack.mitre.org/techniques/T1553.004/)
+- **ATT&CK**: [T1553.004](https://attack.mitre.org/techniques/T1553/004/)
 - **Last Updated**: 2020-11-03
 
 <details>
@@ -8250,7 +8250,7 @@ This search looks for attempts to stop security-related services on the endpoint
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -8315,74 +8315,6 @@ None identified. Attempts to disable security-related services should be identif
 
 
 _version_: 3
-</details>
-
----
-
-### Attempted Credential Dump From Registry via Reg exe
-Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/)
-- **Last Updated**: 2019-12-02
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
-
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=reg.exe OR Processes.process_name=cmd.exe) Processes.process=*save* (Processes.process=*HKEY_LOCAL_MACHINE\\Security* OR Processes.process=*HKEY_LOCAL_MACHINE\\SAM* OR Processes.process=*HKEY_LOCAL_MACHINE\\System* OR Processes.process=*HKLM\\Security* OR Processes.process=*HKLM\\System* OR Processes.process=*HKLM\\SAM*) by Processes.user Processes.process_name Processes.process Processes.dest 
-| `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)` 
-| `attempted_credential_dump_from_registry_via_reg_exe_filter`
-```
-#### Associated Analytic Story
-
-* Credential Dumping
-
-
-#### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model.
-
-#### Required field
-
-* _time
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.dest
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1003.002 | Security Account Manager | Credential Access |
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-None identified.
-
-#### Reference
-
-
-#### Test Dataset
-
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
-
-
-_version_: 4
 </details>
 
 ---
@@ -8457,6 +8389,74 @@ None identified.
 
 
 _version_: 1
+</details>
+
+---
+
+### Attempted Credential Dump From Registry via Reg exe
+Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2019-12-02
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=reg.exe OR Processes.process_name=cmd.exe) Processes.process=*save* (Processes.process=*HKEY_LOCAL_MACHINE\\Security* OR Processes.process=*HKEY_LOCAL_MACHINE\\SAM* OR Processes.process=*HKEY_LOCAL_MACHINE\\System* OR Processes.process=*HKLM\\Security* OR Processes.process=*HKLM\\System* OR Processes.process=*HKLM\\SAM*) by Processes.user Processes.process_name Processes.process Processes.dest 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+| `attempted_credential_dump_from_registry_via_reg_exe_filter`
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+None identified.
+
+#### Reference
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
+
+
+_version_: 4
 </details>
 
 ---
@@ -8711,7 +8711,7 @@ The search looks for a batch file (.bat) written to the Windows system directory
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204.002/)
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
 - **Last Updated**: 2018-12-14
 
 <details>
@@ -9167,7 +9167,7 @@ This search allows you to identify the endpoints that have connected to more tha
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -9475,7 +9475,7 @@ This search looks for cloud compute instances created by users who have not crea
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-08-21
 
 <details>
@@ -9761,7 +9761,7 @@ This search looks for cloud instances being modified by users who have not previ
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-29
 
 <details>
@@ -10472,7 +10472,7 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-06
 
 <details>
@@ -10550,7 +10550,7 @@ This detection is to identify a creation of "user mode service" where the servic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1569.001](https://attack.mitre.org/techniques/T1569.001/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1569.001](https://attack.mitre.org/techniques/T1569/001/), [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
 - **Last Updated**: 2021-03-12
 
 <details>
@@ -10628,7 +10628,7 @@ This search looks for the creation of local administrator accounts using net.exe
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136.001/)
+- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -10704,7 +10704,7 @@ This search looks for the creation or deletion of hidden shares using net.exe.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1070.005](https://attack.mitre.org/techniques/T1070.005/)
+- **ATT&CK**: [T1070.005](https://attack.mitre.org/techniques/T1070/005/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -10781,7 +10781,7 @@ Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -10861,7 +10861,7 @@ This search detects the use of wmic and Powershell to create a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -10935,7 +10935,7 @@ Detect the hands on keyboard behavior of Windows Task Manager creating a prcoess
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2020-02-03
 
 <details>
@@ -11015,7 +11015,7 @@ This search detects credential dumping using copy command from a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -11095,7 +11095,7 @@ This search detects the creation of a symlink to a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -12029,7 +12029,7 @@ This search allows you to identify DNS requests that are unusually large for the
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-01-22
 
 <details>
@@ -12114,7 +12114,7 @@ This search allows you to identify DNS requests and compute the standard deviati
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2021-01-18
 
 <details>
@@ -12185,7 +12185,7 @@ This search will detect DNS requests resolved by unauthorized DNS servers. Legit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -12257,7 +12257,7 @@ The search takes the DNS records and their answers results of the discovered_dns
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -12580,7 +12580,7 @@ By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organiza
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557.002/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557/002/)
 - **Last Updated**: 2020-08-11
 
 <details>
@@ -12660,7 +12660,7 @@ This search looks for successful CloudTrail activity by user accounts that are n
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -13045,7 +13045,7 @@ This search looks for specific authentication events from the Windows Security E
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550.002/)
+- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550/002/)
 - **Last Updated**: 2020-10-15
 
 <details>
@@ -13379,7 +13379,7 @@ This search looks for reading lsass memory consistent with credential dumping.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-03
 
 <details>
@@ -13459,7 +13459,7 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1566.003](https://attack.mitre.org/techniques/T1566.003/)
+- **ATT&CK**: [T1566.003](https://attack.mitre.org/techniques/T1566/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -13546,7 +13546,7 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2020-09-15
 
 <details>
@@ -13618,7 +13618,7 @@ This search identifies endpoints that have caused a relatively high number of ac
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078.002/)
+- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078/002/)
 - **Last Updated**: 2020-11-09
 
 <details>
@@ -13694,7 +13694,7 @@ This search detects user accounts that have been locked out a relatively high nu
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.003](https://attack.mitre.org/techniques/T1078.003/)
+- **ATT&CK**: [T1078.003](https://attack.mitre.org/techniques/T1078/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -13764,7 +13764,7 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505.003/)
+- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505/003/)
 - **Last Updated**: 2021-03-09
 
 <details>
@@ -13993,7 +13993,7 @@ The following analytic identifies a renamed instance of hh.exe (HTML Help) execu
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -14079,7 +14079,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -14169,7 +14169,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -14259,7 +14259,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -14347,7 +14347,7 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557.002/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557/002/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -14453,7 +14453,7 @@ This search detects a potential kerberoasting attack via service principal name 
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558.003/)
+- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558/003/)
 - **Last Updated**: 2020-10-21
 
 <details>
@@ -14605,7 +14605,7 @@ This search is used to detect attempts to use DNS tunneling, by calculating the 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -14681,7 +14681,7 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -14761,7 +14761,7 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-03
 
 <details>
@@ -14842,7 +14842,7 @@ This search looks for PowerShell requesting privileges consistent with credentia
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-02-27
 
 <details>
@@ -14915,7 +14915,7 @@ This search looks for newly created accounts that have been elevated to local ad
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136.001/)
+- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136/001/)
 - **Last Updated**: 2020-07-08
 
 <details>
@@ -15310,7 +15310,7 @@ This search looks for outbound SMB connections made by hosts within your network
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1071.002](https://attack.mitre.org/techniques/T1071.002/)
+- **ATT&CK**: [T1071.002](https://attack.mitre.org/techniques/T1071/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -15390,7 +15390,7 @@ This search looks for execution of process `outlook.exe` where the process is wr
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -15475,7 +15475,7 @@ This search looks for specific authentication events from the Windows Security E
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550.002/)
+- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550/002/)
 - **Last Updated**: 2020-10-21
 
 <details>
@@ -15555,7 +15555,7 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1574.009](https://attack.mitre.org/techniques/T1574.009/)
+- **ATT&CK**: [T1574.009](https://attack.mitre.org/techniques/T1574/009/)
 - **Last Updated**: 2020-07-03
 
 <details>
@@ -15638,7 +15638,7 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557.002/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557/002/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -15726,7 +15726,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-11-10
 
 <details>
@@ -15885,7 +15885,7 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/)
 - **Last Updated**: 2020-11-10
 
 <details>
@@ -16034,7 +16034,7 @@ The following analytic identifies regasm.exe spawning a process. This particular
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -16120,7 +16120,7 @@ The following analytic identifies regasm.exe with a network connection to a publ
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-16
 
 <details>
@@ -16206,7 +16206,7 @@ The following analytic identifies regasm.exe with no command line arguments. Thi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -16297,7 +16297,7 @@ The following analytic identifies regsvcs.exe spawning a process. This particula
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -16383,7 +16383,7 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-16
 
 <details>
@@ -16467,7 +16467,7 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -16561,7 +16561,7 @@ Upon investigating, look for network connections to remote destinations (interna
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218.010/)
+- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218/010/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -16724,7 +16724,7 @@ The following analytic identifies rundll32.exe loading advpack.dll and ieadvpack
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -16806,7 +16806,7 @@ The following analytic identifies rundll32.exe loading setupapi.dll and iesetupa
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -16888,7 +16888,7 @@ The following analytic identifies rundll32.exe loading syssetup.dll by calling t
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -16970,7 +16970,7 @@ The following analytic identifies "rundll32.exe" execution with inline protocol 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -17212,7 +17212,7 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1542.005](https://attack.mitre.org/techniques/T1542.005/)
+- **ATT&CK**: [T1542.005](https://attack.mitre.org/techniques/T1542/005/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -17284,7 +17284,7 @@ This search will detect users creating spikes of API activity in your AWS enviro
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -17501,7 +17501,7 @@ This search will detect users creating spikes in API activity related to network
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2018-05-21
 
 <details>
@@ -17656,7 +17656,7 @@ This search will detect users creating spikes in API activity related to securit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2018-04-18
 
 <details>
@@ -17809,7 +17809,7 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1020.001](https://attack.mitre.org/techniques/T1020.001/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1020.001](https://attack.mitre.org/techniques/T1020/001/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -18010,7 +18010,7 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -18523,7 +18523,7 @@ The following analytic identifies "mshta.exe" execution with inline protocol han
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -18605,7 +18605,7 @@ The following analytic identifies renamed instances of mshta.exe executing. Msht
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -18689,7 +18689,7 @@ This search detects new API calls that have either never been seen before or tha
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2018-04-16
 
 <details>
@@ -18766,7 +18766,7 @@ This search looks for CloudTrail events wherein a console login event by a user 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -18914,7 +18914,7 @@ This search looks for web connections to dynamic DNS providers.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Web
-- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071.001/)
+- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -18986,7 +18986,7 @@ This search is used to detect DNS tunneling, by calculating the sum of the lengt
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2017-09-18
 
 <details>
@@ -19137,7 +19137,7 @@ This search is to identifies modification of registry to disable the regedit or 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19217,7 +19217,7 @@ The following search is to idetifies a modification in registry to prevent the u
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564.001/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564/001/), [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19298,7 +19298,7 @@ This search is to identifies a modification in registry to disable the windows d
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19378,7 +19378,7 @@ The following search identifies a modification of registry to disable the smarts
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19458,7 +19458,7 @@ this search is to identify modification in registry to disable cmd prompt applic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19538,7 +19538,7 @@ this search is to identify registry modification to disable control panel window
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19618,7 +19618,7 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19704,7 +19704,7 @@ This search is to identify registry modification to disable folder options featu
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19784,7 +19784,7 @@ This search is to identify modification of registry to disable run application i
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19866,7 +19866,7 @@ The search looks for modifications to registry keys that control the enforcement
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
 - **Last Updated**: 2020-11-18
 
 <details>
@@ -19940,7 +19940,7 @@ The following search identifies the modification of registry related in disablin
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -20020,7 +20020,7 @@ This search is to identifies modification of registry to disable the task manage
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -20102,7 +20102,7 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2020-02-21
 
 <details>
@@ -20183,7 +20183,7 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2021-02-01
 
 <details>
@@ -20264,7 +20264,7 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2021-02-01
 
 <details>
@@ -20348,7 +20348,7 @@ This search looks for EC2 instances being modified by users who have not previou
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20624,7 +20624,7 @@ This search looks for EC2 instances being created by users who have not created 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20770,7 +20770,7 @@ The search looks at the change-analysis data model and detects email files creat
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1114.001](https://attack.mitre.org/techniques/T1114.001/)
+- **ATT&CK**: [T1114.001](https://attack.mitre.org/techniques/T1114/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20840,7 +20840,7 @@ This search looks for an increase of data transfers from your email server to yo
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114.002/)
+- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20912,7 +20912,7 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -20996,7 +20996,7 @@ The following detection identifies Microsoft Excel spawning PowerShell. Typicall
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/)
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
 - **Last Updated**: 2021-04-12
 
 <details>
@@ -21076,7 +21076,7 @@ The following detection identifies Microsoft Excel spawning Windows Script Host 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/)
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
 - **Last Updated**: 2021-04-12
 
 <details>
@@ -21156,7 +21156,7 @@ This search identifies DNS query failures by counting the number of DNS response
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -21229,7 +21229,7 @@ This search looks for processes launched from files with at least five spaces in
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2020-11-19
 
 <details>
@@ -21299,7 +21299,7 @@ This search looks for processes launched from files that have double extensions 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2020-11-18
 
 <details>
@@ -21571,7 +21571,7 @@ This search looks for the first and last time a Windows service is seen running 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -21722,7 +21722,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/), [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -21816,7 +21816,7 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/), [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
+- **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/), [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -22418,7 +22418,7 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1222.001](https://attack.mitre.org/techniques/T1222.001/)
+- **ATT&CK**: [T1222.001](https://attack.mitre.org/techniques/T1222/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -22572,7 +22572,7 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1110.001](https://attack.mitre.org/techniques/T1110.001/)
+- **ATT&CK**: [T1110.001](https://attack.mitre.org/techniques/T1110/001/)
 - **Last Updated**: 2020-12-16
 
 <details>
@@ -22727,7 +22727,7 @@ This search looks for an increase of data transfers from your email server to yo
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114.002/)
+- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -22797,7 +22797,7 @@ This detection search will help profile user accounts in your environment by ide
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078.002/)
+- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078/002/)
 - **Last Updated**: 2017-09-12
 
 <details>
@@ -23618,7 +23618,7 @@ This search detects a potential kerberoasting attack via service principal name 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558.003/)
+- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558/003/)
 - **Last Updated**: 2020-10-16
 
 <details>
@@ -24718,7 +24718,7 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1498.002](https://attack.mitre.org/techniques/T1498.002/)
+- **ATT&CK**: [T1498.002](https://attack.mitre.org/techniques/T1498/002/)
 - **Last Updated**: 2017-09-20
 
 <details>
@@ -24849,7 +24849,7 @@ This search looks for PowerShell processes started with parameters to modify the
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2020-11-20
 
 <details>
@@ -25005,7 +25005,7 @@ This search looks for PowerShell processes started with parameters used to bypas
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -25083,7 +25083,7 @@ This search looks for PowerShell processes started with a base64 encoded command
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-01-19
 
 <details>
@@ -25146,7 +25146,7 @@ This search looks for PowerShell processes launched with arguments that have cha
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-01-19
 
 <details>
@@ -25224,7 +25224,7 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
 - **Last Updated**: 2021-04-07
 
 <details>
@@ -25439,7 +25439,7 @@ This search looks for registry activity associated with modifications to the reg
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1547.010](https://attack.mitre.org/techniques/T1547.010/)
+- **ATT&CK**: [T1547.010](https://attack.mitre.org/techniques/T1547/010/)
 - **Last Updated**: 2020-11-23
 
 <details>
@@ -25646,7 +25646,7 @@ This search detects Okta login failures due to bad credentials for multiple user
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -25869,7 +25869,7 @@ This query detects the Nishang Invoke-PowerShellTCPOneLine utility that spawns a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-03-03
 
 <details>
@@ -26022,7 +26022,7 @@ This technique uses "Install from Media" (IFM), which will extract a copy of the
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -26110,7 +26110,7 @@ This search detects the creation of a new Federation setting by alerting about a
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-01-26
 
 <details>
@@ -26193,7 +26193,7 @@ This search detects the creation of a new Federation setting by alerting about a
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-01-26
 
 <details>
@@ -26280,7 +26280,7 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -26607,7 +26607,7 @@ This search detects the addition of a new Federated domain.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-01-26
 
 <details>
@@ -26775,7 +26775,7 @@ This search detects when an admin configured a forwarding rule for multiple mail
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114.003/)
+- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114/003/)
 - **Last Updated**: 2020-12-16
 
 <details>
@@ -26844,7 +26844,7 @@ This search detects the assignment of rights to accesss content from another mai
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114.002/)
+- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114/002/)
 - **Last Updated**: 2020-12-15
 
 <details>
@@ -26912,7 +26912,7 @@ This search detects when multiple user configured a forwarding rule to the same 
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114.003/)
+- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114/003/)
 - **Last Updated**: 2020-12-16
 
 <details>
@@ -26981,7 +26981,7 @@ this detection was designed to identifies suspicious spawned process of known MS
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-13
 
 <details>
@@ -27061,7 +27061,7 @@ this search detects a potential malicious office document that create schedule t
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-14
 
 <details>
@@ -27144,7 +27144,7 @@ this detection was designed to identifies suspicious office documents that using
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-14
 
 <details>
@@ -27225,7 +27225,7 @@ this search is to detect potential malicious office document executing lolbin ch
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-16
 
 <details>
@@ -27308,7 +27308,7 @@ The following detection identifies the latest behavior utilized by IcedID malwar
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-22
 
 <details>
@@ -27390,7 +27390,7 @@ Detect Okta user lockout events
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -27454,7 +27454,7 @@ Detect failed Okta SSO events
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -27521,7 +27521,7 @@ This search detects logins from the same user from different cities in a 24 hour
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -27694,7 +27694,7 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1546.008](https://attack.mitre.org/techniques/T1546.008/)
+- **ATT&CK**: [T1546.008](https://attack.mitre.org/techniques/T1546/008/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -27977,7 +27977,7 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1566.002](https://attack.mitre.org/techniques/T1566.002/)
+- **ATT&CK**: [T1566.002](https://attack.mitre.org/techniques/T1566/002/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -28068,7 +28068,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/)
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
 - **Last Updated**: 2021-03-17
 
 <details>
@@ -28294,7 +28294,7 @@ This search looks for processes launching netsh.exe to execute various commands 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562.004/)
+- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562/004/)
 - **Last Updated**: 2020-11-23
 
 <details>
@@ -28354,7 +28354,7 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562.004/)
+- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562/004/)
 - **Last Updated**: 2020-07-10
 
 <details>
@@ -28571,7 +28571,7 @@ This search looks for network traffic on common ports where a higher layer proto
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -29237,7 +29237,7 @@ This detection identifies access to PowerSploit modules that discover and access
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1012](https://attack.mitre.org/techniques/T1012/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1057](https://attack.mitre.org/techniques/T1057/), [T1083](https://attack.mitre.org/techniques/T1083/), [T1518](https://attack.mitre.org/techniques/T1518/), [T1592.002](https://attack.mitre.org/techniques/T1592.002/)
+- **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1012](https://attack.mitre.org/techniques/T1012/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1057](https://attack.mitre.org/techniques/T1057/), [T1083](https://attack.mitre.org/techniques/T1083/), [T1518](https://attack.mitre.org/techniques/T1518/), [T1592.002](https://attack.mitre.org/techniques/T1592/002/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -29390,7 +29390,7 @@ This detection identifies use of Mimikatz modules for discovery and access to ne
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -29464,7 +29464,7 @@ This detection identifies access to PowerSploit modules that discover and access
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -29615,7 +29615,7 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -29689,7 +29689,7 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1589.001](https://attack.mitre.org/techniques/T1589.001/), [T1590.001](https://attack.mitre.org/techniques/T1590.001/), [T1590.003](https://attack.mitre.org/techniques/T1590.003/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
+- **ATT&CK**: [T1589.001](https://attack.mitre.org/techniques/T1589/001/), [T1590.001](https://attack.mitre.org/techniques/T1590/001/), [T1590.003](https://attack.mitre.org/techniques/T1590/003/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
 
 <details>
@@ -29766,7 +29766,7 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1595.002](https://attack.mitre.org/techniques/T1595.002/), [T1592.002](https://attack.mitre.org/techniques/T1592.002/)
+- **ATT&CK**: [T1595.002](https://attack.mitre.org/techniques/T1595/002/), [T1592.002](https://attack.mitre.org/techniques/T1592/002/)
 - **Last Updated**: 2020-11-05
 
 <details>
@@ -29989,7 +29989,7 @@ The search looks for reg.exe modifying registry keys that define Windows service
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1574.011](https://attack.mitre.org/techniques/T1574.011/)
+- **ATT&CK**: [T1574.011](https://attack.mitre.org/techniques/T1574/011/)
 - **Last Updated**: 2020-11-26
 
 <details>
@@ -30065,7 +30065,7 @@ The search looks for command-line arguments used to hide a file or directory usi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564.001/)
+- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564/001/)
 - **Last Updated**: 2019-02-27
 
 <details>
@@ -30130,7 +30130,7 @@ The search looks for modifications to registry keys that can be used to launch a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
+- **ATT&CK**: [T1547.001](https://attack.mitre.org/techniques/T1547/001/)
 - **Last Updated**: 2020-11-27
 
 <details>
@@ -30212,7 +30212,7 @@ This search looks for modifications to registry keys that can be used to elevate
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.012](https://attack.mitre.org/techniques/T1546.012/)
+- **ATT&CK**: [T1546.012](https://attack.mitre.org/techniques/T1546/012/)
 - **Last Updated**: 2020-11-27
 
 <details>
@@ -30290,7 +30290,7 @@ This search looks for registry activity associated with application compatibilit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546.011/)
+- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546/011/)
 - **Last Updated**: 2020-11-26
 
 <details>
@@ -30362,7 +30362,7 @@ This search looks for RDP application network traffic and filters any source/des
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/)
+- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -30435,7 +30435,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/)
+- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021/001/)
 - **Last Updated**: 2020-07-07
 
 <details>
@@ -30513,7 +30513,7 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/)
+- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -30855,7 +30855,7 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2020-11-30
 
 <details>
@@ -30927,7 +30927,7 @@ The following analytic identifies rundll32.exe with no command line arguments an
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-04-19
 
 <details>
@@ -31087,7 +31087,7 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -31175,7 +31175,7 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -31250,7 +31250,7 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -31476,7 +31476,7 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543.003/)
+- **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -31558,7 +31558,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-12-17
 
 <details>
@@ -31634,7 +31634,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -31695,7 +31695,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -31769,7 +31769,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-12-07
 
 <details>
@@ -31993,7 +31993,7 @@ Monitor for changes of the ExecutionPolicy in the registry to the values "unrest
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -32384,7 +32384,7 @@ This search looks for shim database files being written to default directories. 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546.011/)
+- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546/011/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -32454,7 +32454,7 @@ This search detects the process execution and arguments required to silently cre
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546.011/)
+- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546/011/)
 - **Last Updated**: 2020-11-23
 
 <details>
@@ -32524,7 +32524,7 @@ This search detects accounts that were created and deleted in a short time perio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136.001/)
+- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136/001/)
 - **Last Updated**: 2020-07-06
 
 <details>
@@ -32597,7 +32597,7 @@ This search looks for process names that consist only of a single letter.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204.002/)
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -32913,7 +32913,7 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Web
-- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505.003/)
+- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505/003/)
 - **Last Updated**: 2021-01-06
 
 <details>
@@ -32988,7 +32988,7 @@ This search looks for changes to registry values that control Windows file assoc
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.001](https://attack.mitre.org/techniques/T1546.001/)
+- **ATT&CK**: [T1546.001](https://attack.mitre.org/techniques/T1546/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -33284,7 +33284,7 @@ This search looks for emails that have attachments with suspicious file extensio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Email
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -33569,7 +33569,7 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127.001/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127/001/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -33658,7 +33658,7 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127.001/)
+- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127/001/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -33745,7 +33745,7 @@ Upon triage, capture the property list file being written to disk and review for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543.001/)
+- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543/001/)
 - **Last Updated**: 2021-02-22
 
 <details>
@@ -33832,7 +33832,7 @@ Upon triage, capture the property list file being written to disk and review for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543.001/)
+- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543/001/)
 - **Last Updated**: 2021-02-22
 
 <details>
@@ -33988,7 +33988,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218.010/)
+- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218/010/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -34078,7 +34078,7 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -34165,7 +34165,7 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -34255,7 +34255,7 @@ The following analytic identifies rundll32.exe using dllregisterserver on the co
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-09
 
 <details>
@@ -34347,7 +34347,7 @@ The following analytic identifies rundll32.exe with no command line arguments. I
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-09
 
 <details>
@@ -34520,7 +34520,7 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -34693,7 +34693,7 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1127](https://attack.mitre.org/techniques/T1127/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1127](https://attack.mitre.org/techniques/T1127/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -34858,7 +34858,7 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127.001/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127/001/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -34941,7 +34941,7 @@ The following analytic identifies child processes spawning from  "mshta.exe". Th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -35021,7 +35021,7 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -35103,7 +35103,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070.001/)
+- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -35486,7 +35486,7 @@ This search looks for system processes that normally run out of C:\Windows\Syste
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -35567,7 +35567,7 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071.001/)
+- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -35720,7 +35720,7 @@ This search looks for applications on the endpoint that you have marked as uncom
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204.002/)
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -35867,7 +35867,7 @@ Attackers often disable security tools to avoid detection. This search looks for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -35942,7 +35942,7 @@ This search detects loading of unsigned images by LSASS. Deprecated because too 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-06
 
 <details>
@@ -36341,7 +36341,7 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505.003/)
+- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505/003/)
 - **Last Updated**: 2021-03-03
 
 <details>
@@ -36572,7 +36572,7 @@ This search looks for the creation of WMI permanent event subscriptions.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.003](https://attack.mitre.org/techniques/T1546.003/)
+- **ATT&CK**: [T1546.003](https://attack.mitre.org/techniques/T1546/003/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -37008,7 +37008,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2021-04-08
 
 <details>
@@ -37099,7 +37099,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2021-04-12
 
 <details>
@@ -37268,7 +37268,7 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -37346,7 +37346,7 @@ This search looks for Windows events that indicate one of the Windows event logs
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070.001/)
+- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070/001/)
 - **Last Updated**: 2020-07-06
 
 <details>
@@ -37487,7 +37487,7 @@ The search looks for the Console Window Host process (connhost.exe) executed usi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -37602,7 +37602,7 @@ The following detection identifies Microsoft Word spawning `cmd.exe`. Typically,
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-22
 
 <details>
@@ -37680,7 +37680,7 @@ The following detection identifies Microsoft Word spawning PowerShell. Typically
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-12
 
 <details>
@@ -37764,7 +37764,7 @@ The following detection identifies Microsoft Winword.exe spawning Windows Script
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-04-12
 
 <details>
