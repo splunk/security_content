@@ -711,8 +711,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1087 | Account Discovery | Discovery |
 | T1201 | Password Policy Discovery | Discovery |
 | T1552 | Unsecured Credentials | Credential Access |
-| T1003.002 | Security Account Manager | Credential Access |
 | T1003 | OS Credential Dumping | Credential Access |
+| T1003.002 | Security Account Manager | Credential Access |
 | T1003.003 | NTDS | Credential Access |
 | T1558.003 | Kerberoasting | Credential Access |
 | T1059.001 | PowerShell | Execution |
