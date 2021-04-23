@@ -6,10 +6,10 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect potential dns exfiltration using nslookup application.
+description: this search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique
-  use of nslookup where it tries to use specific record type like (TXT, A, AAAA) that
+  use of nslookup where it tries to use specific record type (TXT, A, AAAA) that
   are commonly used by attacker and also the retry parameter which is designed to
   query C2 DNS multiple tries.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as cmdline
