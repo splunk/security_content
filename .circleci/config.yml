@@ -262,8 +262,10 @@ jobs:
       - run:
           name: checkout repo
           command: |
-            mkdir ~/latest
-            tar -zxf ~/DA-ESS-ContentUpdate-latest.tar.gz -C ~/latest --strip-components=1
+            mkdir ~/latest-escu
+            tar -zxf ~/DA-ESS-ContentUpdate-latest.tar.gz -C ~/latest-escu --strip-components=1
+            mkdir ~/latest-saaws
+            tar -zxf ~/DA-ESS_AmazonWebServices_Content-latest.tar.gz -C ~/latest-saaws --strip-components=1
             if [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
@@ -310,14 +312,16 @@ jobs:
           name: update github with new docs and package bits
           command: |
             cd security-content
-            rm -rf package
-            mv ~/latest package
+            rm -rf dist
+            mkdir dist
+            mv ~/latest-escu dist/escu
+            mv ~/latest-saaws dist/saaws
             # configure git to prep for commit
             git config credential.helper 'cache --timeout=120'
             git config user.email "research@splunk.com"
             git config user.name "research bot"
             git config --global push.default simple
-            git add package/*
+            git add dist/*
             git add docs/*
             git add detections/*
             git commit --allow-empty -m "updating docs and package bits [ci skip]"
