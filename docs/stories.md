@@ -384,7 +384,15 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 * [Cobalt Strike Named Pipes](detections.md#cobalt-strike-named-pipes)
 
+* [DLLHost with no Command Line Arguments with Network](detections.md#dllhost-with-no-command-line-arguments-with-network)
+
 * [Detect Regsvr32 Application Control Bypass](detections.md#detect-regsvr32-application-control-bypass)
+
+* [GPUpdate with no Command Line Arguments with Network](detections.md#gpupdate-with-no-command-line-arguments-with-network)
+
+* [Rundll32 with no Command Line Arguments with Network](detections.md#rundll32-with-no-command-line-arguments-with-network)
+
+* [SearchProtocolHost with no Command Line with Network](detections.md#searchprotocolhost-with-no-command-line-with-network)
 
 * [Suspicious DLLHost no Command Line Arguments](detections.md#suspicious-dllhost-no-command-line-arguments)
 
@@ -409,9 +417,9 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | ----------- | ----------- |--------------|
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1218.010 | Regsvr32 | Defense Evasion |
+| T1218.011 | Rundll32 | Defense Evasion |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
-| T1218.011 | Rundll32 | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
 #### Kill Chain Phase
@@ -628,8 +636,6 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Assessment of Credential Strength via DSInternals modules](detections.md#assessment-of-credential-strength-via-dsinternals-modules)
 
-* [Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#attempt-to-set-default-powershell-execution-policy-to-unrestricted-or-bypass)
-
 * [Attempted Credential Dump From Registry via Reg exe](detections.md#attempted-credential-dump-from-registry-via-reg-exe)
 
 * [Create Remote Thread into LSASS](detections.md#create-remote-thread-into-lsass)
@@ -680,6 +686,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Ntdsutil Export NTDS](detections.md#ntdsutil-export-ntds)
 
+* [Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#set-default-powershell-execution-policy-to-unrestricted-or-bypass)
+
 * [Unsigned Image Loaded by LSASS](detections.md#unsigned-image-loaded-by-lsass)
 
 
@@ -703,11 +711,11 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1087 | Account Discovery | Discovery |
 | T1201 | Password Policy Discovery | Discovery |
 | T1552 | Unsecured Credentials | Credential Access |
-| T1059.001 | PowerShell | Execution |
 | T1003.002 | Security Account Manager | Credential Access |
 | T1003 | OS Credential Dumping | Credential Access |
 | T1003.003 | NTDS | Credential Access |
 | T1558.003 | Kerberoasting | Credential Access |
+| T1059.001 | PowerShell | Execution |
 
 #### Kill Chain Phase
 
@@ -1066,8 +1074,6 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 
 * [Any Powershell DownloadString](detections.md#any-powershell-downloadstring)
 
-* [Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#attempt-to-set-default-powershell-execution-policy-to-unrestricted-or-bypass)
-
 * [Detect Exchange Web Shell](detections.md#detect-exchange-web-shell)
 
 * [Detect New Local Admin account](detections.md#detect-new-local-admin-account)
@@ -1089,6 +1095,8 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 * [Nishang PowershellTCPOneLine](detections.md#nishang-powershelltcponeline)
 
 * [Ntdsutil Export NTDS](detections.md#ntdsutil-export-ntds)
+
+* [Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#set-default-powershell-execution-policy-to-unrestricted-or-bypass)
 
 * [Unified Messaging Service Spawning a Process](detections.md#unified-messaging-service-spawning-a-process)
 
@@ -1265,8 +1273,6 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [Any Powershell DownloadString](detections.md#any-powershell-downloadstring)
 
-* [Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#attempt-to-set-default-powershell-execution-policy-to-unrestricted-or-bypass)
-
 * [Credential Extraction indicative of use of DSInternals credential conversion modules](detections.md#credential-extraction-indicative-of-use-of-dsinternals-credential-conversion-modules)
 
 * [Credential Extraction indicative of use of DSInternals modules](detections.md#credential-extraction-indicative-of-use-of-dsinternals-modules)
@@ -1288,6 +1294,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 * [Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments](detections.md#malicious-powershell-process---multiple-suspicious-command-line-arguments)
 
 * [Malicious PowerShell Process With Obfuscation Techniques](detections.md#malicious-powershell-process-with-obfuscation-techniques)
+
+* [Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#set-default-powershell-execution-policy-to-unrestricted-or-bypass)
 
 
 #### ATT&CK
@@ -1410,48 +1418,6 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 
 _version_: 2
-</details>
-
----
-
-### Phishing Payloads
-Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/), [T1566.002](https://attack.mitre.org/techniques/T1566.002/)
-- **Last Updated**: 2019-04-29
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Detect Oulook exe writing a  zip file](detections.md#detect-oulook-exe-writing-a--zip-file)
-
-* [Process Creating LNK file in Suspicious Location](detections.md#process-creating-lnk-file-in-suspicious-location)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1566.001 | Spearphishing Attachment | Initial Access |
-| T1566.002 | Spearphishing Link | Initial Access |
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-* Installation
-
-
-#### Reference
-
-* https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
-
-
-_version_: 1
 </details>
 
 ---
@@ -1586,6 +1552,69 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 * https://redcanary.com/blog/clipping-silver-sparrows-wings/
 
 * https://www.sentinelone.com/blog/5-things-you-need-to-know-about-silver-sparrow/
+
+
+_version_: 1
+</details>
+
+---
+
+### Spearphishing Attachments
+Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/), [T1566.002](https://attack.mitre.org/techniques/T1566.002/)
+- **Last Updated**: 2019-04-29
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Detect Outlook exe writing a zip file](detections.md#detect-outlook-exe-writing-a-zip-file)
+
+* [Excel Spawning PowerShell](detections.md#excel-spawning-powershell)
+
+* [Excel Spawning Windows Script Host](detections.md#excel-spawning-windows-script-host)
+
+* [Office Application Spawn rundll32 process](detections.md#office-application-spawn-rundll32-process)
+
+* [Office Document Creating Schedule Task](detections.md#office-document-creating-schedule-task)
+
+* [Office Document Executing Macro Code](detections.md#office-document-executing-macro-code)
+
+* [Office Document Spawned Child Process To Download](detections.md#office-document-spawned-child-process-to-download)
+
+* [Office Product Spawning Rundll32 with no DLL](detections.md#office-product-spawning-rundll32-with-no-dll)
+
+* [Process Creating LNK file in Suspicious Location](detections.md#process-creating-lnk-file-in-suspicious-location)
+
+* [Winword Spawning Cmd](detections.md#winword-spawning-cmd)
+
+* [Winword Spawning PowerShell](detections.md#winword-spawning-powershell)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+| T1003.002 | Security Account Manager | Credential Access |
+| T1566.002 | Spearphishing Link | Initial Access |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exploitation
+
+* Installation
+
+
+#### Reference
+
+* https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
 
 
 _version_: 1
@@ -2027,6 +2056,8 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 
 * [Dump LSASS via comsvcs DLL](detections.md#dump-lsass-via-comsvcs-dll)
 
+* [Rundll32 with no Command Line Arguments with Network](detections.md#rundll32-with-no-command-line-arguments-with-network)
+
 * [Suspicious Rundll32 Rename](detections.md#suspicious-rundll32-rename)
 
 * [Suspicious Rundll32 StartW](detections.md#suspicious-rundll32-startw)
@@ -2047,6 +2078,8 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Exploitation
 
 
 #### Reference
@@ -2643,11 +2676,17 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 * [Setting Credentials via PowerSploit modules](detections.md#setting-credentials-via-powersploit-modules)
 
+* [Shedule Task with HTTP Command Arguments](detections.md#shedule-task-with-http-command-arguments)
+
 * [Shim Database File Creation](detections.md#shim-database-file-creation)
 
 * [Shim Database Installation With Suspicious Parameters](detections.md#shim-database-installation-with-suspicious-parameters)
 
 * [Suspicious Scheduled Task from Public Directory](detections.md#suspicious-scheduled-task-from-public-directory)
+
+* [WinEvent Scheduled Task Created Within Public Path](detections.md#winevent-scheduled-task-created-within-public-path)
+
+* [WinEvent Scheduled Task Created to Spawn Shell](detections.md#winevent-scheduled-task-created-to-spawn-shell)
 
 
 #### ATT&CK
@@ -3169,7 +3208,7 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1069.003](https://attack.mitre.org/techniques/T1069.003/), [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1110](https://attack.mitre.org/techniques/T1110/), [T1136.003](https://attack.mitre.org/techniques/T1136.003/), [T1580](https://attack.mitre.org/techniques/T1580/)
 - **Last Updated**: 2021-03-08
 
 <details>
@@ -3183,6 +3222,14 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 
 * [AWS CreateLoginProfile](detections.md#aws-createloginprofile)
 
+* [AWS IAM Assume Role Policy Brute Force](detections.md#aws-iam-assume-role-policy-brute-force)
+
+* [AWS IAM Delete Policy](detections.md#aws-iam-delete-policy)
+
+* [AWS IAM Failure Group Deletion](detections.md#aws-iam-failure-group-deletion)
+
+* [AWS IAM Successful Group Deletion](detections.md#aws-iam-successful-group-deletion)
+
 * [AWS SetDefaultPolicyVersion](detections.md#aws-setdefaultpolicyversion)
 
 * [AWS UpdateLoginProfile](detections.md#aws-updateloginprofile)
@@ -3194,10 +3241,16 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1136.003 | Cloud Account | Persistence |
+| T1580 | Cloud Infrastructure Discovery | Discovery |
+| T1110 | Brute Force | Credential Access |
+| T1098 | Account Manipulation | Persistence |
+| T1069.003 | Cloud Groups | Discovery |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Reconnaissance
 
 
 #### Reference
@@ -4116,13 +4169,15 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1580](https://attack.mitre.org/techniques/T1580/)
 - **Last Updated**: 2020-09-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [AWS IAM AccessDenied Discovery Events](detections.md#aws-iam-accessdenied-discovery-events)
 
 * [Abnormally High Number Of Cloud Infrastructure API Calls](detections.md#abnormally-high-number-of-cloud-infrastructure-api-calls)
 
@@ -4135,12 +4190,15 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1580 | Cloud Infrastructure Discovery | Discovery |
 | T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Reconnaissance
 
 
 #### Reference
@@ -4729,6 +4787,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [WBAdmin Delete System Backups](detections.md#wbadmin-delete-system-backups)
 
+* [WinEvent Scheduled Task Created Within Public Path](detections.md#winevent-scheduled-task-created-within-public-path)
+
+* [WinEvent Scheduled Task Created to Spawn Shell](detections.md#winevent-scheduled-task-created-to-spawn-shell)
+
 * [Windows Event Log Cleared](detections.md#windows-event-log-cleared)
 
 
@@ -4854,6 +4916,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Suspicious Scheduled Task from Public Directory](detections.md#suspicious-scheduled-task-from-public-directory)
 
 * [WBAdmin Delete System Backups](detections.md#wbadmin-delete-system-backups)
+
+* [WinEvent Scheduled Task Created Within Public Path](detections.md#winevent-scheduled-task-created-within-public-path)
+
+* [WinEvent Scheduled Task Created to Spawn Shell](detections.md#winevent-scheduled-task-created-to-spawn-shell)
 
 * [Windows DisableAntiSpyware Registry](detections.md#windows-disableantispyware-registry)
 
