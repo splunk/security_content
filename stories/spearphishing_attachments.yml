@@ -1,4 +1,4 @@
-name: Phishing Payloads
+name: Spearphishing Attachments
 id: 57226b40-94f3-4ce5-b101-a75f67759c27
 version: 1
 date: '2019-04-29'
@@ -46,7 +46,7 @@ narrative: 'Despite its simplicity, phishing remains the most pervasive and dang
 references:
 - https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html
 tags:
-  analytic_story: Phishing Payloads
+  analytic_story: Spearphishing Attachments
   category:
   - Adversary Tactics
   product:
