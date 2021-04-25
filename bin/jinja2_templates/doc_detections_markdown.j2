@@ -66,7 +66,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 - **Product**: {{ detection.tags.product|join(', ') }}
 - **Datamodel**: {{ detection.datamodel|join(', ') }}
-- **ATT&CK**: {% for mitre_attack_id in detection.tags.mitre_attack_id %}[{{ mitre_attack_id }}](https://attack.mitre.org/techniques/{{ mitre_attack_id }}/){% if not loop.last %}, {% endif %}{% endfor %}
+- **ATT&CK**: {% for attack in detection.tags.mitre_attack_id -%}
+{%- if attack -%}
+{% set sub_technique = attack.split('.') %}
+{%- if sub_technique | length > 1 -%}
+[{{ attack}}](https://attack.mitre.org/techniques/{{sub_technique[0] }}/{{sub_technique[1]}}/)
+{%- else -%}
+[{{ attack}}](https://attack.mitre.org/techniques/{{ attack }}/)
+{%- endif -%}
+{%- endif -%}
+{% if not loop.last -%}, {% endif -%}
+{% endfor %}
 - **Last Updated**: {{ detection.date }}
 
 <details>
