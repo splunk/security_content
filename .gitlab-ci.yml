@@ -13,19 +13,6 @@ stages:
   - publish_deployer
   - smoketest_staging
 
-validate:
-  stage: ssa-validate
-  image: docker.repo.splunkdev.net/ci-cd/ci-container:alpine-3.11
-  before_script:
-    - apk add --update python3 python3-dev py-pip build-base openjdk8-jre zlib-dev jpeg-dev && pip install virtualenv && rm -rf /var/cache/apk/*
-    - python3 -m pip install -U --force-reinstall pip && pip3 install -r requirements.txt
-  script:
-    - python3 bin/ssa_validate.py --skip-error detections/*/*
-    - python3 bin/ssa_test.py --skip-error tests/*/*
-    - python3 bin/testing_coverage.py --type streaming --min-coverage 1.0
-  only:
-    - /^ssa.*$/
-    - develop
 
 publish_deployer:
   stage: publish_deployer
