@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - Trickbot
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log

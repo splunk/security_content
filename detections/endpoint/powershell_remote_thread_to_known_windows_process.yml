@@ -20,6 +20,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA. Tune and filter known instances of create remote thread may be used.
 known_false_positives: unknown
 references:
+- https://thedfirreport.com/2021/01/11/trickbot-still-alive-and-well/
 tags:
   analytic_story:
   - Trickbot
