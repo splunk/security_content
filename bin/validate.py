@@ -103,6 +103,9 @@ def validate_fields(object):
         if 'security_domain' not in object['tags']:
             errors.append("ERROR: a `security_domain` tag is required for object: %s" % object['name'])
 
+        if object['type'] == 'streaming' and 'risk_severity' not in object['tags']:
+            errors.append("ERROR: a `risk_severity` tag is required for object: %s" % object['name'])
+
     return errors
 
 
