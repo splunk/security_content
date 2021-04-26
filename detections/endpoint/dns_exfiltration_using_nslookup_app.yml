@@ -12,13 +12,12 @@ description: this search is to detect potential DNS exfiltration using nslookup 
   use of nslookup where it tries to use specific record type, TXT, A, AAAA, that
   are commonly used by attacker and also the retry parameter which is designed to
   query C2 DNS multiple tries.
-search: '| tstats `security_content_summariesonly` values(Processes.process) as cmdline
-  values(Processes.process_id) as nslookup_procid values(Processes.parent_process)
-  as parent_cmdline count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id values(Processes.parent_process)
+  as pare_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = "nslookup.exe" Processes.process = "*-querytype=*"
   OR Processes.process="*-qt=*" OR Processes.process="*-q=*" OR Processes.process="-type=*"
-  OR Processes.process="*-retry=*" by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id | `drop_dm_object_name(Processes)`
+  OR Processes.process="*-retry=*" by Processes.dest Processes.user Processes.process_name  | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `dns_exfiltration_using_nslookup_app_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
