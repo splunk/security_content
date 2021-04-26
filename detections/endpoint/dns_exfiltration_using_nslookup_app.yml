@@ -14,7 +14,7 @@ description: this search is to detect potential DNS exfiltration using nslookup 
   query C2 DNS multiple tries.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id values(Processes.parent_process)
-  as pare_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  as parent_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = "nslookup.exe" Processes.process = "*-querytype=*"
   OR Processes.process="*-qt=*" OR Processes.process="*-q=*" OR Processes.process="-type=*"
   OR Processes.process="*-retry=*" by Processes.dest Processes.user Processes.process_name  | `drop_dm_object_name(Processes)`
