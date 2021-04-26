@@ -34,6 +34,7 @@ def main(args):
                     # Parsed file is a SSA detection
                     log(logging.INFO, "Validating %s" % detection['name'])
                     cur_status = validate_tags(detection)
+                    cur_status = cur_status & validate_required_fields(detection)
                     status = status & cur_status
                     if cur_status:
                         passed_validations.append(detection_file)
