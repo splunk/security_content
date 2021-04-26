@@ -8,7 +8,7 @@ The SSA testing job will test SSA detections with the staging tenant research. I
 * Tear down the test
 
 # SSA Testing GitLab CI
-SSA testing job is configured as a GitLAB CI job, which will test all changed and newly created SSA detections in the given branch. For example, if you create two new SSA detections with its corrsponding test files, it will test these two SSA detections in the GitLab CI job. It can take up to 30 min until the GitLab CI job will start.
+SSA testing job is configured as a GitLAB CI job, which will test all changed and newly created SSA detections in the given branch compared to the develop branch. For example, if you create two new SSA detections with its corrsponding test files, it will test these two SSA detections in the GitLab CI job. It can take up to 30 min until the GitLab CI job will start.
 The GitLab CI job is limited to branches with the prefix ssa*, therefore you need to name your branch ssa* in order to make the GitLab CI job work. 
 
 # SSA Testing Manual
