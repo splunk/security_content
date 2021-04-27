@@ -23,6 +23,7 @@ references: []
 tags:
   analytic_story:
   - Windows File Extension and Association Abuse
+  - Masquerading - Rename System Utilities
   asset_type: Endpoint
   cis20:
   - CIS 3
