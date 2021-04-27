@@ -6,24 +6,27 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, 
-  to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a Rundll32. This technique is common in new trickbot that uses rundll32 to load is trickbot downloader.  
-  The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\
-  schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`.\ 
-  The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. 
-  If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\
-  Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. 
-  Identify any parallel processes within the same timeframe to identify source.'
-search: '`wineventlog_security` EventCode=4698 
-  | xmlkv Message
-  | search Command IN ("*rundll32*")   
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden, Arguments
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `schedule_task_with_rundll32_command_trigger_filter`'
+description: The following query utilizes Windows Security EventCode 4698, `A scheduled
+  task was created`, to identify suspicious tasks registered on Windows either via
+  schtasks.exe OR TaskService with a command to be executed with a Rundll32. This
+  technique is common in new trickbot that uses rundll32 to load is trickbot downloader.
+  The search will return the first time and last time the task was registered, as
+  well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether
+  it is `Hidden` or not.\ schtasks.exe is natively found in `C:\Windows\system32`
+  and `C:\Windows\syswow64`.\ The following DLL(s) are loaded when schtasks.exe or
+  TaskService is launched -`taskschd.dll`. If found loaded by another process, it
+  is possible a scheduled task is being registered within that process context in
+  memory.\ Upon triage, identify the task scheduled source. Was it schtasks.exe or
+  via TaskService? Review the job created and the Command to be executed. Capture
+  any artifacts on disk and review. Identify any parallel processes within the same
+  timeframe to identify source.'
+search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
+  ("*rundll32*") | stats count min(_time) as firstTime max(_time) as lastTime by dest,
+  Task_Name, Command, Author, Enabled, Hidden, Arguments | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `schedule_task_with_rundll32_command_trigger_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the task schedule (Exa. Security Log EventCode 4698)
-  endpoints. Tune and filter known instances of Task schedule used in your environment.
+  logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and
+  filter known instances of Task schedule used in your environment.
 known_false_positives: unknown
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
@@ -50,3 +53,6 @@ tags:
   - Hidden
   - Arguments
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/tasksched/windows-security.log
