@@ -233,6 +233,7 @@ references: []
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Masquerading - Rename System Utilities
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
   cis20:
