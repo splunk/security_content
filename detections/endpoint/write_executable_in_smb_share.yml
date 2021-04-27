@@ -6,14 +6,15 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect suspicious dropping or creating an executable file in known sensitive SMB share.
-  This technique is commonly used for lateral movement like how trickbot try to infect other machine in the infected network.
-  This detection catch the access event (FILE WRITE) access to a share.   
-search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll") Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask= "0x2" 
-  | stats min(_time) as firstTime max(_time) as lastTime count by EventCode Share_Name Relative_Target_Name Object_Type Access_Mask user src_port Source_Address 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `write_executable_in_smb_share_filter`'
+description: This search is to detect suspicious dropping or creating an executable
+  file in known sensitive SMB share. This technique is commonly used for lateral movement
+  like how trickbot try to infect other machine in the infected network. This detection
+  catch the access event (FILE WRITE) access to a share.
+search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll")
+  Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
+  "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode
+  Share_Name Relative_Target_Name Object_Type Access_Mask user src_port Source_Address
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `write_executable_in_smb_share_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also
   required. Also enable the object Audit access success/failure in your group policy.
@@ -41,5 +42,8 @@ tags:
   - Access_Mask
   - user
   - src_port
-  - Source_Address 
+  - Source_Address
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
