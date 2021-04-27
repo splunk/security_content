@@ -7,28 +7,32 @@ type: batch
 datamodel:
 - Endpoint
 description: The following detection identifies the latest behavior utilized by different
-  malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `mshta.exe`. In malicious instances, the command-line of `mshta.exe`
-  will contain the `hta` file locally, or a URL to the remote destination. In addition, Threat
-  Research has released a detections identifying suspicious use of `mshta.exe`. In this instance, we narrow our detection down
-  to the Office suite as a parent process. During triage, review all file modifications.
-  Capture and analyze any artifacts on disk. The Office Product, or `mshta.exe` will
-  have reached out to a remote destination, capture and block the IPs or domain. Review
-  additional parallel processes for further activity.
+  malware families (including TA551, IcedID). This detection identifies any Windows
+  Office Product spawning `mshta.exe`. In malicious instances, the command-line of
+  `mshta.exe` will contain the `hta` file locally, or a URL to the remote destination.
+  In addition, Threat Research has released a detections identifying suspicious use
+  of `mshta.exe`. In this instance, we narrow our detection down to the Office suite
+  as a parent process. During triage, review all file modifications. Capture and analyze
+  any artifacts on disk. The Office Product, or `mshta.exe` will have reached out
+  to a remote destination, capture and block the IPs or domain. Review additional
+  parallel processes for further activity.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") Processes.process_name=mshta.exe
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `office_product_spawning_mshta_filter`'
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `office_product_spawning_mshta_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: No false positives known. Filter as needed.
-references: 
-  - https://redcanary.com/threat-detection-report/threats/TA551/
+references:
+- https://redcanary.com/threat-detection-report/threats/TA551/
 tags:
   analytic_story:
   - Spearphishing Attachments
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -46,3 +50,4 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
+  automated_detection_testing: passed
