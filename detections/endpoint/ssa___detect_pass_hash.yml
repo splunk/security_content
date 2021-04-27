@@ -20,7 +20,7 @@ search: ' | from read_ssa_enriched_events()
   AND authentication_method="seclogo")
 
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
-  dest_user_id), body="TBD" | into write_ssa_detected_events();'
+  dest_user_id), body=create_map(["authentication_type", authentication_type, "authentication_method", authentication_method, "dest_user_id", dest_user_id]) | into write_ssa_detected_events();'
 how_to_implement: The test data is converted from Windows Security Event logs generated
   from Attach Range simulation and used in SPL search and extended to SPL2
 known_false_positives: Legitimate logon activity by authorized NTLM systems may be
