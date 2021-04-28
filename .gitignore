@@ -114,3 +114,4 @@ venv.bak/
 package/bin/sftp-config.json
 package/default/sftp-config.json
 *.code-snippets
+notes
