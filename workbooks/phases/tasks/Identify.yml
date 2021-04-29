@@ -1,0 +1,19 @@
+create_time: '2021-01-29T15:14:32.863500Z'
+description: Consider vendor fixes, antivirus updates, external support options, and
+  custom solutions. Use these to define a disinfection process and validate it with
+  a reputable source if possible.
+how_to_implement: ''
+id: b9883c3d-3468-49e9-b2b7-51b1091547a8
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.673910Z'
+name: Identify
+order: 1
+owner: null
+phase: 25
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - send email
+  - get data

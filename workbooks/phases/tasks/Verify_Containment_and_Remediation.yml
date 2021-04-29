@@ -1,0 +1,19 @@
+create_time: '2021-01-29T15:14:32.867959Z'
+description: Review current progress towards remediation by re-checking systems.
+how_to_implement: ''
+id: d1cef8fd-777f-4b52-9b53-b0c529d44842
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.685581Z'
+name: Verify Containment and Remediation
+order: 1
+owner: null
+phase: 26
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - run query
+  playbooks:
+  - playbook: reinfected_endpoint_check
+    scm: community

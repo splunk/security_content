@@ -1,0 +1,15 @@
+create_time: '2021-01-29T15:14:32.870071Z'
+description: Reconnect mobile devices and laptops to monitor for persistence and check
+  coverage across all device categories.
+how_to_implement: ''
+id: 62a8e37d-2a68-4149-9b29-a02c8a0f49c0
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.691210Z'
+name: Reconnect mobile devices
+order: 4
+owner: null
+phase: 26
+role: null
+sla: null
+sla_type: minutes
+suggestions: {}

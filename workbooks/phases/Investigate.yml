@@ -1,0 +1,12 @@
+create_time: '2021-02-23T15:58:54.664612Z'
+how_to_implement: ''
+id: 1a3987ee-35f2-46fd-8c16-41655ac0dc4e
+modified_time: '2021-02-23T15:58:54.664788Z'
+name: Investigate
+tasks:
+- id: 3c4190f3-bc46-4970-8c06-7ec209b88287
+  name: Analyze IP Indicators
+- id: 1d0fc497-7727-4321-b2a4-ef08708eee1f
+  name: Analyze Domain Indicators
+- id: 64d6c527-3cc5-4081-82b8-64ccb3ab071c
+  name: Analyze Process

@@ -1,0 +1,16 @@
+create_time: '2021-01-29T15:14:32.856686Z'
+how_to_implement: Review the task list and make any necessary changes for your network infrastructure, endpoint security platform, or internal processes.
+id: 4e909f82-38cb-4167-866f-593fad45ff73
+modified_time: '2021-02-23T15:58:54.648784Z'
+name: Contain
+tasks:
+- id: 0a928288-1ac2-4fe3-bb42-c67b580af02e
+  name: Monitor progress
+- id: a668b443-6bce-4a21-a49b-c80edac1b1a6
+  name: Neutralize propagation vectors
+- id: a0cbaced-66cf-41c4-bca2-501989895e59
+  name: Monitor business-critical network connections that cannot be disconnected
+- id: 4ba617b5-5ea5-4ce1-851b-9a6551710b1a
+  name: Isolate infected area from all networks
+- id: f532dafd-0b6c-4b56-ae5a-b27eaded797a
+  name: Disconnect infected areas from the Internet

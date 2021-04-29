@@ -1,0 +1,20 @@
+create_time: '2021-01-29T15:14:32.873837Z'
+description: Notify affected parties with as much detail as is appropriate. Consider
+  the initial cause of the infection, actions and timelines of important events, what
+  went right, what went wrong, and the incident cost.
+how_to_implement: ''
+id: fbd141ab-1f5a-4bcc-8cb3-74d1019b9feb
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.699969Z'
+name: Build crisis report
+order: 1
+owner: null
+phase: 27
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - get report
+  - get results
+  - send email

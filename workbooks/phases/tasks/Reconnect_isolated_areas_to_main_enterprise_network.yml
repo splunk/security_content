@@ -1,0 +1,18 @@
+create_time: '2021-01-29T15:14:32.870748Z'
+description: Disable network enforcement between cleaned areas and the rest of the
+  network while monitoring for reinfection.
+how_to_implement: ''
+id: fcbf6cab-a68f-436a-aa91-2fbec7a11f75
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.693103Z'
+name: Reconnect isolated areas to main enterprise network
+order: 5
+owner: null
+phase: 26
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  playbooks:
+  - playbook: reinfected_endpoint_check
+    scm: community

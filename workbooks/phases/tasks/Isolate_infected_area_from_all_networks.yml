@@ -1,0 +1,16 @@
+create_time: '2021-01-29T15:14:32.859039Z'
+description: Enforce more strict network segmentation to prevent further internal
+  spreading. Consider disconnecting mobile devices and laptops to minimize the propagation
+  surface.
+how_to_implement: ''
+id: 4ba617b5-5ea5-4ce1-851b-9a6551710b1a
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.657347Z'
+name: Isolate infected area from all networks
+order: 2
+owner: null
+phase: 24
+role: null
+sla: null
+sla_type: minutes
+suggestions: {}

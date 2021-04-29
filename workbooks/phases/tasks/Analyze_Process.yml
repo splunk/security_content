@@ -1,0 +1,33 @@
+create_time: '2021-02-23T15:58:54.666887Z'
+description: "1. Validate Windows Log Source data for the process execution and follow\
+  \ parent process actions.\n2. Use process path or %APPDATA% path and determine parent\
+  \ process compromise of either Root/Admin or user.\n    * AppData is inherently\
+  \ user access only finding whether browser or outlook was used\n    * \\AppData\\\
+  Local\\Microsoft\\Edge\\User Data\\Default is for Edge and MSIE for\" Internet explorer\
+  \ (personal email or drive by download)\n    *  \\Users\\user\\AppData\\Local\\\
+  Microsoft\\Outlook for Outlook (phishing)\n3. Process Info Detail\n    * Parent\
+  \ process id and name either from Splunk or supporting EDR tooling\n    * Recommend\
+  \ to use sysmon or sysinterals tools for windows environments\n    * Run Splunk\
+  \ search(s) for process data\n4. Network connections from the process\n    * Manually\
+  \ use netstat -naob to collect connections\n    * Create additional artifacts for\
+  \ domain, ip and urls found associated to the process (if not already there)\n5.\
+  \ Security context for process\n    * Use sysinternals process explorer, if you\
+  \ don't a tool set to accomplish this.\n    * Search Splunk for process information\
+  \ if collected.\n    * Collect User Id or security context to processes found in\
+  \ process tree\n6. Record your findings with a note that describes the who, what,\
+  \ where and how your determination was made.\n7. Execute playbook `Process network\
+  \ to process execution determination"
+how_to_implement: ''
+id: 64d6c527-3cc5-4081-82b8-64ccb3ab071c
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.667122Z'
+name: Analyze Process
+order: 1
+owner: null
+phase: 38
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - get file

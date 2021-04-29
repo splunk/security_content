@@ -1,0 +1,23 @@
+create_time: '2021-01-29T15:14:32.864950Z'
+description: Deploy the process and scale it up if possible.
+how_to_implement: ''
+id: 65e2d922-9c84-4fbe-bd78-25888b688793
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.678468Z'
+name: Deploy
+order: 3
+owner: null
+phase: 25
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - deploy patch
+  - run script
+  - run command
+  playbooks:
+  - playbook: macos_root_password_mitigate
+    scm: community
+  - playbook: wannacry_remediate
+    scm: community

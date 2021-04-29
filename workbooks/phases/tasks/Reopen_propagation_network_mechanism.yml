@@ -1,0 +1,19 @@
+create_time: '2021-01-29T15:14:32.868682Z'
+description: Turn off network enforcement for a segment of the network and monitor
+  for new attempts to reinfect.
+how_to_implement: ''
+id: c7f6637b-31a2-4e56-b34d-7fa2b64eae57
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.687500Z'
+name: Reopen propagation network mechanism
+order: 2
+owner: null
+phase: 26
+role: null
+sla: null
+sla_type: minutes
+suggestions:
+  actions:
+  - unquarantine device
+  - vlan host
+  - unblock sender

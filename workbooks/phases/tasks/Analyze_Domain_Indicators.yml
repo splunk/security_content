@@ -1,0 +1,27 @@
+create_time: '2021-02-23T15:58:54.668221Z'
+description: "Validate indicator existance, reputation, detonation and determine if\
+  \ Known APT, Commodity, Suspicous or Not Malicious?\n\n  This should be for domain\
+  \ analysis.\n  1. If Splunk present, run Splunk Query on each indictor and prevelence\
+  \ in the environment. Summarize number of times indicator seen in the last 24 hrs,\
+  \ 7 days, 1 month, six months increments. Return the hosts that have used this indictor.\
+  \ (make an artifact for each host?)\n    a. search -> ```| stats ...```\n  2. Gather\
+  \ reputational, intelligence and general information regarding indicator into a\
+  \ note (a note for each indicator)\n  3. Perform any additional research regarding\
+  \ indicators and understanding what normal behaviour is or should be by using using\
+  \ search engines, knowledge bases etc.\n  4. Make a determination of indicator,\
+  \ Known APT, Commodity, Suspicous or Not Malicious and whether to tag to block indicator\n\
+  \    a. This should align to a severity change (Known APT = High, Commodity = Med,\
+  \ Suspicous = Low, Not Malicious = Info)\n    b. Change container and artifact severity\
+  \ and tag artifact & indicator(s) with blocked and determination tag"
+how_to_implement: ''
+id: 1d0fc497-7727-4321-b2a4-ef08708eee1f
+is_note_required: true
+modified_time: '2021-02-23T15:58:54.668448Z'
+name: Analyze Domain Indicators
+order: 2
+owner: null
+phase: 38
+role: null
+sla: null
+sla_type: minutes
+suggestions: {}

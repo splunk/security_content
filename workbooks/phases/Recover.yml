@@ -1,0 +1,18 @@
+create_time: '2021-01-29T15:14:32.866345Z'
+how_to_implement: ''
+id: c46721a8-1581-4501-98b7-e3c5ebf5db81
+modified_time: '2021-02-23T15:58:54.682563Z'
+name: Recover
+tasks:
+- id: 50663f13-78fb-44da-8596-1adfea9fc3fc
+  name: Reconnect to the Internet
+- id: fcbf6cab-a68f-436a-aa91-2fbec7a11f75
+  name: Reconnect isolated areas to main enterprise network
+- id: 62a8e37d-2a68-4149-9b29-a02c8a0f49c0
+  name: Reconnect mobile devices
+- id: e6fcf176-e473-47a3-998f-43cd61adb572
+  name: Reconnect isolated sub-areas to each other
+- id: c7f6637b-31a2-4e56-b34d-7fa2b64eae57
+  name: Reopen propagation network mechanism
+- id: d1cef8fd-777f-4b52-9b53-b0c529d44842
+  name: Verify Containment and Remediation
