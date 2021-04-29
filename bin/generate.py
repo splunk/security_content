@@ -187,7 +187,6 @@ def parse_data_models_from_search(search):
         return match.group(1)
     return False
 
-
 def parse_author_company(story):
     match_author = re.search(r'^([^,]+)', story['author'])
     if match_author is None:
@@ -236,24 +235,10 @@ def get_deployments(object, deployments):
                     last_deployment = deployment
     else:
         last_deployment = matched_deployments[-1]
-        # last_deployment = replace_vars_in_deployment(last_deployment, object)
+        # last_deployment = replace_vars_in_deployment(last_deployment, object) # Not needed because of custom_jinja2_enrichment_filter
 
     # print(last_deployment)
     return last_deployment
-
-
-# def replace_vars_in_deployment(deployment, object):
-#     if 'alert_action' in deployment:
-#         if 'email' in deployment['alert_action']:
-#             deployment['alert_action']['email']['message']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
-#             deployment['alert_action']['email']['subject']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
-
-#         if 'notable' in deployment:
-#             deployment['alert_action']['notable']['rule_description']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
-#             deployment['alert_action']['notable']['rule_title']=re.sub(r'%([a-z_]+)%]', lambda x: object[x.group(1)], str(v))
-
-#     return deployment
-
 
 def get_nes_fields(search, deployment):
     nes_fields_matches = []
@@ -265,23 +250,6 @@ def get_nes_fields(search, deployment):
                         nes_fields_matches.append(field)
 
     return nes_fields_matches
-
-
-# def map_detection_to_stories(detections):
-#     sto_det = {}
-#     for detection in detections:
-#         if 'analytic_story' in detection['tags']:
-#             for story in detection['tags']['analytic_story']:
-#                 if 'type' in detection.keys():
-#                     if detection['type'] == 'batch':
-#                         rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
-#                 else:
-#                     rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
-#                 if not (story in sto_det):
-#                     sto_det[story] = {rule_name}
-#                 else:
-#                     sto_det[story].add(rule_name)
-#     return sto_det
 
 
 def map_response_tasks_to_stories(response_tasks):
@@ -300,7 +268,6 @@ def map_response_tasks_to_stories(response_tasks):
                     else:
                         sto_res[story].add(task_name)
     return sto_res
-
 
 def map_baselines_to_stories(baselines):
     sto_bas = {}
