@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
   kill_chain_phases:
@@ -50,4 +51,3 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
-  automated_detection_testing: passed
