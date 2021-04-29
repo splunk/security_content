@@ -1,0 +1,9 @@
+name: First time seen dlls lolbas - SSA Unit Test
+tests:
+  - name: First time seen dlls lolbas
+    file: endpoint/ssa___first_time_seen_dlls_lolbas.yml
+    pass_condition: '@count_gt(0)'
+    description: Test the logic of first time seen DLLs across windows endpoints
+    attack_data:
+    - file_name: T1059.all.labeled.lolbas-test.json
+      data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
