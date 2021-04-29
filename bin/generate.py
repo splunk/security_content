@@ -482,14 +482,14 @@ def prepare_stories(stories, detections, response_tasks, baselines):
         if story['name'] in sto_to_nists:
             story['nist'] = sorted(sto_to_nists[story['name']])
         if story['name'] in sto_res:
-            story['response_tasks'] = list(sto_res[story['name']])
+            story['response_tasks'] = sorted(list(sto_res[story['name']]))
             story['searches'] = story['searches'] + story['response_tasks']
             story['workbench_panels'] = []
             for response_task_name in story['response_tasks']:
                 s = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
                 story['workbench_panels'].append(s)
         if story['name'] in sto_bas:
-            story['baselines'] = list(sto_bas[story['name']])
+            story['baselines'] = sorted(list(sto_bas[story['name']]))
 
 
         keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
