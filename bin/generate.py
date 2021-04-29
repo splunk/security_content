@@ -485,8 +485,8 @@ def prepare_stories(stories, detections, response_tasks, baselines):
             story['searches'] = story['detections'] + story['response_tasks']
             story['workbench_panels'] = []
             for response_task_name in story['response_tasks']:
-                str = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
-                story['workbench_panels'].append(str)
+                s = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
+                story['workbench_panels'].append(s)
         if story['name'] in sto_bas:
             story['baselines'] = list(sto_bas[story['name']])
 
