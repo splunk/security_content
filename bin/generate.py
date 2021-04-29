@@ -331,7 +331,7 @@ def custom_jinja2_enrichment_filter(string, object):
     return customized_string
 
 
-def prepare_detections(detections, deployments):
+def prepare_detections(detections, deployments, OUTPUT_PATH):
     for detection in detections:
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
@@ -384,7 +384,7 @@ def prepare_detections(detections, deployments):
 
     return detections
 
-def prepare_baselines(baselines, deployments):
+def prepare_baselines(baselines, deployments, OUTPUT_PATH):
     for baseline in baselines:
         data_model = parse_data_models_from_search(baseline['search'])
         if data_model:
@@ -544,7 +544,7 @@ def import_objects(VERBOSE, REPO_PATH):
 
     return objects
 
-def compute_objects(objects, PRODUCT):
+def compute_objects(objects, PRODUCT, OUTPUT_PATH):
     if PRODUCT == "SAAWS":
         objects["detections"]  = [object for object in objects["detections"]  if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
@@ -560,8 +560,8 @@ def compute_objects(objects, PRODUCT):
     objects["baselines"] = sorted(objects["baselines"], key=lambda b: b['name'])
     objects["macros"] = sorted(objects["macros"], key=lambda m: m['name'])
 
-    objects["detections"] = prepare_detections(objects["detections"], objects["deployments"])
-    objects["baselines"] = prepare_baselines(objects["baselines"], objects["deployments"])
+    objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], OUTPUT_PATH)
+    objects["baselines"] = prepare_baselines(objects["baselines"], objects["deployments"], OUTPUT_PATH)
     objects["response_tasks"] = prepare_response_tasks(objects["response_tasks"])
     objects["stories"] = prepare_stories(objects["stories"], objects["detections"], objects["response_tasks"], objects["baselines"])
 
@@ -569,7 +569,7 @@ def compute_objects(objects, PRODUCT):
 
 def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     objects = import_objects(VERBOSE, REPO_PATH)
-    objects = compute_objects(objects, PRODUCT)
+    objects = compute_objects(objects, PRODUCT, OUTPUT_PATH)
     return objects
 
 def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
