@@ -470,6 +470,7 @@ def prepare_stories(stories, detections, response_tasks, baselines):
         story['author_name'], story['author_company'] = parse_author_company(story)
         story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
         story['detections'] = sorted(sto_to_det[story['name']])
+        story['searches'] = story['detections']
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
         if story['name'] in sto_to_mitre_attack_ids:
@@ -482,7 +483,7 @@ def prepare_stories(stories, detections, response_tasks, baselines):
             story['nist'] = sorted(sto_to_nists[story['name']])
         if story['name'] in sto_res:
             story['response_tasks'] = list(sto_res[story['name']])
-            story['searches'] = story['detections'] + story['response_tasks']
+            story['searches'] = story['searches'] + story['response_tasks']
             story['workbench_panels'] = []
             for response_task_name in story['response_tasks']:
                 s = 'panel://workbench_panel_' + response_task_name[7:].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
