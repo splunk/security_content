@@ -1,0 +1,79 @@
+name: DLL rare execution with unspecified paths
+id: 2a82e240-ab51-11eb-83ee-a683e7ac217d
+version: 1
+date: '2021-05-02'
+author: 'Stanislav Miskovic, Joseph Zadeh, Splunk'
+type: streaming
+datamodel: []
+description:
+search:  ' | from read_ssa_enriched_events()
+           | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+           cmd_line=ucast(map_get(input_event, "process"), "string", null),
+           process_name=ucast(map_get(input_event, "process_name"), "string", null),
+           process_path=ucast(map_get(input_event, "process_path"), "string", null),
+           parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null)
+           | where cmd_line != null AND process_name != null AND parent_process_name != null
+           AND match_regex(cmd_line, /(?i)rundll32.exe[^\\]+\.dll/)=true
+           AND match_regex(cmd_line, /(?i)AppXDeploymentExtensions.OneCore.dll,ShellRefresh/)=false
+           AND match_regex(cmd_line, /(?i)shell32.dll/)=false
+           AND match_regex(cmd_line, /(?i)Windows.Storage.ApplicationData.dll,CleanupTemporaryState/)=false
+           AND match_regex(cmd_line, /(?i)sysmain.dll,PfSvWsSwapAssessmentTask/)=false
+           AND match_regex(cmd_line, /(?i)acmigration.dll,ApplyMigrationShims/)=false
+           AND match_regex(cmd_line, /(?i)acproxy.dll,PerformAutochkOperations/)=false
+           AND match_regex(cmd_line, /(?i)dfdts.dll,DfdGetDefaultPolicyAndSMART/)=false
+           AND match_regex(cmd_line, /(?i)User32.dll/)=false
+           AND match_regex(cmd_line, /(?i)URL.dll/)=false
+           AND match_regex(cmd_line, /(?i)hotplug.dll/)=false
+           AND match_regex(cmd_line, /(?i)setupapi.dll/)=false
+           AND match_regex(cmd_line, /(?i)WindowGrid64.dll/)=false
+           AND match_regex(cmd_line, /(?i)WindowGrid32.dll/)=false
+           AND match_regex(cmd_line, /(?i)sdengin2.dll/)=false
+           AND match_regex(cmd_line, /(?i)Prnntfy.dll/)=false
+           AND match_regex(cmd_line, /(?i)printui.dll/)=false
+           AND match_regex(cmd_line, /(?i)display.dll/)=false
+           AND match_regex(cmd_line, /(?i)uxtheme.dll/)=false
+           AND match_regex(cmd_line, /(?i)Input.dll/)=false
+           AND match_regex(cmd_line, /(?i)devmgr.dll/)=false
+           AND match_regex(cmd_line, /(?i)ndfapi.dll/)=false
+           AND match_regex(cmd_line, /(?i)WSClient.dll/)=false
+           AND match_regex(cmd_line, /(?i)Startupscan.dll,SusRunTask/)=false
+           AND match_regex(cmd_line, /(?i)NVCPL.DLL/)=false
+           AND match_regex(cmd_line, /(?i)DRC225SVC.dll/)=false
+           AND match_regex(cmd_line, /(?i)DRDcSvc.dll/)=false
+           AND match_regex(cmd_line, /(?i)cryptext.dll/)=false
+           AND match_regex(cmd_line, /(?i)mmsys.cpl/)=false
+           AND match_regex(cmd_line, /(?i)intl.cpl/)=false
+           AND match_regex(cmd_line, /(?i)desk.cpl/)=false
+           AND match_regex(cmd_line, /(?i)PowerCfg.cpl/)=false
+           AND match_regex(cmd_line, /(?i)ContourMouse.cpl/)=false
+           AND match_regex(cmd_line, /(?i)MLCFG32.CPL/)=false
+           AND match_regex(cmd_line, /(?i)bthprops.cpl/)=false
+           AND match_regex(cmd_line, /(?i)inetcpl.cpl/)=false
+           AND match_regex(cmd_line, /(?i)timedate.cpl/)=false
+           AND match_regex(cmd_line, /(?i)ncpa.cpl/)=false
+           | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
+           "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+           "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name])
+           | into write_ssa_detected_events();'
+how_to_implement:
+- https://github:com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
+tags:
+  analytic_story:
+  - Unusual Processes
+  phases:
+  - Actions on Objectives
+  - Exploitation
+  mitre_attack_id:
+  - T1078
+  product:
+  - UEBA for Security Cloud
+  required_fields:
+  - _time
+  - cmd_line
+  - process_name
+  - process_path
+  - parent_process
+  - dest_device_id
+  - dest_user_id
+  risk_severity: low
+  security_domain: endpoint
