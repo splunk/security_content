@@ -1,0 +1,50 @@
+name: Account Discovery With Net App
+id: 339805ce-ac30-11eb-b87d-acde48001122
+version: 1
+date: '2021-05-03'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is to detect a potential account discovery series of command used by several malware or attack to recon the target machine.
+  This technique is also seen in some note worthy malware like trickbot where it runs a cmd process, or even drop its module that will execute the said series of net command.
+  This series of command are good correlation search and indicator of attacker recon if seen in the machines within a none technical user or department (HR, finance, ceo and etc) network.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id
+  count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where Processes.process_name="net.exe" OR Processes.process_name="net1.exe" AND (Processes.process="*user*" OR  Processes.process="*config*" OR Processes.process="*view /all*") 
+  by  Processes.process_name Processes.dest Processes.user Processes.parent_process_name
+  | where count >=5
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `account_discovery_with_net_app_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: admin or power user may used this series of command.
+references:
+- https://labs.vipre.com/trickbot-and-its-modules/
+- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+tags:
+  analytic_story:
+  - Trickbot
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1059
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.parent_process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.process_guid
+  - Processes.dest
+  - Processes.user 
+  security_domain: endpoint
