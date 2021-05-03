@@ -1,0 +1,9 @@
+name: DLL activating bluetooh interfaces - SSA Unit Test
+tests:
+  - name: DLL activating bluetooh interfaces
+    file: endpoint/ssa___dll_activating_bluetooth_interfaces.yml
+    pass_condition: '@count_gt(0)'
+    description:
+    attack_data:
+    - file_name: T1059.all.labeled.lolbas-test.json
+      data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json

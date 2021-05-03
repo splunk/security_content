@@ -1,0 +1,9 @@
+name: DLL execution from unsual paths - SSA Unit Test
+tests:
+  - name: DLL execution from unsual paths
+    file: endpoint/ssa___dll_execution_from_unsual_paths.yml
+    pass_condition: '@count_gt(0)'
+    description:
+    attack_data:
+    - file_name: T1059.all.labeled.lolbas-test.json
+      data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/T1059.all.labeled.lolbas-test.json
