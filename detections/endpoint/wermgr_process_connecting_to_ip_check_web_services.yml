@@ -1,0 +1,55 @@
+name: Wermgr Process Connecting To IP Check Web Services
+id: ed313326-a0f9-11eb-a89c-acde48001122
+version: 1
+date: '2021-04-19'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is designed to detect suspicious wermgr.exe process that
+  tries to connect to known IP web services. This technique is know for trickbot and
+  other trojan spy malware to recon the infected machine and look for its ip address
+  without so much finger print on the commandline process. Since wermgr.exe is designed
+  for error handling process of windows it is really suspicious that this process
+  is trying to connect to this IP web services cause that maybe cause of some malicious
+  code injection.
+search: '`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfismyip.com",
+  "*checkip.amazonaws.com", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", "*icanhazip.com",
+  "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org",
+  "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net")
+  |  stats  min(_time) as firstTime max(_time) as lastTime count by  process_path
+  process_name process_id QueryName QueryStatus QueryResults Computer EventCode |
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `wermgr_process_connecting_to_ip_check_web_services_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, dns query name process path , and query ststus from
+  your endpoints like EventCode 22. If you are using Sysmon, you must have at least
+  version 12 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://labs.vipre.com/trickbot-and-its-modules/
+- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+tags:
+  analytic_story:
+  - Trickbot
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1590.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_path
+  - process_name
+  - process_id
+  - QueryName
+  - QueryStatus
+  - QueryResults
+  - Computer
+  - EventCode
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
