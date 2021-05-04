@@ -102,11 +102,11 @@ search = {{ detection.search }}
 ### ESCU BASELINES ###
 
 {% for baseline in baselines %}
-[{{ detection.prefix }} - {{ baseline.name }}]
+[{{ baseline.prefix }} - {{ baseline.name }}]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = support
-action.escu.full_search_name = {{ detection.prefix }} - {{ baseline.name }}
+action.escu.full_search_name = {{ baseline.prefix }} - {{ baseline.name }}
 description = {{ baseline.description }}
 action.escu.creation_date = {{ baseline.date }}
 action.escu.modification_date = {{ baseline.date }}
@@ -153,11 +153,11 @@ search = {{ baseline.search }}
 
 {% for response_task in response_tasks %}
 {% if response_task.search is defined %}
-[{{ detection.prefix }} - {{ response_task.name }} - Response Task]
+[{{ response_task.prefix }} - {{ response_task.name }} - Response Task]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = investigative
-action.escu.full_search_name = {{ detection.prefix }} - {{ response_task.name }} - Response Task
+action.escu.full_search_name = {{ response_task.prefix }} - {{ response_task.name }} - Response Task
 description = {{ response_task.description }}
 action.escu.creation_date = {{ response_task.date }}
 action.escu.modification_date = {{ response_task.date }}

@@ -47,7 +47,7 @@ providing_technologies = []
 ### RESPONSE TASKS ###
 
 {% for response_task in response_tasks %}
-[savedsearch://{{ detection.prefix }} - {{ response_task.name }} - Response Task]
+[savedsearch://{{ response_task.prefix }} - {{ response_task.name }} - Response Task]
 type = investigation
 explanation = none
 {% if response_task.how_to_implement is defined %}
@@ -64,7 +64,7 @@ latest_time_offset = 0
 
 ### BASELINES ###
 {% for baseline in baselines %}
-[savedsearch://{{ detection.prefix }} - {{ baseline.name }}]
+[savedsearch://{{ baseline.prefix }} - {{ baseline.name }}]
 type = support
 explanation = {{ baseline.description }}
 {% if baseline.how_to_implement is defined %}
