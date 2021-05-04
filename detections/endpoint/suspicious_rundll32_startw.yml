@@ -36,6 +36,7 @@ tags:
   analytic_story:
   - Suspicious Rundll32 Activity
   - Cobalt Strike
+  - Trickbot
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

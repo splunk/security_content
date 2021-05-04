@@ -9,12 +9,12 @@ datamodel:
 description: this search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique
-  use of nslookup where it tries to use specific record type (TXT, A, AAAA) that
-  are commonly used by attacker and also the retry parameter which is designed to
-  query C2 DNS multiple tries.
+  use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
+  commonly used by attacker and also the retry parameter which is designed to query
+  C2 DNS multiple tries.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  values(Processes.process_id) as process_id values(Processes.parent_process)
-  as parent_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  values(Processes.process_id) as process_id values(Processes.parent_process) as parent_process
+  count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name = "nslookup.exe" by Processes.dest Processes.user Processes.process_name
   | where count >= 30 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `excessive_usage_of_nslookup_app_filter`'
@@ -32,6 +32,9 @@ tags:
   - Suspicious DNS Traffic
   - Dynamic DNS
   - Command and Control
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -49,6 +52,3 @@ tags:
   - Processes.process
   - Processes.process_id
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
