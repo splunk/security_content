@@ -1,0 +1,12 @@
+name: Wermgr Process Spawned CMD Or Powershell Process Unit Test
+tests:
+- name: Wermgr Process Spawned CMD Or Powershell Process
+  file: endpoint/wermgr_process_spawned_cmd_or_powershell_process.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
