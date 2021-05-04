@@ -7,8 +7,8 @@ type: batch
 datamodel: []
 description: This search is to detect potential plain HTTP POST method data exfiltration.
   This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary
-  where arguments or commands are sent in plain text to the remote C2 server using HTTP POST method as part of data
-  exfiltration.
+  where arguments or commands are sent in plain text to the remote C2 server using
+  HTTP POST method as part of data exfiltration.
 search: '`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*",
   "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") |stats values(form_data)
   as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method
@@ -23,6 +23,9 @@ references:
 tags:
   analytic_story:
   - Command and Control
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
   kill_chain_phases:
   - Exfiltration
   mitre_attack_id:
@@ -40,6 +43,3 @@ tags:
   - bytes_in
   - bytes_out
   security_domain: network
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
