@@ -260,9 +260,9 @@ def map_response_tasks_to_stories(response_tasks):
                 for story in response_task['tags']['analytic_story']:
                     if 'type' in response_task.keys():
                         if response_task['type'] == 'response':
-                            task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
+                            task_name = f"{response_task['prefix']} - {response_task['name']} - Response Task"
                     else:
-                        task_name = str('ESCU - ' + response_task['name'] + ' - Response Task')
+                        task_name = f"{response_task['prefix']} - {response_task['name']} - Response Task"
                     if not (story in sto_res):
                         sto_res[story] = {task_name}
                     else:
@@ -277,9 +277,9 @@ def map_baselines_to_stories(baselines):
                 for story in baseline['tags']['analytic_story']:
                     if 'type' in baseline.keys():
                         if baseline['type'] == 'batch':
-                            baseline_name = str('ESCU - ' + baseline['name'])
+                            baseline_name = f"{baseline['prefix']} - {baseline['name']}"
                     else:
-                        baseline_name = str('ESCU - ' + baseline['name'])
+                        baseline_name = f"{baseline['prefix']} - {baseline['name']}"
                     if not (story in sto_bas):
                         sto_bas[story] = {baseline_name}
                     else:
@@ -386,9 +386,9 @@ def prepare_stories(stories, detections, response_tasks, baselines):
             for story in detection['tags']['analytic_story']:
                 if 'type' in detection.keys():
                     if detection['type'] == 'batch':
-                        rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                        rule_name = f"{detection['prefix']} - {detection['name']} - Rule"
                 else:
-                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                    rule_name = f"{detection['prefix']} - {detection['name']} - Rule"
 
                 if story in sto_to_det.keys():
                     sto_to_det[story].add(rule_name)
@@ -497,19 +497,19 @@ def generate_mitre_lookup(OUTPUT_PATH):
         writer.writerows(csv_mitre_rows)
 
 
-def import_objects(VERBOSE, REPO_PATH):
-    objects = {
-        "stories": load_objects("stories/*.yml", VERBOSE, REPO_PATH),
-        "macros": load_objects("macros/*.yml", VERBOSE, REPO_PATH),
-        "lookups": load_objects("lookups/*.yml", VERBOSE, REPO_PATH),
-        "baselines": load_objects("baselines/*.yml", VERBOSE, REPO_PATH),
-        "responses": load_objects("responses/*.yml", VERBOSE, REPO_PATH),
-        "response_tasks": load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH),
-        "deployments": load_objects("deployments/*.yml", VERBOSE, REPO_PATH),
-        "detections": load_objects("detections/*/*.yml", VERBOSE, REPO_PATH),
-    }
-    objects["detections"].extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
+def import_objects(VERBOSE, REPO_PATH, CONFIG):
+    folders = CONFIG.get("import_folders", {})
+    objects = {}
 
+    for prefix, items in folders.items():
+        for obj, paths in items.items():
+            if obj not in objects:
+                objects[obj] = []
+            for path in paths:
+                imported_objects = load_objects(path, VERBOSE, REPO_PATH)
+                for imported_object in imported_objects:
+                    imported_object["prefix"] = prefix
+                objects[obj].extend(imported_objects)
     return objects
 
 def compute_objects(objects, PRODUCT, OUTPUT_PATH):
@@ -543,8 +543,11 @@ def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
+    CONFIG_PATH = path.join(REPO_PATH, 'config.yml')
 
-    objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
+    CONFIG = load_file(CONFIG_PATH)
+
+    objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE, CONFIG)
 
     try:
         if VERBOSE:

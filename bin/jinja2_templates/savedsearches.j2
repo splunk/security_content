@@ -8,7 +8,7 @@
 ### ESCU DETECTIONS ###
 
 {% for detection in detections %}
-[ESCU - {{ detection.name }} - Rule]
+[{{ detection.prefix }} - {{ detection.name }} - Rule]
 action.escu = 0
 action.escu.enabled = 1
 description = {{ detection.description }}
@@ -32,7 +32,7 @@ action.escu.known_false_positives = None
 action.escu.creation_date = {{ detection.date }}
 action.escu.modification_date = {{ detection.date }}
 action.escu.confidence = high
-action.escu.full_search_name = ESCU - {{ detection.name }} - Rule
+action.escu.full_search_name = {{ detection.prefix }} - {{ detection.name }} - Rule
 action.escu.search_type = detection
 {% if detection.product is defined %}
 action.escu.product = {{ detection.product | tojson }}
@@ -58,7 +58,7 @@ cron_schedule = {{ detection.deployment.scheduling.cron_schedule }}
 dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
 dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
-action.correlationsearch.label = ESCU - {{ detection.name }} - Rule
+action.correlationsearch.label = {{ detection.prefix }} - {{ detection.name }} - Rule
 action.correlationsearch.annotations = {{ detection.savedsearch_annotations | tojson }}
 {% if detection.deployment.scheduling.schedule_window is defined %}
 schedule_window = {{ detection.deployment.scheduling.schedule_window }}
@@ -102,11 +102,11 @@ search = {{ detection.search }}
 ### ESCU BASELINES ###
 
 {% for baseline in baselines %}
-[ESCU - {{ baseline.name }}]
+[{{ detection.prefix }} - {{ baseline.name }}]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = support
-action.escu.full_search_name = ESCU - {{ baseline.name }}
+action.escu.full_search_name = {{ detection.prefix }} - {{ baseline.name }}
 description = {{ baseline.description }}
 action.escu.creation_date = {{ baseline.date }}
 action.escu.modification_date = {{ baseline.date }}
@@ -153,11 +153,11 @@ search = {{ baseline.search }}
 
 {% for response_task in response_tasks %}
 {% if response_task.search is defined %}
-[ESCU - {{ response_task.name }} - Response Task]
+[{{ detection.prefix }} - {{ response_task.name }} - Response Task]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = investigative
-action.escu.full_search_name = ESCU - {{ response_task.name }} - Response Task
+action.escu.full_search_name = {{ detection.prefix }} - {{ response_task.name }} - Response Task
 description = {{ response_task.description }}
 action.escu.creation_date = {{ response_task.date }}
 action.escu.modification_date = {{ response_task.date }}

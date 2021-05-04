@@ -1,0 +1,22 @@
+import_folders:
+  ESCU:
+    stories:
+      - stories/*.yml
+    macros:
+      - macros/*.yml
+    lookups:
+      - lookups/*.yml
+    baselines:
+      - baselines/*.yml
+    responses:
+      - responses/*.yml
+    response_tasks:
+      - response_tasks/*.yml
+    deployments:
+      - deployments/*.yml
+    detections:
+      - detections/*/*.yml
+      - detections/*/*/*.yml
+  NBIM:
+    detections:
+      - NBIM/detections/*.yml

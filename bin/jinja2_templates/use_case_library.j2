@@ -27,7 +27,7 @@ narrative = {{ story.narrative }}
 ### DETECTIONS ###
 
 {% for detection in detections %}
-[savedsearch://ESCU - {{ detection.name }} - Rule]
+[savedsearch://{{ detection.prefix }} - {{ detection.name }} - Rule]
 type = detection
 asset_type = {{ detection.tags.asset_type }}
 confidence = medium
@@ -47,7 +47,7 @@ providing_technologies = []
 ### RESPONSE TASKS ###
 
 {% for response_task in response_tasks %}
-[savedsearch://ESCU - {{ response_task.name }} - Response Task]
+[savedsearch://{{ detection.prefix }} - {{ response_task.name }} - Response Task]
 type = investigation
 explanation = none
 {% if response_task.how_to_implement is defined %}
@@ -64,7 +64,7 @@ latest_time_offset = 0
 
 ### BASELINES ###
 {% for baseline in baselines %}
-[savedsearch://ESCU - {{ baseline.name }}]
+[savedsearch://{{ detection.prefix }} - {{ baseline.name }}]
 type = support
 explanation = {{ baseline.description }}
 {% if baseline.how_to_implement is defined %}
