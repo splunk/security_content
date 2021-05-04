@@ -118,9 +118,9 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1189 | Drive-by Compromise | Initial Access |
-| T1071.001 | Web Protocols | Command and Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+| T1071.001 | Web Protocols | Command and Control |
 
 #### Kill Chain Phase
 
@@ -170,10 +170,10 @@ Detect evidence of tactics used to redirect traffic from a host to a destination
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.004 | DNS | Command and Control |
 | T1095 | Non-Application Layer Protocol | Command and Control |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.001 | Web Protocols | Command and Control |
 
 #### Kill Chain Phase
@@ -374,13 +374,15 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1127](https://attack.mitre.org/techniques/T1127/), [T1127.001](https://attack.mitre.org/techniques/T1127.001/), [T1218.010](https://attack.mitre.org/techniques/T1218.010/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1127](https://attack.mitre.org/techniques/T1127/), [T1127.001](https://attack.mitre.org/techniques/T1127.001/), [T1218.010](https://attack.mitre.org/techniques/T1218.010/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1560.001](https://attack.mitre.org/techniques/T1560.001/)
 - **Last Updated**: 2021-02-16
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Anomalous usage of 7zip](detections.md#anomalous-usage-of-7zip)
 
 * [Cobalt Strike Named Pipes](detections.md#cobalt-strike-named-pipes)
 
@@ -415,14 +417,28 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1560.001 | Archive via Utility | Collection |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1071.002 | File Transfer Protocols | Command and Control |
+| T1059.003 | Windows Command Shell | Execution |
 | T1218.010 | Regsvr32 | Defense Evasion |
+| T1218.005 | Mshta | Defense Evasion |
+| T1569.002 | Service Execution | Execution |
+| T1027 | Obfuscated Files or Information | Defense Evasion |
 | T1218.011 | Rundll32 | Defense Evasion |
+| T1543.003 | Windows Service | Persistence, Privilege Escalation |
+| T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| T1203 | Exploitation for Client Execution | Execution |
+| T1505.003 | Web Shell | Persistence |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| T1071.001 | Web Protocols | Command and Control |
+| T1018 | Remote System Discovery | Discovery |
 
 #### Kill Chain Phase
+
+* Actions on Objective
 
 * Actions on Objectives
 
@@ -504,7 +520,7 @@ _version_: 1
 Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Network_Resolution, Network_Traffic
+- **Datamodel**: Endpoint, Network_Resolution, Network_Traffic
 - **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/), [T1095](https://attack.mitre.org/techniques/T1095/), [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2018-06-01
 
@@ -514,6 +530,8 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 #### Detection Profile
 
 * [Clients Connecting to Multiple DNS Servers](detections.md#clients-connecting-to-multiple-dns-servers)
+
+* [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
 
 * [DNS Query Length Outliers - MLTK](detections.md#dns-query-length-outliers---mltk)
 
@@ -533,6 +551,12 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 
 * [Excessive DNS Failures](detections.md#excessive-dns-failures)
 
+* [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
+
+* [Multiple Archive Files Http Post Traffic](detections.md#multiple-archive-files-http-post-traffic)
+
+* [Plain HTTP POST Exfiltrated Data](detections.md#plain-http-post-exfiltrated-data)
+
 * [Prohibited Network Traffic Allowed](detections.md#prohibited-network-traffic-allowed)
 
 * [Protocol or Port Mismatch](detections.md#protocol-or-port-mismatch)
@@ -545,10 +569,10 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.004 | DNS | Command and Control |
 | T1095 | Non-Application Layer Protocol | Command and Control |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.001 | Web Protocols | Command and Control |
 
 #### Kill Chain Phase
@@ -558,6 +582,10 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 * Command and Control
 
 * Delivery
+
+* Exfiltration
+
+* Exploitation
 
 
 #### Reference
@@ -705,14 +733,14 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
 | T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 | T1554 | Compromise Client Software Binary | Persistence |
-| T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+| T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
 | T1555 | Credentials from Password Stores | Credential Access |
 | T1087 | Account Discovery | Discovery |
 | T1201 | Password Policy Discovery | Discovery |
 | T1552 | Unsecured Credentials | Credential Access |
-| T1003 | OS Credential Dumping | Credential Access |
 | T1003.002 | Security Account Manager | Credential Access |
+| T1003 | OS Credential Dumping | Credential Access |
 | T1003.003 | NTDS | Credential Access |
 | T1558.003 | Kerberoasting | Credential Access |
 | T1059.001 | PowerShell | Execution |
@@ -763,10 +791,10 @@ Secure your environment against DNS hijacks with searches that help you detect a
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.004 | DNS | Command and Control |
 | T1095 | Non-Application Layer Protocol | Command and Control |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.001 | Web Protocols | Command and Control |
 
 #### Kill Chain Phase
@@ -1341,18 +1369,78 @@ _version_: 4
 
 ---
 
+### Masquerading - Rename System Utilities
+Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1036](https://attack.mitre.org/techniques/T1036/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1127](https://attack.mitre.org/techniques/T1127/), [T1127.001](https://attack.mitre.org/techniques/T1127.001/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **Last Updated**: 2021-04-26
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Execution of File With Spaces Before Extension](detections.md#execution-of-file-with-spaces-before-extension)
+
+* [Execution of File with Multiple Extensions](detections.md#execution-of-file-with-multiple-extensions)
+
+* [Suspicious MSBuild Rename](detections.md#suspicious-msbuild-rename)
+
+* [Suspicious Rundll32 Rename](detections.md#suspicious-rundll32-rename)
+
+* [Suspicious microsoft workflow compiler rename](detections.md#suspicious-microsoft-workflow-compiler-rename)
+
+* [Suspicious msbuild path](detections.md#suspicious-msbuild-path)
+
+* [System Process Running from Unexpected Location](detections.md#system-process-running-from-unexpected-location)
+
+* [System Processes Run From Unexpected Locations](detections.md#system-processes-run-from-unexpected-locations)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1036.003 | Rename System Utilities | Defense Evasion |
+| T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
+| T1127.001 | MSBuild | Defense Evasion |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| T1036 | Masquerading | Defense Evasion |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exploitation
+
+
+#### Reference
+
+* https://attack.mitre.org/techniques/T1036/003/
+
+
+_version_: 1
+</details>
+
+---
+
 ### NOBELIUM Group
 Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Traffic, Web
-- **ATT&CK**: [T1018](https://attack.mitre.org/techniques/T1018/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1071.002](https://attack.mitre.org/techniques/T1071.002/), [T1203](https://attack.mitre.org/techniques/T1203/), [T1218.005](https://attack.mitre.org/techniques/T1218.005/), [T1505.003](https://attack.mitre.org/techniques/T1505.003/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1018](https://attack.mitre.org/techniques/T1018/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1071.002](https://attack.mitre.org/techniques/T1071.002/), [T1203](https://attack.mitre.org/techniques/T1203/), [T1218.005](https://attack.mitre.org/techniques/T1218.005/), [T1505.003](https://attack.mitre.org/techniques/T1505.003/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1560.001](https://attack.mitre.org/techniques/T1560.001/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2020-12-14
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Anomalous usage of 7zip](detections.md#anomalous-usage-of-7zip)
 
 * [Detect Outbound SMB Traffic](detections.md#detect-outbound-smb-traffic)
 
@@ -1383,19 +1471,28 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1560.001 | Archive via Utility | Collection |
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1071.002 | File Transfer Protocols | Command and Control |
 | T1059.003 | Windows Command Shell | Execution |
+| T1218.010 | Regsvr32 | Defense Evasion |
 | T1218.005 | Mshta | Defense Evasion |
 | T1569.002 | Service Execution | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
+| T1218.011 | Rundll32 | Defense Evasion |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
 | T1203 | Exploitation for Client Execution | Execution |
 | T1505.003 | Web Shell | Persistence |
+| T1127.001 | MSBuild | Defense Evasion |
+| T1036.003 | Rename System Utilities | Defense Evasion |
+| T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 | T1071.001 | Web Protocols | Command and Control |
 | T1018 | Remote System Discovery | Discovery |
 
 #### Kill Chain Phase
+
+* Actions on Objective
 
 * Actions on Objectives
 
@@ -1586,7 +1683,15 @@ Detect signs of malicious payloads that may indicate that your environment has b
 
 * [Office Document Spawned Child Process To Download](detections.md#office-document-spawned-child-process-to-download)
 
+* [Office Product Spawning BITSAdmin](detections.md#office-product-spawning-bitsadmin)
+
+* [Office Product Spawning CertUtil](detections.md#office-product-spawning-certutil)
+
+* [Office Product Spawning MSHTA](detections.md#office-product-spawning-mshta)
+
 * [Office Product Spawning Rundll32 with no DLL](detections.md#office-product-spawning-rundll32-with-no-dll)
+
+* [Office Product Spawning Wmic](detections.md#office-product-spawning-wmic)
 
 * [Process Creating LNK file in Suspicious Location](detections.md#process-creating-lnk-file-in-suspicious-location)
 
@@ -1732,8 +1837,8 @@ _version_: 1
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/), [T1189](https://attack.mitre.org/techniques/T1189/)
+- **Datamodel**: Endpoint, Network_Resolution
+- **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/), [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2017-09-18
 
 <details>
@@ -1742,6 +1847,8 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 #### Detection Profile
 
 * [Clients Connecting to Multiple DNS Servers](detections.md#clients-connecting-to-multiple-dns-servers)
+
+* [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
 
 * [DNS Query Length Outliers - MLTK](detections.md#dns-query-length-outliers---mltk)
 
@@ -1757,16 +1864,18 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 
 * [Excessive DNS Failures](detections.md#excessive-dns-failures)
 
+* [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
+
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.004 | DNS | Command and Control |
 | T1095 | Non-Application Layer Protocol | Command and Control |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1071.001 | Web Protocols | Command and Control |
 
 #### Kill Chain Phase
@@ -1774,6 +1883,8 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 * Actions on Objectives
 
 * Command and Control
+
+* Exploitation
 
 
 #### Reference
@@ -2980,9 +3091,9 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1189 | Drive-by Compromise | Initial Access |
-| T1071.001 | Web Protocols | Command and Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+| T1071.001 | Web Protocols | Command and Control |
 
 #### Kill Chain Phase
 
@@ -3530,7 +3641,7 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 | T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 | T1003.001 | LSASS Memory | Credential Access |
 | T1136.003 | Cloud Account | Persistence |
-| T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+| T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 | T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
@@ -3580,7 +3691,7 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1525 | Implant Container Image | Persistence |
+| T1525 | Implant Internal Image | Persistence |
 
 #### Kill Chain Phase
 
@@ -3834,7 +3945,7 @@ This story is focused around detecting Office 365 Attacks.
 | T1110.001 | Password Guessing | Credential Access |
 | T1136.003 | Cloud Account | Persistence |
 | T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
-| T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+| T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 | T1110 | Brute Force | Credential Access |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
@@ -4499,8 +4610,8 @@ _version_: 2
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Network_Resolution, Web
-- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1189](https://attack.mitre.org/techniques/T1189/)
+- **Datamodel**: Endpoint, Network_Resolution, Web
+- **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2018-09-06
 
 <details>
@@ -4508,25 +4619,30 @@ Detect and investigate hosts in your environment that may be communicating with 
 
 #### Detection Profile
 
+* [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
+
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
 
 * [Detect web traffic to dynamic domain providers](detections.md#detect-web-traffic-to-dynamic-domain-providers)
+
+* [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
 | T1071.001 | Web Protocols | Command and Control |
-| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
 
 * Command and Control
+
+* Exploitation
 
 
 #### Reference
@@ -5169,6 +5285,10 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 | ----------- | ----------- |--------------|
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
+| T1127.001 | MSBuild | Defense Evasion |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| T1036 | Masquerading | Defense Evasion |
 
 #### Kill Chain Phase
 
