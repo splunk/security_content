@@ -12,8 +12,7 @@ description: The following analytic identifies a source process name failing to 
  Event 4625 documents each and every failed attempt to logon to the local computer. This event generates on domain controllers, member servers, and workstations. Logon Type 2 
  describes an iteractive logon attempt.\
 
- This detection will trigger on the potenfially malicious host, perhaps controlled via a trojan or operated by an insider threat, from where a
- password spraying attack is being executed. This could be a domain controller as well as a member server orworkstation.
+ This detection will trigger on the potenfially malicious host, perhaps controlled via a trojan or operated by an insider threat, from where a password spraying attack is being executed. This could be a domain controller as well as a member server orworkstation.\
 
  The analytic's returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 

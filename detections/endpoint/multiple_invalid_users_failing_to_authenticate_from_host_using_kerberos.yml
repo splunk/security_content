@@ -13,7 +13,7 @@ description: 'The following analytic identifies one source endpoint failing to a
   Event 4768 is generated every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code 0x6 means 
   client not found in Kerberos database (the attempted user is not a valid domain user).\
 
-  This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
+  This detection will trigger on the domain controller against which the offending host performs the password spraying attack.\
 
   The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` ventCode=4768 Result_Code=0x6 Account_Name!="*$"  
