@@ -16,7 +16,15 @@ description: The following analytic identifies one source endpoint failing to au
   This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
 
   The analytic's returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
-search: ' `wineventlog_security` EventCode=4776 action=failure 0xC0000064 | stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by Source_Workstation | where unique_accounts > 10 | `multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm_filter`'
+search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC0000064 action=failure 
+ | bucket span=2m _time
+ | stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by _time, Source_Workstation
+ | eventstats avg(unique_accounts) as global_avg , stdev(unique_accounts) as global_std 
+ | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Workstation
+ | eval upperBound=(comp_avg+comp_std*3)
+ | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+ | search isOutlier=1
+ | `multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting 'Audit Credential
   Validation' within 'Account Logon' needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios 

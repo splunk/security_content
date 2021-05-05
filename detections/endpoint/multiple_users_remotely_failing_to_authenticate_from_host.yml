@@ -16,7 +16,16 @@ description: The following analytic identifies a source host failing to authenti
 
  The analytic's returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
-search: ' `wineventlog_security` EventCode=4625  Logon_Type=3 | eval Destination_Account = mvindex(Account_Name, 1)  | stats dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts by Source_Network_Address, ComputerName  | where  unique_accounts > 10 | `multiple_users_remotely_failing_to_authenticate_from_host_filter`' 
+search: ' `wineventlog_security` EventCode=4625 Logon_Type=3 Source_Network_Address!="-"
+ | bucket span=2m _time
+ | eval Destination_Account = mvindex(Account_Name, 1) 
+ | stats dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts by _time, Source_Network_Address, ComputerName
+ | eventstats avg(unique_accounts) as global_avg , stdev(unique_accounts) as global_std
+ | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Network_Address, ComputerName
+ | eval upperBound=(comp_avg+comp_std*3)
+ | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+ | search isOutlier=1  
+ | `multiple_users_remotely_failing_to_authenticate_from_host_filter`' 
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as 
   as well as member servers and workstations. The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple valid users against a remote host is not a common behavior for legitimate systems. 
