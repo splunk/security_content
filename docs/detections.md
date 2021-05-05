@@ -47,6 +47,26 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [AWS IAM AccessDenied Discovery Events](#aws-iam-accessdenied-discovery-events)
+
+
+
+- [AWS IAM Assume Role Policy Brute Force](#aws-iam-assume-role-policy-brute-force)
+
+
+
+- [AWS IAM Delete Policy](#aws-iam-delete-policy)
+
+
+
+- [AWS IAM Failure Group Deletion](#aws-iam-failure-group-deletion)
+
+
+
+- [AWS IAM Successful Group Deletion](#aws-iam-successful-group-deletion)
+
+
+
 - [AWS Network Access Control List Created with All Open Ports](#aws-network-access-control-list-created-with-all-open-ports)
 
 
@@ -188,6 +208,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Cloud Provisioning Activity From Previously Unseen Region](#cloud-provisioning-activity-from-previously-unseen-region)
+
+
+
+
 
 
 
@@ -513,6 +537,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [GCP Detect gcploit framework](#gcp-detect-gcploit-framework)
 
 
@@ -522,6 +552,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [GCP Kubernetes cluster pod scan detection](#gcp-kubernetes-cluster-pod-scan-detection)
+
+
 
 
 
@@ -572,6 +604,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Kubernetes AWS detect suspicious kubectl calls](#kubernetes-aws-detect-suspicious-kubectl-calls)
+
+
 
 
 
@@ -949,6 +983,44 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [aws detect attach to role policy](#aws-detect-attach-to-role-policy)
 
 
@@ -1030,11 +1102,25 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 - [Access LSASS Memory for Dump Creation](#access-lsass-memory-for-dump-creation)
 
 
 
 
+
+
+
+- [Anomalous usage of 7zip](#anomalous-usage-of-7zip)
 
 
 
@@ -1059,10 +1145,6 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Attempt To Add Certificate To Untrusted Store](#attempt-to-add-certificate-to-untrusted-store)
-
-
-
-- [Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass](#attempt-to-set-default-powershell-execution-policy-to-unrestricted-or-bypass)
 
 
 
@@ -1234,6 +1316,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [DLLHost with no Command Line Arguments with Network](#dllhost-with-no-command-line-arguments-with-network)
+
+
+
+- [DNS Exfiltration Using Nslookup App](#dns-exfiltration-using-nslookup-app)
+
+
+
 
 
 
@@ -1358,9 +1448,9 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
-- [Detect Oulook exe writing a  zip file](#detect-oulook-exe-writing-a--zip-file)
 
 
+- [Detect Outlook exe writing a zip file](#detect-outlook-exe-writing-a-zip-file)
 
 
 
@@ -1582,6 +1672,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Excel Spawning PowerShell](#excel-spawning-powershell)
+
+
+
+- [Excel Spawning Windows Script Host](#excel-spawning-windows-script-host)
+
+
+
+
+
+- [Excessive Usage of NSLOOKUP App](#excessive-usage-of-nslookup-app)
+
 
 
 
@@ -1623,6 +1725,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+- [GPUpdate with no Command Line Arguments with Network](#gpupdate-with-no-command-line-arguments-with-network)
 
 
 
@@ -1770,6 +1876,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [NLTest Domain Trust Discovery](#nltest-domain-trust-discovery)
 
 
@@ -1808,6 +1916,42 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Office Application Spawn rundll32 process](#office-application-spawn-rundll32-process)
+
+
+
+- [Office Document Creating Schedule Task](#office-document-creating-schedule-task)
+
+
+
+- [Office Document Executing Macro Code](#office-document-executing-macro-code)
+
+
+
+- [Office Document Spawned Child Process To Download](#office-document-spawned-child-process-to-download)
+
+
+
+- [Office Product Spawning BITSAdmin](#office-product-spawning-bitsadmin)
+
+
+
+- [Office Product Spawning CertUtil](#office-product-spawning-certutil)
+
+
+
+- [Office Product Spawning MSHTA](#office-product-spawning-mshta)
+
+
+
+- [Office Product Spawning Rundll32 with no DLL](#office-product-spawning-rundll32-with-no-dll)
+
+
+
+- [Office Product Spawning Wmic](#office-product-spawning-wmic)
+
+
+
 
 
 
@@ -1819,6 +1963,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Overwriting Accessibility Binaries](#overwriting-accessibility-binaries)
+
+
 
 
 
@@ -1865,8 +2011,6 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 - [Ransomware Notes bulk creation](#ransomware-notes-bulk-creation)
 
 
-
-- [Rare Parent-Child Process Relationship](#rare-parent-child-process-relationship)
 
 
 
@@ -1972,6 +2116,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Rundll32 with no Command Line Arguments with Network](#rundll32-with-no-command-line-arguments-with-network)
+
+
+
 - [Ryuk Test Files Detected](#ryuk-test-files-detected)
 
 
@@ -2012,6 +2160,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [SearchProtocolHost with no Command Line with Network](#searchprotocolhost-with-no-command-line-with-network)
+
+
+
+- [Set Default PowerShell Execution Policy To Unrestricted or Bypass](#set-default-powershell-execution-policy-to-unrestricted-or-bypass)
+
+
+
 - [Setting Credentials via DSInternals modules](#setting-credentials-via-dsinternals-modules)
 
 
@@ -2021,6 +2177,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Setting Credentials via PowerSploit modules](#setting-credentials-via-powersploit-modules)
+
+
+
+- [Shedule Task with HTTP Command Arguments](#shedule-task-with-http-command-arguments)
 
 
 
@@ -2232,6 +2392,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [WinEvent Scheduled Task Created Within Public Path](#winevent-scheduled-task-created-within-public-path)
+
+
+
+- [WinEvent Scheduled Task Created to Spawn Shell](#winevent-scheduled-task-created-to-spawn-shell)
+
+
+
 - [Windows AdFind Exe](#windows-adfind-exe)
 
 
@@ -2252,6 +2420,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Winword Spawning Cmd](#winword-spawning-cmd)
+
+
+
+- [Winword Spawning PowerShell](#winword-spawning-powershell)
+
+
+
+- [Winword Spawning Windows Script Host](#winword-spawning-windows-script-host)
+
+
+
 
 
 
@@ -2268,6 +2448,20 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Network
 <details>
   <summary>details</summary>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2533,9 +2727,9 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
-
-
 - [Detect Outbound SMB Traffic](#detect-outbound-smb-traffic)
+
+
 
 
 
@@ -2701,7 +2895,15 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Excessive DNS Failures](#excessive-dns-failures)
+
+
+
+
 
 
 
@@ -2837,6 +3039,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Multiple Archive Files Http Post Traffic](#multiple-archive-files-http-post-traffic)
 
 
 
@@ -2882,6 +3085,31 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Plain HTTP POST Exfiltrated Data](#plain-http-post-exfiltrated-data)
 
 
 
@@ -2983,11 +3211,19 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [SMB Traffic Spike](#smb-traffic-spike)
 
 
 
 - [SMB Traffic Spike - MLTK](#smb-traffic-spike---mltk)
+
+
+
+
+
+
 
 
 
@@ -3162,11 +3398,35 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 </details>
 
 ## Application
 <details>
   <summary>details</summary>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3698,7 +3958,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 - [Monitor Email For Brand Abuse](#monitor-email-for-brand-abuse)
+
+
 
 
 
@@ -3746,6 +4016,24 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Okta Account Lockout Events](#okta-account-lockout-events)
 
 
@@ -3765,6 +4053,16 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Phishing Email Detection by Machine Learning Method - SSA](#phishing-email-detection-by-machine-learning-method---ssa)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4033,11 +4331,35 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 </details>
 
 ## Web
 <details>
   <summary>details</summary>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4571,7 +4893,39 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4757,7 +5111,23 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Supernova Webshell](#supernova-webshell)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5186,7 +5556,7 @@ This search looks for CloudTrail events where a user created a policy version th
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2021-02-22
 
 <details>
@@ -5243,9 +5613,11 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### Reference
 
+
 * https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 
 * https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+
 
 
 #### Test Dataset
@@ -5263,7 +5635,7 @@ This search looks for CloudTrail events where a user A who has already permissio
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -5317,9 +5689,11 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### Reference
 
+
 * https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 
 * https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+
 
 
 #### Test Dataset
@@ -5337,7 +5711,7 @@ This search looks for CloudTrail events where a user A(victim A) creates a login
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -5395,9 +5769,11 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### Reference
 
+
 * https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 
 * https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+
 
 
 #### Test Dataset
@@ -5549,11 +5925,13 @@ unknown
 
 #### Reference
 
+
 * https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
 
 * https://github.com/d1vious/git-wild-hunt
 
 * https://www.youtube.com/watch?v=PgzNib37g0M
+
 
 
 #### Test Dataset
@@ -5629,11 +6007,13 @@ bucket with S3 encryption
 
 #### Reference
 
+
 * https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
 
 * https://github.com/d1vious/git-wild-hunt
 
 * https://www.youtube.com/watch?v=PgzNib37g0M
+
 
 
 #### Test Dataset
@@ -5759,7 +6139,9 @@ While this search has no known false positives.
 
 #### Reference
 
+
 * https://github.com/aquasecurity/cloudsploit
+
 
 
 #### Test Dataset
@@ -5772,12 +6154,394 @@ _version_: 1
 
 ---
 
+### AWS IAM AccessDenied Discovery Events
+The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: [T1580](https://attack.mitre.org/techniques/T1580/)
+- **Last Updated**: 2021-04-05
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com) 
+| bucket _time span=1h 
+| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources values(userIdentity.arn) by src_ip, userIdentity.arn, _time 
+| where failures >= 5 and methods >= 1 and sources >= 1 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_iam_accessdenied_discovery_events_filter`
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud User Activities
+
+
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* eventSource
+
+* userAgent
+
+* errorCode
+
+* userIdentity.type
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1580 | Cloud Infrastructure Discovery | Discovery |
+
+
+#### Kill Chain Phase
+
+* Reconnaissance
+
+
+#### Known False Positives
+It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
+
+#### Reference
+
+
+* https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS IAM Assume Role Policy Brute Force
+The following detection identifies any malformed policy document exceptions with a status of `failure`. A malformed policy document exception occurs in instances where roles are attempted to be assumed, or brute forced. In a brute force attempt, using a tool like CloudSploit or Pacu, an attempt will look like `arn:aws:iam::111111111111:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS`.  Meaning, when an adversary is attempting to identify a role name, multiple failures will occur. This detection focuses on the errors of a remote attempt that is failing.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: [T1580](https://attack.mitre.org/techniques/T1580/), [T1110](https://attack.mitre.org/techniques/T1110/)
+- **Last Updated**: 2021-04-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failure (userAgent!=*.amazonaws.com) 
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyName) as policy_name by src eventName eventSource aws_account_id errorCode requestParameters.policyDocument userAgent eventID awsRegion userIdentity.principalId user_arn 
+| where count >= 2 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_iam_assume_role_policy_brute_force_filter`
+```
+#### Associated Analytic Story
+
+* AWS IAM Privilege Escalation
+
+
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs. Set the `where count` greater than a value to identify suspicious activity in your environment.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* userAgent
+
+* errorCode
+
+* requestParameters.policyName
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1580 | Cloud Infrastructure Discovery | Discovery |
+| T1110 | Brute Force | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Reconnaissance
+
+
+#### Known False Positives
+This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users.
+
+#### Reference
+
+
+* https://www.praetorian.com/blog/aws-iam-assume-role-vulnerabilities
+
+* https://rhinosecuritylabs.com/aws/assume-worst-aws-assume-role-enumeration/
+
+* https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS IAM Delete Policy
+The following detection identifes when a policy is deleted on AWS. This does not identify whether successful or failed, but the error messages tell a story of suspicious attempts. There is a specific process to follow when deleting a policy. First, detach the policy from all users, groups, and roles that the policy is attached to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: [T1098](https://attack.mitre.org/techniques/T1098/)
+- **Last Updated**: 2021-04-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com) 
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn) as policyArn by src eventName eventSource aws_account_id errorCode errorMessage userAgent eventID awsRegion userIdentity.principalId userIdentity.arn 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_iam_delete_policy_filter`
+```
+#### Associated Analytic Story
+
+* AWS IAM Privilege Escalation
+
+
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* userAgent
+
+* errorCode
+
+* requestParameters.policyArn
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1098 | Account Manipulation | Persistence |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete policies (least privilege). In addition, this may be saved seperately and tuned for failed or success attempts only.
+
+#### Reference
+
+
+* https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html
+
+* https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS IAM Failure Group Deletion
+This detection identifies failure attempts to delete groups. We want to identify when a group is attempting to be deleted, but either access is denied, there is a conflict or there is no group. This is indicative of administrators performing an action, but also could be suspicious behavior occurring. Review parallel IAM events - recently added users, new groups and so forth.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: [T1098](https://attack.mitre.org/techniques/T1098/)
+- **Last Updated**: 2021-04-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com) 
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) as group_name by src eventName eventSource aws_account_id errorCode errorMessage userAgent eventID awsRegion userIdentity.principalId user_arn 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_iam_failure_group_deletion_filter`
+```
+#### Associated Analytic Story
+
+* AWS IAM Privilege Escalation
+
+
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* userAgent
+
+* errorCode
+
+* requestParameters.groupName
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1098 | Account Manipulation | Persistence |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
+
+#### Reference
+
+
+* https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+
+* https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS IAM Successful Group Deletion
+The following query uses IAM events to track the success of a group being deleted on AWS. This is typically not indicative of malicious behavior, but a precurser to additional events thay may unfold. Review parallel IAM events - recently added users, new groups and so forth. Inversely, review failed attempts in a similar manner.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: [T1069.003](https://attack.mitre.org/techniques/T1069/003/), [T1098](https://attack.mitre.org/techniques/T1098/)
+- **Last Updated**: 2021-03-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success (userAgent!=*.amazonaws.com) 
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) by src eventName eventSource errorCode user_agent awsRegion userIdentity.principalId user_arn 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_iam_successful_group_deletion_filter`
+```
+#### Associated Analytic Story
+
+* AWS IAM Privilege Escalation
+
+
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* userAgent
+
+* errorCode
+
+* requestParameters.groupName
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1069.003 | Cloud Groups | Discovery |
+| T1098 | Account Manipulation | Persistence |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
+
+#### Reference
+
+
+* https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
+
+* https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json
+
+
+_version_: 1
+</details>
+
+---
+
 ### AWS Network Access Control List Created with All Open Ports
 The search looks for CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2021-01-11
 
 <details>
@@ -5862,7 +6626,7 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -5995,6 +6759,7 @@ Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very diff
 
 #### Reference
 
+
 * https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 
 * https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
@@ -6002,6 +6767,7 @@ Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very diff
 * https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 
 * https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+
 
 
 #### Test Dataset
@@ -6076,6 +6842,7 @@ Updating a SAML provider or creating a new one may not necessarily be malicious 
 
 #### Reference
 
+
 * https://us-cert.cisa.gov/ncas/alerts/aa21-008a
 
 * https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
@@ -6083,6 +6850,7 @@ Updating a SAML provider or creating a new one may not necessarily be malicious 
 * https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 
 * https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+
 
 
 #### Test Dataset
@@ -6100,7 +6868,7 @@ This search looks for CloudTrail events where a user has set a default policy ve
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -6155,9 +6923,11 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### Reference
 
+
 * https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 
 * https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+
 
 
 #### Test Dataset
@@ -6175,7 +6945,7 @@ This search looks for CloudTrail events where a user A who has already permissio
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -6229,9 +6999,11 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### Reference
 
+
 * https://labs.bishopfox.com/tech-blog/privilege-escalation-in-aws
 
 * https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+
 
 
 #### Test Dataset
@@ -6249,7 +7021,7 @@ This search looks for CloudTrail events where a user successfully launches an ab
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -6321,7 +7093,7 @@ This search looks for CloudTrail events where a user successfully launches an ab
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -6389,7 +7161,7 @@ This search looks for CloudTrail events where an abnormally high number of insta
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -6459,7 +7231,7 @@ This search looks for CloudTrail events where a user successfully terminates an 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -6525,7 +7297,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-09-07
 
 <details>
@@ -6604,7 +7376,7 @@ This search finds for the number successfully destroyed cloud instances for ever
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-08-21
 
 <details>
@@ -6684,7 +7456,7 @@ This search finds for the number successfully created cloud instances for every 
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-08-21
 
 <details>
@@ -6766,7 +7538,7 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-09-07
 
 <details>
@@ -6847,7 +7619,7 @@ Detect memory dumping of the LSASS process.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-06
 
 <details>
@@ -6907,7 +7679,9 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -7082,12 +7856,100 @@ _version_: 1
 
 ---
 
+### Anomalous usage of 7zip
+The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllhost.exe`. It is assumed that the adversary has brought in `7z.exe` and `7z.dll`. It has been observed where an adversary will rename `7z.exe`. Additional coverage may be required to identify the behavior of renamed instances of `7z.exe`. During triage, identify the source of injection into `Rundll32.exe` or `Dllhost.exe`. Capture any files written to disk and analyze as needed. Review parallel processes for additional behaviors. Typically, archiving files will result in exfiltration.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1560.001](https://attack.mitre.org/techniques/T1560/001/)
+- **Last Updated**: 2021-04-22
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("rundll32.exe", "dllhost.exe") Processes.process_name=*7z* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `anomalous_usage_of_7zip_filter`
+```
+#### Associated Analytic Story
+
+* Cobalt Strike
+
+* NOBELIUM Group
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1560.001 | Archive via Utility | Collection |
+
+
+#### Kill Chain Phase
+
+* Actions on Objective
+
+
+#### Known False Positives
+False positives should be limited as this behavior is not normal for `rundll32.exe` or `dllhost.exe` to spawn and run 7zip.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1560/001/
+
+* https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+
+* https://thedfirreport.com/2021/01/31/bazar-no-ryuk/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Any Powershell DownloadFile
 The following analytic identifies the use of PowerShell downloading a file using `DownloadFile` method. This particular method is utilized in many different PowerShell frameworks to download files and output to disk. Identify the source (IP/domain) and destination file and triage appropriately. If AMSI logging or PowerShell transaction logs are available, review for further details of the implant.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -7151,11 +8013,13 @@ False positives may be present and filtering will need to occur by parent proces
 
 #### Reference
 
+
 * https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfile?view=net-5.0
 
 * https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
+
 
 
 #### Test Dataset
@@ -7173,7 +8037,7 @@ The following analytic identifies the use of PowerShell downloading a file using
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -7239,11 +8103,13 @@ False positives may be present and filtering will need to occur by parent proces
 
 #### Reference
 
+
 * https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstring?view=net-5.0
 
 * https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
+
 
 
 #### Test Dataset
@@ -7259,7 +8125,7 @@ _version_: 1
 ### Applying Stolen Credentials via Mimikatz modules
 This detection indicates use of Mimikatz modules that facilitate Pass-the-Token attack, Golden or Silver kerberos ticket attack, and Skeleton key attack.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1547](https://attack.mitre.org/techniques/T1547/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1554](https://attack.mitre.org/techniques/T1554/), [T1556](https://attack.mitre.org/techniques/T1556/), [T1558](https://attack.mitre.org/techniques/T1558/)
 - **Last Updated**: 2020-11-03
@@ -7270,12 +8136,11 @@ This detection indicates use of Mimikatz modules that facilitate Pass-the-Token 
 #### Search
 ```
 
-| from read_ssa_enriched_events()
-
+| from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)kerberos::ptt/)=true OR match_regex(cmd_line, /(?i)kerberos::golden/)=true OR match_regex(cmd_line, /(?i)kerberos::silver/)=true OR match_regex(cmd_line, /(?i)misc::skeleton/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -7311,7 +8176,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
 | T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
 | T1554 | Compromise Client Software Binary | Persistence |
-| T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+| T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
 
 
@@ -7325,9 +8190,11 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
 
 * https://adsecurity.org/?p=1275
+
 
 
 #### Test Dataset
@@ -7343,7 +8210,7 @@ _version_: 1
 ### Applying Stolen Credentials via PowerSploit modules
 Stolen credentials are applied by methods such as user impersonation, credential injection, spoofing of authentication processes or getting hold of critical accounts. This detection indicates such activities carried out by PowerSploit exploit kit APIs.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1547](https://attack.mitre.org/techniques/T1547/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1554](https://attack.mitre.org/techniques/T1554/), [T1555](https://attack.mitre.org/techniques/T1555/), [T1558](https://attack.mitre.org/techniques/T1558/)
 - **Last Updated**: 2020-11-03
@@ -7359,7 +8226,7 @@ Stolen credentials are applied by methods such as user impersonation, credential
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Invoke-CredentialInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-TokenManipulation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserImpersonation/)=true OR match_regex(cmd_line, /(?i)Get-System/)=true OR match_regex(cmd_line, /(?i)Invoke-RevertToSelf/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -7409,7 +8276,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -7425,7 +8294,7 @@ _version_: 1
 ### Assessment of Credential Strength via DSInternals modules
 This detection identifies use of DSInternals modules that verify password strength, i.e., identify week accounts that would be easily compromised.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1201](https://attack.mitre.org/techniques/T1201/), [T1552](https://attack.mitre.org/techniques/T1552/), [T1555](https://attack.mitre.org/techniques/T1555/)
 - **Last Updated**: 2020-11-03
@@ -7441,7 +8310,7 @@ This detection identifies use of DSInternals modules that verify password streng
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Test-PasswordQuality/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -7486,7 +8355,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/MichaelGrafnetter/DSInternals
+
 
 
 #### Test Dataset
@@ -7502,7 +8373,7 @@ Attempt To Add Certificate To Untrusted Store
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1553.004](https://attack.mitre.org/techniques/T1553.004/)
+- **ATT&CK**: [T1553.004](https://attack.mitre.org/techniques/T1553/004/)
 - **Last Updated**: 2020-11-03
 
 <details>
@@ -7569,88 +8440,12 @@ _version_: 6
 
 ---
 
-### Attempt To Set Default PowerShell Execution Policy To Unrestricted or Bypass
-Monitor for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
-- **Last Updated**: 2020-11-06
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
-
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell* Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted OR Registry.registry_value_name=Bypass) by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
-| `drop_dm_object_name(Registry)` 
-| `security_content_ctime(firstTime)`
-|`security_content_ctime(lastTime)` 
-| `attempt_to_set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`
-```
-#### Associated Analytic Story
-
-* Malicious PowerShell
-
-* Credential Dumping
-
-* HAFNIUM Group
-
-
-#### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Registry node. You must also be ingesting logs with the fields registry_path, registry_key_name, and registry_value_name from your endpoints.
-
-#### Required field
-
-* _time
-
-* Registry.registry_path
-
-* Registry.registry_key_name
-
-* Registry.registry_value_name
-
-* Registry.dest
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1059.001 | PowerShell | Execution |
-
-
-#### Kill Chain Phase
-
-* Installation
-
-* Actions on Objectives
-
-
-#### Known False Positives
-Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
-
-#### Reference
-
-
-#### Test Dataset
-
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
-
-
-_version_: 6
-</details>
-
----
-
 ### Attempt To Stop Security Service
 This search looks for attempts to stop security-related services on the endpoint.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -7724,7 +8519,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/)
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
 - **Last Updated**: 2019-12-02
 
 <details>
@@ -7790,7 +8585,7 @@ _version_: 4
 ### Attempted Credential Dump From Registry via Reg exe
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-6-04
@@ -7806,7 +8601,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 | eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
 | where process_name="cmd.exe" OR process_name="reg.exe" 
 | where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events(); 
 ```
 #### Associated Analytic Story
@@ -7848,7 +8643,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
+
 
 
 #### Test Dataset
@@ -7922,7 +8719,9 @@ Administrators may modify the boot configuration.
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair
+
 
 
 #### Test Dataset
@@ -7996,6 +8795,7 @@ Limited false positives will be present. Typically, applications will use `BitsA
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1197/
 
 * https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin
@@ -8003,6 +8803,7 @@ Limited false positives will be present. Typically, applications will use `BitsA
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md#atomic-test-3---persist-download--execute
 
 * https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+
 
 
 #### Test Dataset
@@ -8079,6 +8880,7 @@ Limited false positives, however it may be required to filter based on parent pr
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/8eb52117b748d378325f7719554a896e37bccec7/atomics/T1105/T1105.md#atomic-test-9---windows---bitsadmin-bits-download
 
 * https://github.com/redcanaryco/atomic-red-team/blob/bc705cb7aaa5f26f2d96585fac8e4c7052df0ff9/atomics/T1197/T1197.md
@@ -8086,6 +8888,7 @@ Limited false positives, however it may be required to filter based on parent pr
 * https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
 
 * https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+
 
 
 #### Test Dataset
@@ -8103,7 +8906,7 @@ The search looks for a batch file (.bat) written to the Windows system directory
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204.002/)
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
 - **Last Updated**: 2018-12-14
 
 <details>
@@ -8231,11 +9034,13 @@ Limited false positives in most environments, however tune as needed based on pa
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1105/
 
 * https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
 
 * https://www.fireeye.com/blog/threat-research/2019/10/certutil-qualms-they-came-to-drop-fombs.html
+
 
 
 #### Test Dataset
@@ -8309,6 +9114,7 @@ Limited false positives in most environments, however tune as needed based on pa
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1105/
 
 * https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/
@@ -8316,6 +9122,7 @@ Limited false positives in most environments, however tune as needed based on pa
 * https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl
 
 * https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
+
 
 
 #### Test Dataset
@@ -8389,6 +9196,7 @@ Typically seen used to `encode` files, but it is possible to see legitimate use 
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1140/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1140/T1140.md
@@ -8396,6 +9204,7 @@ Typically seen used to `encode` files, but it is possible to see legitimate use 
 * https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
 
 * https://www.bleepingcomputer.com/news/security/certutilexe-could-allow-attackers-to-download-malware-while-bypassing-av/
+
 
 
 #### Test Dataset
@@ -8553,7 +9362,7 @@ This search allows you to identify the endpoints that have connected to more tha
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -8684,9 +9493,11 @@ Operators can execute third party tools using these parameters.
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -8761,9 +9572,11 @@ unknown
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -8857,7 +9670,7 @@ This search looks for cloud compute instances created by users who have not crea
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-08-21
 
 <details>
@@ -9143,7 +9956,7 @@ This search looks for cloud instances being modified by users who have not previ
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-29
 
 <details>
@@ -9667,6 +10480,7 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/009/
 
 * https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
@@ -9676,6 +10490,7 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 * https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
 
 * https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
+
 
 
 #### Test Dataset
@@ -9852,7 +10667,7 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-06
 
 <details>
@@ -9910,7 +10725,9 @@ Other tools can access LSASS for legitimate reasons and generate an event. In th
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -9928,7 +10745,7 @@ This detection is to identify a creation of "user mode service" where the servic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1569.001](https://attack.mitre.org/techniques/T1569.001/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1569.001](https://attack.mitre.org/techniques/T1569/001/), [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
 - **Last Updated**: 2021-03-12
 
 <details>
@@ -9984,9 +10801,11 @@ unknown
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -10004,7 +10823,7 @@ This search looks for the creation of local administrator accounts using net.exe
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136.001/)
+- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -10080,7 +10899,7 @@ This search looks for the creation or deletion of hidden shares using net.exe.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1070.005](https://attack.mitre.org/techniques/T1070.005/)
+- **ATT&CK**: [T1070.005](https://attack.mitre.org/techniques/T1070/005/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -10137,7 +10956,9 @@ Administrators often leverage net.exe to create or delete network shares. You sh
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1070/005
+
 
 
 #### Test Dataset
@@ -10155,7 +10976,7 @@ Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -10215,7 +11036,9 @@ Legitimate administrator usage of Vssadmin or Wmic will create false positives.
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -10233,7 +11056,7 @@ This search detects the use of wmic and Powershell to create a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -10287,7 +11110,9 @@ Legtimate administrator usage of wmic to create a shadow copy.
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -10305,7 +11130,7 @@ Detect the hands on keyboard behavior of Windows Task Manager creating a prcoess
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2020-02-03
 
 <details>
@@ -10361,11 +11186,13 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-5---dump-lsassexe-memory-using-windows-task-manager
 
 * https://attack.mitre.org/techniques/T1003/001/
 
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -10383,7 +11210,7 @@ This search detects credential dumping using copy command from a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -10443,7 +11270,9 @@ unknown
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -10461,7 +11290,7 @@ This search detects the creation of a symlink to a shadow copy.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2019-12-10
 
 <details>
@@ -10521,7 +11350,9 @@ unknown
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -10537,7 +11368,7 @@ _version_: 1
 ### Credential Extraction indicative of FGDump and CacheDump with s option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system's registry.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -10553,7 +11384,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
 | where cmd_line != null AND process_name != null AND parent_process_name != null AND match_regex(parent_process_name, /(?i)System32\\services.exe/)=true AND match_regex(process_name, /(?i)cachedump\d{0,2}.exe/)=true AND match_regex(process_path, /(?i)\\Temp/)=true AND match_regex(cmd_line, /(?i)\-s/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -10615,7 +11446,7 @@ _version_: 1
 ### Credential Extraction indicative of FGDump and CacheDump with v option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system's registry.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -10631,7 +11462,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null) 
 | where cmd_line != null AND process_name != null AND process_path != null AND match_regex(process_name, /(?i)cachedump\d{0,2}.exe/)=true AND match_regex(process_path, /(?i)\\Temp/)=true AND match_regex(cmd_line, /(?i)\-v/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -10691,7 +11522,7 @@ _version_: 1
 ### Credential Extraction indicative of Lazagne command line options
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. LaZagne is a tool that extracts various kinds of credentials from a local computer, including account passwords, domain passwords, browser passwords, etc.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1555](https://attack.mitre.org/techniques/T1555/)
 - **Last Updated**: 2020-10-18
@@ -10707,7 +11538,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND match_regex(cmd_line, /(?i)all\s+\-oA\s+\-output/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -10762,7 +11593,7 @@ _version_: 1
 ### Credential Extraction indicative of use of DSInternals credential conversion modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -10778,7 +11609,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)ConvertFrom-ADManagedPasswordBlob/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-UnicodePassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-KerberosKey/)=true OR match_regex(cmd_line, /(?i)ConvertTo-LMHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-NTHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-OrgIdHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-UnicodePassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -10826,7 +11657,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/MichaelGrafnetter/DSInternals
+
 
 
 #### Test Dataset
@@ -10842,7 +11675,7 @@ _version_: 1
 ### Credential Extraction indicative of use of DSInternals modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -10858,7 +11691,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ADDBBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-ADDBDomainController/)=true OR match_regex(cmd_line, /(?i)Get-ADDBKdsRootKey/)=true OR match_regex(cmd_line, /(?i)Get-ADDBSchemaAttribute/)=true OR match_regex(cmd_line, /(?i)Get-ADKeyCredential/)=true OR match_regex(cmd_line, /(?i)Get-ADReplAccount/)=true OR match_regex(cmd_line, /(?i)Get-ADReplBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-ADSIAccount/)=true OR match_regex(cmd_line, /(?i)Get-AzureADUserEx/)=true OR match_regex(cmd_line, /(?i)Get-BootKey/)=true OR match_regex(cmd_line, /(?i)Get-LsaBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-LsaPolicyInformation/)=true OR match_regex(cmd_line, /(?i)Get-SamPasswordPolicy/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -10906,7 +11739,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/MichaelGrafnetter/DSInternals
+
 
 
 #### Test Dataset
@@ -10922,7 +11757,7 @@ _version_: 1
 ### Credential Extraction indicative of use of Mimikatz modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Mimikatz is a collection of tools and modules commonly employed in Windows exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -10938,7 +11773,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)CRYPTO::Certificates/)=true OR match_regex(cmd_line, /(?i)CRYPTO::keys/)=true OR match_regex(cmd_line, /(?i)kerberos::list/)=true OR match_regex(cmd_line, /(?i)kerberos::tgt/)=true OR match_regex(cmd_line, /(?i)lsadump::sam/)=true OR match_regex(cmd_line, /(?i)lsadump::secrets/)=true OR match_regex(cmd_line, /(?i)lsadump::cache/)=true OR match_regex(cmd_line, /(?i)lsadump::lsa/)=true OR match_regex(cmd_line, /(?i)lsadump::trust/)=true OR match_regex(cmd_line, /(?i)lsadump::backupkeys/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -10980,7 +11815,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -10996,7 +11833,7 @@ _version_: 1
 ### Credential Extraction indicative of use of PowerSploit modules
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit is a collection of Microsoft PowerShell modules commonly employed in exploits.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
@@ -11012,7 +11849,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ApplicationHost/)=true OR match_regex(cmd_line, /(?i)Get-CachedGPPPassword/)=true OR match_regex(cmd_line, /(?i)Get-GPPAutologon/)=true OR match_regex(cmd_line, /(?i)Get-GPPPassword/)=true OR match_regex(cmd_line, /(?i)Get-RegistryAutoLogon/)=true OR match_regex(cmd_line, /(?i)Get-SiteListPassword/)=true OR match_regex(cmd_line, /(?i)Get-SPNTicket/)=true OR match_regex(cmd_line, /(?i)Request-SPNTicket/)=true OR match_regex(cmd_line, /(?i)Get-VaultCredential/)=true OR match_regex(cmd_line, /(?i)Invoke-Kerberoast/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -11054,7 +11891,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -11070,7 +11909,7 @@ _version_: 1
 ### Credential Extraction native Microsoft debuggers peek into the kernel
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -11086,7 +11925,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
 | where cmd_line != null AND parent_process_name != null AND process_name != null  AND ( match_regex(parent_process_name, /(?i)ntkd\.exe/)=true OR match_regex(parent_process_name, /(?i)livekd\.exe/)=true ) AND match_regex(process_name, /(?i)conhost\.exe/)=true AND match_regex(cmd_line, /(?i)0xffffffff/)=true AND match_regex(cmd_line, /(?i)\-ForceV1/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -11132,7 +11971,9 @@ Although unlikely, using debuggers this way may be indicative of developers anal
 
 #### Reference
 
+
 * https://medium.com/@clermont1050/covid-19-cyber-infection-c615ead7c29
+
 
 
 #### Test Dataset
@@ -11148,7 +11989,7 @@ _version_: 1
 ### Credential Extraction native Microsoft debuggers via z command line option
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -11164,7 +12005,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null) 
 | where cmd_line != null AND process_name != null AND ( match_regex(process_name, /^(?i)ntkd\.exe/)=true OR match_regex(process_name, /^(?i)kd\.exe/)=true ) AND match_regex(cmd_line, /(?i)\-z\s+/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -11222,7 +12063,7 @@ _version_: 1
 ### Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit and DSInternals are common exploit APIs offering PowerShell modules for various exploits of Windows and Active Directory environments.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-18
@@ -11239,7 +12080,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | where cmd_line != null AND match_regex(cmd_line, /(?i)Get-ADDBAccount/)=true AND match_regex(cmd_line, /(?i)\-dbpath[\s;:\.\
 |]+/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -11292,12 +12133,184 @@ _version_: 1
 
 ---
 
+### DLLHost with no Command Line Arguments with Network
+The following analytic identifies DLLHost.exe with no command line arguments with a network connection. It is unusual for DLLHost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, triage any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. DLLHost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=dllhost.exe by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| regex process="(dllhost\.exe.{0,4}$)" 
+| join  process_id [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port 
+| `drop_dm_object_name(Ports)` 
+| rename  dest as connection_to_CNC] 
+| table _time dest parent_process_name process_name process_path process process_id connection_to_CNC dest_port 
+| `dllhost_with_no_command_line_arguments_with_network_filter`
+```
+#### Associated Analytic Story
+
+* Cobalt Strike
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
+
+#### Required field
+
+* _time
+
+* EventID
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest_port
+
+* process_path
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Although unlikely, some legitimate third party applications may use a moved copy of dllhost, triggering a false positive.
+
+#### Reference
+
+
+* https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
+
+* https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_dllhost.log
+
+
+_version_: 1
+</details>
+
+---
+
+### DNS Exfiltration Using Nslookup App
+this search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type, TXT, A, AAAA, that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/)
+- **Last Updated**: 2021-04-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id values(Processes.parent_process) as parent_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "nslookup.exe" Processes.process = "*-querytype=*" OR Processes.process="*-qt=*" OR Processes.process="*-q=*" OR Processes.process="-type=*" OR Processes.process="*-retry=*" by Processes.dest Processes.user Processes.process_name  
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `dns_exfiltration_using_nslookup_app_filter`
+```
+#### Associated Analytic Story
+
+* Suspicious DNS Traffic
+
+* Dynamic DNS
+
+* Command and Control
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin nslookup usage
+
+#### Reference
+
+
+* https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
+
+* https://www.varonis.com/blog/dns-tunneling/
+
+* https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### DNS Query Length Outliers - MLTK
 This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-01-22
 
 <details>
@@ -11382,7 +12395,7 @@ This search allows you to identify DNS requests and compute the standard deviati
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2021-01-18
 
 <details>
@@ -11453,7 +12466,7 @@ This search will detect DNS requests resolved by unauthorized DNS servers. Legit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -11525,7 +12538,7 @@ The search takes the DNS records and their answers results of the discovered_dns
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -11671,6 +12684,7 @@ Limited false positives. If there is a true false positive, filter based on comm
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md
 
 * http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/
@@ -11678,6 +12692,7 @@ Limited false positives. If there is a true false positive, filter based on comm
 * https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732952(v=ws.11)
 
 * https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc754232(v=ws.11)
+
 
 
 #### Test Dataset
@@ -11846,7 +12861,7 @@ By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organiza
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557.002/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557/002/)
 - **Last Updated**: 2020-08-11
 
 <details>
@@ -11926,7 +12941,7 @@ This search looks for successful CloudTrail activity by user accounts that are n
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -12311,7 +13326,7 @@ This search looks for specific authentication events from the Windows Security E
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550.002/)
+- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550/002/)
 - **Last Updated**: 2020-10-15
 
 <details>
@@ -12428,7 +13443,9 @@ unknown
 
 #### Reference
 
+
 * https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
 
 
 #### Test Dataset
@@ -12491,7 +13508,9 @@ If sudoedit is throwing segfaults for other reasons this will pick those up too.
 
 #### Reference
 
+
 * https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
 
 
 #### Test Dataset
@@ -12552,7 +13571,9 @@ unknown
 
 #### Reference
 
+
 * https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
 
 
 #### Test Dataset
@@ -12621,7 +13642,9 @@ None thus far found
 
 #### Reference
 
+
 * https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
+
 
 
 #### Test Dataset
@@ -12637,7 +13660,7 @@ This search looks for reading lsass memory consistent with credential dumping.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-03
 
 <details>
@@ -12717,7 +13740,7 @@ This search looks for DNS requests for phishing domains that are leveraging Evil
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1566.003](https://attack.mitre.org/techniques/T1566.003/)
+- **ATT&CK**: [T1566.003](https://attack.mitre.org/techniques/T1566/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -12802,9 +13825,9 @@ _version_: 2
 ### Detect Dump LSASS Memory using comsvcs
 This search detects the memory of lsass.exe being dumped for offline credential theft attack.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2020-09-15
 
 <details>
@@ -12816,7 +13839,7 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 | from read_ssa_enriched_events() 
 | eval tenant=ucast(map_get(input_event, "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)) 
 | where process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body=create_map(["process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12858,7 +13881,9 @@ None identified.
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -12874,7 +13899,7 @@ This search identifies endpoints that have caused a relatively high number of ac
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078.002/)
+- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078/002/)
 - **Last Updated**: 2020-11-09
 
 <details>
@@ -12950,7 +13975,7 @@ This search detects user accounts that have been locked out a relatively high nu
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.003](https://attack.mitre.org/techniques/T1078.003/)
+- **ATT&CK**: [T1078.003](https://attack.mitre.org/techniques/T1078/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -13020,7 +14045,7 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505.003/)
+- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505/003/)
 - **Last Updated**: 2021-03-09
 
 <details>
@@ -13080,7 +14105,9 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 
 #### Reference
 
+
 * https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv
+
 
 
 #### Test Dataset
@@ -13142,11 +14169,13 @@ unknown
 
 #### Reference
 
+
 * https://www.ptsecurity.com/ww-en/about/news/f5-fixes-critical-vulnerability-discovered-by-positive-technologies-in-big-ip-application-delivery-controller/
 
 * https://support.f5.com/csp/article/K52145254
 
 * https://blog.cloudflare.com/cve-2020-5902-helping-to-protect-against-the-f5-tmui-rce-vulnerability/
+
 
 
 #### Test Dataset
@@ -13245,7 +14274,7 @@ The following analytic identifies a renamed instance of hh.exe (HTML Help) execu
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -13307,11 +14336,13 @@ Although unlikely a renamed instance of hh.exe will be used legitimately, filter
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/001/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
 
 * https://lolbas-project.github.io/lolbas/Binaries/Hh/
+
 
 
 #### Test Dataset
@@ -13329,7 +14360,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -13391,6 +14422,7 @@ Although unlikely, some legitimate applications (ex. web browsers) may spawn a c
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/001/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
@@ -13400,6 +14432,7 @@ Although unlikely, some legitimate applications (ex. web browsers) may spawn a c
 * https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
 
 * https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+
 
 
 #### Test Dataset
@@ -13417,7 +14450,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -13477,6 +14510,7 @@ Although unlikely, some legitimate applications may retrieve a CHM remotely, fil
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/001/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
@@ -13488,6 +14522,7 @@ Although unlikely, some legitimate applications may retrieve a CHM remotely, fil
 * https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
 
 * https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+
 
 
 #### Test Dataset
@@ -13505,7 +14540,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218.001/)
+- **ATT&CK**: [T1218.001](https://attack.mitre.org/techniques/T1218/001/)
 - **Last Updated**: 2021-02-11
 
 <details>
@@ -13563,6 +14598,7 @@ It is rare to see instances of InfoTech Storage Handlers being used, but it does
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/001/
 
 * https://www.kb.cert.org/vuls/id/851869
@@ -13574,6 +14610,7 @@ It is rare to see instances of InfoTech Storage Handlers being used, but it does
 * https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
 
 * https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+
 
 
 #### Test Dataset
@@ -13591,7 +14628,7 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557.002/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557/002/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -13665,6 +14702,7 @@ None currently known
 
 #### Reference
 
+
 * https://www.ciscolive.com/c/dam/r/ciscolive/emea/docs/2019/pdf/BRKSEC-3200.pdf
 
 * https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-ra-guard.html
@@ -13682,6 +14720,7 @@ None currently known
 * https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ipv6-dest-guard.html
 
 
+
 #### Test Dataset
 
 
@@ -13693,9 +14732,9 @@ _version_: 1
 ### Detect Kerberoasting
 This search detects a potential kerberoasting attack via service principal name requests
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558.003/)
+- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558/003/)
 - **Last Updated**: 2020-10-21
 
 <details>
@@ -13709,7 +14748,7 @@ This search detects a potential kerberoasting attack via service principal name 
 | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" 
 | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"] 
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID 
-| eval start_time=_time, end_time=_time, body="TBD", entities="TBD" 
+| eval start_time=_time, end_time=_time, body=create_map(["EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType", TicketEncryptionType]), entities="TBD" 
 | select start_time, end_time, entities, body 
 | into write_null(); 
 ```
@@ -13754,7 +14793,9 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 
 #### Reference
 
+
 * Initial ESCU implementation by Jose Hernandez and Patrick Bareiss
+
 
 
 #### Test Dataset
@@ -13845,7 +14886,7 @@ This search is used to detect attempts to use DNS tunneling, by calculating the 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -13921,7 +14962,7 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -13977,11 +15018,13 @@ It is possible legitimate applications may perform this behavior and will need t
 
 #### Reference
 
+
 * https://github.com/redcanaryco/AtomicTestHarnesses
 
 * https://redcanary.com/blog/introducing-atomictestharnesses/
 
 * https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+
 
 
 #### Test Dataset
@@ -13999,7 +15042,7 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-03
 
 <details>
@@ -14060,7 +15103,9 @@ Other tools can import the same DLLs. These tools should be part of a whitelist.
 
 #### Reference
 
+
 * https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for.html
+
 
 
 #### Test Dataset
@@ -14078,7 +15123,7 @@ This search looks for PowerShell requesting privileges consistent with credentia
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-02-27
 
 <details>
@@ -14151,7 +15196,7 @@ This search looks for newly created accounts that have been elevated to local ad
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136.001/)
+- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136/001/)
 - **Last Updated**: 2020-07-08
 
 <details>
@@ -14541,97 +15586,12 @@ _version_: 2
 
 ---
 
-### Detect Oulook exe writing a  zip file
-This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
-- **Last Updated**: 2020-07-21
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
-
-| tstats `security_content_summariesonly`  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe OR Processes.process_name=explorer.exe by _time span=5m Processes.parent_process_id Processes.process_id Processes.dest Processes.process_name Processes.parent_process_name Processes.user 
-| `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| rename process_id as malicious_id
-| rename parent_process_id as outlook_id
-| join malicious_id type=inner[
-| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name  FROM datamodel=Endpoint.Filesystem where (Filesystem.file_path=*zip*   OR Filesystem.file_name=*.lnk ) AND (Filesystem.file_path=C:\\Users* OR Filesystem.file_path=*Local\\Temp*) by  _time span=5m Filesystem.process_id Filesystem.file_hash Filesystem.dest  
-| `drop_dm_object_name(Filesystem)` 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| rename process_id as malicious_id
-| fields malicious_id outlook_id dest file_path file_name file_hash count file_id] 
-| table firstTime lastTime user malicious_id outlook_id process_name parent_process_name file_name  file_path 
-| where file_name != "" 
-| `detect_oulook_exe_writing_a__zip_file_filter` 
-```
-#### Associated Analytic Story
-
-* Phishing Payloads
-
-
-#### How To Implement
-You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon.
-
-#### Required field
-
-* _time
-
-* Processes.process_name
-
-* Processes.parent_process_id
-
-* Processes.process_id
-
-* Processes.dest
-
-* Processes.parent_process_name
-
-* Processes.user
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1566.001 | Spearphishing Attachment | Initial Access |
-
-
-#### Kill Chain Phase
-
-* Installation
-
-* Actions on Objectives
-
-
-#### Known False Positives
-It is not uncommon for outlook to write legitimate zip files to the disk.
-
-#### Reference
-
-
-#### Test Dataset
-
-
-_version_: 3
-</details>
-
----
-
 ### Detect Outbound SMB Traffic
 This search looks for outbound SMB connections made by hosts within your network to the Internet. SMB traffic is used for Windows file-sharing activity. One of the techniques often used by attackers involves retrieving the credential hash using an SMB request made to a compromised server controlled by the threat actor.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1071.002](https://attack.mitre.org/techniques/T1071.002/)
+- **ATT&CK**: [T1071.002](https://attack.mitre.org/techniques/T1071/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -14706,12 +15666,97 @@ _version_: 3
 
 ---
 
+### Detect Outlook exe writing a zip file
+This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2020-07-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly`  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe OR Processes.process_name=explorer.exe by _time span=5m Processes.parent_process_id Processes.process_id Processes.dest Processes.process_name Processes.parent_process_name Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| rename process_id as malicious_id
+| rename parent_process_id as outlook_id
+| join malicious_id type=inner[
+| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name  FROM datamodel=Endpoint.Filesystem where (Filesystem.file_path=*zip*   OR Filesystem.file_name=*.lnk ) AND (Filesystem.file_path=C:\\Users* OR Filesystem.file_path=*Local\\Temp*) by  _time span=5m Filesystem.process_id Filesystem.file_hash Filesystem.dest  
+| `drop_dm_object_name(Filesystem)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| rename process_id as malicious_id
+| fields malicious_id outlook_id dest file_path file_name file_hash count file_id] 
+| table firstTime lastTime user malicious_id outlook_id process_name parent_process_name file_name  file_path 
+| where file_name != "" 
+| `detect_outlook_exe_writing_a_zip_file_filter` 
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.parent_process_id
+
+* Processes.process_id
+
+* Processes.dest
+
+* Processes.parent_process_name
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Installation
+
+* Actions on Objectives
+
+
+#### Known False Positives
+It is not uncommon for outlook to write legitimate zip files to the disk.
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 3
+</details>
+
+---
+
 ### Detect Pass the Hash
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts using Pass-the-Hash technique.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550.002/)
+- **ATT&CK**: [T1550.002](https://attack.mitre.org/techniques/T1550/002/)
 - **Last Updated**: 2020-10-21
 
 <details>
@@ -14727,7 +15772,7 @@ This search looks for specific authentication events from the Windows Security E
 
 | where (authentication_type="3" AND authentication_method="NtLmSsp") OR (authentication_type="9" AND authentication_method="seclogo")
 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body="TBD" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["authentication_type", authentication_type, "authentication_method", authentication_method]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -14773,7 +15818,9 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 
 #### Reference
 
+
 * Initial ESCU implementation by Bhavin Patel and Patrick Bareiss
+
 
 
 #### Test Dataset
@@ -14789,7 +15836,7 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1574.009](https://attack.mitre.org/techniques/T1574.009/)
+- **ATT&CK**: [T1574.009](https://attack.mitre.org/techniques/T1574/009/)
 - **Last Updated**: 2020-07-03
 
 <details>
@@ -14852,7 +15899,9 @@ unknown
 
 #### Reference
 
+
 * https://medium.com/@SumitVerma101/windows-privilege-escalation-part-1-unquoted-service-path-c7a011a8d8ae
+
 
 
 #### Test Dataset
@@ -14870,7 +15919,7 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557.002/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1557.002](https://attack.mitre.org/techniques/T1557/002/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -14958,7 +16007,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-11-10
 
 <details>
@@ -15035,7 +16084,7 @@ _version_: 5
 ### Detect Prohibited Applications Spawning cmd exe
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/)
 - **Last Updated**: 2020-7-13
@@ -15055,7 +16104,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 | rex field=parent_process "(?<field0>[^\\\\]+)$" 
 | where field0="winword.exe" OR field0="excel.exe" OR field0="outlook.exe" OR field0="powerpnt.exe" OR field0="visio.exe" OR field0="mspub.exe" OR field0="acrobat.exe" OR field0="acrord32.exe" OR field0="chrome.exe" OR field0="iexplore.exe" OR field0="opera.exe" OR field0="firefox.exe" OR field0="java.exe" OR field0="powershell.exe"
 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body="TBD" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map([ "process_name", process_name, "parent_process_name", parent_process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -15117,7 +16166,7 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/)
 - **Last Updated**: 2020-11-10
 
 <details>
@@ -15266,7 +16315,7 @@ The following analytic identifies regasm.exe spawning a process. This particular
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -15326,6 +16375,7 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/009/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
@@ -15333,6 +16383,7 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 * https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
 
 * https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+
 
 
 #### Test Dataset
@@ -15350,7 +16401,7 @@ The following analytic identifies regasm.exe with a network connection to a publ
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-16
 
 <details>
@@ -15412,11 +16463,13 @@ Although unlikely, limited instances of regasm.exe with a network connection may
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/009/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
 
 * https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+
 
 
 #### Test Dataset
@@ -15434,7 +16487,7 @@ The following analytic identifies regasm.exe with no command line arguments. Thi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -15501,11 +16554,13 @@ Although unlikely, limited instances of regasm.exe or may cause a false positive
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/009/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
 
 * https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+
 
 
 #### Test Dataset
@@ -15523,7 +16578,7 @@ The following analytic identifies regsvcs.exe spawning a process. This particula
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -15585,11 +16640,13 @@ Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a fa
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/009/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
 
 * https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
+
 
 
 #### Test Dataset
@@ -15607,7 +16664,7 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-16
 
 <details>
@@ -15667,11 +16724,13 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/009/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
 
 * https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
+
 
 
 #### Test Dataset
@@ -15689,7 +16748,7 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218.009/)
+- **ATT&CK**: [T1218.009](https://attack.mitre.org/techniques/T1218/009/)
 - **Last Updated**: 2021-02-12
 
 <details>
@@ -15758,11 +16817,13 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/009/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
 
 * https://lolbas-project.github.io/lolbas/Binaries/Regsvcs/
+
 
 
 #### Test Dataset
@@ -15781,7 +16842,7 @@ Upon investigating, look for network connections to remote destinations (interna
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218.010/)
+- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218/010/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -15843,6 +16904,7 @@ Limited false positives related to third party software registering .DLL's.
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/010/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
@@ -15850,6 +16912,7 @@ Limited false positives related to third party software registering .DLL's.
 * https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
 
 * https://support.microsoft.com/en-us/topic/how-to-use-the-regsvr32-tool-and-troubleshoot-regsvr32-error-messages-a98d960a-7392-e6fe-d90a-3f4e0cb543e5
+
 
 
 #### Test Dataset
@@ -15942,7 +17005,7 @@ The following analytic identifies rundll32.exe loading advpack.dll and ieadvpack
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -15996,6 +17059,7 @@ Although unlikely, some legitimate applications may use advpack.dll or ieadvpack
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/011/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
@@ -16005,6 +17069,7 @@ Although unlikely, some legitimate applications may use advpack.dll or ieadvpack
 * https://lolbas-project.github.io/lolbas/Libraries/Advpack/
 
 * https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+
 
 
 #### Test Dataset
@@ -16022,7 +17087,7 @@ The following analytic identifies rundll32.exe loading setupapi.dll and iesetupa
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -16076,6 +17141,7 @@ Although unlikely, some legitimate applications may use setupapi triggering a fa
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/011/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
@@ -16085,6 +17151,7 @@ Although unlikely, some legitimate applications may use setupapi triggering a fa
 * https://lolbas-project.github.io/lolbas/Libraries/Setupapi/
 
 * https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+
 
 
 #### Test Dataset
@@ -16102,7 +17169,7 @@ The following analytic identifies rundll32.exe loading syssetup.dll by calling t
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -16156,6 +17223,7 @@ Although unlikely, some legitimate applications may use syssetup.dll, triggering
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/011/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
@@ -16165,6 +17233,7 @@ Although unlikely, some legitimate applications may use syssetup.dll, triggering
 * https://lolbas-project.github.io/lolbas/Libraries/Syssetup/
 
 * https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+
 
 
 #### Test Dataset
@@ -16182,7 +17251,7 @@ The following analytic identifies "rundll32.exe" execution with inline protocol 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -16242,11 +17311,13 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### Reference
 
+
 * https://github.com/redcanaryco/AtomicTestHarnesses
 
 * https://redcanary.com/blog/introducing-atomictestharnesses/
 
 * https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+
 
 
 #### Test Dataset
@@ -16400,11 +17471,13 @@ Unknown
 
 #### Reference
 
+
 * https://www.mnemonic.no/blog/introducing-snicat/
 
 * https://github.com/mnemonic-no/SNIcat
 
 * https://attack.mitre.org/techniques/T1041/
+
 
 
 #### Test Dataset
@@ -16420,7 +17493,7 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1542.005](https://attack.mitre.org/techniques/T1542.005/)
+- **ATT&CK**: [T1542.005](https://attack.mitre.org/techniques/T1542/005/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -16492,7 +17565,7 @@ This search will detect users creating spikes of API activity in your AWS enviro
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -16709,7 +17782,7 @@ This search will detect users creating spikes in API activity related to network
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2018-05-21
 
 <details>
@@ -16864,7 +17937,7 @@ This search will detect users creating spikes in API activity related to securit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2018-04-18
 
 <details>
@@ -17017,7 +18090,7 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1020.001](https://attack.mitre.org/techniques/T1020.001/)
+- **ATT&CK**: [T1200](https://attack.mitre.org/techniques/T1200/), [T1498](https://attack.mitre.org/techniques/T1498/), [T1020.001](https://attack.mitre.org/techniques/T1020/001/)
 - **Last Updated**: 2020-10-28
 
 <details>
@@ -17218,7 +18291,7 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -17344,7 +18417,9 @@ unknown
 
 #### Reference
 
+
 * https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+
 
 
 #### Test Dataset
@@ -17418,7 +18493,9 @@ unknown
 
 #### Reference
 
+
 * https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
+
 
 
 #### Test Dataset
@@ -17481,11 +18558,13 @@ unknown
 
 #### Reference
 
+
 * https://www.secura.com/blog/zero-logon
 
 * https://github.com/SecuraBV/CVE-2020-1472
 
 * https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
+
 
 
 #### Test Dataset
@@ -17725,7 +18804,7 @@ The following analytic identifies "mshta.exe" execution with inline protocol han
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -17783,11 +18862,13 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### Reference
 
+
 * https://github.com/redcanaryco/AtomicTestHarnesses
 
 * https://redcanary.com/blog/introducing-atomictestharnesses/
 
 * https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+
 
 
 #### Test Dataset
@@ -17805,7 +18886,7 @@ The following analytic identifies renamed instances of mshta.exe executing. Msht
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -17867,9 +18948,11 @@ Although unlikely, some legitimate applications may use a moved copy of mshta.ex
 
 #### Reference
 
+
 * https://github.com/redcanaryco/AtomicTestHarnesses
 
 * https://redcanary.com/blog/introducing-atomictestharnesses/
+
 
 
 #### Test Dataset
@@ -17887,7 +18970,7 @@ This search detects new API calls that have either never been seen before or tha
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2018-04-16
 
 <details>
@@ -17964,7 +19047,7 @@ This search looks for CloudTrail events wherein a console login event by a user 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -18112,7 +19195,7 @@ This search looks for web connections to dynamic DNS providers.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Web
-- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071.001/)
+- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -18184,7 +19267,7 @@ This search is used to detect DNS tunneling, by calculating the sum of the lengt
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2017-09-18
 
 <details>
@@ -18335,7 +19418,7 @@ This search is to identifies modification of registry to disable the regedit or 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18391,7 +19474,9 @@ admin may disable this application for non technical user.
 
 #### Reference
 
+
 * https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
 
 
 #### Test Dataset
@@ -18413,7 +19498,7 @@ The following search is to idetifies a modification in registry to prevent the u
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564.001/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564/001/), [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18470,7 +19555,9 @@ unknown
 
 #### Reference
 
+
 * https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis.aspx
+
 
 
 #### Test Dataset
@@ -18492,7 +19579,7 @@ This search is to identifies a modification in registry to disable the windows d
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18548,7 +19635,9 @@ admin or user may choose to disable this windows features.
 
 #### Reference
 
+
 * https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+
 
 
 #### Test Dataset
@@ -18570,7 +19659,7 @@ The following search identifies a modification of registry to disable the smarts
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18626,7 +19715,9 @@ admin or user may choose to disable this windows features.
 
 #### Reference
 
+
 * https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+
 
 
 #### Test Dataset
@@ -18648,7 +19739,7 @@ this search is to identify modification in registry to disable cmd prompt applic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18704,7 +19795,9 @@ admin may disable this application for non technical user.
 
 #### Reference
 
+
 * https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
 
 
 #### Test Dataset
@@ -18726,7 +19819,7 @@ this search is to identify registry modification to disable control panel window
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18782,7 +19875,9 @@ admin may disable this application for non technical user.
 
 #### Reference
 
+
 * https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
 
 
 #### Test Dataset
@@ -18804,7 +19899,7 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18866,7 +19961,9 @@ admin may disable firewall during testing or fixing network problem.
 
 #### Reference
 
+
 * https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.htm
+
 
 
 #### Test Dataset
@@ -18888,7 +19985,7 @@ This search is to identify registry modification to disable folder options featu
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -18944,7 +20041,9 @@ admin may disable this application for non technical user.
 
 #### Reference
 
+
 * https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+
 
 
 #### Test Dataset
@@ -18966,7 +20065,7 @@ This search is to identify modification of registry to disable run application i
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19022,9 +20121,11 @@ admin may disable this application for non technical user.
 
 #### Reference
 
+
 * https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
 
 * https://blog.malwarebytes.com/detections/pum-optional-norun/
+
 
 
 #### Test Dataset
@@ -19046,7 +20147,7 @@ The search looks for modifications to registry keys that control the enforcement
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
 - **Last Updated**: 2020-11-18
 
 <details>
@@ -19120,7 +20221,7 @@ The following search identifies the modification of registry related in disablin
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19176,7 +20277,9 @@ in some cases admin can disable systemrestore on a machine.
 
 #### Reference
 
+
 * https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+
 
 
 #### Test Dataset
@@ -19198,7 +20301,7 @@ This search is to identifies modification of registry to disable the task manage
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 
 <details>
@@ -19254,9 +20357,11 @@ admin may disable this application for non technical user.
 
 #### Reference
 
+
 * https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
 
 * https://blog.talosintelligence.com/2020/05/threat-roundup-0424-0501.html
+
 
 
 #### Test Dataset
@@ -19278,7 +20383,7 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2020-02-21
 
 <details>
@@ -19336,9 +20441,11 @@ None identified.
 
 #### Reference
 
+
 * https://modexp.wordpress.com/2019/08/30/minidumpwritedump-via-com-services-dll/
 
 * https://twitter.com/SBousseaden/status/1167417096374050817
+
 
 
 #### Test Dataset
@@ -19357,7 +20464,7 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2021-02-01
 
 <details>
@@ -19413,11 +20520,13 @@ None identified.
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1003/001/
 
 * https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
+
 
 
 #### Test Dataset
@@ -19436,7 +20545,7 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2021-02-01
 
 <details>
@@ -19496,11 +20605,13 @@ None identified.
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1003/001/
 
 * https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
+
 
 
 #### Test Dataset
@@ -19518,7 +20629,7 @@ This search looks for EC2 instances being modified by users who have not previou
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -19794,7 +20905,7 @@ This search looks for EC2 instances being created by users who have not created 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -19940,7 +21051,7 @@ The search looks at the change-analysis data model and detects email files creat
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1114.001](https://attack.mitre.org/techniques/T1114.001/)
+- **ATT&CK**: [T1114.001](https://attack.mitre.org/techniques/T1114/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20010,7 +21121,7 @@ This search looks for an increase of data transfers from your email server to yo
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114.002/)
+- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20082,7 +21193,7 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -20140,6 +21251,7 @@ Some false positives may be present and will need to be filtered.
 
 #### Reference
 
+
 * https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md
@@ -20147,6 +21259,7 @@ Some false positives may be present and will need to be filtered.
 * https://attack.mitre.org/techniques/T1548/002
 
 * https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+
 
 
 #### Test Dataset
@@ -20159,12 +21272,172 @@ _version_: 1
 
 ---
 
+### Excel Spawning PowerShell
+The following detection identifies Microsoft Excel spawning PowerShell. Typically, this is not common behavior and not default with Excel.exe. Excel.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). PowerShell spawning from Excel.exe is common for a spearphishing attachment and is actively used. Albeit, the command executed will most likely be encoded and captured via another detection. During triage, review parallel processes and identify any files that may have been written.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-04-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="excel.exe" Processes.process_name IN ("powershell.exe", "pwsh.exe")  by Processes.parent_process Processes.process_name Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)`
+|`security_content_ctime(lastTime)` 
+| `excel_spawning_powershell_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+False positives should be limited, but if any are present, filter as needed.
+
+#### Reference
+
+
+* https://redcanary.com/threat-detection-report/techniques/powershell/
+
+* https://attack.mitre.org/techniques/T1566/001/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Excel Spawning Windows Script Host
+The following detection identifies Microsoft Excel spawning Windows Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior and not default with Excel.exe. Excel.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). `cscript.exe` or `wscript.exe` default location is `c:\windows\system32\` or c:windows\syswow64`. `cscript.exe` or `wscript.exe` spawning from Excel.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line executed will most likely be obfuscated and captured via another detection. During triage, review parallel processes and identify any files that may have been written. Review the reputation of the remote destination and block accordingly.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-04-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="excel.exe" Processes.process_name IN ("cscript.exe", "wscript.exe")  by Processes.parent_process Processes.process_name Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)`
+|`security_content_ctime(lastTime)` 
+| `excel_spawning_windows_script_host_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+False positives should be limited, but if any are present, filter as needed. In some instances, `cscript.exe` is used for legitimate business practices.
+
+#### Reference
+
+
+* https://app.any.run/tasks/8ecfbc29-03d0-421c-a5bf-3905d29192a2/
+
+* https://attack.mitre.org/techniques/T1566/001/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Excessive DNS Failures
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1071.004](https://attack.mitre.org/techniques/T1071/004/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20232,12 +21505,99 @@ _version_: 2
 
 ---
 
+### Excessive Usage of NSLOOKUP App
+this search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/)
+- **Last Updated**: 2021-04-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id values(Processes.parent_process) as parent_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "nslookup.exe" by Processes.dest Processes.user Processes.process_name 
+| where count >= 30 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `excessive_usage_of_nslookup_app_filter`
+```
+#### Associated Analytic Story
+
+* Suspicious DNS Traffic
+
+* Dynamic DNS
+
+* Command and Control
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
+
+* https://www.varonis.com/blog/dns-tunneling/
+
+* https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Execution of File With Spaces Before Extension
 This search looks for processes launched from files with at least five spaces in the name before the extension. This is typically done to obfuscate the file extension by pushing it outside of the default view.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2020-11-19
 
 <details>
@@ -20255,6 +21615,8 @@ This search looks for processes launched from files with at least five spaces in
 #### Associated Analytic Story
 
 * Windows File Extension and Association Abuse
+
+* Masquerading - Rename System Utilities
 
 
 #### How To Implement
@@ -20307,7 +21669,7 @@ This search looks for processes launched from files that have double extensions 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2020-11-18
 
 <details>
@@ -20325,6 +21687,8 @@ This search looks for processes launched from files that have double extensions 
 #### Associated Analytic Story
 
 * Windows File Extension and Association Abuse
+
+* Masquerading - Rename System Utilities
 
 
 #### How To Implement
@@ -20579,7 +21943,7 @@ This search looks for the first and last time a Windows service is seen running 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20650,7 +22014,7 @@ _version_: 4
 ### First time seen command line argument
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/), [T1117](https://attack.mitre.org/techniques/T1117/), [T1202](https://attack.mitre.org/techniques/T1202/)
 - **Last Updated**: 2021-2-1
@@ -20670,7 +22034,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 | select cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
 | first_time_event input_columns=["cmd_line_norm"] 
 | where first_time_cmd_line_norm 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -20730,7 +22094,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/), [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -20824,7 +22188,7 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/), [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
+- **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/), [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -20889,6 +22253,7 @@ Limited to no false positives are expected.
 
 #### Reference
 
+
 * https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.002/T1548.002.md
@@ -20896,6 +22261,7 @@ Limited to no false positives are expected.
 * https://github.com/gushmazuko/WinBypass/blob/master/FodhelperBypass.ps1
 
 * https://attack.mitre.org/techniques/T1548/002
+
 
 
 #### Test Dataset
@@ -20968,11 +22334,13 @@ Accounts with high risk roles should be reduced to the minimum number needed, ho
 
 #### Reference
 
+
 * https://github.com/dxa4481/gcploit
 
 * https://www.youtube.com/watch?v=Ml09R38jpok
 
 * https://cloud.google.com/iam/docs/understanding-roles
+
 
 
 #### Test Dataset
@@ -21047,9 +22415,11 @@ Payload.request.function.timeout value can possibly be match with other function
 
 #### Reference
 
+
 * https://github.com/dxa4481/gcploit
 
 * https://www.youtube.com/watch?v=Ml09R38jpok
+
 
 
 #### Test Dataset
@@ -21120,11 +22490,13 @@ High risk permissions are part of any GCP environment, however it is important t
 
 #### Reference
 
+
 * https://github.com/dxa4481/gcploit
 
 * https://www.youtube.com/watch?v=Ml09R38jpok
 
 * https://cloud.google.com/iam/docs/permissions-reference
+
 
 
 #### Test Dataset
@@ -21171,7 +22543,7 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1525 | Implant Container Image | Persistence |
+| T1525 | Implant Internal Image | Persistence |
 
 
 #### Kill Chain Phase
@@ -21327,12 +22699,98 @@ _version_: 1
 
 ---
 
+### GPUpdate with no Command Line Arguments with Network
+The following analytic identifies gpupdate.exe with no command line arguments and with a network connection. It is unusual for gpupdate.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, triage any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. gpupdate.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| regex process="(gpupdate\.exe.{0,4}$)" 
+| join  process_id [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port
+| `drop_dm_object_name(Ports)` 
+| rename  dest as connection_to_CNC] 
+| table _time dest parent_process_name process_name process_path process process_id connection_to_CNC dest_port 
+| `gpupdate_with_no_command_line_arguments_with_network_filter`
+```
+#### Associated Analytic Story
+
+* Cobalt Strike
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* EventID
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest_port
+
+* process_path
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives may be present in small environments. Tuning may be required based on parent process.
+
+#### Reference
+
+
+* https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile
+
+* https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Hiding Files And Directories With Attrib exe
 Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1222.001](https://attack.mitre.org/techniques/T1222.001/)
+- **ATT&CK**: [T1222.001](https://attack.mitre.org/techniques/T1222/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -21464,9 +22922,11 @@ user may delete bunch of pictures or files in a folder.
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -21484,7 +22944,7 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1110.001](https://attack.mitre.org/techniques/T1110.001/)
+- **ATT&CK**: [T1110.001](https://attack.mitre.org/techniques/T1110/001/)
 - **Last Updated**: 2020-12-16
 
 <details>
@@ -21617,9 +23077,11 @@ admin or user tool that can terminate multiple process.
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -21637,7 +23099,7 @@ This search looks for an increase of data transfers from your email server to yo
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114.002/)
+- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114/002/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -21707,7 +23169,7 @@ This detection search will help profile user accounts in your environment by ide
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078.002/)
+- **ATT&CK**: [T1078.002](https://attack.mitre.org/techniques/T1078/002/)
 - **Last Updated**: 2017-09-12
 
 <details>
@@ -21765,7 +23227,7 @@ _version_: 1
 ### Illegal Access To User Content via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1021](https://attack.mitre.org/techniques/T1021/), [T1113](https://attack.mitre.org/techniques/T1113/), [T1123](https://attack.mitre.org/techniques/T1123/), [T1563](https://attack.mitre.org/techniques/T1563/)
 - **Last Updated**: 2020-11-09
@@ -21781,7 +23243,7 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-HttpStatus/)=true OR match_regex(cmd_line, /(?i)Get-Keystrokes/)=true OR match_regex(cmd_line, /(?i)Get-MicrophoneAudio/)=true OR match_regex(cmd_line, /(?i)Get-NetRDPSession/)=true OR match_regex(cmd_line, /(?i)Get-TimedScreenshot/)=true OR match_regex(cmd_line, /(?i)Get-WebConfig/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -21824,7 +23286,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -21840,7 +23304,7 @@ _version_: 1
 ### Illegal Account Creation via PowerSploit modules
 This detection identifies access to PowerSploit modules that create accounts illegaly.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1585](https://attack.mitre.org/techniques/T1585/)
 - **Last Updated**: 2020-11-09
@@ -21856,7 +23320,7 @@ This detection identifies access to PowerSploit modules that create accounts ill
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)New-DomainUser/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -21896,7 +23360,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -21912,7 +23378,7 @@ _version_: 1
 ### Illegal Deletion of Logs via Mimikatz modules
 This detection identifies access to PowerSploit modules that delete event logs.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1070](https://attack.mitre.org/techniques/T1070/)
 - **Last Updated**: 2020-11-09
@@ -21928,7 +23394,7 @@ This detection identifies access to PowerSploit modules that delete event logs.
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)event::drop/)=true OR match_regex(cmd_line, /(?i)event::clear/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -21968,7 +23434,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -21984,7 +23452,7 @@ _version_: 1
 ### Illegal Enabling or Disabling of Accounts via DSInternals modules
 This detection identifies use of DSInternals modules that enable or disable accounts illegaly.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-09
@@ -22000,7 +23468,7 @@ This detection identifies use of DSInternals modules that enable or disable acco
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Disable-ADDBAccount/)=true OR match_regex(cmd_line, /(?i)Enable-ADDBAccount/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22041,7 +23509,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/MichaelGrafnetter/DSInternals
+
 
 
 #### Test Dataset
@@ -22057,7 +23527,7 @@ _version_: 1
 ### Illegal Management of Active Directory Elements and Policies via DSInternals modules
 This detection identifies use of DSInternals modules for illegal management of Active Directoty elements and policies.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1098](https://attack.mitre.org/techniques/T1098/), [T1207](https://attack.mitre.org/techniques/T1207/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-09
@@ -22073,7 +23543,7 @@ This detection identifies use of DSInternals modules for illegal management of A
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Remove-ADDBObject/)=true OR match_regex(cmd_line, /(?i)Set-ADDBDomainController/)=true OR match_regex(cmd_line, /(?i)Set-ADDBPrimaryGroup/)=true OR match_regex(cmd_line, /(?i)Set-LsaPolicyInformation/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22115,7 +23585,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/MichaelGrafnetter/DSInternals
+
 
 
 #### Test Dataset
@@ -22131,7 +23603,7 @@ _version_: 1
 ### Illegal Management of Computers and Active Directory Elements via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegal management of computers and Active Directory elements.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1098](https://attack.mitre.org/techniques/T1098/), [T1207](https://attack.mitre.org/techniques/T1207/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-09
@@ -22148,7 +23620,7 @@ This detection identifies access to PowerSploit modules that enable illegal mana
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainObject/)=true OR match_regex(cmd_line, /(?i)Set-ADObject/)=true OR match_regex(cmd_line, /(?i)Set-DomainObjectOwner/)=true OR match_regex(cmd_line, /(?i)Set-MasterBootRecord/)=true )
 
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22190,7 +23662,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -22206,7 +23680,7 @@ _version_: 1
 ### Illegal Privilege Elevation and Persistence via PowerSploit modules
 This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable manipulation of registry, task scheduling, persistent WMI, access to OS objects under desired identities.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1548](https://attack.mitre.org/techniques/T1548/)
 - **Last Updated**: 2020-11-09
@@ -22222,7 +23696,7 @@ This detection identifies access to PowerSploit modules that illegaly elevate ge
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Add-DomainObjectAcl/)=true OR match_regex(cmd_line, /(?i)Add-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Enable-Privilege/)=true OR match_regex(cmd_line, /(?i)New-ElevatedPersistenceOption/)=true OR match_regex(cmd_line, /(?i)New-UserPersistenceOption/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22266,7 +23740,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -22282,7 +23758,7 @@ _version_: 1
 ### Illegal Privilege Elevation via Mimikatz modules
 This detection identifies use of Mimikatz modules for illegal privilege elevation.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1134](https://attack.mitre.org/techniques/T1134/), [T1548](https://attack.mitre.org/techniques/T1548/)
 - **Last Updated**: 2020-11-09
@@ -22298,7 +23774,7 @@ This detection identifies use of Mimikatz modules for illegal privilege elevatio
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)privilege::debug/)=true OR match_regex(cmd_line, /(?i)token::elevate/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22339,7 +23815,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -22355,7 +23833,7 @@ _version_: 1
 ### Illegal Service and Process Control via Mimikatz modules
 This detection identifies use of Mimikatz modules for illegal control over services and processes, including the authentication service.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1569](https://attack.mitre.org/techniques/T1569/)
 - **Last Updated**: 2020-11-09
@@ -22371,7 +23849,7 @@ This detection identifies use of Mimikatz modules for illegal control over servi
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)process::start/)=true OR match_regex(cmd_line, /(?i)service::\+/)=true OR match_regex(cmd_line, /(?i)service::\-/)=true OR match_regex(cmd_line, /(?i)service::start/)=true OR match_regex(cmd_line, /(?i)service::stop/)=true OR match_regex(cmd_line, /(?i)service::suspend/)=true OR match_regex(cmd_line, /(?i)misc::memssp/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22413,7 +23891,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -22429,7 +23909,7 @@ _version_: 1
 ### Illegal Service and Process Control via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1569](https://attack.mitre.org/techniques/T1569/)
 - **Last Updated**: 2020-11-09
@@ -22446,7 +23926,7 @@ This detection identifies access to PowerSploit modules that enable illegal cont
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Install-SSP/)=true OR match_regex(cmd_line, /(?i)Set-CriticalProcess/)=true OR match_regex(cmd_line, /(?i)Install-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Restore-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Write-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Set-ServiceBinaryPath/)=true OR match_regex(cmd_line, /(?i)Invoke-ReflectivePEInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-DllInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-ServiceAbuse/)=true OR match_regex(cmd_line, /(?i)Invoke-Shellcode/)=true OR match_regex(cmd_line, /(?i)Invoke-WScriptUACBypass/)=true OR match_regex(cmd_line, /(?i)Invoke-WmiCommand/)=true OR match_regex(cmd_line, /(?i)Write-HijackDll/)=true OR match_regex(cmd_line, /(?i)Add-ServiceDacl/)=true )
 
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22490,7 +23970,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -22508,7 +23990,7 @@ This search detects a potential kerberoasting attack via service principal name 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558.003/)
+- **ATT&CK**: [T1558.003](https://attack.mitre.org/techniques/T1558/003/)
 - **Last Updated**: 2020-10-16
 
 <details>
@@ -22565,9 +24047,11 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
 
 * https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
+
 
 
 #### Test Dataset
@@ -23606,7 +25090,7 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1498.002](https://attack.mitre.org/techniques/T1498.002/)
+- **ATT&CK**: [T1498.002](https://attack.mitre.org/techniques/T1498/002/)
 - **Last Updated**: 2017-09-20
 
 <details>
@@ -23737,7 +25221,7 @@ This search looks for PowerShell processes started with parameters to modify the
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2020-11-20
 
 <details>
@@ -23893,7 +25377,7 @@ This search looks for PowerShell processes started with parameters used to bypas
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -23971,7 +25455,7 @@ This search looks for PowerShell processes started with a base64 encoded command
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-01-19
 
 <details>
@@ -24034,7 +25518,7 @@ This search looks for PowerShell processes launched with arguments that have cha
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-01-19
 
 <details>
@@ -24112,7 +25596,7 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
 - **Last Updated**: 2021-04-07
 
 <details>
@@ -24180,11 +25664,13 @@ Creating a hidden powershell service is rare and could key off of those instance
 
 #### Reference
 
+
 * https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/dosfuscation-report.pdf
 
 * http://az4n6.blogspot.com/2017/
 
 * https://www.danielbohannon.com/blog-1/2017/3/12/powershell-execution-argument-obfuscation-how-it-can-make-detection-easier
+
 
 
 #### Test Dataset
@@ -24325,7 +25811,7 @@ This search looks for registry activity associated with modifications to the reg
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1547.010](https://attack.mitre.org/techniques/T1547.010/)
+- **ATT&CK**: [T1547.010](https://attack.mitre.org/techniques/T1547/010/)
 - **Last Updated**: 2020-11-23
 
 <details>
@@ -24455,7 +25941,7 @@ _version_: 1
 ### More than usual number of LOLBAS applications in short time period
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/), [T1053](https://attack.mitre.org/techniques/T1053/)
 - **Last Updated**: 2020-08-25
@@ -24474,7 +25960,7 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 | rename window_end as timestamp 
 | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000L 
 | where label AND quantile>0.99 
-| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body = "TBD" 
+| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body=create_map(["process_name", process_name]) 
 | into write_null();
 ```
 #### Associated Analytic Story
@@ -24514,10 +26000,100 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 
 #### Reference
 
+
 * https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 
 
+
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Multiple Archive Files Http Post Traffic
+This search is designed to detect high frequency of archive files data exfiltration through HTTP POST method protocol. This are one of the common techniques used by APT or trojan spy after doing the data collection like screenshot, recording, sensitive data to the infected machines. The attacker may execute archiving command to the collected data, save it a temp folder with a hidden attribute then send it to its C2 through HTTP POST. Sometimes adversaries will rename the archive files or encode/encrypt to cover their tracks. This detection can detect a renamed archive files transfer to HTTP POST since it checks the request body header. Unfortunately this detection cannot support archive that was encrypted or encoded before doing the exfiltration.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Network_Traffic
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
+- **Last Updated**: 2021-04-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`stream_http` http_method=POST 
+|eval archive_hdr1=substr(form_data,1,2) 
+| eval archive_hdr2 = substr(form_data,1,4) 
+|stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent uri_path url bytes_in bytes_out archive_hdr1 archive_hdr2 
+|where count >20 AND (archive_hdr1 = "7z" OR archive_hdr1 = "PK" OR archive_hdr2="Rar!") 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `multiple_archive_files_http_post_traffic_filter`
+```
+#### Associated Analytic Story
+
+* Command and Control
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the stream HTTP logs or network logs that catch network traffic. Make sure that the http-request-body, payload, or request field is enabled in stream http configuration.
+
+#### Required field
+
+* _time
+
+* http_method
+
+* http_user_agent
+
+* uri_path
+
+* url
+
+* bytes_in
+
+* bytes_out
+
+* archive_hdr1
+
+* archive_hdr2
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exfiltration
+
+
+#### Known False Positives
+Normal archive transfer via HTTP protocol may trip this detection.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1560/001/
+
+* https://www.fireeye.com/blog/threat-research/2019/01/apt39-iranian-cyber-espionage-group-focused-on-personal-information.html
+
+* https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log
 
 
 _version_: 1
@@ -24530,7 +26106,7 @@ This search detects Okta login failures due to bad credentials for multiple user
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -24665,6 +26241,7 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1482/T1482.md
 
 * https://malware.news/t/lets-learn-trickbot-implements-network-collector-module-leveraging-cmd-wmi-ldap/19104
@@ -24678,6 +26255,7 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 * https://redcanary.com/threat-detection-report/techniques/domain-trust-discovery/
 
 * https://thedfirreport.com/2020/10/08/ryuks-return/
+
 
 
 #### Test Dataset
@@ -24726,7 +26304,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1525 | Implant Container Image | Persistence |
+| T1525 | Implant Internal Image | Persistence |
 
 
 #### Kill Chain Phase
@@ -24751,7 +26329,7 @@ This query detects the Nishang Invoke-PowerShellTCPOneLine utility that spawns a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-03-03
 
 <details>
@@ -24813,6 +26391,7 @@ Limited false positives may be present. Filter as needed based on initial analys
 
 #### Reference
 
+
 * https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcpOneLine.ps1
 
 * https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/
@@ -24820,6 +26399,7 @@ Limited false positives may be present. Filter as needed based on initial analys
 * https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
 
 * https://blog.rapid7.com/2021/03/03/rapid7s-insightidr-enables-detection-and-response-to-microsoft-exchange-0-day/
+
 
 
 #### Test Dataset
@@ -24902,7 +26482,7 @@ This technique uses "Install from Media" (IFM), which will extract a copy of the
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003.003/)
+- **ATT&CK**: [T1003.003](https://attack.mitre.org/techniques/T1003/003/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -24964,6 +26544,7 @@ Highly possible Server Administrators will troubleshoot with ntdsutil.exe, gener
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.003/T1003.003.md#atomic-test-3---dump-active-directory-database-with-ntdsutil
 
 * https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc753343(v=ws.11)
@@ -24971,6 +26552,7 @@ Highly possible Server Administrators will troubleshoot with ntdsutil.exe, gener
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
 
 * https://strontic.github.io/xcyclopedia/library/vss_ps.dll-97B15BDAE9777F454C9A6BA25E938DB3.html
+
 
 
 #### Test Dataset
@@ -24988,7 +26570,7 @@ This search detects the creation of a new Federation setting by alerting about a
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-01-26
 
 <details>
@@ -25049,9 +26631,11 @@ The creation of a new Federation is not necessarily malicious, however this even
 
 #### Reference
 
+
 * https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 
 * https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+
 
 
 #### Test Dataset
@@ -25069,7 +26653,7 @@ This search detects the creation of a new Federation setting by alerting about a
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-01-26
 
 <details>
@@ -25130,6 +26714,7 @@ The creation of a new Federation is not necessarily malicious, however these eve
 
 #### Reference
 
+
 * https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 
 * https://us-cert.cisa.gov/ncas/alerts/aa21-008a
@@ -25137,6 +26722,7 @@ The creation of a new Federation is not necessarily malicious, however these eve
 * https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 
 * https://www.sygnia.co/golden-saml-advisory
+
 
 
 #### Test Dataset
@@ -25154,7 +26740,7 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
+- **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -25224,9 +26810,11 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 
 #### Reference
 
+
 * https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
 
 * https://attack.mitre.org/techniques/T1562/007/
+
 
 
 #### Test Dataset
@@ -25290,7 +26878,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+| T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 
 
 #### Kill Chain Phase
@@ -25303,7 +26891,9 @@ Unless it is a special case, it is uncommon to disable MFA or Strong Authenticat
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1556/
+
 
 
 #### Test Dataset
@@ -25379,7 +26969,9 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1110/
+
 
 
 #### Test Dataset
@@ -25442,7 +27034,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1556 | Modify Authentication Process | Credential Access, Defense Evasion |
+| T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 
 
 #### Kill Chain Phase
@@ -25455,7 +27047,9 @@ Logon errors may not be malicious in nature however it may indicate attempts to 
 
 #### Reference
 
+
 * https://stealthbits.com/blog/bypassing-mfa-with-pass-the-cookie/
+
 
 
 #### Test Dataset
@@ -25473,7 +27067,7 @@ This search detects the addition of a new Federated domain.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136.003/)
+- **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
 - **Last Updated**: 2021-01-26
 
 <details>
@@ -25536,6 +27130,7 @@ The creation of a new Federated domain is not necessarily malicious, however the
 
 #### Reference
 
+
 * https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 
 * https://us-cert.cisa.gov/ncas/alerts/aa21-008a
@@ -25545,6 +27140,7 @@ The creation of a new Federated domain is not necessarily malicious, however the
 * https://www.sygnia.co/golden-saml-advisory
 
 * https://o365blog.com/post/aadbackdoor/
+
 
 
 #### Test Dataset
@@ -25619,7 +27215,9 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1114/
+
 
 
 #### Test Dataset
@@ -25637,7 +27235,7 @@ This search detects when an admin configured a forwarding rule for multiple mail
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114.003/)
+- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114/003/)
 - **Last Updated**: 2020-12-16
 
 <details>
@@ -25706,7 +27304,7 @@ This search detects the assignment of rights to accesss content from another mai
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114.002/)
+- **ATT&CK**: [T1114.002](https://attack.mitre.org/techniques/T1114/002/)
 - **Last Updated**: 2020-12-15
 
 <details>
@@ -25774,7 +27372,7 @@ This search detects when multiple user configured a forwarding rule to the same 
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114.003/)
+- **ATT&CK**: [T1114.003](https://attack.mitre.org/techniques/T1114/003/)
 - **Last Updated**: 2020-12-16
 
 <details>
@@ -25838,12 +27436,739 @@ _version_: 1
 
 ---
 
+### Office Application Spawn rundll32 process
+this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like trickbot that used MS office as its weapon or attack vector to initially infect the machines.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name = "wordpad.exe") Processes.process_name=rundll32.exe  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)`
+|`security_content_ctime(lastTime)` 
+| `office_application_spawn_rundll32_process_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* Processes.process
+
+* Processes.parent_process_name
+
+* _time
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://any.run/malware-trends/trickbot
+
+* https://any.run/report/47561b4e949041eff0a0f4693c59c81726591779fe21183ae9185b5eb6a69847/aba3722a-b373-4dae-8273-8730fb40cdbe
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Document Creating Schedule Task
+this search detects a potential malicious office document that create schedule task entry through macro VBA api or through loading taskschd.dll. This technique was seen in so many malicious macro malware that create persistence , beaconing using task schedule malware entry The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it's possible a scheduled task is being registered within that process context in memory. Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE", "wordpad.exe")  ImageLoaded = "*\\taskschd.dll" 
+| stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode Image process_name ProcessId ProcessGuid 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `office_document_creating_schedule_task_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Also be sure to include those monitored dll to your own sysmon config.
+
+#### Required field
+
+* ImageLoaded
+
+* AllImageLoaded
+
+* Computer
+
+* EventCode
+
+* Image
+
+* process_name
+
+* ProcessId
+
+* ProcessGuid
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
+
+* https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Document Executing Macro Code
+this detection was designed to identifies suspicious office documents that using macro code. Macro code is known to be one of the prevalent weaponization or attack vector of threat actor. This malicious macro code is embed to a office document as an attachment that may execute malicious payload, download malware payload or other malware component. It is really good practice to disable macro by default to avoid automatically execute macro code while opening or closing a office document files.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE", "wordpad.exe")  ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") 
+| stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode Image process_name ProcessId ProcessGuid 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `office_document_executing_macro_code_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Also be sure to include those monitored dll to your own sysmon config.
+
+#### Required field
+
+* ImageLoaded
+
+* AllImageLoaded
+
+* Computer
+
+* EventCode
+
+* Image
+
+* process_name
+
+* ProcessId
+
+* ProcessGuid
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Normal Office Document macro use for automation
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/386500/0/html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Document Spawned Child Process To Download
+this search is to detect potential malicious office document executing lolbin child process to download payload or other malware. Since most of the attacker abused the capability of office document to execute living on land application to blend it to the normal noise in the infected machine to cover its track.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-16
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=1 parent_process_name IN ("powerpnt.exe", "winword.exe", "excel.exe", "visio.exe", "wordpad.exe") process_name = "*.exe" cmdline IN ("*http:*","*https:*")  NOT(OriginalFileName IN("*\\firefox.exe", "*\\chrome.exe","*\\iexplore.exe","*\\msedge.exe")) 
+| stats min(_time) as firstTime max(_time) as lastTime count by parent_process_name process_name parent_process cmdline process_id OriginalFileName ProcessGuid Computer EventCode 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `office_document_spawned_child_process_to_download_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances office application and browser may be used.
+
+#### Required field
+
+* _time
+
+* parent_process_name
+
+* process_name
+
+* parent_process
+
+* cmdline
+
+* process_id
+
+* OriginalFileName
+
+* ProcessGuid
+
+* Computer
+
+* EventCode
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+default browser not in the filter list
+
+#### Reference
+
+
+* https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/#
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets2/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Product Spawning BITSAdmin
+The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `bitsadmin.exe`. In malicious instances, the command-line of `bitsadmin.exe` will contain a URL to a remote destination or similar command-line arguments as transfer, Download, priority, Foreground. In addition, Threat Research has released a detections identifying suspicious use of `bitsadmin.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `bitsadmin.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") Processes.process_name=bitsadmin.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+| `office_product_spawning_bitsadmin_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+No false positives known. Filter as needed.
+
+#### Reference
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1197/T1197.md
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Product Spawning CertUtil
+The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `certutil.exe`. In malicious instances, the command-line of `certutil.exe` will contain a URL to a remote destination. In addition, Threat Research has released a detections identifying suspicious use of `certutil.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `certutil.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") Processes.process_name=certutil.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+| `office_product_spawning_certutil_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+No false positives known. Filter as needed.
+
+#### Reference
+
+
+* https://redcanary.com/threat-detection-report/threats/TA551/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1105/T1105.md
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Product Spawning MSHTA
+The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `mshta.exe`. In malicious instances, the command-line of `mshta.exe` will contain the `hta` file locally, or a URL to the remote destination. In addition, Threat Research has released a detections identifying suspicious use of `mshta.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `mshta.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") Processes.process_name=mshta.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+| `office_product_spawning_mshta_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+No false positives known. Filter as needed.
+
+#### Reference
+
+
+* https://redcanary.com/threat-detection-report/threats/TA551/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Product Spawning Rundll32 with no DLL
+The following detection identifies the latest behavior utilized by IcedID malware family. This detection identifies any Windows Office Product spawning `rundll32.exe` without a `.dll` file extension. In malicious instances, the command-line of `rundll32.exe` will look like `rundll32 ..\oepddl.igk2,DllRegisterServer`. In addition, Threat Research has released a detection identifying the use of `DllRegisterServer` on the command-line of `rundll32.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze the `DLL` that was dropped to disk. The Office Product will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-22
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") Processes.process_name=rundll32.exe (Processes.process!=*.dll*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+| `office_product_spawning_rundll32_with_no_dll_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+False positives should be limited, but if any are present, filter as needed.
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/395471/0/html
+
+* https://app.any.run/tasks/cef4b8ba-023c-4b3b-b2ef-6486a44f6ed9/
+
+* https://any.run/malware-trends/icedid
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_icedid.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Product Spawning Wmic
+The following detection identifies the latest behavior utilized by Ursnif malware family. This detection identifies any Windows Office Product spawning `wmic.exe`. In malicious instances, the command-line of `wmic.exe` will contain `wmic process call create`. In addition, Threat Research has released a detection identifying the use of `wmic process call create` on the command-line of `wmic.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `wmic.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") Processes.process_name=wmic.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+| `office_product_spawning_wmic_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+No false positives known. Filter as needed.
+
+#### Reference
+
+
+* https://app.any.run/tasks/fb894ab8-a966-4b72-920b-935f41756afd/
+
+* https://attack.mitre.org/techniques/T1047/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Okta Account Lockout Events
 Detect Okta user lockout events
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -25907,7 +28232,7 @@ Detect failed Okta SSO events
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -25974,7 +28299,7 @@ This search detects logins from the same user from different cities in a 24 hour
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078.001/)
+- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -26147,7 +28472,7 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1546.008](https://attack.mitre.org/techniques/T1546.008/)
+- **ATT&CK**: [T1546.008](https://attack.mitre.org/techniques/T1546/008/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -26215,7 +28540,7 @@ _version_: 4
 ### Phishing Email Detection by Machine Learning Method - SSA
 Malicious mails can conduct phishing that induces readers to open attachment, click links or trigger third party service. This detect uses Natural Language Processing (NLP) approach to analyze an email message's content (Sender, Subject and Body) and judge whether it is a phishing email. The detection adopts a deep learning (neural network) model that employs character level embeddings plus LSTM layers to perform classification. The model is pre-trained and then published as ONNX format. Current sample model is trained using the dataset published at https://github.com/splunk/attack_data/tree/master/datasets/T1566_Phishing_Email/splunk_train.json User are expected to re-train the model by combining with their own training data for better accuracy using the provided model file (SMLE notebook). DSP pipeline then processes the email message and passes it as an event to Apply ML Models function, which returns the probability of a phishing email. Current implementation assumes the email is fed to DSP in JSON format contains at least email's sender, subject and its message body, including reply content, if any.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1566](https://attack.mitre.org/techniques/T1566/)
 - **Last Updated**: 2020-08-25
@@ -26267,6 +28592,83 @@ Because of imbalance of anomaly data in training, the model will less likely rep
 
 
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Plain HTTP POST Exfiltrated Data
+This search is to detect potential plain HTTP POST method data exfiltration. This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary where arguments or commands are sent in plain text to the remote C2 server using HTTP POST method as part of data exfiltration.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
+- **Last Updated**: 2021-04-22
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*", "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") 
+|stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent uri_path url bytes_in bytes_out 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `plain_http_post_exfiltrated_data_filter`
+```
+#### Associated Analytic Story
+
+* Command and Control
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the stream HTTP logs or network logs that catch network traffic. Make sure that the http-request-body, payload, or request field is enabled.
+
+#### Required field
+
+* _time
+
+* http_method
+
+* http_user_agent
+
+* uri_path
+
+* url
+
+* bytes_in
+
+* bytes_out
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exfiltration
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://blog.talosintelligence.com/2020/03/trickbot-primer.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log
 
 
 _version_: 1
@@ -26335,9 +28737,11 @@ Limited false positives. It is possible administrators will utilize Start-BitsTr
 
 #### Reference
 
+
 * https://isc.sans.edu/diary/Investigating+Microsoft+BITS+Activity/23281
 
 * https://docs.microsoft.com/en-us/windows/win32/bits/using-windows-powershell-to-create-bits-transfer-jobs
+
 
 
 #### Test Dataset
@@ -26353,7 +28757,7 @@ _version_: 1
 ### Probing Access with Stolen Credentials via PowerSploit modules
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-04
@@ -26369,7 +28773,7 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Test-AdminAccess/)=true OR match_regex(cmd_line, /(?i)Invoke-CheckLocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Test-ServiceDaclPermission/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26410,7 +28814,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -26426,7 +28832,7 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1566.002](https://attack.mitre.org/techniques/T1566.002/)
+- **ATT&CK**: [T1566.002](https://attack.mitre.org/techniques/T1566/002/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -26450,7 +28856,7 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 ```
 #### Associated Analytic Story
 
-* Phishing Payloads
+* Spearphishing Attachments
 
 
 #### How To Implement
@@ -26495,9 +28901,11 @@ This detection should yield little or no false positive results. It is uncommon 
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1566/001/
 
 * https://www.trendmicro.com/en_us/research/17/e/rising-trend-attackers-using-lnk-files-download-malware.html
+
 
 
 #### Test Dataset
@@ -26515,7 +28923,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/)
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
 - **Last Updated**: 2021-03-17
 
 <details>
@@ -26580,9 +28988,11 @@ unknown
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -26739,7 +29149,7 @@ This search looks for processes launching netsh.exe to execute various commands 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562.004/)
+- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562/004/)
 - **Last Updated**: 2020-11-23
 
 <details>
@@ -26799,7 +29209,7 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562.004/)
+- **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562/004/)
 - **Last Updated**: 2020-07-10
 
 <details>
@@ -27016,7 +29426,7 @@ This search looks for network traffic on common ports where a higher layer proto
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/)
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -27210,9 +29620,11 @@ unknown
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -27228,7 +29640,7 @@ _version_: 1
 ### Rare Parent-Child Process Relationship
 An attacker may use LOLBAS tools spawned from vulnerable applications not typically used by system administrators. This search leverages the Splunk Streaming ML DSP plugin to find rare parent/child relationships. The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1203](https://attack.mitre.org/techniques/T1203/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1072](https://attack.mitre.org/techniques/T1072/)
 - **Last Updated**: 2020-08-13
@@ -27308,7 +29720,7 @@ _version_: 1
 ### Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover accounts, groups and policies that can be accessed or taken over.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-05
@@ -27324,7 +29736,7 @@ This detection identifies access to PowerSploit modules that discover accounts, 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Invoke-EnumerateLocalAdmin/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Invoke-EventHunter/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserLocation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserHunter/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignGroupMember/)=true OR match_regex(cmd_line, /(?i)Find-ForeignGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignUser/)=true OR match_regex(cmd_line, /(?i)Find-ForeignUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPO/)=true OR match_regex(cmd_line, /(?i)Get-NetGPO/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOComputerLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOComputerAdmin/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGPOGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOUserLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOLocation/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-DomainManagedSecurityGroup/)=true OR match_regex(cmd_line, /(?i)Find-ManagedSecurityGroups/)=true OR match_regex(cmd_line, /(?i)Get-DomainOU/)=true OR match_regex(cmd_line, /(?i)Get-NetOU/)=true OR match_regex(cmd_line, /(?i)Get-DomainUser/)=true OR match_regex(cmd_line, /(?i)Get-NetUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Get-UserEvent/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetLoggedon/)=true OR match_regex(cmd_line, /(?i)Get-RegLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegLastLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-LastLoggedOn/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27366,7 +29778,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -27380,7 +29794,7 @@ _version_: 1
 ### Reconnaissance and Access to Accounts and Groups via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of accounts and groups and access to them.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1484](https://attack.mitre.org/techniques/T1484/)
 - **Last Updated**: 2020-11-05
@@ -27396,7 +29810,7 @@ This detection identifies use of Mimikatz modules for discovery of accounts and 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::user/)=true OR match_regex(cmd_line, /(?i)net::group/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27438,7 +29852,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -27452,7 +29868,7 @@ _version_: 1
 ### Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules
 This detection identifies access to PowerSploit modules for reconnaissance and access to elements of Active Directory infrastructure, such as domain identifiers, AD sites and forests, and trust relations.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1199](https://attack.mitre.org/techniques/T1199/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1590](https://attack.mitre.org/techniques/T1590/), [T1591](https://attack.mitre.org/techniques/T1591/), [T1595](https://attack.mitre.org/techniques/T1595/)
 - **Last Updated**: 2020-11-06
@@ -27468,7 +29884,7 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainSID/)=true OR match_regex(cmd_line, /(?i)Get-DomainSite/)=true OR match_regex(cmd_line, /(?i)Get-NetSite/)=true OR match_regex(cmd_line, /(?i)Get-DomainSubnet/)=true OR match_regex(cmd_line, /(?i)Get-NetSubnet/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrustMapping/)=true OR match_regex(cmd_line, /(?i)Invoke-MapDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-Forest/)=true OR match_regex(cmd_line, /(?i)Get-NetForest/)=true OR match_regex(cmd_line, /(?i)Get-ForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-ForestGlobalCatalog/)=true OR match_regex(cmd_line, /(?i)Get-NetForestCatalog/)=true OR match_regex(cmd_line, /(?i)Get-ForestTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27512,7 +29928,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -27526,7 +29944,7 @@ _version_: 1
 ### Reconnaissance and Access to Computers and Domains via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1592](https://attack.mitre.org/techniques/T1592/), [T1590](https://attack.mitre.org/techniques/T1590/), [T1087](https://attack.mitre.org/techniques/T1087/)
 - **Last Updated**: 2020-11-06
@@ -27542,7 +29960,7 @@ This detection identifies access to PowerSploit modules that discover computers,
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ComputerDetail/)=true OR match_regex(cmd_line, /(?i)Get-Domain/)=true OR match_regex(cmd_line, /(?i)Get-NetDomain/)=true OR match_regex(cmd_line, /(?i)Get-DomainComputer/)=true OR match_regex(cmd_line, /(?i)Get-NetComputer/)=true OR match_regex(cmd_line, /(?i)Get-DomainController/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainController/)=true OR match_regex(cmd_line, /(?i)Get-DomainFileServer/)=true OR match_regex(cmd_line, /(?i)Get-NetFileServer/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27584,7 +30002,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -27598,7 +30018,7 @@ _version_: 1
 ### Reconnaissance and Access to Computers via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2020-11-06
@@ -27614,7 +30034,7 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::ServerInfo/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27654,7 +30074,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -27668,9 +30090,9 @@ _version_: 1
 ### Reconnaissance and Access to Operating System Elements via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover and access operating system elements, such as processes, services, registry locations, security packages and files.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1012](https://attack.mitre.org/techniques/T1012/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1057](https://attack.mitre.org/techniques/T1057/), [T1083](https://attack.mitre.org/techniques/T1083/), [T1518](https://attack.mitre.org/techniques/T1518/), [T1592.002](https://attack.mitre.org/techniques/T1592.002/)
+- **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1012](https://attack.mitre.org/techniques/T1012/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1057](https://attack.mitre.org/techniques/T1057/), [T1083](https://attack.mitre.org/techniques/T1083/), [T1518](https://attack.mitre.org/techniques/T1518/), [T1592.002](https://attack.mitre.org/techniques/T1592/002/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -27684,7 +30106,7 @@ This detection identifies access to PowerSploit modules that discover and access
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainProcess/)=true OR match_regex(cmd_line, /(?i)Invoke-ProcessHunter/)=true OR match_regex(cmd_line, /(?i)Get-ServiceDetail/)=true OR match_regex(cmd_line, /(?i)Get-WMIProcess/)=true OR match_regex(cmd_line, /(?i)Get-NetProcess/)=true OR match_regex(cmd_line, /(?i)Get-SecurityPackage/)=true OR match_regex(cmd_line, /(?i)Find-DomainObjectPropertyOutlier/)=true OR match_regex(cmd_line, /(?i)Get-DomainObject/)=true OR match_regex(cmd_line, /(?i)Get-ADObject/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegMountedDrive/)=true OR match_regex(cmd_line, /(?i)Get-RegistryMountedDrive/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27731,7 +30153,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -27745,7 +30169,7 @@ _version_: 1
 ### Reconnaissance and Access to Processes and Services via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery and access to services and processes.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1057](https://attack.mitre.org/techniques/T1057/)
 - **Last Updated**: 2020-11-06
@@ -27761,7 +30185,7 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)process::list/)=true OR match_regex(cmd_line, /(?i)service::list/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27803,7 +30227,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -27817,9 +30243,9 @@ _version_: 1
 ### Reconnaissance and Access to Shared Resources via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery and access to network shares.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -27833,7 +30259,7 @@ This detection identifies use of Mimikatz modules for discovery and access to ne
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::share/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27875,7 +30301,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -27889,9 +30317,9 @@ _version_: 1
 ### Reconnaissance and Access to Shared Resources via PowerSploit modules
 This detection identifies access to PowerSploit modules that discover and access network and distributed file system shares.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -27905,7 +30333,7 @@ This detection identifies access to PowerSploit modules that discover and access
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainShare/)=true OR match_regex(cmd_line, /(?i)Invoke-ShareFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainShareFile/)=true OR match_regex(cmd_line, /(?i)Invoke-FileFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingFile/)=true OR match_regex(cmd_line, /(?i)Get-DomainDFSShare/)=true OR match_regex(cmd_line, /(?i)Get-DFSshare/)=true OR match_regex(cmd_line, /(?i)Get-NetShare/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27947,7 +30375,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -27961,7 +30391,7 @@ _version_: 1
 ### Reconnaissance of Access and Persistence Opportunities via PowerSploit modules
 This detection identifies use of PowerSploit modules that discover opportunities for malicious access and persistence. Some examples include access to admin accounts, weak access control policies, landing paths for dropping malicious software or data to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities, as well as services and system files that can be compromised.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1547](https://attack.mitre.org/techniques/T1547/), [T1574](https://attack.mitre.org/techniques/T1574/)
 - **Last Updated**: 2020-11-05
@@ -27977,7 +30407,7 @@ This detection identifies use of PowerSploit modules that discover opportunities
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-LocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainAcl/)=true OR match_regex(cmd_line, /(?i)Invoke-ACLScanner/)=true OR match_regex(cmd_line, /(?i)Find-PathDLLHijack/)=true OR match_regex(cmd_line, /(?i)Find-ProcessDLLHijack/)=true OR match_regex(cmd_line, /(?i)Get-DomainObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-DomainPolicy/)=true OR match_regex(cmd_line, /(?i)Get-ModifiablePath/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableRegistryAutoRun/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableScheduledTaskFile/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableService/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableServiceFile/)=true OR match_regex(cmd_line, /(?i)Get-PathAcl/)=true OR match_regex(cmd_line, /(?i)Get-UnattendedInstallFile/)=true OR match_regex(cmd_line, /(?i)Get-UnquotedService/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -28022,7 +30452,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -28036,9 +30468,9 @@ _version_: 1
 ### Reconnaissance of Connectivity via PowerSploit modules
 This detection identifies access to PowerSploit modules for reconnaissance of connectivity.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/), [T1135](https://attack.mitre.org/techniques/T1135/), [T1039](https://attack.mitre.org/techniques/T1039/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -28052,7 +30484,7 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainDNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DomainDNSZone/)=true OR match_regex(cmd_line, /(?i)Get-DNSZone/)=true OR match_regex(cmd_line, /(?i)Invoke-ReverseDnsLookup/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegCachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-CachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegProxy/)=true OR match_regex(cmd_line, /(?i)Get-Proxy/)=true OR match_regex(cmd_line, /(?i)Invoke-Portscan/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -28094,7 +30526,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -28108,9 +30542,9 @@ _version_: 1
 ### Reconnaissance of Credential Stores and Services via Mimikatz modules
 This detection identifies reconnaissance of credential stores and use of CryptoAPI services by Mimikatz modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1589.001](https://attack.mitre.org/techniques/T1589.001/), [T1590.001](https://attack.mitre.org/techniques/T1590.001/), [T1590.003](https://attack.mitre.org/techniques/T1590.003/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
+- **ATT&CK**: [T1589.001](https://attack.mitre.org/techniques/T1589/001/), [T1590.001](https://attack.mitre.org/techniques/T1590/001/), [T1590.003](https://attack.mitre.org/techniques/T1590/003/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
 
 <details>
@@ -28124,7 +30558,7 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)crypto::capi/)=true OR match_regex(cmd_line, /(?i)crypto::cng/)=true OR match_regex(cmd_line, /(?i)crypto::providers/)=true OR match_regex(cmd_line, /(?i)crypto::stores/)=true OR match_regex(cmd_line, /(?i)crypto::sc/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -28169,7 +30603,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -28183,9 +30619,9 @@ _version_: 1
 ### Reconnaissance of Defensive Tools via PowerSploit modules
 This detection identifies use of PowerSploit modules for assessment of presence of defensive tools.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1595.002](https://attack.mitre.org/techniques/T1595.002/), [T1592.002](https://attack.mitre.org/techniques/T1592.002/)
+- **ATT&CK**: [T1595.002](https://attack.mitre.org/techniques/T1595/002/), [T1592.002](https://attack.mitre.org/techniques/T1592/002/)
 - **Last Updated**: 2020-11-05
 
 <details>
@@ -28199,7 +30635,7 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-AVSignature/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -28240,7 +30676,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -28254,7 +30692,7 @@ _version_: 1
 ### Reconnaissance of Privilege Escalation Opportunities via PowerSploit modules
 This detection identifies use of PowerSploit modules for assessment of privilege escalation opportunities.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-05
@@ -28270,7 +30708,7 @@ This detection identifies use of PowerSploit modules for assessment of privilege
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Invoke-PrivescAudit/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -28312,7 +30750,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -28326,7 +30766,7 @@ _version_: 1
 ### Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
 This detection identifies use of Mimikatz modules for discovery of process or service hijacking opportunities via Microsoft Detours compatibility. Microsoft Detours is an open source library for intercepting, monitoring and instrumenting binary functions on Microsoft Windows. Detours intercepts Win32 functions by re-writing the in-memory code for target functions. The Detours package also contains utilities to attach arbitrary DLLs and data segments called payloads to any Win32 binary.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1543](https://attack.mitre.org/techniques/T1543/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1574](https://attack.mitre.org/techniques/T1574/)
 - **Last Updated**: 2020-11-05
@@ -28342,7 +30782,7 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::detours/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -28384,9 +30824,11 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
 
 * https://en.wikipedia.org/wiki/Microsoft_Detours
+
 
 
 #### Test Dataset
@@ -28402,7 +30844,7 @@ The search looks for reg.exe modifying registry keys that define Windows service
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1574.011](https://attack.mitre.org/techniques/T1574.011/)
+- **ATT&CK**: [T1574.011](https://attack.mitre.org/techniques/T1574/011/)
 - **Last Updated**: 2020-11-26
 
 <details>
@@ -28478,7 +30920,7 @@ The search looks for command-line arguments used to hide a file or directory usi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564.001/)
+- **ATT&CK**: [T1564.001](https://attack.mitre.org/techniques/T1564/001/)
 - **Last Updated**: 2019-02-27
 
 <details>
@@ -28543,7 +30985,7 @@ The search looks for modifications to registry keys that can be used to launch a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
+- **ATT&CK**: [T1547.001](https://attack.mitre.org/techniques/T1547/001/)
 - **Last Updated**: 2020-11-27
 
 <details>
@@ -28625,7 +31067,7 @@ This search looks for modifications to registry keys that can be used to elevate
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.012](https://attack.mitre.org/techniques/T1546.012/)
+- **ATT&CK**: [T1546.012](https://attack.mitre.org/techniques/T1546/012/)
 - **Last Updated**: 2020-11-27
 
 <details>
@@ -28683,7 +31125,9 @@ There are many legitimate applications that must execute upon system startup and
 
 #### Reference
 
+
 * https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options/
+
 
 
 #### Test Dataset
@@ -28701,7 +31145,7 @@ This search looks for registry activity associated with application compatibilit
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546.011/)
+- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546/011/)
 - **Last Updated**: 2020-11-26
 
 <details>
@@ -28773,7 +31217,7 @@ This search looks for RDP application network traffic and filters any source/des
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/)
+- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -28846,7 +31290,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/)
+- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021/001/)
 - **Last Updated**: 2020-07-07
 
 <details>
@@ -28924,7 +31368,7 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/)
+- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021/001/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -29244,9 +31688,11 @@ network admin can resize the shadowstorage for valid purposes.
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
 
 
 #### Test Dataset
@@ -29264,7 +31710,7 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2020-11-30
 
 <details>
@@ -29327,6 +31773,98 @@ While not common, loading a DLL under %AppData% and calling a function by ordina
 
 
 _version_: 4
+</details>
+
+---
+
+### Rundll32 with no Command Line Arguments with Network
+The following analytic identifies rundll32.exe with no command line arguments and performing a network connection. It is unusual for rundll32.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, triage any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| regex process="(rundll32\.exe.{0,4}$)" 
+| join  process_id [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port
+| `drop_dm_object_name(Ports)` 
+| rename  dest as connection_to_CNC] 
+| table _time dest parent_process_name process_name process_path process process_id connection_to_CNC dest_port 
+| `rundll32_with_no_command_line_arguments_with_network_filter`
+```
+#### Associated Analytic Story
+
+* Suspicious Rundll32 Activity
+
+* Cobalt Strike
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
+
+#### Required field
+
+* _time
+
+* EventID
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest_port
+
+* process_path
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Although unlikely, some legitimate applications may use a moved copy of rundll32, triggering a false positive.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1218/011/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+
+* https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -29404,7 +31942,7 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -29468,11 +32006,13 @@ Limited to no known false positives.
 
 #### Reference
 
+
 * https://www.bleepingcomputer.com/news/security/ryuk-ransomware-uses-wake-on-lan-to-encrypt-offline-devices/
 
 * https://www.bleepingcomputer.com/news/security/ryuk-ransomware-now-self-spreads-to-other-windows-lan-devices/
 
 * https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-006.pdf
+
 
 
 #### Test Dataset
@@ -29490,7 +32030,7 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -29565,7 +32105,7 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -29791,7 +32331,7 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543.003/)
+- **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543/003/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -29873,7 +32413,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-12-17
 
 <details>
@@ -29949,7 +32489,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -30010,7 +32550,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-07-21
 
 <details>
@@ -30084,7 +32624,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2020-12-07
 
 <details>
@@ -30221,10 +32761,168 @@ _version_: 3
 
 ---
 
+### SearchProtocolHost with no Command Line with Network
+The following analytic identifies searchprotocolhost.exe with no command line arguments and with a network connection. It is unusual for searchprotocolhost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. searchprotocolhost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| regex process="(searchprotocolhost\.exe.{0,4}$)" 
+| join  process_id [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port 
+| `drop_dm_object_name(Ports)` 
+| rename  dest as connection_to_CNC] 
+| table _time dest parent_process_name process_name process_path process process_id connection_to_CNC dest_port 
+| `searchprotocolhost_with_no_command_line_with_network_filter`
+```
+#### Associated Analytic Story
+
+* Cobalt Strike
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `ports` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest_port
+
+* process_path
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives may be present in small environments. Tuning may be required based on parent process.
+
+#### Reference
+
+
+* https://github.com/fireeye/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/SUSPICIOUS%20EXECUTION%20OF%20SEARCHPROTOCOLHOST%20(METHODOLOGY).ioc
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Set Default PowerShell Execution Policy To Unrestricted or Bypass
+Monitor for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
+- **Last Updated**: 2020-11-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell* Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted OR Registry.registry_value_name=Bypass) by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)`
+|`security_content_ctime(lastTime)` 
+| `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Malicious PowerShell
+
+* Credential Dumping
+
+* HAFNIUM Group
+
+
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Registry node. You must also be ingesting logs with the fields registry_path, registry_key_name, and registry_value_name from your endpoints.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1059.001 | PowerShell | Execution |
+
+
+#### Kill Chain Phase
+
+* Installation
+
+* Actions on Objectives
+
+
+#### Known False Positives
+Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
+
+#### Reference
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
+
+
+_version_: 6
+</details>
+
+---
+
 ### Setting Credentials via DSInternals modules
 This detection identifies illegal setting of credentials via DSInternals modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
@@ -30240,7 +32938,7 @@ This detection identifies illegal setting of credentials via DSInternals modules
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Add-ADDBSidHistory/)=true OR match_regex(cmd_line, /(?i)Add-ADReplNgcKey/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPassword/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-ADDBBootKey/)=true OR match_regex(cmd_line, /(?i)Set-SamAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-AzureADUserEx/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -30288,7 +32986,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/MichaelGrafnetter/DSInternals
+
 
 
 #### Test Dataset
@@ -30304,7 +33004,7 @@ _version_: 1
 ### Setting Credentials via Mimikatz modules
 This detection identifies illegal setting of credentials via Mimikatz modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
@@ -30320,7 +33020,7 @@ This detection identifies illegal setting of credentials via Mimikatz modules.
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::addsid/)=true OR match_regex(cmd_line, /(?i)CRYPTO::scauth/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -30362,7 +33062,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
@@ -30378,7 +33080,7 @@ _version_: 1
 ### Setting Credentials via PowerSploit modules
 This detection identifies illegal setting of credentials via PowerSploit modules.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/)
 - **Last Updated**: 2020-11-03
@@ -30394,7 +33096,7 @@ This detection identifies illegal setting of credentials via PowerSploit modules
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainUserPassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -30436,7 +33138,9 @@ None identified.
 
 #### Reference
 
+
 * https://github.com/PowerShellMafia/PowerSploit
+
 
 
 #### Test Dataset
@@ -30449,12 +33153,93 @@ _version_: 1
 
 ---
 
+### Shedule Task with HTTP Command Arguments
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with an arguments "HTTP" string that are unique entry of malware or attack that uses lolbin to download other file or payload to the infected machine.\ The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\ schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`.\ The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\ Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4698 
+| xmlkv Message
+| search Arguments IN ("*http*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden, Arguments 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `shedule_task_with_http_command_arguments_filter`
+```
+#### Associated Analytic Story
+
+* Windows Persistence Techniques
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and filter known instances of Task schedule used in your environment.
+
+#### Required field
+
+* _time
+
+* dest
+
+* Task_Name
+
+* Command
+
+* Author
+
+* Enabled
+
+* Hidden
+
+* Arguments
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Shim Database File Creation
 This search looks for shim database files being written to default directories. The sdbinst.exe application is used to install shim database files (.sdb). According to Microsoft, a shim is a small library that transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546.011/)
+- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546/011/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -30524,7 +33309,7 @@ This search detects the process execution and arguments required to silently cre
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546.011/)
+- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546/011/)
 - **Last Updated**: 2020-11-23
 
 <details>
@@ -30594,7 +33379,7 @@ This search detects accounts that were created and deleted in a short time perio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136.001/)
+- **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136/001/)
 - **Last Updated**: 2020-07-06
 
 <details>
@@ -30667,7 +33452,7 @@ This search looks for process names that consist only of a single letter.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204.002/)
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -30965,7 +33750,9 @@ unknown
 
 #### Reference
 
+
 * https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
+
 
 
 #### Test Dataset
@@ -30981,7 +33768,7 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Web
-- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505.003/)
+- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505/003/)
 - **Last Updated**: 2021-01-06
 
 <details>
@@ -31036,9 +33823,11 @@ There might be false positives associted with this detection since items like ar
 
 #### Reference
 
+
 * https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html
 
 * https://www.guidepointsecurity.com/supernova-solarwinds-net-webshell-analysis/
+
 
 
 #### Test Dataset
@@ -31054,7 +33843,7 @@ This search looks for changes to registry values that control Windows file assoc
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.001](https://attack.mitre.org/techniques/T1546.001/)
+- **ATT&CK**: [T1546.001](https://attack.mitre.org/techniques/T1546/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -31182,9 +33971,11 @@ Unknown. Filter as needed.
 
 #### Reference
 
+
 * https://redcanary.com/blog/clipping-silver-sparrows-wings/
 
 * https://marcosantadev.com/manage-plist-files-plistbuddy/
+
 
 
 #### Test Dataset
@@ -31265,9 +34056,11 @@ Limited false positives may be present in small environments. Tuning may be requ
 
 #### Reference
 
+
 * https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
 
 * https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+
 
 
 #### Test Dataset
@@ -31346,7 +34139,7 @@ This search looks for emails that have attachments with suspicious file extensio
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Email
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -31537,9 +34330,11 @@ Limited false positives may be present in small environments. Tuning may be requ
 
 #### Reference
 
+
 * https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile
 
 * https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
+
 
 
 #### Test Dataset
@@ -31629,7 +34424,7 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127.001/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127/001/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -31649,6 +34444,8 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 * Trusted Developer Utilities Proxy Execution MSBuild
 
 * Cobalt Strike
+
+* Masquerading - Rename System Utilities
 
 
 #### How To Implement
@@ -31694,11 +34491,13 @@ Although unlikely, some legitimate applications may use a moved copy of msbuild,
 
 #### Reference
 
+
 * https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
 
 * https://github.com/infosecn1nja/MaliciousMacroMSBuild/
+
 
 
 #### Test Dataset
@@ -31716,7 +34515,7 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127.001/)
+- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127/001/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -31774,9 +34573,11 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### Reference
 
+
 * https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+
 
 
 #### Test Dataset
@@ -31801,7 +34602,7 @@ Upon triage, capture the property list file being written to disk and review for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543.001/)
+- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543/001/)
 - **Last Updated**: 2021-02-22
 
 <details>
@@ -31861,9 +34662,11 @@ Some legitimate applications may use PlistBuddy to create or modify property lis
 
 #### Reference
 
+
 * https://redcanary.com/blog/clipping-silver-sparrows-wings/
 
 * https://marcosantadev.com/manage-plist-files-plistbuddy/
+
 
 
 #### Test Dataset
@@ -31886,7 +34689,7 @@ Upon triage, capture the property list file being written to disk and review for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543.001/)
+- **ATT&CK**: [T1543.001](https://attack.mitre.org/techniques/T1543/001/)
 - **Last Updated**: 2021-02-22
 
 <details>
@@ -31930,9 +34733,11 @@ Some legitimate applications may use PlistBuddy to create or modify property lis
 
 #### Reference
 
+
 * https://redcanary.com/blog/clipping-silver-sparrows-wings/
 
 * https://marcosantadev.com/manage-plist-files-plistbuddy/
+
 
 
 #### Test Dataset
@@ -32020,7 +34825,9 @@ It's possible for system administrators to write scripts that exhibit this behav
 
 #### Reference
 
+
 * https://car.mitre.org/wiki/CAR-2013-03-001
+
 
 
 #### Test Dataset
@@ -32038,7 +34845,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218.010/)
+- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218/010/)
 - **Last Updated**: 2021-01-28
 
 <details>
@@ -32100,6 +34907,7 @@ Limited false positives with the query restricted to specified paths. Add more w
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/010/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/T1218.010.md
@@ -32109,6 +34917,7 @@ Limited false positives with the query restricted to specified paths. Add more w
 * https://support.microsoft.com/en-us/topic/how-to-use-the-regsvr32-tool-and-troubleshoot-regsvr32-error-messages-a98d960a-7392-e6fe-d90a-3f4e0cb543e5
 
 * https://any.run/report/f29a7d2ecd3585e1e4208e44bcc7156ab5388725f1d29d03e7699da0d4598e7c/0826458b-5367-45cf-b841-c95a33a01718
+
 
 
 #### Test Dataset
@@ -32126,7 +34935,7 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -32144,6 +34953,8 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 #### Associated Analytic Story
 
 * Suspicious Rundll32 Activity
+
+* Masquerading - Rename System Utilities
 
 
 #### How To Implement
@@ -32189,11 +35000,13 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/011/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
 
 * https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+
 
 
 #### Test Dataset
@@ -32211,7 +35024,7 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-04
 
 <details>
@@ -32273,6 +35086,7 @@ Although unlikely, some legitimate applications may use Start as a function and 
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/011/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
@@ -32282,6 +35096,7 @@ Although unlikely, some legitimate applications may use Start as a function and 
 * https://lolbas-project.github.io/lolbas/Binaries/Rundll32
 
 * https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+
 
 
 #### Test Dataset
@@ -32299,7 +35114,7 @@ The following analytic identifies rundll32.exe using dllregisterserver on the co
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-09
 
 <details>
@@ -32359,6 +35174,7 @@ This is likely to produce false positives and will require some filtering. Tune 
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/011/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
@@ -32372,6 +35188,7 @@ This is likely to produce false positives and will require some filtering. Tune 
 * https://www.crowdstrike.com/blog/duck-hunting-with-falcon-complete-qakbot-zip-based-campaign/
 
 * https://msdn.microsoft.com/en-us/library/windows/desktop/ms682162(v=vs.85).aspx
+
 
 
 #### Test Dataset
@@ -32389,7 +35206,7 @@ The following analytic identifies rundll32.exe with no command line arguments. I
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
 - **Last Updated**: 2021-02-09
 
 <details>
@@ -32456,6 +35273,7 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1218/011/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
@@ -32463,6 +35281,7 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 * https://lolbas-project.github.io/lolbas/Binaries/Rundll32
 
 * https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+
 
 
 #### Test Dataset
@@ -32540,9 +35359,11 @@ Unknown.
 
 #### Reference
 
+
 * https://redcanary.com/blog/clipping-silver-sparrows-wings/
 
 * https://marcosantadev.com/manage-plist-files-plistbuddy/
+
 
 
 #### Test Dataset
@@ -32558,7 +35379,7 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053.005/)
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
 - **Last Updated**: 2021-03-01
 
 <details>
@@ -32626,7 +35447,9 @@ Limited false positives may be present. Filter as needed by parent process or co
 
 #### Reference
 
+
 * https://attack.mitre.org/techniques/T1053/005/
+
 
 
 #### Test Dataset
@@ -32709,7 +35532,9 @@ Limited false positives may be present in small environments. Tuning may be requ
 
 #### Reference
 
+
 * https://github.com/fireeye/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/SUSPICIOUS%20EXECUTION%20OF%20SEARCHPROTOCOLHOST%20(METHODOLOGY).ioc
+
 
 
 #### Test Dataset
@@ -32727,7 +35552,7 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1127](https://attack.mitre.org/techniques/T1127/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1127](https://attack.mitre.org/techniques/T1127/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -32747,6 +35572,8 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 * Trusted Developer Utilities Proxy Execution
 
 * Cobalt Strike
+
+* Masquerading - Rename System Utilities
 
 
 #### How To Implement
@@ -32792,9 +35619,11 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 
 #### Reference
 
+
 * https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
+
 
 
 #### Test Dataset
@@ -32868,9 +35697,11 @@ Although unlikely, limited instances have been identified coming from native Mic
 
 #### Reference
 
+
 * https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md#atomic-test-6---microsoftworkflowcompilerexe-payload-execution
+
 
 
 #### Test Dataset
@@ -32888,7 +35719,7 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127.001/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **ATT&CK**: [T1127.001](https://attack.mitre.org/techniques/T1127/001/), [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -32908,6 +35739,8 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 * Trusted Developer Utilities Proxy Execution MSBuild
 
 * Cobalt Strike
+
+* Masquerading - Rename System Utilities
 
 
 #### How To Implement
@@ -32949,9 +35782,11 @@ Some legitimate applications may use a moved copy of msbuild.exe, triggering a f
 
 #### Reference
 
+
 * https://lolbas-project.github.io/lolbas/Binaries/Msbuild/
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1127.001/T1127.001.md
+
 
 
 #### Test Dataset
@@ -32969,7 +35804,7 @@ The following analytic identifies child processes spawning from  "mshta.exe". Th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-12
 
 <details>
@@ -33027,9 +35862,11 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### Reference
 
+
 * https://github.com/redcanaryco/AtomicTestHarnesses
 
 * https://redcanary.com/blog/introducing-atomictestharnesses/
+
 
 
 #### Test Dataset
@@ -33047,7 +35884,7 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218.005/)
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
 - **Last Updated**: 2021-01-20
 
 <details>
@@ -33105,11 +35942,13 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### Reference
 
+
 * https://codewhitesec.blogspot.com/2018/07/lethalhta.html
 
 * https://github.com/redcanaryco/AtomicTestHarnesses
 
 * https://redcanary.com/blog/introducing-atomictestharnesses/
+
 
 
 #### Test Dataset
@@ -33127,7 +35966,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070.001/)
+- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -33397,7 +36236,9 @@ Administrators debugging servers
 
 #### Reference
 
+
 * https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
+
 
 
 #### Test Dataset
@@ -33413,7 +36254,7 @@ _version_: 1
 ### System Process Running from Unexpected Location
 An attacker tries might try to use different version of a system command without overriding original, or they might try to avoid some detection running the process from a different folder. This detection checks that a list of system processes run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1036](https://attack.mitre.org/techniques/T1036/)
 - **Last Updated**: 2020-08-25
@@ -33451,13 +36292,16 @@ $cond_6 =
 | union $cond_4 
 | union $cond_5 
 | union $cond_6 
-| where process_path!="c:\\windows\\system32" AND process_path!="c:\\windows\\syswow64" 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(device, user), body = "TBD" 
+| 
+| where process_path NOT LIKE "%\\windows\\system32%" OR process_path NOT LIKE "%\\windows\\syswow64%" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["process_path", process_path, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
 
 * Windows Defense Evasion Tactics
+
+* Masquerading - Rename System Utilities
 
 
 #### How To Implement
@@ -33497,6 +36341,8 @@ None
 
 #### Test Dataset
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
+
 
 _version_: 1
 </details>
@@ -33504,11 +36350,13 @@ _version_: 1
 ---
 
 ### System Processes Run From Unexpected Locations
-This search looks for system processes that normally run out of C:\Windows\System32\ or C:\Windows\SysWOW64 that are not run from that location.  This can indicate a malicious process that is trying to hide as a legitimate process.
+This search looks for system processes that typically execute from `C:\Windows\System32\` or `C:\Windows\SysWOW64`.  This may indicate a malicious process that is trying to hide as a legitimate process.\
+This detection utilizes a lookup that is deduped `system32` and `syswow64` directories from Server 2016 and Windows 10.\
+During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036/003/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -33517,7 +36365,7 @@ This search looks for system processes that normally run out of C:\Windows\Syste
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*" Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.user Processes.dest Processes.process_name Processes.process_id Processes.process_path Processes.parent_process_name Processes.process_hash
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*" Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_hash 
 | `drop_dm_object_name("Processes")` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
@@ -33532,9 +36380,11 @@ This search looks for system processes that normally run out of C:\Windows\Syste
 
 * Ransomware
 
+* Masquerading - Rename System Utilities
+
 
 #### How To Implement
-To successfully implement this search you need to ingest details about process execution from your hosts. Specifically, this search requires the process name and the full path to the process executable.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 
@@ -33569,9 +36419,15 @@ To successfully implement this search you need to ingest details about process e
 
 
 #### Known False Positives
-None identified
+This detection may require tuning based on third party applications utilizing native Windows binaries in non-standard paths.
 
 #### Reference
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+
+* https://attack.mitre.org/techniques/T1036/003/
+
 
 
 #### Test Dataset
@@ -33579,7 +36435,7 @@ None identified
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
 
 
-_version_: 5
+_version_: 6
 </details>
 
 ---
@@ -33589,7 +36445,7 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
-- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071.001/)
+- **ATT&CK**: [T1071.001](https://attack.mitre.org/techniques/T1071/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -33742,7 +36598,7 @@ This search looks for applications on the endpoint that you have marked as uncom
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204.002/)
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -33865,11 +36721,13 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 
 #### Reference
 
+
 * https://www.volexity.com/blog/2021/03/02/active-exploitation-of-microsoft-exchange-zero-day-vulnerabilities/
 
 * https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-servers/
 
 * https://blog.rapid7.com/2021/03/03/rapid7s-insightidr-enables-detection-and-response-to-microsoft-exchange-0-day/
+
 
 
 #### Test Dataset
@@ -33887,7 +36745,7 @@ Attackers often disable security tools to avoid detection. This search looks for
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2020-07-22
 
 <details>
@@ -33962,7 +36820,7 @@ This search detects loading of unsigned images by LSASS. Deprecated because too 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/)
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003/001/)
 - **Last Updated**: 2019-12-06
 
 <details>
@@ -34008,7 +36866,9 @@ Other tools could load images into LSASS for legitimate reason. But enterprise t
 
 #### Reference
 
+
 * https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+
 
 
 #### Test Dataset
@@ -34075,7 +36935,7 @@ _version_: 1
 ### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
 
-- **Product**: UEBA for Security Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: 
 - **Last Updated**: 2020-10-06
@@ -34097,7 +36957,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 | where label AND quantile>0.99 
 | first_time_event input_columns=["dest_device_id", "cmd_line"] 
 | where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body = "TBD" 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34359,7 +37219,7 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505.003/)
+- **ATT&CK**: [T1505.003](https://attack.mitre.org/techniques/T1505/003/)
 - **Last Updated**: 2021-03-03
 
 <details>
@@ -34415,7 +37275,9 @@ Baseline your environment before production. It is possible build systems using 
 
 #### Reference
 
+
 * https://www.microsoft.com/security/blog/2020/02/04/ghost-in-the-shell-investigating-web-shell-attacks/
+
 
 
 #### Test Dataset
@@ -34491,6 +37353,7 @@ Administrators may modify the boot configuration.
 
 #### Reference
 
+
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
 
 * https://thedfirreport.com/2020/10/08/ryuks-return/
@@ -34498,6 +37361,7 @@ Administrators may modify the boot configuration.
 * https://attack.mitre.org/techniques/T1490/
 
 * https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin
+
 
 
 #### Test Dataset
@@ -34586,7 +37450,7 @@ This search looks for the creation of WMI permanent event subscriptions.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1546.003](https://attack.mitre.org/techniques/T1546.003/)
+- **ATT&CK**: [T1546.003](https://attack.mitre.org/techniques/T1546/003/)
 - **Last Updated**: 2020-12-08
 
 <details>
@@ -34785,9 +37649,11 @@ As is common with many fraud-related searches, we are usually looking to attribu
 
 #### Reference
 
+
 * https://splunkbase.splunk.com/app/2734/
 
 * https://splunkbase.splunk.com/app/1809/
+
 
 
 #### Test Dataset
@@ -34854,6 +37720,7 @@ As is common with many fraud-related searches, we are usually looking to attribu
 
 #### Reference
 
+
 * https://en.wikipedia.org/wiki/Session_ID
 
 * https://en.wikipedia.org/wiki/Session_(computer_science)
@@ -34861,6 +37728,7 @@ As is common with many fraud-related searches, we are usually looking to attribu
 * https://en.wikipedia.org/wiki/HTTP_cookie
 
 * https://splunkbase.splunk.com/app/1809/
+
 
 
 #### Test Dataset
@@ -34920,6 +37788,7 @@ As is common with many fraud-related searches, we are usually looking to attribu
 
 #### Reference
 
+
 * https://en.wikipedia.org/wiki/Session_ID
 
 * https://en.wikipedia.org/wiki/Session_(computer_science)
@@ -34927,6 +37796,7 @@ As is common with many fraud-related searches, we are usually looking to attribu
 * https://en.wikipedia.org/wiki/HTTP_cookie
 
 * https://splunkbase.splunk.com/app/1809/
+
 
 
 #### Test Dataset
@@ -35007,6 +37877,186 @@ _version_: 1
 
 ---
 
+### WinEvent Scheduled Task Created Within Public Path
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed from a user writeable file path.\
+The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\
+schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`.\
+The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\
+Upon triage, identify the task scheduled source. Was it schtasks.exe or was it via TaskService. Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
+- **Last Updated**: 2021-04-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4698 
+| xmlkv Message 
+| search Command IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `winevent_scheduled_task_created_within_public_path_filter`
+```
+#### Associated Analytic Story
+
+* Windows Persistence Techniques
+
+* Ransomware
+
+* Ryuk Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
+
+#### Required field
+
+* _time
+
+* dest
+
+* Task_Name
+
+* Description
+
+* Command
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Privilege Escalation
+
+
+#### Known False Positives
+False positives are possible if legitimate applications are allowed to register tasks in public paths. Filter as needed based on paths that are used legitimately.
+
+#### Reference
+
+
+* https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4698
+
+* https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+
+* https://docs.microsoft.com/en-us/windows/win32/taskschd/time-trigger-example--scripting-?redirectedfrom=MSDN
+
+* https://app.any.run/tasks/e26f1b2e-befa-483b-91d2-e18636e2faf3/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### WinEvent Scheduled Task Created to Spawn Shell
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a native Windows shell (PowerShell, Cmd, Wscript, Cscript).\
+The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\
+schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`.\
+The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\
+Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1053.005](https://attack.mitre.org/techniques/T1053/005/)
+- **Last Updated**: 2021-04-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4698 
+| xmlkv Message 
+| search Command IN ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*", "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `winevent_scheduled_task_created_to_spawn_shell_filter`
+```
+#### Associated Analytic Story
+
+* Windows Persistence Techniques
+
+* Ransomware
+
+* Ryuk Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
+
+#### Required field
+
+* _time
+
+* dest
+
+* Task_Name
+
+* Description
+
+* Command
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Privilege Escalation
+
+
+#### Known False Positives
+False positives are possible if legitimate applications are allowed to register tasks that call a shell to be spawned. Filter as needed based on command-line or processes that are used legitimately.
+
+#### Reference
+
+
+* https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4698
+
+* https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+
+* https://docs.microsoft.com/en-us/windows/win32/taskschd/time-trigger-example--scripting-?redirectedfrom=MSDN
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Windows AdFind Exe
 This search looks for the execution of `adfind.exe` with command-line arguments that it uses by default. Specifically the filter or search functions. It also considers the arguments necessary like objectcategory, see readme for more details: https://www.joeware.net/freetools/tools/adfind/usage.htm. This has been seen used before by Wizard Spider, FIN6 and actors whom also launched SUNBURST. AdFind.exe is usually used a recon tool to enumare a domain controller.
 
@@ -35074,9 +38124,11 @@ administrators rarely use adfind, usually not used for legitimate reasons
 
 #### Reference
 
+
 * https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/
 
 * https://www.fireeye.com/blog/threat-research/2019/01/a-nasty-trick-from-credential-theft-malware-to-business-disruption.html
+
 
 
 #### Test Dataset
@@ -35094,7 +38146,7 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-02
 
 <details>
@@ -35152,7 +38204,9 @@ It is unusual to turn this feature off a Windows system since it is a default se
 
 #### Reference
 
+
 * https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+
 
 
 #### Test Dataset
@@ -35170,7 +38224,7 @@ This search looks for Windows events that indicate one of the Windows event logs
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070.001/)
+- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070/001/)
 - **Last Updated**: 2020-07-06
 
 <details>
@@ -35311,7 +38365,7 @@ The search looks for the Console Window Host process (connhost.exe) executed usi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1059.003](https://attack.mitre.org/techniques/T1059/003/)
 - **Last Updated**: 2020-11-06
 
 <details>
@@ -35414,6 +38468,246 @@ There may be legitimate reasons for system administrators to add entries to this
 
 
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Winword Spawning Cmd
+The following detection identifies Microsoft Word spawning `cmd.exe`. Typically, this is not common behavior and not default with winword.exe. Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). Cmd.exe spawning from winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line will indicate what is being executed. During triage, review parallel processes and identify any files that may have been written. It is possible that COM is utilized to trampoline the child process to `explorer.exe` or `wmiprvse.exe`.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-22
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=winword.exe Processes.process_name=cmd.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `winword_spawning_cmd_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+False positives should be limited, but if any are present, filter as needed.
+
+#### Reference
+
+
+* https://app.any.run/tasks/73af0064-a785-4c0a-ab0d-cde593fe16ef/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Winword Spawning PowerShell
+The following detection identifies Microsoft Word spawning PowerShell. Typically, this is not common behavior and not default with winword.exe. Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). PowerShell spawning from winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command executed will most likely be encoded and captured via another detection. During triage, review parallel processes and identify any files that may have been written.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe" Processes.process_name IN ("powershell.exe", "pwsh.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+| `winword_spawning_powershell_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachments
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+False positives should be limited, but if any are present, filter as needed.
+
+#### Reference
+
+
+* https://redcanary.com/threat-detection-report/techniques/powershell/
+
+* https://attack.mitre.org/techniques/T1566/001/
+
+* https://app.any.run/tasks/b79fa381-f35c-4b3e-8d02-507e7ee7342f/
+
+* https://app.any.run/tasks/181ac90b-0898-4631-8701-b778a30610ad/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Winword Spawning Windows Script Host
+The following detection identifies Microsoft Winword.exe spawning Windows Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior and not default with Winword.exe. Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). `cscript.exe` or `wscript.exe` default location is `c:\windows\system32\` or c:windows\syswow64\`. `cscript.exe` or `wscript.exe` spawning from Winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line executed will most likely be obfuscated and captured via another detection. During triage, review parallel processes and identify any files that may have been written. Review the reputation of the remote destination and block accordingly.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe" Processes.process_name IN ("cscript.exe", "wscript.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `winword_spawning_windows_script_host_filter`
+```
+#### Associated Analytic Story
+
+* Spearphishing Attachment
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process_id
+
+* parent_process_name
+
+* dest
+
+* user
+
+* parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+There will be limited false positives and it will be different for every environment. Tune by child process or command-line as needed.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1566/001/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_wsh.log
 
 
 _version_: 1
@@ -35857,9 +39151,11 @@ GCP Oauth token abuse detection will only work if there are access policies in p
 
 #### Reference
 
+
 * https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-1
 
 * https://www.netskope.com/blog/gcp-oauth-token-hijacking-in-google-cloud-part-2
+
 
 
 #### Test Dataset
