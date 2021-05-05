@@ -11,7 +11,7 @@ description: this search is to detect potential malicious office document execut
   abused the capability of office document to execute living on land application to
   blend it to the normal noise in the infected machine to cover its track.
 search: '`sysmon` EventCode=1 parent_process_name IN ("powerpnt.exe", "winword.exe",
-  "excel.exe", "visio.exe", "wordpad.exe") process_name = "*.exe" cmdline IN ("*http:*","*https:*")  NOT(OriginalFileName
+  "excel.exe", "visio.exe") process_name = "*.exe" cmdline IN ("*http:*","*https:*")  NOT(OriginalFileName
   IN("*\\firefox.exe", "*\\chrome.exe","*\\iexplore.exe","*\\msedge.exe")) | stats
   min(_time) as firstTime max(_time) as lastTime count by parent_process_name process_name
   parent_process cmdline process_id OriginalFileName ProcessGuid Computer EventCode
