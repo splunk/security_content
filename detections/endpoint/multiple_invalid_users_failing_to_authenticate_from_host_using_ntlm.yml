@@ -6,16 +6,16 @@ author: Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies one source endpoint failing to authenticate with multiple invalid users using the NTLM protocol. 
+description: 'The following analytic identifies one source endpoint failing to authenticate with multiple invalid users using the NTLM protocol. 
   This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using NTLM to obtain 
   initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. 
-  In this logic, the number of unique users is hardcoded to '10' but can/should be customized to fit especific environments.
+  In this logic, the number of unique users is hardcoded to 10 but can/should be customized to fit especific environments.
   Event 4776 is generated on the computer that is authoritative for the provided credentials. For domain accounts, the domain controller is authoritative.
-  For local accounts, the local computer is authoritative. Error code 0xC0000064 means 'The username you typed does not exis' (the attempted user is a legitimate domain user).\
+  For local accounts, the local computer is authoritative. Error code 0xC0000064 means: The username you typed does not exist (the attempted user is a legitimate domain user).\
 
   This detection will trigger on the domain controller against which the offending host performs the password spraying attack.
 
-  The analytic's returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
+  The analytics returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.'
 search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC0000064 action=failure 
  | bucket span=2m _time
  | stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by _time, Source_Workstation
