@@ -20,7 +20,7 @@ search: ' `wineventlog_security` EventCode=4625 Logon_Type=3 Source_Network_Addr
  | bucket span=2m _time
  | eval Destination_Account = mvindex(Account_Name, 1) 
  | stats dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts by _time, Source_Network_Address, ComputerName
- | eventstats avg(unique_accounts) as global_avg , stdev(unique_accounts) as global_std
+ | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Network_Address, ComputerName
  | eval upperBound=(comp_avg+comp_std*3)
  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
  | search isOutlier=1  
