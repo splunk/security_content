@@ -6,7 +6,7 @@ atomicwrites==1.4.0
 attackcti==0.3.4.3
 attrs==20.3.0
 azure-common==1.1.25
-azure-core==1.8.2
+azure-core==1.13.0
 azure-identity==1.4.1
 azure-mgmt-compute==17.0.0
 azure-mgmt-core==1.2.1
@@ -44,7 +44,7 @@ path==15.1.2
 path.py==12.5.0
 pexpect==4.8.0
 pluggy==0.13.1
-pre-commit==2.11.1
+pre-commit==2.12.1
 protobuf==3.15.6
 psutil==5.8.0
 ptyprocess==0.7.0
