@@ -7,12 +7,12 @@ CacheControl==0.12.6
 certifi==2020.12.5
 cfgv==3.2.0
 chardet==4.0.0
-colorama==0.4.3
+colorama==0.4.4
 coloredlogs==14.0
 configparser==5.0.2
 contextlib2==0.6.0.post1
 distlib==0.3.1
-distro==1.4.0
+distro==1.5.0
 filelock==3.0.12
 fire==0.3.1
 gitdb==4.0.5
