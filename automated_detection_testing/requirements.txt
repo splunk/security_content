@@ -50,7 +50,7 @@ psutil==5.8.0
 ptyprocess==0.7.0
 py==1.10.0
 pycparser==2.20
-PyGithub==1.54.1
+PyGithub==1.55
 PyInquirer==1.0.3
 PyJWT==2.0.1
 PyNaCl==1.4.0
