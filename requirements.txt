@@ -30,7 +30,7 @@ MarkupSafe==1.1.1
 more-itertools==8.7.0
 msgpack==0.6.2
 nodeenv==1.5.0
-packaging==20.3
+packaging==20.9
 pathlib2==2.3.5
 pendulum==1.2.5
 pep517==0.8.2
