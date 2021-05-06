@@ -19,7 +19,6 @@ description: 'The following analytic identifies one source endpoint failing to a
 search: '`wineventlog_security` EventCode=4768 Account_Name!="*$" Result_Code=0x12 
  | bucket span=2m _time
  | stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by _time, Client_Address
- | eventstats avg(unique_accounts) as global_avg , stdev(unique_accounts) as global_std 
  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Client_Address
  | eval upperBound=(comp_avg+comp_std*3)
  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)

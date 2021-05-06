@@ -19,7 +19,6 @@ description: 'The following analytic identifies one source endpoint failing to a
 search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC000006A action=failure 
  | bucket span=2m _time
  | stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by _time, Source_Workstation
- | eventstats avg(unique_accounts) as global_avg , stdev(unique_accounts) as global_std 
  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Workstation
  | eval upperBound=(comp_avg+comp_std*3)
  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
