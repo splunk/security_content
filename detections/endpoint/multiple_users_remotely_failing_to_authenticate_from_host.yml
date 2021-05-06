@@ -23,8 +23,8 @@ search: ' `wineventlog_security` EventCode=4625 Logon_Type=3 Source_Network_Addr
  | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Network_Address, ComputerName
  | eval upperBound=(comp_avg+comp_std*3)
  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
- | search isOutlier=1  
- | `multiple_users_remotely_failing_to_authenticate_from_host_filter`' 
+ | search isOutlier=1
+ | `multiple_users_remotely_failing_to_authenticate_from_host_filter` ' 
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as 
   as well as member servers and workstations. The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple valid users against a remote host is not a common behavior for legitimate systems. 
