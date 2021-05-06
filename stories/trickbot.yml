@@ -1,0 +1,24 @@
+name: Trickbot
+id: 16f93769-8342-44c0-9b1d-f131937cce8e
+version: 1
+date: '2021-04-20'
+author: Rod Soto, Teoderick Contreras, Splunk
+type: batch
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the trickbot banking trojan, including looking for file writes associated
+  with its payload, process injection, shellcode execution and data collection even in LDAP environment.
+narrative: trickbot banking trojan campaigns targeting banks and other vertical sectors.This malware is known
+  in Microsoft Windows OS where target security Microsoft Defender to prevent its detection and removal. steal 
+  Verizon credentials and targeting banks using its multi component modules that collect and exfiltrate data. 
+references:
+- https://en.wikipedia.org/wiki/Trickbot
+- https://blog.checkpoint.com/2021/03/11/february-2021s-most-wanted-malware-trickbot-takes-over-following-emotet-shutdown/
+tags:
+  analytic_story: Trickbot
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

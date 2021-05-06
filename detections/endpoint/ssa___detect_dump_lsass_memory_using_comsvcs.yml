@@ -14,7 +14,7 @@ search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_eve
   null)), process=lower(ucast(map_get(input_event, "process"), "string", null)) |
   where process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine),
-  body = "TBD" | into write_ssa_detected_events();'
+  body=create_map(["process_name", process_name]) | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including Windows command line logging. You can see how we test this with [Event
   Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a)
@@ -36,7 +36,7 @@ tags:
   nist:
   - DE.CM
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - process_name
   - _tenant

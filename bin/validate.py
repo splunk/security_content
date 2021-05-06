@@ -103,6 +103,9 @@ def validate_fields(object):
         if 'security_domain' not in object['tags']:
             errors.append("ERROR: a `security_domain` tag is required for object: %s" % object['name'])
 
+        if object['type'] == 'streaming' and 'risk_severity' not in object['tags']:
+            errors.append("ERROR: a `risk_severity` tag is required for object: %s" % object['name'])
+
     return errors
 
 
@@ -117,6 +120,9 @@ def validate_standard_fields(object, uuids):
         errors.append('ERROR: Duplicate UUID found for object: %s' % object['name'])
     else:
         uuids.append(object['id'])
+
+    if (object['type']) == 'batch' and len(object['name']) > 75:
+        errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
 
     # if object['name'].endswith(" "):
     #     errors.append(
