@@ -1,5 +1,5 @@
 default_match: 'false'
-description: A list of executable files in Windows\System32
+description: A full baseline of executable files in Windows\System32 and Windows\Syswow64, including sub-directories from Server 2016 and Windows 10.
 filename: is_windows_system_file.csv
 min_matches: 1
 name: is_windows_system_file

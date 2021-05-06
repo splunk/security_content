@@ -6,5 +6,6 @@ tests:
     description: Test reconnaissance and access to accounts groups and policies detections
     attack_data:
       - file_name: logAllPowerSploitModulesWithOldNames.log
-        data: https://ssa-test-dataset.s3-us-west-2.amazonaws.com/logAllPowerSploitModulesWithOldNames.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
+        source: WinEventLog:Security
 

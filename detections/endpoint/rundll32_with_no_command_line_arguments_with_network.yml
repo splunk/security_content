@@ -1,0 +1,58 @@
+name: Rundll32 with no Command Line Arguments with Network
+id: 35307032-a12d-11eb-835f-acde48001122
+version: 1
+date: '2021-04-19'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies rundll32.exe with no command line arguments
+  and performing a network connection. It is unusual for rundll32.exe to execute with
+  no command line arguments present. This particular behavior is common with malicious
+  software, including Cobalt Strike. During investigation, triage any network connections
+  and parallel processes. Identify any suspicious module loads related to credential
+  dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and
+  C:\Windows\syswow64.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=rundll32.exe by _time span=1h  Processes.process_id
+  Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | regex process="(rundll32\.exe.{0,4}$)" | join  process_id [| tstats `security_content_summariesonly`
+  count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id
+  Ports.dest Ports.dest_port| `drop_dm_object_name(Ports)` | rename  dest as connection_to_CNC]
+  | table _time dest parent_process_name process_name process_path process process_id
+  connection_to_CNC dest_port | `rundll32_with_no_command_line_arguments_with_network_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
+known_false_positives: Although unlikely, some legitimate applications may use a moved
+  copy of rundll32, triggering a false positive.
+references:
+- https://attack.mitre.org/techniques/T1218/011/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+- https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+- https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+tags:
+  analytic_story:
+  - Suspicious Rundll32 Activity
+  - Cobalt Strike
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.011
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - process_name
+  - process_id
+  - parent_process_name
+  - dest_port
+  - process_path
+  security_domain: endpoint

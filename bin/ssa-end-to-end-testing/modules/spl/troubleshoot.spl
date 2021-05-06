@@ -1,0 +1,1 @@
+| from read_ssa_enriched_events() | into write_ssa_detected_events();

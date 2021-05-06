@@ -1,0 +1,54 @@
+name: Winword Spawning Windows Script Host
+id: 637e1b5c-9be1-11eb-9c32-acde48001122
+version: 1
+date: '2021-04-12'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following detection identifies Microsoft Winword.exe spawning Windows
+  Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior
+  and not default with Winword.exe. Winword.exe will generally be found in the following
+  path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). `cscript.exe`
+  or `wscript.exe` default location is `c:\windows\system32\` or c:windows\syswow64\`.
+  `cscript.exe` or `wscript.exe` spawning from Winword.exe is common for a spearphishing
+  attachment and is actively used. Albeit, the command-line executed will most likely
+  be obfuscated and captured via another detection. During triage, review parallel
+  processes and identify any files that may have been written. Review the reputation
+  of the remote destination and block accordingly.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe"
+  Processes.process_name IN ("cscript.exe", "wscript.exe") by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `winword_spawning_windows_script_host_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: There will be limited false positives and it will be different
+  for every environment. Tune by child process or command-line as needed.
+references:
+- https://attack.mitre.org/techniques/T1566/001/
+tags:
+  analytic_story:
+  - Spearphishing Attachment
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_wsh.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1566.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name
+  - process_id
+  - parent_process_name
+  - dest
+  - user
+  - parent_process_id
+  security_domain: endpoint

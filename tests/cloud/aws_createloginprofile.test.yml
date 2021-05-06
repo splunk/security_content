@@ -1,0 +1,13 @@
+name: AWS CreateLoginProfile Unit Test
+tests:
+- name: AWS CreateLoginProfile
+  file: cloud/aws_createloginprofile.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-7d'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_cloudtrail_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True
