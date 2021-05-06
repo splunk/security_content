@@ -6,15 +6,16 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Network_Traffic
-description: This search is designed to detect high frequency of archive files data exfiltration
-  through HTTP POST method protocol. This are one of the common techniques used by
-  APT or trojan spy after doing the data collection like screenshot, recording, sensitive
-  data to the infected machines. The attacker may execute archiving command to the
-  collected data, save it a temp folder with a hidden attribute then send it to its
-  C2 through HTTP POST. Sometimes adversaries will rename the archive files or encode/encrypt to
-  cover their tracks. This detection can detect a renamed archive files transfer to HTTP
-  POST since it checks the request body header. Unfortunately this detection cannot
-  support archive that was encrypted or encoded before doing the exfiltration.
+description: This search is designed to detect high frequency of archive files data
+  exfiltration through HTTP POST method protocol. This are one of the common techniques
+  used by APT or trojan spy after doing the data collection like screenshot, recording,
+  sensitive data to the infected machines. The attacker may execute archiving command
+  to the collected data, save it a temp folder with a hidden attribute then send it
+  to its C2 through HTTP POST. Sometimes adversaries will rename the archive files
+  or encode/encrypt to cover their tracks. This detection can detect a renamed archive
+  files transfer to HTTP POST since it checks the request body header. Unfortunately
+  this detection cannot support archive that was encrypted or encoded before doing
+  the exfiltration.
 search: '`stream_http` http_method=POST |eval archive_hdr1=substr(form_data,1,2) |
   eval archive_hdr2 = substr(form_data,1,4) |stats values(form_data) as http_request_body
   min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent
@@ -33,6 +34,9 @@ references:
 tags:
   analytic_story:
   - Command and Control
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log
   kill_chain_phases:
   - Exfiltration
   mitre_attack_id:
@@ -52,6 +56,3 @@ tags:
   - archive_hdr1
   - archive_hdr2
   security_domain: network
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log
