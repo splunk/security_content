@@ -6,32 +6,37 @@ author: Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: 'The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the Kerberos protocol. 
-  This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain 
-  initial access or elevate privileges.\ 
-  In this logic, the number of unique users is hardcoded to `10` but can/should be customized to fit especific environments.
-  Event 4771 is generated when the Key Distribution Center fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 0x18 means 
+description: 'The following analytic identifies one source endpoint failing to authenticate
+  with multiple valid users using the Kerberos protocol. This behavior could represent
+  an adversary performing a Password Spraying attack against an Active Directory environment
+  using Kerberos to obtain initial access or elevate privileges.\ In this logic, the
+  number of unique users is hardcoded to `10` but can/should be customized to fit
+  especific environments. Event 4771 is generated when the Key Distribution Center
+  fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 0x18 means
   `wrong passowrd provided` (the attempted user is a legitimate domain user).\
 
-  This detection will trigger on the domain controller against which the offending host performs the password spraying attack.\
+  This detection will trigger on the domain controller against which the offending
+  host performs the password spraying attack.\
 
-  The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.'
+  The analytics returned fields allow analysts to investigate the event further by
+  providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4771 Failure_Code=0x18 Account_Name!="*$"
- | bucket span=2m _time
- | stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by _time, Client_Address
- | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Client_Address
- | eval upperBound=(comp_avg+comp_std*3)
- | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
- | search isOutlier=1 
- | `multiple_users_failing_to_authenticate_from_host_using_kerberos_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting 
+  | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
+  as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
+  comp_avg , stdev(unique_accounts) as comp_std by Client_Address | eval upperBound=(comp_avg+comp_std*3)
+  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
+  | search isOutlier=1 | `multiple_users_failing_to_authenticate_from_host_using_kerberos_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios 
-  include but are not limited to vulnerability scanners, missconfigured systems and multi-user systems like Citrix farms.
+known_false_positives: A host failing to authenticate with multiple valid domain users
+  is not a common behavior for legitimate systems. Possible false positive scenarios
+  include but are not limited to vulnerability scanners, missconfigured systems and
+  multi-user systems like Citrix farms.
 references:
-  - https://attack.mitre.org/techniques/T1110/003/ 
-  - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319109(v=ws.11)
-  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319109(v=ws.11)
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771
 tags:
   analytic_story:
   - Active Directory Password Spraying
@@ -50,3 +55,6 @@ tags:
   - Account_Name
   - Client_Address
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log
