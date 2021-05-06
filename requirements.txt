@@ -30,14 +30,14 @@ MarkupSafe==1.1.1
 more-itertools==8.7.0
 msgpack==0.6.2
 nodeenv==1.5.0
-packaging==20.3
+packaging==20.9
 pathlib2==2.3.5
 pendulum==1.2.5
 pep517==0.8.2
 Pillow==8.1.2
 pre-commit==2.11.1
 progress==1.5
-prompt-toolkit==1.0.14
+prompt-toolkit==3.0.18
 pyattck==3.0.1
 pyfiglet==0.8.post1
 Pygments==2.8.1
