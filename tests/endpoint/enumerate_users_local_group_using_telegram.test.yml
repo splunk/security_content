@@ -1,7 +1,7 @@
 name: Enumerate Users Local Group Using Telegram Unit Test
 tests:
 - name: Enumerate Users Local Group Using Telegram
-  file: detections/endpoint/enumerate_users_local_group_using_telegram.yml
+  file: endpoint/enumerate_users_local_group_using_telegram.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
