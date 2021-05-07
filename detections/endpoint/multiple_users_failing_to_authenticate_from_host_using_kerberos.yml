@@ -20,9 +20,7 @@ description: 'The following analytic identifies one source endpoint failing to a
 
   This detection will only trigger on domain controllers, not on member servers or workstations.\
 
-
-  The analytics returned fields allow analysts to investigate the event further by
-  providing fields like source ip and attempted user accounts.'
+  The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4771 Failure_Code=0x18 Account_Name!="*$"
   | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
   as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
