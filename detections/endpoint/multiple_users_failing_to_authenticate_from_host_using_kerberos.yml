@@ -9,16 +9,19 @@ datamodel:
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with multiple valid users using the Kerberos protocol. This behavior could represent
   an adversary performing a Password Spraying attack against an Active Directory environment
-  using Kerberos to obtain initial access or elevate privileges.\ In this logic, the
-  number of unique users is hardcoded to `10` but can/should be customized to fit
-  especific environments. Event 4771 is generated when the Key Distribution Center
-  fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 0x18 means
-  `wrong passowrd provided` (the attempted user is a legitimate domain user).\
+  using Kerberos to obtain initial access or elevate privileges. Event 4771 is generated when 
+  the Key Distribution Center fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 
+  0x18 stands for `wrong passowrd provided` (the attempted user is a legitimate domain user).\
 
-  This detection will trigger on the domain controller against which the offending
-  host performs the password spraying attack.\
+  The detection calculates the standard deviation for each host and leverages 
+  the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, 
+  users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
+  This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
-  The analytics returned fields allow analysts to investigate the event further by
+  This detection will only trigger on domain controllers, not on member servers or workstations.\
+
+
+  The analytic''s returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4771 Failure_Code=0x18 Account_Name!="*$"
   | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)

@@ -11,16 +11,18 @@ description: 'The following analytic identifies one source endpoint failing to a
   represent an adversary performing a Password Spraying attack against an Active Directory
   environment using Kerberos to obtain initial access or elevate privileges. As attackers
   progress in a breach, mistakes will be made. In certain scenarios, adversaries may
-  execute a password spraying attack using an invalid list of users. In this logic,
-  the number of unique users is hardcoded to 10 but can/should be customized to fit
-  especific environments. Event 4768 is generated every time the Key Distribution
-  Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code 0x6 means client
-  not found in Kerberos database (the attempted user is not a valid domain user).\
+  execute a password spraying attack using an invalid list of users. Event 4768 is generated
+  every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT).
+  Failure code 0x6 stands for `client not found in Kerberos database` (the attempted user is not a valid domain user).\
 
-  This detection will trigger on the domain controller against which the offending
-  host performs the password spraying attack.\
+  The detection calculates the standard deviation for each host and leverages 
+  the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, 
+  users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
+  This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
-  The analytics returned fields allow analysts to investigate the event further by
+  This detection will only trigger on domain controllers, not on member servers or workstations.\
+
+  The analytic''s returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$"
   | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
@@ -30,10 +32,10 @@ search: '`wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$
   | search isOutlier=1 | `multiple_invalid_users_failing_to_authenticate_from_host_using_kerberos_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
-  'Audit Kerberos Authentication Service' within 'Account Logon' needs to be enabled.
+  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple invalid domain
   users is not a common behavior for legitimate systems. Possible false positive scenarios
-  include but are not limited to vulnerability scanners and missconfigured systems.
+  include but are not limited to vulnerability scanners, multi-user systems and missconfigured systems.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 tags:

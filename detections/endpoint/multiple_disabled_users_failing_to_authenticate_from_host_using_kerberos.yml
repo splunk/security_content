@@ -10,17 +10,19 @@ description: 'The following analytic identifies one source endpoint failing to a
   with multiple disabled domain users using the Kerberos protocol. This behavior could
   represent an adversary performing a Password Spraying attack against an Active Directory
   environment using Kerberos to obtain initial access or elevate privileges. As attackers
-  progress in a breach, mistakes will be made. I certain scenarios, adversaries may
-  execute a password spraying attack against disabled users. In this logic, the number
-  of unique users is hardcoded to 10 but can or should be customized to fit especific
-  environments. Event 4768 is generated every time the Key Distribution Center issues
-  a Kerberos Ticket Granting Ticket (TGT). Failure code 0x12 means `clients credentials
-  have been revoked` (account disabled, expired or locked out).\
+  progress in a breach, mistakes will be made. In certain scenarios, adversaries may
+  execute a password spraying attack against disabled users. Event 4768 is generated every time
+  the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code `0x12` stands for
+  `clients credentials have been revoked` (account disabled, expired or locked out).\
 
-  This detection will trigger on the domain controller against which the offending
-  host performs the password spraying attack.\
+  The detection calculates the standard deviation for each host and leverages 
+  the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, 
+  users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
+  This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
-  The analytics returned fields allow analysts to investigate the event further by
+  This detection will only trigger on domain controllers, not on member servers or workstations.\
+
+  The analytic''s returned fields allow analysts to investigate the event further by
   providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4768 Account_Name!="*$" Result_Code=0x12
   | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
@@ -33,7 +35,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple disabled domain
   users is not a common behavior for legitimate systems. Possible false positive scenarios
-  include but are not limited to vulnerability scanners and missconfigured systems.
+  include but are not limited to vulnerability scanners, multi-user systems and missconfigured systems.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 tags:

@@ -9,17 +9,20 @@ datamodel:
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with multiple valid users using the NTLM protocol. This behavior could represent
   an adversary performing a Password Spraying attack against an Active Directory environment
-  using NTLM to obtain initial access or elevate privileges. In this logic, the number
-  of unique users is hardcoded to 10 but can/should be customized to fit especific
-  environments. Event 4776 is generated on the computer that is authoritative for
+  using NTLM to obtain initial access or elevate privileges. Event 4776 is generated on the 
+  computer that is authoritative for 
   the provided credentials. For domain accounts, the domain controller is authoritative.
   For local accounts, the local computer is authoritative. Error code 0xC000006A means:
   misspelled or bad password (the attempted user is a legitimate domain user).\
 
-  This detection will trigger on the domain controller against which the offending
-  host performs the password spraying attack.\
+  The detection calculates the standard deviation for each host and leverages 
+  the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, 
+  users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
+  This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
-  The analytics returned fields allow analysts to investigate the event further by
+  This detection will only trigger on domain controllers, not on member servers or workstations.\
+
+  The analytic''s returned fields allow analysts to investigate the event further by
   providing fields like source workstation name and attempted user accounts.'
 search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC000006A action=failure
   | bucket span=2m _time | stats dc(Logon_Account) AS unique_accounts values(Logon_Account)
@@ -28,8 +31,8 @@ search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC000006A a
   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
   | search isOutlier=1 | `multiple_users_failing_to_authenticate_from_host_using_ntlm_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  Domain Controller events. The Advanced Security Audit policy setting 'Audit Credential
-  Validation' within 'Account Logon' needs to be enabled.
+  Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
+  Validation` within `Account Logon` needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple valid domain users
   is not a common behavior for legitimate systems. Possible false positive scenarios
   include but are not limited to vulnerability scanners and missconfigured systems.

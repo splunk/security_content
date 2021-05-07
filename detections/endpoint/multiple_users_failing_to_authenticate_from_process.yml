@@ -9,16 +9,19 @@ datamodel:
 description: 'The following analytic identifies a source process name failing to authenticate
   with multiple users. This behavior could represent an adversary performing a Password
   Spraying attack against an Active Directory environment to obtain initial access
-  or elevate privileges. In this logic, the number of unique users is hardcoded to
-  ''10'' but can/should be customized to fit especific environments. Event 4625 documents
-  each and every failed attempt to logon to the local computer. This event generates
-  on domain controllers, member servers, and workstations. Logon Type 2 describes
+  or elevate privileges. Event 4625 generates
+  on domain controllers, member servers, and workstations when an account fails to logon. Logon Type 2 describes
   an iteractive logon attempt.\
+
+  The detection calculates the standard deviation for each host and leverages 
+  the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, 
+  users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
+  This logic can be used for real time security monitoring as well as threat hunting exercises.\
 
   This detection will trigger on the potenfially malicious host, perhaps controlled
   via a trojan or operated by an insider threat, from where a password spraying attack
   is being executed. This could be a domain controller as well as a member server
-  orworkstation.\
+  or workstation.\
 
   The analytic''s returned fields allow analysts to investigate the event further
   by providing fields like source process name, source account and attempted user
@@ -33,7 +36,7 @@ search: ' `wineventlog_security` EventCode=4625 Logon_Type=2 Caller_Process_Name
   | search isOutlier=1 | `multiple_users_failing_to_authenticate_from_process_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Event Logs from domain controllers aas well as member servers and workstations.
-  The Advanced Security Audit policy setting 'Audit Logon' within 'Logon/Logoff' needs
+  The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
   to be enabled.
 known_false_positives: A process failing to authenticate with multiple users is not
   a common behavior for legitimate user sessions. Possible false positive scenarios
