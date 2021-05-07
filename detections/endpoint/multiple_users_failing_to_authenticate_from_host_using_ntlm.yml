@@ -22,7 +22,7 @@ description: 'The following analytic identifies one source endpoint failing to a
 
   This detection will only trigger on domain controllers, not on member servers or workstations.\
 
-  The analytic''s returned fields allow analysts to investigate the event further by
+  The analytics returned fields allow analysts to investigate the event further by
   providing fields like source workstation name and attempted user accounts.'
 search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC000006A action=failure
   | bucket span=2m _time | stats dc(Logon_Account) AS unique_accounts values(Logon_Account)
