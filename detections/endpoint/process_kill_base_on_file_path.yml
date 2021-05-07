@@ -6,12 +6,11 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to look for execessive series of process kill attempt using wmic.exe.
+description: This search is to look for process kill attempt using wmic.exe base on file path.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id 
   count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes
   where   Processes.process_name = "wmic.exe" AND Processes.process="*process*" AND Processes.process="*executablepath*" AND Processes.process="*delete*"
-  by  Processes.parent_process_name Processes.process_name Processes.dest Processes.user _time span=1m
-  | where count >=10
+  by  Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
@@ -26,8 +25,6 @@ references:
 tags:
   analytic_story:
   - xmrig
-  dataset:
-  - UPDATE_DATASET_URL
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
