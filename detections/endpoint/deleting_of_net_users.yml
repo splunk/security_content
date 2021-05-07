@@ -31,7 +31,7 @@ tags:
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
-  - T1136.001
+  - T1531
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

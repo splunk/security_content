@@ -11,7 +11,7 @@ description: This search is to detect a suspicious excessive usage of taskkill.e
   other process that may cause their action notice by the analyst or users.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime 
   from datamodel=Endpoint.Processes where Processes.process_name = "taskkill.exe"  by Processes.parent_process_name Processes.process_name Processes.dest Processes.user _time span=1m
-  | where count >=20
+  | where count >=10
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `excessive_usage_of_taskkill_filter`'
