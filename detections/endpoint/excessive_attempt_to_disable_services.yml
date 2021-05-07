@@ -1,0 +1,46 @@
+name: Excessive Attempt To Disable Services
+id: 8fa2a0f0-acd9-11eb-8994-acde48001122
+version: 1
+date: '2021-05-04'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is to detect suspicious series of commandline to disable several services.
+  This technique is seen in some adversaries and attacker to disable security app services or other malware services to own the vulnerable machine.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id 
+  count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes
+  where   Processes.process_name = "sc.exe" AND Processes.process="*config*" OR Processes.process="*Disabled*"
+  by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m
+  | where count >=10
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `excessive_attempt_to_disable_services_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+known_false_positives: unknown
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - xmrig
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1489
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
+  security_domain: endpoint
