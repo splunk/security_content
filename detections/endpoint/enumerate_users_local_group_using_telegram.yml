@@ -1,0 +1,45 @@
+name: Enumerate Users Local Group Using Telegram
+id: fcd74532-ae54-11eb-a5ab-acde48001122
+version: 1
+date: '2021-05-06'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is to detect a suspicious telegram process that enumerate all network user in a local group.
+  This technique was seen in monero infected honeypot to mapped all the users in the compromised machine
+search: '`wineventlog_security` EventCode=4798  Process_Name = "*\\telegram.exe" 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by ComputerName EventCode Process_Name  Process_ID Account_Name Account_Domain Logon_ID Security_ID Message
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `enumerate_users_local_group_using_telegram_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the task schedule (Exa. Security Log EventCode 4798)
+  endpoints. Tune and filter known instances of process like logonUI used in your environment.
+known_false_positives: unknown
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - xmrig
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1087
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ComputerName
+  - EventCode
+  - Process_Name
+  - Process_ID
+  - Account_Name
+  - Account_Domain
+  - Logon_ID
+  - Security_ID
+  - Message
+  security_domain: endpoint

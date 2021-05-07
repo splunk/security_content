@@ -1,0 +1,46 @@
+name: Excessive Usage Of Cacls App
+id: 0bdf6092-af17-11eb-939a-acde48001122
+version: 1
+date: '2021-05-07'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect excessive usage of cacls,xcacls or icacls application to change file or folder permission.
+  This behavior is commonly seen in some adversaries attacker to impair some users from deleting or accessing 
+  its malware components or artifact from the compromised machine.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id  values(Processes.process_name) as process_name
+  count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes
+  where Processes.process_name = "cacls.exe" OR Processes.process_name = "icacls.exe" OR Processes.process_name = "XCACLS.exe" 
+  by Processes.parent_process_name Processes.parent_process Processes.dest Processes.user _time span=1m
+  | where count >=10
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `excessive_usage_of_cacls_app_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: network operator may use this application.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - xmrig
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1222
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
+  security_domain: endpoint
