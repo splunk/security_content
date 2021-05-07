@@ -17,6 +17,6 @@ import_folders:
     detections:
       - detections/*/*.yml
       - detections/*/*/*.yml
-  # TEST:
-  #   detections:
-  #     - ../TEST/detections/*.yml
+  # TEST: # Object Prefix
+  #   detections: # Object Type
+  #     - ../TEST/detections/*.yml # Path to import from
