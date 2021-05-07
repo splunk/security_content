@@ -40,7 +40,7 @@ progress==1.5
 prompt-toolkit==1.0.14
 pyattck==3.0.1
 pyfiglet==0.8.post1
-Pygments==2.8.1
+Pygments==2.9.0
 PyInquirer==1.0.3
 pyparsing==2.4.7
 pyrsistent==0.17.3
