@@ -17,6 +17,6 @@ import_folders:
     detections:
       - detections/*/*.yml
       - detections/*/*/*.yml
-  NBIM:
-    detections:
-      - NBIM/detections/*.yml
+  # TEST:
+  #   detections:
+  #     - ../TEST/detections/*.yml
