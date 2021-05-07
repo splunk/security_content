@@ -436,7 +436,9 @@ def prepare_stories(stories, detections, response_tasks, baselines):
     for story in stories:
         story['author_name'], story['author_company'] = parse_author_company(story)
         story['lowercase_name'] = story['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
-        story['detections'] = sorted(sto_to_det[story['name']])
+        story['detections'] = []
+        if story['name'] in sto_to_det:
+            story['detections'] = sorted(sto_to_det[story['name']])
         story['searches'] = story['detections']
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
@@ -535,8 +537,8 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
 
     return objects
 
-def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
-    objects = import_objects(VERBOSE, REPO_PATH)
+def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE, CONFIG):
+    objects = import_objects(VERBOSE, REPO_PATH, CONFIG)
     objects = compute_objects(objects, PRODUCT, OUTPUT_PATH)
     return objects
 
