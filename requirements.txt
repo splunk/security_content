@@ -20,7 +20,7 @@ html5lib==1.1
 humanfriendly==9.1
 identify==2.2.4
 idna==2.10
-importlib-metadata==3.7.3
+importlib-metadata==4.0.1
 importlib-resources==5.1.2
 ipaddr==2.2.0
 Jinja2==2.11.3
