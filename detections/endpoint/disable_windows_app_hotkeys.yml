@@ -6,18 +6,18 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious registry mdification to disable windows hotkey (shortcut keys) for windows application.
-  We've seen this techniques used to disable certain or several windows application like taskmgr, cmd.exe and etc. to impaire the user
-  or analyst in analyzing and removing the attacker implant in the vulnerable machine.
+description: This search is to detect a suspicious registry mdification to disable
+  windows hotkey (shortcut keys) for windows application. We've seen this techniques
+  used to disable certain or several windows application like taskmgr, cmd.exe and
+  etc. to impaire the user or analyst in analyzing and removing the attacker implant
+  in the vulnerable machine.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows NT\\CurrentVersion\\Image File Execution Options\\*"
-  AND Registry.registry_value_name = "HotKey Disabled" AND Registry.registry_key_name = "Debugger" 
-  by Registry.dest Registry.user Registry.registry_value_name
-  | `security_content_ctime(lastTime)` 
-  | `security_content_ctime(firstTime)`
-  | `drop_dm_object_name(Registry)` 
-  | `disable_windows_app_hotkeys_filter`'
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows
+  NT\\CurrentVersion\\Image File Execution Options\\*" AND Registry.registry_value_name
+  = "HotKey Disabled" AND Registry.registry_key_name = "Debugger" by Registry.dest
+  Registry.user Registry.registry_value_name | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `disable_windows_app_hotkeys_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -45,3 +45,6 @@ tags:
   - Registry.registry_value_name
   - Registry.dest Registry.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
