@@ -6,20 +6,21 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect a suspicious download by a telegram application to windows machine.
-  We saw this technique made some attacker in honeypot where it tries to download different scanner (port, bruteforcer, masscan)
-  to the vulnerable machine to mapped the whole network and compromise it also.
+description: this search is to detect a suspicious download by a telegram application
+  to windows machine. We saw this technique made some attacker in honeypot where it
+  tries to download different scanner (port, bruteforcer, masscan) to the vulnerable
+  machine to mapped the whole network and compromise it also.
 search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
-|stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode Image process_id TargetFilename Hash
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`
-| `download_files_using_telegram_filter`'
+  |stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode
+  Image process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `download_files_using_telegram_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and TargetFilename from your endpoints or Events that monitor filestream
-  events which is happened when process download something. (EventCode 15)
-  If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: normal download of file in telegram app. (if it was a common app in network)
+  logs with the process name and TargetFilename from your endpoints or Events that
+  monitor filestream events which is happened when process download something. (EventCode
+  15) If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon
+  TA.
+known_false_positives: normal download of file in telegram app. (if it was a common
+  app in network)
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
@@ -42,3 +43,6 @@ tags:
   - TargetFilename
   - Hash
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
