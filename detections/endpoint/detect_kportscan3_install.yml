@@ -1,0 +1,38 @@
+name: Detect KportScan3 Install
+id: 31829b20-b7cc-4668-9651-c88ac7d20b3a
+version: 1
+date: '2021-05-08'
+author: Rod Soto, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This query detects the install and use of KportScan3, a port scanning tool found in botnets for further expansion and and acquisition of targets.
+search: `sysmon` EventCode=3 | stats values(Image) as Image values(ProcessId) as ProcessId by Computer, User, process_exec | search Image=*KportScan* | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+| `detect_kportscan3_install_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+known_false_positives: This tool may be used for legit purposes.
+references:
+- https://blog.trendmicro.com/trendlabs-security-intelligence/a-peek-inside-a-pos-scammers-toolbox/
+tags:
+  analytic_story:
+  - xmrig
+  kill_chain_phases:
+  - Actions on Objective
+  mitre_attack_id:
+  - T1570
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.computer
+  - Processes.user
+  - Processes.Image
+  - Processes.parent_process_name
+  - Processes.process_id
+  - Processes.process_exec
+  security_domain: endpoint
