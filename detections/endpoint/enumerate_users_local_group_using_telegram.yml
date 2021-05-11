@@ -6,17 +6,16 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect a suspicious telegram process that enumerate all network user in a local group.
-  This technique was seen in monero infected honeypot to mapped all the users in the compromised machine
-search: '`wineventlog_security` EventCode=4798  Process_Name = "*\\telegram.exe" 
-  | stats count min(_time) as firstTime max(_time) as lastTime 
-  by ComputerName EventCode Process_Name  Process_ID Account_Name Account_Domain Logon_ID Security_ID Message
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `enumerate_users_local_group_using_telegram_filter`'
+description: this search is to detect a suspicious telegram process that enumerate
+  all network user in a local group. This technique was seen in monero infected honeypot
+  to mapped all the users in the compromised machine
+search: '`wineventlog_security` EventCode=4798  Process_Name = "*\\telegram.exe" |
+  stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode
+  Process_Name  Process_ID Account_Name Account_Domain Logon_ID Security_ID Message
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `enumerate_users_local_group_using_telegram_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the task schedule (Exa. Security Log EventCode 4798)
-  endpoints. Tune and filter known instances of process like logonUI used in your environment.
+  logs with the task schedule (Exa. Security Log EventCode 4798) endpoints. Tune and
+  filter known instances of process like logonUI used in your environment.
 known_false_positives: unknown
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
@@ -43,3 +42,6 @@ tags:
   - Security_ID
   - Message
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log
