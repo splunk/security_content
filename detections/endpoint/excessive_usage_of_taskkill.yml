@@ -6,14 +6,15 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious excessive usage of taskkill.exe application.
-  This application is commonly used by attacker or adversaries to evade detections by killing security product process or even 
-  other process that may cause their action notice by the analyst or users.
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime 
-  from datamodel=Endpoint.Processes where Processes.process_name = "taskkill.exe"  by Processes.parent_process_name Processes.process_name Processes.dest Processes.user _time span=1m
-  | where count >=10
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`
+description: This search is to detect a suspicious excessive usage of taskkill.exe
+  application. This application is commonly used by attacker or adversaries to evade
+  detections by killing security product process or even other process that may cause
+  their action notice by the analyst or users.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "taskkill.exe"  by
+  Processes.parent_process_name Processes.process_name Processes.dest Processes.user
+  _time span=1m | where count >=10 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `excessive_usage_of_taskkill_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -38,7 +39,10 @@ tags:
   - Processes.parent_process_name
   - Processes.process_name
   - Processes.dest
-  - Processes.user 
+  - Processes.user
   - Processes.process
   - Processes.process_id
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
