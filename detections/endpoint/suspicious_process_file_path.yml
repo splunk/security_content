@@ -6,22 +6,27 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious process running in file path where process is not commonly seen or commonly use by attacker.
-  This technique is seen in several attacker where they drop and run exe in folder path that accessible without admin privileges.
+description: This search is to detect a suspicious process running in file path where
+  process is not commonly seen or commonly use by attacker. This technique is seen
+  in several attacker where they drop and run exe in folder path that accessible without
+  admin privileges.
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*" OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*" OR Processes.process_path = "*\\windows\\debug\\*" 
-  OR Processes.process_path.file_path = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*" OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path = "*Recycle.bin*"
-  OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" 
-  by Processes.parent_process_name Processes.parent_process Processes.process_path Processes.dest Processes.user 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*"
+  OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*"
+  OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path.file_path
+  = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*"
+  OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path
+  = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path
+  = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" by Processes.parent_process_name
+  Processes.parent_process Processes.process_path Processes.dest Processes.user |
+  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_process_file_path_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: network operator may allow the process execution in several process file path.
+known_false_positives: network operator may allow the process execution in several
+  process file path.
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 tags:
@@ -43,5 +48,8 @@ tags:
   - Processes.parent_process
   - Processes.process_path
   - Processes.dest
-  - Processes.user 
+  - Processes.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
