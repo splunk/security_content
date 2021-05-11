@@ -6,16 +6,16 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a on demand run of schedule task through shell or commandline.
-  This technique was seen in some adversaries or attacker that force to run their created schedule task as their persistence mechanism or 
-  for lateral movement as part of their malicious attack to the compromised machine.
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id 
-  count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes
-  where Processes.process_name = "schtasks.exe" Processes.process = "*/run*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `schtasks_run_task_on_demand_filter`'
+description: This search is to detect a on demand run of schedule task through shell
+  or commandline. This technique was seen in some adversaries or attacker that force
+  to run their created schedule task as their persistence mechanism or for lateral
+  movement as part of their malicious attack to the compromised machine.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
+  as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "schtasks.exe"
+  Processes.process = "*/run*" by Processes.process_name Processes.parent_process_name
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `schtasks_run_task_on_demand_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -38,8 +38,11 @@ tags:
   - _time
   - Processes.process
   - Processes.process_id
-  - Processes.process_name 
+  - Processes.process_name
   - Processes.parent_process_name
   - Processes.dest
-  - Processes.user 
+  - Processes.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
