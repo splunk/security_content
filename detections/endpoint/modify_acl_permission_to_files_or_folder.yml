@@ -6,16 +6,18 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious modification of ACL permission to a files or folder to make it available to everyone.
-  This technique may use by adversarie to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner
-  with appropriate permission. So this is a good indicator if this command seen in machine with no permission to do so.
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime 
-  from datamodel=Endpoint.Processes where Processes.process_name = "cacls.exe" OR Processes.process_name = "icacls.exe" OR Processes.process_name = "xcacls.exe" 
+description: This search is to detect a suspicious modification of ACL permission
+  to a files or folder to make it available to everyone. This technique may use by
+  adversarie to evade ACLs or protected files access. This changes is commonly configured
+  by the file or directory owner with appropriate permission. So this is a good indicator
+  if this command seen in machine with no permission to do so.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cacls.exe"
+  OR Processes.process_name = "icacls.exe" OR Processes.process_name = "xcacls.exe"
   AND (Processes.process = "*/G everyone:*"  OR Processes.process = "*/G SYSTEM:*")
   by Processes.parent_process_name Processes.process_name Processes.dest Processes.user
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `modify_acl_permission_to_files_or_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -44,3 +46,6 @@ tags:
   - Processes.process
   - Processes.process_id
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
