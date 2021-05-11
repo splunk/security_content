@@ -6,18 +6,17 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect excessive usage of cacls,xcacls or icacls application to change file or folder permission.
-  This behavior is commonly seen in some adversaries attacker to impair some users from deleting or accessing 
-  its malware components or artifact from the compromised machine.
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id  values(Processes.process_name) as process_name
+description: This search is to detect excessive usage of cacls,xcacls or icacls application
+  to change file or folder permission. This behavior is commonly seen in some adversaries
+  attacker to impair some users from deleting or accessing its malware components
+  or artifact from the compromised machine.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id  values(Processes.process_name) as process_name
   count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes
-  where Processes.process_name = "cacls.exe" OR Processes.process_name = "icacls.exe" OR Processes.process_name = "XCACLS.exe" 
-  by Processes.parent_process_name Processes.parent_process Processes.dest Processes.user _time span=1m
-  | where count >=10
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `excessive_usage_of_cacls_app_filter`'
+  where Processes.process_name = "cacls.exe" OR Processes.process_name = "icacls.exe"
+  OR Processes.process_name = "XCACLS.exe" by Processes.parent_process_name Processes.parent_process
+  Processes.dest Processes.user _time span=1m | where count >=10 | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `excessive_usage_of_cacls_app_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -44,3 +43,6 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
