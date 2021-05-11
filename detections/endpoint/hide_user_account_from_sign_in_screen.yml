@@ -6,17 +6,16 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious registry modification to hide a user account in signin screen.
-  This technique was seen in some attacker where they create hidden user account with admin privileges in login screen
-  To avoid noticing by the user that they already compromise and to persist on that said machine.
+description: This search is to detect a suspicious registry modification to hide a
+  user account in signin screen. This technique was seen in some attacker where they
+  create hidden user account with admin privileges in login screen To avoid noticing
+  by the user that they already compromise and to persist on that said machine.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*"
-  AND Registry.registry_value_name = "DWORD (0x00000000)"
-  by Registry.dest Registry.user Registry.registry_value_name
-  | `security_content_ctime(lastTime)` 
-  | `security_content_ctime(firstTime)`
-  | `drop_dm_object_name(Registry)` 
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows
+  NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" AND Registry.registry_value_name
+  = "DWORD (0x00000000)" by Registry.dest Registry.user Registry.registry_value_name
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
   | `hide_user_account_from_sign_in_screen_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
@@ -45,3 +44,6 @@ tags:
   - Registry.registry_value_name
   - Registry.dest Registry.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
