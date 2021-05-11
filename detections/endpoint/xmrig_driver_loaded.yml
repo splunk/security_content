@@ -7,16 +7,16 @@ type: batch
 datamodel:
 - Endpoint
 description: This search is to detect XMRIG coinminer installation to the machine.
-  This search is to look for the driver used by xmrig coinminer to do its coin mining name as WinRing0x64.sys.
-  This cpu miner is an open source project that are abused by attacker to infect and mine on the infected machine.
-search: '`sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys" 
-  |  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature Signed
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  This search is to look for the driver used by xmrig coinminer to do its coin mining
+  name as WinRing0x64.sys. This cpu miner is an open source project that are abused
+  by attacker to infect and mine on the infected machine.
+search: '`sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys"
+  |  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded
+  Hashes IMPHASH Signature Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `xmrig_driver_loaded_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  logs with the driver loaded and Signature from your endpoints. If you are using
+  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
@@ -40,3 +40,6 @@ tags:
   - Signature
   - Signed
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
