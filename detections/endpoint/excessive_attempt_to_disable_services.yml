@@ -6,17 +6,16 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect suspicious series of commandline to disable several services.
-  This technique is seen in some adversaries and attacker to disable security app services or other malware services to own the vulnerable machine.
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id 
-  count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes
-  where   Processes.process_name = "sc.exe" AND Processes.process="*config*" OR Processes.process="*Disabled*"
-  by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m
-  | where count >=5
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `excessive_attempt_to_disable_services_filter`'
+description: this search is to detect suspicious series of commandline to disable
+  several services. This technique is seen in some adversaries and attacker to disable
+  security app services or other malware services to own the vulnerable machine.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
+  as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name =
+  "sc.exe" AND Processes.process="*config*" OR Processes.process="*Disabled*" by Processes.process_name
+  Processes.parent_process_name Processes.dest Processes.user _time span=1m | where
+  count >=5 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `excessive_attempt_to_disable_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -44,3 +43,6 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
