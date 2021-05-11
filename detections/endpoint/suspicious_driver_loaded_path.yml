@@ -6,16 +6,17 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect suspicious driver loaded path. This technique is commonly used by malware like coin miner (xmrig)
-  to register its malicious driver from notable directory where executable or driver is not commonly exist.
-search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*", "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) 
-  |  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature Signed
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+description: This search is to detect suspicious driver loaded path. This technique
+  is commonly used by malware like coin miner (xmrig) to register its malicious driver
+  from notable directory where executable or driver is not commonly exist.
+search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
+  "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) |  stats  min(_time) as
+  firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature
+  Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_driver_loaded_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  logs with the driver loaded and Signature from your endpoints. If you are using
+  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
@@ -39,3 +40,6 @@ tags:
   - Signature
   - Signed
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
