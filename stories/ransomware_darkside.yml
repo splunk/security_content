@@ -1,0 +1,21 @@
+name: DarkSide Ransomware
+id: 507edc74-13d5-4339-878e-b9114ded1f35
+version: 1
+date: '2020-06-12'
+author: Bhavin Patel, Splunk
+type: batch
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the DarkSide Ransomware
+narrative: 
+references:
+- https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
+- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+tags:
+  analytic_story: DarkSide Ransomware
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
