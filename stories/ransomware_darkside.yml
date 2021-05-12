@@ -6,7 +6,7 @@ author: Bhavin Patel, Splunk
 type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the DarkSide Ransomware
-narrative: 
+narrative: ''
 references:
 - https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
 - https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
