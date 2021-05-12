@@ -3,7 +3,7 @@ tests:
 - name: Delete ShadowCopy With PowerShell
   file: endpoint/delete_shadowcopy_with_powershell.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-7d'
   latest_time: 'now'
   attack_data:
   - file_name: windows-powershell.log
