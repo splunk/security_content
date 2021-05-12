@@ -20,6 +20,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: It is possible some agent based products will generate false positives. Filter as needed.
 references: 
   - https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md
 tags:
   analytic_story:
   - DarkSide Ransomware
