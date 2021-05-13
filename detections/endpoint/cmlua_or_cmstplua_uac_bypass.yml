@@ -6,8 +6,8 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a potential process using COM Object like CMLUA
-  or CMSTPLUA to bypassed UAC. This technique used by ransomware to gain administrative
+description: This analytic detects a potential process using COM Object like CMLUA
+  or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries to gain administrative
   privileges to its running process.
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll",
   "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe")) NOT(Image IN("*\\windows\\*",
@@ -17,13 +17,14 @@ search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll"
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
   are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: normal windows application that are not on the list loading
-  this dll.
+known_false_positives: Legitimate windows application that are not on the list loading
+  this dll. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1218/003/
 tags:
   analytic_story:
-  - darkside
+  - DarkSide Ransomware
+  - Ransomware
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

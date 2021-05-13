@@ -6,29 +6,35 @@ author: Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This particular bypass utilizes a registry key/value. Identified by two sources, the registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`. To simulate this behavior, multiple POC are available. 
-  The analytic identifies the use of `runas` by `slui.exe`. 
+description: The following analytic identifies the Microsoft Software Licensing User
+  Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This
+  particular bypass utilizes a registry key/value. Identified by two sources, the
+  registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`.
+  To simulate this behavior, multiple POC are available. The analytic identifies the
+  use of `runas` by `slui.exe`.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=slui.exe
-  (Processes.process=*-verb* Processes.process=*runas*) by Processes.dest
-  Processes.user Processes.parent_process Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `slui_runas_elevated_filter`'
+  (Processes.process=*-verb* Processes.process=*runas*) by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| `slui_runas_elevated_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: Limited false positives should be present as this is not commonly used by legitimate applications.
+known_false_positives: Limited false positives should be present as this is not commonly
+  used by legitimate applications.
 references:
-  - https://www.exploit-db.com/exploits/46998
-  - https://medium.com/@mattharr0ey/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b
-  - https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466
-  - https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
-  - https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://www.exploit-db.com/exploits/46998
+- https://medium.com/@mattharr0ey/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b
+- https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466
+- https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
+- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
 tags:
   analytic_story:
   - DarkSide Ransomware
   - Windows Defense Evasion Tactics
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -39,11 +45,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
+  - Processes.dest
+  - Processes.user
   - Processes.parent_process
   - Processes.process_name
   - Processes.process
-  - Processes.process_id 
+  - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  automated_detection_testing: passed
