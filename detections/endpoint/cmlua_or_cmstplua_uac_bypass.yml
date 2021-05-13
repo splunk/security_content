@@ -9,7 +9,7 @@ datamodel:
 description: This search is to detect a potential process using COM Object like CMLUA
   or CMSTPLUA to bypassed UAC. This technique used by ransomware to gain administrative
   privileges to its running process.
-search: '`sysmon` EventCode=7 process_name ="darkside.exe" ImageLoaded IN ("*\\CMLUA.dll",
+search: '`sysmon` EventCode=7 ImageLoaded IN ("*\\CMLUA.dll",
   "*\\CMSTPLUA.dll", "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe"))
   | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded
   process_name Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)`
