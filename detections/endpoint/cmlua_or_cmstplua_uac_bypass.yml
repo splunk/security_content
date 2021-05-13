@@ -6,6 +6,7 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
+<<<<<<< HEAD
 description: This search is to detect a potential process using COM Object like CMLUA or CMSTPLUA 
   to bypassed UAC. This technique used by ransomware to gain administrative privileges to its running process.
 search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll", "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe")) 
@@ -14,11 +15,21 @@ search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll"
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cmlua_or_cmstplua_uac_bypass_filter`'
+=======
+description: This search is to detect a potential process using COM Object like CMLUA
+  or CMSTPLUA to bypassed UAC. This technique used by ransomware to gain administrative
+  privileges to its running process.
+search: '`sysmon` EventCode=7 ImageLoaded IN ("*\\CMLUA.dll",
+  "*\\CMSTPLUA.dll", "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe"))
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded
+  process_name Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `cmlua_or_cmstplua_uac_bypass_filter`'
+>>>>>>> 82f9a5f69d687907e6c5b04ca10fcf2458fdf578
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and imageloaded executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: normal windows application that are not on the list loading this dll.
+  logs with the process name and imageloaded executions from your endpoints. If you
+  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: normal windows application that are not on the list loading
+  this dll.
 references:
 - https://attack.mitre.org/techniques/T1218/003/
 tags:
@@ -40,5 +51,8 @@ tags:
   - Computer
   - EventCode
   - Signed
-  - ProcessId 
+  - ProcessId
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/darkside_cmstp_com/windows-sysmon.log
