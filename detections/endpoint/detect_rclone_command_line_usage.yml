@@ -7,7 +7,7 @@ type: batch
 datamodel:
 - Endpoint
 description: This analytic identifies commonly used command-line arguments used by
-  `rclone.exe to initiate a file transfer. Some arguments were negated as they are
+  `rclone.exe` to initiate a file transfer. Some arguments were negated as they are
   specific to the configuration used by adversaries. In particular, an adversary may
   list the files or directories of the remote file share using `ls` or `lsd`, which
   is not indicative of malicious behavior. During triage, at this stage of a ransomware
