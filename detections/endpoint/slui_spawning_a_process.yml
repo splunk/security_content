@@ -1,0 +1,57 @@
+name: SLUI Spawning a Process
+id: 879c4330-b3e0-11eb-b1b1-acde48001122
+version: 1
+date: '2021-05-13'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies the Microsoft Software Licensing User
+  Interface Tool, `slui.exe`, spawning a child process. This behavior is associated
+  with publicly known UAC bypass. `slui.exe` is commonly associated with software
+  updates and is most often spawned by `svchost.exe`. The `slui.exe` process should
+  not have child processes, and any processes spawning from it will be running with
+  elevated privileges. During triage, review the child process and additional parallel
+  processes. Identify any file modifications that may have lead to the bypass.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=slui.exe
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id 
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `slui_spawning_a_process_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Certain applications may spawn from `slui.exe` that are legitimate.
+  Filtering will be needed to ensure proper monitoring.
+references:
+- https://www.exploit-db.com/exploits/46998
+- https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
+- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+tags:
+  analytic_story:
+  - DarkSide Ransomware
+  - Windows Defense Evasion Tactics
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1548.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
+  automated_detection_testing: passed
