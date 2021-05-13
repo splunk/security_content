@@ -6,9 +6,9 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect powershell command to delete shadow copy using wmic powershell module.
-  This technique was seen in darkside ransomware where it will execute a child process powershell to execute an hex encoded
-  command to delete shadow copy. This hex encoded command was able to decrypt by powershell log.
+description: This following analytic detects PowerShell command to delete shadow copy using the WMIC PowerShell module.
+  This technique was seen used by a recent adversary to deploy DarkSide Ransomware where it executed a child process of PowerShell to execute a hex encoded
+  command to delete shadow copy. This hex encoded command was able to be decrypted by PowerShell log.
 search: '`powershell` EventCode=4104 Message= "*ShadowCopy*" Message = "*Delete*" 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
@@ -19,6 +19,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: unknown
 references:
 - https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
 tags:
   analytic_story:
   - DarkSide Ransomware
