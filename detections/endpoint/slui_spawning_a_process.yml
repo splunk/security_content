@@ -11,11 +11,9 @@ description: The following analytic identifies the Microsoft Software Licensing 
    The `slui.exe` process should not have child processes, and any processes spawning from it will be running with elevated privileges. 
    During triage, review the child process and additional parallel processes. Identify any file modifications that may have lead to the bypass. 
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=slui.exe
-  (Processes.process_name!=*slui* OR Processes.process_name=!firefox.exe OR Processes.process_name!=chrome.exe OR Processes.process_name!=iexplore.exe OR Processes.process_name!=msedge.exe) by Processes.dest
-  Processes.user Processes.parent_process Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=slui.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `slui_spawning_a_process_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
