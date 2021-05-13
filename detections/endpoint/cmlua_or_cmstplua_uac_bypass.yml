@@ -23,7 +23,7 @@ references:
 - https://attack.mitre.org/techniques/T1218/003/
 tags:
   analytic_story:
-  - DarkSide Ransomware
+  - darkside
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
