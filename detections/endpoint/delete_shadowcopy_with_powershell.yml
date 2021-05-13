@@ -9,11 +9,11 @@ datamodel:
 description: This search is to detect powershell command to delete shadow copy using wmic powershell module.
   This technique was seen in darkside ransomware where it will execute a child process powershell to execute an hex encoded
   command to delete shadow copy. This hex encoded command was able to decrypt by powershell log.
-search: '`powershell` EventCode=4104 Message= "*ShadowCopy*" Message = "*Delete*" |
-  stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `delete_shadowcopy_with_powershell_filter`'
+search: '`powershell` EventCode=4104 Message= "*ShadowCopy*" Message = "*Delete*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `delete_shadowcopy_with_powershell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
 known_false_positives: unknown
