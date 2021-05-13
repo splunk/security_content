@@ -1,0 +1,46 @@
+name: Detect RClone Command-Line Usage
+id: 32e0baea-b3f1-11eb-a2ce-acde48001122
+version: 1
+date: '2021-05-13'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies commonly used command-line arguments used by `rclone.exe to initiate a file transfer. Some arguments were negated as they are specific to the configuration used by adversaries. 
+  In particular, an adversary may list the files or directories of the remote file share using `ls` or `lsd`, which is not indicative of malicious behavior. 
+  During triage, at this stage of a ransomware event, exfiltration is about to occur or has already. Isolate the endpoint and continue investigating by review file modifications and parallel processes.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
+  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*copy*", "*mega*", "*pcloud*", "*ftp*", "*--config*", "*--progress*", "*--no-check-certificate*", "*--ignore-existing*", "*--auto-confirm*", "*--transfers*", "*--multi-thread-streams*")  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process   Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|  `security_content_ctime(lastTime)` | `detect_rclone_command_line_usage_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: There is potential for false positives as these arguments may be used by other applications. Filter or tune the analytic as needed.
+references:
+  - https://redcanary.com/blog/rclone-mega-extortion/
+  - https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+  - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+tags:
+  analytic_story:
+  - DarkSide Ransomware
+  - Ransomware
+  dataset: []
+  kill_chain_phases:
+  - Exfiltration
+  mitre_attack_id:
+  - T1020
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest 
+  - Processes.user 
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id 
+  - Processes.parent_process_id
+  security_domain: endpoint
