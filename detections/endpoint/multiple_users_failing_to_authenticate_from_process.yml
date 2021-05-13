@@ -9,22 +9,23 @@ datamodel:
 description: 'The following analytic identifies a source process name failing to authenticate
   with multiple users. This behavior could represent an adversary performing a Password
   Spraying attack against an Active Directory environment to obtain initial access
-  or elevate privileges. Event 4625 generates
-  on domain controllers, member servers, and workstations when an account fails to logon. Logon Type 2 describes
-  an iteractive logon attempt.\
+  or elevate privileges. Event 4625 generates on domain controllers, member servers,
+  and workstations when an account fails to logon. Logon Type 2 describes an iteractive
+  logon attempt.\
 
-  The detection calculates the standard deviation for each host and leverages 
-  the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, 
-  users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
-  This logic can be used for real time security monitoring as well as threat hunting exercises.\
+  The detection calculates the standard deviation for each host and leverages the
+  3-sigma statistical rule to identify an unusual number of users. To customize this
+  analytic, users can try different combinations of the `bucket` span time and the
+  calculation of the `upperBound` field. This logic can be used for real time security
+  monitoring as well as threat hunting exercises.\
 
   This detection will trigger on the potenfially malicious host, perhaps controlled
   via a trojan or operated by an insider threat, from where a password spraying attack
   is being executed. This could be a domain controller as well as a member server
   or workstation.\
 
-  The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user
-  accounts.'
+  The analytics returned fields allow analysts to investigate the event further by
+  providing fields like source process name, source account and attempted user accounts.'
 search: ' `wineventlog_security` EventCode=4625 Logon_Type=2 Caller_Process_Name!="-"
   | bucket span=2m _time | eval Source_Account = mvindex(Account_Name, 0) | eval Destination_Account
   = mvindex(Account_Name, 1) | stats dc(Destination_Account) AS unique_accounts values(Account_Name)
@@ -48,6 +49,9 @@ references:
 tags:
   analytic_story:
   - Active Directory Password Spraying
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process/windows-security.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -65,6 +69,3 @@ tags:
   - Account_Name
   - ComputerName
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process/windows-security.log
