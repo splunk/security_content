@@ -38,7 +38,6 @@ tags:
   analytic_story:
   - Ingress Tool Transfer
   - BITS Jobs
-  - DarkSide Ransomware
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
