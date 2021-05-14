@@ -26,6 +26,7 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  - DarkSide Ransomware
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
