@@ -11,18 +11,22 @@ description: 'The following analytic identifies one source endpoint failing to a
   represent an adversary performing a Password Spraying attack against an Active Directory
   environment using Kerberos to obtain initial access or elevate privileges. As attackers
   progress in a breach, mistakes will be made. In certain scenarios, adversaries may
-  execute a password spraying attack against disabled users. Event 4768 is generated every time
-  the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code `0x12` stands for
-  `clients credentials have been revoked` (account disabled, expired or locked out).\
+  execute a password spraying attack against disabled users. Event 4768 is generated
+  every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket
+  (TGT). Failure code `0x12` stands for `clients credentials have been revoked` (account
+  disabled, expired or locked out).\
 
-  The detection calculates the standard deviation for each host and leverages 
-  the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, 
-  users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field.
-  This logic can be used for real time security monitoring as well as threat hunting exercises.\
+  The detection calculates the standard deviation for each host and leverages the
+  3-sigma statistical rule to identify an unusual number of users. To customize this
+  analytic, users can try different combinations of the `bucket` span time and the
+  calculation of the `upperBound` field. This logic can be used for real time security
+  monitoring as well as threat hunting exercises.\
 
-  This detection will only trigger on domain controllers, not on member servers or workstations.\
+  This detection will only trigger on domain controllers, not on member servers or
+  workstations.\
 
-  The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.'
+  The analytics returned fields allow analysts to investigate the event further by
+  providing fields like source ip and attempted user accounts.'
 search: '`wineventlog_security` EventCode=4768 Account_Name!="*$" Result_Code=0x12
   | bucket span=2m _time | stats dc(Account_Name) AS unique_accounts values(Account_Name)
   as tried_accounts by _time, Client_Address | eventstats avg(unique_accounts) as
@@ -34,12 +38,16 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple disabled domain
   users is not a common behavior for legitimate systems. Possible false positive scenarios
-  include but are not limited to vulnerability scanners, multi-user systems missconfigured systems.
+  include but are not limited to vulnerability scanners, multi-user systems missconfigured
+  systems.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 tags:
   analytic_story:
   - Active Directory Password Spraying
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_disabled_users_kerberos/windows-security.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -55,6 +63,3 @@ tags:
   - Account_Name
   - Client_Address
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_disabled_users_kerberos/windows-security.log
