@@ -19,9 +19,9 @@ description: 'The following analytic identifies the use of default or publicly k
   connection, review and follow the connection back to identify any file modifications.'
 search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\wkssvc*, \\DserNamePipe*,
   \\srvsvc_*, \\mojo.*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*,
-  \\ntsvcs*, \\winsock*) | stats count min(_time) as firstTime max(_time) as lastTime
-  by Computer, process_name, process_id process_path, PipeName | rename Computer as
-  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  \\ntsvcs*, \\winsock*, \\UIA_PIPE*) | stats count min(_time) as firstTime max(_time)
+  as lastTime by Computer, process_name, process_id process_path, PipeName | rename
+  Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `cobalt_strike_named_pipes_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -36,10 +36,12 @@ references:
 - https://www.cobaltstrike.com/help-smb-beacon
 - https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
 - https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
+- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
 tags:
   analytic_story:
   - Cobalt Strike
   - Trickbot
+  - DarkSide Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

@@ -1,0 +1,52 @@
+name: Extract SAM from Registry
+id: 8bbb7d58-b360-11eb-ba21-acde48001122
+version: 1
+date: '2021-05-12'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies the use of `reg.exe` exporting Windows
+  Registry hives containing credentials. Adversaries may use this technique to export
+  registry hives for offline credential access attacks. Typically found executed from
+  a untrusted process or script. Upon execution, a file will be written to disk.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=reg.exe
+  (Processes.process=*save* OR Processes.process=*export*) AND (Processes.process=*sam*
+  OR Processes.process=*system* OR Processes.process=*security*) by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `extract_sam_from_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: It is possible some agent based products will generate false
+  positives. Filter as needed.
+references:
+- https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md
+tags:
+  analytic_story:
+  - DarkSide Ransomware
+  - Credential Dumping
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1003.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
