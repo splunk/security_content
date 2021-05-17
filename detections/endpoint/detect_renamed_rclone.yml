@@ -14,9 +14,7 @@ description: The following analytic identifies the usage of `rclone.exe`, rename
 search: '`sysmon` EventID=1 OriginalFileName=rclone.exe NOT process_name=rclone.exe
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
   parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
-  rename Computer as dest 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+  rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_renamed_rclone_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -33,6 +31,7 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
   kill_chain_phases:
@@ -51,4 +50,3 @@ tags:
   - CommandLine
   - dest
   security_domain: endpoint
-  automated_detection_testing: passed
