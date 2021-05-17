@@ -18,11 +18,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   "*mega*", "*pcloud*", "*ftp*", "*--config*", "*--progress*", "*--no-check-certificate*",
   "*--ignore-existing*", "*--auto-confirm*", "*--transfers*", "*--multi-thread-streams*")  by
   Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process   Processes.process_id
-  Processes.parent_process_id 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  |  `security_content_ctime(lastTime)`
-  | `detect_rclone_command_line_usage_filter`'
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  |  `security_content_ctime(lastTime)` | `detect_rclone_command_line_usage_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -36,6 +33,7 @@ tags:
   analytic_story:
   - DarkSide Ransomware
   - Ransomware
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
   kill_chain_phases:
@@ -56,4 +54,3 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
-  automated_detection_testing: passed
