@@ -25,6 +25,9 @@ references:
 tags:
   analytic_story:
   - Trickbot
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:
@@ -44,6 +47,3 @@ tags:
   - src_port
   - Source_Address
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
