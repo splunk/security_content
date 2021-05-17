@@ -117,11 +117,15 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Amazon EKS Kubernetes Pod scan detection](#amazon-eks-kubernetes-pod-scan-detection)
 
 
 
 - [Amazon EKS Kubernetes cluster scan detection](#amazon-eks-kubernetes-cluster-scan-detection)
+
+
 
 
 
@@ -208,6 +212,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Cloud Provisioning Activity From Previously Unseen Region](#cloud-provisioning-activity-from-previously-unseen-region)
+
+
 
 
 
@@ -401,6 +407,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Detect S3 access from a new IP](#detect-s3-access-from-a-new-ip)
 
 
@@ -428,6 +438,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect Spike in blocked Outbound Traffic from your AWS](#detect-spike-in-blocked-outbound-traffic-from-your-aws)
+
+
 
 
 
@@ -604,6 +616,22 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Kubernetes AWS detect suspicious kubectl calls](#kubernetes-aws-detect-suspicious-kubectl-calls)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1021,6 +1049,24 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [aws detect attach to role policy](#aws-detect-attach-to-role-policy)
 
 
@@ -1116,6 +1162,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Account Discovery With Net App](#account-discovery-with-net-app)
+
+
+
 
 
 
@@ -1173,6 +1223,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Batch File Write to System32](#batch-file-write-to-system32)
+
+
+
+- [CMLUA Or CMSTPLUA UAC Bypass](#cmlua-or-cmstplua-uac-bypass)
 
 
 
@@ -1336,6 +1390,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Deleting Shadow Copies](#deleting-shadow-copies)
 
 
@@ -1476,6 +1532,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Detect RClone Command-Line Usage](#detect-rclone-command-line-usage)
+
+
+
 - [Detect Rare Executables](#detect-rare-executables)
 
 
@@ -1505,6 +1565,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect Regsvr32 Application Control Bypass](#detect-regsvr32-application-control-bypass)
+
+
+
+- [Detect Renamed RClone](#detect-renamed-rclone)
 
 
 
@@ -1694,6 +1758,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Extract SAM from Registry](#extract-sam-from-registry)
+
+
+
 - [File with Samsam Extension](#file-with-samsam-extension)
 
 
@@ -1876,6 +1944,38 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Multiple Disabled Users Failing To Authenticate From Host Using Kerberos](#multiple-disabled-users-failing-to-authenticate-from-host-using-kerberos)
+
+
+
+- [Multiple Invalid Users Failing To Authenticate From Host Using Kerberos](#multiple-invalid-users-failing-to-authenticate-from-host-using-kerberos)
+
+
+
+- [Multiple Invalid Users Failing To Authenticate From Host Using NTLM](#multiple-invalid-users-failing-to-authenticate-from-host-using-ntlm)
+
+
+
+
+
+- [Multiple Users Attempting To Authenticate Using Explicit Credentials](#multiple-users-attempting-to-authenticate-using-explicit-credentials)
+
+
+
+- [Multiple Users Failing To Authenticate From Host Using Kerberos](#multiple-users-failing-to-authenticate-from-host-using-kerberos)
+
+
+
+- [Multiple Users Failing To Authenticate From Host Using NTLM](#multiple-users-failing-to-authenticate-from-host-using-ntlm)
+
+
+
+- [Multiple Users Failing To Authenticate From Process](#multiple-users-failing-to-authenticate-from-process)
+
+
+
+- [Multiple Users Remotely Failing To Authenticate From Host](#multiple-users-remotely-failing-to-authenticate-from-host)
+
 
 
 - [NLTest Domain Trust Discovery](#nltest-domain-trust-discovery)
@@ -1971,6 +2071,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [PowerShell Start-BitsTransfer](#powershell-start-bitstransfer)
+
+
+
+- [Powershell Remote Thread To Known Windows Process](#powershell-remote-thread-to-known-windows-process)
 
 
 
@@ -2128,6 +2232,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [SLUI RunAs Elevated](#slui-runas-elevated)
+
+
+
+- [SLUI Spawning a Process](#slui-spawning-a-process)
+
+
+
 
 
 
@@ -2139,6 +2251,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Sc exe Manipulating Windows Services](#sc-exe-manipulating-windows-services)
+
+
+
+- [Schedule Task with HTTP Command Arguments](#schedule-task-with-http-command-arguments)
+
+
+
+- [Schedule Task with Rundll32 Command Trigger](#schedule-task-with-rundll32-command-trigger)
 
 
 
@@ -2177,10 +2297,6 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Setting Credentials via PowerSploit modules](#setting-credentials-via-powersploit-modules)
-
-
-
-- [Shedule Task with HTTP Command Arguments](#shedule-task-with-http-command-arguments)
 
 
 
@@ -2332,6 +2448,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Trickbot Named Pipe](#trickbot-named-pipe)
+
+
+
 - [USN Journal Deletion](#usn-journal-deletion)
 
 
@@ -2392,6 +2512,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Wermgr Process Connecting To IP Check Web Services](#wermgr-process-connecting-to-ip-check-web-services)
+
+
+
+- [Wermgr Process Create Executable File](#wermgr-process-create-executable-file)
+
+
+
+- [Wermgr Process Spawned CMD Or Powershell Process](#wermgr-process-spawned-cmd-or-powershell-process)
+
+
+
 - [WinEvent Scheduled Task Created Within Public Path](#winevent-scheduled-task-created-within-public-path)
 
 
@@ -2429,6 +2561,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Winword Spawning Windows Script Host](#winword-spawning-windows-script-host)
+
+
+
+- [Write Executable in SMB Share](#write-executable-in-smb-share)
 
 
 
@@ -2633,11 +2769,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [DNS Query Length Outliers - MLTK](#dns-query-length-outliers---mltk)
 
 
 
 - [DNS Query Length With High Standard Deviation](#dns-query-length-with-high-standard-deviation)
+
+
 
 
 
@@ -2738,6 +2880,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect Port Security Violation](#detect-port-security-violation)
+
+
+
+
 
 
 
@@ -2900,6 +3046,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Excessive DNS Failures](#excessive-dns-failures)
+
+
 
 
 
@@ -3109,7 +3257,25 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Plain HTTP POST Exfiltrated Data](#plain-http-post-exfiltrated-data)
+
+
 
 
 
@@ -3192,6 +3358,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Remote Desktop Network Traffic](#remote-desktop-network-traffic)
+
+
+
+
 
 
 
@@ -3331,7 +3501,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [TOR Traffic](#tor-traffic)
+
+
 
 
 
@@ -3408,11 +3582,25 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 </details>
 
 ## Application
 <details>
   <summary>details</summary>
+
+
+
+
+
+
 
 
 
@@ -3822,6 +4010,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Email Attachments With Lots Of Spaces](#email-attachments-with-lots-of-spaces)
 
 
@@ -3831,6 +4023,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Email servers sending high volume traffic to hosts](#email-servers-sending-high-volume-traffic-to-hosts)
+
+
 
 
 
@@ -3978,7 +4172,23 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Multiple Okta Users With Invalid Credentials From The Same IP](#multiple-okta-users-with-invalid-credentials-from-the-same-ip)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4053,6 +4263,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Phishing Email Detection by Machine Learning Method - SSA](#phishing-email-detection-by-machine-learning-method---ssa)
+
+
+
+
+
+
+
+
 
 
 
@@ -4304,7 +4522,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Web Servers Executing Suspicious Processes](#web-servers-executing-suspicious-processes)
+
+
+
+
+
+
+
+
 
 
 
@@ -4346,6 +4574,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Web
 <details>
   <summary>details</summary>
+
+
+
+
+
+
 
 
 
@@ -4693,6 +4927,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Detect attackers scanning for vulnerable JBoss servers](#detect-attackers-scanning-for-vulnerable-jboss-servers)
 
 
@@ -4700,6 +4938,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect malicious requests to exploit JBoss servers](#detect-malicious-requests-to-exploit-jboss-servers)
+
+
 
 
 
@@ -5071,6 +5311,28 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [SQL Injection with Long URLs](#sql-injection-with-long-urls)
 
 
@@ -5117,7 +5379,19 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Supernova Webshell](#supernova-webshell)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -7694,6 +7968,91 @@ _version_: 2
 
 ---
 
+### Account Discovery With Net App
+this search is to detect a potential account discovery series of command used by several malware or attack to recon the target machine. This technique is also seen in some note worthy malware like trickbot where it runs a cmd process, or even drop its module that will execute the said series of net command. This series of command are good correlation search and indicator of attacker recon if seen in the machines within a none technical user or department (HR, finance, ceo and etc) network.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1087.002](https://attack.mitre.org/techniques/T1087/002/)
+- **Last Updated**: 2021-05-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="net.exe" OR Processes.process_name="net1.exe" AND (Processes.process="*user*" OR  Processes.process="*config*" OR Processes.process="*view /all*") by  Processes.process_name Processes.dest Processes.user Processes.parent_process_name 
+| where count >=5 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `account_discovery_with_net_app_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.parent_process_id
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_guid
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1087.002 | Domain Account | Discovery |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin or power user may used this series of command.
+
+#### Reference
+
+
+* https://labs.vipre.com/trickbot-and-its-modules/
+
+* https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Amazon EKS Kubernetes Pod scan detection
 This search provides detection information on unauthenticated requests against Kubernetes' Pods API
 
@@ -8466,6 +8825,8 @@ This search looks for attempts to stop security-related services on the endpoint
 
 * Disabling Security Tools
 
+* Trickbot
+
 
 #### How To Implement
 You must be ingesting data that records the file-system activity from your hosts to populate the Endpoint file-system data-model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data. The search is shipped with a lookup file, `security_services.csv`, that can be edited to update the list of services to monitor. This lookup file can be edited directly where it lives in `$SPLUNK_HOME/etc/apps/DA-ESS-ContentUpdate/lookups`, or via the Splunk console. You should add the names of services an attacker might use on the command line and surround with asterisks (*****), so that they work properly when searching the command line. The file should be updated with the names of any services you would like to monitor for attempts to stop the service.,
@@ -8528,7 +8889,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=reg.exe OR Processes.process_name=cmd.exe) Processes.process=*save* (Processes.process=*HKEY_LOCAL_MACHINE\\Security* OR Processes.process=*HKEY_LOCAL_MACHINE\\SAM* OR Processes.process=*HKEY_LOCAL_MACHINE\\System* OR Processes.process=*HKLM\\Security* OR Processes.process=*HKLM\\System* OR Processes.process=*HKLM\\SAM*) by Processes.user Processes.process_name Processes.process Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=reg.exe OR Processes.process_name=cmd.exe) Processes.process=*save* (Processes.process=*HKEY_LOCAL_MACHINE\\Security* OR Processes.process=*HKEY_LOCAL_MACHINE\\SAM* OR Processes.process=*HKEY_LOCAL_MACHINE\\System* OR Processes.process=*HKLM\\Security* OR Processes.process=*HKLM\\System* OR Processes.process=*HKLM\\SAM*) by Processes.user Processes.process_name Processes.process Processes.dest Processes.process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -8537,6 +8898,8 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 #### Associated Analytic Story
 
 * Credential Dumping
+
+* DarkSide Ransomware
 
 
 #### How To Implement
@@ -8842,6 +9205,8 @@ The following query identifies Microsoft Background Intelligent Transfer Service
 
 * BITS Jobs
 
+* DarkSide Ransomware
+
 
 #### How To Implement
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -8973,6 +9338,87 @@ _version_: 1
 
 ---
 
+### CMLUA Or CMSTPLUA UAC Bypass
+This analytic detects a potential process using COM Object like CMLUA or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries to gain administrative privileges to its running process.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.003](https://attack.mitre.org/techniques/T1218/003/)
+- **Last Updated**: 2021-05-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=7  ImageLoaded IN ("*\\CMLUA.dll", "*\\CMSTPLUA.dll", "*\\CMLUAUTIL.dll") NOT(process_name IN("CMSTP.exe", "CMMGR32.exe")) NOT(Image IN("*\\windows\\*", "*\\program files*")) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `cmlua_or_cmstplua_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* DarkSide Ransomware
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Image
+
+* ImageLoaded
+
+* process_name
+
+* Computer
+
+* EventCode
+
+* Signed
+
+* ProcessId
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.003 | CMSTP | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Legitimate windows application that are not on the list loading this dll. Filter as needed.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1218/003/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/darkside_cmstp_com/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### CertUtil Download With URLCache and Split Arguments
 Certutil.exe may download a file from a remote destination using `-urlcache`. This behavior does require a URL to be passed on the command-line. In addition, `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will be used. It is not entirely common for `certutil.exe` to contact public IP space. However, it is uncommon for `certutil.exe` to write files to world writeable paths.\ During triage, capture any files on disk and review. Review the reputation of the remote IP or domain in question.
 
@@ -8996,6 +9442,8 @@ Certutil.exe may download a file from a remote destination using `-urlcache`. Th
 #### Associated Analytic Story
 
 * Ingress Tool Transfer
+
+* DarkSide Ransomware
 
 
 #### How To Implement
@@ -9076,6 +9524,8 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 #### Associated Analytic Story
 
 * Ingress Tool Transfer
+
+* DarkSide Ransomware
 
 
 #### How To Implement
@@ -10430,7 +10880,7 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 
 #### Search
 ```
-`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\wkssvc*, \\DserNamePipe*, \\srvsvc_*, \\mojo.*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*, \\winsock*) 
+`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\wkssvc*, \\DserNamePipe*, \\srvsvc_*, \\mojo.*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*, \\winsock*, \\UIA_PIPE*) 
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer, process_name, process_id process_path, PipeName 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -10440,6 +10890,10 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 #### Associated Analytic Story
 
 * Cobalt Strike
+
+* Trickbot
+
+* DarkSide Ransomware
 
 
 #### How To Implement
@@ -10490,6 +10944,8 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 * https://blog.cobaltstrike.com/2021/02/09/learn-pipe-fitting-for-all-of-your-offense-projects/
 
 * https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
 
 
 
@@ -12698,6 +13154,79 @@ Limited false positives. If there is a true false positive, filter based on comm
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Delete ShadowCopy With PowerShell
+This following analytic detects PowerShell command to delete shadow copy using the WMIC PowerShell module. This technique was seen used by a recent adversary to deploy DarkSide Ransomware where it executed a child process of PowerShell to execute a hex encoded command to delete shadow copy. This hex encoded command was able to be decrypted by PowerShell log.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1490](https://attack.mitre.org/techniques/T1490/)
+- **Last Updated**: 2021-05-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`powershell` EventCode=4104 Message= "*ShadowCopy*" Message = "*Delete*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `delete_shadowcopy_with_powershell_filter`
+```
+#### Associated Analytic Story
+
+* DarkSide Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Message
+
+* ComputerName
+
+* User
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1490 | Inhibit System Recovery | Impact |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+* https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
+
+
+
+#### Test Dataset
 
 
 _version_: 1
@@ -15066,6 +15595,8 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 
 * Cloud Federated Credential Abuse
 
+* DarkSide Ransomware
+
 
 #### How To Implement
 This search needs Sysmon Logs and a sysmon configuration, which includes EventCode 7 with powershell.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
@@ -16189,6 +16720,8 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 
 * HAFNIUM Group
 
+* DarkSide Ransomware
+
 
 #### How To Implement
 You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
@@ -16231,6 +16764,92 @@ Administrators can leverage PsExec for accessing remote systems and might pass `
 
 
 _version_: 3
+</details>
+
+---
+
+### Detect RClone Command-Line Usage
+This analytic identifies commonly used command-line arguments used by `rclone.exe` to initiate a file transfer. Some arguments were negated as they are specific to the configuration used by adversaries. In particular, an adversary may list the files or directories of the remote file share using `ls` or `lsd`, which is not indicative of malicious behavior. During triage, at this stage of a ransomware event, exfiltration is about to occur or has already. Isolate the endpoint and continue investigating by review file modifications and parallel processes.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/)
+- **Last Updated**: 2021-05-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*copy*", "*mega*", "*pcloud*", "*ftp*", "*--config*", "*--progress*", "*--no-check-certificate*", "*--ignore-existing*", "*--auto-confirm*", "*--transfers*", "*--multi-thread-streams*")  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process   Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+|  `security_content_ctime(lastTime)` 
+| `detect_rclone_command_line_usage_filter`
+```
+#### Associated Analytic Story
+
+* DarkSide Ransomware
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1020 | Automated Exfiltration | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exfiltration
+
+
+#### Known False Positives
+There is potential for false positives as these arguments may be used by other applications. Filter or tune the analytic as needed.
+
+#### Reference
+
+
+* https://redcanary.com/blog/rclone-mega-extortion/
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+* https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -16918,6 +17537,88 @@ Limited false positives related to third party software registering .DLL's.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Detect Renamed RClone
+The following analytic identifies the usage of `rclone.exe`, renamed, being used to exfiltrate data to a remote destination. RClone has been used by multiple ransomware groups to exfiltrate data. In many instances, it will be downloaded from the legitimate site and executed accordingly. During triage, isolate the endpoint and begin to review parallel processes for additional behavior. At this stage, the adversary may have staged data to be exfiltrated.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/)
+- **Last Updated**: 2021-05-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventID=1 OriginalFileName=rclone.exe NOT process_name=rclone.exe 
+| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine 
+| rename Computer as dest 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_renamed_rclone_filter`
+```
+#### Associated Analytic Story
+
+* DarkSide Ransomware
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* OriginalFileName
+
+* process_name
+
+* process_path
+
+* CommandLine
+
+* dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1020 | Automated Exfiltration | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exfiltration
+
+
+#### Known False Positives
+False positives should be limited as this analytic identifies renamed instances of `rclone.exe`. Filter as needed if there is a legitimate business use case.
+
+#### Reference
+
+
+* https://redcanary.com/blog/rclone-mega-extortion/
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+* https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
 
 
 _version_: 1
@@ -21794,6 +22495,90 @@ _version_: 1
 
 ---
 
+### Extract SAM from Registry
+The following analytic identifies the use of `reg.exe` exporting Windows Registry hives containing credentials. Adversaries may use this technique to export registry hives for offline credential access attacks. Typically found executed from a untrusted process or script. Upon execution, a file will be written to disk.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-05-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=reg.exe (Processes.process=*save* OR Processes.process=*export*) AND (Processes.process=*sam* OR Processes.process=*system* OR Processes.process=*security*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `extract_sam_from_registry_filter`
+```
+#### Associated Analytic Story
+
+* DarkSide Ransomware
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+It is possible some agent based products will generate false positives. Filter as needed.
+
+#### Reference
+
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### File with Samsam Extension
 The search looks for file writes with extensions consistent with a SamSam ransomware attack.
 
@@ -26101,6 +26886,247 @@ _version_: 1
 
 ---
 
+### Multiple Disabled Users Failing To Authenticate From Host Using Kerberos
+The following analytic identifies one source endpoint failing to authenticate with multiple disabled domain users using the Kerberos protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack against disabled users. Event 4768 is generated every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code `0x12` stands for `clients credentials have been revoked` (account disabled, expired or locked out).\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will only trigger on domain controllers, not on member servers or workstations.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4768 Account_Name!="*$" Result_Code=0x12 
+| bucket span=2m _time 
+| stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by _time, Client_Address 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Client_Address 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_disabled_users_failing_to_authenticate_from_host_using_kerberos_filter` 
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Result_Code
+
+* Account_Name
+
+* Client_Address
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A host failing to authenticate with multiple disabled domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, multi-user systems missconfigured systems.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_disabled_users_kerberos/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Multiple Invalid Users Failing To Authenticate From Host Using Kerberos
+The following analytic identifies one source endpoint failing to authenticate with multiple invalid domain users using the Kerberos protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. Event 4768 is generated every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code 0x6 stands for `client not found in Kerberos database` (the attempted user is not a valid domain user).\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will only trigger on domain controllers, not on member servers or workstations.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4768 Result_Code=0x6 Account_Name!="*$" 
+| bucket span=2m _time 
+| stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by _time, Client_Address 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Client_Address 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_invalid_users_failing_to_authenticate_from_host_using_kerberos_filter` 
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Result_Code
+
+* Account_Name
+
+* Client_Address
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, multi-user systems and missconfigured systems.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Multiple Invalid Users Failing To Authenticate From Host Using NTLM
+The following analytic identifies one source endpoint failing to authenticate with multiple invalid users using the NTLM protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using NTLM to obtain initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. Event 4776 is generated on the computer that is authoritative for the provided credentials. For domain accounts, the domain controller is authoritative. For local accounts, the local computer is authoritative. Error code 0xC0000064 stands for `The username you typed does not exist` (the attempted user is a legitimate domain user).\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will only trigger on domain controllers, not on member servers or workstations.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC0000064 action=failure 
+| bucket span=2m _time 
+| stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by _time, Source_Workstation 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Workstation 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm_filter`
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation' within `Account Logon` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* action
+
+* Logon_Account
+
+* Source_Workstation
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host's local accounts.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_ntlm/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Multiple Okta Users With Invalid Credentials From The Same IP
 This search detects Okta login failures due to bad credentials for multiple users originating from the same ip address.
 
@@ -26170,6 +27196,439 @@ A single public IP address servicing multiple legitmate users may trigger this s
 
 
 _version_: 2
+</details>
+
+---
+
+### Multiple Users Attempting To Authenticate Using Explicit Credentials
+The following analytic identifies a source user failing to authenticate with multiple users using explicit credentials on a host. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4648 is generated when a process attempts an account logon by explicitly specifying that accounts credentials. This event generates on domain controllers, member servers, and workstations.\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will trigger on the potenfially malicious host, perhaps controlled via a trojan or operated by an insider threat, from where a password spraying attack is being executed.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source account, attempted user accounts and the endpoint were the behavior was identified.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ `wineventlog_security` EventCode=4648 
+| bucket span=2m _time 
+| eval Source_Account = mvindex(Account_Name, 0) 
+| eval Destination_Account = mvindex(Account_Name, 1) 
+| search Source_Account != "*$" Source_Account !="-" Destination_Account !="*$" 
+| stats dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_account by _time, ComputerName, Source_Account 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by ComputerName 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_users_attempting_to_authenticate_using_explicit_credentials_filter` 
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Security_ID
+
+* Account_Name
+
+* ComputerName
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A source user failing attempting to authenticate multiple users on a host is not a common behavior for regular systems. Some applications, however, may exhibit this behavior in which case sets of users hosts can be added to an allow list. Possible false positive scenarios include systems where several users connect to like Mail servers, identity providers, remote desktop services, Citrix, etc.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4648
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_explicit_credential_spray/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Multiple Users Failing To Authenticate From Host Using Kerberos
+The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the Kerberos protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain initial access or elevate privileges. Event 4771 is generated when the Key Distribution Center fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 0x18 stands for `wrong password provided` (the attempted user is a legitimate domain user).\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will only trigger on domain controllers, not on member servers or workstations.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4771 Failure_Code=0x18 Account_Name!="*$" 
+| bucket span=2m _time 
+| stats dc(Account_Name) AS unique_accounts values(Account_Name) as tried_accounts by _time, Client_Address 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Client_Address 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_users_failing_to_authenticate_from_host_using_kerberos_filter`
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Result_Code
+
+* Account_Name
+
+* Client_Address
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, missconfigured systems and multi-user systems like Citrix farms.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn319109(v=ws.11)
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Multiple Users Failing To Authenticate From Host Using NTLM
+The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the NTLM protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using NTLM to obtain initial access or elevate privileges. Event 4776 is generated on the computer that is authoritative for the provided credentials. For domain accounts, the domain controller is authoritative. For local accounts, the local computer is authoritative. Error code 0xC000006A means: misspelled or bad password (the attempted user is a legitimate domain user).\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will only trigger on domain controllers, not on member servers or workstations.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source workstation name and attempted user accounts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC000006A action=failure 
+| bucket span=2m _time 
+| stats dc(Logon_Account) AS unique_accounts values(Logon_Account) as tried_accounts by _time, Source_Workstation 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Workstation 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_users_failing_to_authenticate_from_host_using_ntlm_filter`
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation` within `Account Logon` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* action
+
+* Logon_Account
+
+* Source_Workstation
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host's local accounts.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Multiple Users Failing To Authenticate From Process
+The following analytic identifies a source process name failing to authenticate with multiple users. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4625 generates on domain controllers, member servers, and workstations when an account fails to logon. Logon Type 2 describes an iteractive logon attempt.\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will trigger on the potenfially malicious host, perhaps controlled via a trojan or operated by an insider threat, from where a password spraying attack is being executed. This could be a domain controller as well as a member server or workstation.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ `wineventlog_security` EventCode=4625 Logon_Type=2 Caller_Process_Name!="-" 
+| bucket span=2m _time 
+| eval Source_Account = mvindex(Account_Name, 0) 
+| eval Destination_Account = mvindex(Account_Name, 1) 
+| stats dc(Destination_Account) AS unique_accounts values(Account_Name) as tried_accounts by _time, Caller_Process_Name, Source_Account, ComputerName 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Caller_Process_Name, Source_Account, ComputerName 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_users_failing_to_authenticate_from_process_filter` 
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Logon_Type
+
+* Caller_Process_Name
+
+* Security_ID
+
+* Account_Name
+
+* ComputerName
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Multiple Users Remotely Failing To Authenticate From Host
+The following analytic identifies a source host failing to authenticate against a remote host with multiple users. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4625 documents each and every failed attempt to logon to the local computer. This event generates on domain controllers, member servers, and workstations. Logon Type 3 describes an remote authentication attempt.\
+The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
+This detection will trigger on the host that is the target of the password spraying attack. This could be a domain controller as well as a member server or workstation.\
+The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
+- **Last Updated**: 2021-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ `wineventlog_security` EventCode=4625 Logon_Type=3 Source_Network_Address!="-" 
+| bucket span=2m _time 
+| eval Destination_Account = mvindex(Account_Name, 1) 
+| stats dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts by _time, Source_Network_Address, ComputerName 
+| eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Network_Address, ComputerName 
+| eval upperBound=(comp_avg+comp_std*3) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
+| search isOutlier=1 
+| `multiple_users_remotely_failing_to_authenticate_from_host_filter` 
+```
+#### Associated Analytic Story
+
+* Active Directory Password Spraying
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Logon_Type
+
+* Security_ID
+
+* Account_Name
+
+* ComputerName
+
+* Source_Network_Address
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+A host failing to authenticate with multiple valid users against a remote host is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, remote administration tools, missconfigyred systems, etc.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray/windows-security.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -27450,7 +28909,7 @@ this detection was designed to identifies suspicious spawned process of known MS
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name = "wordpad.exe") Processes.process_name=rundll32.exe  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| tstats `security_content_summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe") Processes.process_name=rundll32.exe  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.user Processes.dest 
 | `drop_dm_object_name("Processes")` 
 | `security_content_ctime(firstTime)`
 |`security_content_ctime(lastTime)` 
@@ -27459,6 +28918,8 @@ this detection was designed to identifies suspicious spawned process of known MS
 #### Associated Analytic Story
 
 * Spearphishing Attachments
+
+* Trickbot
 
 
 #### How To Implement
@@ -27529,7 +28990,7 @@ this search detects a potential malicious office document that create schedule t
 
 #### Search
 ```
-`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE", "wordpad.exe")  ImageLoaded = "*\\taskschd.dll" 
+`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE") ImageLoaded = "*\\taskschd.dll" 
 | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode Image process_name ProcessId ProcessGuid 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -27612,7 +29073,7 @@ this detection was designed to identifies suspicious office documents that using
 
 #### Search
 ```
-`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE", "wordpad.exe")  ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") 
+`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE") ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") 
 | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode Image process_name ProcessId ProcessGuid 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -27621,6 +29082,8 @@ this detection was designed to identifies suspicious office documents that using
 #### Associated Analytic Story
 
 * Spearphishing Attachments
+
+* Trickbot
 
 
 #### How To Implement
@@ -27693,7 +29156,7 @@ this search is to detect potential malicious office document executing lolbin ch
 
 #### Search
 ```
-`sysmon` EventCode=1 parent_process_name IN ("powerpnt.exe", "winword.exe", "excel.exe", "visio.exe", "wordpad.exe") process_name = "*.exe" cmdline IN ("*http:*","*https:*")  NOT(OriginalFileName IN("*\\firefox.exe", "*\\chrome.exe","*\\iexplore.exe","*\\msedge.exe")) 
+`sysmon` EventCode=1 parent_process_name IN ("powerpnt.exe", "winword.exe", "excel.exe", "visio.exe") process_name = "*.exe" cmdline IN ("*http:*","*https:*")  NOT(OriginalFileName IN("*\\firefox.exe", "*\\chrome.exe","*\\iexplore.exe","*\\msedge.exe")) 
 | stats min(_time) as firstTime max(_time) as lastTime count by parent_process_name process_name parent_process cmdline process_id OriginalFileName ProcessGuid Computer EventCode 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -28754,6 +30217,91 @@ _version_: 1
 
 ---
 
+### Powershell Remote Thread To Known Windows Process
+this search is designed to detect suspicious powershell process that tries to inject code and to known/critical windows process and execute it using CreateRemoteThread. This technique is seen in several malware like trickbot and offensive tooling like cobaltstrike where it load a shellcode to svchost.exe to execute reverse shell to c2 and download another payload
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode = 8 process_name IN ("powershell_ise.exe", "powershell.exe") TargetImage IN ("*\\svchost.exe","*\\csrss.exe" "*\\gpupdate.exe", "*\\explorer.exe","*\\services.exe","*\\winlogon.exe","*\\smss.exe","*\\wininit.exe","*\\userinit.exe","*\\spoolsv.exe","*\\taskhost.exe") 
+| stats  min(_time) as firstTime max(_time) as lastTime count by SourceImage process_name SourceProcessId SourceProcessGuid TargetImage TargetProcessId NewThreadId StartAddress Computer EventCode 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `powershell_remote_thread_to_known_windows_process_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, Create Remote thread from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of create remote thread may be used.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* process_name
+
+* SourceProcessId
+
+* SourceProcessGuid
+
+* TargetImage
+
+* TargetProcessId
+
+* NewThreadId
+
+* StartAddress
+
+* Computer
+
+* EventCode
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2021/01/11/trickbot-still-alive-and-well/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Probing Access with Stolen Credentials via PowerSploit modules
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
@@ -29571,8 +31119,9 @@ The following analytics identifies a big number of instance of ransomware notes 
 #### Search
 ```
 `sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") 
+|bin _time span=10s 
 | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename) as unique_readme_path_count values(TargetFilename) as list_of_readme_path by Computer Image file_name 
-| where unique_readme_path_count >= 50 
+| where unique_readme_path_count >= 15 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `ransomware_notes_bulk_creation_filter`
@@ -29580,6 +31129,8 @@ The following analytics identifies a big number of instance of ransomware notes 
 #### Associated Analytic Story
 
 * Clop Ransomware
+
+* DarkSide Ransomware
 
 
 #### How To Implement
@@ -30984,7 +32535,7 @@ _version_: 2
 The search looks for modifications to registry keys that can be used to launch an application or service at system startup.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: Endpoint
 - **ATT&CK**: [T1547.001](https://attack.mitre.org/techniques/T1547/001/)
 - **Last Updated**: 2020-11-27
 
@@ -32025,6 +33576,182 @@ _version_: 1
 
 ---
 
+### SLUI RunAs Elevated
+The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This particular bypass utilizes a registry key/value. Identified by two sources, the registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`. To simulate this behavior, multiple POC are available. The analytic identifies the use of `runas` by `slui.exe`.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-05-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=slui.exe (Processes.process=*-verb* Processes.process=*runas*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `slui_runas_elevated_filter`
+```
+#### Associated Analytic Story
+
+* DarkSide Ransomware
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives should be present as this is not commonly used by legitimate applications.
+
+#### Reference
+
+
+* https://www.exploit-db.com/exploits/46998
+
+* https://medium.com/@mattharr0ey/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b
+
+* https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466
+
+* https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### SLUI Spawning a Process
+The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, spawning a child process. This behavior is associated with publicly known UAC bypass. `slui.exe` is commonly associated with software updates and is most often spawned by `svchost.exe`. The `slui.exe` process should not have child processes, and any processes spawning from it will be running with elevated privileges. During triage, review the child process and additional parallel processes. Identify any file modifications that may have lead to the bypass.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-05-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=slui.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `slui_spawning_a_process_filter`
+```
+#### Associated Analytic Story
+
+* DarkSide Ransomware
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Certain applications may spawn from `slui.exe` that are legitimate. Filtering will be needed to ensure proper monitoring.
+
+#### Reference
+
+
+* https://www.exploit-db.com/exploits/46998
+
+* https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### SMB Traffic Spike
 This search looks for spikes in the number of Server Message Block (SMB) traffic connections.
 
@@ -32404,6 +34131,172 @@ Using sc.exe to manipulate Windows services is uncommon. However, there may be l
 
 
 _version_: 4
+</details>
+
+---
+
+### Schedule Task with HTTP Command Arguments
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with an arguments "HTTP" string that are unique entry of malware or attack that uses lolbin to download other file or payload to the infected machine. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory. Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4698 
+| xmlkv Message
+| search Arguments IN ("*http*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden, Arguments 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `schedule_task_with_http_command_arguments_filter`
+```
+#### Associated Analytic Story
+
+* Windows Persistence Techniques
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and filter known instances of Task schedule used in your environment.
+
+#### Required field
+
+* _time
+
+* dest
+
+* Task_Name
+
+* Command
+
+* Author
+
+* Enabled
+
+* Hidden
+
+* Arguments
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Schedule Task with Rundll32 Command Trigger
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a Rundll32. This technique is common in new trickbot that uses rundll32 to load is trickbot downloader. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\ schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`.\ The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\ Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4698 
+| xmlkv Message 
+| search Command IN ("*rundll32*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden, Arguments 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `schedule_task_with_rundll32_command_trigger_filter`
+```
+#### Associated Analytic Story
+
+* Windows Persistence Techniques
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and filter known instances of Task schedule used in your environment.
+
+#### Required field
+
+* _time
+
+* dest
+
+* Task_Name
+
+* Command
+
+* Author
+
+* Enabled
+
+* Hidden
+
+* Arguments
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://labs.vipre.com/trickbot-and-its-modules/
+
+* https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/tasksched/windows-security.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -33146,87 +35039,6 @@ None identified.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllPowerSploitModulesWithOldNames.log
-
-
-_version_: 1
-</details>
-
----
-
-### Shedule Task with HTTP Command Arguments
-The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with an arguments "HTTP" string that are unique entry of malware or attack that uses lolbin to download other file or payload to the infected machine.\ The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\ schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`.\ The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\ Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
-- **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/)
-- **Last Updated**: 2021-04-19
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
-`wineventlog_security` EventCode=4698 
-| xmlkv Message
-| search Arguments IN ("*http*") 
-| stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden, Arguments 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| `shedule_task_with_http_command_arguments_filter`
-```
-#### Associated Analytic Story
-
-* Windows Persistence Techniques
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and filter known instances of Task schedule used in your environment.
-
-#### Required field
-
-* _time
-
-* dest
-
-* Task_Name
-
-* Command
-
-* Author
-
-* Enabled
-
-* Hidden
-
-* Arguments
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
-
-
-#### Kill Chain Phase
-
-* Exploitation
-
-
-#### Known False Positives
-unknown
-
-#### Reference
-
-
-* https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
-
-
-
-#### Test Dataset
-
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
 
 
 _version_: 1
@@ -35045,6 +36857,8 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 
 * Cobalt Strike
 
+* Trickbot
+
 
 #### How To Implement
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -36292,7 +38106,6 @@ $cond_6 =
 | union $cond_4 
 | union $cond_5 
 | union $cond_6 
-| 
 | where process_path NOT LIKE "%\\windows\\system32%" OR process_path NOT LIKE "%\\windows\\syswow64%" 
 | eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["process_path", process_path, "process_name", process_name]) 
 | into write_ssa_detected_events();
@@ -36512,6 +38325,87 @@ None at this time
 
 
 _version_: 2
+</details>
+
+---
+
+### Trickbot Named Pipe
+this search is to detect potential trickbot infection through the create/connected named pipe to the system. This technique is used by trickbot to communicate to its c2 to post or get command during infection.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-04-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" 
+| stats  min(_time) as firstTime max(_time) as lastTime count by Computer user_id EventCode PipeName signature Image process_id 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `trickbot_named_pipe_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and pipename from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. .
+
+#### Required field
+
+* _time
+
+* Computer
+
+* user_id
+
+* EventCode
+
+* PipeName
+
+* signature
+
+* Image
+
+* process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://labs.vipre.com/trickbot-and-its-modules/
+
+* https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/namedpipe/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -37877,6 +39771,252 @@ _version_: 1
 
 ---
 
+### Wermgr Process Connecting To IP Check Web Services
+this search is designed to detect suspicious wermgr.exe process that tries to connect to known IP web services. This technique is know for trickbot and other trojan spy malware to recon the infected machine and look for its ip address without so much finger print on the commandline process. Since wermgr.exe is designed for error handling process of windows it is really suspicious that this process is trying to connect to this IP web services cause that maybe cause of some malicious code injection.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1590.005](https://attack.mitre.org/techniques/T1590/005/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfismyip.com", "*checkip.amazonaws.com", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net") 
+|  stats  min(_time) as firstTime max(_time) as lastTime count by  process_path process_name process_id QueryName QueryStatus QueryResults Computer EventCode 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `wermgr_process_connecting_to_ip_check_web_services_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, dns query name process path , and query ststus from your endpoints like EventCode 22. If you are using Sysmon, you must have at least version 12 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* process_path
+
+* process_name
+
+* process_id
+
+* QueryName
+
+* QueryStatus
+
+* QueryResults
+
+* Computer
+
+* EventCode
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1590.005 | IP Addresses | Reconnaissance |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://labs.vipre.com/trickbot-and-its-modules/
+
+* https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Wermgr Process Create Executable File
+this search is designed to detect potential malicious wermgr.exe process that drops or create executable file. Since wermgr.exe is an application trigger when error encountered in a process, it is really un ussual to this process to drop executable file. This technique is commonly seen in trickbot malware where it injects it code to this process to execute it malicious behavior like downloading other payload
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1027](https://attack.mitre.org/techniques/T1027/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe" 
+| stats  min(_time) as firstTime max(_time) as lastTime count by  Image TargetFilename process_name dest EventCode ProcessId 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `wermgr_process_create_executable_file_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+
+#### Required field
+
+* _time
+
+* Image
+
+* TargetFilename
+
+* process_name
+
+* dest
+
+* EventCode
+
+* ProcessId
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1027 | Obfuscated Files or Information | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://labs.vipre.com/trickbot-and-its-modules/
+
+* https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Wermgr Process Spawned CMD Or Powershell Process
+This search is designed to detect suspicious cmd and powershell process spawned by wermgr.exe process. This suspicious behavior are commonly seen in code injection technique technique like trickbot to execute a shellcode, dll modules to run malicious behavior.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/)
+- **Last Updated**: 2021-04-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as cmdline min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "wermgr.exe" Processes.process_name = "cmd.exe" OR Processes.process_name = "powershell.exe" by Processes.parent_process_name Processes.parent_process_id  Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `wermgr_process_spawned_cmd_or_powershell_process_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.parent_process_id
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_guid
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1059 | Command and Scripting Interpreter | Execution |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://labs.vipre.com/trickbot-and-its-modules/
+
+* https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### WinEvent Scheduled Task Created Within Public Path
 The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed from a user writeable file path.\
 The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\
@@ -38708,6 +40848,89 @@ There will be limited false positives and it will be different for every environ
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_wsh.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Write Executable in SMB Share
+This search is to detect suspicious dropping or creating an executable file in known sensitive SMB share. This technique is commonly used for lateral movement like how trickbot try to infect other machine in the infected network. This detection catch the access event (FILE WRITE) access to a share.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021/002/)
+- **Last Updated**: 2021-04-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll") Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask= "0x2" 
+| stats min(_time) as firstTime max(_time) as lastTime count by EventCode Share_Name Relative_Target_Name Object_Type Access_Mask user src_port Source_Address 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `write_executable_in_smb_share_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also required. Also enable the object Audit access success/failure in your group policy.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Share_Name
+
+* Relative_Target_Name
+
+* Object_Type
+
+* Access_Mask
+
+* user
+
+* src_port
+
+* Source_Address
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+
+
+#### Kill Chain Phase
+
+* Lateral Movement
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://labs.vipre.com/trickbot-and-its-modules/
+
+* https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
 
 
 _version_: 1
