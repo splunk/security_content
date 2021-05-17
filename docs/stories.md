@@ -284,6 +284,61 @@ _version_: 1
 <details>
   <summary>details</summary>
 
+### Active Directory Password Spraying
+Monitor for activities and techniques associated with Password Spraying attacks within Active Directory environments.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110.003/)
+- **Last Updated**: 2021-04-07
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Multiple Disabled Users Failing To Authenticate From Host Using Kerberos](detections.md#multiple-disabled-users-failing-to-authenticate-from-host-using-kerberos)
+
+* [Multiple Invalid Users Failing To Authenticate From Host Using Kerberos](detections.md#multiple-invalid-users-failing-to-authenticate-from-host-using-kerberos)
+
+* [Multiple Invalid Users Failing To Authenticate From Host Using NTLM](detections.md#multiple-invalid-users-failing-to-authenticate-from-host-using-ntlm)
+
+* [Multiple Users Attempting To Authenticate Using Explicit Credentials](detections.md#multiple-users-attempting-to-authenticate-using-explicit-credentials)
+
+* [Multiple Users Failing To Authenticate From Host Using Kerberos](detections.md#multiple-users-failing-to-authenticate-from-host-using-kerberos)
+
+* [Multiple Users Failing To Authenticate From Host Using NTLM](detections.md#multiple-users-failing-to-authenticate-from-host-using-ntlm)
+
+* [Multiple Users Failing To Authenticate From Process](detections.md#multiple-users-failing-to-authenticate-from-process)
+
+* [Multiple Users Remotely Failing To Authenticate From Host](detections.md#multiple-users-remotely-failing-to-authenticate-from-host)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1110.003 | Password Spraying | Credential Access |
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Reference
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://www.microsoft.com/security/blog/2020/04/23/protecting-organization-password-spray-attacks/
+
+* https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn452415(v=ws.11)
+
+
+_version_: 1
+</details>
+
+---
+
 ### BITS Jobs
 Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads.
 
@@ -712,6 +767,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Dump LSASS via procdump Rename](detections.md#dump-lsass-via-procdump-rename)
 
+* [Extract SAM from Registry](detections.md#extract-sam-from-registry)
+
 * [Ntdsutil Export NTDS](detections.md#ntdsutil-export-ntds)
 
 * [Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#set-default-powershell-execution-policy-to-unrestricted-or-bypass)
@@ -748,6 +805,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Exploitation
 
 * Installation
 
@@ -2549,6 +2608,10 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 * [Remote Registry Key modifications](detections.md#remote-registry-key-modifications)
 
+* [SLUI RunAs Elevated](detections.md#slui-runas-elevated)
+
+* [SLUI Spawning a Process](detections.md#slui-spawning-a-process)
+
 * [Suspicious Reg exe Process](detections.md#suspicious-reg-exe-process)
 
 * [System Process Running from Unexpected Location](detections.md#system-process-running-from-unexpected-location)
@@ -2779,6 +2842,10 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 * [Sc exe Manipulating Windows Services](detections.md#sc-exe-manipulating-windows-services)
 
+* [Schedule Task with HTTP Command Arguments](detections.md#schedule-task-with-http-command-arguments)
+
+* [Schedule Task with Rundll32 Command Trigger](detections.md#schedule-task-with-rundll32-command-trigger)
+
 * [Schtasks used for forcing a reboot](detections.md#schtasks-used-for-forcing-a-reboot)
 
 * [Setting Credentials via DSInternals modules](detections.md#setting-credentials-via-dsinternals-modules)
@@ -2786,8 +2853,6 @@ Monitor for activities and techniques associated with maintaining persistence on
 * [Setting Credentials via Mimikatz modules](detections.md#setting-credentials-via-mimikatz-modules)
 
 * [Setting Credentials via PowerSploit modules](detections.md#setting-credentials-via-powersploit-modules)
-
-* [Shedule Task with HTTP Command Arguments](detections.md#shedule-task-with-http-command-arguments)
 
 * [Shim Database File Creation](detections.md#shim-database-file-creation)
 
@@ -4606,6 +4671,89 @@ _version_: 2
 
 ---
 
+### DarkSide Ransomware
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the DarkSide Ransomware
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.001](https://attack.mitre.org/techniques/T1003.001/), [T1003.002](https://attack.mitre.org/techniques/T1003.002/), [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1105](https://attack.mitre.org/techniques/T1105/), [T1197](https://attack.mitre.org/techniques/T1197/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
+- **Last Updated**: 2020-06-12
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Attempted Credential Dump From Registry via Reg exe](detections.md#attempted-credential-dump-from-registry-via-reg-exe)
+
+* [BITSAdmin Download File](detections.md#bitsadmin-download-file)
+
+* [CMLUA Or CMSTPLUA UAC Bypass](detections.md#cmlua-or-cmstplua-uac-bypass)
+
+* [CertUtil Download With URLCache and Split Arguments](detections.md#certutil-download-with-urlcache-and-split-arguments)
+
+* [CertUtil Download With VerifyCtl and Split Arguments](detections.md#certutil-download-with-verifyctl-and-split-arguments)
+
+* [Cobalt Strike Named Pipes](detections.md#cobalt-strike-named-pipes)
+
+* [Delete ShadowCopy With PowerShell](detections.md#delete-shadowcopy-with-powershell)
+
+* [Detect Mimikatz Using Loaded Images](detections.md#detect-mimikatz-using-loaded-images)
+
+* [Detect PsExec With accepteula Flag](detections.md#detect-psexec-with-accepteula-flag)
+
+* [Detect RClone Command-Line Usage](detections.md#detect-rclone-command-line-usage)
+
+* [Detect Renamed RClone](detections.md#detect-renamed-rclone)
+
+* [Extract SAM from Registry](detections.md#extract-sam-from-registry)
+
+* [Ransomware Notes bulk creation](detections.md#ransomware-notes-bulk-creation)
+
+* [SLUI RunAs Elevated](detections.md#slui-runas-elevated)
+
+* [SLUI Spawning a Process](detections.md#slui-spawning-a-process)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
+| T1105 | Ingress Tool Transfer | Command and Control |
+| T1218.003 | CMSTP | Defense Evasion |
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1490 | Inhibit System Recovery | Impact |
+| T1003.001 | LSASS Memory | Credential Access |
+| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+| T1020 | Automated Exfiltration | Exfiltration |
+| T1486 | Data Encrypted for Impact | Impact |
+| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exfiltration
+
+* Exploitation
+
+* Obfuscation
+
+
+#### Reference
+
+* https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+
+_version_: 1
+</details>
+
+---
+
 ### Dynamic DNS
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
@@ -4855,7 +5003,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Traffic
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
+- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
 - **Last Updated**: 2020-02-04
 
 <details>
@@ -4865,11 +5013,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [BCDEdit Failure Recovery Modification](detections.md#bcdedit-failure-recovery-modification)
 
+* [CMLUA Or CMSTPLUA UAC Bypass](detections.md#cmlua-or-cmstplua-uac-bypass)
+
 * [Common Ransomware Extensions](detections.md#common-ransomware-extensions)
 
 * [Common Ransomware Notes](detections.md#common-ransomware-notes)
 
 * [Deleting Shadow Copies](detections.md#deleting-shadow-copies)
+
+* [Detect RClone Command-Line Usage](detections.md#detect-rclone-command-line-usage)
+
+* [Detect Renamed RClone](detections.md#detect-renamed-rclone)
 
 * [Prohibited Network Traffic Allowed](detections.md#prohibited-network-traffic-allowed)
 
@@ -4915,7 +5069,9 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1490 | Inhibit System Recovery | Impact |
+| T1218.003 | CMSTP | Defense Evasion |
 | T1485 | Data Destruction | Impact |
+| T1020 | Automated Exfiltration | Exfiltration |
 | T1482 | Domain Trust Discovery | Discovery |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
@@ -4939,6 +5095,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * Command and Control
 
 * Delivery
+
+* Exfiltration
 
 * Exploitation
 
@@ -5049,7 +5207,9 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1490 | Inhibit System Recovery | Impact |
+| T1218.003 | CMSTP | Defense Evasion |
 | T1485 | Data Destruction | Impact |
+| T1020 | Automated Exfiltration | Exfiltration |
 | T1482 | Domain Trust Discovery | Discovery |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
@@ -5167,6 +5327,84 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
 
 * https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
+
+
+_version_: 1
+</details>
+
+---
+
+### Trickbot
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the trickbot banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection even in LDAP environment.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/), [T1590.005](https://attack.mitre.org/techniques/T1590.005/)
+- **Last Updated**: 2021-04-20
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Account Discovery With Net App](detections.md#account-discovery-with-net-app)
+
+* [Attempt To Stop Security Service](detections.md#attempt-to-stop-security-service)
+
+* [Cobalt Strike Named Pipes](detections.md#cobalt-strike-named-pipes)
+
+* [Office Application Spawn rundll32 process](detections.md#office-application-spawn-rundll32-process)
+
+* [Office Document Executing Macro Code](detections.md#office-document-executing-macro-code)
+
+* [Powershell Remote Thread To Known Windows Process](detections.md#powershell-remote-thread-to-known-windows-process)
+
+* [Schedule Task with Rundll32 Command Trigger](detections.md#schedule-task-with-rundll32-command-trigger)
+
+* [Suspicious Rundll32 StartW](detections.md#suspicious-rundll32-startw)
+
+* [Trickbot Named Pipe](detections.md#trickbot-named-pipe)
+
+* [Wermgr Process Connecting To IP Check Web Services](detections.md#wermgr-process-connecting-to-ip-check-web-services)
+
+* [Wermgr Process Create Executable File](detections.md#wermgr-process-create-executable-file)
+
+* [Wermgr Process Spawned CMD Or Powershell Process](detections.md#wermgr-process-spawned-cmd-or-powershell-process)
+
+* [Write Executable in SMB Share](detections.md#write-executable-in-smb-share)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1087.002 | Domain Account | Discovery |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1566.001 | Spearphishing Attachment | Initial Access |
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1590.005 | IP Addresses | Reconnaissance |
+| T1027 | Obfuscated Files or Information | Defense Evasion |
+| T1059 | Command and Scripting Interpreter | Execution |
+| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exploitation
+
+* Installation
+
+* Lateral Movement
+
+
+#### Reference
+
+* https://en.wikipedia.org/wiki/Trickbot
+
+* https://blog.checkpoint.com/2021/03/11/february-2021s-most-wanted-malware-trickbot-takes-over-following-emotet-shutdown/
 
 
 _version_: 1
