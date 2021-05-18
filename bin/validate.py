@@ -45,6 +45,7 @@ def validate_schema(REPO_PATH, type, objects, verbose):
             except yaml.YAMLError as exc:
                 print(exc)
                 print("Error reading {0}".format(manifest_file))
+                errors.append("ERROR: Error reading {0}".format(manifest_file))
                 error = True
                 continue
 
@@ -258,7 +259,7 @@ def validate_tests(REPO_PATH, object):
                 errors.append('ERROR: orphaned test: {0}, detection file: {1} no longer exists or incorrect detection path under `file`'.format(object['name'], detection_file_path))
         else:
             errors.append('ERROR: test: {0} does not have a detection `file` associated with detection: {1}'.format(object['name'], test['name']))
-        test['file']
+        #test['file']
     return errors
 
 def main(REPO_PATH, verbose):
