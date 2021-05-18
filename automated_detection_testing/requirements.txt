@@ -5,9 +5,9 @@ aspy.yaml==1.3.0
 atomicwrites==1.4.0
 attackcti==0.3.4.3
 attrs==20.3.0
-azure-common==1.1.25
+azure-common==1.1.27
 azure-core==1.13.0
-azure-identity==1.4.1
+azure-identity==1.6.0
 azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
 azure-mgmt-network==16.0.0
