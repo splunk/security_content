@@ -20,9 +20,13 @@ def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
     for file in sorted(glob.glob(manifest_files)):
-        if VERBOSE:
-            print("processing manifest: {0}".format(file))
-        files.append(load_file(file))
+
+        # skip deprecated detections from being added to products
+        if 'deprecated' not in file:
+            if VERBOSE:
+                print("processing manifest: {0}".format(file))
+            files.append(load_file(file))
+            
     return files
 
 
