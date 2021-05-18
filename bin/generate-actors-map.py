@@ -230,8 +230,9 @@ def load_objects(security_content_path, file_path):
     detection_files = path.join(path.expanduser(security_content_path), file_path)
 
     for file in glob.glob(detection_files):
+        file_name  =  file.replace('./detections/', '')
         files.append({
-            "filename": os.path.basename(file),
+            "filename": file_name,
             "object": load_file(file)
         })
 
