@@ -13,10 +13,10 @@ description: this detection was designed to identifies suspicious office documen
   or other malware component. It is really good practice to disable macro by default
   to avoid automatically execute macro code while opening or closing a office document
   files.
-search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE",
-  "wordpad.exe")  ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL")
-  | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded
-  count by Computer EventCode Image process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)`
+search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE")
+  ImageLoaded IN ("*\\VBE7INTL.DLL","*\\VBE7.DLL", "*\\VBEUI.DLL") | stats min(_time)
+  as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count
+  by Computer EventCode Image process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `office_document_executing_macro_code_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - Trickbot
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log

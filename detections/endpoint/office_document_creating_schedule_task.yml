@@ -19,11 +19,11 @@ description: this search detects a potential malicious office document that crea
   source. Was it schtasks.exe or via TaskService? Review the job created and the Command
   to be executed. Capture any artifacts on disk and review. Identify any parallel
   processes within the same timeframe to identify source.'
-search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE",
-  "wordpad.exe")  ImageLoaded = "*\\taskschd.dll" | stats min(_time) as firstTime
-  max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count by Computer EventCode
-  Image process_name ProcessId ProcessGuid | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)` | `office_document_creating_schedule_task_filter`'
+search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE")
+  ImageLoaded = "*\\taskschd.dll" | stats min(_time) as firstTime max(_time) as lastTime
+  values(ImageLoaded) as AllImageLoaded count by Computer EventCode Image process_name
+  ProcessId ProcessGuid | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `office_document_creating_schedule_task_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.

@@ -1,5 +1,5 @@
-name: Shedule Task with HTTP Command Arguments
-id: 523c2684-a101-11eb-916b-acde48001122
+name: Schedule Task with Rundll32 Command Trigger
+id: 75b00fd8-a0ff-11eb-8b31-acde48001122
 version: 1
 date: '2021-04-19'
 author: Teoderick Contreras, Splunk
@@ -8,10 +8,10 @@ datamodel:
 - Endpoint
 description: The following query utilizes Windows Security EventCode 4698, `A scheduled
   task was created`, to identify suspicious tasks registered on Windows either via
-  schtasks.exe OR TaskService with an arguments "HTTP" string that are unique entry
-  of malware or attack that uses lolbin to download other file or payload to the infected
-  machine.\ The search will return the first time and last time the task was registered,
-  as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether
+  schtasks.exe OR TaskService with a command to be executed with a Rundll32. This
+  technique is common in new trickbot that uses rundll32 to load is trickbot downloader.
+  The search will return the first time and last time the task was registered, as
+  well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether
   it is `Hidden` or not.\ schtasks.exe is natively found in `C:\Windows\system32`
   and `C:\Windows\syswow64`.\ The following DLL(s) are loaded when schtasks.exe or
   TaskService is launched -`taskschd.dll`. If found loaded by another process, it
@@ -20,22 +20,24 @@ description: The following query utilizes Windows Security EventCode 4698, `A sc
   via TaskService? Review the job created and the Command to be executed. Capture
   any artifacts on disk and review. Identify any parallel processes within the same
   timeframe to identify source.'
-search: '`wineventlog_security` EventCode=4698 | xmlkv Message| search Arguments IN
-  ("*http*") | stats count min(_time) as firstTime max(_time) as lastTime by dest,
+search: '`wineventlog_security` EventCode=4698 | xmlkv Message | search Command IN
+  ("*rundll32*") | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Task_Name, Command, Author, Enabled, Hidden, Arguments | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `shedule_task_with_http_command_arguments_filter`'
+  | `security_content_ctime(lastTime)` | `schedule_task_with_rundll32_command_trigger_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and
   filter known instances of Task schedule used in your environment.
 known_false_positives: unknown
 references:
-- https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
+- https://labs.vipre.com/trickbot-and-its-modules/
+- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
 tags:
   analytic_story:
   - Windows Persistence Techniques
+  - Trickbot
   automated_detection_testing: passed
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/tasksched/windows-security.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

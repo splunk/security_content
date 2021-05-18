@@ -4,7 +4,8 @@ version: 5
 date: '2020-11-27'
 author: David Dorsey, Splunk
 type: batch
-datamodel: []
+datamodel:
+- Endpoint
 description: The search looks for modifications to registry keys that can be used
   to launch an application or service at system startup.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
