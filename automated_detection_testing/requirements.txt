@@ -8,7 +8,7 @@ attrs==20.3.0
 azure-common==1.1.25
 azure-core==1.13.0
 azure-identity==1.4.1
-azure-mgmt-compute==17.0.0
+azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
 azure-mgmt-network==16.0.0
 azure-mgmt-resource==16.1.0
@@ -59,7 +59,7 @@ pytest==6.2.2
 python-daemon==2.3.0
 python-dateutil==2.8.1
 python-terraform==0.10.1
-pywinrm==0.4.1
+pywinrm==0.4.2
 PyYAML==5.4.1
 requests==2.25.1
 requests-ntlm==1.1.0
