@@ -21,6 +21,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Detections
+  - Data Exfiltration
   asset_type: Office 365
   automated_detection_testing: passed
   dataset:
