@@ -33,7 +33,7 @@ nodeenv==1.5.0
 packaging==20.9
 pathlib2==2.3.5
 pendulum==1.2.5
-pep517==0.8.2
+pep517==0.10.0
 Pillow==8.2.0
 pre-commit==2.12.1
 progress==1.5
