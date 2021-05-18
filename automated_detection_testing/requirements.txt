@@ -8,7 +8,7 @@ attrs==20.3.0
 azure-common==1.1.25
 azure-core==1.13.0
 azure-identity==1.6.0
-azure-mgmt-compute==17.0.0
+azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
 azure-mgmt-network==16.0.0
 azure-mgmt-resource==16.1.0
@@ -23,7 +23,7 @@ configparser==5.0.2
 contextlib2==0.6.0.post1
 Deprecated==1.2.12
 dnspython==2.1.0
-docutils==0.16
+docutils==0.17.1
 execnet==1.8.0
 gitdb==4.0.5
 GitPython==3.1.14
