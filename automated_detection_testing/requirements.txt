@@ -17,7 +17,7 @@ boto3==1.17.67
 botocore==1.20.30
 certifi==2020.12.5
 cffi==1.14.5
-cfgv==2.0.1
+cfgv==3.3.0
 chardet==4.0.0
 configparser==5.0.2
 contextlib2==0.6.0.post1
