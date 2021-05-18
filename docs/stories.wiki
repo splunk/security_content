@@ -346,6 +346,69 @@ Monitor your environment for activity consistent with common attack techniques b
 ==Adversary Tactics==
 
 
+===Active directory password spraying===
+Monitor for activities and techniques associated with Password Spraying attacks within Active Directory environments.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1110.003/ T1110.003]
+* '''Last Updated''': 2021-04-07
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_disabled_users_failing_to_authenticate_from_host_using_kerberos|Multiple Disabled Users Failing To Authenticate From Host Using Kerberos]]
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_invalid_users_failing_to_authenticate_from_host_using_kerberos|Multiple Invalid Users Failing To Authenticate From Host Using Kerberos]]
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm|Multiple Invalid Users Failing To Authenticate From Host Using NTLM]]
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_users_attempting_to_authenticate_using_explicit_credentials|Multiple Users Attempting To Authenticate Using Explicit Credentials]]
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_users_failing_to_authenticate_from_host_using_kerberos|Multiple Users Failing To Authenticate From Host Using Kerberos]]
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_users_failing_to_authenticate_from_host_using_ntlm|Multiple Users Failing To Authenticate From Host Using NTLM]]
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_users_failing_to_authenticate_from_process|Multiple Users Failing To Authenticate From Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Multiple_users_remotely_failing_to_authenticate_from_host|Multiple Users Remotely Failing To Authenticate From Host]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1110.003
+| Password Spraying
+| Credential Access
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://attack.mitre.org/techniques/T1110/003/
+
+* https://www.microsoft.com/security/blog/2020/04/23/protecting-organization-password-spray-attacks/
+
+* https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn452415(v=ws.11)
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Bits jobs===
 Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads.
 
@@ -897,6 +960,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump_rename|Dump LSASS via procdump Rename]]
 
+* [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
+
 * [[Documentation:ESSOC:detections:Detections#Ntdsutil_export_ntds|Ntdsutil Export NTDS]]
 
 * [[Documentation:ESSOC:detections:Detections#Set_default_powershell_execution_policy_to_unrestricted_or_bypass|Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
@@ -1000,6 +1065,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 ====Kill Chain Phase====
 
 * Actions on Objectives
+
+* Exploitation
 
 * Installation
 
@@ -3376,6 +3443,10 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 * [[Documentation:ESSOC:detections:Detections#Remote_registry_key_modifications|Remote Registry Key modifications]]
 
+* [[Documentation:ESSOC:detections:Detections#Slui_runas_elevated|SLUI RunAs Elevated]]
+
+* [[Documentation:ESSOC:detections:Detections#Slui_spawning_a_process|SLUI Spawning a Process]]
+
 * [[Documentation:ESSOC:detections:Detections#Suspicious_reg_exe_process|Suspicious Reg exe Process]]
 
 * [[Documentation:ESSOC:detections:Detections#System_process_running_from_unexpected_location|System Process Running from Unexpected Location]]
@@ -3741,6 +3812,10 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 * [[Documentation:ESSOC:detections:Detections#Sc_exe_manipulating_windows_services|Sc exe Manipulating Windows Services]]
 
+* [[Documentation:ESSOC:detections:Detections#Schedule_task_with_http_command_arguments|Schedule Task with HTTP Command Arguments]]
+
+* [[Documentation:ESSOC:detections:Detections#Schedule_task_with_rundll32_command_trigger|Schedule Task with Rundll32 Command Trigger]]
+
 * [[Documentation:ESSOC:detections:Detections#Schtasks_used_for_forcing_a_reboot|Schtasks used for forcing a reboot]]
 
 * [[Documentation:ESSOC:detections:Detections#Setting_credentials_via_dsinternals_modules|Setting Credentials via DSInternals modules]]
@@ -3748,8 +3823,6 @@ Monitor for activities and techniques associated with maintaining persistence on
 * [[Documentation:ESSOC:detections:Detections#Setting_credentials_via_mimikatz_modules|Setting Credentials via Mimikatz modules]]
 
 * [[Documentation:ESSOC:detections:Detections#Setting_credentials_via_powersploit_modules|Setting Credentials via PowerSploit modules]]
-
-* [[Documentation:ESSOC:detections:Detections#Shedule_task_with_http_command_arguments|Shedule Task with HTTP Command Arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Shim_database_file_creation|Shim Database File Creation]]
 
@@ -5986,6 +6059,127 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 ----
 
+===Darkside ransomware===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the DarkSide Ransomware
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1197/ T1197], [https://attack.mitre.org/techniques/T1105/ T1105], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1548.002/ T1548.002]
+* '''Last Updated''': 2020-06-12
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Attempted_credential_dump_from_registry_via_reg_exe|Attempted Credential Dump From Registry via Reg exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Bitsadmin_download_file|BITSAdmin Download File]]
+
+* [[Documentation:ESSOC:detections:Detections#Cmlua_or_cmstplua_uac_bypass|CMLUA Or CMSTPLUA UAC Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Certutil_download_with_urlcache_and_split_arguments|CertUtil Download With URLCache and Split Arguments]]
+
+* [[Documentation:ESSOC:detections:Detections#Certutil_download_with_verifyctl_and_split_arguments|CertUtil Download With VerifyCtl and Split Arguments]]
+
+* [[Documentation:ESSOC:detections:Detections#Cobalt_strike_named_pipes|Cobalt Strike Named Pipes]]
+
+* [[Documentation:ESSOC:detections:Detections#Delete_shadowcopy_with_powershell|Delete ShadowCopy With PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_mimikatz_using_loaded_images|Detect Mimikatz Using Loaded Images]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_psexec_with_accepteula_flag|Detect PsExec With accepteula Flag]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_rclone_command-line_usage|Detect RClone Command-Line Usage]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_rclone|Detect Renamed RClone]]
+
+* [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
+
+* [[Documentation:ESSOC:detections:Detections#Ransomware_notes_bulk_creation|Ransomware Notes bulk creation]]
+
+* [[Documentation:ESSOC:detections:Detections#Slui_runas_elevated|SLUI RunAs Elevated]]
+
+* [[Documentation:ESSOC:detections:Detections#Slui_spawning_a_process|SLUI Spawning a Process]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1003.002
+| Security Account Manager
+| Credential Access
+|-
+| T1197
+| BITS Jobs
+| Defense Evasion, Persistence
+|-
+| T1105
+| Ingress Tool Transfer
+| Command and Control
+|-
+| T1218.003
+| CMSTP
+| Defense Evasion
+|-
+| T1055
+| Process Injection
+| Defense Evasion, Privilege Escalation
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|-
+| T1003.001
+| LSASS Memory
+| Credential Access
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|-
+| T1020
+| Automated Exfiltration
+| Exfiltration
+|-
+| T1486
+| Data Encrypted for Impact
+| Impact
+|-
+| T1548.002
+| Bypass User Account Control
+| Defense Evasion, Privilege Escalation
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exfiltration
+
+* Exploitation
+
+* Obfuscation
+
+
+====Reference====
+
+* https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Dynamic dns===
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
@@ -6327,7 +6521,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
 * '''Last Updated''': 2020-02-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6337,11 +6531,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Bcdedit_failure_recovery_modification|BCDEdit Failure Recovery Modification]]
 
+* [[Documentation:ESSOC:detections:Detections#Cmlua_or_cmstplua_uac_bypass|CMLUA Or CMSTPLUA UAC Bypass]]
+
 * [[Documentation:ESSOC:detections:Detections#Common_ransomware_extensions|Common Ransomware Extensions]]
 
 * [[Documentation:ESSOC:detections:Detections#Common_ransomware_notes|Common Ransomware Notes]]
 
 * [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_rclone_command-line_usage|Detect RClone Command-Line Usage]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_rclone|Detect Renamed RClone]]
 
 * [[Documentation:ESSOC:detections:Detections#Prohibited_network_traffic_allowed|Prohibited Network Traffic Allowed]]
 
@@ -6393,9 +6593,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Inhibit System Recovery
 | Impact
 |-
+| T1218.003
+| CMSTP
+| Defense Evasion
+|-
 | T1485
 | Data Destruction
 | Impact
+|-
+| T1020
+| Automated Exfiltration
+| Exfiltration
 |-
 | T1482
 | Domain Trust Discovery
@@ -6466,6 +6674,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * Command and Control
 
 * Delivery
+
+* Exfiltration
 
 * Exploitation
 
@@ -6539,7 +6749,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
 * '''Last Updated''': 2020-11-06
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6591,9 +6801,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Inhibit System Recovery
 | Impact
 |-
+| T1218.003
+| CMSTP
+| Defense Evasion
+|-
 | T1485
 | Data Destruction
 | Impact
+|-
+| T1020
+| Automated Exfiltration
+| Exfiltration
 |-
 | T1482
 | Domain Trust Discovery
@@ -6784,6 +7002,119 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * https://nakedsecurity.sophos.com/2018/07/31/samsam-the-almost-6-million-ransomware/
 
 * https://thehackernews.com/2018/07/samsam-ransomware-attacks.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Trickbot===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the trickbot banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection even in LDAP environment.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1590.005/ T1590.005], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1059/ T1059], [https://attack.mitre.org/techniques/T1021.002/ T1021.002]
+* '''Last Updated''': 2021-04-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Account_discovery_with_net_app|Account Discovery With Net App]]
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_to_stop_security_service|Attempt To Stop Security Service]]
+
+* [[Documentation:ESSOC:detections:Detections#Cobalt_strike_named_pipes|Cobalt Strike Named Pipes]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_application_spawn_rundll32_process|Office Application Spawn rundll32 process]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_document_executing_macro_code|Office Document Executing Macro Code]]
+
+* [[Documentation:ESSOC:detections:Detections#Powershell_remote_thread_to_known_windows_process|Powershell Remote Thread To Known Windows Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Schedule_task_with_rundll32_command_trigger|Schedule Task with Rundll32 Command Trigger]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_rundll32_startw|Suspicious Rundll32 StartW]]
+
+* [[Documentation:ESSOC:detections:Detections#Trickbot_named_pipe|Trickbot Named Pipe]]
+
+* [[Documentation:ESSOC:detections:Detections#Wermgr_process_connecting_to_ip_check_web_services|Wermgr Process Connecting To IP Check Web Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Wermgr_process_create_executable_file|Wermgr Process Create Executable File]]
+
+* [[Documentation:ESSOC:detections:Detections#Wermgr_process_spawned_cmd_or_powershell_process|Wermgr Process Spawned CMD Or Powershell Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Write_executable_in_smb_share|Write Executable in SMB Share]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|-
+| T1055
+| Process Injection
+| Defense Evasion, Privilege Escalation
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|-
+| T1053
+| Scheduled Task/Job
+| Execution, Persistence, Privilege Escalation
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|-
+| T1590.005
+| IP Addresses
+| Reconnaissance
+|-
+| T1027
+| Obfuscated Files or Information
+| Defense Evasion
+|-
+| T1059
+| Command and Scripting Interpreter
+| Execution
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+* Installation
+
+* Lateral Movement
+
+
+====Reference====
+
+* https://en.wikipedia.org/wiki/Trickbot
+
+* https://blog.checkpoint.com/2021/03/11/february-2021s-most-wanted-malware-trickbot-takes-over-following-emotet-shutdown/
 
 
 ''version'': 1
@@ -7290,7 +7621,7 @@ Reduce the risk of CVE-2018-11409, an information disclosure vulnerability withi
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-04-29 21:24:37.285211 UTC
+# On Date: 2021-05-13 22:00:22.199260 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############
