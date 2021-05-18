@@ -13,7 +13,7 @@ azure-mgmt-core==1.2.1
 azure-mgmt-network==16.0.0
 azure-mgmt-resource==16.1.0
 bcrypt==3.2.0
-boto3==1.17.67
+boto3==1.17.74
 botocore==1.20.30
 certifi==2020.12.5
 cffi==1.14.5
@@ -23,7 +23,7 @@ configparser==5.0.2
 contextlib2==0.6.0.post1
 Deprecated==1.2.12
 dnspython==2.1.0
-docutils==0.16
+docutils==0.17.1
 execnet==1.8.0
 gitdb==4.0.5
 GitPython==3.1.14
