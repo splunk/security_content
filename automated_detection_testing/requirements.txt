@@ -26,7 +26,7 @@ dnspython==2.1.0
 docutils==0.17.1
 execnet==1.8.0
 gitdb==4.0.5
-GitPython==3.1.14
+GitPython==3.1.17
 identify==2.2.4
 idna==2.8
 importlib-metadata==4.0.1
