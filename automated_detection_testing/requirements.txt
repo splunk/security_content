@@ -23,7 +23,7 @@ configparser==5.0.2
 contextlib2==0.6.0.post1
 Deprecated==1.2.12
 dnspython==2.1.0
-docutils==0.16
+docutils==0.17.1
 execnet==1.8.0
 gitdb==4.0.5
 GitPython==3.1.14
@@ -59,7 +59,7 @@ pytest==6.2.2
 python-daemon==2.3.0
 python-dateutil==2.8.1
 python-terraform==0.10.1
-pywinrm==0.4.1
+pywinrm==0.4.2
 PyYAML==5.4.1
 requests==2.25.1
 requests-ntlm==1.1.0
