@@ -11,7 +11,7 @@ from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
 
-VERSION = "4.3"
+VERSION = "4.2"
 NAME = "Detection Priority by Threat Actors"
 DESCRIPTION = "security_content detection priorty by common techniques used from threat actors"
 DOMAIN = "mitre-enterprise"
