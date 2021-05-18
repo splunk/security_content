@@ -11,7 +11,7 @@ description: This search is to detect a suspicious executable or scripts (known 
   in so many adversaries and attacker to hide their track from the user. The suspicious
   file path in detection are known dropping point uses in the wild and folder path
   that are not commonly to have executable or scripts.
-search: "|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem 
+search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem 
   where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll 
   OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs 
   OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js
@@ -25,7 +25,7 @@ search: "|tstats `security_content_summariesonly` values(Filesystem.file_path) a
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `executables_or_script_creation_in_suspicious_path_filter`"
+  | `executables_or_script_creation_in_suspicious_path_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
