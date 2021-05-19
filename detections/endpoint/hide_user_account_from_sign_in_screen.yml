@@ -6,9 +6,9 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious registry modification to hide a
-  user account in signin screen. This technique was seen in some attacker where they
-  create hidden user account with admin privileges in login screen To avoid noticing
+description: This analytic identifies a suspicious registry modification to hide a
+  user account on the Windows Login screen. This technique was seen in some tradecraft where the adversary will
+  create a hidden user account with Admin privileges in login screen to avoid noticing
   by the user that they already compromise and to persist on that said machine.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
@@ -20,10 +20,10 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  product, such as CarbonBlack or endpoint data sources, such as Sysmon. The data
   used for this search is typically generated via logs that report reads and writes
   to the registry.
-known_false_positives: unknown
+known_false_positives: Unknown. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
