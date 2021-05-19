@@ -6,11 +6,10 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious executable or scripts (known file
-  extensions) in list of suspicious file path in windows OS. This technique was seen
-  in so many adversaries and attacker to hide their track from the user. The suspicious
-  file path in detection are known dropping point uses in the wild and folder path
-  that are not commonly to have executable or scripts.
+description: This analytic will identify suspicious executable or scripts (known file
+  extensions) in list of suspicious file path in Windows. This technique is used
+  by adversaries to evade detection. The suspicious
+  file path are known paths used in the wild and are not common to have executable or scripts.
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name
@@ -28,8 +27,7 @@ search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) a
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: network operator may allow creation of script or exec in the
-  said file path
+known_false_positives: Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
