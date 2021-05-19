@@ -6,10 +6,9 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect a suspicious download by a telegram application
-  to windows machine. We saw this technique made some attacker in honeypot where it
-  tries to download different scanner (port, bruteforcer, masscan) to the vulnerable
-  machine to mapped the whole network and compromise it also.
+description: The following analytic will identify a suspicious download by the Telegram application
+  on a Windows system. This behavior was identified on a honeypot where the adversary gained access, installed Telegram and followed through with
+  downloading different network scanners (port, bruteforcer, masscan) to the system and later used to mapped the whole network and further move laterally.
 search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
   |stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode
   Image process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
