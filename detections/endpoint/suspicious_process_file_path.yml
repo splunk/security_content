@@ -30,7 +30,7 @@ references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 tags:
   analytic_story:
-  - xmrig
+  - XMRig
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

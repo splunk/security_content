@@ -28,7 +28,7 @@ references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
   analytic_story:
-  - xmrig
+  - XMRig
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

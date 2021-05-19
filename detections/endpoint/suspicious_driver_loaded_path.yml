@@ -24,7 +24,7 @@ references:
 - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
 tags:
   analytic_story:
-  - xmrig
+  - XMRig
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
