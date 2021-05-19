@@ -2,14 +2,14 @@ name: xmrig
 id: 06723e6a-6bd8-4817-ace2-5fb8a7b06628
 version: 1
 date: '2021-05-07'
-author: Teoderick Contreras,Rod Soto Splunk
+author: Teoderick Contreras, Rod Soto Splunk
 type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the xmrig monero, including looking for file writes associated
-  with its payload, process commandline, defense evasion (killing services, deleting users, modifying files or folder permission, killing other malware or other coin miner)
-  and hacking tools including telegram as mean of c2 to download other files.
+  with its payload, process command-line, defense evasion (killing services, deleting users, modifying files or folder permission, killing other malware or other coin miner)
+  and hacking tools including Telegram as mean of command and control (C2) to download other files.
 narrative: XMRig is a high performance, open source, cross platform RandomX, KawPow, CryptoNight and AstroBWT unified CPU/GPU miner.
-  This monero is seen in the wild on May 2017
+  This monero is seen in the wild on May 2017.
 references:
 - https://github.com/xmrig/xmrig
 - https://www.getmonero.org/resources/user-guides/mine-to-pool.html
