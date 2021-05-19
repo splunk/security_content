@@ -6,10 +6,9 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious excessive usage of taskkill.exe
-  application. This application is commonly used by attacker or adversaries to evade
-  detections by killing security product process or even other process that may cause
-  their action notice by the analyst or users.
+description: This analytic identifies excessive usage of `taskkill.exe`
+  application. This application is commonly used by adversaries to evade
+  detections by killing security product processes or even other processes to evade detection.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "taskkill.exe"  by
@@ -20,7 +19,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed taskkill.exe may be used.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+known_false_positives: Unknown. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
