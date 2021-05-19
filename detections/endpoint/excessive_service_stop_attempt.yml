@@ -6,9 +6,9 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious series of attempt to kill multiple
-  services in a machine using either net.exe or sc.exe. This technique is use by adversaries
-  to kill security services or other related services to continue there attack and
+description: This analytic identifies suspicious series of attempt to kill multiple
+  services on a system using either `net.exe` or `sc.exe`. This technique is use by adversaries
+  to terminate security services or other related services to continue there objective and
   evade detections.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
