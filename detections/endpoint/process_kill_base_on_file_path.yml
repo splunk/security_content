@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to look for process kill attempt using wmic.exe base on
-  file path.
+description: The following analytic identifies the use of `wmic.exe` using `delete` to remove a executable path. This is typically ran via a batch file during beginning stages of an adversary setting up for mining on an endpoint. 
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name =
@@ -19,7 +18,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed wmic.exe may be used.
-known_false_positives: unknown
+known_false_positives: Unknown.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
