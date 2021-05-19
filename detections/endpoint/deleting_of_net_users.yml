@@ -6,11 +6,10 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious net.exe/net1.exe commandline to
-  delete a net users in a machine. This technique can be use by the network operator
-  to do this task, apparently this commandline was abuse in the wild to impair some
-  user or deleting adversaries tracks like created user during its lateral movement
-  to the vulnerable machines.
+description: This analytic will detect a suspicious net.exe/net1.exe command-line to
+  delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some
+  user or deleting adversaries tracks created during its lateral movement additional systems.
+  During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
@@ -22,7 +21,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
-known_false_positives: network operator can make use of this command
+known_false_positives: System administrators or scripts may delete user accounts via this technique. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 tags:
