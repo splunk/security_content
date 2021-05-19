@@ -6,9 +6,9 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious process running in file path where
-  process is not commonly seen or commonly use by attacker. This technique is seen
-  in several attacker where they drop and run exe in folder path that accessible without
+description: The following analytic will detect a suspicious process running in a file path where
+  a process is not commonly seen and is most commonly used by malicious softtware. This behavior has been
+  used by adversaries where they drop and run an exe in a path that is accessible without
   admin privileges.
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
@@ -25,8 +25,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: network operator may allow the process execution in several
-  process file path.
+known_false_positives: Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 tags:
