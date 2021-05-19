@@ -6,8 +6,8 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious commandline that disable a net
-  user account. This technique may used by the adversaries or attacker to interrupt
+description: This analytic will identify a suspicious command-line that disables a
+  user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt
   availability of such users to do their malicious act.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
