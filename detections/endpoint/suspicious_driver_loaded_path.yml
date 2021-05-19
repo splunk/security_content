@@ -6,9 +6,10 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect suspicious driver loaded path. This technique
-  is commonly used by malware like coin miner (xmrig) to register its malicious driver
-  from notable directory where executable or driver is not commonly exist.
+description: This analytic will detect suspicious driver loaded paths. This technique
+  is commonly used by malicious software like coin miners (xmrig) to register its malicious driver
+  from notable directories where executable or drivers do not commonly exist. 
+  During triage, validate this driver is for legitimate business use. Review the metadata and certificate information. Unsigned drivers from non-standard paths is not normal, but occurs. In addition, review driver loads into `ntoskrnl.exe` for possible other drivers of interest. Long tail analyze drivers by path (outside of default, and in default) for further review.
 search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
   "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) |  stats  min(_time) as
   firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature
@@ -17,9 +18,10 @@ search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WIND
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the driver loaded and Signature from your endpoints. If you are using
   Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: unknown
+known_false_positives: Limited false positives will be present. Some applications do load drivers 
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+- https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
 tags:
   analytic_story:
   - xmrig
