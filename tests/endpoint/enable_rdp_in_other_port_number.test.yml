@@ -1,0 +1,12 @@
+name: Enable RDP In Other Port Number Unit Test
+tests:
+- name: Enable RDP In Other Port Number
+  file: detections/endpoint/enable_rdp_in_other_port_number.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: UPDATE_FILE_NAME
+    data: UPDATE_DATASET_URL
+    source: UPDATE_SPLUNK_SOURCE
+    sourcetype: UPDATE_SPLUNK_SOURCETYPE

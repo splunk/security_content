@@ -1,0 +1,42 @@
+name: Enable RDP In Other Port Number
+id: 99495452-b899-11eb-96dc-acde48001122
+version: 1
+date: '2021-05-19'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a modification to registry to enable rdp to a machine with different port number.
+  This technique was seen in some atttacker tries to do lateral movement and remote access to a compromised machine to gain control of it.
+search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
+  as registry_key_name values(Registry.registry_path) as registry_path min(_time)
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp*" 
+  Registry.registry_key_name = "PortNumber" by Registry.dest Registry.user Registry.registry_value_name
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)` 
+  | `drop_dm_object_name(Registry)`
+  | `enable_rdp_in_other_port_number_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: unknown
+references:
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1021
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_value_name
+  security_domain: endpoint

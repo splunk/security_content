@@ -1,0 +1,41 @@
+name: Mailsniper Invoke functions
+id: a36972c8-b894-11eb-9f78-acde48001122
+version: 1
+date: '2021-05-19'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect known mailsniper.ps1 functions executed in a machine.
+  This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.
+search: '`powershell` EventCode=4104 Message IN ("*Invoke-GlobalO365MailSearch*", 
+  "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*", "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*",
+  "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
+  "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `mailsniper_invoke_functions_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs  from your endpoints. make sure you enable needed
+  registry to monitor this event.
+known_false_positives: unknown
+references:
+- https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1114.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode 
+  - Message 
+  - ComputerName 
+  - User
+  security_domain: endpoint
