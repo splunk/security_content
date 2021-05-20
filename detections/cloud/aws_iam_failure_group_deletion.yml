@@ -46,4 +46,7 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.groupName
+  risk_object: src
+  risk_object_type: system
+  risk_score: 20
   security_domain: identity
