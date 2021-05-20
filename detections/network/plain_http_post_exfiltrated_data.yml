@@ -4,7 +4,8 @@ version: 1
 date: '2021-04-22'
 author: Teoderick Contreras, Splunk
 type: batch
-datamodel: []
+datamodel: 
+- Network_Traffic
 description: This search is to detect potential plain HTTP POST method data exfiltration.
   This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary
   where arguments or commands are sent in plain text to the remote C2 server using
