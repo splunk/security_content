@@ -224,17 +224,21 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="xcopy.exe" OR process_name="xpsrchvw.exe" OR process_name="xwizard.exe";
 
   | from $cond_1 | union $cond_2 | union $cond_3 | union $cond_4 | union $cond_5 |
-  union $cond_6 | where process_path!="c:\\windows\\system32" AND process_path!="c:\\windows\\syswow64"
-  | eval start_time = timestamp, end_time = timestamp, entities = mvappend(device,
-  user), body = "TBD" | into write_ssa_detected_events();'
+  union $cond_6 | where process_path NOT LIKE "%\\windows\\system32%" OR process_path
+  NOT LIKE "%\\windows\\syswow64%" | eval start_time=timestamp, end_time=timestamp,
+  entities=mvappend(device, user), body=create_map(["process_path", process_path,
+  "process_name", process_name]) | into write_ssa_detected_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: None
 references: []
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Masquerading - Rename System Utilities
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
@@ -243,7 +247,7 @@ tags:
   - PR.PT
   - DE.CM
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - dest_device_id
   - process_name

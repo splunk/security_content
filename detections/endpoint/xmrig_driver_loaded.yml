@@ -1,0 +1,44 @@
+name: XMRIG Driver Loaded
+id: 90080fa6-a8df-11eb-91e4-acde48001122
+version: 1
+date: '2021-04-29'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies XMRIG coinminer driver installation on the system.
+  The XMRIG driver name by default is `WinRing0x64.sys`. This cpu miner is an open source project that is commonly abused
+  by adversaries to infect and mine bitcoin.
+search: '`sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys"
+  |  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded
+  Hashes IMPHASH Signature Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `xmrig_driver_loaded_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the driver loaded and Signature from your endpoints. If you are using
+  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: False positives should be limited.
+references:
+- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+tags:
+  analytic_story:
+  - XMRig
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1543.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Computer
+  - ImageLoaded
+  - Hashes
+  - IMPHASH
+  - Signature
+  - Signed
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log

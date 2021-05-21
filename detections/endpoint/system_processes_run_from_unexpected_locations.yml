@@ -1,29 +1,42 @@
 name: System Processes Run From Unexpected Locations
 id: a34aae96-ccf8-4aef-952c-3ea21444444d
-version: 5
+version: 6
 date: '2020-12-08'
-author: David Dorsey, Splunk
+author: David Dorsey, Michael Haag, Splunk
 type: batch
-datamodel: []
-description: This search looks for system processes that normally run out of C:\Windows\System32\
-  or C:\Windows\SysWOW64 that are not run from that location.  This can indicate a
-  malicious process that is trying to hide as a legitimate process.
+datamodel:
+- Endpoint
+description: 'This search looks for system processes that typically execute from `C:\Windows\System32\`
+  or `C:\Windows\SysWOW64`.  This may indicate a malicious process that is trying
+  to hide as a legitimate process.\
+
+  This detection utilizes a lookup that is deduped `system32` and `syswow64` directories
+  from Server 2016 and Windows 10.\
+
+  During triage, review the parallel processes - what process moved the native Windows
+  binary? identify any artifacts on disk and review. If a remote destination is contacted,
+  what is the reputation?'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*"
-  Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.user Processes.dest
-  Processes.process_name Processes.process_id Processes.process_path Processes.parent_process_name
-  Processes.process_hash| `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`| `is_windows_system_file` | `system_processes_run_from_unexpected_locations_filter`'
-how_to_implement: To successfully implement this search you need to ingest details
-  about process execution from your hosts. Specifically, this search requires the
-  process name and the full path to the process executable.
-known_false_positives: None identified
-references: []
+  Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id Processes.process_hash | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `is_windows_system_file`
+  | `system_processes_run_from_unexpected_locations_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: This detection may require tuning based on third party applications
+  utilizing native Windows binaries in non-standard paths.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
+- https://attack.mitre.org/techniques/T1036/003/
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
   - Unusual Processes
   - Ransomware
+  - Masquerading - Rename System Utilities
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

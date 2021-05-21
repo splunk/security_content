@@ -45,12 +45,13 @@ def validate_schema(REPO_PATH, type, objects, verbose):
             except yaml.YAMLError as exc:
                 print(exc)
                 print("Error reading {0}".format(manifest_file))
+                errors.append("ERROR: Error reading {0}".format(manifest_file))
                 error = True
                 continue
-        try:
-            jsonschema.validate(instance=object, schema=schema)
-        except jsonschema.exceptions.ValidationError as json_ve:
-            errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file))
+
+        validator = jsonschema.Draft7Validator(schema, format_checker=jsonschema.FormatChecker())
+        for schema_error in validator.iter_errors(object):
+            errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(schema_error.message), manifest_file))
             error = True
 
         if type in objects:
@@ -70,7 +71,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     errors = []
 
     for lookup in objects['lookups']:
-        lookup_errors = validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
+        errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
     objects_array = objects['stories'] + objects['detections'] + objects['baselines'] + objects['response_tasks'] + objects['responses']
     for object in objects_array:
@@ -85,11 +86,8 @@ def validate_objects(REPO_PATH, objects, verbose):
     for object in objects['baselines']:
         errors = errors + validate_baseline_search(object, objects['macros'])
 
-
     for object in objects['tests']:
         errors = errors + validate_tests(REPO_PATH, object)
-
-    errors = lookup_errors + errors
 
     return errors
 
@@ -106,6 +104,9 @@ def validate_fields(object):
         if 'security_domain' not in object['tags']:
             errors.append("ERROR: a `security_domain` tag is required for object: %s" % object['name'])
 
+        if object['type'] == 'streaming' and 'risk_severity' not in object['tags']:
+            errors.append("ERROR: a `risk_severity` tag is required for object: %s" % object['name'])
+
     return errors
 
 
@@ -120,6 +121,9 @@ def validate_standard_fields(object, uuids):
         errors.append('ERROR: Duplicate UUID found for object: %s' % object['name'])
     else:
         uuids.append(object['id'])
+
+    if (object['type']) == 'batch' and len(object['name']) > 75:
+        errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
 
     # if object['name'].endswith(" "):
     #     errors.append(
@@ -255,7 +259,7 @@ def validate_tests(REPO_PATH, object):
                 errors.append('ERROR: orphaned test: {0}, detection file: {1} no longer exists or incorrect detection path under `file`'.format(object['name'], detection_file_path))
         else:
             errors.append('ERROR: test: {0} does not have a detection `file` associated with detection: {1}'.format(object['name'], test['name']))
-        test['file']
+        #test['file']
     return errors
 
 def main(REPO_PATH, verbose):

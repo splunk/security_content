@@ -1,0 +1,22 @@
+name: BITS Jobs
+id: dbc7edce-8e4c-11eb-9f31-acde48001122
+version: 1
+date: '2021-03-26'
+author: Michael Haag, Splunk
+type: batch
+description: Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads. 
+narrative: Windows Background Intelligent Transfer Service (BITS) is a low-bandwidth, asynchronous file transfer mechanism exposed through Component Object Model (COM). BITS is commonly used by updaters, messengers, and other applications preferred to operate in the background (using available idle bandwidth) without interrupting other networked applications. File transfer tasks are implemented as BITS jobs, which contain a queue of one or more file operations. The interface to create and manage BITS jobs is accessible through PowerShell and the BITSAdmin tool.
+  Adversaries may abuse BITS to download, execute, and even clean up after running malicious code. BITS tasks are self-contained in the BITS job database, without new files or registry modifications, and often permitted by host firewalls. BITS enabled execution may also enable persistence by creating long-standing jobs (the default maximum lifetime is 90 days and extendable) or invoking an arbitrary program when a job completes or errors (including after system reboots).
+references:
+- https://attack.mitre.org/techniques/T1197/
+- https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool
+tags:
+  analytic_story:
+  - BITS Jobs
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
