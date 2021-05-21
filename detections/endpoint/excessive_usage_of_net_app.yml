@@ -1,0 +1,47 @@
+name: Excessive Usage Of Net App
+id: 45e52536-ae42-11eb-b5c6-acde48001122
+version: 1
+date: '2021-05-06'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies excessive usage of `net.exe` or `net1.exe`
+  within a bucket of time (1 minute). This behavior was seen in a Monero incident where the adversary attempts
+  to create many users, delete and disable users as part of its malicious behavior.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
+  as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "net.exe"
+  OR Processes.process_name = "net1.exe" by Processes.process_name Processes.parent_process_name
+  Processes.dest Processes.user _time span=1m | where count >=10 | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `excessive_usage_of_net_app_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+known_false_positives: unknown. Filter as needed. Modify the time span as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1531
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log

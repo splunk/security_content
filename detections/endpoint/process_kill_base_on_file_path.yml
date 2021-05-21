@@ -1,0 +1,46 @@
+name: Process Kill Base On File Path
+id: 5ffaa42c-acdb-11eb-9ad3-acde48001122
+version: 1
+date: '2021-05-04'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies the use of `wmic.exe` using `delete` to remove a executable path. This is typically ran via a batch file during beginning stages of an adversary setting up for mining on an endpoint. 
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
+  as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name =
+  "wmic.exe" AND Processes.process="*process*" AND Processes.process="*executablepath*"
+  AND Processes.process="*delete*" by  Processes.parent_process_name Processes.process_name
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `process_kill_base_on_file_path_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed wmic.exe may be used.
+known_false_positives: Unknown.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1562.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.process
+  - Processes.process_id
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
