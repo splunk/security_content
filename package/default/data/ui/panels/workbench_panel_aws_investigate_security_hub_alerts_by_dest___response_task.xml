@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>sourcetype="aws:securityhub:firehose" "findings{}.Resources{}.Type"=AWSEC2Instance | rex field=findings{}.Resources{}.Id .*instance/(?&lt;instance&gt;.*)| rename instance as dest| search dest = $dest$ |rename findings{}.* as * | rename Remediation.Recommendation.Text as Remediation |  table dest Title ProductArn Description FirstObservedAt RecordState Remediation</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>
