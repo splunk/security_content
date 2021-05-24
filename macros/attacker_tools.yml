@@ -1,0 +1,3 @@
+definition: lookup attacker_tools attacker_tools as process_name OUTPUT description
+description: This macro limits the output to process_names
+name: attacker_tools
