@@ -16,7 +16,10 @@ netpass.exe,This process was identified as malicious by DHS Alert TA18-201A and 
 WebBrowserPassView.exe,This process was identified as malicious by DHS Alert TA18-201A and is used by attackers as a password recovery tool that reveals the passwords stored in Web Browsers.
 OutlookAddressBookView.exe,This process was identified as malicious by DHS Alert TA18-201A and is used by attackers to steal the details of all recipients stored in the address books of Microsoft Outlook.
 mailpv.exe,This process was identified by DHS Alert TA18-201A and attackers use this tool is a password-recovery tool that reveals the passwords and other account details from various email clients.
-NLBrute.exe,This process was identified in the SamSam Ransomware Campaign and attackers use this tool to brute force RDP instances with a range of commonly used passwords.
+NLBrute.exe,A RDP brute force tool found in botnets for further expansion and and acquisition of targets. This process was identified in the SamSam Ransomware Campaign and attackers use this tool to brute force RDP instances with a range of commonly used passwords.
 selfdel.exe,This executable was delivered in the SamSam Ransomware Campain and the attackers levereged this binary to delete its malicilous activities.
 masscan.exe,This executable was delivered in the XMRig Crypto Miner
 Massscan_GUI.exe,This executable was delivered in the XMRig Crypto Miner
+KPortScan3.exe,This executable was delivered in the XMRig Crypto Miner and is commonly used by attackers to scan the internet
+NLAChecker.exe,A scanner tool that checks for Windows hosts for Network Level Authentication. This tool allows attackers to detect Windows Servers with RDP without NLA enabled which facilitates the use of brute force non microsoft rdp tools or exploits
+ns.exe, A commonly used tool used by attackers to scan and map file shares
