@@ -1,0 +1,5 @@
+definition: lookup prohibited_softwares app as process_name OUTPUT is_prohibited
+  | search is_prohibited=True
+description: This macro limits the output to process_names that have been marked as
+  prohibited
+name: prohibited_softwares
