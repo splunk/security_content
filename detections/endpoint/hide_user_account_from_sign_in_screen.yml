@@ -7,9 +7,10 @@ type: batch
 datamodel:
 - Endpoint
 description: This analytic identifies a suspicious registry modification to hide a
-  user account on the Windows Login screen. This technique was seen in some tradecraft where the adversary will
-  create a hidden user account with Admin privileges in login screen to avoid noticing
-  by the user that they already compromise and to persist on that said machine.
+  user account on the Windows Login screen. This technique was seen in some tradecraft
+  where the adversary will create a hidden user account with Admin privileges in login
+  screen to avoid noticing by the user that they already compromise and to persist
+  on that said machine.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows
@@ -29,6 +30,9 @@ references:
 tags:
   analytic_story:
   - XMRig
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -44,6 +48,3 @@ tags:
   - Registry.registry_value_name
   - Registry.dest Registry.user
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
