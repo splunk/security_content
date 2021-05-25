@@ -28,6 +28,10 @@ tags:
   - SamSam Ransomware
   - Unusual Processes
   asset_type: Endpoint
+  mitre_attack_id:
+  - T1036.005
+  - T1595
+  - T1003
   cis20:
   - CIS 2
   kill_chain_phases:
