@@ -6,22 +6,23 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This analytic detects a potential suspicious modification of firewall rule registry allowing inbound traffic in specific port with public profile.
-  This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.
+description: This analytic detects a potential suspicious modification of firewall
+  rule registry allowing inbound traffic in specific port with public profile. This
+  technique was seen in some attacker want to have a remote access to a machine by
+  allowing the traffic in firewall rule.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
-  Registry.registry_value_name = "*|Action=Allow|*" Registry.registry_value_name = "*|Dir=In|*" Registry.registry_value_name = "*|Profile=Public|*" 
-  Registry.registry_value_name = "*|LPort=*" by Registry.registry_path Registry.registry_key_name Registry.user
-  Registry.registry_value_name Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)`
-  | `allow_inbound_traffic_by_firewall_rule_registry_filter`'
+  Registry.registry_value_name = "*|Action=Allow|*" Registry.registry_value_name =
+  "*|Dir=In|*" Registry.registry_value_name = "*|Profile=Public|*" Registry.registry_value_name
+  = "*|LPort=*" by Registry.registry_path Registry.registry_key_name Registry.user
+  Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `allow_inbound_traffic_by_firewall_rule_registry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: network admin may add/remove/modify public inbound firewall rule that may cause this rule to be triggered.
+known_false_positives: network admin may add/remove/modify public inbound firewall
+  rule that may cause this rule to be triggered.
 references:
 - https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 tags:
@@ -41,5 +42,8 @@ tags:
   - Registry.registry_value_name
   - Registry.registry_key_name
   - Registry.dest
-  - Registry.user 
+  - Registry.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
