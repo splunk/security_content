@@ -6,21 +6,17 @@ import argparse
 from helpers import github_service, aws_service, attack_range_controller
 
 
+ATTACK_RANGE_STATE_STORE = "attack-range-state-store"
+
+
+
 def main(args):
 
-    parser = argparse.ArgumentParser(description="Attack Range Honeypot Service")
-    parser.add_argument("-a", "--action", required=True,
-                        help="action")
-    parser.add_argument("-r", "--region", required=False,
-                        help="aws region")
-    parser.add_argument("-n", "--name", required=True, 
-                        help="name of the honeypot")
+    parser = argparse.ArgumentParser(description="CI Detection Testing")
+    parser.add_argument("-a", "--action", required=True, help="action")
 
     args = parser.parse_args()
-    region = args.region
-    name = args.name
     action = args.action
-
 
     if action == "build":
         response = aws_service.get_entry_database(name)
@@ -40,6 +36,8 @@ def main(args):
             aws_service.delete_entry_database(name)
             aws_service.delete_tf_state_store(data['region'], name)
         
+    elif action == "rebuild":
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

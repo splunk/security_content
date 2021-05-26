@@ -5,6 +5,58 @@ import os
 import json
 
 
+def create_entry_database(region, honeypot_name, state):
+    resource = boto3.resource('dynamodb', region_name="eu-central-1")
+    table = resource.Table("attack_range_honeypot")
+    response = table.put_item(Item= {
+        'name': honeypot_name, 
+        'region': region, 
+        'status': state
+    })
+
+
+def update_entry_database(honeypot_name, password, state):
+    resource = boto3.resource('dynamodb', region_name="eu-central-1")
+    table = resource.Table("attack_range_honeypot")
+    response = table.update_item(
+        Key={
+            'name': honeypot_name
+        },
+        UpdateExpression="set #ts=:s, password=:p",
+        ExpressionAttributeValues={
+            ':s': state,
+            ':p': password
+        },
+        ExpressionAttributeNames={
+            "#ts": "status"
+        },
+        ReturnValues="UPDATED_NEW"
+    )   
+
+
+def delete_entry_database(honeypot_name):
+    resource = boto3.resource('dynamodb', region_name="eu-central-1")
+    table = resource.Table("attack_range_honeypot")
+    response = table.delete_item(
+        Key={
+            'name': honeypot_name
+        }
+    )
+
+
+def get_entry_database(honeypot_name):
+    resource = boto3.resource('dynamodb', region_name="eu-central-1")
+    table = resource.Table("attack_range_honeypot")
+    response = table.get_item(
+        Key={
+            'name': honeypot_name
+        }
+    )
+    if 'Item' in response:
+        return response['Item']
+    else:
+        return {}
+
 
 def create_tf_state_store(honeypot_name, region):
     my_config = Config(region_name = region)
