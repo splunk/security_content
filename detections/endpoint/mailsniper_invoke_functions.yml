@@ -23,7 +23,7 @@ references:
 - https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Data Exfiltration
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

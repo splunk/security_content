@@ -18,9 +18,10 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   registry to monitor this event.
 known_false_positives: administrator may allow inbound traffic in certain network or machine.
 references:
+- https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Prohibited Traffic Allowed or Protocol Mismatch
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

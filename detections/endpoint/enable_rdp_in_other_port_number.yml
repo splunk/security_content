@@ -22,9 +22,10 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: unknown
 references:
+- https://www.mvps.net/docs/how-to-secure-remote-desktop-rdp/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Prohibited Traffic Allowed or Protocol Mismatch
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
