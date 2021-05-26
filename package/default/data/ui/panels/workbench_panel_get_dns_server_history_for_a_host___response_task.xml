@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| search tag=dns src_ip=$src_ip$ dest_port=53 | streamstats time_window=1d count values(dest_ip) as dcip by src_ip | table date_mday src_ip dcip count | sort -count</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>
