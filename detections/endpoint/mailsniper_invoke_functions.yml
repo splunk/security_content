@@ -6,15 +6,16 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect known mailsniper.ps1 functions executed in a machine.
-  This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.
-search: '`powershell` EventCode=4104 Message IN ("*Invoke-GlobalO365MailSearch*", 
-  "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*", "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*",
-  "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
-  "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` | `mailsniper_invoke_functions_filter`'
+description: This search is to detect known mailsniper.ps1 functions executed in a
+  machine. This technique was seen in some attacker to harvest some sensitive e-mail
+  in a compromised exchange server.
+search: '`powershell` EventCode=4104 Message IN ("*Invoke-GlobalO365MailSearch*",
+  "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*",
+  "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
+  "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
+  ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `mailsniper_invoke_functions_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
@@ -34,8 +35,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - EventCode 
-  - Message 
-  - ComputerName 
+  - EventCode
+  - Message
+  - ComputerName
   - User
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
