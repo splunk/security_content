@@ -1,0 +1,48 @@
+name: CMD Echo Pipe - Escalation
+id: eb277ba0-b96b-11eb-b00e-acde48001122
+version: 1
+date: '2021-05-20'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies a common behavior by Cobalt Strike and other frameworks where the adversary will escalate privileges, either via `jump` (Cobalt Strike PTH) or `getsystem`, using named-pipe impersonation. A suspicious event will look like `cmd.exe /c echo 4sgryt3436 > \\.\Pipe\5erg53`. 
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=cmd.exe OR Processes.process=*%comspec%*)
+  (Processes.process=*echo* AND Processes.process=*pipe*) by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `cmd_echo_pipe___escalation_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Unknown. It is possible filtering may be required to ensure fidelity. 
+references:
+  - https://redcanary.com/threat-detection-report/threats/cobalt-strike/
+  - https://github.com/rapid7/meterpreter/blob/master/source/extensions/priv/server/elevate/namedpipe.c
+tags:
+  analytic_story:
+  - Cobalt Strike
+  dataset: []
+  kill_chain_phases:
+  - Exploitation
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1059.003
+  - T1543.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
