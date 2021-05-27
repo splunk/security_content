@@ -76,6 +76,7 @@ tags:
   product:
   - Splunk Behavioral Analytics
   required_fields:
+  - process
   - process_name
   - parent_process_name
   - _time
