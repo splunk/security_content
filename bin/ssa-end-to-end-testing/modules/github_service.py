@@ -16,8 +16,14 @@ class GithubService:
 
     def __init__(self, security_content_branch):
         self.security_content_branch = security_content_branch
-        self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
-        self.security_content_repo_obj.git.checkout(security_content_branch)
+        if os.path.exists('security_content'):
+            LOGGER.warning(f"Found Existing Security Content Project")
+            self.created_repo = False
+        else:
+            self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
+            self.security_content_repo_obj.git.checkout(security_content_branch)
+            self.created_repo = True
+
 
     def clone_project(self, url, project, branch):
         LOGGER.info(f"Clone Security Content Project")
