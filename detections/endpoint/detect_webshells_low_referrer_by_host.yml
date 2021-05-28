@@ -1,0 +1,52 @@
+name: Detect WebShells low referrer count by host
+id: 
+version: 1.0
+date: '2021-05-27'
+author: Conrad Thoms
+type: batch
+datamodel:
+- Web
+description: The following query identifies potential web shells through searching for web access that use rare http referrer counts.  This will discover both instances where aggressors fail to include a referrer or use an uncommon referrer for the victim host.. It will not detect web shells that use a referrer value that is common to the victim host.  This work expands on that done by ASD and NSA on webshells.
+search: ‘| datamodel Web search summariesonly=true
+| search Web.status>=200 Web.status <300
+| eventstats count as eventCount by host,Web.http_referrer
+| eventstats avg(eventCount) as average by host
+| eventstats stdev(eventCount) as stdDev by host
+| eventstats median("eventCount") as median by host 
+| eventstats p10("eventCount") as p10 by host 
+| eval low=if(average-2*stdDev<0, p10, average-2*stdDev)
+| eval low=if(low>p10,p10,low)
+| eval check=if(eventCount<low,"true","false")
+| eval own=if(like(host,"%".Web.http_referrer."%"),"true","false")
+| eval nowDate=substr(strftime(now(),"%m/%d/%y %H:%M:%S"),0,8)
+| eval eventDate=substr(strftime(_time,"%m/%d/%y %H:%M:%S"),0,8)
+| dedup host,Web.http_referrer
+| search check="true" own="false" eventDate=nowDate NOT Web.http_referrer IN ()
+| table host,Web.uri_path,Web.src,Web.http_referrer,own,check,eventCount,average,stdDev,median,p10’
+how_to_implement: To successfully implement this search you need to be ingesting information from either local web server access logs or internal network proxy traffic.  Best results are from access log files.  Tuning can be done through adding to the list of known and acceptable low volume UAs, presently represented as ().
+Data needs to be correctly parsed into CIM format and incorporated into the SplunkES datamodels.  If the data is not in CIM or in the data models it will be necessary to modify the field names and initial search line to fit your situation.
+The search is to be executed daily with completion prior to midnight.  It operates over the entire summary period (default 3 months) and reports only on events for the day executed.
+known_false_positives: This search will detect instances where the use of a HTTP referrer for the host is rare, this is an characertstic for a webshell not a clear IOC.  This alert works best in aggregation such as the risk based alerting framework. 
+references:
+- https://www.cyber.gov.au/acsc/view-all-content/threats/web-shell-malware
+tags:
+  analytic_story:
+  - Webshell
+  automated_detection_testing:
+  dataset:
+  kill_chain_phases:
+  - Execution
+  mitre_attack_id:
+  - 
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.http_referrer
+  - host
+  - Web.uri_path
+  - Web.src
+  security_domain: endpoint
+
