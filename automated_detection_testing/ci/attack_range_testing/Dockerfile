@@ -16,5 +16,5 @@ ADD . /app
 WORKDIR /app
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT ["python3", "honeypot_service.py"]
-CMD ["-a", "build", "-r", "eu-west-2", "-n", "songoku"]
+ENTRYPOINT ["python3", "detection_service.py"]
+CMD ["-a", "build"]

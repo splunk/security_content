@@ -5,22 +5,43 @@ import os
 import json
 
 
-def create_entry_database(region, honeypot_name, state):
-    resource = boto3.resource('dynamodb', region_name="eu-central-1")
-    table = resource.Table("attack_range_honeypot")
+def create_key_pair(region):
+    my_config = Config(region_name = region)
+    epoch_time = str(int(time.time()))
+    ssh_key_name = 'key-dt-' + epoch_time
+    ec2 = boto3.client('ec2', config=my_config)
+    response = ec2.create_key_pair(KeyName=ssh_key_name)
+    with open(ssh_key_name, "w") as ssh_key:
+        ssh_key.write(response['KeyMaterial'])
+    os.chmod(ssh_key_name, 0o600)
+    private_key_path = str(os.getcwd() + "/" + ssh_key_name)
+
+    return ssh_key_name, response['KeyMaterial']
+
+
+def delete_key_pair(region, key_pair_name):
+    my_config = Config(region_name = region)
+    ec2 = boto3.client('ec2', config=my_config)
+    response = ec2.delete_key_pair(KeyName=key_pair_name)
+
+
+def create_entry_database(region, db_name, name, state, ssh_key_name, private_key):
+    resource = boto3.resource('dynamodb', region_name=region)
+    table = resource.Table(db_name)
     response = table.put_item(Item= {
-        'name': honeypot_name, 
-        'region': region, 
+        'name': name, 
+        'ssh_key_name': ssh_key_name, 
+        'private_key': private_key, 
         'status': state
     })
 
 
-def update_entry_database(honeypot_name, password, state):
-    resource = boto3.resource('dynamodb', region_name="eu-central-1")
-    table = resource.Table("attack_range_honeypot")
+def update_entry_database(region, db_name, name, password, state):
+    resource = boto3.resource('dynamodb', region_name=region)
+    table = resource.Table(db_name)
     response = table.update_item(
         Key={
-            'name': honeypot_name
+            'name': name
         },
         UpdateExpression="set #ts=:s, password=:p",
         ExpressionAttributeValues={
@@ -34,22 +55,22 @@ def update_entry_database(honeypot_name, password, state):
     )   
 
 
-def delete_entry_database(honeypot_name):
-    resource = boto3.resource('dynamodb', region_name="eu-central-1")
-    table = resource.Table("attack_range_honeypot")
+def delete_entry_database(region, db_name, name):
+    resource = boto3.resource('dynamodb', region_name=region)
+    table = resource.Table(db_name)
     response = table.delete_item(
         Key={
-            'name': honeypot_name
+            'name': name
         }
     )
 
 
-def get_entry_database(honeypot_name):
-    resource = boto3.resource('dynamodb', region_name="eu-central-1")
-    table = resource.Table("attack_range_honeypot")
+def get_entry_database(region, db_name, name):
+    resource = boto3.resource('dynamodb', region_name=region)
+    table = resource.Table(db_name)
     response = table.get_item(
         Key={
-            'name': honeypot_name
+            'name': name
         }
     )
     if 'Item' in response:
@@ -58,14 +79,44 @@ def get_entry_database(honeypot_name):
         return {}
 
 
-def create_tf_state_store(honeypot_name, region):
+def create_db_database(name, region):
+    my_config = Config(region_name = region)
+    client = boto3.client('dynamodb', config=my_config)
+    response = client.create_table(
+        TableName=name,
+        KeySchema=[
+            {
+                'AttributeName': 'name',
+                'KeyType': 'HASH'  # Partition key
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'name',
+                'AttributeType': 'S'
+            }
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )    
+
+
+def delete_db_database(db_name, region):
+    dynamodb = boto3.resource('dynamodb', region_name=region)
+    table = dynamodb.Table(db_name)
+    table.delete()
+
+
+def create_tf_state_store(name, region):
     my_config = Config(region_name = region)
     s3 = boto3.client('s3', config=my_config)
-    response = s3.create_bucket(Bucket=str('attack-range-detection-testing-bucket-' + honeypot_name), CreateBucketConfiguration={'LocationConstraint': region})
+    response = s3.create_bucket(Bucket=name, CreateBucketConfiguration={'LocationConstraint': region})
 
     client = boto3.client('dynamodb', config=my_config)
     response = client.create_table(
-        TableName=str('attack-range-detection-testing-state-' + honeypot_name),
+        TableName=name,
         KeySchema=[
             {
                 'AttributeName': 'LockID',
@@ -85,14 +136,14 @@ def create_tf_state_store(honeypot_name, region):
     )
     
 
-def delete_tf_state_store(region, honeypot_name):
+def delete_tf_state_store(region, name):
     s3 = boto3.resource('s3', region_name=region)
-    bucket = s3.Bucket(str('attack-range-detection-testing-bucket-' + honeypot_name))
+    bucket = s3.Bucket(name)
     bucket.objects.all().delete()
     bucket.delete()
 
     dynamodb = boto3.resource('dynamodb', region_name=region)
-    table = dynamodb.Table(str('attack-range-detection-testing-state-' + honeypot_name))
+    table = dynamodb.Table(name)
     table.delete()
 
 

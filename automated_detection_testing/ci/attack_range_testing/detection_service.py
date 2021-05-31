@@ -2,12 +2,15 @@ import os
 from os import path
 import sys
 import argparse
+import time
 
 from helpers import github_service, aws_service, attack_range_controller
 
 
-ATTACK_RANGE_STATE_STORE = "attack-range-state-store"
-
+DT_ATTACK_RANGE_STATE_STORE = "dt-attack-range-tf-state-store"
+DT_ATTACK_RANGE_STATE = "dt-attack-range-state"
+REGION = "eu-central-1"
+NAME = "detection-testing-attack-range"
 
 
 def main(args):
@@ -19,24 +22,43 @@ def main(args):
     action = args.action
 
     if action == "build":
-        response = aws_service.get_entry_database(name)
-        if not response:
-            github_service.clone_honeypot_project()
-            #ssh_key_name, key_material = aws_service.create_key_pair(region)
-            aws_service.create_tf_state_store(name, region)
-            aws_service.create_entry_database(region, name, "building")
-            password = attack_range_controller.build_attack_range_honeypot(region, name)
-            aws_service.update_entry_database(name, password, "running")
+        github_service.clone_attack_range_project()
+        aws_service.create_tf_state_store(DT_ATTACK_RANGE_STATE_STORE, REGION)
+        aws_service.create_db_database(DT_ATTACK_RANGE_STATE, REGION)
+        ssh_key_name, key_material = aws_service.create_key_pair(REGION)
+        time.sleep(10)
+        aws_service.create_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME, "building", ssh_key_name, key_material)
+        password = attack_range_controller.build_attack_range(REGION, DT_ATTACK_RANGE_STATE_STORE, ssh_key_name)
+        aws_service.update_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME, password, "running")
 
     elif action == "destroy":
-        data = aws_service.get_entry_database(name)
-        if data:
-            github_service.clone_honeypot_project()
-            attack_range_controller.destroy_attack_range_honeypot(data)
-            aws_service.delete_entry_database(name)
-            aws_service.delete_tf_state_store(data['region'], name)
+        data = aws_service.get_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME)
+        github_service.clone_attack_range_project()
+        attack_range_controller.destroy_attack_range(REGION, data, DT_ATTACK_RANGE_STATE_STORE)
+        aws_service.delete_db_database(DT_ATTACK_RANGE_STATE, REGION)
+        aws_service.delete_tf_state_store(REGION, DT_ATTACK_RANGE_STATE_STORE)
         
     elif action == "rebuild":
+        pass
+
+
+def build_dt_attack_range():
+    github_service.clone_attack_range_project()
+    aws_service.create_tf_state_store(DT_ATTACK_RANGE_STATE_STORE, REGION)
+    aws_service.create_db_database(DT_ATTACK_RANGE_STATE, REGION)
+    ssh_key_name, key_material = aws_service.create_key_pair(REGION)
+    time.sleep(10)
+    aws_service.create_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME, "building", ssh_key_name, key_material)
+    password = attack_range_controller.build_attack_range(REGION, DT_ATTACK_RANGE_STATE_STORE, ssh_key_name)
+    aws_service.update_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME, password, "running")   
+
+
+def destroy_dt_attack_range():
+    data = aws_service.get_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME)
+    github_service.clone_attack_range_project()
+    attack_range_controller.destroy_attack_range(REGION, data)
+    aws_service.delete_db_database(DT_ATTACK_RANGE_STATE, REGION)
+    aws_service.delete_tf_state_store(REGION, DT_ATTACK_RANGE_STATE_STORE)
 
 
 if __name__ == "__main__":
