@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>|tstats `security_content_summariesonly` values(All_Email.dest) as dest values(All_Email.recipient) as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email by All_Email.src |`drop_dm_object_name(All_Email)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search src=$src$</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>
