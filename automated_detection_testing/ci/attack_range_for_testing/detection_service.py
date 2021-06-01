@@ -3,8 +3,9 @@ from os import path
 import sys
 import argparse
 import time
+import shutil
 
-from helpers import github_service, aws_service, attack_range_controller
+from modules.github_service import GithubService
 
 
 DT_ATTACK_RANGE_STATE_STORE = "dt-attack-range-tf-state-store"
@@ -22,24 +23,16 @@ def main(args):
     action = args.action
 
     if action == "build":
-        github_service.clone_attack_range_project()
-        aws_service.create_tf_state_store(DT_ATTACK_RANGE_STATE_STORE, REGION)
-        aws_service.create_db_database(DT_ATTACK_RANGE_STATE, REGION)
-        ssh_key_name, key_material = aws_service.create_key_pair(REGION)
-        time.sleep(10)
-        aws_service.create_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME, "building", ssh_key_name, key_material)
-        password = attack_range_controller.build_attack_range(REGION, DT_ATTACK_RANGE_STATE_STORE, ssh_key_name)
-        aws_service.update_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME, password, "running")
+        build_dt_attack_range()
 
     elif action == "destroy":
-        data = aws_service.get_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME)
-        github_service.clone_attack_range_project()
-        attack_range_controller.destroy_attack_range(REGION, data, DT_ATTACK_RANGE_STATE_STORE)
-        aws_service.delete_db_database(DT_ATTACK_RANGE_STATE, REGION)
-        aws_service.delete_tf_state_store(REGION, DT_ATTACK_RANGE_STATE_STORE)
+        destroy_dt_attack_range()
         
     elif action == "rebuild":
-        pass
+        destroy_dt_attack_range()
+        shutil.rmtree('attack_range')
+        time.sleep(60)
+        build_dt_attack_range()
 
 
 def build_dt_attack_range():
@@ -56,7 +49,7 @@ def build_dt_attack_range():
 def destroy_dt_attack_range():
     data = aws_service.get_entry_database(REGION, DT_ATTACK_RANGE_STATE, NAME)
     github_service.clone_attack_range_project()
-    attack_range_controller.destroy_attack_range(REGION, data)
+    attack_range_controller.destroy_attack_range(REGION, data, DT_ATTACK_RANGE_STATE_STORE)
     aws_service.delete_db_database(DT_ATTACK_RANGE_STATE, REGION)
     aws_service.delete_tf_state_store(REGION, DT_ATTACK_RANGE_STATE_STORE)
 
