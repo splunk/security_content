@@ -1,6 +1,6 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 1
+version: 2
 date: '2020-08-25'
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
