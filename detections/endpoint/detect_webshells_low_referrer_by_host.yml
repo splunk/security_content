@@ -14,15 +14,14 @@ search: ‘| datamodel Web search summariesonly=true
 | eventstats stdev(eventCount) as stdDev by host
 | eventstats median("eventCount") as median by host 
 | eventstats p10("eventCount") as p10 by host 
-| eval low=if(average-2*stdDev<0, p10, average-2*stdDev)
-| eval low=if(low>p10,p10,low)
-| eval check=if(eventCount<low,"true","false")
+| eval low=if(average-2*stdDev<0 AND low>p10, p10, average-2*stdDev)
+| eval test=if(eventCount<low,"true","false")
 | eval own=if(like(host,"%".Web.http_referrer."%"),"true","false")
-| eval nowDate=substr(strftime(now(),"%m/%d/%y %H:%M:%S"),0,8)
-| eval eventDate=substr(strftime(_time,"%m/%d/%y %H:%M:%S"),0,8)
+| eval nowDate=strftime(now(),"%m/%d/%y")
+| eval eventDate=strftime(_time,"%m/%d/%y")
 | dedup host,Web.http_referrer
-| search check="true" own="false" eventDate=nowDate NOT Web.http_referrer IN ()
-| table host,Web.uri_path,Web.src,Web.http_referrer,own,check,eventCount,average,stdDev,median,p10’
+| search test="true" own="false" eventDate=nowDate NOT Web.http_referrer IN ()
+| table host,Web.uri_path,Web.src,Web.http_referrer,own,test,eventCount,average,stdDev,median,p10’
 how_to_implement: To successfully implement this search you need to be ingesting information from either local web server access logs or internal network proxy traffic.  Best results are from access log files.  Tuning can be done through adding to the list of known and acceptable low volume UAs, presently represented as ().
 Data needs to be correctly parsed into CIM format and incorporated into the SplunkES datamodels.  If the data is not in CIM or in the data models it will be necessary to modify the field names and initial search line to fit your situation.
 The search is to be executed daily with completion prior to midnight.  It operates over the entire summary period (default 3 months) and reports only on events for the day executed.
@@ -44,9 +43,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Web.http_referrer
+  - Web.uri_http_referrer
   - host
   - Web.uri_path
   - Web.src
   security_domain: endpoint
-

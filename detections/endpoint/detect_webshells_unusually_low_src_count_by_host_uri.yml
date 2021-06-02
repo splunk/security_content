@@ -1,5 +1,5 @@
-name: Detect webshells unusually low src count by host uri 
-id: 
+name: Detect webshells unusually low src count by host uri
+id:
 version: 1.0
 date: '2021-06-01'
 author: Conrad Thoms
@@ -7,8 +7,8 @@ type: batch
 datamodel:
 - Web
 description: The following query identifies potential web shells in compromised hosts through searching for web access that have an unusually low number of connecting sources to that particular host and uri when compared to other uti’s on that host. This work expands on that done by ASD and NSA on webshells.
-Search: ‘| datamodel Web search summariesonly=true 
-| search Web.status>=200 Web.status <300 
+Search: ‘| datamodel Web search summariesonly=true
+| search Web.status>=200 Web.status <300
 | eventstats count as srcCount by host,Web.uri_path,Web.src
 | dedup host,Web.uri_path
 | eventstats avg(srcCount) as avgSrc by host
@@ -16,16 +16,16 @@ Search: ‘| datamodel Web search summariesonly=true
 | eventstats p5(srcCount) as p5Src by host
 | eval low=if(avgSrc-2*stdevSrc<0, p5Src, avgSrc-2*stdevSrc)
 | eval low=if(low>p5Src,round(p5Src,0),round(low,0))
-| eval check=if(srcCount<low,"true","false")
+| eval test=if(srcCount<low,"true","false")
 | eval avgSrc=round(avgSrc,0)
 | eval nowDate=strftime(now(),"%m/%d/%y" )
 | eval eventDate=strftime(_time,"%m/%d/%y" )
-| search check=true eventDate=nowDate
-| table host,Web.uri_path,Web.src,check,srcCount,low,avgSrc,stdevSrc,p5Src’
-how_to_implement: To successfully implement this search you need to be ingesting information from either local web server access logs or internal network proxy traffic.  Best results are from server access log files.  
+| search test="true" eventDate=nowDate
+| table host,Web.uri_path,Web.src,test,srcCount,low,avgSrc,stdevSrc,p5Src’
+how_to_implement: To successfully implement this search you need to be ingesting information from either local web server access logs or internal network proxy traffic.  Best results are from server access log files.
 Data needs to be correctly parsed into CIM format and incorporated into the SplunkES datamodels.  If the data is not in CIM or in the data models it will be necessary to modify the field names and initial search line to fit your situation.
 The search is to be executed daily with completion prior to midnight.  It operates over the entire summary period (default 3 months) and reports only on events for the day executed.  Event detection is done for events that have session duration of total bytes conveyed being in the top 95% of events or above 2 standard deviations from the norm.
-known_false_positives: This search will detect instances where the a uri on a host has an unusually low number of sources connecting to it, this is an characertstic for a webshell not a clear IOC.  This alert works best in aggregation such as the risk based alerting framework. 
+known_false_positives: This search will detect instances where the a uri on a host has an unusually low number of sources connecting to it, this is an characertstic for a webshell not a clear IOC.  This alert works best in aggregation such as the risk based alerting framework.
 references:
 - https://www.cyber.gov.au/acsc/view-all-content/threats/web-shell-malware
 tags:
@@ -36,7 +36,7 @@ tags:
   kill_chain_phases:
   - Execution
   mitre_attack_id:
-  - 
+  -
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,4 +48,3 @@ tags:
   - Web.uri_path
   - Web.src
   security_domain: endpoint
-

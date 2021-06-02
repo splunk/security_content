@@ -1,14 +1,14 @@
-name: Detect WebShells compromised uri by query length                                                                                                                                                              
-id: 
+name: Detect WebShells compromised uri by query length
+id:
 version: 1.0
 date: '2021-05-27'
 author: Conrad Thoms
 type: batch
 datamodel:
 - Web
-description: The following query identifies potential web shells in complomised legitimate endpoints through searching for web access that use unusual uri query lengths.  This will discover both instances where aggressors use unusually short or long queries to conduct C2 through a web shell.  This work expands on that done by ASD and NSA on webshells.
+description: The following query identifies potential web shells in compromised legitimate endpoints through searching for web access that use unusual uri query lengths.  This will discover both instances where aggressors use unusually short or long queries to conduct C2 through a web shell.  This work expands on that done by ASD and NSA on webshells.
 search: ‘| datamodel Web search summariesonly=true
-| search Web.uri_query=* Web.status>=200 Web.status <300 
+| search Web.uri_query=* Web.status>=200 Web.status <300
 | rename Web.uri_query as query
 | eval length = len(query)
 | eventstats count as eventCount by host,Web.uri_path
@@ -20,20 +20,18 @@ search: ‘| datamodel Web search summariesonly=true
 | eventstats max(length) as max by host,Web.uri_path
 | eval range=max-min
 | eval rangePer=round(range/average*100,0)
-| eval low=if(average-2*stdDev<0, p10, average-2*stdDev)
-| eval low=if(low>p10,round(p10,0),round(low,0))
-| eval high=if(high<p90,p90,high)
-| eval high=if(average-2*stdDev<0, round(p90,0), round(average+2*stdDev,0))
-| eval check=if((length<low OR length>high),"true","false")
-| eval nowDate=substr(strftime(now(),"%m/%d/%y %H:%M:%S"),0,8)
-| eval eventDate=substr(strftime(_time,"%m/%d/%y %H:%M:%S"),0,8)
+| eval low=if(average-2*stdDev<0 AND low>p10, round(p10,0), round(average-2*stdDev,0))
+| eval high=if(average-2*stdDev<0 AND high<p90, round(p90,0), round(average+2*stdDev,0))
+| eval test=if((length<low OR length>high),"true","false")
+| eval nowDate=strftime(now(),"%m/%d/%y")
+| eval eventDate=strftime(_time,"%m/%d/%y")
 | eval noDev=if(high=low,"true","false")
-| search eventCount>50 rangePer>25 check=true eventDate=nowDate
+| search eventCount>50 rangePer>25 test="true" eventDate=nowDate
 | dedup host,Web.uri_path,query,Web.src
-| table host,Web.uri_path,Web.src,check,eventCount,length,range,rangePer,average,low,high,stdDev,p10,p90,query’
+| table host,Web.uri_path,Web.src,test,eventCount,length,range,rangePer,average,low,high,stdDev,p10,p90,query’
 how_to_implement: To successfully implement this search you need to be ingesting information from either local web server access logs or internal network proxy traffic.  Best results are from access log files.  Tuning can be done through adding to the list of known and acceptable low volume UAs, presently represented as ().
 Data needs to be correctly parsed into CIM format and incorporated into the SplunkES datamodels.  If the data is not in CIM or in the data models it will be necessary to modify the field names and initial search line to fit your situation.
-The search is to be executed daily with completion prior to midnight.  It operates over the entire summary period (default 3 months) and reports only on events for the day executed.  Tuning can be conducted on the thresholds presently set at length range must be at least 50% of average length and URI must receive at least 25 events during the period.
+The search is to be executed daily with completion prior to midnight.  It operates over the entire summary period (default 3 months) and reports only on events for the day executed.  Tuning can be conducted on the thresholds presently set at length range must be at least 50% of average length and URI must receive at least 25 events during the period. 
 known_false_positives: This search will detect instances where the uri query length is rare, this is an characertstic for a webshell not a clear IOC.  This alert works best in aggregation such as the risk based alerting framework. 
 references:
 - https://www.cyber.gov.au/acsc/view-all-content/threats/web-shell-malware
@@ -45,7 +43,7 @@ tags:
   kill_chain_phases:
   - Execution
   mitre_attack_id:
-  - 
+  -                                                                                                                                                                                                           
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,4 +55,3 @@ tags:
   - Web.uri_path
   - Web.src
   security_domain: endpoint
-
