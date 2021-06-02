@@ -1,0 +1,62 @@
+name: Detect webshells unusually large session by host
+id:
+version: 1.0
+date: '2021-06-01'
+author: Conrad Thoms
+type: batch
+datamodel:
+- Web
+description: The following query identifies potential web shells in compromised hosts through searching for web access that have unusually large durations or total bytes. This work expands on that done by ASD and NSA on webshells.
+Search: ‘| datamodel Web search summariesonly=true
+| search Web.status>=200 Web.status<300
+| transaction host,Web.src,Web.uri_path maxpause=30m keeporphans=true
+| eventstats avg(duration) as avgDuration by host
+| eval avgDuration=round(avgDuration,0)
+| eventstats p95(duration) as p95Duration by host
+| eval p95Duration=round(p95Duration,0)
+| eventstats stdev(duration) as stdevDuration by host
+| eval stdevDuration=round(stdevDuration,0)
+| eventstats sum(Web.bytes) as sessionBytes by _cd
+| eventstats avg(sessionBytes) as avgSessionBytes by host
+| eval avgSessionBytes=round(avgSessionBytes,0)
+| eventstats p95(sessionBytes) as p95SessionBytes by host
+| eval p95SessionBytes=round(p95SessionBytes,0)
+| eventstats stdev(sessionBytes) as stdevSessionBytes by host
+| eval stdevSessionBytes=round(stdevSessionBytes,0)
+| eval highSessionBytes=if(avgSessionBytes-2*stdevSessionBytes<0 AND highSessionBytes<p95SessionBytes, round(p95SessionBytes,0), round(avgSessionBytes+2*stdevSessionBytes,0))
+| eval highDuration=if(avgDuration-2*stdevDuration<0 AND highSessionBytes<p95Duration, round(p95Duration,0), round(avgDuration+2*stdevDuration,0))
+| eval test=case(
+   sessionBytes>highSessionBytes AND duration>highDuration, "High Duration and Volume",
+   sessionBytes>highSessionBytes, "High Volume",
+   duration>highDuration,"High Duration",
+   True(),"false")
+| eval nowDate=strftime(now(),"%m/%d/%y" )
+| eval eventDate=strftime(_time,"%m/%d/%y" )
+| search test!="false" nowDate-eventDate
+| table host,Web.src,Web.uri_path,test,sessionBytes,highSessionBytes,duration,highDuration,avgDuration,p95Duration,stdevDuration,avgSessionBytes,p95SessionBytes,stdevSessionBytes’
+how_to_implement: To successfully implement this search you need to be ingesting information from either local web server access logs or internal network proxy traffic.  Best results are from server access log files.
+Data needs to be correctly parsed into CIM format and incorporated into the SplunkES datamodels.  If the data is not in CIM or in the data models it will be necessary to modify the field names and initial search line to fit your situation.
+The search is to be executed daily with completion prior to midnight.  It operates over the entire summary period (default 3 months) and reports only on events for the day executed.  Event detection is done for events that have session duration of total bytes conveyed being in the top 95% of events or above 2 standard deviations from the norm.
+known_false_positives: This search requires a large sample size to effectively form a useful baseline.  Smaller sets may have a higher false positive rate.  This search will detect instances where the uri query length is rare, this is an characertstic for a webshell not a clear IOC.  This alert works best in aggregation such as the risk based alerting framework.
+references:
+- https://www.cyber.gov.au/acsc/view-all-content/threats/web-shell-malware
+tags:
+  analytic_story:
+  - Webshell
+  automated_detection_testing:
+  dataset:
+  kill_chain_phases:
+  - Execution
+  mitre_attack_id:
+  -
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.uri_query
+  - host
+  - Web.uri_path
+  - Web.src
+  security_domain: endpoint  
