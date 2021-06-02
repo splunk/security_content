@@ -7,7 +7,7 @@ type: batch
 datamodel:
 - Web
 description: The following query identifies potential web shells in complomised legitimate endpoints through searching for web access that use unusual uri query lengths.  This will discover both instances where aggressors use unusually short or long queries to conduct C2 through a web shell.  This work expands on that done by ASD and NSA on webshells.
-search: ‘| datamodel Web search
+search: ‘| datamodel Web search summariesonly=true
 | search Web.uri_query=* Web.status>=200 Web.status <300 
 | rename Web.uri_query as query
 | eval length = len(query)
