@@ -283,6 +283,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Detect AWS Console Login by New User](#detect-aws-console-login-by-new-user)
 
 
@@ -555,6 +557,26 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [GCP Detect gcploit framework](#gcp-detect-gcploit-framework)
 
 
@@ -564,6 +586,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [GCP Kubernetes cluster pod scan detection](#gcp-kubernetes-cluster-pod-scan-detection)
+
+
 
 
 
@@ -615,7 +639,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Kubernetes AWS detect suspicious kubectl calls](#kubernetes-aws-detect-suspicious-kubectl-calls)
+
+
 
 
 
@@ -746,6 +776,20 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [O365 Suspicious User Email Forwarding](#o365-suspicious-user-email-forwarding)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1392,6 +1436,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Deleting Of Net Users](#deleting-of-net-users)
+
+
+
 - [Deleting Shadow Copies](#deleting-shadow-copies)
 
 
@@ -1664,6 +1712,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Disable Windows App Hotkeys](#disable-windows-app-hotkeys)
+
+
+
 - [Disable Windows Behavior Monitoring](#disable-windows-behavior-monitoring)
 
 
@@ -1688,6 +1740,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Disabling Net User Account](#disabling-net-user-account)
+
+
+
 - [Disabling NoRun Windows App](#disabling-norun-windows-app)
 
 
@@ -1701,6 +1757,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Disabling Task Manager](#disabling-task-manager)
+
+
+
+- [Download Files Using Telegram](#download-files-using-telegram)
 
 
 
@@ -1732,6 +1792,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Enumerate Users Local Group Using Telegram](#enumerate-users-local-group-using-telegram)
+
+
+
 - [Eventvwr UAC Bypass](#eventvwr-uac-bypass)
 
 
@@ -1744,9 +1808,33 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Excessive Attempt To Disable Services](#excessive-attempt-to-disable-services)
+
+
+
+
+
+- [Excessive Service Stop Attempt](#excessive-service-stop-attempt)
+
+
+
+- [Excessive Usage Of Cacls App](#excessive-usage-of-cacls-app)
+
+
+
+- [Excessive Usage Of Net App](#excessive-usage-of-net-app)
+
+
+
+- [Excessive Usage Of Taskkill](#excessive-usage-of-taskkill)
+
 
 
 - [Excessive Usage of NSLOOKUP App](#excessive-usage-of-nslookup-app)
+
+
+
+- [Executables Or Script Creation In Suspicious Path](#executables-or-script-creation-in-suspicious-path)
 
 
 
@@ -1800,6 +1888,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Hide User Account From Sign-In Screen](#hide-user-account-from-sign-in-screen)
+
+
+
 - [Hiding Files And Directories With Attrib exe](#hiding-files-and-directories-with-attrib-exe)
 
 
@@ -1813,6 +1905,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 - [High Process Termination Frequency](#high-process-termination-frequency)
 
 
+
+
+
+- [ICACLS Grant Command](#icacls-grant-command)
+
+
+
+- [Icacls Deny Command](#icacls-deny-command)
 
 
 
@@ -1925,6 +2025,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Malicious Powershell Executed As A Service](#malicious-powershell-executed-as-a-service)
+
+
+
+- [Modify ACL permission To Files Or Folder](#modify-acl-permission-to-files-or-folder)
 
 
 
@@ -2091,6 +2195,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Process Execution via WMI](#process-execution-via-wmi)
+
+
+
+- [Process Kill Base On File Path](#process-kill-base-on-file-path)
 
 
 
@@ -2268,6 +2376,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Schtasks Run Task On Demand](#schtasks-run-task-on-demand)
+
+
+
 - [Schtasks scheduling job on remote system](#schtasks-scheduling-job-on-remote-system)
 
 
@@ -2281,6 +2393,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [SearchProtocolHost with no Command Line with Network](#searchprotocolhost-with-no-command-line-with-network)
+
+
+
+- [Services Escalate Exe](#services-escalate-exe)
 
 
 
@@ -2340,6 +2456,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Suspicious Driver Loaded Path](#suspicious-driver-loaded-path)
+
+
+
 
 
 
@@ -2365,6 +2485,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Suspicious PlistBuddy Usage via OSquery](#suspicious-plistbuddy-usage-via-osquery)
+
+
+
+- [Suspicious Process File Path](#suspicious-process-file-path)
 
 
 
@@ -2532,6 +2656,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [WinRM Spawning a Process](#winrm-spawning-a-process)
+
+
+
 - [Windows AdFind Exe](#windows-adfind-exe)
 
 
@@ -2565,6 +2693,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Write Executable in SMB Share](#write-executable-in-smb-share)
+
+
+
+- [XMRIG Driver Loaded](#xmrig-driver-loaded)
 
 
 
@@ -2778,6 +2910,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [DNS Query Length With High Standard Deviation](#dns-query-length-with-high-standard-deviation)
+
+
 
 
 
@@ -3045,7 +3179,29 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 - [Excessive DNS Failures](#excessive-dns-failures)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3159,7 +3315,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Large Volume of DNS ANY Queries](#large-volume-of-dns-any-queries)
+
+
 
 
 
@@ -3274,6 +3436,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Plain HTTP POST Exfiltrated Data](#plain-http-post-exfiltrated-data)
+
+
 
 
 
@@ -3503,6 +3667,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 - [TOR Traffic](#tor-traffic)
 
 
@@ -3590,11 +3762,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 </details>
 
 ## Application
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -4014,6 +4192,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Email Attachments With Lots Of Spaces](#email-attachments-with-lots-of-spaces)
 
 
@@ -4023,6 +4207,28 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Email servers sending high volume traffic to hosts](#email-servers-sending-high-volume-traffic-to-hosts)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4424,6 +4630,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 - [Suspicious Email Attachment Extensions](#suspicious-email-attachment-extensions)
 
 
@@ -4433,6 +4647,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Suspicious Java Classes](#suspicious-java-classes)
+
+
 
 
 
@@ -4569,11 +4785,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 </details>
 
 ## Web
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -5141,7 +5363,37 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
 
 
 
@@ -5381,7 +5633,19 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Supernova Webshell](#supernova-webshell)
+
+
+
+
+
+
+
+
 
 
 
@@ -13234,6 +13498,84 @@ _version_: 1
 
 ---
 
+### Deleting Of Net Users
+This analytic will detect a suspicious net.exe/net1.exe command-line to delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some user or deleting adversaries tracks created during its lateral movement additional systems. During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1531](https://attack.mitre.org/techniques/T1531/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="net.exe" OR Processes.process_name="net1.exe" AND Processes.process="*user*" AND  Processes.process="*/delete*" by  Processes.process_name Processes.dest Processes.user Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `deleting_of_net_users_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.process_id
+
+* Processes.parent_process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1531 | Account Access Removal | Impact |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+System administrators or scripts may delete user accounts via this technique. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Deleting Shadow Copies
 The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service.  Wmic is an interface to the Windows Management Instrumentation.  This search looks for either of these tools being used to delete shadow copies.
 
@@ -20275,6 +20617,80 @@ _version_: 1
 
 ---
 
+### Disable Windows App Hotkeys
+This analytic detects a suspicious registry modification to disable Windows hotkey (shortcut keys) for native Windows applications. This technique is commonly used to disable certain or several Windows applications like `taskmgr.exe` and `cmd.exe`. This technique is used to impair the analyst in analyzing and removing the attacker implant in compromised systems.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
+- **Last Updated**: 2021-05-05
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows NT\\CurrentVersion\\Image File Execution Options\\*" AND Registry.registry_value_name = "HotKey Disabled" AND Registry.registry_key_name = "Debugger" by Registry.dest Registry.user Registry.registry_value_name 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `drop_dm_object_name(Registry)` 
+| `disable_windows_app_hotkeys_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as CarbonBlack or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.registry_value_name
+
+* Registry.dest Registry.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Disable Windows Behavior Monitoring
 This search is to identifies a modification in registry to disable the windows denfender real time behavior monitoring. This event or technique is commonly seen in RAT, bot, or Trojan to disable AV to evade detections.
 
@@ -20761,6 +21177,84 @@ _version_: 1
 
 ---
 
+### Disabling Net User Account
+This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1531](https://attack.mitre.org/techniques/T1531/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="net.exe" OR Processes.process_name="net1.exe" AND Processes.process="*user*" AND Processes.process="*/active:no*" by  Processes.process_name Processes.dest Processes.user Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `disabling_net_user_account_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe/net1.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.process_id
+
+* Processes.parent_process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1531 | Account Access Removal | Impact |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Disabling NoRun Windows App
 This search is to identify modification of registry to disable run application in window start menu. this application is known to be a helpful shortcut to windows OS user to run known application and also to execute some reg or batch script. This technique is used malware to make cleaning of its infection more harder by preventing known application run easily through run shortcut.
 
@@ -21072,6 +21566,83 @@ admin may disable this application for non technical user.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Download Files Using Telegram
+The following analytic will identify a suspicious download by the Telegram application on a Windows system. This behavior was identified on a honeypot where the adversary gained access, installed Telegram and followed through with downloading different network scanners (port, bruteforcer, masscan) to the system and later used to mapped the whole network and further move laterally.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1105](https://attack.mitre.org/techniques/T1105/)
+- **Last Updated**: 2021-05-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier" 
+|stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode Image process_id TargetFilename Hash 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `download_files_using_telegram_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and TargetFilename from your endpoints or Events that monitor filestream events which is happened when process download something. (EventCode 15) If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Computer
+
+* EventCode
+
+* Image
+
+* process_id
+
+* TargetFilename
+
+* Hash
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1105 | Ingress Tool Transfer | Command and Control |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+normal download of file in telegram app. (if it was a common app in network)
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
 
 
 _version_: 1
@@ -21889,6 +22460,91 @@ _version_: 2
 
 ---
 
+### Enumerate Users Local Group Using Telegram
+This analytic will detect a suspicious Telegram process enumerating all network users in a local group. This technique was seen in a Monero infected honeypot to mapped all the users on the compromised system. EventCode 4798 is generated when a process enumerates a user's security-enabled local groups on a computer or device.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1087](https://attack.mitre.org/techniques/T1087/)
+- **Last Updated**: 2021-05-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4798  Process_Name = "*\\telegram.exe" 
+| stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode Process_Name  Process_ID Account_Name Account_Domain Logon_ID Security_ID Message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `enumerate_users_local_group_using_telegram_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the Task Schedule (Exa. Security Log EventCode 4798) endpoints. Tune and filter known instances of process like logonUI used in your environment.
+
+#### Required field
+
+* _time
+
+* ComputerName
+
+* EventCode
+
+* Process_Name
+
+* Process_ID
+
+* Account_Name
+
+* Account_Domain
+
+* Logon_ID
+
+* Security_ID
+
+* Message
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1087 | Account Discovery | Discovery |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4798
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Eventvwr UAC Bypass
 The following search identifies Eventvwr bypass by identifying the registry modification into a specific path that eventvwr.msc looks to (but is not valid) upon execution. A successful attack will include a suspicious command to be executed upon eventvwr.msc loading. Upon triage, review the parallel processes that have executed. Identify any additional registry modifications on the endpoint that may look suspicious. Remediate as necessary.
 
@@ -22133,6 +22789,85 @@ _version_: 1
 
 ---
 
+### Excessive Attempt To Disable Services
+This analytic will identify suspicious series of command-line to disable several services. This technique is seen where the adversary attempts to disable security app services or other malware services to complete the objective on the compromised system.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1489](https://attack.mitre.org/techniques/T1489/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = "sc.exe" AND Processes.process="*config*" OR Processes.process="*Disabled*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
+| where count >=5 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_attempt_to_disable_services_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1489 | Service Stop | Impact |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Excessive DNS Failures
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
@@ -22202,6 +22937,322 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 
 
 _version_: 2
+</details>
+
+---
+
+### Excessive Service Stop Attempt
+This analytic identifies suspicious series of attempt to kill multiple services on a system using either `net.exe` or `sc.exe`. This technique is use by adversaries to terminate security services or other related services to continue there objective and evade detections.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1489](https://attack.mitre.org/techniques/T1489/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "net.exe" OR  Processes.process_name = "sc.exe" OR  Processes.process_name = "net1.exe" AND Processes.process="*stop*" OR Processes.process="*/delete*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
+| where count >=5 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_service_stop_attempt_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1489 | Service Stop | Impact |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Excessive Usage Of Cacls App
+The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` or `icacls.exe` application to change file or folder permission. This behavior is commonly seen where the adversary attempts to impair some users from deleting or accessing its malware components or artifact from the compromised system.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
+- **Last Updated**: 2021-05-07
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id  values(Processes.process_name) as process_name count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "cacls.exe" OR Processes.process_name = "icacls.exe" OR Processes.process_name = "XCACLS.exe" by Processes.parent_process_name Processes.parent_process Processes.dest Processes.user _time span=1m 
+| where count >=10 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_usage_of_cacls_app_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Administrators or administrative scripts may use this application. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Excessive Usage Of Net App
+This analytic identifies excessive usage of `net.exe` or `net1.exe` within a bucket of time (1 minute). This behavior was seen in a Monero incident where the adversary attempts to create many users, delete and disable users as part of its malicious behavior.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1531](https://attack.mitre.org/techniques/T1531/)
+- **Last Updated**: 2021-05-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "net.exe" OR Processes.process_name = "net1.exe" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
+| where count >=10 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_usage_of_net_app_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1531 | Account Access Removal | Impact |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown. Filter as needed. Modify the time span as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Excessive Usage Of Taskkill
+This analytic identifies excessive usage of `taskkill.exe` application. This application is commonly used by adversaries to evade detections by killing security product processes or even other processes to evade detection.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "taskkill.exe"  by Processes.parent_process_name Processes.process_name Processes.dest Processes.user _time span=1m 
+| where count >=10 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_usage_of_taskkill_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed taskkill.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process
+
+* Processes.process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -22286,6 +23337,82 @@ unknown
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Executables Or Script Creation In Suspicious Path
+This analytic will identify suspicious executable or scripts (known file extensions) in list of suspicious file path in Windows. This technique is used by adversaries to evade detection. The suspicious file path are known paths used in the wild and are not common to have executable or scripts.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1036](https://attack.mitre.org/techniques/T1036/)
+- **Last Updated**: 2021-05-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js OR Filesystem.file_name = *.ps1 OR Filesystem.file_name = *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) AND ( Filesystem.file_path = *\\windows\\fonts\\* OR Filesystem.file_path = *\\windows\\temp\\* OR Filesystem.file_path = *\\users\\public\\* OR Filesystem.file_path = *\\windows\\debug\\* OR Filesystem.file_path = *\\Users\\Administrator\\Music\\* OR Filesystem.file_path = *\\Windows\\servicing\\* OR Filesystem.file_path = *\\Users\\Default\\* OR Filesystem.file_path = *Recycle.bin* OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\* OR Filesystem.file_path = *\\AppData\\Local\\Temp*) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `executables_or_script_creation_in_suspicious_path_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+
+#### Required field
+
+* _time
+
+* Filesystem.file_path
+
+* Filesystem.file_create_time
+
+* Filesystem.process_id
+
+* Filesystem.file_name
+
+* Filesystem.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1036 | Masquerading | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Administrators may allow creation of script or exe in the paths specified. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
 
 _version_: 1
@@ -23570,6 +24697,80 @@ _version_: 1
 
 ---
 
+### Hide User Account From Sign-In Screen
+This analytic identifies a suspicious registry modification to hide a user account on the Windows Login screen. This technique was seen in some tradecraft where the adversary will create a hidden user account with Admin privileges in login screen to avoid noticing by the user that they already compromise and to persist on that said machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
+- **Last Updated**: 2021-05-05
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" AND Registry.registry_value_name = "DWORD (0x00000000)" by Registry.dest Registry.user Registry.registry_value_name 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `drop_dm_object_name(Registry)` 
+| `hide_user_account_from_sign_in_screen_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as CarbonBlack or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+
+#### Required field
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.registry_value_name
+
+* Registry.dest Registry.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Hiding Files And Directories With Attrib exe
 Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.
 
@@ -23945,6 +25146,162 @@ The false-positive rate will vary based on how you set the deviation_threshold a
 
 
 _version_: 2
+</details>
+
+---
+
+### ICACLS Grant Command
+This analytic identifies potential adversaries that modify the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft and coinminer scripts to evade detections and restrict access to their component files.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "icacls.exe" OR Processes.process_name = "cacls.exe" OR Processes.process_name = "xcacls.exe" AND Processes.process = "*/grant*" by Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `icacls_grant_command_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed icacls.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process_id
+
+* Processes.process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Icacls Deny Command
+This analytic identifies a potential adversary that changes the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft or coinminer scripts. This behavior is meant to evade detection and prevent access to their component files.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
+- **Last Updated**: 2021-04-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "icacls.exe" OR Processes.process_name = "cacls.exe" OR Processes.process_name = "xcacls.exe" AND Processes.process = "*/deny*" by Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `icacls_deny_command_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed icacls.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process_id
+
+* Processes.process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown. It is possible some administrative scripts use ICacls. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -26468,6 +27825,84 @@ _version_: 1
 
 ---
 
+### Modify ACL permission To Files Or Folder
+This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cacls.exe" OR Processes.process_name = "icacls.exe" OR Processes.process_name = "xcacls.exe" AND (Processes.process = "*/G everyone:*"  OR Processes.process = "*/G SYSTEM:*") by Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `modify_acl_permission_to_files_or_folder_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process
+
+* Processes.process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+administrators may use this command. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Monitor DNS For Brand Abuse
 This search looks for DNS requests for faux domains similar to the domains that you want to have monitored for abuse.
 
@@ -28635,6 +30070,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 
 * Office 365 Detections
 
+* Data Exfiltration
+
 
 #### How To Implement
 You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
@@ -28715,6 +30152,8 @@ This search detects when an admin configured a forwarding rule for multiple mail
 #### Associated Analytic Story
 
 * Office 365 Detections
+
+* Data Exfiltration
 
 
 #### How To Implement
@@ -28852,6 +30291,8 @@ This search detects when multiple user configured a forwarding rule to the same 
 #### Associated Analytic Story
 
 * Office 365 Detections
+
+* Data Exfiltration
 
 
 #### How To Implement
@@ -30066,7 +31507,7 @@ _version_: 1
 This search is to detect potential plain HTTP POST method data exfiltration. This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary where arguments or commands are sent in plain text to the remote C2 server using HTTP POST method as part of data exfiltration.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: Network_Traffic
 - **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2021-04-22
 
@@ -30621,6 +32062,84 @@ Although unlikely, administrators may use wmi to execute commands for legitimate
 
 
 _version_: 3
+</details>
+
+---
+
+### Process Kill Base On File Path
+The following analytic identifies the use of `wmic.exe` using `delete` to remove a executable path. This is typically ran via a batch file during beginning stages of an adversary setting up for mining on an endpoint.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
+- **Last Updated**: 2021-05-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = "wmic.exe" AND Processes.process="*process*" AND Processes.process="*executablepath*" AND Processes.process="*delete*" by  Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `process_kill_base_on_file_path_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed wmic.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process
+
+* Processes.process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -34217,7 +35736,7 @@ _version_: 1
 ---
 
 ### Schedule Task with Rundll32 Command Trigger
-The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a Rundll32. This technique is common in new trickbot that uses rundll32 to load is trickbot downloader. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not.\ schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`.\ The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\ Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a Rundll32. This technique is common in new trickbot that uses rundll32 to load is trickbot downloader. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory. Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -34434,6 +35953,84 @@ No known false positives
 
 
 _version_: 3
+</details>
+
+---
+
+### Schtasks Run Task On Demand
+This analytic identifies an on demand run of a Windows Schedule Task through shell or command-line. This technique has been used by adversaries that force to run their created Schedule Task as their persistence mechanism or for lateral movement as part of their malicious attack to the compromised machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/)
+- **Last Updated**: 2021-05-07
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "schtasks.exe" Processes.process = "*/run*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `schtasks_run_task_on_demand_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed schtasks.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Administrators may use to debug Schedule Task entries. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -34729,6 +36326,92 @@ Limited false positives may be present in small environments. Tuning may be requ
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Services Escalate Exe
+The following analytic identifies the use of `svc-exe` with Cobalt Strike. The behavior typically follows after an adversary has already gained initial access and is escalating privileges. Using `svc-exe`, a randomly named binary will be downloaded from the remote Teamserver and placed on disk within `C:\Windows\400619a.exe`. Following, the binary will be added to the registry under key `HKLM\System\CurrentControlSet\Services\400619a\` with multiple keys and values added to look like a legitimate service. Upon loading, `services.exe` will spawn the randomly named binary from `\\127.0.0.1\ADMIN$\400619a.exe`. The process lineage is completed with `400619a.exe` spawning rundll32.exe, which is the default `spawnto_` value for Cobalt Strike. The `spawnto_` value is arbitrary and may be any process on disk (typically system32/syswow64 binary). The `spawnto_` process will also contain a network connection. During triage, review parallel procesess and identify any additional file modifications.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548](https://attack.mitre.org/techniques/T1548/)
+- **Last Updated**: 2021-05-18
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=services.exe Processes.process_path=*admin$* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `services_escalate_exe_filter`
+```
+#### Associated Analytic Story
+
+* Cobalt Strike
+
+
+#### How To Implement
+To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+* Privilege Escalation
+
+
+#### Known False Positives
+False positives should be limited as `services.exe` should never spawn a process from `ADMIN$`. Filter as needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
+
+* https://attack.mitre.org/techniques/T1548/
+
+* https://www.cobaltstrike.com/help-beacon
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
 
 
 _version_: 1
@@ -35885,6 +37568,85 @@ _version_: 1
 
 ---
 
+### Suspicious Driver Loaded Path
+This analytic will detect suspicious driver loaded paths. This technique is commonly used by malicious software like coin miners (xmrig) to register its malicious driver from notable directories where executable or drivers do not commonly exist. During triage, validate this driver is for legitimate business use. Review the metadata and certificate information. Unsigned drivers from non-standard paths is not normal, but occurs. In addition, review driver loads into `ntoskrnl.exe` for possible other drivers of interest. Long tail analyze drivers by path (outside of default, and in default) for further review.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543/003/)
+- **Last Updated**: 2021-04-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*", "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) 
+|  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature Signed 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_driver_loaded_path_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Computer
+
+* ImageLoaded
+
+* Hashes
+
+* IMPHASH
+
+* Signature
+
+* Signed
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1543.003 | Windows Service | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives will be present. Some applications do load drivers
+
+#### Reference
+
+
+* https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+
+* https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Suspicious Email - UBA Anomaly
 This detection looks for emails that are suspicious because of their sender, domain rareness, or behavior differences. This is an anomaly generated by Splunk User Behavior Analytics (UBA).
 
@@ -36553,6 +38315,86 @@ Some legitimate applications may use PlistBuddy to create or modify property lis
 
 
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Suspicious Process File Path
+The following analytic will detect a suspicious process running in a file path where a process is not commonly seen and is most commonly used by malicious softtware. This behavior has been used by adversaries where they drop and run an exe in a path that is accessible without admin privileges.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1543](https://attack.mitre.org/techniques/T1543/)
+- **Last Updated**: 2021-05-05
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*" OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*" OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path.file_path = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*" OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" by Processes.parent_process_name Processes.parent_process Processes.process_path Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_process_file_path_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.process_path
+
+* Processes.dest
+
+* Processes.user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
+
+#### Reference
+
+
+* https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
 
 _version_: 1
@@ -40197,6 +42039,92 @@ _version_: 1
 
 ---
 
+### WinRM Spawning a Process
+The following analytic identifies suspicious processes spawning from WinRM (wsmprovhost.exe). This analytic is related to potential exploitation of CVE-2021-31166. which is a kernel-mode device driver http.sys vulnerability. Current proof of concept code will blue-screen the operating system. However, http.sys used by many different Windows processes, including WinRM. In this case, identifying suspicious process create (child processes) from `wsmprovhost.exe` is what this analytic is identifying.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1190](https://attack.mitre.org/techniques/T1190/)
+- **Last Updated**: 2021-05-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wsmprovhost.exe Processes.process_name IN ("cmd.exe","sh.exe","bash.exe","powershell.exe","pwsh.exe","schtasks.exe","certutil.exe","whoami.exe","bitsadmin.exe","scp.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `winrm_spawning_a_process_filter`
+```
+#### Associated Analytic Story
+
+* Unusual Processes
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1190 | Exploit Public-Facing Application | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+* Privilege Escalation
+
+* Denial of Service
+
+
+#### Known False Positives
+Unknown. Add new processes or filter as needed. It is possible system management software may spawn processes from `wsmprovhost.exe`.
+
+#### Reference
+
+
+* https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml
+
+* https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys
+
+* https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Windows AdFind Exe
 This search looks for the execution of `adfind.exe` with command-line arguments that it uses by default. Specifically the filter or search functions. It also considers the arguments necessary like objectcategory, see readme for more details: https://www.joeware.net/freetools/tools/adfind/usage.htm. This has been seen used before by Wizard Spider, FIN6 and actors whom also launched SUNBURST. AdFind.exe is usually used a recon tool to enumare a domain controller.
 
@@ -40931,6 +42859,83 @@ unknown
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### XMRIG Driver Loaded
+This analytic identifies XMRIG coinminer driver installation on the system. The XMRIG driver name by default is `WinRing0x64.sys`. This cpu miner is an open source project that is commonly abused by adversaries to infect and mine bitcoin.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543/003/)
+- **Last Updated**: 2021-04-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys" 
+|  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature Signed 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `xmrig_driver_loaded_filter`
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Computer
+
+* ImageLoaded
+
+* Hashes
+
+* IMPHASH
+
+* Signature
+
+* Signed
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1543.003 | Windows Service | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+False positives should be limited.
+
+#### Reference
+
+
+* https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
 
 _version_: 1

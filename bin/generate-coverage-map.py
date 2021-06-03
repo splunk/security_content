@@ -11,7 +11,7 @@ from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
 
-VERSION = "4.1"
+VERSION = "4.2"
 NAME = "Detection Coverage"
 DESCRIPTION = "security_content detection coverage"
 DOMAIN = "mitre-enterprise"
@@ -177,7 +177,7 @@ def generate_navigator_layer(matched_techniques, max_count, output):
 
 def generate_csv_file(matched_techniques, output):
 
-    security_content_url = 'https://github.com/splunk/security_content/blob/develop/detections/'
+    security_content_url = 'https://github.com/splunk/security_content/blob/develop/'
 
     with open(output + '/coverage.csv', 'w') as f:
         writer = csv.writer(f)
@@ -199,8 +199,9 @@ def load_objects(security_content_path, file_path):
     detection_files = path.join(path.expanduser(security_content_path), file_path)
 
     for file in glob.glob(detection_files):
+        file_name  =  file.replace('./detections/', '')
         files.append({
-            "filename": os.path.basename(file),
+            "filename": file_name,
             "object": load_file(file)
         })
 
