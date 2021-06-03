@@ -6,29 +6,34 @@ author: Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies renamed instances of `PsExec.exe` being utilized on an endpoint. Most instances, it is highly probable to capture `Psexec.exe` or other SysInternal utility usage with the command-line argument of `-accepteula`. In this instance, we are using `OriginalFileName` from Sysmon to identify `PsExec` usage.
-  During triage, validate this is the legitimate version of `PsExec` by review the PE metadata. In addition, review parallel processes for further suspicious behavior.
-search: '`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe)
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product
-  | rename Computer as dest 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+description: The following analytic identifies renamed instances of `PsExec.exe` being
+  utilized on an endpoint. Most instances, it is highly probable to capture `Psexec.exe`
+  or other SysInternal utility usage with the command-line argument of `-accepteula`.
+  In this instance, we are using `OriginalFileName` from Sysmon to identify `PsExec`
+  usage. During triage, validate this is the legitimate version of `PsExec` by review
+  the PE metadata. In addition, review parallel processes for further suspicious behavior.
+search: '`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe) |
+  stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name,
+  process_name, OriginalFileName, process_path, CommandLine Product | rename Computer
+  as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_renamed_psexec_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: Limited false positives should be present. It is possible some third party applications may use older versions of PsExec, filter as needed.
+known_false_positives: Limited false positives should be present. It is possible some
+  third party applications may use older versions of PsExec, filter as needed.
 references:
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
-  - https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
+- https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
 tags:
   analytic_story:
   - SamSam Ransomware
   - DHS Report TA18-074A
   - HAFNIUM Group
   - DarkSide Ransomware
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   - Lateral Movement
@@ -50,3 +55,4 @@ tags:
   - CommandLine
   - Product
   security_domain: endpoint
+  automated_detection_testing: passed
