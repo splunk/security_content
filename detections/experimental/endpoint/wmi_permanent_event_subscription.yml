@@ -1,21 +1,24 @@
-author: Rico Valdez, Splunk
-date: '2018-10-23'
-description: This search looks for the creation of WMI permanent event subscriptions.
-how_to_implement: To successfully implement this search, you must be ingesting the
-  Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on
-  the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
-id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
-known_false_positives: Although unlikely, administrators may use event subscriptions
-  for legitimate purposes.
 name: WMI Permanent Event Subscription
-references: []
+id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
+version: 1
+date: '2018-10-23'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
+description: This search looks for the creation of WMI permanent event subscriptions.
 search: '`wmi` EventCode=5861 Binding | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)"
   | search consumer!="NTEventLogEventConsumer=\"SCM Event Log Consumer\"" | stats
   count min(_time) as firstTime max(_time) as lastTime by ComputerName, consumer,
   Message | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | rename ComputerName as dest | `wmi_permanent_event_subscription_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting the
+  Windows WMI activity logs. This can be done by adding a stanza to inputs.conf on
+  the system generating logs with a title of [WinEventLog://Microsoft-Windows-WMI-Activity/Operational].
+known_false_positives: Although unlikely, administrators may use event subscriptions
+  for legitimate purposes.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
   cis20:
@@ -34,6 +37,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - consumer
+  - ComputerName
   security_domain: endpoint
-type: ESCU
-version: 1

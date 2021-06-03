@@ -1,5 +1,9 @@
-author: Shannon Davis, Splunk
+name: Windows DNS SIGRed CVE-2020-1350
+id: 36dbb206-d073-11ea-87d0-0242ac130003
+version: 1
 date: '2020-07-28'
+author: Shannon Davis, Splunk
+type: batch
 description: Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered
   by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and
   is triggered by a malicious DNS response (only affects DNS over TCP). An attacker
@@ -7,8 +11,6 @@ description: Uncover activity consistent with CVE-2020-1350, or SIGRed. Discover
   leading to compromise.  The included searches in this Analytic Story are designed
   to identify the large response payload for SIG and KEY DNS records which can be
   used for the exploit.
-id: 36dbb206-d073-11ea-87d0-0242ac130003
-name: Windows DNS SIGRed CVE-2020-1350
 narrative: When a client requests a DNS record for a particular domain, that request
   gets routed first through the client's locally configured DNS server, then to any
   DNS server(s) configured as forwarders, and then onto the target domain's own DNS
@@ -25,7 +27,7 @@ references:
 - https://research.checkpoint.com/2020/resolving-your-way-into-domain-admin-exploiting-a-17-year-old-bug-in-windows-dns-servers/
 - https://support.microsoft.com/en-au/help/4569509/windows-dns-server-remote-code-execution-vulnerability
 tags:
-  analytics_story: Windows DNS SIGRed CVE-2020-1350
+  analytic_story: Windows DNS SIGRed CVE-2020-1350
   category:
   - Adversary Tactics
   product:
@@ -33,5 +35,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

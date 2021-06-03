@@ -1,3 +1,12 @@
+# Ignore example files from contentctl tool
+
+detections/*/.yml.example
+stories/*.yml.example
+tests/*/*.yml.example
+
+# IDE
+.vscode/
+
 # usual mac files
 .DS_Store
 #vim files
@@ -14,7 +23,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -105,3 +113,5 @@ venv.bak/
 .mypy_cache/
 package/bin/sftp-config.json
 package/default/sftp-config.json
+*.code-snippets
+notes

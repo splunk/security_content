@@ -1,22 +1,22 @@
 name: Detect ARP Poisoning deployment configuration
 id: e1d5b4dc-4cf3-404f-905c-b478bbb20474
 date: '2020-08-14'
-description: This configuration file applies to the Detect ARP Poisoning detection
 author: Mikael Bjerkeland
+description: This configuration file applies to the Detect ARP Poisoning detection
 scheduling:
-  cron_schedule: '59 * * * *'
+  cron_schedule: 59 * * * *
   earliest_time: -70m@m
   latest_time: -10m@m
   schedule_window: auto
 alert_action:
   notable:
-    rule_description: 'ARP Poisoning has been detected on interface $src_interface$ on host $orig_host$.
-      This may be an indication of a MITM attack.'
-    rule_title: 'ARP Poisoning Detected on $orig_host$'
+    rule_description: ARP Poisoning has been detected on interface $src_interface$
+      on host $orig_host$. This may be an indication of a MITM attack.
+    rule_title: ARP Poisoning Detected on $orig_host$
     nes_fields:
-      - src_interface
-      - firstTime
-      - lastTime
-      - count
+    - src_interface
+    - firstTime
+    - lastTime
+    - count
 tags:
   detection_name: Detect ARP Poisoning

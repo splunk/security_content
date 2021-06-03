@@ -1,0 +1,53 @@
+name: Powershell Remote Thread To Known Windows Process
+id: ec102cb2-a0f5-11eb-9b38-acde48001122
+version: 1
+date: '2021-04-19'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is designed to detect suspicious powershell process that
+  tries to inject code and to known/critical windows process and execute it using
+  CreateRemoteThread. This technique is seen in several malware like trickbot and
+  offensive tooling like cobaltstrike where it load a shellcode to svchost.exe to
+  execute reverse shell to c2 and download another payload
+search: '`sysmon` EventCode = 8 process_name IN ("powershell_ise.exe", "powershell.exe")
+  TargetImage IN ("*\\svchost.exe","*\\csrss.exe" "*\\gpupdate.exe", "*\\explorer.exe","*\\services.exe","*\\winlogon.exe","*\\smss.exe","*\\wininit.exe","*\\userinit.exe","*\\spoolsv.exe","*\\taskhost.exe")
+  | stats  min(_time) as firstTime max(_time) as lastTime count by SourceImage process_name
+  SourceProcessId SourceProcessGuid TargetImage TargetProcessId NewThreadId StartAddress
+  Computer EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `powershell_remote_thread_to_known_windows_process_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, Create Remote thread from your endpoints. If you are
+  using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter
+  known instances of create remote thread may be used.
+known_false_positives: unknown
+references:
+- https://thedfirreport.com/2021/01/11/trickbot-still-alive-and-well/
+tags:
+  analytic_story:
+  - Trickbot
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1055
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - SourceImage
+  - process_name
+  - SourceProcessId
+  - SourceProcessGuid
+  - TargetImage
+  - TargetProcessId
+  - NewThreadId
+  - StartAddress
+  - Computer
+  - EventCode
+  security_domain: endpoint

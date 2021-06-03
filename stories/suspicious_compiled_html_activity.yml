@@ -1,0 +1,33 @@
+author: Michael Haag, Splunk
+date: '2021-02-11'
+description: Monitor and detect techniques used by attackers who leverage the mshta.exe
+  process to execute malicious code.
+id: a09db4d1-3827-4833-87b8-3a397e532119
+name: Suspicious Compiled HTML Activity
+narrative: 'Adversaries may abuse Compiled HTML files (.chm) to conceal malicious code. 
+  CHM files are commonly distributed as part of the Microsoft HTML Help system. CHM
+  files are compressed compilations of various content such as HTML documents, images,
+  and scripting/web related programming languages such VBA, JScript, Java, and ActiveX.
+  CHM content is displayed using underlying components of the Internet Explorer browser
+  loaded by the HTML Help executable program (hh.exe). \
+
+  HH.exe relies upon hhctrl.ocx to load CHM topics.This will load upon execution of a chm file. \
+
+  During investigation, review all parallel processes and child processes. It is possible for file modification events to occur and it is best to capture the CHM file and decompile it for further analysis. \
+
+  Upon usage of InfoTech Storage Handlers, ms-its, its, mk, itss.dll will load.'
+references:
+- https://redcanary.com/blog/introducing-atomictestharnesses/
+- https://attack.mitre.org/techniques/T1218/001/
+- https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
+tags:
+  analytic_story: Suspicious Compiled HTML Activity
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+type: ESCU
+version: 1

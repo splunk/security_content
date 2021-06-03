@@ -1,7 +1,18 @@
-author: David Dorsey, Splunk
+name: Suspicious Email Attachment Extensions
+id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
+version: 3
 date: '2020-07-22'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Email
 description: This search looks for emails that have attachments with suspicious file
   extensions.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
+  All_Email.file_name All_Email.message_id | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments`
+  | `suspicious_email_attachment_extensions_filter` '
 how_to_implement: "You need to ingest data from emails. Specifically, the sender's\
   \ address and the file names of any attachments must be mapped to the Email data\
   \ model. \\\n **Splunk Phantom Playbook Integration**\\\nIf Splunk Phantom is also\
@@ -14,16 +25,10 @@ how_to_implement: "You need to ingest data from emails. Specifically, the sender
   \ gather further information about the file attachment and its network behaviors.\
   \ If Phantom finds malicious behavior and an analyst approves of the results, the\
   \ email will be deleted from the user's inbox."
-id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 known_false_positives: None identified
-name: Suspicious Email Attachment Extensions
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
-  All_Email.file_name All_Email.message_id | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments`
-  | `suspicious_email_attachment_extensions_filter` '
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - 'Emotet Malware  DHS Report TA18-201A '
   - Suspicious Emails
   asset_type: Endpoint
@@ -42,6 +47,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Email.file_name
+  - All_Email.src_user
+  - All_Email.message_id
   security_domain: network
-type: ESCU
-version: 3

@@ -1,10 +1,12 @@
-author: Rod Soto, David Dorsey, Splunk
+name: Ransomware Cloud
+id: f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
+version: 1
 date: '2020-10-27'
+author: Rod Soto, David Dorsey, Splunk
+type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to ransomware. These searches include cloud related objects that
   may be targeted by malicious actors via cloud providers own encryption features.
-id: f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
-name: Ransomware Cloud
 narrative: Ransomware is an ever-present risk to the enterprise, wherein an infected
   host encrypts business-critical data, holding it hostage until the victim pays the
   attacker a ransom. There are many types and varieties of ransomware that can affect
@@ -15,13 +17,12 @@ references:
 - https://github.com/d1vious/git-wild-hunt
 - https://www.youtube.com/watch?v=PgzNib37g0M
 tags:
-  analytics_story: Ransomware Cloud
+  analytic_story: Ransomware Cloud
   category:
   - Malware
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 1

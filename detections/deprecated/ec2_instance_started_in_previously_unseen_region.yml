@@ -1,18 +1,13 @@
-author: Bhavin Patel, Splunk
+name: EC2 Instance Started In Previously Unseen Region
+id: ada0f478-84a8-4641-a3f3-d82362d6fd75
+version: 1
 date: '2018-02-23'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search looks for CloudTrail events where an instance is started
   in a particular region in the last one hour and then compares it to a lookup file
   of previously seen regions where an instance was started
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. Run the "Previously seen AWS Regions" support search only once to create
-  of baseline of previously seen regions.  This search is deprecated and have been
-  translated to use the latest Change Datamodel.
-id: ada0f478-84a8-4641-a3f3-d82362d6fd75
-known_false_positives: It's possible that a user has unknowingly started an instance
-  in a new region. Please verify that this activity is legitimate.
-name: EC2 Instance Started In Previously Unseen Region
-references: []
 search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as earliest
   latest(_time) as latest by awsRegion | inputlookup append=t previously_seen_aws_regions.csv
   | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup
@@ -20,8 +15,16 @@ search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as ear
   "Instance Started in a New Region","Previously Seen Region") | `security_content_ctime(earliest)`
   | `security_content_ctime(latest)` | where regionStatus="Instance Started in a New
   Region" | `ec2_instance_started_in_previously_unseen_region_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  inputs. Run the "Previously seen AWS Regions" support search only once to create
+  of baseline of previously seen regions.  This search is deprecated and have been
+  translated to use the latest Change Datamodel.
+known_false_positives: It's possible that a user has unknowingly started an instance
+  in a new region. Please verify that this activity is legitimate.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
   asset_type: AWS Instance
@@ -38,9 +41,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - awsRegion
   risk_object: src
   risk_object_type: system
   risk_score: 10
   security_domain: network
-type: ESCU
-version: 1

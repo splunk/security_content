@@ -1,0 +1,49 @@
+name: Wermgr Process Create Executable File
+id: ab3bcce0-a105-11eb-973c-acde48001122
+version: 1
+date: '2021-04-19'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is designed to detect potential malicious wermgr.exe process
+  that drops or create executable file. Since wermgr.exe is an application trigger
+  when error encountered in a process, it is really un ussual to this process to drop
+  executable file. This technique is commonly seen in trickbot malware where it injects
+  it code to this process to execute it malicious behavior like downloading other
+  payload
+search: '`sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe"
+  | stats  min(_time) as firstTime max(_time) as lastTime count by  Image TargetFilename
+  process_name dest EventCode ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `wermgr_process_create_executable_file_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+known_false_positives: unknown
+references:
+- https://labs.vipre.com/trickbot-and-its-modules/
+- https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+tags:
+  analytic_story:
+  - Trickbot
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1027
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - TargetFilename
+  - process_name
+  - dest
+  - EventCode
+  - ProcessId
+  security_domain: endpoint

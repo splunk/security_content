@@ -1,19 +1,14 @@
-author: Stanislav Miskovic, Splunk
+name: Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit
+  modules
+id: db08ac40-ee14-43e9-9a75-dddd059ef812
+version: 1
 date: '2020-11-06'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
 description: This detection identifies access to PowerSploit modules for reconnaissance
   and access to elements of Active Directory infrastructure, such as domain identifiers,
   AD sites and forests, and trust relations.
-eli5: This detection identifies use of PowerSploit modules for reconnaissance and
-  access to Active Directory infrastructure - identifiers, sites, forests and trust
-  relations.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: db08ac40-ee14-43e9-9a75-dddd059ef812
-known_false_positives: None identified.
-name: Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit
-  modules
-references:
-- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -32,15 +27,22 @@ search: '| from read_ssa_enriched_events()
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+  "string", null)), body=create_map([ "cmd_line", cmd_line]) | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
+  analytic_story:
+  - Windows Discovery Techniques
   asset_type: Windows
   cis20:
   - CIS 16
   - CIS 20
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1199
   - T1482
   - T1590
@@ -50,7 +52,7 @@ tags:
   - PR.AC
   - PR.IP
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - process
@@ -58,5 +60,3 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
-type: SSA
-version: 1

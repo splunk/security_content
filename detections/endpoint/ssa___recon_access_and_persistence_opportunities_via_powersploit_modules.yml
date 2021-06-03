@@ -1,22 +1,15 @@
-author: Stanislav Miskovic, Splunk
+name: Reconnaissance of Access and Persistence Opportunities via PowerSploit modules
+id: 3d8bd7f3-1061-4ac7-9225-6764cc0684d7
+version: 1
 date: '2020-11-05'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
 description: This detection identifies use of PowerSploit modules that discover opportunities
   for malicious access and persistence. Some examples include access to admin accounts,
   weak access control policies, landing paths for dropping malicious software or data
   to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities,
   as well as services and system files that can be compromised.
-eli5: This detection identifies use of PowerSploit modules that discover access and
-  persistence opportunities, including access to admin accounts, weak access control
-  policies, landing paths for dropping malicious software or data to exfiltrate, registry
-  locations to land autorun parameters, task scheduling opportunities, as well as
-  services and system files that can be compromised.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: 3d8bd7f3-1061-4ac7-9225-6764cc0684d7
-known_false_positives: None identified.
-name: Reconnaissance of Access and Persistence Opportunities via PowerSploit modules
-references:
-- https://github.com/PowerShellMafia/PowerSploit
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -35,15 +28,22 @@ search: '| from read_ssa_enriched_events()
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+  "string", null)), body=create_map([ "cmd_line", cmd_line]) | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/PowerShellMafia/PowerSploit
 tags:
+  analytic_story:
+  - Windows Discovery Techniques
   asset_type: Windows
   cis20:
   - CIS 16
   - CIS 20
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1053
   - T1068
   - T1078
@@ -54,7 +54,7 @@ tags:
   - PR.AC
   - PR.IP
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - process
@@ -62,5 +62,3 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
-type: SSA
-version: 1

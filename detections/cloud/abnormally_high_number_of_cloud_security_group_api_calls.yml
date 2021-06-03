@@ -1,14 +1,13 @@
-author: David Dorsey, Splunk
+name: Abnormally High Number Of Cloud Security Group API Calls
+id: d4dfb7f3-7a37-498a-b5df-f19334e871af
+version: 1
 date: '2020-09-07'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search will detect a spike in the number of API calls made to your
   cloud infrastructure environment about security groups by a user.
-how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
-  run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to
-  create the probability density function model.
-id: d4dfb7f3-7a37-498a-b5df-f19334e871af
-known_false_positives: ''
-name: Abnormally High Number Of Cloud Security Group API Calls
-references: []
 search: '| tstats count as security_group_api_calls values(All_Changes.command) as
   command from datamodel=Change where All_Changes.object_category=firewall AND All_Changes.status=success
   by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")` | eval
@@ -21,8 +20,13 @@ search: '| tstats count as security_group_api_calls values(All_Changes.command) 
   > expected_upper_threshold | eval distance_from_threshold = security_group_api_calls
   - expected_upper_threshold | table _time, user, command, security_group_api_calls,
   expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_security_group_api_calls_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
+  run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to
+  create the probability density function model.
+known_false_positives: ''
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Instance
   automated_detection_testing: passed
@@ -43,9 +47,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.command
+  - All_Changes.object_category
+  - All_Changes.status
+  - All_Changes.user
   risk_object: user
   risk_object_type: user
   risk_score: 25
   security_domain: network
-type: ESCU
-version: 1

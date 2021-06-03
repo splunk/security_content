@@ -1,16 +1,12 @@
-author: Stanislav Miskovic, Splunk
+name: Reconnaissance and Access to Computers via Mimikatz modules
+id: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
+version: 1
 date: '2020-11-06'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery of computers
   and servers and access to them.
-eli5: This detection identifies use of Mimikatz modules for discovery of computers
-  and servers and access to them.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
-known_false_positives: None identified.
-name: Reconnaissance and Access to Computers via Mimikatz modules
-references:
-- https://github.com/gentilkiwi/mimikatz
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -19,21 +15,28 @@ search: '| from read_ssa_enriched_events()
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+  "string", null)), body=create_map([ "cmd_line", cmd_line]) | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/gentilkiwi/mimikatz
 tags:
+  analytic_story:
+  - Windows Discovery Techniques
   asset_type: Windows
   cis20:
   - CIS 16
   - CIS 20
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1592
   nist:
   - PR.AC
   - PR.IP
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - process
@@ -41,5 +44,3 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
-type: SSA
-version: 1

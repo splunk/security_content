@@ -1,0 +1,70 @@
+name: Detect Port Security Violation
+id: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
+version: 1
+date: '2020-10-28'
+author: Mikael Bjerkeland, Splunk
+type: batch
+datamodel: []
+description: By enabling Port Security on a Cisco switch you can restrict input to
+  an interface by limiting and identifying MAC addresses of the workstations that
+  are allowed to access the port. When you assign secure MAC addresses to a secure
+  port, the port does not forward packets with source addresses outside the group
+  of defined addresses. If you limit the number of secure MAC addresses to one and
+  assign a single secure MAC address, the workstation attached to that port is assured
+  the full bandwidth of the port. If a port is configured as a secure port and the
+  maximum number of secure MAC addresses is reached, when the MAC address of a workstation
+  attempting to access the port is different from any of the identified secure MAC
+  addresses, a security violation occurs.
+search: '`cisco_networks` (facility="PM" mnemonic="ERR_DISABLE" disable_cause="psecure-violation")
+  OR (facility="PORT_SECURITY" mnemonic="PSECURE_VIOLATION" OR mnemonic="PSECURE_VIOLATION_VLAN")
+  | eval src_interface=src_int_prefix_long+src_int_suffix | stats min(_time) AS firstTime
+  max(_time) AS lastTime values(disable_cause) AS disable_cause values(src_mac) AS
+  src_mac values(src_vlan) AS src_vlan values(action) AS action count by host src_interface
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_port_security_violation_filter`'
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network
+  devices. The network devices must be configured with Port Security and Error Disable
+  for this to work (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst4500/12-2/25ew/configuration/guide/conf/port_sec.html)
+  and log with a severity level of minimum "5 - notification". The search also requires
+  that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
+  is used to parse the logs from the Cisco network devices.
+known_false_positives: This search might be prone to high false positives if you have
+  malfunctioning devices connected to your ethernet ports or if end users periodically
+  connect physical devices to the network.
+references: []
+tags:
+  analytic_story:
+  - Router and Infrastructure Security
+  asset_type: Infrastructure
+  cis20:
+  - CIS 1
+  - CIS 11
+  detection_name: Detect Port Security Violation
+  kill_chain_phases:
+  - Reconnaissance
+  - Delivery
+  - Exploitation
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1200
+  - T1498
+  - T1557.002
+  nist:
+  - ID.AM
+  - PR.DS
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - facility
+  - mnemonic
+  - disable_cause
+  - src_int_prefix_long
+  - src_int_suffix
+  - src_mac
+  - src_vlan
+  - action
+  - host
+  - src_interface
+  security_domain: network

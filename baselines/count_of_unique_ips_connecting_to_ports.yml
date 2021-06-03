@@ -1,18 +1,21 @@
-author: David Dorsey, Splunk
+name: Count of Unique IPs Connecting to Ports
+id: 9f3bae5a-9fe3-49df-8c84-5edc51d84b7f
+version: 1
 date: '2017-09-13'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Network_Traffic
 description: The search counts the number of times a connection was observed to each
   destination port, and the number of unique source IPs connecting to them.
-how_to_implement: To successfully implement this search, you must be ingesting network
-  traffic, and populating the Network_Traffic data model.
-id: 9f3bae5a-9fe3-49df-8c84-5edc51d84b7f
-name: Count of Unique IPs Connecting to Ports
 search: '| tstats `security_content_summariesonly` count dc(All_Traffic.src) as numberOfUniqueHosts
   from datamodel=Network_Traffic by All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
   | sort - count'
+how_to_implement: To successfully implement this search, you must be ingesting network
+  traffic, and populating the Network_Traffic data model.
+references: []
 tags:
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

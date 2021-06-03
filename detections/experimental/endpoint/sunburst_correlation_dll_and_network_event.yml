@@ -1,26 +1,29 @@
-author: Patrick Bareiss, Splunk
+name: Sunburst Correlation DLL and Network Event
+id: 701a8740-e8db-40df-9190-5516d3819787
+version: 1
 date: '2020-12-14'
+author: Patrick Bareiss, Splunk
+type: batch
+datamodel: []
 description: The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe.
   After a period of 12-14 days, the malware will attempt to resolve a subdomain of
   avsvmcloud.com. This detections will correlate both events.
-how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driver
-  loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll
-  is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query.
-  We suggest to run this detection at least once a day over the last 14 days.
-id: 701a8740-e8db-40df-9190-5516d3819787
-known_false_positives: unknown
-name: Sunburst Correlation DLL and Network Event
-references:
-- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
 search: '(`sysmon` EventCode=7 ImageLoaded=*SolarWinds.Orion.Core.BusinessLayer.dll)
   OR (`sysmon` EventCode=22 QueryName=*avsvmcloud.com) | eventstats dc(EventCode)
   AS dc_events | where dc_events=2 | stats min(_time) as firstTime max(_time) as lastTime
   values(ImageLoaded) AS ImageLoaded values(QueryName) AS QueryName by host | rename
   host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `sunburst_correlation_dll_and_network_event_filter` '
+how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driver
+  loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll
+  is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query.
+  We suggest to run this detection at least once a day over the last 14 days.
+known_false_positives: unknown
+references:
+- https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html
 tags:
-  analytics_story:
-  - Sunburst Malware
+  analytic_story:
+  - NOBELIUM Group
   asset_type: Windows
   cis20:
   - CIS 6
@@ -35,6 +38,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ImageLoaded
+  - QueryName
   security_domain: endpoint
-type: ESCU
-version: 1

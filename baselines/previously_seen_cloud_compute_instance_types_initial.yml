@@ -1,26 +1,30 @@
-author: David Dorsey, Splunk
+name: Previously Seen Cloud Compute Instance Types - Initial
+id: 3c78025c-1ffe-4976-a640-75ef604842be
+version: 1
 date: 2020-9-03
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search builds a table of previously seen cloud compute instance
   types
-how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
-  and have the Security Research cloud data model installed.
-id: 3c78025c-1ffe-4976-a640-75ef604842be
-name: Previously Seen Cloud Compute Instance Types - Initial
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
   from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type
   | `drop_dm_object_name("All_Changes.Instance_Changes")` | where instance_type !=
   "unknown" | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data
   = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_instance_types'
+how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
+  and have the Security Research cloud data model installed.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Cryptomining
   deployments:
   - 90 Day Baseline
   detections:
   - Cloud Compute Instance Created With Previously Unseen Instance Type
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

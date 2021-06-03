@@ -1,28 +1,31 @@
-author: Bhavin Patel, Splunk
+name: Monitor Registry Keys for Print Monitors
+id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
+version: 2
 date: '2020-11-23'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search looks for registry activity associated with modifications
   to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this
   scenario, an attacker can load an arbitrary .dll into the print-monitor registry
   by giving the full path name to the after.dll. The system will execute the .dll
   with elevated (SYSTEM) permissions and will persist after reboot.
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  products, such as Carbon Black, or via other endpoint data sources, such as Sysmon.
-  The data used for this search is typically generated via logs that report registry
-  modifications.
-id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
-known_false_positives: You will encounter noise from legitimate print-monitor registry
-  entries.
-name: Monitor Registry Keys for Print Monitors
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.action=modified AND
   Registry.registry_path="*CurrentControlSet\\Control\\Print\\Monitors*" by Registry.dest,
   Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_name
   Registry.action | `drop_dm_object_name(Registry)` | `monitor_registry_keys_for_print_monitors_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black, or via other endpoint data sources, such as Sysmon.
+  The data used for this search is typically generated via logs that report registry
+  modifications.
+known_false_positives: You will encounter noise from legitimate print-monitor registry
+  entries.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
   asset_type: Endpoint
@@ -44,6 +47,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.action
+  - Registry.registry_path
+  - Registry.dest
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.registry_value_name
   security_domain: endpoint
-type: ESCU
-version: 2

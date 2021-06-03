@@ -1,6 +1,4 @@
-name: Investigate AWS activities via region name
-id: bc91a8cd-35e7-4bb2-6140-e756cc46fd11
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-02-09'
 description: This search lists all the user activities logged by CloudTrail for a
   specific region in question and will create a table of the values of parameters
@@ -8,14 +6,21 @@ description: This search lists all the user activities logged by CloudTrail for 
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-author: Bhavin Patel, Splunk
+id: bc91a8cd-35e7-4bb2-6140-e756cc46fd11
 inputs:
 - vendor_region
-search: '| search sourcetype=aws:cloudtrail vendor_region=$vendor_region$| rename requestParameters.instancesSet.items{}.instanceId
-  as instanceId | stats values(eventName) by user instanceId vendor_region'
+name: Investigate AWS activities via region name
+search: '| search sourcetype=aws:cloudtrail vendor_region=$vendor_region$| rename
+  requestParameters.instancesSet.items{}.instanceId as instanceId | stats values(eventName)
+  by user instanceId vendor_region'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Cloud Cryptomining
   - Suspicious AWS EC2 Activities
   - Suspicious AWS S3 Activities
+  product:
+  - Splunk Phantom
+  - Splunk Security Analytics for AWS
+type: response
+version: 1

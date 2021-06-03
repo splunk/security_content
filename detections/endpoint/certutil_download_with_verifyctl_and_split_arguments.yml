@@ -1,0 +1,54 @@
+name: CertUtil Download With VerifyCtl and Split Arguments
+id: 801ad9e4-8bfb-11eb-8b31-acde48001122
+version: 1
+date: '2021-03-23'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: 'Certutil.exe may download a file from a remote destination using `-VerifyCtl`.
+  This behavior does require a URL to be passed on the command-line. In addition,
+  `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will
+  be used. It is not entirely common for `certutil.exe` to contact public IP space.
+  \ During triage, capture any files on disk and review. Review the reputation of
+  the remote IP or domain in question. Using `-VerifyCtl`, the file will either be
+  written to the current working directory or `%APPDATA%\..\LocalLow\Microsoft\CryptnetUrlCache\Content\<hash>`. '
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe
+  Processes.process=*verifyctl* Processes.process=*split* by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `certutil_download_with_verifyctl_and_split_arguments_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited false positives in most environments, however tune
+  as needed based on parent-child relationship or network connection.
+references:
+- https://attack.mitre.org/techniques/T1105/
+- https://www.hexacorn.com/blog/2020/08/23/certutil-one-more-gui-lolbin/
+- https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc732443(v=ws.11)#-verifyctl
+- https://www.avira.com/en/blog/certutil-abused-by-attackers-to-spread-threats
+tags:
+  analytic_story:
+  - Ingress Tool Transfer
+  - DarkSide Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1105
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.user
+  - Processes.dest
+  security_domain: endpoint

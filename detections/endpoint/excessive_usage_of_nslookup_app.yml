@@ -1,0 +1,54 @@
+name: Excessive Usage of NSLOOKUP App
+id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
+version: 1
+date: '2021-04-21'
+author: Teoderick Contreras, Stanislav Miskovic, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is to detect potential DNS exfiltration using nslookup application.
+  This technique are seen in couple of malware and APT group to exfiltrated collected
+  data in a infected machine or infected network. This detection is looking for unique
+  use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
+  commonly used by attacker and also the retry parameter which is designed to query
+  C2 DNS multiple tries.
+search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" |  bucket _time span=15m
+  | stats count as numNsLookup by Computer, _time |  eventstats avg(numNsLookup) as
+  avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by Computer |  eval
+  upperThreshold=(avgNsLookup + stdNsLookup *3) |  eval isOutlier=if(avgNsLookup >
+  20 and avgNsLookup >= upperThreshold, 1, 0) |  search isOutlier=1 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `excessive_usage_of_nslookup_app_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
+known_false_positives: unknown
+references:
+- https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html
+- https://www.varonis.com/blog/dns-tunneling/
+- https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+tags:
+  analytic_story:
+  - Suspicious DNS Traffic
+  - Dynamic DNS
+  - Command and Control
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1048
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  security_domain: endpoint

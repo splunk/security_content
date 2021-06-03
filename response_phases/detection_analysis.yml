@@ -1,21 +1,33 @@
-name: Detection and Analysis
-id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
-sla_type: minutes
-sla:
-description: Events are occurances of a systems or systems. Incidents are declared violations and incidents can occur in countless ways. Detection and analysis phase is about identifying an event as an incident and properly categorizing and prioritizing incident notification and documentation. It is infeasible to develop step-by-step instructions for handling every incident. This generic detection and analysis process is a template to ensure the right process is being followed.
-references:
-  -  3.2 Detection and Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-response_task:
-  - id: 92ba5c50-717d-44e7-bb88-72bf6907ec83
-    name: Determine if an incident has occurred
-  - id: ef9e7a25-73f0-4b63-b43b-2f4171518931
-    name: Analyze precursors to the event
-  - id: 994298f0-75fc-4c14-b044-9b81944d3a03
-    name: Confirm Incident
-  - id: 91f1c863-c080-4b3c-921c-e1ca1c0e7ae1
-    name: Determine incident prioritization
-  - id: 3890e0b3-bb46-4b9b-8134-184dbe644a8a
-    name: Document and Notify of Incident
-date: '2020-07-17'
-version: 1
 author: ButterCup, Splunk
+date: '2020-07-17'
+description: Events are occurances of a systems or systems. Incidents are declared
+  violations and incidents can occur in countless ways. Detection and analysis phase
+  is about identifying an event as an incident and properly categorizing and prioritizing
+  incident notification and documentation. It is infeasible to develop step-by-step
+  instructions for handling every incident. This generic detection and analysis process
+  is a template to ensure the right process is being followed.
+id: a6eec2aa-3ec8-4f16-9c09-b8537873047d
+name: Detection and Analysis
+references:
+- 3.2 Detection and Analysis - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+response_task:
+- id: 92ba5c50-717d-44e7-bb88-72bf6907ec83
+  name: Determine if an incident has occurred
+- id: ef9e7a25-73f0-4b63-b43b-2f4171518931
+  name: Analyze precursors to the event
+- id: 994298f0-75fc-4c14-b044-9b81944d3a03
+  name: Confirm Incident
+- id: 91f1c863-c080-4b3c-921c-e1ca1c0e7ae1
+  name: Determine incident prioritization
+- id: 3890e0b3-bb46-4b9b-8134-184dbe644a8a
+  name: Document and Notify of Incident
+sla: null
+sla_type: minutes
+tags:
+  analytic_story: NIST SP 800-61r2 Response Plan
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+  usecase: Advanced Threat Detection
+type: response
+version: 1

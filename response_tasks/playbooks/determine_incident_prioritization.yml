@@ -1,40 +1,57 @@
-name: Determine Incident Prioritization
-id: 91f1c863-c080-4b3c-921c-e1ca1c0e7ae1
-tags:
-  nist:
-    RS.RP
-description: |
-  Determine Functional Impact of the Incident. Incidents targeting IT systems typically impact the business functionality that those systems provide, resulting in some type of negative impact to the users of those systems.
-  Determine Information Impact of the Incident. Incidents may affect the confidentiality, integrity, and availability of the organizations information.
-  Determine Recoverability from the Incident. The size of the incident and the type of resources it affects will determine the amount of time and resources that must be spent on recovering from that incident.
-automation:
-  role:
-  sla_type: minutes
-  sla:
-  is_note_required: false
-  actions:
-    - update container
-  playbooks:
-    - scm: local
-      playook: Determine impact and effort
-references:
-  - 3.2.6 Incident Prioritization - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
-workflow: |
-  1. Determine Functional Impact of the Incident. By determining,
-      a. None   | No effect to the organization’s ability to provide all services to all users
-      b. Low    | Minimal effect; the organization can still provide all critical services to all users but has lost efficiency
-      c. Medium | Organization has lost the ability to provide a critical service to a subset of system users
-      d. High   | Organization is no longer able to provide some critical services to any users
-  2. Determine Information Impact of the Incident. Incidents may affect the confidentiality, integrity, and availability of the organization’s information.
-      a. None               | No information was exfiltrated, changed, deleted, or otherwise compromised
-      b. Privacy Breach     | Sensitive personally identifiable information (PII) of taxpayers, employees, beneficiaries, etc. was accessed or exfiltrated
-      c. Proprietary Breach | Unclassified proprietary information, such as protected critical infrastructure information (PCII), was accessed or exfiltrated
-      d. Integrity Loss     | Sensitive or proprietary information was changed or deleted
-  3. Determine Recoverability from the Incident. The size of the incident and the type of resources it affects will determine the amount of time and resources that must be spent on recovering from that incident.
-      a. Regular          | Time to recovery is predictable with existing resources
-      b. Supplemented     | Time to recovery is predictable with additional resources
-      c. Extended         | Time to recovery is unpredictable; additional resources and outside help are needed
-      d. Not Recoverable  | Recovery from the incident is not possible (e.g., sensitive data exfiltrated and posted publicly); launch investigation
-date: '2020-07-30'
-version: 1
 author: ButterCup, Splunk
+automation:
+  actions:
+  - update container
+  is_note_required: false
+  playbooks:
+  - playook: Determine impact and effort
+    scm: local
+  role: null
+  sla: null
+  sla_type: minutes
+date: '2020-07-30'
+description: 'Determine Functional Impact of the Incident. Incidents targeting IT
+  systems typically impact the business functionality that those systems provide,
+  resulting in some type of negative impact to the users of those systems.
+
+  Determine Information Impact of the Incident. Incidents may affect the confidentiality,
+  integrity, and availability of the organizations information.
+
+  Determine Recoverability from the Incident. The size of the incident and the type
+  of resources it affects will determine the amount of time and resources that must
+  be spent on recovering from that incident.
+
+  '
+id: 91f1c863-c080-4b3c-921c-e1ca1c0e7ae1
+name: Determine Incident Prioritization
+references:
+- 3.2.6 Incident Prioritization - https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
+tags:
+  nist: RS.RP
+  product:
+  - Splunk Phantom
+type: response
+version: 1
+workflow: "1. Determine Functional Impact of the Incident. By determining,\n    a.\
+  \ None   | No effect to the organization\u2019s ability to provide all services\
+  \ to all users\n    b. Low    | Minimal effect; the organization can still provide\
+  \ all critical services to all users but has lost efficiency\n    c. Medium | Organization\
+  \ has lost the ability to provide a critical service to a subset of system users\n\
+  \    d. High   | Organization is no longer able to provide some critical services\
+  \ to any users\n2. Determine Information Impact of the Incident. Incidents may affect\
+  \ the confidentiality, integrity, and availability of the organization\u2019s information.\n\
+  \    a. None               | No information was exfiltrated, changed, deleted, or\
+  \ otherwise compromised\n    b. Privacy Breach     | Sensitive personally identifiable\
+  \ information (PII) of taxpayers, employees, beneficiaries, etc. was accessed or\
+  \ exfiltrated\n    c. Proprietary Breach | Unclassified proprietary information,\
+  \ such as protected critical infrastructure information (PCII), was accessed or\
+  \ exfiltrated\n    d. Integrity Loss     | Sensitive or proprietary information\
+  \ was changed or deleted\n3. Determine Recoverability from the Incident. The size\
+  \ of the incident and the type of resources it affects will determine the amount\
+  \ of time and resources that must be spent on recovering from that incident.\n \
+  \   a. Regular          | Time to recovery is predictable with existing resources\n\
+  \    b. Supplemented     | Time to recovery is predictable with additional resources\n\
+  \    c. Extended         | Time to recovery is unpredictable; additional resources\
+  \ and outside help are needed\n    d. Not Recoverable  | Recovery from the incident\
+  \ is not possible (e.g., sensitive data exfiltrated and posted publicly); launch\
+  \ investigation\n"

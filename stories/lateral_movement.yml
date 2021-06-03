@@ -1,10 +1,12 @@
-author: David Dorsey, Splunk
+name: Lateral Movement
+id: 399d65dc-1f08-499b-a259-aad9051f38ad
+version: 2
 date: '2020-02-04'
+author: David Dorsey, Splunk
+type: batch
 description: Detect and investigate tactics, techniques, and procedures around how
   attackers move laterally within the enterprise. Because lateral movement can expose
   the adversary to detection, it should be an important focus for security analysts.
-id: 399d65dc-1f08-499b-a259-aad9051f38ad
-name: Lateral Movement
 narrative: "Once attackers gain a foothold within an enterprise, they will seek to\
   \ expand their accesses and leverage techniques that facilitate lateral movement.\
   \ Attackers will often spend quite a bit of time and effort moving laterally. Because\
@@ -32,7 +34,7 @@ narrative: "Once attackers gain a foothold within an enterprise, they will seek 
 references:
 - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
 tags:
-  analytics_story: Lateral Movement
+  analytic_story: Lateral Movement
   category:
   - Adversary Tactics
   product:
@@ -40,5 +42,3 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Advanced Threat Detection
-type: ESCU
-version: 2

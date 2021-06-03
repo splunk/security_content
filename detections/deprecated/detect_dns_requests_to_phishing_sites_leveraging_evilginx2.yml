@@ -1,7 +1,23 @@
-author: Bhavin Patel, Splunk
+name: Detect DNS requests to Phishing Sites leveraging EvilGinx2
+id: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
+version: 2
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: This search looks for DNS requests for phishing domains that are leveraging
   EvilGinx tools to mimic websites.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by
+  DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| rex field=query ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
+  | stats count values(query) as query by domain dest src answer| search `evilginx_phishlets_amazon`
+  OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365`
+  OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google`
+  | search NOT [ inputlookup legit_domains.csv | fields domain]| join domain type=outer
+  [| tstats count `security_content_summariesonly` values(Web.url) as url from datamodel=Web.Web
+  by Web.dest Web.site | rename "Web.*" as * | rex field=site ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
+  | table dest domain url] | table count src dest query answer domain url | `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter`'
 how_to_implement: "You need to ingest data from your DNS logs in the Network_Resolution\
   \ datamodel. Specifically you must ingest the domain that is being queried and the\
   \ IP of the host originating the request. Ideally, you should also be ingesting\
@@ -16,23 +32,12 @@ how_to_implement: "You need to ingest data from your DNS logs in the Network_Res
   \ Actions when configuring this detection search, and set the corresponding Playbook\
   \ to active. \\\n(Playbook link:`https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/`).\\\
   \n"
-id: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
 known_false_positives: If a known good domain is not listed in the legit_domains.csv
   file, then the search could give you false postives. Please update that lookup file
   to filter out DNS requests to legitimate domains.
-name: Detect DNS requests to Phishing Sites leveraging EvilGinx2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(DNS.answer) as answer from datamodel=Network_Resolution.DNS by
-  DNS.dest DNS.src DNS.query host | `drop_dm_object_name(DNS)`| rex field=query ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
-  | stats count values(query) as query by domain dest src answer| search `evilginx_phishlets_amazon`
-  OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365`
-  OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google`
-  | search NOT [ inputlookup legit_domains.csv | fields domain]| join domain type=outer
-  [| tstats count `security_content_summariesonly` values(Web.url) as url from datamodel=Web.Web
-  by Web.dest Web.site | rename "Web.*" as * | rex field=site ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
-  | table dest domain url] | table count src dest query answer domain url | `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter`'
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Common Phishing Frameworks
   asset_type: Endpoint
   cis20:
@@ -53,6 +58,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.answer
+  - DNS.dest
+  - DNS.src
+  - DNS.query
+  - host
   security_domain: network
-type: ESCU
-version: 2

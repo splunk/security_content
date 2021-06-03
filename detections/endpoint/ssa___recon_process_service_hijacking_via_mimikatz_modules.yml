@@ -1,21 +1,16 @@
-author: Stanislav Miskovic, Splunk
+name: Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
+id: fc5c1cbd-7494-4314-aad2-458d6fd4fada
+version: 1
 date: '2020-11-05'
+author: Stanislav Miskovic, Splunk
+type: streaming
+datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery of process
   or service hijacking opportunities via Microsoft Detours compatibility. Microsoft
   Detours is an open source library for intercepting, monitoring and instrumenting
   binary functions on Microsoft Windows. Detours intercepts Win32 functions by re-writing
   the in-memory code for target functions. The Detours package also contains utilities
   to attach arbitrary DLLs and data segments called payloads to any Win32 binary.
-eli5: This detection identifies use of Mimikatz modules for discovery of process or
-  service hijacking opportunities.
-how_to_implement: You must be ingesting Windows Security logs from devices of interest,
-  including the event ID 4688 with enabled command line logging.
-id: fc5c1cbd-7494-4314-aad2-458d6fd4fada
-known_false_positives: None identified.
-name: Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules
-references:
-- https://github.com/gentilkiwi/mimikatz
-- https://en.wikipedia.org/wiki/Microsoft_Detours
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
@@ -24,15 +19,23 @@ search: '| from read_ssa_enriched_events()
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body = "TBD" | into write_ssa_detected_events();'
+  "string", null)), body=create_map([ "cmd_line", cmd_line]) | into write_ssa_detected_events();'
+how_to_implement: You must be ingesting Windows Security logs from devices of interest,
+  including the event ID 4688 with enabled command line logging.
+known_false_positives: None identified.
+references:
+- https://github.com/gentilkiwi/mimikatz
+- https://en.wikipedia.org/wiki/Microsoft_Detours
 tags:
+  analytic_story:
+  - Windows Discovery Techniques
   asset_type: Windows
   cis20:
   - CIS 16
   - CIS 20
   kill_chain_phases:
   - Actions on Objectives
-  mitre_technique_id:
+  mitre_attack_id:
   - T1543
   - T1055
   - T1574
@@ -40,7 +43,7 @@ tags:
   - PR.AC
   - PR.IP
   product:
-  - UEBA for Security Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - process
@@ -48,5 +51,3 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
-type: SSA
-version: 1

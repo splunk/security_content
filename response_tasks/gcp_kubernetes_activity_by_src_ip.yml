@@ -1,6 +1,4 @@
-name: GCP Kubernetes activity by src ip
-id: c00e7626-92cc-4e06-9a51-b6db0a50bd1f
-version: 1
+author: Rod Soto, Splunk
 date: '2020-04-13'
 description: This search provides investigation data about requests via user agent,
   authentication request URI, resource path and cluster name data against Kubernetes
@@ -9,15 +7,21 @@ how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or late
   then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
   You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection
   to filter out FPs.
-author: Rod Soto, Splunk
+id: c00e7626-92cc-4e06-9a51-b6db0a50bd1f
 inputs:
 - src_ip
-search: sourcetype="google:gcp:pubsub:message" | rename data.protoPayload.requestMetadata.callerIp as src_ip | search src_ip =$src_ip$ | stats count min(_time)
-  as firstTime max(_time) as lastTime values(data.protoPayload.methodName) as method_names
-  values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent)
+name: GCP Kubernetes activity by src ip
+search: sourcetype="google:gcp:pubsub:message" | rename data.protoPayload.requestMetadata.callerIp
+  as src_ip | search src_ip =$src_ip$ | stats count min(_time) as firstTime max(_time)
+  as lastTime values(data.protoPayload.methodName) as method_names values(data.protoPayload.resourceName)
+  as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent)
   as http_user_agent values(data.protoPayload.authenticationInfo.principalEmail) as
   user values(data.protoPayload.status.message) by src_ip data.resource.labels.cluster_name
   data.resource.type
 tags:
-  analytics_story:
+  analytic_story:
   - Kubernetes Scanning Activity
+  product:
+  - Splunk Phantom
+type: response
+version: 1

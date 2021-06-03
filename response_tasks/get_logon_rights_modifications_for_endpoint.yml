@@ -1,17 +1,20 @@
-name: Get Logon Rights Modifications For Endpoint
-id: 03bffe94-ec7a-4cbe-b677-6af40d1c4505
-version: 2
+author: David Dorsey, Splunk
 date: '2017-09-12'
 description: This search allows you to retrieve any modifications to logon rights
   associated with a specific host.
 how_to_implement: To successfully implement this search you must be ingesting your
   Windows event logs
-author: David Dorsey, Splunk
+id: 03bffe94-ec7a-4cbe-b677-6af40d1c4505
 inputs:
 - dest
+name: Get Logon Rights Modifications For Endpoint
 search: '| search eventtype=wineventlog_security (signature_id=4718 OR signature_id=4717)
   dest=$dest$ | rename user as "Account Modified" | table _time, dest, "Account Modified",
   Access_Right, signature'
 tags:
-  analytics_story:
+  analytic_story:
   - Account Monitoring and Controls
+  product:
+  - Splunk Phantom
+type: response
+version: 2

@@ -1,6 +1,4 @@
-name: AWS S3 Bucket details via bucketName
-id: f3fb2q1c-5f33-4b01-b541-c2ah9534c242
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-06-26'
 description: This search queries AWS configuration logs and returns the information
   about a specific S3 bucket. The information returned includes the time the S3 bucket
@@ -10,11 +8,18 @@ description: This search queries AWS configuration logs and returns the informat
 how_to_implement: To implement this search, you must install the AWS App for Splunk
   (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later) and
   configure your AWS inputs.
-author: Bhavin Patel, Splunk
+id: f3fb2q1c-5f33-4b01-b541-c2ah9534c242
 inputs:
 - bucketName
-search: '| search sourcetype=aws:config | rename resourceId as bucketName |search bucketName=$bucketName$ | table resourceCreationTime
-  bucketName vendor_region action aws_account_id supplementaryConfiguration.AccessControlList'
+name: AWS S3 Bucket details via bucketName
+search: '| search sourcetype=aws:config | rename resourceId as bucketName |search
+  bucketName=$bucketName$ | table resourceCreationTime bucketName vendor_region action
+  aws_account_id supplementaryConfiguration.AccessControlList'
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious AWS S3 Activities
+  product:
+  - Splunk Phantom
+  - Splunk Security Analytics for AWS
+type: response
+version: 1

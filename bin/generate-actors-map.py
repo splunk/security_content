@@ -11,7 +11,7 @@ from os import path
 from stix2 import FileSystemSource
 from stix2 import Filter
 
-VERSION = "4.1"
+VERSION = "4.2"
 NAME = "Detection Priority by Threat Actors"
 DESCRIPTION = "security_content detection priorty by common techniques used from threat actors"
 DOMAIN = "mitre-enterprise"
@@ -230,8 +230,9 @@ def load_objects(security_content_path, file_path):
     detection_files = path.join(path.expanduser(security_content_path), file_path)
 
     for file in glob.glob(detection_files):
+        file_name  =  file.replace('./detections/', '')
         files.append({
-            "filename": os.path.basename(file),
+            "filename": file_name,
             "object": load_file(file)
         })
 

@@ -1,11 +1,13 @@
-author: David Dorsey, Splunk
+name: Previously Seen Cloud API Calls Per User Role - Update
+id: c4b760a0-6a97-47e9-b089-8ae9e57f210e
+version: 1
 date: '2020-09-03'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search updates the table of the first and last times seen for every
   user role and command combination.
-how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
-  provider.
-id: c4b760a0-6a97-47e9-b089-8ae9e57f210e
-name: Previously Seen Cloud API Calls Per User Role - Update
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
   from datamodel=Change where All_Changes.user_type=AssumedRole AND All_Changes.status=success
   by All_Changes.user, All_Changes.command | `drop_dm_object_name("All_Changes")`
@@ -15,16 +17,18 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
   <= relative_time(now(), "-7d@d"), 1, 0) | table user, command, firstTimeSeen, lastTimeSeen,
   enough_data | outputlookup previously_seen_cloud_api_calls_per_user_role'
+how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
+  provider.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud User Activities
   deployments:
   - Daily Cache Updates
   detections:
   - Cloud API Calls From Previously Unseen User Roles
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

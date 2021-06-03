@@ -1,15 +1,12 @@
-author: David Dorsey, Splunk
+name: Unusually Long Command Line
+id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
+version: 5
 date: '2020-12-08'
+author: David Dorsey, Splunk
+type: batch
+datamodel: []
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts.
-how_to_implement: You must be ingesting endpoint data that tracks process activity,
-  including parent-child relationships, from your endpoints to populate the Endpoint
-  data model in the Processes node. The command-line arguments are mapped to the process
-  field in the Endpoint data model.
-id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-known_false_positives: Some legitimate applications start with long command lines.
-name: Unusually Long Command Line
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name
   Processes.process | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|
@@ -18,8 +15,14 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process
   | `unusually_long_command_line_filter` |eval threshold = 3 | where maxlen > ((threshold*stdevperhost)
   + avgperhost)'
+how_to_implement: You must be ingesting endpoint data that tracks process activity,
+  including parent-child relationships, from your endpoints to populate the Endpoint
+  data model in the Processes node. The command-line arguments are mapped to the process
+  field in the Endpoint data model.
+known_false_positives: Some legitimate applications start with long command lines.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Command-Line Executions
   - Unusual Processes
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
@@ -39,6 +42,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.user
+  - Processes.dest
+  - Processes.process_name
+  - Processes.process
   security_domain: endpoint
-type: ESCU
-version: 5

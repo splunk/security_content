@@ -1,23 +1,26 @@
-name: Get EC2 Launch Details
-id: 0e40fe83-3edb-4d86-8206-8fed36529ca6
-version: 1
+author: Bhavin Patel, Splunk
 date: '2018-03-12'
 description: This search returns some of the launch details for a EC2 instance.
 how_to_implement: In order to implement this search, you must install the AWS App
   for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
   and configure your AWS description inputs.
-author: Bhavin Patel, Splunk
+id: 0e40fe83-3edb-4d86-8206-8fed36529ca6
 inputs:
 - dest
-search: '| search sourcetype=aws:cloudtrail dest=$dest$
-  |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId
-  as dest, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress,
-  responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture
+name: Get EC2 Launch Details
+search: '| search sourcetype=aws:cloudtrail dest=$dest$ |rename userIdentity.arn as
+  arn, responseElements.instancesSet.items{}.instanceId as dest, responseElements.instancesSet.items{}.privateIpAddress
+  as privateIpAddress, responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture
   as architecture, responseElements.instancesSet.items{}.keyName as keyName | table
   arn, awsRegion, dest, architecture, privateIpAddress, amiID, keyName'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS Cryptomining
   - Cloud Cryptomining
   - Suspicious AWS EC2 Activities
   - AWS Security Hub Alerts
+  product:
+  - Splunk Phantom
+  - Splunk Security Analytics for AWS
+type: response
+version: 1

@@ -1,0 +1,136 @@
+# Splunk Security Content Detections
+![security_content](static/logo.png)
+=====
+All the detections shipped to different Splunk products. Below is a breakdown by kind.
+
+## Cloud
+<details>
+  <summary>details</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'cloud' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Endpoint
+<details>
+  <summary>details</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'endpoint' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Network
+<details>
+  <summary>details</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'network' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Application
+<details>
+  <summary>details</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'application' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+## Web
+<details>
+  <summary>details</summary>
+
+{% for detection in detections %}
+{% if detection.kind == 'web' %}
+- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
+{% endif %}
+{% endfor %}
+</details>
+
+
+
+{% for detection in detections %}
+### {{ detection.name }}
+{{ detection.description }}
+
+- **Product**: {{ detection.tags.product|join(', ') }}
+- **Datamodel**: {{ detection.datamodel|join(', ') }}
+- **ATT&CK**: {% for attack in detection.tags.mitre_attack_id -%}
+{%- if attack -%}
+{% set sub_technique = attack.split('.') %}
+{%- if sub_technique | length > 1 -%}
+[{{ attack}}](https://attack.mitre.org/techniques/{{sub_technique[0] }}/{{sub_technique[1]}}/)
+{%- else -%}
+[{{ attack}}](https://attack.mitre.org/techniques/{{ attack }}/)
+{%- endif -%}
+{%- endif -%}
+{% if not loop.last -%}, {% endif -%}
+{% endfor %}
+- **Last Updated**: {{ detection.date }}
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+{{ detection.search|replace("|", "\n|") }}
+```
+#### Associated Analytic Story
+{% for story in detection.tags.analytic_story %}
+* {{ story }}
+{% endfor %}
+
+#### How To Implement
+{{ detection.how_to_implement}}
+
+#### Required field
+{% for field in detection.tags.required_fields %}
+* {{ field }}
+{% endfor %}
+
+{% if detection.mitre_attacks %}
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+{%- for attack in detection.mitre_attacks %}
+| {{ attack.technique_id }} | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
+{%- endfor %}
+{% endif %}
+
+#### Kill Chain Phase
+{% for phase in detection.tags.kill_chain_phases %}
+* {{ phase }}
+{% endfor %}
+
+#### Known False Positives
+{{ detection.known_false_positives}}
+
+#### Reference
+{% if detection.references %}
+{% for reference in detection.references %}
+* {{ reference }}
+{% endfor %}
+{% endif %}
+
+#### Test Dataset
+{% for dataset in detection.tags.dataset %}
+* {{ dataset }}
+{% endfor %}
+
+_version_: {{detection.version}}
+</details>
+
+---
+{% endfor %}

@@ -1,46 +1,62 @@
-name: Suspicious Rundll32 no CommandLine Arguments
+name: Suspicious Rundll32 no Command Line Arguments
 id: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
 version: 1
 date: '2021-02-09'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
 description: The following analytic identifies rundll32.exe with no command line arguments.
   It is unusual for rundll32.exe to execute with no command line arguments present.
-  This particular behavior is common with malicious software, including CobaltStrike.
+  This particular behavior is common with malicious software, including Cobalt Strike.
   During investigation, identify any network connections and parallel processes. Identify
   any suspicious module loads related to credential dumping or file writes. Rundll32.exe
   is natively found in C:\Windows\system32 and C:\Windows\syswow64.
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-type: ESCU
-references:
-- https://attack.mitre.org/techniques/T1218/011/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
-- https://lolbas-project.github.io/lolbas/Binaries/Rundll32
-- https://lolbas-project.github.io/lolbas/Libraries/Advpack/
-- https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
-author: Michael Haag, Splunk
 search: '`sysmon` EventID=1 (process_name=rundll32.exe OR OriginalFileName=RUNDLL32.EXE)
   | regex CommandLine="(rundll32\.exe.{0,4}$)" | stats count min(_time) as firstTime
   max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name,
   OriginalFileName, process_path, CommandLine | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `suspicious_rundll32_no_commandline_arguments_filter`'
+  | `security_content_ctime(lastTime)` | `suspicious_rundll32_no_command_line_arguments_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
 known_false_positives: Although unlikely, some legitimate applications may use a moved
   copy of rundll32, triggering a false positive.
+references:
+- https://attack.mitre.org/techniques/T1218/011/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+- https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+- https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Rundll32 Activity
-  mitre_attack_id:
-  - T1218.011
-  kill_chain_phases:
-  - Actions on Objectives
+  - Cobalt Strike
+  asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 8
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1218.011
   nist:
   - PR.PT
   - DE.CM
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - process_name
+  - OriginalFileName
+  - CommandLine
+  - dest
+  - User
+  - ParentImage
+  - ParentCommandLine
+  - process_path
   security_domain: endpoint
-  asset_type: Endpoint
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
-  automated_detection_testing: passed

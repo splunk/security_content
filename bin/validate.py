@@ -13,10 +13,11 @@ import argparse
 import datetime
 import string
 import re
+from pathlib import Path
 from os import path, walk
 
 
-def validate_schema(REPO_PATH, type, objects):
+def validate_schema(REPO_PATH, type, objects, verbose):
 
     error = False
     errors = []
@@ -44,12 +45,13 @@ def validate_schema(REPO_PATH, type, objects):
             except yaml.YAMLError as exc:
                 print(exc)
                 print("Error reading {0}".format(manifest_file))
+                errors.append("ERROR: Error reading {0}".format(manifest_file))
                 error = True
                 continue
-        try:
-            jsonschema.validate(instance=object, schema=schema)
-        except jsonschema.exceptions.ValidationError as json_ve:
-            errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(json_ve.message), manifest_file))
+
+        validator = jsonschema.Draft7Validator(schema, format_checker=jsonschema.FormatChecker())
+        for schema_error in validator.iter_errors(object):
+            errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(schema_error.message), manifest_file))
             error = True
 
         if type in objects:
@@ -69,23 +71,41 @@ def validate_objects(REPO_PATH, objects, verbose):
     errors = []
 
     for lookup in objects['lookups']:
-        lookup_errors = validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
+        errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
     objects_array = objects['stories'] + objects['detections'] + objects['baselines'] + objects['response_tasks'] + objects['responses']
     for object in objects_array:
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
 
-    if verbose:
-        print("validating object {0}".format(object['name']))
     for object in objects['detections']:
-        if object['type'] == 'ESCU':
+        if object['type'] == 'batch':
             errors = errors + validate_detection_search(object, objects['macros'])
+            errors = errors + validate_fields(object)
 
     for object in objects['baselines']:
         errors = errors + validate_baseline_search(object, objects['macros'])
 
-    errors = lookup_errors + errors
+    for object in objects['tests']:
+        errors = errors + validate_tests(REPO_PATH, object)
+
+    return errors
+
+
+def validate_fields(object):
+    errors = []
+
+    if 'tags' in object:
+
+        # check if required_fields is present
+        if 'required_fields' not in object['tags']:
+            errors.append("ERROR: a `required_fields` tag is required for object: %s" % object['name'])
+
+        if 'security_domain' not in object['tags']:
+            errors.append("ERROR: a `security_domain` tag is required for object: %s" % object['name'])
+
+        if object['type'] == 'streaming' and 'risk_severity' not in object['tags']:
+            errors.append("ERROR: a `risk_severity` tag is required for object: %s" % object['name'])
 
     return errors
 
@@ -101,6 +121,9 @@ def validate_standard_fields(object, uuids):
         errors.append('ERROR: Duplicate UUID found for object: %s' % object['name'])
     else:
         uuids.append(object['id'])
+
+    if (object['type']) == 'batch' and len(object['name']) > 75:
+        errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
 
     # if object['name'].endswith(" "):
     #     errors.append(
@@ -132,8 +155,12 @@ def validate_standard_fields(object, uuids):
     # the first two fields risk_object, and risk_object_type are an enum of fixed values
     # defined by ESCU risk scoring
 
-
     if 'tags' in object:
+        # check product tag is present in all objects
+        if 'product' not in object['tags']:
+            errors.append("ERROR: a `product` tag is required for object: %s" % object['name'])
+
+        # check risk score values
         for k,v in object['tags'].items():
 
             if k == 'risk_score':
@@ -221,26 +248,30 @@ def validate_lookups_content(REPO_PATH, lookup_path, lookup):
     return errors
 
 
-if __name__ == "__main__":
-    # grab arguments
-    parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.
-        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
-    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
-    parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
-    # parse them
-    args = parser.parse_args()
-    REPO_PATH = args.path
-    verbose = args.verbose
+def validate_tests(REPO_PATH, object):
+    errors = []
 
-    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments']
+    # check detection file exists
+    for test in object['tests']:
+        if 'file' in test:
+            detection_file_path = Path(REPO_PATH + '/detections/' + test['file'])
+            if not detection_file_path.is_file():
+                errors.append('ERROR: orphaned test: {0}, detection file: {1} no longer exists or incorrect detection path under `file`'.format(object['name'], detection_file_path))
+        else:
+            errors.append('ERROR: test: {0} does not have a detection `file` associated with detection: {1}'.format(object['name'], test['name']))
+        #test['file']
+    return errors
+
+def main(REPO_PATH, verbose):
+
+    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments', 'tests']
 
     objects = {}
     schema_error = False
     schema_errors = []
 
     for validation_object in validation_objects:
-        objects, error, errors = validate_schema(REPO_PATH, validation_object, objects)
+        objects, error, errors = validate_schema(REPO_PATH, validation_object, objects, verbose)
         schema_error = schema_error or error
         if len(errors) > 0:
             schema_errors = schema_errors + errors
@@ -256,3 +287,18 @@ if __name__ == "__main__":
         sys.exit("Errors found")
     else:
         print("No Errors found")
+
+
+if __name__ == "__main__":
+    # grab arguments
+    parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
+        Validates security manifest for correctness, adhering to spec and other common items.
+        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
+    parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
+    parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
+    # parse them
+    args = parser.parse_args()
+    REPO_PATH = args.path
+    verbose = args.verbose
+
+    main(REPO_PATH, verbose)

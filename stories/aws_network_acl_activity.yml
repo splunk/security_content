@@ -1,9 +1,11 @@
-author: Bhavin Patel, Splunk
+name: AWS Network ACL Activity
+id: 2e8948a5-5239-406b-b56b-6c50ff268af4
+version: 2
 date: '2018-05-21'
+author: Bhavin Patel, Splunk
+type: batch
 description: Monitor your AWS network infrastructure for bad configurations and malicious
   activity. Investigative searches help you probe deeper, when the facts warrant it.
-id: 2e8948a5-5239-406b-b56b-6c50ff268af4
-name: AWS Network ACL Activity
 narrative: AWS CloudTrail is an AWS service that helps you enable governance, compliance,
   and operational/risk auditing of your AWS account. Actions taken by a user, role,
   or an AWS service are recorded as events in CloudTrail. It is crucial for a company
@@ -16,13 +18,12 @@ references:
 - https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
 - https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
 tags:
-  analytics_story: AWS Network ACL Activity
+  analytic_story: AWS Network ACL Activity
   category:
   - Cloud Security
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   usecase: Security Monitoring
-type: ESCU
-version: 2

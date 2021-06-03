@@ -1,26 +1,29 @@
-author: Rod Soto, Jose Hernandez, Splunk
+name: Windows connhost exe started forcefully
+id: c114aaca-68ee-41c2-ad8c-32bf21db8769
+version: 1
 date: '2020-11-06'
+author: Rod Soto, Jose Hernandez, Splunk
+type: batch
+datamodel: []
 description: 'The search looks for the Console Window Host process (connhost.exe)
   executed using the force flag -ForceV1. This is not regular behavior in the Windows
   OS and is often seen executed by the Ryuk Ransomware. DEPRECATED This event is actually
   seen in the windows 10 client of attack_range_local. After further testing we realized
   this is not specific to Ryuk. '
-how_to_implement: You must be ingesting data that records the process-system activity
-  from your hosts to populate the Endpoint Processes data-model object. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-id: c114aaca-68ee-41c2-ad8c-32bf21db8769
-known_false_positives: This process should not be ran forcefully, we have not see
-  any false positives for this detection
-name: Windows connhost exe started forcefully
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process="*C:\\Windows\\system32\\conhost.exe*
   0xffffffff *-ForceV1*" by Processes.user Processes.process_name Processes.process
   Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `windows_connhost_exe_started_forcefully_filter`'
+how_to_implement: You must be ingesting data that records the process-system activity
+  from your hosts to populate the Endpoint Processes data-model object. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
+known_false_positives: This process should not be ran forcefully, we have not see
+  any false positives for this detection
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
   cis20:
@@ -36,6 +39,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
   security_domain: endpoint
-type: ESCU
-version: 1

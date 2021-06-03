@@ -1,26 +1,30 @@
-author: David Dorsey, Splunk
+name: USN Journal Deletion
+id: b6e0ff70-b122-4227-9368-4cf322ab43c3
+version: 2
 date: '2018-12-03'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The fsutil.exe application is a legitimate Windows utility used to perform
   tasks related to the file allocation table (FAT) and NTFS file systems. The update
   sequence number (USN) change journal provides a log of all changes made to the files
   on the disk. This search looks for fsutil.exe deleting the USN journal.
-how_to_implement: You must be ingesting data that records process activity from your
-  hosts to populate the Endpoint data model in the Processes node. You must also be
-  ingesting logs with both the process name and command line from your endpoints.
-  The command-line arguments are mapped to the "process" field in the Endpoint data
-  model.
-id: b6e0ff70-b122-4227-9368-4cf322ab43c3
-known_false_positives: None identified
-name: USN Journal Deletion
-references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe
   by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | search process="*deletejournal*" AND process="*usn*" | `usn_journal_deletion_filter`'
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
+known_false_positives: None identified
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Windows Log Manipulation
   - Ransomware
   asset_type: Endpoint
@@ -45,6 +49,12 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.dest
   security_domain: endpoint
-type: ESCU
-version: 2

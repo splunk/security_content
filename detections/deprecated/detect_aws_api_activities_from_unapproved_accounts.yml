@@ -1,10 +1,21 @@
-author: Bhavin Patel, Splunk
+name: Detect AWS API Activities From Unapproved Accounts
+id: ada0f478-84a8-4641-a3f1-d82362d4bd55
+version: 2
 date: '2020-07-21'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
 description: This search looks for successful CloudTrail activity by user accounts
   that are not listed in the identity table or `aws_service_accounts.csv`. It returns
   event names and count, as well as the first and last time a specific user or service
   is detected, grouped by users. Deprecated because managing this list can be quite
   hard.
+search: '`cloudtrail` errorCode=success | rename userName as identity | search NOT
+  [| inputlookup identity_lookup_expanded | fields identity] | search NOT [| inputlookup
+  aws_service_accounts | fields identity] | rename identity as user | stats count
+  min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName by
+  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `detect_aws_api_activities_from_unapproved_accounts_filter`'
 how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs. You must also populate the `identity_lookup_expanded` lookup shipped with
@@ -30,21 +41,13 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-id: ada0f478-84a8-4641-a3f1-d82362d4bd55
 known_false_positives: It's likely that you'll find activity detected by users/service
   accounts that are not listed in the `identity_lookup_expanded` or ` aws_service_accounts.csv`
   file. If the user is a legitimate service account, update the `aws_service_accounts.csv`
   table with that entry.
-name: Detect AWS API Activities From Unapproved Accounts
 references: []
-search: '`cloudtrail` errorCode=success | rename userName as identity | search NOT
-  [| inputlookup identity_lookup_expanded | fields identity] | search NOT [| inputlookup
-  aws_service_accounts | fields identity] | rename identity as user | stats count
-  min(_time) as firstTime max(_time) as lastTime values(eventName) as eventName by
-  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `detect_aws_api_activities_from_unapproved_accounts_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - AWS User Monitoring
   asset_type: AWS Instance
   cis20:
@@ -62,9 +65,13 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - errorCode
+  - userName
+  - eventName
+  - user
   risk_object: user
   risk_object_type: user
   risk_score: 15
   security_domain: access
-type: ESCU
-version: 2

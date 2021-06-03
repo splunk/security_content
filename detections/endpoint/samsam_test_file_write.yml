@@ -1,22 +1,26 @@
-author: Rico Valdez, Splunk
+name: Samsam Test File Write
+id: 493a879d-519d-428f-8f57-a06a0fdc107e
+version: 1
 date: '2018-12-14'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: The search looks for a file named "test.txt" written to the windows system
   directory tree, which is consistent with Samsam propagation.
-how_to_implement: You must be ingesting data that records the file-system activity
-  from your hosts to populate the Endpoint file-system data-model node. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-id: 493a879d-519d-428f-8f57-a06a0fdc107e
-known_false_positives: No false positives have been identified.
-name: Samsam Test File Write
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_name)
   as file_name from datamodel=Endpoint.Filesystem where Filesystem.file_path=*\\windows\\system32\\test.txt
   by Filesystem.file_path | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `samsam_test_file_write_filter`'
+how_to_implement: You must be ingesting data that records the file-system activity
+  from your hosts to populate the Endpoint file-system data-model node. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
+known_false_positives: No false positives have been identified.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - SamSam Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -35,6 +39,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.user
+  - Filesystem.dest
+  - Filesystem.file_name
+  - Filesystem.file_path
   security_domain: endpoint
-type: ESCU
-version: 1

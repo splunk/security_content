@@ -1,7 +1,18 @@
-author: Rico Valdez, Splunk
+name: Detect Mimikatz Via PowerShell And EventCode 4703
+id: 98917be2-bfc8-475a-8618-a9bb06575188
+version: 2
 date: '2019-02-27'
+author: Rico Valdez, Splunk
+type: batch
+datamodel: []
 description: This search looks for PowerShell requesting privileges consistent with
   credential dumping. Deprecated, looks like things changed from a logging perspective.
+search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe | rex
+  field=Message "Enabled Privileges:\s+(?<privs>\w+)\s+Disabled Privileges:" | where
+  privs="SeDebugPrivilege" | stats count min(_time) as firstTime max(_time) as lastTime
+  by dest, Process_Name, privs, Process_ID, Message | rename privs as "Enabled Privilege"
+  | rename Process_Name as process |  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `detect_mimikatz_via_powershell_and_eventcode_4703_filter`'
 how_to_implement: 'You must be ingesting Windows Security logs. You must also enable
   the account change auditing here: http://docs.splunk.com/Documentation/Splunk/7.0.2/Data/MonitorWindowseventlogdata.
   Additionally, this search requires you to enable your Group Management Audit Logs
@@ -9,21 +20,13 @@ how_to_implement: 'You must be ingesting Windows Security logs. You must also en
   on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/.
   Finally, please make sure that the local administrator group name is "Administrators"
   to be able to look for the right group membership changes.'
-id: 98917be2-bfc8-475a-8618-a9bb06575188
 known_false_positives: The activity may be legitimate. PowerShell is often used by
   administrators to perform various tasks, and it's possible this event could be generated
   in those cases. In these cases, false positives should be fairly obvious and you
   may need to tweak the search to eliminate noise.
-name: Detect Mimikatz Via PowerShell And EventCode 4703
 references: []
-search: '`wineventlog_security` signature_id=4703 Process_Name=*powershell.exe | rex
-  field=Message "Enabled Privileges:\s+(?<privs>\w+)\s+Disabled Privileges:" | where
-  privs="SeDebugPrivilege" | stats count min(_time) as firstTime max(_time) as lastTime
-  by dest, Process_Name, privs, Process_ID, Message | rename privs as "Enabled Privilege"
-  | rename Process_Name as process |  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `detect_mimikatz_via_powershell_and_eventcode_4703_filter`'
 tags:
-  analytics_story:
+  analytic_story:
   - Cloud Federated Credential Abuse
   asset_type: Windows
   cis20:
@@ -42,6 +45,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - signature_id
+  - Process_Name
+  - Message
+  - dest
+  - Process_ID
   security_domain: access
-type: ESCU
-version: 2

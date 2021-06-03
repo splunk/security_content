@@ -1,24 +1,29 @@
-author: Rico Valdez, Splunk
+name: Execution of File With Spaces Before Extension
+id: ab0353e6-a956-420b-b724-a8b4846d5d5a
+version: 3
 date: '2020-11-19'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: This search looks for processes launched from files with at least five
   spaces in the name before the extension. This is typically done to obfuscate the
   file extension by pushing it outside of the default view.
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
-  of the Sysmon TA.
-id: ab0353e6-a956-420b-b724-a8b4846d5d5a
-known_false_positives: None identified.
-name: Execution of File With Spaces Before Extension
-references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process_path)
   as process_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process = "*     .*" by Processes.dest Processes.user Processes.process
   Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | `execution_of_file_with_spaces_before_extension_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
+  of the Sysmon TA.
+known_false_positives: None identified.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Windows File Extension and Association Abuse
+  - Masquerading - Rename System Utilities
   asset_type: Endpoint
   cis20:
   - CIS 3
@@ -35,6 +40,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_path
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.process_name
   security_domain: endpoint
-type: ESCU
-version: 3

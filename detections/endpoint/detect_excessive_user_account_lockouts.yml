@@ -1,23 +1,27 @@
-author: David Dorsey, Splunk
+name: Detect Excessive User Account Lockouts
+id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
+version: 3
 date: '2020-07-21'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This search detects user accounts that have been locked out a relatively
   high number of times in a short period.
-how_to_implement: ou must ingest your Windows security event logs in the `Change`
-  datamodel under the nodename is `Account_Management`, for this search to execute
-  successfully. Please consider updating the cron schedule and the count of lockouts
-  you want to monitor, according to your environment.
-id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
-known_false_positives: It is possible that a legitimate user is experiencing an issue
-  causing multiple account login failures leading to lockouts.
-name: Detect Excessive User Account Lockouts
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management
   All_Changes.result="lockout" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")`
   |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
+how_to_implement: ou must ingest your Windows security event logs in the `Change`
+  datamodel under the nodename is `Account_Management`, for this search to execute
+  successfully. Please consider updating the cron schedule and the count of lockouts
+  you want to monitor, according to your environment.
+known_false_positives: It is possible that a legitimate user is experiencing an issue
+  causing multiple account login failures leading to lockouts.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Account Monitoring and Controls
   asset_type: Windows
   automated_detection_testing: passed
@@ -34,6 +38,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.result
+  - nodename
+  - All_Changes.user
   security_domain: access
-type: ESCU
-version: 3

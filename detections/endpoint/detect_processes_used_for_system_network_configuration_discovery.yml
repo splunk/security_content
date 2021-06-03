@@ -1,19 +1,13 @@
-author: Bhavin Patel, Splunk
+name: Detect processes used for System Network Configuration Discovery
+id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
+version: 2
 date: '2020-11-10'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel:
+- Endpoint
 description: This search looks for fast execution of processes used for system network
   configuration discovery on the endpoint.
-how_to_implement: You must be ingesting data that records registry activity from your
-  hosts to populate the Endpoint data model in the processes node. This is typically
-  populated via endpoint detection-and-response products, such as Carbon Black, or
-  endpoint data sources, such as Sysmon. The data used for this search is usually
-  generated via logs that report reads and writes to the registry or that are populated
-  via Windows event logs, after enabling process tracking in your Windows audit settings.
-id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
-known_false_positives: It is uncommon for normal users to execute a series of commands
-  used for network discovery. System administrators often use scripts to execute these
-  commands. These can generate false positives.
-name: Detect processes used for System Network Configuration Discovery
-references: []
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.process_name
@@ -21,8 +15,18 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   | `drop_dm_object_name(Processes)` | search `system_network_configuration_discovery_tools`
   | transaction dest connected=false maxpause=5m |where eventcount>=5 | table firstTime
   lastTime dest user process_name process parent_process eventcount | `detect_processes_used_for_system_network_configuration_discovery_filter`'
+how_to_implement: You must be ingesting data that records registry activity from your
+  hosts to populate the Endpoint data model in the processes node. This is typically
+  populated via endpoint detection-and-response product, such as Carbon Black, or
+  endpoint data sources, such as Sysmon. The data used for this search is usually
+  generated via logs that report reads and writes to the registry or that are populated
+  via Windows event logs, after enabling process tracking in your Windows audit settings.
+known_false_positives: It is uncommon for normal users to execute a series of commands
+  used for network discovery. System administrators often use scripts to execute these
+  commands. These can generate false positives.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Unusual Processes
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -43,6 +47,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.parent_process
+  - Processes.dest
+  - Processes.process_name
+  - Processes.user
   security_domain: endpoint
-type: ESCU
-version: 2

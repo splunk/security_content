@@ -1,21 +1,16 @@
-author: Rico Valdez, Splunk
+name: Detect Long DNS TXT Record Response
+id: 05437c07-62f5-452e-afdc-04dd44815bb9
+version: 2
 date: '2020-07-21'
+author: Rico Valdez, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: This search is used to detect attempts to use DNS tunneling, by calculating
   the length of responses to DNS TXT queries. Endpoints using DNS as a method of transmission
   for data exfiltration, command and control, or evasion of security controls can
   often be detected by noting unusually large volumes of DNS traffic. Deprecated because
   this detection should focus on DNS queries instead of DNS responses.
-how_to_implement: To successfully implement this search you need to ingest data from
-  your DNS logs, or monitor DNS traffic using Stream, Bro or something similar. Specifically,
-  this query requires that the DNS data model is populated with information regarding
-  the DNS record type that is being returned as well as the data in the answer section
-  of the protocol.
-id: 05437c07-62f5-452e-afdc-04dd44815bb9
-known_false_positives: It's possible that legitimate TXT record responses can be long
-  enough to trigger this search. You can modify the packet threshold for this search
-  to help mitigate false positives.
-name: Detect Long DNS TXT Record Response
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Resolution where DNS.message_type=response AND
   DNS.record_type=TXT by DNS.src DNS.dest DNS.answer DNS.record_type |  `drop_dm_object_name("DNS")`
@@ -25,8 +20,17 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Type" firstTime as "First Time" lastTime as "Last Time" count as Count | table "Source
   IP" "Destination IP" "DNS Answer" "DNS Record Type"  "Answer Length" Count "First
   Time" "Last Time" | `detect_long_dns_txt_record_response_filter`'
+how_to_implement: To successfully implement this search you need to ingest data from
+  your DNS logs, or monitor DNS traffic using Stream, Bro or something similar. Specifically,
+  this query requires that the DNS data model is populated with information regarding
+  the DNS record type that is being returned as well as the data in the answer section
+  of the protocol.
+known_false_positives: It's possible that legitimate TXT record responses can be long
+  enough to trigger this search. You can modify the packet threshold for this search
+  to help mitigate false positives.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious DNS Traffic
   - Command and Control
   asset_type: Endpoint
@@ -47,6 +51,11 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.message_type
+  - DNS.record_type
+  - DNS.src
+  - DNS.dest
+  - DNS.answer
   security_domain: network
-type: ESCU
-version: 2

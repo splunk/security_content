@@ -1,7 +1,17 @@
-author: David Dorsey, Splunk
+name: Clients Connecting to Multiple DNS Servers
+id: 74ec6f18-604b-4202-a567-86b2066be3ce
+version: 3
 date: '2020-07-21'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Network_Resolution
 description: This search allows you to identify the endpoints that have connected
   to more than five DNS servers and made DNS Queries over the time frame of the search.
+search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest
+  dc(DNS.dest) as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
+  by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count > 5 |
+  `clients_connecting_to_multiple_dns_servers_filter` '
 how_to_implement: 'This search requires that DNS data is being ingested and populating
   the `Network_Resolution` data model. This data can come from DNS logs or from solutions
   that parse network traffic for this data, such as Splunk Stream or Bro.\
@@ -15,16 +25,11 @@ how_to_implement: 'This search requires that DNS data is being ingested and popu
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-id: 74ec6f18-604b-4202-a567-86b2066be3ce
 known_false_positives: It's possible that an enterprise has more than five DNS servers
   that are configured in a round-robin rotation. Please customize the search, as appropriate.
-name: Clients Connecting to Multiple DNS Servers
-search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest
-  dc(DNS.dest) as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
-  by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count > 5 |
-  `clients_connecting_to_multiple_dns_servers_filter` '
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - DNS Hijacking
   - Command and Control
   - Suspicious DNS Traffic
@@ -46,6 +51,9 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.dest
+  - DNS.message_type
+  - DNS.src
   security_domain: network
-type: ESCU
-version: 3

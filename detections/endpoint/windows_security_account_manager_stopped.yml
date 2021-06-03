@@ -1,24 +1,27 @@
-author: Rod Soto, Jose Hernandez, Splunk
+name: Windows Security Account Manager Stopped
+id: 69c12d59-d951-431e-ab77-ec426b8d65e6
+version: 1
 date: '2020-11-06'
+author: Rod Soto, Jose Hernandez, Splunk
+type: batch
+datamodel: []
 description: The search looks for a Windows Security Account Manager (SAM) was stopped
   via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
-how_to_implement: You must be ingesting data that records the process-system activity
-  from your hosts to populate the Endpoint Processes data-model object. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-id: 69c12d59-d951-431e-ab77-ec426b8d65e6
-known_false_positives: SAM is a critical windows service, stopping it would cause
-  major issues on an endpoint this makes false positive rare. AlthoughNo false positives
-  have been identified.
-name: Windows Security Account Manager Stopped
-references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe"
   "Processes.process"="*stop \"samss\"*") BY "Processes.dest", "Processes.user", "Processes.process"
   | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `windows_security_account_manager_stopped_filter`'
+how_to_implement: You must be ingesting data that records the process-system activity
+  from your hosts to populate the Endpoint Processes data-model object. If you are
+  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
+  you want to collect data.
+known_false_positives: SAM is a critical windows service, stopping it would cause
+  major issues on an endpoint this makes false positive rare. AlthoughNo false positives
+  have been identified.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Ryuk Ransomware
   asset_type: Endpoint
   automated_detection_testing: passed
@@ -37,6 +40,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.process
+  - Processes.dest
+  - Processes.user
   security_domain: endpoint
-type: ESCU
-version: 1

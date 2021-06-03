@@ -1,15 +1,17 @@
-author: David Dorsey, Splunk
+name: Previously Seen Cloud Provisioning Activity Sources - Update
+id: 9830abb9-be80-4563-b232-09bf1f628cf3
+version: 1
 date: '2020-08-20'
+author: David Dorsey, Splunk
+type: batch
+datamodel:
+- Change
 description: This returns the first and last times seen for every IP address (along
   with its physical location) previously associated with cloud-provisioning activity
   within the last day. Cloud provisioning is broadly defined as any event that runs
   or creates something.  It then updates this information with historical data and
   filters out locations that have not been seen within the specified time window.
   This updated table is then cached.
-how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
-  provider.
-id: 9830abb9-be80-4563-b232-09bf1f628cf3
-name: Previously Seen Cloud Provisioning Activity Sources - Update
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
   from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created)
   All_Changes.status=success by All_Changes.src | `drop_dm_object_name("All_Changes")`
@@ -20,8 +22,11 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
   <= relative_time(now(), "-7d@d"), 1, 0) | table src, City, Country, Region, firstTimeSeen,
   lastTimeSeen, enough_data | outputlookup previously_seen_cloud_provisioning_activity_sources'
+how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
+  provider.
+references: []
 tags:
-  analytics_story:
+  analytic_story:
   - Suspicious Cloud Provisioning Activities
   deployments:
   - Daily Cache Updates
@@ -31,8 +36,7 @@ tags:
   - Cloud Provisioning Activity From Previously Unseen Country
   - Cloud Provisioning Activity From Previously Unseen Region
   product:
+  - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-type: batch
-version: 1

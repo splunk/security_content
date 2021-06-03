@@ -1,0 +1,13 @@
+name: AWS IAM Assume Role Policy Brute Force Unit Test
+tests:
+- name: AWS IAM Assume Role Policy Brute Force
+  file: cloud/aws_iam_assume_role_policy_brute_force.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_iam_assume_role_policy_brute_force.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True
