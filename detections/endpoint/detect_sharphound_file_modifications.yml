@@ -41,6 +41,7 @@ references:
 tags:
   analytic_story:
   - Discovery Techniques
+  - Ransomware
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
   kill_chain_phases:
