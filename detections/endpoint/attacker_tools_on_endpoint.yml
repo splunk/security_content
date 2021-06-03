@@ -19,7 +19,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
   used for this search is usually generated via logs that report process tracking
   in your Windows audit settings.
-known_false_positives: Some administrator activity can be potentially triggered
+known_false_positives: Some administrator activity can be potentially triggered, please add those users to the filter macro
 references: []
 tags:
   analytic_story:
