@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - Cobalt Strike
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
   kill_chain_phases:
@@ -56,4 +57,3 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
-  automated_detection_testing: passed
