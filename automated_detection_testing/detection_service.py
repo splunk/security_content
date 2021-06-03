@@ -105,13 +105,6 @@ def main(args):
     with open('attack_range/attack_range.conf', 'w') as file:
       file.write(filedata)
 
-    # check if terraform is installed
-    if which('terraform') is None:
-        sys.exit(1)
-    else:
-        # init terraform
-        os.system('cd attack_range/terraform/aws && terraform init && cd ../../..')
-
     module = __import__('attack_range')
     module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security_content/tests/' + test_file_name]
 
