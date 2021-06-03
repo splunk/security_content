@@ -1,0 +1,47 @@
+name: Detect AzureHound File Modifications
+id: 1c34549e-c31b-11eb-996b-acde48001122
+version: 1
+date: '2021-06-01'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It's possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip", "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json", "*-azapplicationadmins.json")
+  by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.dest 
+  | `drop_dm_object_name(Filesystem)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `detect_azurehound_file_modifications_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on file modifications that include the name of the process, and file, responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
+references:
+  - https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
+  - https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1
+tags:
+  analytic_story:
+  - Discovery Techniques
+  dataset: []
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1087.002
+  - T1087.001
+  - T1482
+  - T1069.002
+  - T1069.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - file_path
+  - dest
+  - file_name
+  - process_id
+  - file_create_time
+  security_domain: endpoint
