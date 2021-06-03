@@ -6,11 +6,12 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This analytic identifies suspicious modification of ACL permission
-  to a files or folder to make it available to everyone. This technique may be used by
-  the adversary to evade ACLs or protected files access. This changes is commonly configured
-  by the file or directory owner with appropriate permission. This behavior is a good indicator
-  if this command seen on a machine utilized by an account with no permission to do so.
+description: This analytic identifies suspicious modification of ACL permission to
+  a files or folder to make it available to everyone. This technique may be used by
+  the adversary to evade ACLs or protected files access. This changes is commonly
+  configured by the file or directory owner with appropriate permission. This behavior
+  is a good indicator if this command seen on a machine utilized by an account with
+  no permission to do so.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cacls.exe"
@@ -29,6 +30,9 @@ references:
 tags:
   analytic_story:
   - XMRig
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -46,6 +50,3 @@ tags:
   - Processes.process
   - Processes.process_id
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
