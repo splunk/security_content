@@ -6,25 +6,27 @@ author: Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies renamed 7-Zip usage using Sysmon. At this stage of an attack, review parallel processes and file modifications for data that is staged or potentially have been exfiltrated. This analytic utilizes the OriginalFileName to capture the renamed process.
-search: '`sysmon` EventID=1 (OriginalFileName=7z*.exe AND process_name!=7z*.exe)
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
-  parent_process_name, process_name, OriginalFileName, process_path, CommandLine 
-  | rename Computer as dest 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `detect_renamed_7_zip_filter`'
+description: The following analytic identifies renamed 7-Zip usage using Sysmon. At
+  this stage of an attack, review parallel processes and file modifications for data
+  that is staged or potentially have been exfiltrated. This analytic utilizes the
+  OriginalFileName to capture the renamed process.
+search: '`sysmon` EventID=1 (OriginalFileName=7z*.exe AND process_name!=7z*.exe) |
+  stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name,
+  process_name, OriginalFileName, process_path, CommandLine | rename Computer as dest
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_renamed_7_zip_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: Limited false positives, however this analytic will need to be modified for each environment if Sysmon is not used.
+  Sysmon TA.
+known_false_positives: Limited false positives, however this analytic will need to
+  be modified for each environment if Sysmon is not used.
 references:
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md 
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
 tags:
   analytic_story:
   - Collection and Staging
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
   kill_chain_phases:
   - Exfiltration
   mitre_attack_id:
@@ -44,3 +46,4 @@ tags:
   - CommandLine
   - Product
   security_domain: endpoint
+  automated_detection_testing: passed
