@@ -84,11 +84,11 @@ action.email.useNSSubject = 1
 alert.digest_mode = 1
 {% if detection.disabled is defined %}
 disabled = false
-allow_skew = 100%
 {% else %}
 disabled = true
 {% endif %}
 enableSched = 1
+allow_skew = 100%
 counttype = number of events
 relation = greater than
 quantity = 0
