@@ -1,0 +1,52 @@
+name: Modify ACL permission To Files Or Folder
+id: 7e8458cc-acca-11eb-9e3f-acde48001122
+version: 1
+date: '2021-05-04'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies suspicious modification of ACL permission to
+  a files or folder to make it available to everyone. This technique may be used by
+  the adversary to evade ACLs or protected files access. This changes is commonly
+  configured by the file or directory owner with appropriate permission. This behavior
+  is a good indicator if this command seen on a machine utilized by an account with
+  no permission to do so.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cacls.exe"
+  OR Processes.process_name = "icacls.exe" OR Processes.process_name = "xcacls.exe"
+  AND (Processes.process = "*/G everyone:*"  OR Processes.process = "*/G SYSTEM:*")
+  by Processes.parent_process_name Processes.process_name Processes.dest Processes.user
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `modify_acl_permission_to_files_or_folder_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
+known_false_positives: administrators may use this command. Filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1222
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.process
+  - Processes.process_id
+  security_domain: endpoint
