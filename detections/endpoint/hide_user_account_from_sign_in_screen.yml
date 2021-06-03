@@ -1,0 +1,50 @@
+name: Hide User Account From Sign-In Screen
+id: 834ba832-ad89-11eb-937d-acde48001122
+version: 1
+date: '2021-05-05'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies a suspicious registry modification to hide a
+  user account on the Windows Login screen. This technique was seen in some tradecraft
+  where the adversary will create a hidden user account with Admin privileges in login
+  screen to avoid noticing by the user that they already compromise and to persist
+  on that said machine.
+search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
+  as registry_key_name values(Registry.registry_path) as registry_path min(_time)
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\Windows
+  NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" AND Registry.registry_value_name
+  = "DWORD (0x00000000)" by Registry.dest Registry.user Registry.registry_value_name
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
+  | `hide_user_account_from_sign_in_screen_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as CarbonBlack or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: Unknown. Filter as needed.
+references:
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+tags:
+  analytic_story:
+  - XMRig
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1562.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.dest Registry.user
+  security_domain: endpoint
