@@ -1,7 +1,7 @@
 name: Revil Common Exec Parameter Unit Test
 tests:
 - name: Revil Common Exec Parameter
-  file: detections/endpoint/revil_common_exec_parameter.yml
+  file: endpoint/revil_common_exec_parameter.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
