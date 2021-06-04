@@ -21,6 +21,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA. 
 known_false_positives: 3rd party tool may have the following commandline parameter
 references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
 tags:
   analytic_story:
   - Ransomware
