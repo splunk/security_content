@@ -1,0 +1,48 @@
+name: Modification Of Wallpaper
+id: accb0712-c381-11eb-8e5b-acde48001122
+version: 1
+date: '2021-06-02'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies suspicious modification of registry to deface or change the wallpaper of a 
+  compromised machines as part of its payload. This technique was commonly seen in ransomware like REVIL where it
+  create a bitmap file contain a note that the machine was compromised and make it as a wallpaper.
+search: '`sysmon` EventCode =13  (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper" AND Image != "*\\explorer.exe") 
+  OR (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper" AND Details = "*\\temp\\*") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Image TargetObject Details  Computer process_guid process_id user_id 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `modification_of_wallpaper_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the Image, TargetObject registry key, registry Details from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. 
+known_false_positives: 3rd party tool may used to changed the wallpaper of the machine
+references:
+- https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+- https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+tags:
+  analytic_story:
+  - Ransomware
+  - Revil Ransomware
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1491
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Image
+  - TargetObject
+  - Details
+  - Computer
+  - process_guid
+  - process_id
+  - user_id 
+  security_domain: endpoint

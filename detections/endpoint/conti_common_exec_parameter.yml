@@ -1,0 +1,29 @@
+name: Conti Common Exec parameter
+id: 624919bc-c382-11eb-adcc-acde48001122
+version: 1
+date: '2021-06-02'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: UPDATE_DESCRIPTION
+search: '| UPDATE_SPL | `conti_common_exec_parameter_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+tags:
+  analytic_story:
+  - Ransomware
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1204
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint

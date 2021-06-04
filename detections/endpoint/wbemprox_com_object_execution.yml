@@ -1,0 +1,46 @@
+name: Wbemprox COM Object Execution
+id: 9d911ce0-c3be-11eb-b177-acde48001122
+version: 1
+date: '2021-06-02'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is designed to detect potential malicious process loading COM object to wbemprox.dll, 
+search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll", "*\\wbemcomn.dll") 
+  NOT (process_name IN ("wmiprvse.exe", "WmiApSrv.exe", "unsecapp.exe")) NOT(Image IN("*\\windows\\*","*\\program files*", "*\\wbem\\*")) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId Hashes IMPHASH
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `wbemprox_com_object_execution_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and imageloaded executions from your endpoints. If you
+  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: legitimate process that are not in the exception list may trigger this event.
+references:
+- https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+- https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+tags:
+  analytic_story:
+  - Ransomware
+  - Revil Ransomware
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - ImageLoaded
+  - process_name
+  - Computer
+  - EventCode
+  - Signed 
+  - ProcessId
+  - Hashes
+  - IMPHASH
+  security_domain: endpoint
