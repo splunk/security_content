@@ -1,7 +1,7 @@
 name: Revil Registry Entry Unit Test
 tests:
 - name: Revil Registry Entry
-  file: detections/endpoint/revil_registry_entry.yml
+  file: endpoint/revil_registry_entry.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
