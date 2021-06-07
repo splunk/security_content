@@ -6,19 +6,20 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search detects the suspicious commandline argument of revil ransomware to encrypt specific or all local drive and network shares
-  of the compromised machine or host.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process = "*-m local*" OR Processes.process = "*-m net*" OR Processes.process = "*-m all*" OR Processes.process = "*-nomutex*"
-  by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: this search detects the suspicious commandline argument of revil ransomware
+  to encrypt specific or all local drive and network shares of the compromised machine
+  or host.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process = "*-m local*"
+  OR Processes.process = "*-m net*" OR Processes.process = "*-m all*" OR Processes.process
+  = "*-nomutex*" by Processes.process_name Processes.process Processes.parent_process_name
+  Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `conti_common_exec_parameter_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: 3rd party tool may have the following commandline parameter
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
@@ -26,7 +27,7 @@ tags:
   analytic_story:
   - Ransomware
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/inf1/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -45,3 +46,4 @@ tags:
   - Processes.process_id
   - Processes.process_guid
   security_domain: endpoint
+  automated_detection_testing: passed
