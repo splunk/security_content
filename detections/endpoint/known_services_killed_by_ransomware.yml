@@ -6,19 +6,20 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search detects a suspicioous termination of known services killed by ransomware before encrypting files 
-  in a compromised machine. This technique is commonly seen in most of ransomware now a days to avoid exception error while 
-  accessing the targetted files it wants to encrypts because of the open handle of those services to the targetted file.
-search: '`wineventlog_system` EventCode=7036 Message IN ("*Volume Shadow Copy*","*VSS*", "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*")  
-  Message="*service entered the stopped state*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message dest Type
-  | `security_content_ctime(lastTime)` 
-  | `security_content_ctime(firstTime)`
+description: this search detects a suspicioous termination of known services killed
+  by ransomware before encrypting files in a compromised machine. This technique is
+  commonly seen in most of ransomware now a days to avoid exception error while accessing
+  the targetted files it wants to encrypts because of the open handle of those services
+  to the targetted file.
+search: '`wineventlog_system` EventCode=7036 Message IN ("*Volume Shadow Copy*","*VSS*",
+  "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*") Message="*service
+  entered the stopped state*" | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode Message dest Type | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `known_services_killed_by_ransomware_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the 7036 EventCode ScManager in System audit Logs from your
-  endpoints. 
-known_false_positives: admin or installing related updates may did sudden stop to list of services we monitor
+  logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
+known_false_positives: admin or installing related updates may did sudden stop to
+  list of services we monitor
 references:
 - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
 - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
@@ -40,3 +41,6 @@ tags:
   - dest
   - Type
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log
