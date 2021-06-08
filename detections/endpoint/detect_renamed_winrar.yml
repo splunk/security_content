@@ -1,0 +1,53 @@
+name: Detect Renamed WinRAR
+id: 1b7bfb2c-b8e6-11eb-99ac-acde48001122
+version: 1
+date: '2021-05-19'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analtyic identifies renamed instances of `WinRAR.exe`.
+  In most cases, it is not common for WinRAR to be used renamed, however it is common
+  to be installed by a third party application and executed from a non-standard path.
+  In this instance, we are using `OriginalFileName` from Sysmon to determine if the
+  process is WinRAR. During triage, validate additional metadata from the binary that
+  this is `WinRAR`. Review parallel processes and file modifications.
+search: '`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
+  parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product
+  | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `detect_renamed_winrar_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Modify query for specific EDR products as needed.
+known_false_positives: Unknown. It is possible third party applications use renamed
+  instances of WinRAR.
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
+tags:
+  analytic_story:
+  - Collection and Staging
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  - Exfiltration
+  mitre_attack_id:
+  - T1560.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - User
+  - parent_process_name
+  - process_name
+  - OriginalFileName
+  - process_path
+  - CommandLine
+  - Product
+  security_domain: endpoint
+  automated_detection_testing: passed
