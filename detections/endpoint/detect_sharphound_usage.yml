@@ -1,0 +1,63 @@
+name: Detect SharpHound Usage
+id: dd04b29a-beed-11eb-87bc-acde48001122
+version: 1
+date: '2021-05-27'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies SharpHound binary usage by using the
+  `OriginalFileName` from Sysmon. In addition to renaming the PE, other coverage is
+  available to detect command-line arguments. This particular analytic only looks
+  for the OriginalFileName of `SharpHound.exe`. It is possible older instances of
+  SharpHound.exe have different original filenames. Dependent upon the operator, the
+  code may be re-compiled and the attributes removed or changed to anything else.
+  During triage, review the metadata of the binary in question. Review parallel processes
+  for suspicious behavior. Identify the source of this binary.
+search: '`sysmon` EventID=1 (OriginalFileName=SharpHound.exe process_name!=sharphound.exe)
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
+  parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product
+  | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `detect_sharphound_usage_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: False positives should be limited as this is specific to a
+  file attribute not used by anything else. Filter as needed.
+references:
+- https://attack.mitre.org/software/S0521/
+- https://thedfirreport.com/?s=bloodhound
+- https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+- https://github.com/BloodHoundAD/SharpHound3
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+tags:
+  analytic_story:
+  - Discovery Techniques
+  - Ransomware
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1087.002
+  - T1087.001
+  - T1482
+  - T1069.002
+  - T1069.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - User
+  - parent_process_name
+  - process_name
+  - OriginalFileName
+  - process_path
+  - CommandLine
+  - Product
+  security_domain: endpoint
+  automated_detection_testing: passed
