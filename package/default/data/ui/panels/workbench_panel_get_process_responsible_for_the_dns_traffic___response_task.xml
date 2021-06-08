@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| tstats `security_content_summariesonly` count min(_time) max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.parent_process Processes.process_name Processes.user Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search dest = $dest$ | join dest type=inner [| tstats `security_content_summariesonly` count from datamodel=Endpoint.Ports where Ports.dest_port=53 by Ports.process_id Ports.src | `drop_dm_object_name(Ports)` | rename src as dest]</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>
