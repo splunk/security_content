@@ -1,0 +1,15 @@
+name: Known Services Killed by Ransomware Unit Test
+tests:
+- name: Known Services Killed by Ransomware
+  file: endpoint/known_services_killed_by_ransomware.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-system.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log
+    source: WinEventLog:System
+    sourcetype: WinEventLog
+
+
+    
