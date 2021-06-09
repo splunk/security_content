@@ -1,7 +1,7 @@
-name: Powershell Fileless Process Injection (GetProcAddress) Unit Test
+name: Powershell Fileless Process Injection via GetProcAddress Unit Test
 tests:
-- name: Powershell Fileless Process Injection (GetProcAddress)
-  file: endpoint/powershell_fileless_process_injection___getprocaddress.yml
+- name: Powershell Fileless Process Injection via GetProcAddress
+  file: endpoint/powershell_fileless_process_injection_via_getprocaddress.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

@@ -1,4 +1,4 @@
-name: Powershell Fileless Process Injection - GetProcAddress
+name: Powershell Fileless Process Injection via GetProcAddress
 id: a26d9db4-c883-11eb-9d75-acde48001122
 version: 1
 date: '2021-06-08'
@@ -19,7 +19,7 @@ search: '`powershell` EventCode=4104
   | where getproc = 1
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `powershell_fileless_process_injection_(getprocaddress)_filter`'
+  | `powershell_fileless_process_injection_via_getprocaddress_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: Limited false positives. Filter as needed.
 references:
