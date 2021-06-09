@@ -19,7 +19,6 @@ class GithubService:
         self.security_content_branch = security_content_branch
         self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
         self.security_content_repo_obj.git.checkout(security_content_branch)
-        self.security_content_repo_obj.git.merge('develop')
 
     def clone_project(self, url, project, branch):
         LOGGER.info(f"Clone Security Content Project")
@@ -33,8 +32,6 @@ class GithubService:
         changed_test_files = []
 
         if branch1 != 'develop':
-            # differ = g.diff(branch1, branch2)
-            # print(differ)
             differ = g.diff('--name-status', branch1, branch2)
             changed_files = differ.splitlines()
 

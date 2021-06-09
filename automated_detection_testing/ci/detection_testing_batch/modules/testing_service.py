@@ -30,8 +30,10 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
 
 
 def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index):
-    test_file_obj = load_file("security_content/" + test_file)
-    #print(test_file_obj)
+    test_file_obj = load_file("security_content/" + test_file[2:])
+    if not test_file_obj:
+        return
+    print(test_file_obj)
 
     epoch_time = str(int(time.time()))
     folder_name = "attack_data_" + epoch_time
@@ -48,7 +50,7 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
                 data_manipulation = DataManipulation()
                 data_manipulation.manipulate_timestamp(folder_name + '/' + attack_data['file_name'], attack_data['sourcetype'], attack_data['source'])
 
-        replay_attack_dataset(splunk_ip, splunk_password, ssh_key_name, folder_name, 'test' + test_index, attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+        replay_attack_dataset(splunk_ip, splunk_password, ssh_key_name, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
 
     
     if test_index == 10:
@@ -58,11 +60,16 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
 
 
 def load_file(file_path):
-    with open(file_path, 'r', encoding="utf-8") as stream:
-        try:
-            file = list(yaml.safe_load_all(stream))[0]
-        except yaml.YAMLError as exc:
-            sys.exit("ERROR: reading {0}".format(file_path))
+    try:
+        with open(file_path, 'r', encoding="utf-8") as stream:
+            try:
+                file = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print("ERROR: reading {0}".format(file_path))
+                return False
+    except Exception as e:
+        print("ERROR: reading {0}".format(file_path))
+        return False
     return file
 
 
