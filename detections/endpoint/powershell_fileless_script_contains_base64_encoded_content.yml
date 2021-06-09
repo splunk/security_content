@@ -9,7 +9,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
 
   This analytic identifies `FromBase64String` within the script block. A typical malicious instance will include additional code. \
 
-  Command example - `[Byte[]]$var_code = [System.Convert]::FromBase64String('38uqIyMjQ6rG....` \
+  Command example - `[Byte[]]$var_code = [System.Convert]::FromBase64String(38uqIyMjQ6rG....` \
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
 search: '`powershell` EventCode=4104 
