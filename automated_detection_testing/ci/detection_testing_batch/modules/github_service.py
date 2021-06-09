@@ -3,6 +3,7 @@ import git
 import os
 import logging
 import glob
+import subprocess
 
 
 # Logger
@@ -31,32 +32,26 @@ class GithubService:
         changed_test_files = []
 
         if branch1 != 'develop':
-            differ = g.diff('--name-only', branch1, branch2)
+            # differ = g.diff(branch1, branch2)
+            # print(differ)
+            differ = g.diff('--name-status', branch1, branch2)
             changed_files = differ.splitlines()
 
             for file_path in changed_files:
                 # added or changed test files
-                if file_path.startswith('tests'):
-                    if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.test.yml'):
-                        if file_path not in changed_test_files:
-                            changed_test_files.append(file_path)
+                if file_path.startswith('A') or file_path.startswith('M') or file_path.startswith('R'):
+                    if 'tests' in file_path:
+                        if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.test.yml'):
+                            if file_path not in changed_test_files:
+                                changed_test_files.append(file_path)
 
-                # changed detections
-                if file_path.startswith('detections'):
-                    if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.yml'):
-                        file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
-                        file_path_new = file_path_base + '.yml'
-                        if file_path_new not in changed_test_files:
-                            changed_test_files.append(file_path_new)
-
-        # all SSA test files for nightly build
-        else:
-            changed_files = sorted(glob.glob('security_content/tests/*/*.yml'))
-
-            for file_path in changed_files:
-                file_path = file_path.replace('security_content/','')
-                if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.test.yml'):
-                    changed_test_files.append(file_path)
+                    # changed detections
+                    if 'detections' in file_path:
+                        if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.yml'):
+                            file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
+                            file_path_new = file_path_base + '.yml'
+                            if file_path_new not in changed_test_files:
+                                changed_test_files.append(file_path_new)
 
         return changed_test_files
 

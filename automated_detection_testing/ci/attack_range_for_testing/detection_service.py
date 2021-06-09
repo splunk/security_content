@@ -5,7 +5,7 @@ import argparse
 import time
 import shutil
 
-from modules.github_service import GithubService
+from helpers import github_service, aws_service, attack_range_controller
 
 
 DT_ATTACK_RANGE_STATE_STORE = "dt-attack-range-tf-state-store"
