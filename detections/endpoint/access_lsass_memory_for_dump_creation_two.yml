@@ -9,7 +9,7 @@ description: Detect memory dumping of the LSASS process.
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TargetImage,
   TargetProcessId, SourceImage, SourceProcessId | rename Computer as dest | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_filter` '
+  `security_content_ctime(lastTime)` | `access_lsass_memory_for_dump_creation_two_filter` '
 how_to_implement: This search requires Sysmon Logs and a Sysmon configuration, which
   includes EventCode 10 for lsass.exe. This search uses an input macro named `sysmon`.
   We strongly recommend that you specify your environment-specific configurations
