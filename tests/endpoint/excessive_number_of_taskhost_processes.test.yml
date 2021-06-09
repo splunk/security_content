@@ -1,0 +1,13 @@
+name: Excessive number of taskhost processes Unit Test
+tests:
+- name: Excessive number of taskhost processes
+  file: detections/endpoint/excessive_number_of_taskhost_processes.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log
+      source: WinEventLog:Security
+      sourcetype: WinEventLog
+      update_timestamp: True

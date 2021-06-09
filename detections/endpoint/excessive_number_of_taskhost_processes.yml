@@ -11,17 +11,17 @@ description: This detection targets behaviors observed in post exploit kits like
   to complete various actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course of normal operations
   to see so many distinct taskhost and taskhostex processes running concurrently in a short time frame.
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as process_ids  min(_time) as firstTime max(_time) as lastTime
-             FROM datamodel=Endpoint.Processes
-             WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe"
-             BY Processes.dest Processes.user Processes.process_name _time span=1h
-         | `drop_dm_object_name(Processes)`
-         | eval pid_count=mvcount(process_ids)
-         | eval taskhost_count_=if(process_name == "taskhost.exe", pid_count, 0)
-         | eval taskhostex_count_=if(process_name == "taskhostex.exe", pid_count, 0)
-         | stats sum(taskhost_count_) as taskhost_count, sum(taskhostex_count_) as taskhostex_count by _time, dest, user
-         | where taskhost_count > 10 and taskhostex_count > 10
-         | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-         | `excessive_number_of_taskhost_processes_filter`'
+  FROM datamodel=Endpoint.Processes
+  WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe"
+  BY Processes.dest Processes.process_name _time span=1h
+| `drop_dm_object_name(Processes)`
+| eval pid_count=mvcount(process_ids)
+| eval taskhost_count_=if(process_name == "taskhost.exe", pid_count, 0)
+| eval taskhostex_count_=if(process_name == "taskhostex.exe", pid_count, 0)
+| stats sum(taskhost_count_) as taskhost_count, sum(taskhostex_count_) as taskhostex_count by _time, dest, firstTime, lastTime
+| where taskhost_count > 10 and taskhostex_count > 10
+| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+| `excessive_number_of_taskhost_processes_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting events related to
   processes on the endpoints that include the name of the process and process id into the `Endpoint` datamodel in the
   `Processes` node.
