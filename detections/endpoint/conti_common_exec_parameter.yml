@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search detects the suspicious commandline argument of revil ransomware
+description: This search detects the suspicious commandline argument of revil ransomware
   to encrypt specific or all local drive and network shares of the compromised machine
   or host.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -20,7 +20,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: 3rd party tool may have the following commandline parameter
+known_false_positives: 3rd party tool may have commandline parameter that can trigger this detection.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
 tags:
