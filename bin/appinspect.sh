@@ -40,7 +40,7 @@ APPINSPECT_TOKEN=$(curl -s --location --request GET 'https://api.splunk.com/2.0/
 sleep 1
 # submit a inspection job EXPECTS app on same directory
 #REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@"/home/circleci/DA-ESS-ContentUpdate-latest.tar.gz"' | jq -r '.request_id')
-REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'app_package=@'$PACKAGE_PATH | jq -r '.request_id')
+REQUEST_ID=$(curl -s --location --request POST 'https://appinspect.splunk.com/v1/app/validate' --header "Authorization: bearer $APPINSPECT_TOKEN" --form 'included_tags="cloud"' --form 'app_package=@'$PACKAGE_PATH | jq -r '.request_id')
 echo "app inspect request: $REQUEST_ID"
 sleep 5
 STATUS=$(curl -s --location --request GET https://appinspect.splunk.com/v1/app/validate/status/$REQUEST_ID --header "Authorization: bearer $APPINSPECT_TOKEN" | jq -r '.status')
