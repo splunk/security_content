@@ -6,17 +6,17 @@ author: Michael Hart
 type: batch
 description: Meterpreter provides red teams, pen testers and threat actors interactive access to a compromised host to run commands, upload payloads, download files, and other actions.
 narrative: 'This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from Meterpreter.
-Meterpreter is a Metasploit payload for remote execution that leverages DLL injection to make it extremely difficult to detect.  Since the software
-runs in memory, no new processes are created upon injection.  It also leverages encrypted communication channels.
+  Meterpreter is a Metasploit payload for remote execution that leverages DLL injection to make it extremely difficult to detect.  Since the software
+  runs in memory, no new processes are created upon injection.  It also leverages encrypted communication channels.\
 
-Meterpreter enables the operator to remotely run commands on the target machine, upload payloads, download files, dump password hashes,
-and much more.  It is difficult to determine from the forensic evidence what actions the operator performed.  Splunk Research, however, has observed
-anomalous behaviors on the compromised hosts that seem to only appear when Meterpreter is executing various commands.  With that, we have written new
-detections targeted to these detections.
+  Meterpreter enables the operator to remotely run commands on the target machine, upload payloads, download files, dump password hashes,
+  and much more.  It is difficult to determine from the forensic evidence what actions the operator performed.  Splunk Research, however, has observed
+  anomalous behaviors on the compromised hosts that seem to only appear when Meterpreter is executing various commands.  With that, we have written new
+  detections targeted to these detections.\
 
-While investigating a detection related to this analytic story, please bear in mind that the detections look for anomalies in system behavior.  It will be
-imperative to look for other signs in the endpoint and network logs for lateral movement, discovery and other actions to confirm that the host was compromised
-and a remote actor used it to progress on their objectives.'
+  While investigating a detection related to this analytic story, please bear in mind that the detections look for anomalies in system behavior.  It will be
+  imperative to look for other signs in the endpoint and network logs for lateral movement, discovery and other actions to confirm that the host was compromised
+  and a remote actor used it to progress on their objectives.'
 references:
 - https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/
 - https://doubleoctopus.com/security-wiki/threats-and-tools/meterpreter/
