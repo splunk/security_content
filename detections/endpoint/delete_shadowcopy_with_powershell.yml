@@ -27,6 +27,9 @@ tags:
   - DarkSide Ransomware
   - Ransomware
   - Revil Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-powershell.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -42,6 +45,3 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-powershell.log
