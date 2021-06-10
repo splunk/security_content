@@ -53,3 +53,25 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: threat
+  impactscore: 3
+  confidencescore: 8
+  securitycategories:
+    - AD
+    - Local
+    - Signature
+    - RareDomain
+  entities:
+    - fieldname: UserId
+      entityclass: user
+      entitytags:
+        - Admin
+        - Actor
+    - fieldname: OrganizationName
+      entityclass: domain
+      entitytags:
+        - New
+    - fieldname: OriginatingServer
+      entityclass: Device
+      entitytags:
+        - Target
+        - Server

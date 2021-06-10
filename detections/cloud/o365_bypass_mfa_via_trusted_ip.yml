@@ -56,3 +56,17 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: threat
+  impactscore: 4
+  confidencescore: 7
+  securitycategories:
+    - CloudData
+    - Local
+    - Behavior
+    - DefenseEvasion
+    - ReducedVisibility
+  entities:
+    - fieldname: user
+      entityclass: User
+      entitytags:
+        - Admin
+        - Actor

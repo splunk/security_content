@@ -56,3 +56,16 @@ tags:
   risk_object_type: user
   risk_score: 30
   security_domain: network
+  impactscore: 1
+  confidencescore: 8
+  securitycategories:
+    - CloudData
+    - Incoming
+    - Behavior
+    - RareUser
+  entities:
+    - fieldname: Authentication.user
+      entityclass: user
+      entitytags:
+        - New
+        - Actor

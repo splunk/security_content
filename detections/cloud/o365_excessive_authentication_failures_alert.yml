@@ -46,3 +46,22 @@ tags:
   risk_object_type: user
   risk_score: 20
   security_domain: threat
+  impactscore: 2
+  confidencescore: 6
+  securitycategories:
+    - AD
+    - Incoming
+    - Signature
+    - Blocked
+    - InitialAccess
+    - BruteForce
+  entities:
+    - fieldname: user
+      entityclass: user
+      entitytags:
+        - Attacker
+    - fieldname: src_ip
+      entityclass: device
+      entitytags:
+        - Attacker
+

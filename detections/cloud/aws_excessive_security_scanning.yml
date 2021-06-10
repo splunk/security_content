@@ -51,3 +51,20 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
+  impactscore: 3
+  confidencescore: 9
+  securitycategories:
+    - CloudData
+    - Incoming
+    - Signature
+    - Discovery
+  entities:
+    - fieldname: user
+      entityclass: User
+      entitytags:
+        - Admin
+        - Actor
+    - fieldname: src
+      entityclass: device
+      entitytags:
+        - Actor

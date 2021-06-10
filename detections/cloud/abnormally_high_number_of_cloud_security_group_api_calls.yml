@@ -57,3 +57,15 @@ tags:
   risk_object_type: user
   risk_score: 25
   security_domain: network
+  impactscore: 4
+  confidencescore: 8
+  securitycategories:
+    - CloudData
+    - Incoming
+    - Behavior
+  entities:
+    - fieldname: All_Changes.user
+      entityclass: User
+      entitytags:
+        - Admin
+        - Actor
