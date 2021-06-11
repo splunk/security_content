@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Meterpreter
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log
   kill_chain_phases:
@@ -49,4 +50,3 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
-  automated_detection_testing: passed
