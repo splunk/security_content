@@ -6,7 +6,8 @@ tests:
   earliest_time: '-24h'
   latest_time: 'now'
   attack_data:
-  - file_name: UPDATE_FILE_NAME
-    data: UPDATE_DATASET_URL
-    source: UPDATE_SPLUNK_SOURCE
-    sourcetype: UPDATE_SPLUNK_SOURCETYPE
+    - file_name: windows-security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log
+      source: WinEventLog:Security
+      sourcetype: WinEventLog
+      update_timestamp: True
