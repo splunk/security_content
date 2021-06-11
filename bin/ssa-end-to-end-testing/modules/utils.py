@@ -110,8 +110,7 @@ def replace_ssa_macros(source, sink, spl):
     return spl
 
 
-def read_data(file_name):
-    file_path = os.path.join(os.path.dirname(__file__), 'data', file_name)
+def read_data(file_path):
     data_manipulation = DataManipulation()
     modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
     data = []

@@ -64,7 +64,7 @@ class SSADetectionTesting:
     def test_ssa_detections(self, test_obj):
         LOGGER.info('Test SSA Detection: ' + test_obj["detection_obj"]["name"])
         self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
-        file_path_attack_data = os.path.join(os.path.dirname(__file__), "../", test_obj["attack_data_file_path"])
+        file_path_attack_data = test_obj["attack_data_file_path"]
 
         test_results = self.ssa_detection_test(test_obj["detection_obj"]["search"], file_path_attack_data,
                                                "SSA Smoke Test " + test_obj["test_obj"]["name"])
