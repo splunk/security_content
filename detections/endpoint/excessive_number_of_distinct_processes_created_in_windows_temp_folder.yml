@@ -26,6 +26,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Many benign applications will create processes from executables in Windows\Temp,
   although unlikely to exceed the given threshold.  Filter as needed.
 references:
+  - https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/
 tags:
   analytic_story:
   - meterpreter
@@ -34,7 +35,7 @@ tags:
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
-  - TA0011
+  - T1059
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
