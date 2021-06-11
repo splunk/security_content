@@ -33,6 +33,7 @@ tags:
   - HAFNIUM Group
   - DarkSide Ransomware
   - Lateral Movement
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
@@ -56,4 +57,3 @@ tags:
   - CommandLine
   - Product
   security_domain: endpoint
-  automated_detection_testing: passed
