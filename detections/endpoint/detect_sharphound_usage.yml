@@ -35,6 +35,7 @@ tags:
   analytic_story:
   - Discovery Techniques
   - Ransomware
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
   kill_chain_phases:
@@ -60,4 +61,3 @@ tags:
   - CommandLine
   - Product
   security_domain: endpoint
-  automated_detection_testing: passed
