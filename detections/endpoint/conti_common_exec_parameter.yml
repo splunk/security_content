@@ -20,12 +20,14 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: 3rd party tool may have commandline parameter that can trigger this detection.
+known_false_positives: 3rd party tool may have commandline parameter that can trigger
+  this detection.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
 tags:
   analytic_story:
   - Ransomware
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/inf1/windows-sysmon.log
   kill_chain_phases:
@@ -46,4 +48,3 @@ tags:
   - Processes.process_id
   - Processes.process_guid
   security_domain: endpoint
-  automated_detection_testing: passed
