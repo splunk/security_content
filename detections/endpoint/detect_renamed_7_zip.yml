@@ -25,6 +25,7 @@ references:
 tags:
   analytic_story:
   - Collection and Staging
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
   kill_chain_phases:
@@ -46,4 +47,3 @@ tags:
   - CommandLine
   - Product
   security_domain: endpoint
-  automated_detection_testing: passed

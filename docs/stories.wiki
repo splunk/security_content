@@ -102,7 +102,7 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Change_Analysis, Network_Resolution
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1189/ T1189], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1071.001/ T1071.001]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1189/ T1189], [https://attack.mitre.org/techniques/T1048.003/ T1048.003]
 * '''Last Updated''': 2017-09-14
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -131,14 +131,6 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 | T1048.003
 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
 | Exfiltration
-|-
-| T1048
-| Exfiltration Over Alternative Protocol
-| Exfiltration
-|-
-| T1071.001
-| Web Protocols
-| Command and Control
 |}
 
 
@@ -518,7 +510,7 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560.001/ T1560.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1203/ T1203], [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1127.001/ T1127.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1127/ T1127], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1018/ T1018]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560.001/ T1560.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1203/ T1203], [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1127.001/ T1127.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1127/ T1127], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1018/ T1018]
 * '''Last Updated''': 2021-02-16
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -527,6 +519,8 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#Anomalous_usage_of_7zip|Anomalous usage of 7zip]]
+
+* [[Documentation:ESSOC:detections:Detections#Cmd_echo_pipe_-_escalation|CMD Echo Pipe - Escalation]]
 
 * [[Documentation:ESSOC:detections:Detections#Cobalt_strike_named_pipes|Cobalt Strike Named Pipes]]
 
@@ -570,6 +564,14 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | Archive via Utility
 | Collection
 |-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|-
 | T1055
 | Process Injection
 | Defense Evasion, Privilege Escalation
@@ -577,10 +579,6 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | T1071.002
 | File Transfer Protocols
 | Command and Control
-|-
-| T1059.003
-| Windows Command Shell
-| Execution
 |-
 | T1218.010
 | Regsvr32
@@ -601,10 +599,6 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | T1218.011
 | Rundll32
 | Defense Evasion
-|-
-| T1543.003
-| Windows Service
-| Persistence, Privilege Escalation
 |-
 | T1053.005
 | Scheduled Task
@@ -683,13 +677,17 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1114.001/ T1114.001], [https://attack.mitre.org/techniques/T1114.002/ T1114.002], [https://attack.mitre.org/techniques/T1036/ T1036]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560.001/ T1560.001], [https://attack.mitre.org/techniques/T1114.001/ T1114.001], [https://attack.mitre.org/techniques/T1114.002/ T1114.002], [https://attack.mitre.org/techniques/T1036/ T1036]
 * '''Last Updated''': 2020-02-03
 
 <div class="toccolours mw-collapsible mw-collapsed">
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_7-zip|Detect Renamed 7-Zip]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_winrar|Detect Renamed WinRAR]]
 
 * [[Documentation:ESSOC:detections:Detections#Email_files_written_outside_of_the_outlook_directory|Email files written outside of the Outlook directory]]
 
@@ -709,6 +707,10 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 ! Technique
 ! Tactic
 |-
+| T1560.001
+| Archive via Utility
+| Collection
+|-
 | T1114.001
 | Local Email Collection
 | Collection
@@ -726,6 +728,10 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 ====Kill Chain Phase====
 
 * Actions on Objectives
+
+* Exfiltration
+
+* Exploitation
 
 
 ====Reference====
@@ -972,6 +978,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [[Documentation:ESSOC:detections:Detections#Ntdsutil_export_ntds|Ntdsutil Export NTDS]]
 
+* [[Documentation:ESSOC:detections:Detections#Secretdumps_offline_ntds_dumping_tool|SecretDumps Offline NTDS Dumping Tool]]
+
 * [[Documentation:ESSOC:detections:Detections#Set_default_powershell_execution_policy_to_unrestricted_or_bypass|Set Default PowerShell Execution Policy To Unrestricted or Bypass]]
 
 * [[Documentation:ESSOC:detections:Detections#Unsigned_image_loaded_by_lsass|Unsigned Image Loaded by LSASS]]
@@ -1175,8 +1183,8 @@ Secure your environment against DNS hijacks with searches that help you detect a
 The stealing of data by an adversary.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1041/ T1041], [https://attack.mitre.org/techniques/T1114/ T1114], [https://attack.mitre.org/techniques/T1114.003/ T1114.003]
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1041/ T1041], [https://attack.mitre.org/techniques/T1114.001/ T1114.001], [https://attack.mitre.org/techniques/T1114/ T1114], [https://attack.mitre.org/techniques/T1114.003/ T1114.003]
 * '''Last Updated''': 2020-10-21
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -1185,6 +1193,8 @@ The stealing of data by an adversary.
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#Detect_snicat_sni_exfiltration|Detect SNICat SNI Exfiltration]]
+
+* [[Documentation:ESSOC:detections:Detections#Mailsniper_invoke_functions|Mailsniper Invoke functions]]
 
 * [[Documentation:ESSOC:detections:Detections#O365_pst_export_alert|O365 PST export alert]]
 
@@ -1204,6 +1214,10 @@ The stealing of data by an adversary.
 | Exfiltration Over C2 Channel
 | Exfiltration
 |-
+| T1114.001
+| Local Email Collection
+| Collection
+|-
 | T1114
 | Email Collection
 | Collection
@@ -1219,6 +1233,8 @@ The stealing of data by an adversary.
 * Actions on Objective
 
 * Actions on Objectives
+
+* Exploitation
 
 
 ====Reference====
@@ -1528,7 +1544,7 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1136.001/ T1136.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1114.002/ T1114.002], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1190/ T1190]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1136.001/ T1136.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1114.002/ T1114.002], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1190/ T1190]
 * '''Last Updated''': 2021-03-03
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -1543,6 +1559,8 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 * [[Documentation:ESSOC:detections:Detections#Detect_new_local_admin_account|Detect New Local Admin account]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_psexec_with_accepteula_flag|Detect PsExec With accepteula Flag]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_psexec|Detect Renamed PSExec]]
 
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_comsvcs_dll|Dump LSASS via comsvcs DLL]]
 
@@ -1590,6 +1608,10 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 | SMB/Windows Admin Shares
 | Lateral Movement
 |-
+| T1569.002
+| Service Execution
+| Execution
+|-
 | T1003.001
 | LSASS Memory
 | Credential Access
@@ -1614,9 +1636,13 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 
 * Command and Control
 
+* Execution
+
 * Exploitation
 
 * Installation
+
+* Lateral Movement
 
 
 ====Reference====
@@ -1754,7 +1780,7 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1550.002/ T1550.002], [https://attack.mitre.org/techniques/T1558.003/ T1558.003], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1053.005/ T1053.005]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1550.002/ T1550.002], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1558.003/ T1558.003], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1053.005/ T1053.005]
 * '''Last Updated''': 2020-02-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -1765,6 +1791,10 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 * [[Documentation:ESSOC:detections:Detections#Detect_activity_related_to_pass_the_hash_attacks|Detect Activity Related to Pass the Hash Attacks]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_pass_the_hash|Detect Pass the Hash]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_psexec_with_accepteula_flag|Detect PsExec With accepteula Flag]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_psexec|Detect Renamed PSExec]]
 
 * [[Documentation:ESSOC:detections:Detections#Kerberoasting_spn_request_with_rc4_encryption|Kerberoasting spn request with RC4 encryption]]
 
@@ -1786,6 +1816,14 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 | Pass the Hash
 | Defense Evasion, Lateral Movement
 |-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|-
+| T1569.002
+| Service Execution
+| Execution
+|-
 | T1558.003
 | Kerberoasting
 | Credential Access
@@ -1803,6 +1841,12 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 ====Kill Chain Phase====
 
 * Actions on Objectives
+
+* Execution
+
+* Exploitation
+
+* Lateral Movement
 
 
 ====Reference====
@@ -2032,12 +2076,61 @@ Adversaries may rename legitimate system utilities to try to evade security mech
 
 ----
 
+===Meterpreter===
+Meterpreter provides red teams, pen testers and threat actors interactive access to a compromised host to run commands, upload payloads, download files, and other actions.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1033/ T1033]
+* '''Last Updated''': 2021-06-08
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Excessive_number_of_taskhost_processes|Excessive number of taskhost processes]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1033
+| System Owner/User Discovery
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/
+
+* https://doubleoctopus.com/security-wiki/threats-and-tools/meterpreter/
+
+* https://www.rapid7.com/products/metasploit/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Nobelium group===
 Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic, Web
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560.001/ T1560.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1203/ T1203], [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1127.001/ T1127.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1127/ T1127], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1018/ T1018]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560.001/ T1560.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1203/ T1203], [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1127.001/ T1127.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1127/ T1127], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1018/ T1018]
 * '''Last Updated''': 2020-12-14
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -2083,6 +2176,14 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 | Archive via Utility
 | Collection
 |-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|-
 | T1055
 | Process Injection
 | Defense Evasion, Privilege Escalation
@@ -2090,10 +2191,6 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 | T1071.002
 | File Transfer Protocols
 | Command and Control
-|-
-| T1059.003
-| Windows Command Shell
-| Execution
 |-
 | T1218.010
 | Regsvr32
@@ -2114,10 +2211,6 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 | T1218.011
 | Rundll32
 | Defense Evasion
-|-
-| T1543.003
-| Windows Service
-| Persistence, Privilege Escalation
 |-
 | T1053.005
 | Scheduled Task
@@ -3540,7 +3633,7 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 ===Windows discovery techniques===
 Monitors for behaviors associated with adversaries discovering objects in the environment that can be leveraged in the progression of the attack.
 
-* '''Product''': Splunk Behavioral Analytics
+* '''Product''': Splunk Behavioral Analytics, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': 
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1484/ T1484], [https://attack.mitre.org/techniques/T1199/ T1199], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1590/ T1590], [https://attack.mitre.org/techniques/T1591/ T1591], [https://attack.mitre.org/techniques/T1595/ T1595], [https://attack.mitre.org/techniques/T1592/ T1592], [https://attack.mitre.org/techniques/T1007/ T1007], [https://attack.mitre.org/techniques/T1012/ T1012], [https://attack.mitre.org/techniques/T1046/ T1046], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1057/ T1057], [https://attack.mitre.org/techniques/T1083/ T1083], [https://attack.mitre.org/techniques/T1518/ T1518], [https://attack.mitre.org/techniques/T1592.002/ T1592.002], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1135/ T1135], [https://attack.mitre.org/techniques/T1039/ T1039], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1068/ T1068], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1547/ T1547], [https://attack.mitre.org/techniques/T1574/ T1574], [https://attack.mitre.org/techniques/T1589.001/ T1589.001], [https://attack.mitre.org/techniques/T1590.001/ T1590.001], [https://attack.mitre.org/techniques/T1590.003/ T1590.003], [https://attack.mitre.org/techniques/T1098/ T1098], [https://attack.mitre.org/techniques/T1595.002/ T1595.002], [https://attack.mitre.org/techniques/T1055/ T1055]
 * '''Last Updated''': 2021-03-04
@@ -3724,6 +3817,8 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 * https://attack.mitre.org/tactics/TA0007/
 
 * https://cyberd.us/penetration-testing
+
+* https://attack.mitre.org/software/S0521/
 
 
 ''version'': 1
@@ -4210,8 +4305,8 @@ Monitor your enterprise to ensure that your endpoints are being patched and upda
 Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Network_Resolution, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1189/ T1189], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1071.001/ T1071.001]
+* '''Datamodel''': Endpoint, Network_Resolution, Network_Traffic
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1189/ T1189], [https://attack.mitre.org/techniques/T1021/ T1021], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001]
 * '''Last Updated''': 2017-09-11
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -4219,7 +4314,13 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Allow_inbound_traffic_by_firewall_rule_registry|Allow Inbound Traffic By Firewall Rule Registry]]
+
+* [[Documentation:ESSOC:detections:Detections#Allow_inbound_traffic_in_firewall_rule|Allow Inbound Traffic In Firewall Rule]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+* [[Documentation:ESSOC:detections:Detections#Enable_rdp_in_other_port_number|Enable RDP In Other Port Number]]
 
 * [[Documentation:ESSOC:detections:Detections#Prohibited_network_traffic_allowed|Prohibited Network Traffic Allowed]]
 
@@ -4235,16 +4336,24 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 ! Technique
 ! Tactic
 |-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|-
 | T1189
 | Drive-by Compromise
 | Initial Access
 |-
-| T1048.003
-| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
-| Exfiltration
+| T1021
+| Remote Services
+| Lateral Movement
 |-
 | T1048
 | Exfiltration Over Alternative Protocol
+| Exfiltration
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
 | Exfiltration
 |-
 | T1071.001
@@ -4260,6 +4369,8 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 * Command and Control
 
 * Delivery
+
+* Exploitation
 
 
 ====Reference====
@@ -5977,7 +6088,7 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1136.001/ T1136.001], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1562.004/ T1562.004], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1112/ T1112]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1136.001/ T1136.001], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1562.004/ T1562.004], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1112/ T1112]
 * '''Last Updated''': 2020-01-22
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -5992,6 +6103,8 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 * [[Documentation:ESSOC:detections:Detections#Detect_outbound_smb_traffic|Detect Outbound SMB Traffic]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_psexec_with_accepteula_flag|Detect PsExec With accepteula Flag]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_psexec|Detect Renamed PSExec]]
 
 * [[Documentation:ESSOC:detections:Detections#First_time_seen_command_line_argument|First time seen command line argument]]
 
@@ -6033,6 +6146,10 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 | SMB/Windows Admin Shares
 | Lateral Movement
 |-
+| T1569.002
+| Service Execution
+| Execution
+|-
 | T1059.001
 | PowerShell
 | Execution
@@ -6073,7 +6190,13 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 * Command and Control
 
+* Execution
+
+* Exploitation
+
 * Installation
+
+* Lateral Movement
 
 
 ====Reference====
@@ -6092,7 +6215,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1197/ T1197], [https://attack.mitre.org/techniques/T1105/ T1105], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1548.002/ T1548.002]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1197/ T1197], [https://attack.mitre.org/techniques/T1105/ T1105], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1548.002/ T1548.002]
 * '''Last Updated''': 2021-05-12
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6119,6 +6242,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Detect_psexec_with_accepteula_flag|Detect PsExec With accepteula Flag]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_rclone_command-line_usage|Detect RClone Command-Line Usage]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_psexec|Detect Renamed PSExec]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_renamed_rclone|Detect Renamed RClone]]
 
@@ -6174,6 +6299,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Automated Exfiltration
 | Exfiltration
 |-
+| T1569.002
+| Service Execution
+| Execution
+|-
 | T1486
 | Data Encrypted for Impact
 | Impact
@@ -6188,9 +6317,13 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * Actions on Objectives
 
+* Execution
+
 * Exfiltration
 
 * Exploitation
+
+* Lateral Movement
 
 * Obfuscation
 
@@ -6549,7 +6682,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1087.001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069.002/ T1069.002], [https://attack.mitre.org/techniques/T1069.001/ T1069.001], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
 * '''Last Updated''': 2020-02-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6565,17 +6698,35 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Common_ransomware_notes|Common Ransomware Notes]]
 
+* [[Documentation:ESSOC:detections:Detections#Conti_common_exec_parameter|Conti Common Exec parameter]]
+
+* [[Documentation:ESSOC:detections:Detections#Delete_shadowcopy_with_powershell|Delete ShadowCopy With PowerShell]]
+
 * [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_rclone_command-line_usage|Detect RClone Command-Line Usage]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_renamed_rclone|Detect Renamed RClone]]
 
+* [[Documentation:ESSOC:detections:Detections#Detect_sharphound_command-line_arguments|Detect SharpHound Command-Line Arguments]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_sharphound_file_modifications|Detect SharpHound File Modifications]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_sharphound_usage|Detect SharpHound Usage]]
+
+* [[Documentation:ESSOC:detections:Detections#Known_services_killed_by_ransomware|Known Services Killed by Ransomware]]
+
+* [[Documentation:ESSOC:detections:Detections#Modification_of_wallpaper|Modification Of Wallpaper]]
+
 * [[Documentation:ESSOC:detections:Detections#Prohibited_network_traffic_allowed|Prohibited Network Traffic Allowed]]
 
 * [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
 * [[Documentation:ESSOC:detections:Detections#Remote_process_instantiation_via_wmi|Remote Process Instantiation via WMI]]
+
+* [[Documentation:ESSOC:detections:Detections#Revil_common_exec_parameter|Revil Common Exec Parameter]]
+
+* [[Documentation:ESSOC:detections:Detections#Revil_registry_entry|Revil Registry Entry]]
 
 * [[Documentation:ESSOC:detections:Detections#Smb_traffic_spike|SMB Traffic Spike]]
 
@@ -6603,6 +6754,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Wbadmin_delete_system_backups|WBAdmin Delete System Backups]]
 
+* [[Documentation:ESSOC:detections:Detections#Wbemprox_com_object_execution|Wbemprox COM Object Execution]]
+
 * [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_within_public_path|WinEvent Scheduled Task Created Within Public Path]]
 
 * [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_to_spawn_shell|WinEvent Scheduled Task Created to Spawn Shell]]
@@ -6629,13 +6782,37 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Data Destruction
 | Impact
 |-
+| T1204
+| User Execution
+| Execution
+|-
 | T1020
 | Automated Exfiltration
 | Exfiltration
 |-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|-
 | T1482
 | Domain Trust Discovery
 | Discovery
+|-
+| T1069.002
+| Domain Groups
+| Discovery
+|-
+| T1069.001
+| Local Groups
+| Discovery
+|-
+| T1491
+| Defacement
+| Impact
 |-
 | T1048
 | Exfiltration Over Alternative Protocol
@@ -6652,6 +6829,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1047
 | Windows Management Instrumentation
 | Execution
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
 |-
 | T1486
 | Data Encrypted for Impact
@@ -6708,6 +6889,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * Exploitation
 
 * Privilege Escalation
+
+* Reconnaissance
 
 
 ====Reference====
@@ -6772,12 +6955,83 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 ----
 
+===Revil ransomware===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the Revil ransomware, including looking for file writes associated with Revil, encrypting network shares, deleting shadow volume storage, registry key modification, deleting of security logs, and more.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1218.003/ T1218.003]
+* '''Last Updated''': 2021-06-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Delete_shadowcopy_with_powershell|Delete ShadowCopy With PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Modification_of_wallpaper|Modification Of Wallpaper]]
+
+* [[Documentation:ESSOC:detections:Detections#Revil_common_exec_parameter|Revil Common Exec Parameter]]
+
+* [[Documentation:ESSOC:detections:Detections#Revil_registry_entry|Revil Registry Entry]]
+
+* [[Documentation:ESSOC:detections:Detections#Wbemprox_com_object_execution|Wbemprox COM Object Execution]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|-
+| T1491
+| Defacement
+| Impact
+|-
+| T1204
+| User Execution
+| Execution
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|-
+| T1218.003
+| CMSTP
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+
+* https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Ryuk ransomware===
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Ryuk ransomware, including looking for file writes associated with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1087.001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069.002/ T1069.002], [https://attack.mitre.org/techniques/T1069.001/ T1069.001], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1059.003/ T1059.003], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1489/ T1489]
 * '''Last Updated''': 2020-11-06
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6837,13 +7091,37 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Data Destruction
 | Impact
 |-
+| T1204
+| User Execution
+| Execution
+|-
 | T1020
 | Automated Exfiltration
 | Exfiltration
 |-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|-
 | T1482
 | Domain Trust Discovery
 | Discovery
+|-
+| T1069.002
+| Domain Groups
+| Discovery
+|-
+| T1069.001
+| Local Groups
+| Discovery
+|-
+| T1491
+| Defacement
+| Impact
 |-
 | T1048
 | Exfiltration Over Alternative Protocol
@@ -6860,6 +7138,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1047
 | Windows Management Instrumentation
 | Execution
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
 |-
 | T1486
 | Data Encrypted for Impact
@@ -6938,7 +7220,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic, Web
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1082/ T1082], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1486/ T1486]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1082/ T1082], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1486/ T1486]
 * '''Last Updated''': 2018-12-13
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6955,6 +7237,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_psexec_with_accepteula_flag|Detect PsExec With accepteula Flag]]
+
+* [[Documentation:ESSOC:detections:Detections#Detect_renamed_psexec|Detect Renamed PSExec]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_attackers_scanning_for_vulnerable_jboss_servers|Detect attackers scanning for vulnerable JBoss servers]]
 
@@ -6996,6 +7280,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | SMB/Windows Admin Shares
 | Lateral Movement
 |-
+| T1569.002
+| Service Execution
+| Execution
+|-
 | T1082
 | System Information Discovery
 | Discovery
@@ -7018,7 +7306,13 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * Delivery
 
+* Execution
+
+* Exploitation
+
 * Installation
+
+* Lateral Movement
 
 * Reconnaissance
 
@@ -7784,7 +8078,7 @@ Reduce the risk of CVE-2018-11409, an information disclosure vulnerability withi
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-05-24 20:50:07.268835 UTC
+# On Date: 2021-06-10 18:37:22.207469 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############
