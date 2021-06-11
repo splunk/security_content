@@ -6,17 +6,17 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect a potential privilege escalation attempt to do malicious task.
-  This registry modification is designed to  allows the Consent Admin to perform an operation that 
-  requires elevation without consent or credentials. We also found this in some attacker to gain privilege escalation
-  to the compromise machine.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
-  FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*" Registry.registry_key_name = ConsentPromptBehaviorAdmin Registry.registry_value_name = "DWORD (0x00000000)"
-  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` 
-  | `allow_operation_with_consent_admin_filter`'
+description: this search is to detect a potential privilege escalation attempt to
+  do malicious task. This registry modification is designed to  allows the Consent
+  Admin to perform an operation that requires elevation without consent or credentials.
+  We also found this in some attacker to gain privilege escalation to the compromise
+  machine.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*"
+  Registry.registry_key_name = ConsentPromptBehaviorAdmin Registry.registry_value_name
+  = "DWORD (0x00000000)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `allow_operation_with_consent_admin_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -43,5 +43,8 @@ tags:
   - Registry.registry_path
   - Registry.registry_key_name
   - Registry.registry_value_name
-  - Registry.dest 
+  - Registry.dest
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
