@@ -12377,6 +12377,172 @@ admin or power user may used this series of command.
 
 ----
 
+===Allow inbound traffic by firewall rule registry===
+This analytic detects a potential suspicious modification of firewall rule registry allowing inbound traffic in specific port with public profile. This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021/001/ T1021.001]
+* '''Last Updated''': 2021-05-26
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" Registry.registry_value_name = "*
+|Action=Allow
+|*" Registry.registry_value_name = "*
+|Dir=In
+|*" Registry.registry_value_name = "*
+|Profile=Public
+|*" Registry.registry_value_name = "*
+|LPort=*" by Registry.registry_path Registry.registry_key_name Registry.user Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `allow_inbound_traffic_by_firewall_rule_registry_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Prohibited_Traffic_Allowed_or_Protocol_Mismatch|Prohibited Traffic Allowed or Protocol Mismatch]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+====Required field====
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_value_name
+
+* Registry.registry_key_name
+
+* Registry.dest
+
+* Registry.user
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network admin may add/remove/modify public inbound firewall rule that may cause this rule to be triggered.
+
+====Reference====
+
+
+* https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Allow inbound traffic in firewall rule===
+This search is to detect suspicious powershell command to allow inbound traffic in specific local port with public profile. This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021/001/ T1021.001]
+* '''Last Updated''': 2021-05-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`powershell` EventCode=4104 Message = "*firewall*" Message = "*Public*" Message = "*Inbound*" Message = "*Allow*"  Message = "*-LocalPort*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `allow_inbound_traffic_in_firewall_rule_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Prohibited_Traffic_Allowed_or_Protocol_Mismatch|Prohibited Traffic Allowed or Protocol Mismatch]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
+
+====Required field====
+
+* _time
+
+* EventCode
+
+* Message
+
+* ComputerName
+
+* User
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1021.001
+| Remote Desktop Protocol
+| Lateral Movement
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+administrator may allow inbound traffic in certain network or machine.
+
+====Reference====
+
+
+* https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Anomalous usage of 7zip===
 The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllhost.exe`. It is assumed that the adversary has brought in `7z.exe` and `7z.dll`. It has been observed where an adversary will rename `7z.exe`. Additional coverage may be required to identify the behavior of renamed instances of `7z.exe`. During triage, identify the source of injection into `Rundll32.exe` or `Dllhost.exe`. Capture any files written to disk and analyze as needed. Review parallel processes for additional behaviors. Typically, archiving files will result in exfiltration.
 
@@ -13648,6 +13814,99 @@ It is possible for this search to generate a notable event for a batch file writ
 
 ----
 
+===Cmd echo pipe - escalation===
+This analytic identifies a common behavior by Cobalt Strike and other frameworks where the adversary will escalate privileges, either via `jump` (Cobalt Strike PTH) or `getsystem`, using named-pipe impersonation. A suspicious event will look like `cmd.exe /c echo 4sgryt3436 > \\.\Pipe\5erg53`.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059/003/ T1059.003], [https://attack.mitre.org/techniques/T1543/003/ T1543.003]
+* '''Last Updated''': 2021-05-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=cmd.exe OR Processes.process=*%comspec%*) (Processes.process=*echo* AND Processes.process=*pipe*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `cmd_echo_pipe___escalation_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Cobalt_Strike|Cobalt Strike]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.003
+| Windows Command Shell
+| Execution
+|-
+| T1543.003
+| Windows Service
+| Persistence, Privilege Escalation
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+* Privilege Escalation
+
+
+====Known False Positives====
+Unknown. It is possible filtering may be required to ensure fidelity.
+
+====Reference====
+
+
+* https://redcanary.com/threat-detection-report/threats/cobalt-strike/
+
+* https://github.com/rapid7/meterpreter/blob/master/source/extensions/priv/server/elevate/namedpipe.c
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Cmlua or cmstplua uac bypass===
 This analytic detects a potential process using COM Object like CMLUA or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries to gain administrative privileges to its running process.
 
@@ -14573,6 +14832,91 @@ It's possible that a legitimate file could be created with the same name used by
 
 
 ''version'': 4
+</div>
+</div>
+
+----
+
+===Conti common exec parameter===
+This search detects the suspicious commandline argument of revil ransomware to encrypt specific or all local drive and network shares of the compromised machine or host.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204/ T1204]
+* '''Last Updated''': 2021-06-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*-m local*" OR Processes.process = "*-m net*" OR Processes.process = "*-m all*" OR Processes.process = "*-nomutex*" by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `conti_common_exec_parameter_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.dest Processes.user
+
+* Processes.process_id
+
+* Processes.process_guid
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1204
+| User Execution
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+3rd party tool may have commandline parameter that can trigger this detection.
+
+====Reference====
+
+
+* https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/inf1/windows-sysmon.log
+
+
+''version'': 1
 </div>
 </div>
 
@@ -16422,6 +16766,90 @@ Limited false positives. If there is a true false positive, filter based on comm
 
 ----
 
+===Delete shadowcopy with powershell===
+This following analytic detects PowerShell command to delete shadow copy using the WMIC PowerShell module. This technique was seen used by a recent adversary to deploy DarkSide Ransomware where it executed a child process of PowerShell to execute a hex encoded command to delete shadow copy. This hex encoded command was able to be decrypted by PowerShell log.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490]
+* '''Last Updated''': 2021-05-12
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`powershell` EventCode=4104 Message= "*ShadowCopy*" Message = "*Delete*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `delete_shadowcopy_with_powershell_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#DarkSide_Ransomware|DarkSide Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
+
+====Required field====
+
+* _time
+
+* EventCode
+
+* Message
+
+* ComputerName
+
+* User
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
+
+* https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-powershell.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Deleting of net users===
 This analytic will detect a suspicious net.exe/net1.exe command-line to delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some user or deleting adversaries tracks created during its lateral movement additional systems. During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
 
@@ -16664,6 +17092,212 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 
 
 ''version'': 5
+</div>
+</div>
+
+----
+
+===Detect azurehound command-line arguments===
+The following analytic identifies the common command-line argument used by AzureHound `Invoke-AzureHound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087/002/ T1087.002], [https://attack.mitre.org/techniques/T1087/001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069/002/ T1069.002], [https://attack.mitre.org/techniques/T1069/001/ T1069.001]
+* '''Last Updated''': 2021-06-01
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*invoke-azurehound*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_azurehound_command_line_arguments_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Discovery_Techniques|Discovery Techniques]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1069.002
+| Domain Groups
+| Discovery
+|-
+| T1069.001
+| Local Groups
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Reconnaissance
+
+
+====Known False Positives====
+Unknown.
+
+====Reference====
+
+
+* https://attack.mitre.org/software/S0521/
+
+* https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+
+* https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
+
+* https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect azurehound file modifications===
+The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It's possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087/002/ T1087.002], [https://attack.mitre.org/techniques/T1087/001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069/002/ T1069.002], [https://attack.mitre.org/techniques/T1069/001/ T1069.001]
+* '''Last Updated''': 2021-06-01
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip", "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json", "*-azapplicationadmins.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.dest 
+| `drop_dm_object_name(Filesystem)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_azurehound_file_modifications_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Discovery_Techniques|Discovery Techniques]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+
+====Required field====
+
+* _time
+
+* file_path
+
+* dest
+
+* file_name
+
+* process_id
+
+* file_create_time
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1069.002
+| Domain Groups
+| Discovery
+|-
+| T1069.001
+| Local Groups
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Reconnaissance
+
+
+====Known False Positives====
+False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
+
+====Reference====
+
+
+* https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
+
+* https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+
+
+''version'': 1
 </div>
 </div>
 
@@ -18526,6 +19160,8 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 
 * [[Documentation:ESSOC:stories:UseCase#DarkSide_Ransomware|DarkSide Ransomware]]
 
+* [[Documentation:ESSOC:stories:UseCase#Lateral_Movement|Lateral Movement]]
+
 
 ====How To Implement====
 You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
@@ -19394,6 +20030,194 @@ Limited false positives related to third party software registering .DLL's.
 
 ----
 
+===Detect renamed 7-zip===
+The following analytic identifies renamed 7-Zip usage using Sysmon. At this stage of an attack, review parallel processes and file modifications for data that is staged or potentially have been exfiltrated. This analytic utilizes the OriginalFileName to capture the renamed process.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560/001/ T1560.001]
+* '''Last Updated''': 2021-05-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventID=1 (OriginalFileName=7z*.exe AND process_name!=7z*.exe) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine 
+| rename Computer as dest 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_renamed_7_zip_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Collection_and_Staging|Collection and Staging]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* dest
+
+* User
+
+* parent_process_name
+
+* process_name
+
+* OriginalFileName
+
+* process_path
+
+* CommandLine
+
+* Product
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1560.001
+| Archive via Utility
+| Collection
+|}
+
+
+====Kill Chain Phase====
+
+* Exfiltration
+
+
+====Known False Positives====
+Limited false positives, however this analytic will need to be modified for each environment if Sysmon is not used.
+
+====Reference====
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect renamed psexec===
+The following analytic identifies renamed instances of `PsExec.exe` being utilized on an endpoint. Most instances, it is highly probable to capture `Psexec.exe` or other SysInternal utility usage with the command-line argument of `-accepteula`. In this instance, we are using `OriginalFileName` from Sysmon to identify `PsExec` usage. During triage, validate this is the legitimate version of `PsExec` by review the PE metadata. In addition, review parallel processes for further suspicious behavior.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1569/002/ T1569.002]
+* '''Last Updated''': 2021-05-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
+| rename Computer as dest 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_renamed_psexec_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#SamSam_Ransomware|SamSam Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#DHS_Report_TA18-074A|DHS Report TA18-074A]]
+
+* [[Documentation:ESSOC:stories:UseCase#HAFNIUM_Group|HAFNIUM Group]]
+
+* [[Documentation:ESSOC:stories:UseCase#DarkSide_Ransomware|DarkSide Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Lateral_Movement|Lateral Movement]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+====Required field====
+
+* _time
+
+* dest
+
+* User
+
+* parent_process_name
+
+* process_name
+
+* OriginalFileName
+
+* process_path
+
+* CommandLine
+
+* Product
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1569.002
+| Service Execution
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+* Lateral Movement
+
+* Execution
+
+
+====Known False Positives====
+Limited false positives should be present. It is possible some third party applications may use older versions of PsExec, filter as needed.
+
+====Reference====
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
+
+* https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Detect renamed rclone===
 The following analytic identifies the usage of `rclone.exe`, renamed, being used to exfiltrate data to a remote destination. RClone has been used by multiple ransomware groups to exfiltrate data. In many instances, it will be downloaded from the legitimate site and executed accordingly. During triage, isolate the endpoint and begin to review parallel processes for additional behavior. At this stage, the adversary may have staged data to be exfiltrated.
 
@@ -19473,6 +20297,95 @@ False positives should be limited as this analytic identifies renamed instances 
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect renamed winrar===
+The following analtyic identifies renamed instances of `WinRAR.exe`. In most cases, it is not common for WinRAR to be used renamed, however it is common to be installed by a third party application and executed from a non-standard path. In this instance, we are using `OriginalFileName` from Sysmon to determine if the process is WinRAR. During triage, validate additional metadata from the binary that this is `WinRAR`. Review parallel processes and file modifications.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560/001/ T1560.001]
+* '''Last Updated''': 2021-05-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe 
+| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
+| rename Computer as dest 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_renamed_winrar_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Collection_and_Staging|Collection and Staging]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Modify query for specific EDR products as needed.
+
+====Required field====
+
+* _time
+
+* dest
+
+* User
+
+* parent_process_name
+
+* process_name
+
+* OriginalFileName
+
+* process_path
+
+* CommandLine
+
+* Product
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1560.001
+| Archive via Utility
+| Collection
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+* Exfiltration
+
+
+====Known False Positives====
+Unknown. It is possible third party applications use renamed instances of WinRAR.
+
+====Reference====
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
 
 
 ''version'': 1
@@ -19823,6 +20736,337 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect sharphound command-line arguments===
+The following analytic identifies common command-line arguments used by SharpHound `-collectionMethod` and `invoke-bloodhound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087/002/ T1087.002], [https://attack.mitre.org/techniques/T1087/001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069/002/ T1069.002], [https://attack.mitre.org/techniques/T1069/001/ T1069.001]
+* '''Last Updated''': 2021-06-01
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*-collectionMethod*","*invoke-bloodhound*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_sharphound_command_line_arguments_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Discovery_Techniques|Discovery Techniques]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1069.002
+| Domain Groups
+| Discovery
+|-
+| T1069.001
+| Local Groups
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Reconnaissance
+
+
+====Known False Positives====
+False positives should be limited as the arguments used are specific to SharpHound. Filter as needed or add more command-line arguments as needed.
+
+====Reference====
+
+
+* https://attack.mitre.org/software/S0521/
+
+* https://thedfirreport.com/?s=bloodhound
+
+* https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+
+* https://github.com/BloodHoundAD/SharpHound3
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect sharphound file modifications===
+SharpHound is used as a reconnaissance collector, ingestor, for BloodHound. SharpHound will query the domain controller and begin gathering all the data related to the domain and trusts. For output, it will drop a .zip file upon completion following a typical pattern that is often not changed. This analytic focuses on the default file name scheme. Note that this may be evaded with different parameters within SharpHound, but that depends on the operator. `-randomizefilenames` and `-encryptzip` are two examples. In addition, executing SharpHound via .exe or .ps1 without any command-line arguments will still perform activity and dump output to the default filename. Example default filename `20210601181553_BloodHound.zip`. SharpHound creates multiple temp files following the same pattern `20210601182121_computers.json`, `domains.json`, `gpos.json`, `ous.json` and `users.json`. Tuning may be required, or remove these json's entirely if it is too noisy. During traige, review parallel processes for further suspicious behavior. Typically, the process executing the `.ps1` ingestor will be PowerShell.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087/002/ T1087.002], [https://attack.mitre.org/techniques/T1087/001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069/002/ T1069.002], [https://attack.mitre.org/techniques/T1069/001/ T1069.001]
+* '''Last Updated''': 2021-05-27
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*bloodhound.zip", "*_computers.json", "*_gpos.json", "*_domains.json", "*_users.json", "*_groups.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.dest 
+| `drop_dm_object_name(Filesystem)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_sharphound_file_modifications_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Discovery_Techniques|Discovery Techniques]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+
+====Required field====
+
+* _time
+
+* file_path
+
+* dest
+
+* file_name
+
+* process_id
+
+* file_create_time
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1069.002
+| Domain Groups
+| Discovery
+|-
+| T1069.001
+| Local Groups
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Reconnaissance
+
+
+====Known False Positives====
+False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
+
+====Reference====
+
+
+* https://attack.mitre.org/software/S0521/
+
+* https://thedfirreport.com/?s=bloodhound
+
+* https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+
+* https://github.com/BloodHoundAD/SharpHound3
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect sharphound usage===
+The following analytic identifies SharpHound binary usage by using the `OriginalFileName` from Sysmon. In addition to renaming the PE, other coverage is available to detect command-line arguments. This particular analytic only looks for the OriginalFileName of `SharpHound.exe`. It is possible older instances of SharpHound.exe have different original filenames. Dependent upon the operator, the code may be re-compiled and the attributes removed or changed to anything else. During triage, review the metadata of the binary in question. Review parallel processes for suspicious behavior. Identify the source of this binary.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087/002/ T1087.002], [https://attack.mitre.org/techniques/T1087/001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069/002/ T1069.002], [https://attack.mitre.org/techniques/T1069/001/ T1069.001]
+* '''Last Updated''': 2021-05-27
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventID=1 (OriginalFileName=SharpHound.exe process_name!=sharphound.exe) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
+| rename Computer as dest 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_sharphound_usage_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Discovery_Techniques|Discovery Techniques]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* dest
+
+* User
+
+* parent_process_name
+
+* process_name
+
+* OriginalFileName
+
+* process_path
+
+* CommandLine
+
+* Product
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1069.002
+| Domain Groups
+| Discovery
+|-
+| T1069.001
+| Local Groups
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Reconnaissance
+
+
+====Known False Positives====
+False positives should be limited as this is specific to a file attribute not used by anything else. Filter as needed.
+
+====Reference====
+
+
+* https://attack.mitre.org/software/S0521/
+
+* https://thedfirreport.com/?s=bloodhound
+
+* https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+
+* https://github.com/BloodHoundAD/SharpHound3
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
 
 
 ''version'': 1
@@ -21781,6 +23025,85 @@ None identified.
 
 ----
 
+===Enable rdp in other port number===
+This search is to detect a modification to registry to enable rdp to a machine with different port number. This technique was seen in some atttacker tries to do lateral movement and remote access to a compromised machine to gain control of it.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1021/ T1021]
+* '''Last Updated''': 2021-05-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp*" Registry.registry_key_name = "PortNumber" by Registry.dest Registry.user Registry.registry_value_name 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `drop_dm_object_name(Registry)` 
+| `enable_rdp_in_other_port_number_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Prohibited_Traffic_Allowed_or_Protocol_Mismatch|Prohibited Traffic Allowed or Protocol Mismatch]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+====Required field====
+
+* _time
+
+* Registry.registry_path
+
+* Registry.dest
+
+* Registry.user
+
+* Registry.registry_value_name
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1021
+| Remote Services
+| Lateral Movement
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://www.mvps.net/docs/how-to-secure-remote-desktop-rdp/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Enumerate users local group using telegram===
 This analytic will detect a suspicious Telegram process enumerating all network users in a local group. This technique was seen in a Monero infected honeypot to mapped all the users on the compromised system. EventCode 4798 is generated when a process enumerates a user's security-enabled local groups on a computer or device.
 
@@ -22562,12 +23885,15 @@ this search is to detect potential DNS exfiltration using nslookup application. 
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>
-| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id values(Processes.parent_process) as parent_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "nslookup.exe" by Processes.dest Processes.user Processes.process_name 
-| where count >= 30 
-| `drop_dm_object_name(Processes)` 
+<search>`sysmon` EventCode = 1 process_name = "nslookup.exe" 
+|  bucket _time span=15m 
+| stats count as numNsLookup by Computer, _time 
+|  eventstats avg(numNsLookup) as avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by Computer 
+|  eval upperThreshold=(avgNsLookup + stdNsLookup *3) 
+|  eval isOutlier=if(avgNsLookup > 20 and avgNsLookup >= upperThreshold, 1, 0) 
+|  search isOutlier=1 
 | `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
+| `security_content_ctime(lastTime)` 
 | `excessive_usage_of_nslookup_app_filter`</search>
 
 ====Associated Analytic Story====
@@ -22634,6 +23960,90 @@ unknown
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Excessive number of taskhost processes===
+This detection targets behaviors observed in post exploit kits like Meterpreter and Koadic that are run in memory.  We have observed that these tools must invoke an excessive number of taskhost.exe and taskhostex.exe processes to complete various actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course of normal operations to see so many distinct taskhost and taskhostex processes running concurrently in a short time frame.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1033/ T1033]
+* '''Last Updated''': 2021-06-07
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` values(Processes.process_id) as process_ids  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe" BY Processes.dest Processes.process_name _time span=1h 
+| `drop_dm_object_name(Processes)` 
+| eval pid_count=mvcount(process_ids) 
+| eval taskhost_count_=if(process_name == "taskhost.exe", pid_count, 0) 
+| eval taskhostex_count_=if(process_name == "taskhostex.exe", pid_count, 0) 
+| stats sum(taskhost_count_) as taskhost_count, sum(taskhostex_count_) as taskhostex_count by _time, dest, firstTime, lastTime 
+| where taskhost_count > 10 and taskhostex_count > 10 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_number_of_taskhost_processes_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Meterpreter|Meterpreter]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting events related to processes on the endpoints that include the name of the process and process id into the `Endpoint` datamodel in the `Processes` node.
+
+====Required field====
+
+* _time
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.user
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1033
+| System Owner/User Discovery
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+Administrators, administrative actions or certain applications may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
+
+====Reference====
+
+
+* https://attack.mitre.org/software/S0250/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/taskhost_processes/logExcessiveTaskHost.log
 
 
 ''version'': 1
@@ -24830,6 +26240,86 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 
 ----
 
+===Known services killed by ransomware===
+This search detects a suspicioous termination of known services killed by ransomware before encrypting files in a compromised machine. This technique is commonly seen in most of ransomware now a days to avoid exception error while accessing the targetted files it wants to encrypts because of the open handle of those services to the targetted file.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490]
+* '''Last Updated''': 2021-06-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`wineventlog_system` EventCode=7036 Message IN ("*Volume Shadow Copy*","*VSS*", "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*") Message="*service entered the stopped state*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message dest Type 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `known_services_killed_by_ransomware_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
+
+====Required field====
+
+* _time
+
+* EventCode
+
+* Message
+
+* dest
+
+* Type
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+Admin activities or installing related updates may do a sudden stop to list of services we monitor.
+
+====Reference====
+
+
+* https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+
+* https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Macos - re-opened applications===
 This search looks for processes referencing the plist files that determine which applications are re-opened when a user reboots their machine.
 
@@ -24888,6 +26378,84 @@ At this stage, there are no known false positives. During testing, no process ev
 
 
 ====Test Dataset====
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Mailsniper invoke functions===
+This search is to detect known mailsniper.ps1 functions executed in a machine. This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1114/001/ T1114.001]
+* '''Last Updated''': 2021-05-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`powershell` EventCode=4104 Message IN ("*Invoke-GlobalO365MailSearch*", "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*", "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*", "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `mailsniper_invoke_functions_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Data_Exfiltration|Data Exfiltration]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
+
+====Required field====
+
+* _time
+
+* EventCode
+
+* Message
+
+* ComputerName
+
+* User
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1114.001
+| Local Email Collection
+| Collection
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
 
 
 ''version'': 1
@@ -25317,6 +26885,96 @@ Creating a hidden powershell service is rare and could key off of those instance
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Modification of wallpaper===
+This analytic identifies suspicious modification of registry to deface or change the wallpaper of a compromised machines as part of its payload. This technique was commonly seen in ransomware like REVIL where it create a bitmap file contain a note that the machine was compromised and make it as a wallpaper.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1491/ T1491]
+* '''Last Updated''': 2021-06-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventCode =13  (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper" AND Image != "*\\explorer.exe") OR (TargetObject= "*\\Control Panel\\Desktop\\Wallpaper" AND Details = "*\\temp\\*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Image TargetObject Details  Computer process_guid process_id user_id 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `modification_of_wallpaper_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the Image, TargetObject registry key, registry Details from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* EventCode
+
+* Image
+
+* TargetObject
+
+* Details
+
+* Computer
+
+* process_guid
+
+* process_id
+
+* user_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1491
+| Defacement
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+3rd party tool may used to changed the wallpaper of the machine
+
+====Reference====
+
+
+* https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+
+* https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
 
 
 ''version'': 1
@@ -28175,7 +29833,7 @@ Some VPN applications are known to launch netsh.exe. Outside of these instances,
 ----
 
 ===Ransomware notes bulk creation===
-The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your lookup table list for monitoring.
+The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your ransomware lookup table list for monitoring.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
@@ -30146,6 +31804,182 @@ network admin can resize the shadowstorage for valid purposes.
 
 ----
 
+===Revil common exec parameter===
+This analytic identifies suspicious commandline parameter that are commonly used by REVIL ransomware to encrypts the compromise machine.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204/ T1204]
+* '''Last Updated''': 2021-06-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*-nolan*" OR Processes.process = "*-nolocal*" OR Processes.process = "*-fast*" OR Processes.process = "*-full*" by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `revil_common_exec_parameter_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process_id
+
+* Processes.process_guid
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1204
+| User Execution
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+third party tool may have same command line parameters as revil ransomware.
+
+====Reference====
+
+
+* https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+
+* https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Revil registry entry===
+This analytic identifies suspicious modification in registry entry to keep some malware data during its infection. This technique seen in several apt implant, malware and ransomware like REVIL where it keep some information like the random generated file extension it uses for all the encrypted files and ransomware notes file name in the compromised host.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1112/ T1112]
+* '''Last Updated''': 2021-06-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*" AND (Registry.registry_value_name = "\.*" OR Registry.registry_value_name = "Binary Data") by Registry.registry_value_name Registry.dest Registry.user 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `drop_dm_object_name(Registry)` 
+| `revil_registry_entry_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+to successfully implement this search, you need to be ingesting logs with the Image, TargetObject registry key, registry Details from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Registry.dest
+
+* Registry.user
+
+* Registry.registry_value_name
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+
+* https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Rundll loading dll by ordinal===
 This search looks for executing scripts with rundll32. Adversaries may abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice executing directly, may avoid triggering security tools that may not monitor execution of the rundll32.exe process because of allowlists or false positives from normal operations.
 
@@ -31484,6 +33318,91 @@ Limited false positives may be present in small environments. Tuning may be requ
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Secretdumps offline ntds dumping tool===
+This analytic detects a potential usage of secretsdump.py tool for dumping credentials (ntlm hash) from a copy of ntds.dit and SAM.Security,SYSTEM registrry hive. This technique was seen in some attacker that dump ntlm hashes offline after having a copy of ntds.dit and SAM/SYSTEM/SECURITY registry hive.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003/003/ T1003.003]
+* '''Last Updated''': 2021-05-26
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "python*.exe" Processes.process = "*.py*" Processes.process = "*-ntds*" (Processes.process = "*-system*" OR Processes.process = "*-sam*" OR Processes.process = "*-security*" OR Processes.process = "*-bootkey*") by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `secretdumps_offline_ntds_dumping_tool_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Credential_Dumping|Credential Dumping]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.dest Processes.user
+
+* Processes.process_id
+
+* Processes.process_guid
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1003.003
+| NTDS
+| Credential Access
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://github.com/SecureAuthCorp/impacket/blob/master/examples/secretsdump.py
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
 
 
 ''version'': 1
@@ -34808,7 +36727,7 @@ None
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -35858,6 +37777,98 @@ Some software may create WMI temporary event subscriptions for various purposes.
 
 
 ====Test Dataset====
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Wbemprox com object execution===
+this search is designed to detect potential malicious process loading COM object to wbemprox.dll,
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218/003/ T1218.003]
+* '''Last Updated''': 2021-06-02
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll", "*\\wbemcomn.dll") NOT (process_name IN ("wmiprvse.exe", "WmiApSrv.exe", "unsecapp.exe")) NOT(Image IN("*\\windows\\*","*\\program files*", "*\\wbem\\*")) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId Hashes IMPHASH 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `wbemprox_com_object_execution_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Image
+
+* ImageLoaded
+
+* process_name
+
+* Computer
+
+* EventCode
+
+* Signed
+
+* ProcessId
+
+* Hashes
+
+* IMPHASH
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.003
+| CMSTP
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+legitimate process that are not in the exception list may trigger this event.
+
+====Reference====
+
+
+* https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+
+* https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf2/windows-sysmon.log
 
 
 ''version'': 1
@@ -37148,89 +39159,6 @@ False positives should be limited.
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-
-
-''version'': 1
-</div>
-</div>
-
-----
-
-
-
-==Experimental==
-
-
-===Delete shadowcopy with powershell===
-This following analytic detects PowerShell command to delete shadow copy using the WMIC PowerShell module. This technique was seen used by a recent adversary to deploy DarkSide Ransomware where it executed a child process of PowerShell to execute a hex encoded command to delete shadow copy. This hex encoded command was able to be decrypted by PowerShell log.
-
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490]
-* '''Last Updated''': 2021-05-12
-
-<div class="toccolours mw-collapsible mw-collapsed">
-<div class="mw-collapsible-content">
-
-====Search====
-<search>`powershell` EventCode=4104 Message= "*ShadowCopy*" Message = "*Delete*" 
-| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| `delete_shadowcopy_with_powershell_filter`</search>
-
-====Associated Analytic Story====
-
-* [[Documentation:ESSOC:stories:UseCase#DarkSide_Ransomware|DarkSide Ransomware]]
-
-
-====How To Implement====
-To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
-
-====Required field====
-
-* _time
-
-* EventCode
-
-* Message
-
-* ComputerName
-
-* User
-
-
-
-====ATT&CK====
-{|
-! style="text-align:left;"| ID
-! Technique
-! Tactic
-|-
-| T1490
-| Inhibit System Recovery
-| Impact
-|}
-
-
-====Kill Chain Phase====
-
-* Exploitation
-
-
-====Known False Positives====
-unknown
-
-====Reference====
-
-
-* https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html
-
-* https://searchwindowsserver.techtarget.com/tutorial/Set-up-PowerShell-script-block-logging-for-added-security
-
-
-
-====Test Dataset====
 
 
 ''version'': 1
@@ -40135,7 +42063,7 @@ There might be false positives associted with this detection since items like ar
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-05-24 20:50:06.922125 UTC''
+# On Date: 2021-06-10 18:37:21.829243 UTC''
 # Author: Splunk Security Research''
 # Contact: research@splunk.com''
 #############
