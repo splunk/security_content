@@ -43,6 +43,7 @@ def main(args):
 
     print(response)
 
+
     # while max_waiting_time > current_waiting_time:
 
     #     response = table.get_item(
