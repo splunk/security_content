@@ -1,0 +1,44 @@
+name: Powershell Processing Stream Of Data
+id: 0d718b52-c9f1-11eb-bc61-acde48001122
+version: 1
+date: '2021-06-10'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is to detect suspicious powershell that processing compressed stream data. 
+  This technique was seen in obfuscated powershell or powershell with embedded .net or binary files that are stream flated 
+  and will be deflated during execution.
+search: '`powershell` EventCode=4104 
+  | eval compress = if(match(Message, "IO.Compression.") OR match(Message, "IO.StreamReader") OR match(Message, "]::Decompress"), 1, 0)
+  | addtotals fieldname=Score compress
+  | where compress= 1
+  | stats count min(_time) as firstTime max(_time) as lastTime by Score EventCode Message ComputerName User 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `powershell_processing_stream_of_data_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs  from your endpoints. make sure you enable needed
+  registry to monitor this event.
+known_false_positives: powershell may used this function to process compressed data.
+references:
+- https://medium.com/@ahmedjouini99/deobfuscating-emotets-powershell-payload-e39fb116f7b9
+tags:
+  analytic_story:
+  - Malicious PowerShell
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1059.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  - Score 
+  security_domain: endpoint
