@@ -458,9 +458,10 @@ jobs:
       - run:
           name: run detection testing
           command: |
-            cd security-content
+            cd security-content/automated_detection_testing/ci/python_ci_code
+            virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
-            cd automated_detection_testing/ci/python_ci_code
+            pip install -q -r requirements.txt
             python main.py -b ${CIRCLE_BRANCH}
 
 
