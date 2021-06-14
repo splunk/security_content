@@ -18,7 +18,7 @@ def main(args):
     response = client.submit_job(
         jobName='detection_testing',
         jobQueue='detection_testing_execution_queue',
-        jobDefinition='detection_testing_execution',
+        jobDefinition='detection_testing_execution:2',
         containerOverrides={
             'command': ['-b', branch, '-u', str(uuid.uuid4())]
         }
@@ -31,4 +31,3 @@ def main(args):
 if __name__ == "__main__":
     main(sys.argv[1:])
 
-    
