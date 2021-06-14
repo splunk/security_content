@@ -3,6 +3,7 @@ import uuid
 import sys
 import boto3
 import argparse
+import time
 
 
 def main(args):
@@ -13,6 +14,9 @@ def main(args):
     args = parser.parse_args()
     branch = args.branch
 
+    # create uuid 
+    uuid_test = str(uuid.uuid4())
+
     # start aws batch job
     client = boto3.client("batch", region_name="eu-central-1")
     response = client.submit_job(
@@ -20,11 +24,18 @@ def main(args):
         jobQueue='detection_testing_execution_queue',
         jobDefinition='detection_testing_execution:2',
         containerOverrides={
-            'command': ['-b', branch, '-u', str(uuid.uuid4())]
+            'command': ['-b', branch, '-u', uuid_test]
         }
     )
 
-    # loop dynamo db for results
+    resource = boto3.resource('dynamodb', region_name="eu-central-1")
+    table = resource.Table("dt-results")
+    response = table.get_item(
+        Key={
+            'uuid_test': uuid_test
+        }
+    )
+    print(response)
 
 
 
