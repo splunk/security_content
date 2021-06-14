@@ -6,20 +6,19 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This seearch is to detect a suspicious powershell/wmi query to recon running process and running services.
-  This technique is commonly seen in malware and apt attack to mapped all running security application or services on the compromised machine.
-search: '`powershell` EventCode=4104 
-  | eval select_cmd = if(match(Message, "SELECT"), 1, 0)
-  | eval av = if(match(Message, "Win32_Service") OR match(Message,"Win32_Process"), 1,0)
-  | addtotals fieldname=score select_cmd, av
-  | where score = 2
-  | stats count min(_time) as firstTime max(_time) as lastTime by score EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: This seearch is to detect a suspicious powershell/wmi query to recon
+  running process and running services. This technique is commonly seen in malware
+  and apt attack to mapped all running security application or services on the compromised
+  machine.
+search: '`powershell` EventCode=4104 | eval select_cmd = if(match(Message, "SELECT"),
+  1, 0) | eval av = if(match(Message, "Win32_Service") OR match(Message,"Win32_Process"),
+  1,0) | addtotals fieldname=score select_cmd, av | where score = 2 | stats count
+  min(_time) as firstTime max(_time) as lastTime by score EventCode Message ComputerName
+  User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `wmi_recon_running_process_or_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the powershell logs from your endpoints. make sure you enable needed
-  registry to monitor this event.
+  logs with the powershell logs from your endpoints. make sure you enable needed registry
+  to monitor this event.
 known_false_positives: network administrator may used this command for checking purposes
 references:
 - https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/
@@ -40,5 +39,8 @@ tags:
   - EventCode
   - Message
   - ComputerName
-  - User 
+  - User
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
