@@ -38,6 +38,9 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
     # delete test data
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password)
 
+    # write results into dynamodb
+    # uuid, detection, detection_path, test_file, result, time
+
     for result_test in result_tests:
         print(result_test)
         if result_test['detection_result']['error']:

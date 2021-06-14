@@ -37,7 +37,7 @@ class GithubService:
 
             for file_path in changed_files:
                 # added or changed test files
-                if file_path.startswith('A') or file_path.startswith('M') or file_path.startswith('R'):
+                if file_path.startswith('A') or file_path.startswith('M'):
                     if 'tests' in file_path:
                         if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.test.yml'):
                             if file_path not in changed_test_files:
