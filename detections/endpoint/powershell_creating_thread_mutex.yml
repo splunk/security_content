@@ -6,21 +6,19 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect suspicious powershell script that using mutex function.
-  This function is commonly seen in some obfuscated powershell script to make sure that only one instance of 
-  there process is running to a compromise machine which is also a good indicator to check why powershell script is using it.
-search: '`powershell` EventCode=4104 
-  | eval mutex = if(match(Message, "Threading.Mutex"),1,0) 
-  | addtotals fieldname=Score mutex
-  | where mutex= 1
-  | stats count min(_time) as firstTime max(_time) as lastTime by Score EventCode Message ComputerName User  
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `powershell_creating_thread_mutex_filter`'
+description: This search is to detect suspicious powershell script that using mutex
+  function. This function is commonly seen in some obfuscated powershell script to
+  make sure that only one instance of there process is running to a compromise machine
+  which is also a good indicator to check why powershell script is using it.
+search: '`powershell` EventCode=4104 | eval mutex = if(match(Message, "Threading.Mutex"),1,0)
+  | addtotals fieldname=Score mutex | where mutex= 1 | stats count min(_time) as firstTime
+  max(_time) as lastTime by Score EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_creating_thread_mutex_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
-known_false_positives: powershell developer may used this function in their script for instance checking too.
+known_false_positives: powershell developer may used this function in their script
+  for instance checking too.
 references:
 - https://isc.sans.edu/forums/diary/Some+Powershell+Malicious+Code/22988/
 tags:
@@ -40,5 +38,8 @@ tags:
   - EventCode
   - Message
   - ComputerName
-  - User 
+  - User
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
