@@ -458,8 +458,9 @@ jobs:
       - run:
           name: run detection testing
           command: |
-            cd security-content/automated_detection_testing/ci/python_ci_code
+            cd security-content
             source venv/bin/activate
+            cd automated_detection_testing/ci/python_ci_code
             python main.py -b ${CIRCLE_BRANCH}
 
 
