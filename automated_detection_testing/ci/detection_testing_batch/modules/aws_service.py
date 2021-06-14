@@ -37,3 +37,16 @@ def get_splunk_instance(region, key_name):
                         return instance
 
     return {}
+
+
+def add_detection_results_in_dynamo_db(region, uuid, uuid_test, detection, detection_path, result, time):
+    resource = boto3.resource('dynamodb', region_name=region)
+    table = resource.Table("dt-results")
+    response = table.put_item(Item= {
+        'uuid': uuid, 
+        'uuid_test': uuid_test,
+        'detection': detection, 
+        'detection_path': detection_path,
+        'result': result,
+        'time': time
+    })

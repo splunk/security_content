@@ -1,12 +1,13 @@
 
 import ansible_runner
 import yaml
+import uuid
 import sys
 import os
 import time
 import requests
 from modules.DataManipulation import DataManipulation
-from modules import splunk_sdk
+from modules import splunk_sdk, aws_service
 
 def prepare_detection_testing(ssh_key_name, private_key, splunk_ip, splunk_password):
     with open(ssh_key_name, 'w') as file :
@@ -24,11 +25,11 @@ def prepare_detection_testing(ssh_key_name, private_key, splunk_ip, splunk_passw
     update_ESCU_app(splunk_ip, ssh_key_name, splunk_password)
 
 
-def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files):
+def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test):
     test_index = 1
     result_tests = []
     for test_file in test_files:
-        result_test = test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index)
+        result_test = test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test)
         result_tests.append(result_test)
         if test_index == 10:
             test_index = 1
@@ -38,11 +39,7 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
     # delete test data
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password)
 
-    # write results into dynamodb
-    # uuid, detection, detection_path, test_file, result, time
-
     for result_test in result_tests:
-        print(result_test)
         if result_test['detection_result']['error']:
             print('Test failed for detection: ' + result_test['detection_result']['detection_name'] + ' ' + result_test['detection_result']['detection_file'])
         else:
@@ -51,7 +48,7 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
     return result_tests
 
 
-def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index):
+def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test):
     test_file_obj = load_file("security_content/" + test_file[2:])
     if not test_file_obj:
         return
@@ -99,6 +96,11 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
     result_detection['detection_name'] = test['name']
     result_detection['detection_file'] = test['file']
     result_test['detection_result'] = result_detection
+
+    if result_detection['error']:
+        aws_service.add_detection_results_in_dynamo_db('eu-central-1', str(uuid.uuid4()) , uuid_test, result_detection['detection_name'], result_detection['detection_file'], 'failed', str(int(time.time())))
+    else:
+        aws_service.add_detection_results_in_dynamo_db('eu-central-1', str(uuid.uuid4()), uuid_test, result_detection['detection_name'], result_detection['detection_file'], 'passed', str(int(time.time())))
 
     return result_test
 

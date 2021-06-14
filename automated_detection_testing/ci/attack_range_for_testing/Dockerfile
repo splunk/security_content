@@ -17,4 +17,4 @@ WORKDIR /app
 RUN pip3 install -r requirements.txt
 
 ENTRYPOINT ["python3", "detection_service.py"]
-CMD ["-a", "build"]
+CMD ["-a", "rebuild"]
