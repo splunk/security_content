@@ -14,7 +14,7 @@ def main(args):
     branch = args.branch
 
     # start aws batch job
-    client = boto3.client("batch")
+    client = boto3.client("batch", region_name="eu-central-1")
     response = client.submit_job(
         jobName='detection_testing',
         jobQueue='detection_testing_execution_queue',
