@@ -18,7 +18,7 @@ def main(args):
     response = client.submit_job(
         jobName='detection_testing',
         jobQueue='detection_testing_execution_queue',
-        jobDefinition='AndrewJobDefinition',
+        jobDefinition='detection_testing_execution',
         containerOverrides={
             'command': ['-b', branch, '-u', str(uuid.uuid4())]
         }
