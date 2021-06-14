@@ -32,7 +32,7 @@ class GithubService:
         changed_test_files = []
 
         if branch1 != 'develop':
-            differ = g.diff('--name-status', branch1, branch2)
+            differ = g.diff('--name-status', branch2, branch1)
             changed_files = differ.splitlines()
 
             for file_path in changed_files:

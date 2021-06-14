@@ -7,3 +7,4 @@ Jinja2==3.0.0
 PyYAML==5.4
 requests==2.25.1
 six==1.16.0
+splunk-sdk==1.6.12

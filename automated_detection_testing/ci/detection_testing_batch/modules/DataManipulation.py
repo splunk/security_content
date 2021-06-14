@@ -23,7 +23,7 @@ class DataManipulation:
 
 
     def manipulate_timestamp_exchange_logs(self, file_path):
-        path =  os.path.join(os.path.dirname(__file__), '../attack_data/' + file_path)
+        path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
         path =  path.replace('modules/../','')
 
         f = io.open(path, "r", encoding="utf-8")
@@ -50,7 +50,7 @@ class DataManipulation:
 
 
     def manipulate_timestamp_windows_event_log_raw(self, file_path):
-        path =  os.path.join(os.path.dirname(__file__), '../attack_data/' + file_path)
+        path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
         path =  path.replace('modules/../','')
 
         f = io.open(path, "r", encoding="utf-8")
@@ -87,7 +87,7 @@ class DataManipulation:
 
 
     def manipulate_timestamp_cloudtrail(self, file_path):
-        path =  os.path.join(os.path.dirname(__file__), '../attack_data/' + file_path)
+        path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
         path =  path.replace('modules/../','')
 
         f = io.open(path, "r", encoding="utf-8")
