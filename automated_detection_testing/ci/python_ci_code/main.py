@@ -14,6 +14,10 @@ def main(args):
     args = parser.parse_args()
     branch = args.branch
 
+    # vars
+    max_waiting_time = 3600
+    current_waiting_time = 0
+
     # create uuid 
     uuid_test = str(uuid.uuid4())
 
@@ -30,12 +34,29 @@ def main(args):
 
     resource = boto3.resource('dynamodb', region_name="eu-central-1")
     table = resource.Table("dt-results")
+
     response = table.get_item(
         Key={
             'uuid_test': uuid_test
         }
     )
+
     print(response)
+
+    # while max_waiting_time > current_waiting_time:
+
+    #     response = table.get_item(
+    #         Key={
+    #             'uuid_test': uuid_test
+    #         }
+    #     )
+
+    #     if len(response['Items']) == 0:
+    #         time.sleep(60)
+    #         current_waiting_time = current_waiting_time + 60
+    #     else:
+            # iterate through results
+
 
 
 
