@@ -12,11 +12,8 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   Command example - `[Byte[]]$var_code = [System.Convert]::FromBase64String(38uqIyMjQ6rG....` \
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 
-  | eval Encode=if(match(lower(Message),"frombase64string"),1,0) 
-  | addtotals fieldname=Score Encode
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Score) by Encode OpCode ComputerName User EventCode Message
-  | where Encode = 1
+search: '`powershell` EventCode=4104 Message=*frombase64string*
+  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `powershell_fileless_script_contains_base64_encoded_content_filter`'

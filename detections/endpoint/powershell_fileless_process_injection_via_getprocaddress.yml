@@ -12,11 +12,8 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   In use, `$var_gpa = $var_unsafe_native_methods.GetMethod(GetProcAddress` and later referenced/executed elsewhere. \
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 
-  | eval getproc=if(match(lower(Message),"getprocaddress"),1,0) 
-  | addtotals fieldname=Score getproc
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Score) by getproc OpCode ComputerName User EventCode Message
-  | where getproc = 1
+search: '`powershell` EventCode=4104 Message=*getprocaddress*
+  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `powershell_fileless_process_injection_via_getprocaddress_filter`'

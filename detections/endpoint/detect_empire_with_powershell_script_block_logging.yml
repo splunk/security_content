@@ -10,11 +10,8 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   This analytic identifies the common PowerShell stager used by PowerShell-Empire. Each stager that may use PowerShell all uses the same pattern. The initial HTTP will be base64 encoded and use `system.net.webclient`. Note that some obfuscation may evade the analytic. \
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 
-  | eval empire=if(match(lower(Message),"system.net.webclient") AND  match(lower(Message), "frombase64string") ,1,0)
-  | addtotals fieldname=Score empire
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Score) by empire OpCode ComputerName User EventCode Message
-  | where empire = 1
+search: '`powershell` EventCode=4104  (Message=*system.net.webclient* AND Message=*frombase64string*)
+  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `detect_empire_with_powershell_script_block_logging_filter`'

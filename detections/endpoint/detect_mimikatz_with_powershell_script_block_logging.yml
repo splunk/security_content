@@ -10,11 +10,8 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   This analytic identifies common Mimikatz functions that may be identified in the script block, including `mimikatz`. This will catch the most basic use cases for Pass the Ticket, Pass the Hash and `-DumprCreds`. \
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 
-  | eval mimikatz=if(match(lower(Message),"mimikatz") OR match(lower(Message), "-dumpcr") OR match(lower(Message), "sekurlsa::pth") OR match(lower(Message), "kerberos::ptt") OR match(lower(Message), "kerberos::golden") ,1,0)
-  | addtotals fieldname=Score mimikatz
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Score) by mimikatz OpCode ComputerName User EventCode Message
-  | where mimikatz = 1
+search: '`powershell` EventCode=4104 Message IN (*mimikatz*, *-dumpcr*, *sekurlsa::pth*, *kerberos::ptt*, *kerberos::golden*)
+  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `detect_mimikatz_with_powershell_script_block_logging_filter`'

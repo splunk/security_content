@@ -10,11 +10,8 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")` taken from Powershell-Empire. \
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 
-  | eval amsi=if(match(lower(Message),"system.management.automation.amsi"),1,0) 
-  | addtotals fieldname=Score amsi
-  | stats count min(_time) as firstTime max(_time) as lastTime values(Score) by amsi OpCode ComputerName User EventCode Message
-  | where amsi = 1
+search: '`powershell` EventCode=4104 Message=*system.management.automation.amsi*
+  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `unloading_amsi_via_reflection_filter`'
