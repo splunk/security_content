@@ -457,6 +457,7 @@ jobs:
             pip install -q -r requirements.txt
       - run:
           name: run detection testing
+          no_output_timeout: 120m
           command: |
             cd security-content/automated_detection_testing/ci/python_ci_code
             virtualenv --python=/usr/bin/python3 --clear venv
