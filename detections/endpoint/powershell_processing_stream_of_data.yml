@@ -10,11 +10,10 @@ description: this search is to detect suspicious powershell that processing comp
   stream data. This technique was seen in obfuscated powershell or powershell with
   embedded .net or binary files that are stream flated and will be deflated during
   execution.
-search: '`powershell` EventCode=4104 Message = "*IO.Compression.*" OR Message = "*IO.StreamReader*" OR Message = "*]::Decompress*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `powershell_processing_stream_of_data_filter`'
+search: '`powershell` EventCode=4104 Message = "*IO.Compression.*" OR Message = "*IO.StreamReader*"
+  OR Message = "*]::Decompress*" | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_processing_stream_of_data_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
