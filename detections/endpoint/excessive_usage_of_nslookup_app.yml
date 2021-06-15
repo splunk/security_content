@@ -32,6 +32,7 @@ tags:
   - Suspicious DNS Traffic
   - Dynamic DNS
   - Command and Control
+  - Data Exfiltration
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
