@@ -22,26 +22,36 @@ def main(args):
     uuid_test = str(uuid.uuid4())
 
     # start aws batch job
-    client = boto3.client("batch", region_name="eu-central-1")
-    response = client.submit_job(
-        jobName='detection_testing',
-        jobQueue='detection_testing_execution_queue',
-        jobDefinition='detection_testing_execution:2',
-        containerOverrides={
-            'command': ['-b', branch, '-u', uuid_test]
+    # client = boto3.client("batch", region_name="eu-central-1")
+    # response = client.submit_job(
+    #     jobName='detection_testing',
+    #     jobQueue='detection_testing_execution_queue',
+    #     jobDefinition='detection_testing_execution:2',
+    #     containerOverrides={
+    #         'command': ['-b', branch, '-u', uuid_test]
+    #     }
+    # )
+
+    dynamodb = boto3.client('dynamodb', region_name="eu-central-1")
+    response = dynamodb.query(
+        TableName="dt-results",
+        KeyConditionExpression='uuid_test = :uuid_test',
+        ExpressionAttributeValues={
+                ':uuid_test': {'S': '3a8b5ea8-2f89-4006-b684-8e7e564f4047'}
         }
     )
+    print(response['Items'])
 
-    resource = boto3.resource('dynamodb', region_name="eu-central-1")
-    table = resource.Table("dt-results")
+    # resource = boto3.resource('dynamodb', region_name="eu-central-1")
+    # table = resource.Table("dt-results")
 
-    response = table.get_item(
-        Key={
-            'uuid_test': uuid_test
-        }
-    )
+    # response = table.get_item(
+    #     Key={
+    #         'uuid_test': uuid_test
+    #     }
+    # )
 
-    print(response)
+    # print(response)
 
 
     # while max_waiting_time > current_waiting_time:
