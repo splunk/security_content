@@ -78,7 +78,7 @@ def main(args):
         else:
             print('Test passed for detection: ' + item['detection']['S'] + ' ' + item['detection_path']['S'])
 
-    return not test_passed
+    sys.exit(not test_passed)
 
 
 if __name__ == "__main__":
