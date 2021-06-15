@@ -9,13 +9,11 @@ datamodel:
 description: This search is to detect a powershell script that do a recon to the targetted
   or compromised machine. This technique is common nowadays to know the running process,
   services
-search: '`powershell` EventCode=4104 | eval pwsh  = if(match(Message, "SELECT") OR
-  match(Message, "Get-WmiObject"), 1, 0) | eval recon = if(match(Message, "Win32_Bios")
-  OR match(Message,"Win32_OperatingSystem") OR match(Message,"Win32_Processor") OR
-  match(Message,"Win32_ComputerSystem") OR match(Message,"Win32_ComputerSystemProduct")
-  OR match(Message,"Win32_ShadowCopy"), 1,0) | addtotals fieldname=score pwsh, recon
-  | where score = 2 | stats count min(_time) as firstTime max(_time) as lastTime by
-  score EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+search: '`powershell` EventCode=4104 (Message= "*SELECT*" OR Message= "*Get-WmiObject*") 
+  AND (Message= "*Win32_Bios*" OR Message= "*Win32_OperatingSystem*" OR Message= "*Win32_Processor*" 
+  OR Message= "*Win32_ComputerSystem*" OR Message= "*Win32_ComputerSystemProduct*" OR Message= "*Win32_ShadowCopy*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `recon_using__wmi_class_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs from your endpoints. make sure you enable needed registry
@@ -36,7 +34,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - score
   - EventCode
   - Message
   - ComputerName

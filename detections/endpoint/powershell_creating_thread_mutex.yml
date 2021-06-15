@@ -10,10 +10,11 @@ description: This search is to detect suspicious powershell script that using mu
   function. This function is commonly seen in some obfuscated powershell script to
   make sure that only one instance of there process is running to a compromise machine
   which is also a good indicator to check why powershell script is using it.
-search: '`powershell` EventCode=4104 | eval mutex = if(match(Message, "Threading.Mutex"),1,0)
-  | addtotals fieldname=Score mutex | where mutex= 1 | stats count min(_time) as firstTime
-  max(_time) as lastTime by Score EventCode Message ComputerName User | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `powershell_creating_thread_mutex_filter`'
+search: '`powershell` EventCode=4104 Message = "*Threading.Mutex*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `powershell_creating_thread_mutex_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
@@ -34,7 +35,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Score
   - EventCode
   - Message
   - ComputerName
