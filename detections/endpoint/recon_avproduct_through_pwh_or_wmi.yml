@@ -9,11 +9,10 @@ datamodel:
 description: This search is to detect a powershell script that do a recon or checking
   to the av product install on the machine. This technique is commonly seen in APT
   or malware like ransomware to list all security product and disable it.
-search: '`powershell` EventCode=4104 Message = "*SELECT*" AND (Message = "*AntiVirusProduct*" OR Message = "*AntiSpywareProduct*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `recon_avproduct_through_pwh_or_wmi_filter`'
+search: '`powershell` EventCode=4104 Message = "*SELECT*" AND (Message = "*AntiVirusProduct*"
+  OR Message = "*AntiSpywareProduct*") | stats count min(_time) as firstTime max(_time)
+  as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `recon_avproduct_through_pwh_or_wmi_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs from your endpoints. make sure you enable needed registry
   to monitor this event.
