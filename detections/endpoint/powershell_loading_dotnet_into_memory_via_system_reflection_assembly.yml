@@ -1,4 +1,4 @@
-name: PowerShell Loading DotNET into Memory via System.Reflection.Assembly
+name: PowerShell Loading DotNET into Memory via System Reflection Assembly
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
 version: 1
 date: '2021-06-10'

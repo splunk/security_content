@@ -1,6 +1,6 @@
-name: PowerShell Loading DotNET into Memory via System.Reflection.Assembly Unit Test
+name: PowerShell Loading DotNET into Memory via System Reflection Assembly Unit Test
 tests:
-- name: PowerShell Loading DotNET into Memory via System.Reflection.Assembly
+- name: PowerShell Loading DotNET into Memory via System Reflection Assembly
   file: endpoint/powershell_loading_dotnet_into_memory_via_system_reflection_assembly.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
