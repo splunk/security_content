@@ -1,4 +1,4 @@
-name: PowerShell Loading .NET into Memory via System.Reflection.Assembly
+name: PowerShell Loading DotNET into Memory via System.Reflection.Assembly
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
 version: 1
 date: '2021-06-10'
@@ -14,7 +14,7 @@ search: '`powershell` EventCode=4104 Message="*[system.reflection.assembly]::loa
   | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `powershell_loading__net_into_memory_via_system_reflection_assembly_filter`'
+  | `powershell_loading_dotnet_into_memory_via_system_reflection_assembly_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: False positives will be limited to 
 references:
