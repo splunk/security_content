@@ -15,70 +15,50 @@ def main(args):
     branch = args.branch
 
     # vars
-    max_waiting_time = 3600
+    max_waiting_time = 1200
     current_waiting_time = 0
 
     # create uuid 
     uuid_test = str(uuid.uuid4())
 
     # start aws batch job
-    # client = boto3.client("batch", region_name="eu-central-1")
-    # response = client.submit_job(
-    #     jobName='detection_testing',
-    #     jobQueue='detection_testing_execution_queue',
-    #     jobDefinition='detection_testing_execution:2',
-    #     containerOverrides={
-    #         'command': ['-b', branch, '-u', uuid_test]
-    #     }
-    # )
-
-    dynamodb = boto3.client('dynamodb', region_name="eu-central-1")
-    response = dynamodb.query(
-        TableName='dt-results',
-        IndexName='uuid_test-index',
-        KeyConditionExpression='uuid_test = :uuid_test',
-        ExpressionAttributeValues={
-                ':uuid_test': {'S': '3a8b5ea8-2f89-4006-b684-8e7e564f4047'}
+    client = boto3.client("batch", region_name="eu-central-1")
+    response = client.submit_job(
+        jobName='detection_testing',
+        jobQueue='detection_testing_execution_queue',
+        jobDefinition='detection_testing_execution:2',
+        containerOverrides={
+            'command': ['-b', branch, '-u', uuid_test]
         }
     )
-    print(response['Items'])
 
 
-    # resource = boto3.resource('dynamodb', region_name="eu-central-1")
-    # table = resource.Table("dt-results")
+    while max_waiting_time > current_waiting_time:
 
-    # response = table.get_item(
-    #     Key={
-    #         'uuid_test': uuid_test
-    #     }
-    # )
+        dynamodb = boto3.client('dynamodb', region_name="eu-central-1")
+        response = dynamodb.query(
+            TableName='dt-results',
+            IndexName='uuid_test-index',
+            KeyConditionExpression='uuid_test = :uuid_test',
+            ExpressionAttributeValues={
+                    ':uuid_test': {'S': uuid_test}
+            }
+        )        
 
-    # print(response)
-
-
-    # while max_waiting_time > current_waiting_time:
-
-    #     response = table.get_item(
-    #         Key={
-    #             'uuid_test': uuid_test
-    #         }
-    #     )
-
-    # if len(response['Items']) == 0:
-    #     time.sleep(60)
-    #     current_waiting_time = current_waiting_time + 60
-    # else:
-    
-    test_passed = True
-
-    for item in response['Items']:
-        if item['result']['S'] == 'failed':
-            test_passed = False
-            print('Test failed for detection: ' + item['detection']['S'] + ', ' + item['detection_path']['S'])
+        if len(response['Items']) == 0:
+            time.sleep(60)
+            current_waiting_time = current_waiting_time + 60
         else:
-            print('Test passed for detection: ' + item['detection']['S'] + ', ' + item['detection_path']['S'])
+            test_passed = True
+            for item in response['Items']:
+                if item['result']['S'] == 'failed':
+                    test_passed = False
+                    print('Test failed for detection: ' + item['detection']['S'] + ', ' + item['detection_path']['S'])
+                else:
+                    print('Test passed for detection: ' + item['detection']['S'] + ', ' + item['detection_path']['S'])
+            sys.exit(not test_passed)
 
-    sys.exit(not test_passed)
+    sys.exit(1)
 
 
 if __name__ == "__main__":
