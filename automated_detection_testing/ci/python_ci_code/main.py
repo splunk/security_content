@@ -48,7 +48,7 @@ def main(args):
 
         test_done = True
         for item in response['Items']:
-            if item['state']['S'] == 'running':
+            if item['status']['S'] == 'running':
                 test_done = False
 
         if len(response['Items']) == 0 or (not test_done):
