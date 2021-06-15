@@ -10,10 +10,9 @@ description: this search is to detect suspicious powershell script that using me
   stream as new object backstore. This technique is commonly seen in malicious powershell
   contain a stream flate data and will be decompressed in memory to run or drop the
   actual payload to the compromise machine.
-search: '`powershell` EventCode=4104 Message = "*New-Object IO.MemoryStream*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+search: '`powershell` EventCode=4104 Message = "*New-Object IO.MemoryStream*" | stats
+  count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName
+  User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_using_memory_as_backing_store_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
