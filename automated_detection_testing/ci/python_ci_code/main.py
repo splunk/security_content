@@ -38,7 +38,7 @@ def main(args):
         IndexName='uuid_test-index',
         KeyConditionExpression='uuid_test = :uuid_test',
         ExpressionAttributeValues={
-                ':uuid_test': {'S': '3a8b5ea8-2f89-4006-b684-8e7e564f4047'}
+                ':uuid_test': '3a8b5ea8-2f89-4006-b684-8e7e564f4047'
         }
     )
     print(response['Items'])
