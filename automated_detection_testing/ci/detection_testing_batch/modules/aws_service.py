@@ -39,7 +39,7 @@ def get_splunk_instance(region, key_name):
     return {}
 
 
-def add_detection_results_in_dynamo_db(region, uuid, uuid_test, detection, detection_path, result, time):
+def add_detection_results_in_dynamo_db(region, uuid, uuid_test, detection, detection_path, time):
     resource = boto3.resource('dynamodb', region_name=region)
     table = resource.Table("dt-results")
     response = table.put_item(Item= {
@@ -47,6 +47,38 @@ def add_detection_results_in_dynamo_db(region, uuid, uuid_test, detection, detec
         'uuid_test': uuid_test,
         'detection': detection, 
         'detection_path': detection_path,
-        'result': result,
-        'time': time
+        'time': time,
+        'status': 'running'
     })
+
+
+def update_detection_results_in_dynamo_db(region, uuid, result):
+    resource = boto3.resource('dynamodb', region_name=region)
+    table = resource.Table("dt-results")
+    response = table.update_item(
+        Key={
+            'uuid': uuid
+        },
+        UpdateExpression="set #ts=:s",
+        ExpressionAttributeValues={
+            ':s': 'done'
+        },
+        ExpressionAttributeNames={
+            "#ts": "status"
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    response = table.update_item(
+        Key={
+            'uuid': uuid
+        },
+        UpdateExpression="set #ts=:s",
+        ExpressionAttributeValues={
+            ':s': result
+        },
+        ExpressionAttributeNames={
+            "#ts": "result"
+        },
+        ReturnValues="UPDATED_NEW"
+    )     

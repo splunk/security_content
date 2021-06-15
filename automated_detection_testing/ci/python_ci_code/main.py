@@ -32,6 +32,7 @@ def main(args):
         }
     )
 
+    # it stops after the first result, it will need to wait for all results. Changes needed
 
     while max_waiting_time > current_waiting_time:
 
@@ -45,7 +46,12 @@ def main(args):
             }
         )        
 
-        if len(response['Items']) == 0:
+        test_done = True
+        for item in response['Items']:
+            if item['state']['S'] == 'running':
+                test_done = False
+
+        if len(response['Items']) == 0 or (not test_done):
             time.sleep(60)
             current_waiting_time = current_waiting_time + 60
         else:

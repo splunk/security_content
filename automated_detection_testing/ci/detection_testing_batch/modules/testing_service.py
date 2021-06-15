@@ -29,7 +29,8 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
     test_index = 1
     result_tests = []
     for test_file in test_files:
-        result_test = test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test)
+        uuid_var = str(uuid.uuid4())
+        result_test = test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test, uuid_var)
         result_tests.append(result_test)
         if test_index == 10:
             test_index = 1
@@ -48,11 +49,14 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
     return result_tests
 
 
-def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test):
+def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test, uuid_var):
     test_file_obj = load_file("security_content/" + test_file[2:])
     if not test_file_obj:
         return
     #print(test_file_obj)
+
+    # write entry dynamodb
+    aws_service.add_detection_results_in_dynamo_db('eu-central-1', uuid_var , uuid_test, test_file_obj['tests'][0]['name'], test_file_obj['tests'][0]['file'], str(int(time.time())))
 
     epoch_time = str(int(time.time()))
     folder_name = "attack_data_" + epoch_time
@@ -98,9 +102,9 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
     result_test['detection_result'] = result_detection
 
     if result_detection['error']:
-        aws_service.add_detection_results_in_dynamo_db('eu-central-1', str(uuid.uuid4()) , uuid_test, result_detection['detection_name'], result_detection['detection_file'], 'failed', str(int(time.time())))
+        aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'failed')
     else:
-        aws_service.add_detection_results_in_dynamo_db('eu-central-1', str(uuid.uuid4()), uuid_test, result_detection['detection_name'], result_detection['detection_file'], 'passed', str(int(time.time())))
+        aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'passed')
 
     return result_test
 
