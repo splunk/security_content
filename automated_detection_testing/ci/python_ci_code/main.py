@@ -34,13 +34,15 @@ def main(args):
 
     dynamodb = boto3.client('dynamodb', region_name="eu-central-1")
     response = dynamodb.query(
-        TableName="dt-results",
+        TableName='dt-results',
+        IndexName='uuid_test-index',
         KeyConditionExpression='uuid_test = :uuid_test',
         ExpressionAttributeValues={
                 ':uuid_test': {'S': '3a8b5ea8-2f89-4006-b684-8e7e564f4047'}
         }
     )
     print(response['Items'])
+
 
     # resource = boto3.resource('dynamodb', region_name="eu-central-1")
     # table = resource.Table("dt-results")
