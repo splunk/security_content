@@ -73,10 +73,12 @@ def main(args):
 
     for item in response['Items']:
         if item['result']['S'] == 'failed':
+            test_passed = False
             print('Test failed for detection: ' + item['detection']['S'] + ' ' + item['detection_path']['S'])
         else:
             print('Test passed for detection: ' + item['detection']['S'] + ' ' + item['detection_path']['S'])
 
+    return not test_passed
 
 
 if __name__ == "__main__":
