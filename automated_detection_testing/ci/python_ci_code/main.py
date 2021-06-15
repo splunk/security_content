@@ -38,7 +38,7 @@ def main(args):
         IndexName='uuid_test-index',
         KeyConditionExpression='uuid_test = :uuid_test',
         ExpressionAttributeValues={
-                ':uuid_test': '3a8b5ea8-2f89-4006-b684-8e7e564f4047'
+                ':uuid_test': {'S': '3a8b5ea8-2f89-4006-b684-8e7e564f4047'}
         }
     )
     print(response['Items'])
@@ -64,12 +64,18 @@ def main(args):
     #         }
     #     )
 
-    #     if len(response['Items']) == 0:
-    #         time.sleep(60)
-    #         current_waiting_time = current_waiting_time + 60
-    #     else:
-            # iterate through results
+    # if len(response['Items']) == 0:
+    #     time.sleep(60)
+    #     current_waiting_time = current_waiting_time + 60
+    # else:
+    
+    test_passed = True
 
+    for item in response['Items']:
+        if item['result']['S'] == 'failed':
+            print('Test failed for detection: ' + item['detection']['S'] + ' ' + item['detection_path']['S'])
+        else:
+            print('Test passed for detection: ' + item['detection']['S'] + ' ' + item['detection_path']['S'])
 
 
 
