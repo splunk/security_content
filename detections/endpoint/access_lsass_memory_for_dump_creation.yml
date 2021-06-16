@@ -57,15 +57,14 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Credential Access
-  message: process $SourceImage$ with id $TargetProcessId$ was detected trying to dump the memory of LSASS on $dest$.
-  Actor tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS).
+  message: process $SourceImage$ with id $TargetProcessId$ was detected trying to dump the memory of LSASS on $dest$. Actor tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS).
   observable:
-    - name: dest
-      type: Endpoint
-      role:
-        - Victim
-    - name: TargetProcessId
-      type: Process
-      role:
-        - Child Process
-        - Target
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: TargetProcessId
+    type: Process
+    role:
+    - Child Process
+    - Target
