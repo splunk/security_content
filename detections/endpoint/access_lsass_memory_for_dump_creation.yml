@@ -50,3 +50,31 @@ tags:
   - SourceImage
   - SourceProcessId
   security_domain: endpoint
+  impact: 3
+  confidence: 8
+  context:
+  - Scope:Network
+  - Local
+  - Signature
+  - RareDomain
+  message: the $src$ is infected by $client$
+  risk_score: 50
+  risk_observable:
+    - name: dest
+      type: User
+      role: 
+      - Target
+      - Victim
+    - name: user
+      type: Endpoint
+      role: 
+      - Target
+      - Victim
+
+  threat_observable:
+      - name: TargetImage
+        type: TargetImage
+        role: 
+        - Known Bad
+
+      
