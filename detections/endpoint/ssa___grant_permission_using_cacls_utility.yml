@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: This analytic identifies potential adversaries that modify the security
   permission of a specific file or directory. This technique is commonly seen in APT
-  tradecraft and coinminer scripts to evade detections and restrict access to their
+  tradecraft, ransomware and coinminer scripts to evade detections and restrict access to their
   component files.
 search: '| from read_ssa_enriched_events() 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), 
