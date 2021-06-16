@@ -23,7 +23,7 @@ import argparse
 import json
 
 # this is the map to modify for replacement of field values from the input data to the output
-input_output_map = {'CommandLine':'process_name', 'ParentBaseFileName':'parent_process_name'}
+input_output_map = {'CommandLine': 'process_name', 'ParentBaseFileName': 'parent_process_name'}
 
 # some data sets are missing a full path of the process name for LOBLAS testing
 process_name_default_prefix = 'C:\\Program Files\\'
@@ -37,8 +37,8 @@ parser = argparse.ArgumentParser(description='''\
         Script that takes input of json file with named fields corresponding to active directory events
         and merges these with template events defined by attack range samples in /tests/util/data_templates/
         and returns a set of formatted json events.''',
-        usage='use "python3 %(prog)s --help" for more information',
-        formatter_class=argparse.RawDescriptionHelpFormatter)
+                                 usage='use "python3 %(prog)s --help" for more information',
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('-i', '--input', default=default_input_file, type=str,
                     help='input json file')
@@ -56,7 +56,7 @@ for line in open(args.template, 'r'):
     template_json.append(template_line)
 
 print(template_json)
-# hack for bypassing extra value error with json not wrapped in list
+# hack for bypassing extra value error with json not wrapped in correct data structure format for python
 # https://stackoverflow.com/questions/21058935/python-json-loads-shows-valueerror-extra-data
 input_json = []
 for line in open(args.input, 'r'):
@@ -64,30 +64,12 @@ for line in open(args.input, 'r'):
 
     # mix and merge the data
     for k, v in input_output_map.items():
-       new_output_line = template_json
-       # print(new_output_line)
-       input_key = k
-       output_key = v
-       input_value = formatted_input_line.get(input_key)
-       template_value = template_line.get(output_key)
-       new_output_line[output_key][0] = input_value
-       #print(new_output_line)
-
-
-    # input_json.append(formatted_line)
-    # for x in input_json:
-    #     keys = x.keys()
-    #     print(keys)
-    #     values = x.values()
-    #     print(values)
-
-# grab our template for output
-# template_json = json.load(args.template)
-# print(template_json)
-
-
-# for line in input_json:
-#     for k, v in input_output_map.items():
-#         print(k)
-#         print(v)
+        # @todo change using index position to less brittle access method
+        new_output_line = template_json[0]
+        # print(new_output_line)
+        input_key = k
+        output_key = v
+        input_value = formatted_input_line.get(input_key)
+        new_output_line[output_key] = input_value
+        print(new_output_line)
 
