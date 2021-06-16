@@ -20,13 +20,9 @@ def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
     for file in sorted(glob.glob(manifest_files)):
-
-        # skip deprecated detections from being added to products
-        if 'deprecated' not in file:
-            if VERBOSE:
-                print("processing manifest: {0}".format(file))
-            files.append(load_file(file))
-            
+        if VERBOSE:
+            print("processing manifest: {0}".format(file))
+        files.append(load_file(file))
     return files
 
 
@@ -34,6 +30,11 @@ def load_file(file_path):
     with open(file_path, 'r', encoding="utf-8") as stream:
         try:
             file = list(yaml.safe_load_all(stream))[0]
+
+            # mark any files that have been deprecated
+            if 'deprecated' in file_path:
+                file['deprecated'] = True
+
         except yaml.YAMLError as exc:
             print(exc)
             sys.exit("ERROR: reading {0}".format(file_path))
@@ -79,6 +80,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     @param deployments:
     @return: the savedsearches.conf file located in package/default/
     '''
+
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
@@ -553,7 +555,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        generate_mitre_lookup(OUTPUT_PATH)
+        #generate_mitre_lookup(OUTPUT_PATH)
     except Exception as e:
         print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
@@ -571,10 +573,16 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
     workbench_panels_objects = generate_workbench_panels(objects["response_tasks"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
 
+    # calculate deprecation totals
+    deprecated = []
+    for d in objects['detections']:
+        if 'deprecated' in d:
+            deprecated.append(d)
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), story_path))
         print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
+        print("{0} detections have been set to visible = false due to deprecation on {1}".format(len(deprecated), detection_path))
         print("{0} response tasks have been successfully written to {1}".format(len(objects["response_tasks"]), detection_path))
         print("{0} baselines have been successfully written to {1}".format(len(objects["baselines"]), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
