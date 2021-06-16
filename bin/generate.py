@@ -25,6 +25,12 @@ def load_objects(file_path, VERBOSE, REPO_PATH):
         files.append(load_file(file))
     return files
 
+def process_deprecated(file,file_path):
+    DESCRIPTION_ANNOTATION = "WARNING, this detection has been marked deprecated by the Splunk Threat Research team, this means that it will no longer be maintained or supported. If you have any questions feel free to email us at: research@splunk.com. "
+    if 'deprecated' in file_path:
+        file['deprecated'] = True
+        file['description'] = DESCRIPTION_ANNOTATION + file['description']
+    return file
 
 def load_file(file_path):
     with open(file_path, 'r', encoding="utf-8") as stream:
@@ -32,8 +38,7 @@ def load_file(file_path):
             file = list(yaml.safe_load_all(stream))[0]
 
             # mark any files that have been deprecated
-            if 'deprecated' in file_path:
-                file['deprecated'] = True
+            file = process_deprecated(file,file_path)
 
         except yaml.YAMLError as exc:
             print(exc)
@@ -582,7 +587,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), story_path))
         print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
-        print("{0} detections have been set to visible = false due to deprecation on {1}".format(len(deprecated), detection_path))
+        print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
         print("{0} response tasks have been successfully written to {1}".format(len(objects["response_tasks"]), detection_path))
         print("{0} baselines have been successfully written to {1}".format(len(objects["baselines"]), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
