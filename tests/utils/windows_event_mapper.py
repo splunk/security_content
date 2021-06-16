@@ -58,7 +58,7 @@ for line in open(args.template, 'r'):
 print(template_json)
 # hack for bypassing extra value error with json not wrapped in correct data structure format for python
 # https://stackoverflow.com/questions/21058935/python-json-loads-shows-valueerror-extra-data
-input_json = []
+output_json = []
 for line in open(args.input, 'r'):
     formatted_input_line = json.loads(line)
 
@@ -71,5 +71,15 @@ for line in open(args.input, 'r'):
         output_key = v
         input_value = formatted_input_line.get(input_key)
         new_output_line[output_key] = input_value
-        print(new_output_line)
+        # print(new_output_line)
 
+    output_json.append(new_output_line)
+
+with open(args.output, 'w') as f:
+    json.dump(output_json, f)
+
+# output_file = open(args.output, "w")
+# for element in output_json:
+#     output_file.write(element + "\n")
+#
+# output_file.close()
