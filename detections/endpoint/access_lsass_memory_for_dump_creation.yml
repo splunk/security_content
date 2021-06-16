@@ -50,13 +50,15 @@ tags:
   - SourceImage
   - SourceProcessId
   security_domain: endpoint
-  impact: 7
+  impact: 70
   confidence: 90
+  # (impact * confidence)/100
+  risk_score: 63
   context:
   - Source:Endpoint
   - Stage:Credential Access
-  message: Process $SourceImage$ with id $TargetProcessId$ was detected trying to dump the memory of LSASS on $dest$.
-  Actor do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS).
+  message: process $SourceImage$ with id $TargetProcessId$ was detected trying to dump the memory of LSASS on $dest$.
+  Actor tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS).
   risk_observable:
     - name: dest
       type: Endpoint
