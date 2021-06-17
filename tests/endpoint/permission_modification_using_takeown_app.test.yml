@@ -1,0 +1,12 @@
+name: Permission Modification using Takeown App Unit Test
+tests:
+- name: Permission Modification using Takeown App
+  file: endpoint/permission_modification_using_takeown_app.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
