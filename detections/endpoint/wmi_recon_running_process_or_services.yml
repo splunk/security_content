@@ -1,0 +1,43 @@
+name: WMI Recon Running Process Or Services
+id: b5cd5526-cce7-11eb-b3bd-acde48001122
+version: 1
+date: '2021-06-14'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This seearch is to detect a suspicious powershell/wmi query to recon
+  running process and running services. This technique is commonly seen in malware
+  and apt attack to mapped all running security application or services on the compromised
+  machine.
+search: '`powershell` EventCode=4104 Message= "*SELECT*" AND (Message="*Win32_Process*"
+  OR Message="*Win32_Service*") | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs from your endpoints. make sure you enable needed registry
+  to monitor this event.
+known_false_positives: network administrator may used this command for checking purposes
+references:
+- https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/
+tags:
+  analytic_story:
+  - Malicious PowerShell
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1592
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
