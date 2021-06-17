@@ -1,0 +1,47 @@
+name: Start Up During Safe Mode Boot
+id: c6149154-c9d8-11eb-9da7-acde48001122
+version: 1
+date: '2021-06-10'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a modification or registry add to the safeboot
+  registry as an autostart mechanism. This technique was seen in some ransomware to
+  automatically execute its code upon a safe mode boot.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\System\\CurrentControlSet\\Control\\SafeBoot\\Minimal\*"
+  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `start_up_during_safe_mode_boot_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: updated windows application needed in safe boot may used this
+  registry
+references:
+- https://malware.news/t/threat-analysis-unit-tau-threat-intelligence-notification-snatch-ransomware/36365
+tags:
+  analytic_story:
+  - Ransomware
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1547.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
