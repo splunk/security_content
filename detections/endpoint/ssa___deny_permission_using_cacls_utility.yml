@@ -32,6 +32,8 @@ tags:
   - XMRig
   kill_chain_phases:
   - Exploitation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
   mitre_attack_id:
   - T1222
   product:
