@@ -1,0 +1,43 @@
+name: Powershell Creating Thread Mutex
+id: 637557ec-ca08-11eb-bd0a-acde48001122
+version: 1
+date: '2021-06-10'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect suspicious powershell script that using mutex
+  function. This function is commonly seen in some obfuscated powershell script to
+  make sure that only one instance of there process is running to a compromise machine
+  which is also a good indicator to check why powershell script is using it.
+search: '`powershell` EventCode=4104 Message = "*Threading.Mutex*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_creating_thread_mutex_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs  from your endpoints. make sure you enable needed
+  registry to monitor this event.
+known_false_positives: powershell developer may used this function in their script
+  for instance checking too.
+references:
+- https://isc.sans.edu/forums/diary/Some+Powershell+Malicious+Code/22988/
+tags:
+  analytic_story:
+  - Malicious PowerShell
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1027.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
