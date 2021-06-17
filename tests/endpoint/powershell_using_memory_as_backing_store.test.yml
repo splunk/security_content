@@ -1,0 +1,12 @@
+name: Powershell Using memory As Backing Store Unit Test
+tests:
+- name: Powershell Using memory As Backing Store
+  file: endpoint/powershell_using_memory_as_backing_store.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: WinEventLog
