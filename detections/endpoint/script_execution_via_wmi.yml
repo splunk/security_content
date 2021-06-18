@@ -7,13 +7,13 @@ type: batch
 datamodel: []
 description: 'This search looks for scripts launched via WMI. \
 
-  1. It is located in the %windir%\System32\wbem directory. "wbem" stands for "Web-Based Enterprise Management" and this directory houses core components related to Windows Management Instrumentation (WMI), which is Microsoft’s implementation of the WBEM standard \ 
+  1. It is located in the \System32\wbem directory. "wbem" stands for "Web-Based Enterprise Management" and this directory houses core components related to Windows Management Instrumentation (WMI), which is Microsoft’s implementation of the WBEM standard \ 
 
   1. It has the following file description - WMI Standard Event Consumer - scripting. An event consumer is a WMI component that performs an action in response to a trigger. In the case of scrcons.exe, it executes Windows Script Host (WSH) code (i.e., JScript and VBScript) in response to some event occurring. More specifically, it is the code that implements the ActiveScriptEventConsumer WMI event class \
   
-  1. Because WMI is implemented as DCOM, scrcons.exe is expected to launch as a child process of the DcomLaunch service (command line %windir%\system32\svchost.exe -k DcomLaunch -p), as was the case in this instance \ 
+  1. Because WMI is implemented as DCOM, scrcons.exe is expected to launch as a child process of the DcomLaunch service (command line \system32\svchost.exe -k DcomLaunch -p), as was the case in this instance \ 
   
-  1. It is expected to have the following command line: %windir%\System32\wbem\scrcons.exe -Embedding \ 
+  1. It is expected to have the following command line: \System32\wbem\scrcons.exe -Embedding \ 
   
   1. The process is expected to execute as NT AUTHORITY\SYSTEM and any child processes of scrcons.exe are expected to execute with system privileges, which was also the case with dllhost.exe.'
 
