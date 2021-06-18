@@ -101,7 +101,7 @@ def test_detection(test, args):
             # Download data to temporal folder
             for unit in test_desc['tests']:
                 detection = get_detection(unit)
-                if detection['type'] == "SSA":
+                if detection['type'] == 'streaming':
                     log(logging.INFO, "Testing %s" % name)
                     # Prepare data
                     data_dir = tempfile.TemporaryDirectory(prefix="data", dir=get_path("%s" % SSML_CWD))
