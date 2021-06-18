@@ -17,16 +17,16 @@ description: The following analytic identifies the use of WMI Event Subscription
 
   Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
   
-search: '`sysmon` EventID=20 Destination IN (*powershell*, *wmic*, *iex*, *rundll32.exe*, *\\temp\\*)
+search: '`sysmon` EventID=20 
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer User Destination
 | `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)` 
+| `security_content_ctime(lastTime)`
 | `detect_wmi_event_subscription_persistence_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with that provide WMI Event Subscription from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA and have enabled EventID 19, 20 and 21. Tune and filter known good to limit the volume.
-known_false_positives: Limited false positives will be present, filter as needed. For tuning, add any additional LOLBin's for further depth of coverage.
+known_false_positives: It is possible some applications will create a consumer and may be required to be filtered. For tuning, add any additional LOLBin's for further depth of coverage.
 references:
   - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
   - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
