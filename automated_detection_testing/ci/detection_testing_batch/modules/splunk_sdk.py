@@ -78,12 +78,19 @@ def run_modified_splunk_search(splunk_host, splunk_password, search, detection_n
     splunk_search = search
 
     try:
-        job = service.jobs.create(splunk_search, **kwargs)
+        job = service.jobs.export(splunk_search, **kwargs)
     except Exception as e:
         print("Unable to execute detection: " + str(e))
         return 1, {}
 
-    print(job)
+    # Get the results and display them using the ResultsReader
+    reader = results.ResultsReader(job)
+    for result in reader:
+        if isinstance(result, dict):
+            print('Result: ' + result)
+        elif isinstance(result, results.Message):
+            # Diagnostic messages may be returned in the results
+            print("Message: " + result)
 
 
 def test_detection_search(splunk_host, splunk_password, search, pass_condition, detection_name, detection_file, earliest_time, latest_time):
