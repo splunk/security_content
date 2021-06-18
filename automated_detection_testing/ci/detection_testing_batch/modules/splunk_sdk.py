@@ -75,7 +75,7 @@ def run_modified_splunk_search(splunk_host, splunk_password, search, detection_n
               "dispatch.earliest_time": "-1d",
               "dispatch.latest_time": "now"}
 
-    splunk_search = search + ' ' + pass_condition
+    splunk_search = search
 
     try:
         job = service.jobs.create(splunk_search, **kwargs)
@@ -104,7 +104,7 @@ def test_detection_search(splunk_host, splunk_password, search, pass_condition, 
     if search.startswith('|'):
         search = search
     else:
-        search = 'search ' + search
+        search = 'search ' + search 
 
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": "-1d",
