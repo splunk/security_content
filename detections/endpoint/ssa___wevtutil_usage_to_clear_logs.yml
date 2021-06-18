@@ -38,7 +38,11 @@ tags:
   kill_chain_phases:
   - Exploitation
   dataset:
+<<<<<<< Updated upstream
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
+=======
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/windows-security.log
+>>>>>>> Stashed changes
   mitre_attack_id:
   - T1070.001
   product:
