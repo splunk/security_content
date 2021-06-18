@@ -5,11 +5,6 @@ tests:
     pass_condition: '@count_gt(0)'
     description: Test for wevtutil disable logs command
     attack_data:
-<<<<<<< Updated upstream
-      - file_name: disable_evt.log
-        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log
-=======
       - file_name: windows-security.log
         data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/windows-security.log
->>>>>>> Stashed changes
         source: WinEventLog:Security
