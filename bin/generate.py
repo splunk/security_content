@@ -346,6 +346,7 @@ def add_rba(detection):
                 risk_object['threat_object_type'] = entity['type'].lower()
                 risk_objects.append(risk_object)
                 continue
+
             risk_object['risk_object_field'] = entity['name']
             risk_object['risk_score'] = detection['risk_score']
             risk_objects.append(risk_object)
