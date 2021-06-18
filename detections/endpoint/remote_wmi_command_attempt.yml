@@ -6,15 +6,16 @@ author: Rico Valdez, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies usage of `wmic.exe` spawning a local or remote process, identified by the `node` switch. 
-  During triage, review parallel processes for additional commands executed. Look for any file modifications before and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm execution or file modifications. Contain and isolate the endpoint as needed.
+description: The following analytic identifies usage of `wmic.exe` spawning a local
+  or remote process, identified by the `node` switch. During triage, review parallel
+  processes for additional commands executed. Look for any file modifications before
+  and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm
+  execution or file modifications. Contain and isolate the endpoint as needed.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wmic.exe
-  Processes.process=*node* by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  Processes.process=*node* by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `remote_wmi_command_attempt_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
@@ -24,7 +25,7 @@ how_to_implement: You must be ingesting data that records process activity from 
 known_false_positives: Administrators may use this legitimately to gather info from
   remote systems. Filter as needed.
 references:
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.yaml
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.yaml
 tags:
   analytic_story:
   - Suspicious WMI Use
@@ -47,11 +48,14 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.user 
-  - Processes.process_name 
+  - Processes.user
+  - Processes.process_name
   - Processes.parent_process_name
   - Processes.dest
   - Processes.parent_process
   - Processes.parent_process_id
   - Processes.process_id
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
