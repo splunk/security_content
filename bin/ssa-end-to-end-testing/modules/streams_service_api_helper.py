@@ -102,6 +102,23 @@ class DSPApi:
             return response_body
 
 
+    def get_pipelines(self):
+        """
+        Returns the list of pipelines
+
+        @return:
+            list of pipelines
+        """
+        headers = {"Content-Type": "application/json", "Authorization": self.header_token}
+
+        response = requests.get(self.return_api_endpoint(PIPELINES_ENDPOINT), headers=headers)
+        response_body = response.json()
+        if response.status_code == HTTPStatus.OK:
+            return response_body.get('items')
+        else:
+            LOGGER.error(f"Failed to get pipelines: %s", response.text)
+
+
     def create_pipeline(self, upl):
         """
         POST pipelines endpoint to create a pipeline based on the valid upl
@@ -176,12 +193,12 @@ class DSPApi:
         response_body = response.json()
 
         if response.status_code == HTTPStatus.OK:
-            pipeline_id = response_body.get("id")
-            LOGGER.info(f"Pipeline {pipeline_id} successfully created")
-            return response_body
+            pipeline_id = response_body.get("activated")
+            LOGGER.info(f"Pipeline {pipeline_id} successfully activated")
         else:
-            LOGGER.error(f"Failed to activate pipeline {pipeline_id}")
-            return
+            LOGGER.error(f"Failed to activate pipeline {pipeline_id}: {response.text}")
+
+        return response_body
 
 
     def deactivate_pipeline(self, pipeline_id):
@@ -501,4 +518,3 @@ class DSPApi:
         delete_url = f"{datasets_endpoint_api}/{index_id}"
         response = requests.delete(delete_url, headers=request_headers(self.header_token))
         return response.status_code
-
