@@ -80,7 +80,8 @@ def main(args):
         LOGGER.info(test_result['msg'])
     LOGGER.info('-----------------------------------')
 
-    remove_security_content()
+    if github_service.created_repo:
+        remove_security_content()
     exit_code = not test_passed
     sys.exit(exit_code)
 
