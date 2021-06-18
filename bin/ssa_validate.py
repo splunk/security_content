@@ -7,7 +7,7 @@ from modules.ssa_utils import *
 from modules.testing_utils import *
 
 
-DUMB_PIPELINE_INPUT = '| from read_text("/")' \
+DUMB_PIPELINE_INPUT = '| from read_text("test.spl2")' \
                       '| select from_json_object(value) as input_event' \
                       '| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))'
 
@@ -71,12 +71,13 @@ def extract_ssa_fields(spl2):
     fields_file = os.path.join(data_dir.name, "fields.out")
     write_validation_pipeline(spl2, pipeline_file)
     subprocess.run(["/usr/bin/java",
-                    "-jar", get_path("%s/humvee.jar" % SSML_CWD),
+                    "-jar", "humvee.jar",
                     'cli', '-i',
                     pipeline_file, '-o',
                     fields_file,
                     '-f'],
-                   stderr=subprocess.DEVNULL,
+                   #stderr=subprocess.DEVNULL,
+                   cwd=get_path(SSML_CWD),
                    check=True)
     spl2_ssa_fields = set()
     with open(fields_file, 'r') as test_out_fh:
