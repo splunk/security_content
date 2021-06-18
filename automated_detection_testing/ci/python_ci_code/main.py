@@ -15,7 +15,7 @@ def main(args):
     branch = args.branch
 
     # vars
-    max_waiting_time = 1200
+    max_waiting_time = 7200
     current_waiting_time = 0
 
     # create uuid 
