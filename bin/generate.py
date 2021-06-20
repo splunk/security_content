@@ -304,7 +304,7 @@ def add_annotations(detection):
     # changes to this data structure separate from the mappings generation
     # @todo expose the JSON data structure for newer risk type
 
-    annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story', 'observable']
+    annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story', 'observable', 'context', 'impact', 'confidence']
     savedsearch_annotations = {}
     for key in annotation_keys:
         if key == 'mitre_attack':
@@ -318,14 +318,18 @@ def add_annotations(detection):
     return detection
 
 def add_rba(detection):
-    if 'message' in detection['tags']:
-        detection['risk_message'] = detection['tags']['message']
+
+    # remove after refactor if RBA POC is automated_detection_testing
     if 'risk_object' in detection['tags']:
         detection['risk_object'] = detection['tags']['risk_object']
     if 'risk_object_type' in detection['tags']:
         detection['risk_object_type'] = detection['tags']['risk_object_type']
     if 'risk_score' in detection['tags']:
         detection['risk_score'] = detection['tags']['risk_score']
+
+    # grab risk message
+    if 'message' in detection['tags']:
+        detection['risk_message'] = detection['tags']['message']
 
     risk_objects = []
     risk_object_user_types = {'user', 'username', 'email address'}
@@ -338,6 +342,7 @@ def add_rba(detection):
             # determine if is a system, or user
             if entity['type'].lower() in risk_object_user_types:
                 risk_object['risk_object_type'] = 'user'
+                detection['risk_object_type'] = 'user'
             elif entity['type'].lower() in risk_object_system_types:
                 risk_object['risk_object_type'] = 'system'
             else:
@@ -346,6 +351,7 @@ def add_rba(detection):
                 risk_object['threat_object_type'] = entity['type'].lower()
                 risk_objects.append(risk_object)
                 continue
+            detection['risk_object'] = entity['name']
 
             risk_object['risk_object_field'] = entity['name']
             risk_object['risk_score'] = detection['risk_score']
@@ -377,7 +383,6 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
                 if key in detection['tags']:
                     mappings[key] = detection['tags'][key]
         detection['mappings'] = mappings
-
 
         detection = add_annotations(detection)
         detection = add_rba(detection)
