@@ -12,7 +12,8 @@ search: (`wineventlog_security` EventCode=1100) | stats count min(_time) as firs
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts.
 known_false_positives: It is possible the Event Logging service gets shut down due to system errors or legitimately administration tasks.
-references: []
+references:
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1100
 tags:
   analytic_story:
   - Windows Log Manipulation
