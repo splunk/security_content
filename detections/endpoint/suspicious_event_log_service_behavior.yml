@@ -8,7 +8,7 @@ datamodel: []
 description: This search looks for Windows events that indicate the event logging service has been shut down.
 search: (`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
   dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_event_log_cleared_filter`
+  | `suspicious_event_log_service_behavior`
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts.
 known_false_positives: It is possible the Event Logging service gets shut down due to system errors or legitimately administration tasks.
