@@ -345,6 +345,7 @@ def add_rba(detection):
                 detection['risk_object_type'] = 'user'
             elif entity['type'].lower() in risk_object_system_types:
                 risk_object['risk_object_type'] = 'system'
+                detection['risk_object_type'] = 'system'
             else:
                 # if is not a system or user, it is a threat object
                 risk_object['threat_object_field'] = entity['name']
