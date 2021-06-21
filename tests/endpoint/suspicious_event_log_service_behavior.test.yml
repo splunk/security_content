@@ -1,7 +1,7 @@
 name: Suspicious Event Log Service Behavior
 tests:
 - name: Suspicious Event Log Service Behavior
-  file: endpoint/windows_event_log_cleared.yml
+  file: endpoint/suspicious_event_log_service_behavior.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
