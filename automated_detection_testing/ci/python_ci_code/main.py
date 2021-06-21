@@ -32,8 +32,6 @@ def main(args):
         }
     )
 
-    # it stops after the first result, it will need to wait for all results. Changes needed
-
     while max_waiting_time > current_waiting_time:
 
         dynamodb = boto3.client('dynamodb', region_name="eu-central-1")

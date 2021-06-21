@@ -18,6 +18,7 @@ def main(args):
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", required=True, help="security content branch")
     parser.add_argument("-u", "--uuid", required=True, help="uuid for detection test")
+    parser.add_argument("-ld" "--labeled-data", required=False, help="get labeled data from the testing job")
 
     args = parser.parse_args()
     branch = args.branch
