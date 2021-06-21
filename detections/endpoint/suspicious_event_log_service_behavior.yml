@@ -5,15 +5,22 @@ date: '2021-06-17'
 author: Mauricio Velazco, Splunk
 type: batch
 datamodel: []
-description: This search looks for Windows events that indicate the event logging service has been shut down.
-search: (`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
-  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `suspicious_event_log_service_behavior_filter`
+description: The following analytic utilizes Windows Event ID 1100 to identify when Windows event log service is shutdown. Note that, this is a voluminous analytic that will require tuning or restricted to specific endpoints based on criticality.
+  This event generates every time Windows Event Log service has shut down. It also generates during normal system shutdown.
+  During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing parallel alerts and other data sources to determine what else may have occurred.
+search: '(`wineventlog_security` EventCode=1100) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode dest 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `suspicious_event_log_service_behavior_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows event logs from your hosts.
-known_false_positives: It is possible the Event Logging service gets shut down due to system errors or legitimately administration tasks.
+  Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+known_false_positives: It is possible the Event Logging service gets shut down due to system errors or legitimately administration tasks. Filter as needed.
 references:
   - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1100
+  - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
+  - https://attack.mitre.org/techniques/T1070/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
 tags:
   analytic_story:
   - Windows Log Manipulation
