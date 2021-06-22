@@ -73,7 +73,7 @@ def generate(args):
         print("ERROR: contentctl failed to find folder for deployment {0}".format(output))
         sys.exit(1)
 
-    print("contentctl is generating a new splunk_app under ".format(output))
+    print("contentctl is generating a new splunk_app under {}".format(output))
     generator.main(security_content_path, args.output, args.product, args.verbose)
 
 
@@ -112,7 +112,7 @@ def main(args):
     generate_parser.add_argument("-o", "--output", required=False, type=str, default="dist/escu",
                                      help="Path where to store the deployment package, defaults to `dist/escu`")
     generate_parser.add_argument("--product", required=False, type=str, default="ESCU",
-                                 help="Type of package to create, choose between `ESCU`, or `SAAWS`. Defaults to `ESCU`")                            
+                                 help="Type of package to create, choose between `ESCU`, or `SAAWS`. Defaults to `ESCU`")
     generate_parser.set_defaults(func=generate)
 
     # # parse them
