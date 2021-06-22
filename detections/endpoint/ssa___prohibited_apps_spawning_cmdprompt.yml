@@ -24,7 +24,11 @@ search: '| from read_ssa_enriched_events()
   OR field0="java.exe" OR field0="powershell.exe"
 
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
+<<<<<<< HEAD
   dest_user_id), body=create_map([ "process_name", process_name, "parent_process_name",
+=======
+  dest_user_id), body=create_map([ "process_name", process_name, "parent_process",
+>>>>>>> develop
   parent_process]) | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting sysmon logs. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
