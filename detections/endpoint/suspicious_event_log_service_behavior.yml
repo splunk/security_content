@@ -6,14 +6,14 @@ author: Mauricio Velazco, Splunk
 type: batch
 datamodel: []
 description: The following analytic utilizes Windows Event ID 1100 to identify when
-  Windows event log service is shutdown. Note that, this is a voluminous analytic
+  Windows event log service is shutdown. Note that this is a voluminous analytic
   that will require tuning or restricted to specific endpoints based on criticality.
   This event generates every time Windows Event Log service has shut down. It also
   generates during normal system shutdown. During triage, based on time of day and
   user, determine if this was planned. If not planned, follow through with reviewing
   parallel alerts and other data sources to determine what else may have occurred.
 search: (`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime
-  max(_time) as lastTime by ComputerName Message EventCode | `security_content_ctime(firstTime)`
+  max(_time) as lastTime by dest Message EventCode | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `suspicious_event_log_service_behavior_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
