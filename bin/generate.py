@@ -560,7 +560,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        #generate_mitre_lookup(OUTPUT_PATH)
+        generate_mitre_lookup(OUTPUT_PATH)
     except Exception as e:
         print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
