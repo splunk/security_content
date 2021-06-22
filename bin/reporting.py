@@ -41,7 +41,10 @@ def main(args):
     detections.extend(load_objects("detections/web/*.yml", REPO_PATH))
 
     detections_all = detections.copy()
-    detections_all.extend(load_objects("detections/deprecated/*.yml", REPO_PATH))
+
+    #lets exclude all deprecated detections from our reporting
+    # detections_all.extend(load_objects("detections/deprecated/*.yml", REPO_PATH))
+    
     detections_all.extend(load_objects("detections/experimental/*/*.yml", REPO_PATH))
     count_detections_all = len(detections_all)
 
@@ -56,7 +59,7 @@ def main(args):
     for test in tests:
         counter_tests=counter_tests+1
 
-    
+
     detection_coverage = "{:.0%}".format(counter_tests/counter_detection)
 
     TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'jinja2_templates')
