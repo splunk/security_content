@@ -319,11 +319,11 @@ def add_annotations(detection):
 
 def add_rba(detection):
 
-    # remove after refactor if RBA POC is automated_detection_testing
-    if 'risk_object' in detection['tags']:
-        detection['risk_object'] = detection['tags']['risk_object']
-    if 'risk_object_type' in detection['tags']:
-        detection['risk_object_type'] = detection['tags']['risk_object_type']
+    # removed since this is causing a duplicate bug in ES 6.4+
+    # if 'risk_object' in detection['tags']:
+    #     detection['risk_object'] = detection['tags']['risk_object']
+    # if 'risk_object_type' in detection['tags']:
+    #    detection['risk_object_type'] = detection['tags']['risk_object_type']
     if 'risk_score' in detection['tags']:
         detection['risk_score'] = detection['tags']['risk_score']
 
@@ -339,25 +339,39 @@ def add_rba(detection):
         for entity in detection['tags']['observable']:
             risk_object = dict()
 
-            # determine if is a system, or user
+            # determine if is a user type
             if entity['type'].lower() in risk_object_user_types:
                 risk_object['risk_object_type'] = 'user'
                 detection['risk_object_type'] = 'user'
+                for r in entity['role']:
+                    if 'attacker' == r.lower():
+                        # if the role is an attacker this entity is also a threat object
+                        risk_object['threat_object_field'] = entity['name']
+                        risk_object['threat_object_type'] = entity['type'].lower()
+                        risk_objects.append(risk_object)
+
+            # determine if is a system type
             elif entity['type'].lower() in risk_object_system_types:
                 risk_object['risk_object_type'] = 'system'
                 detection['risk_object_type'] = 'system'
+                for r in entity['role']:
+                    if 'attacker' == r.lower():
+                        # if the role is an attacker this entity is also a threat object
+                        risk_object['threat_object_field'] = entity['name']
+                        risk_object['threat_object_type'] = entity['type'].lower()
+                        risk_objects.append(risk_object)
+
+            # if is not a system or user, it is a threat object
             else:
-                # if is not a system or user, it is a threat object
                 risk_object['threat_object_field'] = entity['name']
                 risk_object['threat_object_type'] = entity['type'].lower()
                 risk_objects.append(risk_object)
                 continue
-            detection['risk_object'] = entity['name']
 
+            detection['risk_object'] = entity['name']
             risk_object['risk_object_field'] = entity['name']
             risk_object['risk_score'] = detection['risk_score']
             risk_objects.append(risk_object)
-
     detection['risk'] = risk_objects
     return detection
 
