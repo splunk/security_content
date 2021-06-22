@@ -1,0 +1,58 @@
+name: Suspicious Event Log Service Behavior
+id: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
+version: 1
+date: '2021-06-17'
+author: Mauricio Velazco, Splunk
+type: batch
+datamodel: []
+description: The following analytic utilizes Windows Event ID 1100 to identify when
+  Windows event log service is shutdown. Note that this is a voluminous analytic
+  that will require tuning or restricted to specific endpoints based on criticality.
+  This event generates every time Windows Event Log service has shut down. It also
+  generates during normal system shutdown. During triage, based on time of day and
+  user, determine if this was planned. If not planned, follow through with reviewing
+  parallel alerts and other data sources to determine what else may have occurred.
+search: (`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime
+  max(_time) as lastTime by dest Message EventCode | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_event_log_service_behavior_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+known_false_positives: It is possible the Event Logging service gets shut down due
+  to system errors or legitimately administration tasks. Filter as needed.
+references:
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1100
+- https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
+- https://attack.mitre.org/techniques/T1070/001/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+tags:
+  analytic_story:
+  - Windows Log Manipulation
+  - Ransomware
+  - Clop Ransomware
+  asset_type: Endpoint
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 6
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1070.001
+  nist:
+  - DE.DP
+  - PR.IP
+  - PR.AC
+  - PR.AT
+  - DE.AE
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - dest
+  security_domain: endpoint
+  automated_detection_testing: passed
