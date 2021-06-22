@@ -43,7 +43,8 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     manifest_files = []
     for root, dirs, files in walk(REPO_PATH + '/stories'):
         for file in files:
-            if file.endswith(".yml"):
+            print(root)
+            if file.endswith(".yml") and root == './stories':
                 manifest_files.append((path.join(root, file)))
 
     stories = []
@@ -167,7 +168,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
 
 def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE):
-    types = ["endpoint", "application", "cloud", "network", "web", "experimental", "deprecated"]
+    types = ["endpoint", "application", "cloud", "network", "web", "experimental"]
     manifest_files = []
     for t in types:
         for root, dirs, files in walk(REPO_PATH + '/detections/' + t):
