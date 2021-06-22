@@ -1,21 +1,28 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 4
+version: 6
 date: '2020-07-06'
-author: Rico Valdez, Splunk
+author: Rico Valdez, Michael Haag, Splunk
 type: batch
 datamodel: []
-description: This search looks for Windows events that indicate one of the Windows
-  event logs has been purged.
-search: (`wineventlog_security` (EventCode=1102 OR EventCode=1100)) OR (`wineventlog_system`
-  EventCode=104) | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
-  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_event_log_cleared_filter`
+description: The following analytic utilizes Windows Security Event ID 1102 or System log event 104 to identify when
+  a Windows event log is cleared. Note that this analytic will require tuning or restricted to specific endpoints based on criticality.
+  During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing
+  parallel alerts and other data sources to determine what else may have occurred.
+search: '(`wineventlog_security` EventCode=1102) OR (`wineventlog_system` EventCode=104) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest Message EventCode
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_event_log_cleared_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows event logs from your hosts.
+  Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
 known_false_positives: It is possible that these logs may be legitimately cleared
-  by Administrators.
-references: []
+  by Administrators. Filter as needed.
+references:
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1102
+  - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
+  - https://attack.mitre.org/techniques/T1070/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
 tags:
   analytic_story:
   - Windows Log Manipulation
