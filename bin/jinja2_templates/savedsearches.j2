@@ -58,7 +58,11 @@ cron_schedule = {{ detection.deployment.scheduling.cron_schedule }}
 dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
 dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
+{% if detection.deprecated is defined %}
+action.correlationsearch.label = ESCU - Deprecated - {{ detection.name }} - Rule
+{% else %}
 action.correlationsearch.label = ESCU - {{ detection.name }} - Rule
+{% endif %}
 action.correlationsearch.annotations = {{ detection.savedsearch_annotations | tojson }}
 {% if detection.deployment.scheduling.schedule_window is defined %}
 schedule_window = {{ detection.deployment.scheduling.schedule_window }}
