@@ -25,11 +25,21 @@ def load_objects(file_path, VERBOSE, REPO_PATH):
         files.append(load_file(file))
     return files
 
+def process_deprecated(file,file_path):
+    DESCRIPTION_ANNOTATION = "WARNING, this detection has been marked deprecated by the Splunk Threat Research team, this means that it will no longer be maintained or supported. If you have any questions feel free to email us at: research@splunk.com. "
+    if 'deprecated' in file_path:
+        file['deprecated'] = True
+        file['description'] = DESCRIPTION_ANNOTATION + file['description']
+    return file
 
 def load_file(file_path):
     with open(file_path, 'r', encoding="utf-8") as stream:
         try:
             file = list(yaml.safe_load_all(stream))[0]
+
+            # mark any files that have been deprecated
+            file = process_deprecated(file,file_path)
+
         except yaml.YAMLError as exc:
             print(exc)
             sys.exit("ERROR: reading {0}".format(file_path))
@@ -75,6 +85,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     @param deployments:
     @return: the savedsearches.conf file located in package/default/
     '''
+
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
@@ -567,10 +578,16 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
     workbench_panels_objects = generate_workbench_panels(objects["response_tasks"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
 
+    # calculate deprecation totals
+    deprecated = []
+    for d in objects['detections']:
+        if 'deprecated' in d:
+            deprecated.append(d)
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), story_path))
         print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
+        print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
         print("{0} response tasks have been successfully written to {1}".format(len(objects["response_tasks"]), detection_path))
         print("{0} baselines have been successfully written to {1}".format(len(objects["baselines"]), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
