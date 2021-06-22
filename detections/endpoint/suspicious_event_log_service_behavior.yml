@@ -9,7 +9,7 @@ description: The following analytic utilizes Windows Event ID 1100 to identify w
   This event generates every time Windows Event Log service has shut down. It also generates during normal system shutdown.
   During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing parallel alerts and other data sources to determine what else may have occurred.
 search: '(`wineventlog_security` EventCode=1100) 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode dest 
+  | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName Message EventCode
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `suspicious_event_log_service_behavior_filter`'
@@ -31,9 +31,7 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 6
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log
+  dataset: []
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
