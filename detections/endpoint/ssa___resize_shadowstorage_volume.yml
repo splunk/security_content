@@ -32,7 +32,7 @@ tags:
   - Clop Ransomware
   - Ransomware
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

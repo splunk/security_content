@@ -1,7 +1,7 @@
 name: Attempt To Disable Services Unit Test
 tests:
   - name: Attempt To Disable Services
-    file: detections/endpoint/ssa___attempt_to_disable_services.yml
+    file: endpoint/ssa___attempt_to_disable_services.yml
     pass_condition: '@count_gt(0)'
     description: Test for usage of sc.exe to disable a service
     attack_data:

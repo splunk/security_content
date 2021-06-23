@@ -1,7 +1,7 @@
 name: Disable Net User Account Unit Test
 tests:
   - name: Disable Net User Account
-    file: detections/endpoint/ssa___disable_net_user_account.yml
+    file: endpoint/ssa___disable_net_user_account.yml
     pass_condition: '@count_gt(0)'
     description: Test for usage of net.exe or net1.exe to disable net user
     attack_data:
