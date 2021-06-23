@@ -1,7 +1,7 @@
 name: Recon Using  WMI Class Unit Test
 tests:
-- name: Recon Using  WMI Class
-  file: endpoint/recon_using__wmi_class.yml
+- name: Recon Using WMI Class
+  file: endpoint/recon_using_wmi_class.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
