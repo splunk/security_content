@@ -10,7 +10,7 @@ azure-core==1.14.0
 azure-identity==1.6.0
 azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
-azure-mgmt-network==16.0.0
+azure-mgmt-network==19.0.0
 azure-mgmt-resource==17.0.0
 bcrypt==3.2.0
 boto3==1.17.74
@@ -36,8 +36,8 @@ lockfile==0.12.2
 MarkupSafe==1.1.1
 mock==4.0.3
 more-itertools==8.7.0
-mysql-connector-python==8.0.24
 nodeenv==1.6.0
+mysql-connector-python==8.0.25
 ntlm-auth==1.5.0
 packaging==20.9
 path==15.1.2
