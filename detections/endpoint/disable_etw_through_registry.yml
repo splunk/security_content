@@ -1,0 +1,45 @@
+name: Disable ETW Through Registry
+id: f0eacfa4-d33f-11eb-8f9d-acde48001122
+version: 1
+date: '2021-06-22'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is to identify modification in registry to disable ETW windows feature to evade detections.
+  This technique was seen in several ransomware, RAT and even APT to impaire defenses of the compromise machine and to 
+  be able to execute payload with minimal alert as much as possible.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\.NETFramework\\ETWEnabled"
+  Registry.registry_value_name = "DWORD (0x00000000)" by Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.dest 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` 
+  | `disable_etw_through_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: network operator may disable this feature of windows but not so common.
+references:
+- https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+tags:
+  analytic_story:
+  - Ransomware
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1562.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  security_domain: endpoint

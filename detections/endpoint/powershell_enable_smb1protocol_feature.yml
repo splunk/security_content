@@ -1,0 +1,41 @@
+name: Powershell Enable SMB1Protocol Feature
+id: afed80b2-d34b-11eb-a952-acde48001122
+version: 1
+date: '2021-06-22'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious enabling of smb1protocol through "powershell.exe". 
+  This technique was seen in some ransomware (like reddot) where it enable smb share to do the lateral movement and
+  encrypt other files within the compromise network system.
+search: '`powershell` EventCode=4104 Message = "*Enable-WindowsOptionalFeature*" Message = "*SMB1Protocol*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `powershell_enable_smb1protocol_feature_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs  from your endpoints. make sure you enable needed
+  registry to monitor this event.
+known_false_positives: network operator may enable or disable this windows feature.
+references:
+- https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+tags:
+  analytic_story:
+  - Malicious PowerShell
+  - Ransomware
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1027.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  security_domain: endpoint
