@@ -4,7 +4,8 @@ version: 4
 date: '2020-03-16'
 author: Rico Valdez, Michael Haag, Splunk
 type: batch
-datamodel: []
+datamodel:
+- Endpoint
 description: This search looks for scripts launched via WMI. 
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=scrcons.exe
