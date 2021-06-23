@@ -7,19 +7,20 @@ type: batch
 datamodel:
 - Endpoint
 description: This search looks for execution of commonly used attacker tools on an endpoint.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.user!=unknown by Processes.dest Processes.user Processes.process_name Processes.process
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| `drop_dm_object_name(Processes)` 
-| lookup attacker_tools attacker_tools as process_name OUTPUT description | search description=*| `attacker_tools_on_endpoint_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.user!=unknown by Processes.dest Processes.user Processes.process_name Processes.process
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `drop_dm_object_name(Processes)` 
+  | lookup attacker_tools attacker_tools as process_name OUTPUT description 
+  | search description=*
+  | `attacker_tools_on_endpoint_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
   in the processes node. This is typically populated via endpoint detection-and-response
   product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
   used for this search is usually generated via logs that report process tracking
   in your Windows audit settings.
-known_false_positives: Some administrator activity can be potentially triggered, please add those users to the filter macro
+known_false_positives: Some administrator activity can be potentially triggered, please add those users to the filter macro.
 references: []
 tags:
   analytic_story:
