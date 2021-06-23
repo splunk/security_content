@@ -29,7 +29,7 @@ lockfile==0.12.2
 MarkupSafe==2.0.0
 more-itertools==8.7.0
 msgpack==1.0.2
-nodeenv==1.5.0
+nodeenv==1.6.0
 packaging==20.9
 pathlib2==2.3.5
 pendulum==1.2.5
