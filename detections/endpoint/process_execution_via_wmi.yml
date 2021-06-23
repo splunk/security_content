@@ -4,7 +4,8 @@ version: 4
 date: '2020-03-16'
 author: Rico Valdez, Michael Haag, Splunk
 type: batch
-datamodel: []
+datamodel: 
+- Endpoint
 description: The following analytic identifies `WmiPrvSE.exe` spawning a process. This typically occurs when a process is instantiated from a local or remote process using `wmic.exe`. 
   During triage, review parallel processes for suspicious behavior or commands executed. Review the process and command-line spawning from `wmiprvse.exe`. Contain and remediate the endpoint as necessary.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
