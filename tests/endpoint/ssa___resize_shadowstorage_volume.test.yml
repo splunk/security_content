@@ -1,0 +1,13 @@
+name: SSA   Resize Shadowstorage Volume Unit Test
+tests:
+  - name: SSA   Resize Shadowstorage Volume
+    file: detections/endpoint/ssa___resize_shadowstorage_volume.yml
+    pass_condition: '@count_gt(0)'
+    description: Test for resizing the shadow storage of a machine
+    attack_data:
+      - file_name: windows-security.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
+        source: WinEventLog:Security
+
+
+        
