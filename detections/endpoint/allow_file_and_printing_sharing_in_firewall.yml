@@ -6,7 +6,8 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: UPDATE_DESCRIPTION
+description: This search is to detect a suspicious modification of firewall to allow file and printer sharing. 
+  This technique was seen in ransomware to be able to discover more machine connected to the compromised host to encrypt more files
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
   from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe Processes.process= "*firewall*" Processes.process= "*group=\"File and Printer Sharing\"*"  Processes.process="*enable=Yes*" 
   by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
