@@ -1,7 +1,7 @@
 name: Delete A Net User Unit Test
 tests:
   - name: Delete A Net User
-    file: endpoint/ssa_delete_a_net_user.yml
+    file: endpoint/ssa___delete_a_net_user.yml
     pass_condition: '@count_gt(0)'
     description: Test for usage of net.exe or net1.exe to delete net user
     attack_data:
