@@ -1,0 +1,20 @@
+name: Active Directory Discovery
+id: ee8fc4aa-d455-11eb-945a-acde48001122
+version: 1
+date: '2021-06-23'
+author: Mauricio Velazco, Splunk
+type: batch
+description: Monitor for activities and techniques associated with the Discovery tactic within Active Directory environments.
+narrative: UPDATE_NARRATIVE
+references:
+- https://attack.mitre.org/tactics/TA0007/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
