@@ -1,0 +1,12 @@
+name: Unloading AMSI via Reflection Unit Test
+tests:
+- name: Unloading AMSI via Reflection
+  file: endpoint/unloading_amsi_via_reflection.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: WinEventLog
