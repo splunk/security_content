@@ -43,7 +43,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     manifest_files = []
     for root, dirs, files in walk(REPO_PATH + '/stories'):
         for file in files:
-            print(root)
             if file.endswith(".yml") and root == './stories':
                 manifest_files.append((path.join(root, file)))
 

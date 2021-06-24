@@ -40,7 +40,7 @@ apt-run: &apt-install
 executors:
   content-executor:
     docker:
-      - image: circleci/python:latest
+      - image: cimg/python:3.9.5-browsers
     working_directory: ~/repo
 
 jobs:
