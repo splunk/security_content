@@ -6,22 +6,21 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to identify modification in registry to disable ETW windows feature to evade detections.
-  This technique was seen in several ransomware, RAT and even APT to impaire defenses of the compromise machine and to 
-  be able to execute payload with minimal alert as much as possible.
+description: this search is to identify modification in registry to disable ETW windows
+  feature to evade detections. This technique was seen in several ransomware, RAT
+  and even APT to impaire defenses of the compromise machine and to be able to execute
+  payload with minimal alert as much as possible.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\.NETFramework\\ETWEnabled"
   Registry.registry_value_name = "DWORD (0x00000000)" by Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` 
-  | `disable_etw_through_registry_filter`'
+  Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `disable_etw_through_registry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: network operator may disable this feature of windows but not so common.
+known_false_positives: network operator may disable this feature of windows but not
+  so common.
 references:
 - https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
 tags:
@@ -43,3 +42,6 @@ tags:
   - Registry.dest
   - Registry.registry_value_name
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
