@@ -1,7 +1,7 @@
 name: Office Document Spawned Child Process To Download
 id: 6fed27d2-9ec7-11eb-8fe4-aa665a019aa3
-version: 1
-date: '2021-04-16'
+version: 2
+date: '2021-06-23'
 author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
@@ -12,10 +12,12 @@ description: this search is to detect potential malicious office document execut
   blend it to the normal noise in the infected machine to cover its track.
 search: '`sysmon` EventCode=1 parent_process_name IN ("powerpnt.exe", "winword.exe",
   "excel.exe", "visio.exe") process_name = "*.exe" cmdline IN ("*http:*","*https:*")  NOT(OriginalFileName
-  IN("*\\firefox.exe", "*\\chrome.exe","*\\iexplore.exe","*\\msedge.exe")) | stats
-  min(_time) as firstTime max(_time) as lastTime count by parent_process_name process_name
+  IN("firefox.exe", "chrome.exe","iexplore.exe","msedge.exe")) 
+  | stats min(_time) as firstTime max(_time) as lastTime count by parent_process_name process_name
   parent_process cmdline process_id OriginalFileName ProcessGuid Computer EventCode
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `office_document_spawned_child_process_to_download_filter`'
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `office_document_spawned_child_process_to_download_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
