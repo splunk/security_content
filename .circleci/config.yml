@@ -24,18 +24,6 @@ apt-run: &apt-install
   command: |
     sudo apt update -qq
     sudo apt install -y python-dev python3-dev jq -qq
-    # install go for other testing tools
-    # but first lets clean up the env
-    if  [ -f goinstall.sh ]; then
-        rm goinstall.sh
-    fi
-    if [ -d ~/.go ]; then
-        rm -rf ~/.go
-    fi
-    wget https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh
-    sudo chown circleci goinstall.sh
-    chmod +x goinstall.sh
-    ./goinstall.sh
 
 executors:
   content-executor:
