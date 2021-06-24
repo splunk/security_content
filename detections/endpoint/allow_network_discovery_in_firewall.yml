@@ -6,21 +6,23 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious modification to the firewall to allow network discovery on a machine. 
-  This technique was seen in couple of ransomware (revil, reddot) to discover other machine connected to the compromised host
-   to encrypt more files.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
-  from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe Processes.process= "*firewall*" Processes.process= "*group=\"Network Discovery\"*"  Processes.process="*enable=Yes*" 
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: This search is to detect a suspicious modification to the firewall to
+  allow network discovery on a machine. This technique was seen in couple of ransomware
+  (revil, reddot) to discover other machine connected to the compromised host to encrypt
+  more files.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe
+  Processes.process= "*firewall*" Processes.process= "*group=\"Network Discovery\"*"  Processes.process="*enable=Yes*"
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `allow_network_discovery_in_firewall_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: network admin may modify this firewall feature that may cause this rule to be triggered.
+known_false_positives: network admin may modify this firewall feature that may cause
+  this rule to be triggered.
 references:
 - https://kb.fortinet.com/kb/documentLink.do?externalID=FD52469
 - https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
@@ -38,12 +40,15 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
-  - Processes.parent_process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   - Processes.parent_process_name
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
