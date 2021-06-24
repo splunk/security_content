@@ -6,20 +6,22 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious commandline designed to delete files or directory recursive using batch command. 
-  This technique was seen in ransomware (reddot) where it it tries to delete the files in recycle bin to impaire user from recovering deleted files.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
-  from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe Processes.process=*/c*  Processes.process=* rd * Processes.process="*/s*" Processes.process="*/q*"
-  by Processes.user Processes.process_name Processes.parent_process_name Processes.parent_process Processes.process Processes.process_id Processes.dest
-  |`drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `recursive_delete_of_directory_in_batch_cmd_filter`'
+description: This search is to detect a suspicious commandline designed to delete
+  files or directory recursive using batch command. This technique was seen in ransomware
+  (reddot) where it it tries to delete the files in recycle bin to impaire user from
+  recovering deleted files.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe
+  Processes.process=*/c*  Processes.process=* rd * Processes.process="*/s*" Processes.process="*/q*"
+  by Processes.user Processes.process_name Processes.parent_process_name Processes.parent_process
+  Processes.process Processes.process_id Processes.dest |`drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `recursive_delete_of_directory_in_batch_cmd_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: network operator may use this batch command to delete recursively a directory or files within directory
+known_false_positives: network operator may use this batch command to delete recursively
+  a directory or files within directory
 references:
 - https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
 tags:
@@ -43,3 +45,6 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
