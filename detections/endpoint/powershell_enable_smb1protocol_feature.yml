@@ -6,13 +6,13 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious enabling of smb1protocol through "powershell.exe". 
-  This technique was seen in some ransomware (like reddot) where it enable smb share to do the lateral movement and
-  encrypt other files within the compromise network system.
-search: '`powershell` EventCode=4104 Message = "*Enable-WindowsOptionalFeature*" Message = "*SMB1Protocol*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+description: This search is to detect a suspicious enabling of smb1protocol through
+  "powershell.exe". This technique was seen in some ransomware (like reddot) where
+  it enable smb share to do the lateral movement and encrypt other files within the
+  compromise network system.
+search: '`powershell` EventCode=4104 Message = "*Enable-WindowsOptionalFeature*" Message
+  = "*SMB1Protocol*" | stats count min(_time) as firstTime max(_time) as lastTime
+  by EventCode Message ComputerName User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_enable_smb1protocol_feature_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
@@ -39,3 +39,6 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log
