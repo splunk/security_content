@@ -9,7 +9,7 @@ description: The following analytic identifies renamed instances of msbuild.exe 
   Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and
   C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify
   the code executed and what is executing a renamed instance of MSBuild.
-search: '`sysmon` EventID=1 (OriginalFileName=msbuild.exe OR process_name=msbuild.exe)
+search: '`sysmon` EventID=1 (OriginalFileName=msbuild.exe process_name!=msbuild.exe)
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
   parent_process_name, process_name, OriginalFileName, process_path, CommandLine |
   rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
