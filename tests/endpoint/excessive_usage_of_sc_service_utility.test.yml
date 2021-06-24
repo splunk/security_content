@@ -1,7 +1,7 @@
-name: Excessive Usage Of SC Service Utility  Unit Test
+name: Excessive Usage Of SC Service Utility Unit Test
 tests:
-- name: Excessive Usage Of SC Service Utility 
-  file: endpoint/excessive_usage_of_sc_service_utility_.yml
+- name: Excessive Usage Of SC Service Utility
+  file: endpoint/excessive_usage_of_sc_service_utility.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
