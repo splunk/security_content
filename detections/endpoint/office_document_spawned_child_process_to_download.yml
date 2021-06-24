@@ -1,7 +1,7 @@
 name: Office Document Spawned Child Process To Download
 id: 6fed27d2-9ec7-11eb-8fe4-aa665a019aa3
-version: 1
-date: '2021-04-16'
+version: 2
+date: '2021-06-23'
 author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
