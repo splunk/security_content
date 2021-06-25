@@ -1,4 +1,4 @@
-name: O365 Excessive Authentication Failures Alert
+name: Office 365 Excessive Authentication Failures Alert
 id: d441364c-349c-453b-b55f-12eccab67cf9
 version: 1
 date: '2020-12-16'
