@@ -181,8 +181,6 @@ jobs:
           name: install splunk packaging toolkit (slim)
           command: |
               cd ~/slim-latest
-              sudo pip install --upgrade pip setuptools
-              sudo pip install virtualenv
               virtualenv --python=/usr/bin/python2.7 --clear venv
               source venv/bin/activate
               pip install semantic_version
