@@ -5,7 +5,7 @@ date: '2018-02-23'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where an instance is started
+description: This search looks for AWS CloudTrail events where an instance is started
   in a particular region in the last one hour and then compares it to a lookup file
   of previously seen regions where an instance was started
 search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as earliest
@@ -16,7 +16,7 @@ search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as ear
   | `security_content_ctime(latest)` | where regionStatus="Instance Started in a New
   Region" | `ec2_instance_started_in_previously_unseen_region_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. Run the "Previously seen AWS Regions" support search only once to create
   of baseline of previously seen regions.  This search is deprecated and have been
   translated to use the latest Change Datamodel.
