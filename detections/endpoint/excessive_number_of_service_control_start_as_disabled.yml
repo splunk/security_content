@@ -6,32 +6,30 @@ author: Michael Hart, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This detection targets behaviors observed when threat actors have used sc.exe to modify services.
-  We observed malware in a honey pot spawning numerous sc.exe processes in a short period of time, presumably to
-  impair defenses, possibly to block others from compromising the same machine.  This detection will alert when we
-  see both an excessive number of sc.exe processes launched with specific commandline arguments to disable the start
-  of certain services.
-search: '| tstats `security_content_summariesonly` distinct_count(Processes.process) as distinct_cmdlines
-                           min(_time) as firstTime max(_time) as lastTime
-            FROM datamodel=Endpoint.Processes
-            WHERE Processes.process_name = "sc.exe" AND Processes.process="*start= disabled*"
-            BY Processes.dest, Processes.user, _time span=30m
-          | where distinct_cmdlines >= 8
-          | `drop_dm_object_name(Processes)`
-          | `security_content_ctime(firstTime)`
-          | `security_content_ctime(lastTime)`
-          | `excessive_number_of_service_control_start_as_disabled_filter`'
+description: This detection targets behaviors observed when threat actors have used
+  sc.exe to modify services. We observed malware in a honey pot spawning numerous
+  sc.exe processes in a short period of time, presumably to impair defenses, possibly
+  to block others from compromising the same machine.  This detection will alert when
+  we see both an excessive number of sc.exe processes launched with specific commandline
+  arguments to disable the start of certain services.
+search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
+  as distinct_cmdlines min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  WHERE Processes.process_name = "sc.exe" AND Processes.process="*start= disabled*"
+  BY Processes.dest, Processes.user, _time span=30m | where distinct_cmdlines >= 8
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `excessive_number_of_service_control_start_as_disabled_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must be ingesting
   logs with both the process name and command line from your endpoints. The complete
   process name with command-line arguments are mapped to the "process" field in the
   Endpoint data model.
-known_false_positives: Legitimate programs and administrators will execute sc.exe with the start disabled flag.  It is
-  possible, but unlikely from the telemetry of normal Windows operation we observed, that sc.exe will be called more than
-  seven times in a short period of time.
+known_false_positives: Legitimate programs and administrators will execute sc.exe
+  with the start disabled flag.  It is possible, but unlikely from the telemetry of
+  normal Windows operation we observed, that sc.exe will be called more than seven
+  times in a short period of time.
 references:
-  - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
-  - https://attack.mitre.org/techniques/T1562/001/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
+- https://attack.mitre.org/techniques/T1562/001/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -48,3 +46,4 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
+  automated_detection_testing: passed
