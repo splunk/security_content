@@ -4,18 +4,18 @@ version: 4
 date: '2020-03-16'
 author: Rico Valdez, Michael Haag, Splunk
 type: batch
-datamodel: 
+datamodel:
 - Endpoint
-description: The following analytic identifies `WmiPrvSE.exe` spawning a process. This typically occurs when a process is instantiated from a local or remote process using `wmic.exe`. 
-  During triage, review parallel processes for suspicious behavior or commands executed. Review the process and command-line spawning from `wmiprvse.exe`. Contain and remediate the endpoint as necessary.
+description: The following analytic identifies `WmiPrvSE.exe` spawning a process.
+  This typically occurs when a process is instantiated from a local or remote process
+  using `wmic.exe`. During triage, review parallel processes for suspicious behavior
+  or commands executed. Review the process and command-line spawning from `wmiprvse.exe`.
+  Contain and remediate the endpoint as necessary.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=WmiPrvSE.exe
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `process_execution_via_wmi_filter` '
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `process_execution_via_wmi_filter` '
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including parent-child relationships from your endpoints to populate the Endpoint
   data model in the Processes node. The command-line arguments are mapped to the "process"
