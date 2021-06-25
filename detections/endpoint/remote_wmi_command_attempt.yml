@@ -30,9 +30,12 @@ tags:
   analytic_story:
   - Suspicious WMI Use
   asset_type: Endpoint
+  automated_detection_testing: passed
   cis20:
   - CIS 3
   - CIS 5
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
@@ -56,6 +59,3 @@ tags:
   - Processes.parent_process_id
   - Processes.process_id
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
