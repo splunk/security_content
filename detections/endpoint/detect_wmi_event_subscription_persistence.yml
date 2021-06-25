@@ -36,13 +36,14 @@ known_false_positives: It is possible some applications will create a consumer a
   may be required to be filtered. For tuning, add any additional LOLBin's for further
   depth of coverage.
 references:
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
-  - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
-  - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md
-  - https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
+- https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
+- https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md
+- https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
 tags:
   analytic_story:
   - Suspicious WMI Use
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
   kill_chain_phases:
@@ -59,4 +60,3 @@ tags:
   - Computer
   - User
   security_domain: endpoint
-  automated_detection_testing: passed
