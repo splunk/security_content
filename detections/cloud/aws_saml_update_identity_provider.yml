@@ -15,7 +15,7 @@ search: '`cloudtrail` eventName=UpdateSAMLProvider | stats count min(_time) as f
   userIdentity.principalId | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`aws_saml_update_identity_provider_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with cloudtrail logs.
+  search works with AWS CloudTrail logs.
 known_false_positives: Updating a SAML provider or creating a new one may not necessarily
   be malicious however it needs to be closely monitored.
 references:
