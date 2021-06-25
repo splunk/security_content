@@ -13,22 +13,20 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   "_time"), "string", null)) | eval parent_process=lower(ucast(map_get(input_event,
   "parent_process_name"), "string", null)), parent_process_name=mvindex(split(parent_process,
   "\\"), -1), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
-  null)), cmd_line=ucast(map_get(input_event, "process"), "string",
-  null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
-  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
-  | where parent_process_name!=null
-  | select parent_process_name, process_name, cmd_line, timestamp, dest_device_id, dest_user_id
-  | conditional_anomaly conditional="parent_process_name" target="process_name"
-  | where (process_name="powershell.exe" OR process_name="regsvcs.exe"
-  OR process_name="ftp.exe" OR process_name="dfsvc.exe" OR process_name="rasautou.exe"
-  OR process_name="schtasks.exe" OR process_name="xwizard.exe" OR process_name="findstr.exe"
-  OR process_name="esentutl.exe" OR process_name="cscript.exe" OR process_name="reg.exe"
-  OR process_name="csc.exe" OR process_name="atbroker.exe" OR process_name="print.exe"
-  OR process_name="pcwrun.exe" OR process_name="vbc.exe" OR process_name="rpcping.exe"
-  OR process_name="wsreset.exe" OR process_name="ilasm.exe" OR process_name="certutil.exe"
-  OR process_name="replace.exe" OR process_name="mshta.exe" OR process_name="bitsadmin.exe"
-  OR process_name="wscript.exe" OR process_name="ieexec.exe" OR process_name="cmd.exe"
-  OR process_name="microsoft.workflow.compiler.exe" OR process_name="runscripthelper.exe"
+  null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event,
+  "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"),
+  "string", null) | where parent_process_name!=null | select parent_process_name,
+  process_name, cmd_line, timestamp, dest_device_id, dest_user_id | conditional_anomaly
+  conditional="parent_process_name" target="process_name" | where (process_name="powershell.exe"
+  OR process_name="regsvcs.exe" OR process_name="ftp.exe" OR process_name="dfsvc.exe"
+  OR process_name="rasautou.exe" OR process_name="schtasks.exe" OR process_name="xwizard.exe"
+  OR process_name="findstr.exe" OR process_name="esentutl.exe" OR process_name="cscript.exe"
+  OR process_name="reg.exe" OR process_name="csc.exe" OR process_name="atbroker.exe"
+  OR process_name="print.exe" OR process_name="pcwrun.exe" OR process_name="vbc.exe"
+  OR process_name="rpcping.exe" OR process_name="wsreset.exe" OR process_name="ilasm.exe"
+  OR process_name="certutil.exe" OR process_name="replace.exe" OR process_name="mshta.exe"
+  OR process_name="bitsadmin.exe" OR process_name="wscript.exe" OR process_name="ieexec.exe"
+  OR process_name="cmd.exe" OR process_name="microsoft.workflow.compiler.exe" OR process_name="runscripthelper.exe"
   OR process_name="makecab.exe" OR process_name="forfiles.exe" OR process_name="desktopimgdownldr.exe"
   OR process_name="control.exe" OR process_name="msbuild.exe" OR process_name="register-cimprovider.exe"
   OR process_name="tttracer.exe" OR process_name="ie4uinit.exe" OR process_name="sc.exe"
@@ -45,12 +43,12 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   OR process_name="expand.exe" OR process_name="installutil.exe" OR process_name="netsh.exe"
   OR process_name="wab.exe" OR process_name="dnscmd.exe" OR process_name="at.exe"
   OR process_name="pcalua.exe" OR process_name="cmdkey.exe" OR process_name="msconfig.exe")
-  | eval input = (-1)*log(output)
-  | adaptive_threshold algorithm="gaussian" threshold=0.001 window=604800000L
-  | where label AND input > mean
-  | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id,
-  dest_user_id), body = create_map(["process_name", process_name, "parent_process_name", parent_process_name, "input", input, "mean", mean, "variance", variance, "output", output, "cmd_line", cmd_line])
-  | into write_ssa_detected_events();'
+  | eval input = (-1)*log(output) | adaptive_threshold algorithm="gaussian" threshold=0.001
+  window=604800000L | where label AND input > mean | eval start_time = timestamp,
+  end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body =
+  create_map(["process_name", process_name, "parent_process_name", parent_process_name,
+  "input", input, "mean", mean, "variance", variance, "output", output, "cmd_line",
+  cmd_line]) | into write_ssa_detected_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: 'Some custom tools used by admins could be used rarely to launch
   remotely applications. This might trigger false positives at the beginning when
