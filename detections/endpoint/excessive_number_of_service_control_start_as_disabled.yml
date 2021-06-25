@@ -30,6 +30,8 @@ known_false_positives: Legitimate programs and administrators will execute sc.ex
   possible, but unlikely from the telemetry of normal Windows operation we observed, that sc.exe will be called more than
   seven times in a short period of time.
 references:
+  - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
+  - https://attack.mitre.org/techniques/T1562/001/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
