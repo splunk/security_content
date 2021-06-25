@@ -1,4 +1,4 @@
-name: AWS Identity Access Manager (IAM) Successful Group Deletion
+name: AWS IAM Successful Group Deletion
 id: e776d06c-9267-11eb-819b-acde48001122
 version: 1
 date: '2021-03-31'
@@ -25,7 +25,7 @@ references:
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
 tags:
   analytic_story:
-  - AWS Identity Access Manager (IAM) Privilege Escalation
+  - AWS IAM Privilege Escalation
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json

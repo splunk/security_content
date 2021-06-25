@@ -1,4 +1,4 @@
-name: AWS Identity Access Manager (IAM) AccessDenied Discovery Events
+name: AWS IAM AccessDenied Discovery Events
 id: 3e1f1568-9633-11eb-a69c-acde48001122
 version: 1
 date: '2021-04-05'

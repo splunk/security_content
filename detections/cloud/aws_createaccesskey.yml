@@ -23,7 +23,7 @@ references:
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
 tags:
   analytic_story:
-  - AWS Identity Access Manager (IAM) Privilege Escalation
+  - AWS IAM Privilege Escalation
   asset_type: AWS Account
   automated_detection_testing: passed
   cis20:
