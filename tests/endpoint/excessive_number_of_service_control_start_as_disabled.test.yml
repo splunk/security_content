@@ -1,7 +1,7 @@
 name: Excessive number of service control start as disabled Unit Test
 tests:
 - name: Excessive number of service control start as disabled
-  file: detections/endpoint/excessive_number_of_service_control_start_as_disabled.yml
+  file: endpoint/excessive_number_of_service_control_start_as_disabled.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
