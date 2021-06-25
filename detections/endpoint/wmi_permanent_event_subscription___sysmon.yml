@@ -5,9 +5,15 @@ date: '2020-12-08'
 author: Rico Valdez, Michael Haag, Splunk
 type: batch
 datamodel: []
-description: This analytic looks for the creation of WMI permanent event subscriptions.
-  The following analytic identifies the use of WMI Event Subscription to establish persistence or perform privilege escalation.  WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges. This analytic is restricted by commonly added process execution and a path. If the volume is low enough, remove the values and flag on any new subscriptions.
-  
+description: 'This analytic looks for the creation of WMI permanent event subscriptions.
+  The following analytic identifies the use of WMI Event Subscription to establish
+  persistence or perform privilege escalation.  WMI can be used to install event filters,
+  providers, consumers, and bindings that execute code when a defined event occurs.
+  WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe)
+  and thus may result in elevated SYSTEM privileges. This analytic is restricted by
+  commonly added process execution and a path. If the volume is low enough, remove
+  the values and flag on any new subscriptions.
+
   All event subscriptions have three components \
 
   1. Filter - WQL Query for the events we want. EventID = 19 \
@@ -16,21 +22,23 @@ description: This analytic looks for the creation of WMI permanent event subscri
 
   1. Binding - Registers a filter to a consumer. EventID = 21 \
 
-  Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
-
+  Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding.
+  It may be pertinent to review all 3 to identify the flow of execution. In addition,
+  EventCode 4104 may assist with any other PowerShell script usage that registered
+  the subscription.'
 search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
   EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
 how_to_implement: To successfully implement this search, you must be collecting Sysmon
   data using Sysmon version 6.1 or greater and have Sysmon configured to generate
-  alerts for WMI activity (eventID= 19, 20, 21). In addition, you must have at least version 6.0.4 of the
-  Sysmon TA installed to properly parse the fields.
+  alerts for WMI activity (eventID= 19, 20, 21). In addition, you must have at least
+  version 6.0.4 of the Sysmon TA installed to properly parse the fields.
 known_false_positives: Although unlikely, administrators may use event subscriptions
   for legitimate purposes.
-references: 
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
-  - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
-  - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md
-  - https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
+- https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
+- https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md
+- https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
 tags:
   analytic_story:
   - Suspicious WMI Use
