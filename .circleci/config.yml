@@ -82,6 +82,11 @@ jobs:
             source venv/bin/activate
             python contentctl.py --path . --verbose  validate
       - run:
+          name: get cti repo for mitre context
+          command: |
+            cd security-content
+            git clone https://github.com/mitre/cti.git
+      - run:
           name: generate documentation
           command: |
             cd security-content
@@ -244,7 +249,7 @@ jobs:
           name: submit saaws package to appinspect API
           command: |
             cd security-content/bin
-            ./appinspect.sh ~/ DA-ESS_AmazonWebServices_Content-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD            
+            ./appinspect.sh ~/ DA-ESS_AmazonWebServices_Content-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
       - store_artifacts:
           path: ~/report
           destination: report/
@@ -292,7 +297,7 @@ jobs:
             source venv/bin/activate
             python bin/pretty_yaml.py --path . -v
       - run:
-          name: get cti repo for mitre-maps
+          name: get cti repo for mitre context
           command: |
             cd security-content
             git clone https://github.com/mitre/cti.git

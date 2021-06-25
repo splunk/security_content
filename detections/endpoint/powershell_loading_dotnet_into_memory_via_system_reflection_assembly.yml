@@ -36,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log
   kill_chain_phases:
@@ -54,4 +55,3 @@ tags:
   - User
   - EventCode
   security_domain: endpoint
-  automated_detection_testing: passed
