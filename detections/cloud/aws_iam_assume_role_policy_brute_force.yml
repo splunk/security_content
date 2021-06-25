@@ -1,4 +1,4 @@
-name: AWS IAM Assume Role Policy Brute Force
+name: AWS Identity Access Manager (IAM) Assume Role Policy Brute Force
 id: f19e09b0-9308-11eb-b7ec-acde48001122
 version: 1
 date: '2021-04-01'
@@ -29,7 +29,7 @@ references:
 - https://www.elastic.co/guide/en/security/current/aws-iam-brute-force-of-assume-role-policy.html
 tags:
   analytic_story:
-  - AWS IAM Privilege Escalation
+  - AWS Identity Access Manager (IAM) Privilege Escalation
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json

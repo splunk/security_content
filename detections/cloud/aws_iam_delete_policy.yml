@@ -1,4 +1,4 @@
-name: AWS IAM Delete Policy
+name: AWS Identity Access Manager (IAM) Delete Policy
 id: ec3a9362-92fe-11eb-99d0-acde48001122
 version: 1
 date: '2021-04-01'
@@ -27,7 +27,7 @@ references:
 - https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
 tags:
   analytic_story:
-  - AWS IAM Privilege Escalation
+  - AWS Identity Access Manager (IAM) Privilege Escalation
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json

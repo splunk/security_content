@@ -1,4 +1,4 @@
-name: AWS IAM Failure Group Deletion
+name: AWS Identity Access Manager (IAM) Failure Group Deletion
 id: 723b861a-92eb-11eb-93b8-acde48001122
 version: 1
 date: '2021-04-01'
@@ -27,7 +27,7 @@ references:
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
 tags:
   analytic_story:
-  - AWS IAM Privilege Escalation
+  - AWS Identity Access Manager (IAM) Privilege Escalation
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
