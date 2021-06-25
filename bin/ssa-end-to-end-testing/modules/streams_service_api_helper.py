@@ -8,6 +8,7 @@ import logging
 import os
 import uuid
 import requests
+import time
 
 from http import HTTPStatus
 #from constants import ML_MODEL_CONNECTOR_UUID
@@ -70,10 +71,11 @@ class DSPApi:
         #LOGGER.info(f"{spl}")
         response = requests.post(self.return_api_endpoint(PIPELINES_COMPILE_ENDPOINT), json=data, headers=request_headers(self.header_token))
         upl = response.json()
-        #LOGGER.info(f"POST compile response_body is: {upl}")
-        LOGGER.info(f"Successfully compile spl to upl")
-        return upl, response
-
+        if response.status_code == HTTPStatus.OK:
+            LOGGER.info(f"Successfully compiled spl to upl")
+            return upl
+        else:
+            LOGGER.error("SPL compilation failed: %s", response.text)
 
     def validate_upl(self, upl):
         """
@@ -93,13 +95,12 @@ class DSPApi:
         headers = {"Content-Type": "application/json", "Authorization": self.header_token}
         data = {"upl": upl}
         response = requests.post(self.return_api_endpoint(PIPELINES_VALIDATE_ENDPOINT), json=data, headers=headers)
-        response_body = response.json()
+
         if response.status_code == HTTPStatus.OK:
             LOGGER.info(f"UPL is validated.")
-            return upl, response_body
+            return upl
         else:
-            LOGGER.error(f"UPL validation failed: {response_body}")
-            return response_body
+            LOGGER.error("UPL validation failed: %s", response.text)
 
 
     def get_pipelines(self):
@@ -156,8 +157,8 @@ class DSPApi:
         helper function to compile and validate from spl text, then create the pipeline
 
         """
-        upl, _ = self.compile_spl(spl)
-        validated_upl, _ = self.validate_upl(upl)
+        upl = self.compile_spl(spl)
+        validated_upl = self.validate_upl(upl)
         pipeline_id = self.create_pipeline(validated_upl)
         LOGGER.info(f"pipeline id created is: {pipeline_id}")
         return pipeline_id
@@ -182,6 +183,7 @@ class DSPApi:
 
         headers = {"Content-Type": "application/json", "Authorization": self.header_token}
         pipelines_activate_endpoint = self.return_api_endpoint(PIPELINES_ENDPOINT) + "/" + pipeline_id + "/activate"
+        pipelines_status_endpoint = self.return_api_endpoint(PIPELINES_ENDPOINT) + "/" + pipeline_id
 
         data = {
             "activateLatestVersion": "true",
@@ -189,16 +191,35 @@ class DSPApi:
             "skipRestoreState": "true"
         }
 
+        pipeline_activated = False
+        attempts_remaining = 30
+
         response = requests.post(pipelines_activate_endpoint, json=data, headers=headers)
-        response_body = response.json()
 
         if response.status_code == HTTPStatus.OK:
-            pipeline_id = response_body.get("activated")
-            LOGGER.info(f"Pipeline {pipeline_id} successfully activated")
-        else:
-            LOGGER.error(f"Failed to activate pipeline {pipeline_id}: {response.text}")
+            while attempts_remaining:
+                attempts_remaining -= 1
+                pipeline_status_response = requests.get(pipelines_status_endpoint, headers=headers)
+                if pipeline_status_response.status_code == HTTPStatus.OK:
+                    pipeline_status = pipeline_status_response.json()
+                    status = pipeline_status['status']
+                    if status == 'ACTIVATED':
+                        pipeline_activated = True
+                        LOGGER.info(f"Pipeline {pipeline_id} successfully activated")
+                        break
+                    else:
+                        LOGGER.warning("Current pipeline activation status for %s: %s", pipeline_id, status)
+                else:
+                    LOGGER.error("Failed to check pipeline status for %s: %s", pipeline_id, pipeline_status_response.text)
 
-        return response_body
+                if attempts_remaining:
+                    time.sleep(60)
+                else:
+                    LOGGER.error("Got tired of waiting for the pipeline to activate")
+        else:
+            LOGGER.error("Failed to request pipeline activation for %: %s", pipeline_id, response.text)
+
+        return pipeline_activated
 
 
     def deactivate_pipeline(self, pipeline_id):
@@ -368,8 +389,8 @@ class DSPApi:
 
         """
 
-        upl, _ = self.compile_spl(spl)
-        validated_upl, _ = self.validate_upl(upl)
+        upl = self.compile_spl(spl)
+        validated_upl = self.validate_upl(upl)
         preview_id = self.get_preview_id(validated_upl)
         LOGGER.info(f"preview id created is: {preview_id}")
         return preview_id
