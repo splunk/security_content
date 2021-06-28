@@ -13,7 +13,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
 
   This analytic identifies the behavior of AMSI being tampered with. Implemented natively
   in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct
-  COLlECtionS.GenerIC.HAshSEt[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")`
+  COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")`
   taken from Powershell-Empire. \
 
   During triage, review parallel processes using an EDR product or 4688 events. It
