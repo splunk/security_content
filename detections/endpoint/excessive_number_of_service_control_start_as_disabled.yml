@@ -47,5 +47,6 @@ tags:
   - _time
   - Processes.process_name
   - Processes.user
+  - Processes.process
   security_domain: endpoint
   automated_detection_testing: passed
