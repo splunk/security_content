@@ -15,7 +15,8 @@ description: This detection targets behaviors observed when threat actors have u
 search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
   as distinct_cmdlines min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
   WHERE Processes.process_name = "sc.exe" AND Processes.process="*start= disabled*"
-  BY Processes.dest, Processes.user, _time span=30m | where distinct_cmdlines >= 8
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id, _time span=30m | where distinct_cmdlines >= 8
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `excessive_number_of_service_control_start_as_disabled_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
@@ -45,8 +46,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.process_name
-  - Processes.user
+  - Processes.dest 
+  - Processes.user 
+  - Processes.parent_process 
+  - Processes.process_name 
   - Processes.process
+  - Processes.process_id 
+  - Processes.parent_process_id
   security_domain: endpoint
   automated_detection_testing: passed
