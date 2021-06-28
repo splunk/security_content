@@ -45,5 +45,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Processes.process_name
+  - Processes.user
   security_domain: endpoint
   automated_detection_testing: passed
