@@ -24,7 +24,7 @@ search: '`cloudtrail` `security_group_api_calls` [search `cloudtrail` `security_
   | stats values(eventName) as eventNames, count as numberOfApiCalls, dc(eventName)
   as uniqueApisCalled by user | `detect_spike_in_security_group_activity_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit
   your environment. The `dataPointThreshold` variable is the minimum number of data
   points required to have a statistically significant amount of data to determine.
