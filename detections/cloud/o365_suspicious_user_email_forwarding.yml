@@ -44,5 +44,25 @@ tags:
   - Parameters
   risk_object: ForwardingSmtpAddress
   risk_object_type: system
-  risk_score: 20
+  risk_score: 25
+  impact: 
+  confidence: 
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  - Source: Cloud Data
+  - Scope: Internal, External, Inbound, Outbound, Local, Network
+  - Outcome: Blocked, Allowed
+  - Stage: Recon, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Exfiltration, Command And Control
+  - Rares: Rare Process, Rare Device, Rare Domain, Rare Network, Rare Location
+  - Other: Policy Violation
+
+  message: 
+  observable:
+  - name: 
+    type: Other, Unknown, Device, Container, Endpoint, Hostname, IP Address, User, Username,Email, Email Address , URL , URL Domain, File , File Name ,File Hash ,Process ,Process Name, Location
+
+    role:
+    - Other, Unknown, Actor, Target, Attacker, Victim, Parent Process, Child Process, Known Bad, Data Loss
+
   security_domain: threat
