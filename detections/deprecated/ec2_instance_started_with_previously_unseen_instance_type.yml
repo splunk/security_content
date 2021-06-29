@@ -20,7 +20,7 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest | table
   _time, user, dest, instanceType | `ec2_instance_started_with_previously_unseen_instance_type_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. This search works best when you run the "Previously Seen EC2 Instance Types"
   support search once to create a history of previously seen instance types.
 known_false_positives: It is possible that an admin will create a new system using
