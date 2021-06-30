@@ -22,7 +22,7 @@ LOGGER = logging.getLogger(__name__)
 TENANT_PLAYGROUND = f"research2"
 TENANT_STAGING = f"research"
 BASE_URL_PLAYGROUND = f"https://api.playground.scp.splunk.com/"
-BASE_URL_STAGING = f"https://api.staging.scp.splunk.com/"
+BASE_URL_STAGING = f"https://api.staging.scs.splunk.com/"
 
 # Streaming Pipelines REST endpoints
 CONNECTIONS_ENDPOINT = f"streams/v3beta1/connections"
@@ -441,7 +441,7 @@ class DSPApi:
         LOGGER.info(f"Submit Search Job")
         response = requests.post(self.return_api_endpoint(SUBMIT_SEARCH_ENDPOINT), json=data, headers=request_headers(self.header_token))
         if response.status_code != HTTPStatus.CREATED:
-            LOGGER.error(f"Submit search job failed.")
+            LOGGER.error(f"Submit search job failed: %s", response.text)
             return None
         else:
             response_body = response.json()

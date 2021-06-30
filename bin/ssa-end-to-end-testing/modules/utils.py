@@ -14,7 +14,7 @@ LOGGER = logging.getLogger(__name__)
 # Macros
 PULSAR_SOURCE_CONNECTION_ID_PLAYGROUND = f"29fb61f1-9342-48f5-9793-1afa008c377b"
 PULSAR_SOURCE_TOPIC_PLAYGROUND = f"persistent://ssa/egress/decorated-events-research2"
-PULSAR_SOURCE_CONNECTION_ID_STAGING = f"b8c81601-a7e0-4501-802c-cb2831c72b6f"
+PULSAR_SOURCE_CONNECTION_ID_STAGING = f"d156ed3a-1254-469a-bffc-9dd6eda97ac6"
 PULSAR_SOURCE_TOPIC_STAGING = f"persistent://ssa/egress/decorated-events-research"
 
 READ_SSA_ENRICHED_EVENTS_EXPANDED = (
