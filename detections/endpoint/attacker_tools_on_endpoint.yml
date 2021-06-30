@@ -11,7 +11,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `drop_dm_object_name(Processes)` 
-  | lookup attacker_tools attacker_tools as process_name OUTPUT description 
+  | lookup attacker_tools attacker_tool_names as process_name OUTPUT description 
   | search description=*
   | `attacker_tools_on_endpoint_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data

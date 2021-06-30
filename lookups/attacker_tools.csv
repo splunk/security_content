@@ -1,4 +1,4 @@
-attacker_tools,description
+attacker_tool_names,description
 remcom.exe,This process is an open source replacement to psexec and is not typically seen in an enterprise environment.
 pwdump.exe,This process is associated with a tool used to dump password hashes on a Windows system.
 pwdump2.exe,This process is associated with a tool used to dump password hashes on a Windows system.
