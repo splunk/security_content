@@ -24,7 +24,7 @@ LOGGER = logging.getLogger(__name__)
 TENANT_PLAYGROUND = f"research2"
 TENANT_STAGING = f"research"
 BASE_URL_PLAYGROUND = f"https://api.playground.scp.splunk.com/"
-BASE_URL_STAGING = f"https://api.staging.scp.splunk.com/"
+BASE_URL_STAGING = f"https://api.staging.scs.splunk.com/"
 
 # Streaming Pipelines REST endpoints
 CONNECTIONS_ENDPOINT = f"streams/v3beta1/connections"
@@ -172,6 +172,7 @@ class DSPApi:
             "name": f"ssa_smoke_test_pipeline_helper_{set_test_id}",
             "description": "ssa_test_pipeline_description",
             "bypassValidation": "true",
+            "labels": {"app": "ba"},
             "data": upl
         }
         response = requests.post(self.return_api_endpoint(PIPELINES_ENDPOINT), json=data, headers=headers)
@@ -180,6 +181,8 @@ class DSPApi:
             pipeline_id = response_body.get("id")
             #LOGGER.info(f"Pipeline {pipeline_id} successfully created")
             return pipeline_id
+        else:
+            LOGGER.error(f"Failed to create pipeline: %s", response.text)
 
 
     def create_pipeline_from_spl(self, spl):
@@ -471,7 +474,7 @@ class DSPApi:
         LOGGER.info(f"Submit Search Job")
         response = requests.post(self.return_api_endpoint(SUBMIT_SEARCH_ENDPOINT), json=data, headers=request_headers(self.header_token))
         if response.status_code != HTTPStatus.CREATED:
-            LOGGER.error(f"Submit search job failed.")
+            LOGGER.error(f"Submit search job failed: %s", response.text)
             return None
         else:
             response_body = response.json()
