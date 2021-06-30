@@ -51,27 +51,23 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.userName
-  risk_object: src_ip
-  risk_object_type: system
-  risk_score: 25
-  impact: 
-  confidence: 
+  impact: 90
+  confidence: 80
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 72
   context:
-  - Source: Cloud Data
-  - Scope: Internal, External, Inbound, Outbound, Local, Network
-  - Outcome: Blocked, Allowed
-  - Stage: Recon, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Exfiltration, Command And Control
-  - Rares: Rare Process, Rare Device, Rare Domain, Rare Network, Rare Location
-  - Other: Policy Violation
-
-  message: 
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Privilege Escalation
+  message: User $user_arn$ is attempting to create a login profile for $requestParameters.userName$ and did a console login from this IP $src_ip$
   observable:
-  - name: 
-    type: Other, Unknown, Device, Container, Endpoint, Hostname, IP Address, User, Username,Email, Email Address , URL , URL Domain, File , File Name ,File Hash ,Process ,Process Name, Location
-
+  - name: src_ip
+    type: IP Address
     role:
-    - Other, Unknown, Actor, Target, Attacker, Victim, Parent Process, Child Process, Known Bad, Data Loss
-
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
   security_domain: network

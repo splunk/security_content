@@ -53,47 +53,19 @@ tags:
   - All_Changes.object_category
   - All_Changes.status
   - All_Changes.user
-  risk_object: user
-  risk_object_type: user
-  risk_score: 25
-  impact: 
-  confidence: 
+  impact: 30
+  confidence: 50
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 15
   context:
-  - Source: Cloud Data
-  - Scope: Internal, External, Inbound, Outbound, Local, Network
-  - Outcome: Blocked, Allowed
-  - Stage: Recon, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Exfiltration, Command And Control
-  - Rares: Rare Process, Rare Device, Rare Domain, Rare Network, Rare Location
-  - Other: Policy Violation
-
-  message: 
+  - Source:Cloud Data
+  - Scope:Inbound
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Recon
+  message: user $user$ has made $api_calls$ api calls related to security groups, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$.
   observable:
-  - name: 
-    type: Other, Unknown, Device, Container, Endpoint, Hostname, IP Address, User, Username,Email, Email Address , URL , URL Domain, File , File Name ,File Hash ,Process ,Process Name, Location
-
+  - name: user
+    type: User
     role:
-    - Other, Unknown, Actor, Target, Attacker, Victim, Parent Process, Child Process, Known Bad, Data Loss
-
-  impact: 
-  confidence: 
-  # (impact * confidence)/100
-  risk_score: 
-  context:
-  - Source: Cloud Data
-  - Scope: Internal, External, Inbound, Outbound, Local, Network
-  - Outcome: Blocked, Allowed
-  - Stage: Recon, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Exfiltration, Command And Control
-  - Rares: Rare Process, Rare Device, Rare Domain, Rare Network, Rare Location
-  - Other: Policy Violation
-
-  message: 
-  observable:
-  - name: 
-    type: Other, Unknown, Device, Container, Endpoint, Hostname, IP Address, User, Username,Email, Email Address , URL , URL Domain, File , File Name ,File Hash ,Process ,Process Name, Location
-
-    role:
-    - Other, Unknown, Actor, Target, Attacker, Victim, Parent Process, Child Process, Known Bad, Data Loss
-
-  security_domain: network
+    - Attacker
