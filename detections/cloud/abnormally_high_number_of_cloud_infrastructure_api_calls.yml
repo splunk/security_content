@@ -51,7 +51,17 @@ tags:
   - All_Changes.command
   - All_Changes.user
   - All_Changes.status
-  risk_object: user
-  risk_object_type: user
-  risk_score: 25
   security_domain: network
+  impact: 30
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 15
+  context:
+  - Source:Cloud Data
+  - Stage:Recon
+  message: user $user$ has made $api_calls$ api calls, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
