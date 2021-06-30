@@ -20,7 +20,7 @@ search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunI
   as arn, requestParameters.instancesSet.items{}.imageId as amiID | table firstTime,
   lastTime, arn, amiID, dest, instanceType | `ec2_instance_started_with_previously_unseen_ami_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. This search works best when you run the "Previously Seen EC2 AMIs" support
   search once to create a history of previously seen AMIs.
 known_false_positives: After a new AMI is created, the first systems created with

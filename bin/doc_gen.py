@@ -6,35 +6,39 @@ import re
 from os import path, walk
 import json
 from jinja2 import Environment, FileSystemLoader
-from pyattck import Attck
 import datetime
+from stix2 import FileSystemSource
+from stix2 import Filter
 
+def get_all_techniques(projects_path):
+    path_cti = path.join(projects_path,'cti/enterprise-attack')
+    fs = FileSystemSource(path_cti)
+    all_techniques = get_techniques(fs)
+    return all_techniques
 
-
+def get_techniques(src):
+    filt = [Filter('type', '=', 'attack-pattern')]
+    return src.query(filt)
 
 def mitre_attack_object(technique, attack):
     mitre_attack = dict()
-    mitre_attack['technique_id'] = technique.id
-    mitre_attack['technique'] = technique.name
+    mitre_attack['technique_id'] = technique["external_references"][0]["external_id"]
+    mitre_attack['technique'] = technique["name"]
 
     # process tactics
     tactics = []
-    for tactic in technique.tactics:
-        tactics.append(tactic.name)
+    if 'kill_chain_phases' in technique:
+        for tactic in technique['kill_chain_phases']:
+            if tactic['kill_chain_name'] == 'mitre-attack':
+                tactic = tactic['phase_name'].replace('-', ' ')
+                tactics.append(tactic.title())
+                
     mitre_attack['tactic'] = tactics
-
     return mitre_attack
 
 def get_mitre_enrichment_new(attack, mitre_attack_id):
-    for technique in attack.enterprise.techniques:
-        apt_groups = []
-        if '.' in mitre_attack_id:
-            for subtechnique in technique.subtechniques:
-                if mitre_attack_id == subtechnique.id:
-                    mitre_attack = mitre_attack_object(subtechnique, attack)
-                    return mitre_attack
-
-        elif mitre_attack_id == technique.id:
+    for technique in attack:
+        if mitre_attack_id == technique["external_references"][0]["external_id"]:
             mitre_attack = mitre_attack_object(technique, attack)
             return mitre_attack
     return []
@@ -43,7 +47,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     manifest_files = []
     for root, dirs, files in walk(REPO_PATH + '/stories'):
         for file in files:
-            if file.endswith(".yml"):
+            if file.endswith(".yml") and root == './stories':
                 manifest_files.append((path.join(root, file)))
 
     stories = []
@@ -167,7 +171,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
 
 def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE):
-    types = ["endpoint", "application", "cloud", "network", "web", "experimental", "deprecated"]
+    types = ["endpoint", "application", "cloud", "network", "web", "experimental"]
     manifest_files = []
     for t in types:
         for root, dirs, files in walk(REPO_PATH + '/detections/' + t):
@@ -259,11 +263,11 @@ if __name__ == "__main__":
 
     if VERBOSE:
         print("getting mitre enrichment data from cti")
-    attack = Attck()
+    techniques = get_all_techniques(REPO_PATH)
 
     messages = []
-    sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messages, VERBOSE)
-    sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_detections, messages, VERBOSE)
+    sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, messages, VERBOSE)
+    sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, sorted_detections, messages, VERBOSE)
 
     # print all the messages from generation
     for m in messages:

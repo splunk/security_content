@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - meterpreter
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log
   kill_chain_phases:
@@ -44,4 +45,3 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
-  automated_detection_testing: passed
