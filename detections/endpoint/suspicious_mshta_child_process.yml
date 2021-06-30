@@ -58,3 +58,24 @@ tags:
   - Processes.parent_process
   - Processes.user
   security_domain: endpoint
+  impact: 50
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 40
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: suspicious mshta child process detected on host $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: parent_process
+    type: Process Name
+    role:
+    - Parent Process
