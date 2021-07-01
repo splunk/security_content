@@ -1,7 +1,7 @@
 name: Spoolsv Suspicious Process Access
 tests:
 - name: Spoolsv Suspicious Process Access
-  file: detections/spoolsv_suspicious_process_access.yml
+  file: endpoint/spoolsv_suspicious_process_access.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

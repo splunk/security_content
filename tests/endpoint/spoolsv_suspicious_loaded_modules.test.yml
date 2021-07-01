@@ -1,7 +1,7 @@
 name: Spoolsv Suspicious Loaded Modules
 tests:
 - name: Spoolsv Suspicious Loaded Modules
-  file: detections/spoolsv_suspicious_loaded_modules.yml
+  file: endpoint/spoolsv_suspicious_loaded_modules.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
