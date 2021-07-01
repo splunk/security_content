@@ -11,7 +11,7 @@ description: 'The following analytic identifies new printer drivers being load b
   Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
 
   During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.'
-search: 'source="wineventlog:microsoft-windows-printservice/operational" EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" 
+search: '`printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" 
  | stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
  | `security_content_ctime(firstTime)`
  | `security_content_ctime(lastTime)` 

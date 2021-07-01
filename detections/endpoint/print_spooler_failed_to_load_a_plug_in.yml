@@ -13,7 +13,7 @@ description: 'The following analytic identifies driver load errors utilizing the
   The analytic is based on file path and failure to load the plug-in. \
 
   During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.'
-search: 'sourcetype="WinEventLog:Microsoft-Windows-PrintService/Admin" 
+search: '`printservice` 
     ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) 
 | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
 | `security_content_ctime(firstTime)` 
