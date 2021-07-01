@@ -14,7 +14,7 @@ description: The following analytic identifies a `.dll` being written by `spools
   any additional file modification events.
 search: '`sysmon` EventID=11 process_name=spoolsv.exe file_path="*\\spool\\drivers\\x64\\*"
   file_name=*.dll | stats count min(_time) as firstTime max(_time) as lastTime by
-  dest, UserID, process_name, file_path, file_name, TargetFilename | `security_content_ctime(firstTime)`
+  dest, UserID, process_name, file_path, file_name, TargetFilename, process_id | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `spoolsv_writing_a_dll___sysmon_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
