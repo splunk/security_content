@@ -2,7 +2,7 @@ name: Print Spooler Adding A Printer Driver
 id: 313681a2-da8e-11eb-adad-acde48001122
 version: 1
 date: '2021-07-01'
-author: Splunk Threat Research Team
+author: Mauricio Velazco, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -54,8 +54,11 @@ tags:
   confidence: 90
   risk_score: 72
   context:
-  - Source: Endpoint
-  - Stage: Persistence, Privilege Escalation, Defense Evasion
+  - Source:Endpoint
+  - Stage:Persistence, 
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
   message: Suspicious print driver was loaded on endpoint $ComputerName$.
   observable:
   - name: ComputerName

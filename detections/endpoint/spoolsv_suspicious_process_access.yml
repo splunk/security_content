@@ -2,7 +2,7 @@ name: Spoolsv Suspicious Process Access
 id: 799b606e-da81-11eb-93f8-acde48001122
 version: 1
 date: '2021-07-01'
-author: Splunk Threat Research Team
+author: Mauricio Velazco, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -14,7 +14,7 @@ description: This analytic identifies a suspicious behavior related to PrintNigh
 search: '`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*"
   TargetImage IN ("*\\rundll32.exe", "*\\spoolsv.exe") GrantedAccess = 0x1fffff |
   stats  count min(_time) as firstTime max(_time) as lastTime by Computer SourceImage
-  TargetImage GrantedAccess CallTrace  EventCode | `security_content_ctime(firstTime)`
+  TargetImage GrantedAccess CallTrace  EventCode ProcessID| `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `spoolsv_suspicious_process_access_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with process access event where SourceImage, TargetImage, GrantedAccess and
@@ -49,23 +49,24 @@ tags:
   confidence: 90
   risk_score: 72
   context:
-  - Source: Endpoint
-  - Stage: Privilege Escalation, Defense Evasion
-  message: $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint
-    $Computer$. This behavior is suspicious and related to PrintNightmare.
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Local
+  message: $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare.
   observable:
   - name: Computer
     type: Endpoint
     role:
     - Victim
-  - name: SourceImage
-    type: Process Name
+  - name: ProcessID
+    type: Process
     role:
-    - Process
+    - Parent Process
   - name: TargetImage
     type: Process Name
     role:
-    - Process
+    - Target
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log

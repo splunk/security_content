@@ -2,7 +2,7 @@ name: Spoolsv Suspicious Loaded Modules
 id: a5e451f8-da81-11eb-b245-acde48001122
 version: 1
 date: '2021-07-01'
-author: Splunk Threat Research Team
+author: Mauricio Velazco, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -11,8 +11,7 @@ description: This search is to detect suspicious loading of dll in specific path
   made by spoolsv.exe after the exploitation.
 search: '`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*"
   ImageLoaded = "*.dll" | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded)
-  as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer
-  EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer process_id EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `spoolsv_suspicious_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
@@ -42,21 +41,24 @@ tags:
   confidence: 90
   risk_score: 72
   context:
-  - Source: Endpoint
-  - Stage: Privilege Escalation, Defense Evasion
-  message: $Image$ has loaded a driver from $ImageLoaded$ on endpoint $Computer$.
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Local
+  message: $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$ on endpoint $Computer$.
     This behavior is suspicious and related to PrintNightmare.
   observable:
   - name: Computer
     type: Endpoint
     role:
     - Victim
-  - name: Image
+  - name: process_id
     type: Process Name
     role:
     - Parent Process
+    - Attacker
   - name: ImageLoaded
-    type: Location
+    type: File
     role:
     - Other
   automated_detection_testing: passed

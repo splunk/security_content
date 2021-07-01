@@ -2,7 +2,7 @@ name: Print Spooler Failed to Load a Plug-in
 id: 1adc9548-da7c-11eb-8f13-acde48001122
 version: 1
 date: '2021-07-01'
-author: Splunk Threat Research Team
+author: Mauricio Velazco, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -48,15 +48,14 @@ tags:
   # (impact * confidence)/100
   risk_score: 72
   context:
-  - Source: Endpoint
-  - Stage: Persistence, Privilege Escalation, Defense Evasion
+  - Source:Endpoint
+  - Stage:Persistence, 
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
   message: Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. 
   observable:
   - name: ComputerName
     type: Endpoint
     role:
     - Victim
-  - name: EventCode
-    type: Other
-    role:
-    - Other

@@ -2,7 +2,7 @@ name: Spoolsv Writing a DLL
 id: d5bf5cf2-da71-11eb-92c2-acde48001122
 version: 1
 date: '2021-07-01'
-author: Splunk Threat Research Team
+author: Mauricio Velazco, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -59,8 +59,9 @@ tags:
   confidence: 90
   risk_score: 72
   context:
-  - Source: Endpoint
-  - Stage: Privilege Escalation, Defense Evasion
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
   message: $process_name$ has been identified writing dll's to $file_path$ on endpoint
     $dest$. This behavior is suspicious and related to PrintNightmare.
   observable:
@@ -68,12 +69,12 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: process_name
-    type: Process Name
+  - name: process_id
+    type: Process
     role:
     - Process
   - name: file_path
-    type: Location
+    type: File
     role:
     - Other
   automated_detection_testing: passed

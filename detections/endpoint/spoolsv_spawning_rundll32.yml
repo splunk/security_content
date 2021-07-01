@@ -2,7 +2,7 @@ name: Spoolsv Spawning Rundll32
 id: 15d905f6-da6b-11eb-ab82-acde48001122
 version: 1
 date: '2021-07-01'
-author: Splunk Threat Research Team
+author: Mauricio Velazco, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -54,21 +54,24 @@ tags:
   confidence: 90
   risk_score: 72
   context:
-  - Source: Endpoint
-  - Stage: Privilege Escalation, Defense Evasion
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Local
   message: $parent_process$ has spawned $process_name$ on endpoint $ComputerName$.
     This behavior is suspicious and related to PrintNightmare.
   observable:
-  - name: ComputerName
+  - name: dest
     type: Endpoint
     role:
     - Victim
-  - name: parent_process
-    type: Process Name
+  - name: parent_process_id
+    type: Process
     role:
     - Parent Process
-  - name: process_name
-    type: Process Name
+    - Attacker
+  - name: process_id
+    type: Process
     role:
     - Child Process
   automated_detection_testing: passed
