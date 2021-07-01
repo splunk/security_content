@@ -57,19 +57,19 @@ tags:
   # (impact * confidence)/100
   risk_score: 
   context:
-  - Source: Cloud Data
-  - Scope: Internal, External, Inbound, Outbound, Local, Network
-  - Outcome: Blocked, Allowed
-  - Stage: Recon, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Exfiltration, Command And Control
-  - Rares: Rare Process, Rare Device, Rare Domain, Rare Network, Rare Location
-  - Other: Policy Violation
-
+  - Source:Cloud Data
+  - Scope:Inbound
+  - Stage:Credential Access
+  - Other:Policy Violation
   message: 
   observable:
-  - name: 
-    type: Other, Unknown, Device, Container, Endpoint, Hostname, IP Address, User, Username,Email, Email Address , URL , URL Domain, File , File Name ,File Hash ,Process ,Process Name, Location
-
+  - name: src
+    type: IP Address
     role:
-    - Other, Unknown, Actor, Target, Attacker, Victim, Parent Process, Child Process, Known Bad, Data Loss
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
 
   security_domain: access
