@@ -27,7 +27,8 @@ how_to_implement: You must be ingesting data that records the file-system activi
   services you would like to monitor for attempts to stop the service.,
 known_false_positives: None identified. Attempts to disable security-related services
   should be identified and understood.
-references: []
+references: 
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service
 tags:
   analytic_story:
   - Disabling Security Tools

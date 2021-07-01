@@ -20,7 +20,8 @@ how_to_implement: You must be ingesting data that records process activity from 
 known_false_positives: There may be legitimate reasons for administrators to add a
   certificate to the untrusted certificate store. In such cases, this will typically
   be done on a large number of systems.
-references: []
+references: 
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md
 tags:
   analytic_story:
   - Disabling Security Tools

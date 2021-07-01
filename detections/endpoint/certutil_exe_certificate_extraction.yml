@@ -14,7 +14,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process = "* -exportPFX *" by Processes.parent_process Processes.process_name
   Processes.process Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `certutil_exe_certificate_extraction_filter`'
-how_to_implement: ''
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Unless there are specific use cases, manipulating or exporting
   certificates using certutil is uncommon. Extraction of certificate has been observed
   during attacks such as Golden SAML and other campaigns targeting Federated services.

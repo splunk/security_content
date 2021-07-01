@@ -7,8 +7,8 @@ type: batch
 datamodel:
 - Endpoint
 description: this search is to detect a potential privilege escalation attempt to
-  do malicious task. This registry modification is designed to  allows the Consent
-  Admin to perform an operation that requires elevation without consent or credentials.
+  do malicious task. This registry modification is designed to allows the `Consent
+  Admin` to perform an operation that requires elevation without consent or credentials.
   We also found this in some attacker to gain privilege escalation to the compromise
   machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

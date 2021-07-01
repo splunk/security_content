@@ -20,7 +20,7 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
   data model in the Processes node. Tune based on parent process names.
 known_false_positives: Administrators may modify the boot configuration.
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair
 tags:
   analytic_story:
   - Ryuk Ransomware
