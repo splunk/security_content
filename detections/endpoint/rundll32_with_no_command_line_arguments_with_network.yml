@@ -36,6 +36,7 @@ tags:
   analytic_story:
   - Suspicious Rundll32 Activity
   - Cobalt Strike
+  - PrintNightmare CVE-2021-1675
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log

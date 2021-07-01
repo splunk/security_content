@@ -1,0 +1,57 @@
+name: Print Spooler Adding A Printer Driver
+id: 313681a2-da8e-11eb-adad-acde48001122
+version: 1
+date: '2021-07-01'
+author: Splunk Threat Research Team
+type: batch
+datamodel:
+- Endpoint
+description: 'The following analytic identifies new printer drivers being load by utilizing the Windows PrintService operational logs, EventCode 316. This was identified during our testing of CVE-2021-1675 or PrintNightmare. \
+  
+  Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
+
+  During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.'
+search: 'source="wineventlog:microsoft-windows-printservice/operational" EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" 
+ | stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)` 
+ | `print_spooler_adding_a_printer_driver_filter`'
+how_to_implement: You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems. 
+known_false_positives: Unknown. This may require filtering.
+references:
+  - https://twitter.com/MalwareJake/status/1410421445608476679?s=20
+  - https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+  - https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+  - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+tags:
+  analytic_story:
+  - PrintNightmare CVE-2021-1675
+  dataset: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1547.012
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - OpCode
+  - EventCode
+  - ComputerName
+  - Message
+  security_domain: endpoint
+  impact: 80
+  confidence: 90 
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source: Endpoint
+  - Stage: Persistence, Privilege Escalation, Defense Evasion
+  message: Suspicious print driver was loaded on endpoint $ComputerName$. 
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim

@@ -1,0 +1,26 @@
+name: PrintNightmare CVE-2021-1675
+id: fd79470a-da88-11eb-b803-acde48001122
+version: 1
+date: '2021-07-01'
+author: Splunk Threat Research Team
+type: batch
+description: The following analytic story identifies behaviors related PrintNightmare, or CVE-2021-1675, to gain privilege escalation on the vulnerable machine.
+narrative: 'This analytic story identifies a recent critical vulnerability in the Windows Print Spooling service - CVE-2021-1675. Proof of concept code has been released publicly, but a thorough patch has not. \
+  Typical behavior of `spoolsv.exe` may exhibit spawning child processes and writing files to disk. This behavior, through public POC code, we have identified `spoolsv.exe` writing DLL's to specific paths. Also, content has been generated related to Print Spooler logs - EventCode 316, 808 and 4909. Not all PrintService logging is enabled by default and will require enabling it on critical or all systems. \
+  In addition to ensuring logging and visibility is present, to exploit this vulnerability, the adversary will need access to the environment, the payload on disk, SMB share, and use of credentials to spread.'
+references:
+  - https://github.com/cube0x0/CVE-2021-1675/
+  - https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+  - https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+  - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+tags:
+  analytic_story:
+  - PrintNightmare CVE-2021-1675
+  category:
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
