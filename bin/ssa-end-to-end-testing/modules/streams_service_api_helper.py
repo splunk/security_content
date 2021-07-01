@@ -9,6 +9,8 @@ import os
 import uuid
 import requests
 import time
+import base64
+import json
 
 from http import HTTPStatus
 #from constants import ML_MODEL_CONNECTOR_UUID
@@ -37,13 +39,41 @@ SUBMIT_SEARCH_ENDPOINT = f"search/v2beta1/jobs"
 DATASETS_ENDPOINT = f"catalog/v2beta1/datasets"
 
 
+class ApiError(Exception):
+    pass
+
+
 class DSPApi:
 
-    def __init__(self, env, tenant, header_token):
+    def __init__(self, env, tenant, token):
         self.env = env
         self.tenant = tenant
-        self.header_token = header_token
+        self.header_token = f"Bearer {token}"
+        self.validate_token()
 
+    def validate_token(self):
+        def decode(s):
+            def pad(t):
+                return t + '=' * (len(t) % 4)
+            return json.loads(base64.b64decode(pad(s)))
+
+        token = self.header_token.split()[1]
+        header, payload, signature = token.split('.')
+        payload_data = decode(payload)
+        for k in sorted(payload_data.keys()):
+            LOGGER.info(f"token.payload.{k} = %s", payload_data[k])
+
+        valid_for = payload_data['exp'] - int(time.time())
+        if not valid_for > 0:
+            raise ApiError("Token is expired")
+
+        token_env = payload_data['iss'].split('.')[-4]
+        if self.env != token_env:
+            raise ApiError(f"Env {self.env} was specified but token is for {token_env}")
+
+        token_tenant = payload_data['tenant']
+        if self.tenant != token_tenant:
+            raise ApiError(f"Tenant {self.tenant} was specified but token is for {token_tenant}")
 
     def return_api_endpoint(self, endpoint):
         if self.env == 'playground':
