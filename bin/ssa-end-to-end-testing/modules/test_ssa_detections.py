@@ -24,13 +24,12 @@ TEST_DATASET = 'windows-security_small.txt'
 
 class SSADetectionTesting:
 
-    def __init__(self, env, tenant, header_token):
+    def __init__(self, env, tenant, token):
         self.execution_passed = True
         self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
         self.env = env
         self.tenant = tenant
-        self.header_token = f"Bearer {header_token}"
-        self.api = DSPApi(env, tenant, self.header_token)
+        self.api = DSPApi(env, tenant, token)
         self.test_results = {}
 
     def test_dsp_pipeline(self):
