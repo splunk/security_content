@@ -6,27 +6,35 @@ author: Splunk Threat Research Team
 type: batch
 datamodel:
 - Endpoint
-description: 'The following analytic identifies new printer drivers being load by utilizing the Windows PrintService operational logs, EventCode 316. This was identified during our testing of CVE-2021-1675 or PrintNightmare. \
-  
-  Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
+description: 'The following analytic identifies new printer drivers being load by
+  utilizing the Windows PrintService operational logs, EventCode 316. This was identified
+  during our testing of CVE-2021-1675 or PrintNightmare. \
 
-  During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.'
-search: '`printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" 
- | stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
- | `security_content_ctime(firstTime)`
- | `security_content_ctime(lastTime)` 
- | `print_spooler_adding_a_printer_driver_filter`'
-how_to_implement: You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems. 
+  Within the proof of concept code, the following event will occur - "Printer driver
+  1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll,
+  evil.dll. No user action is required." \
+
+  During triage, isolate the endpoint and review for source of exploitation. Capture
+  any additional file modification events and review the source of where the exploitation
+  began.'
+search: '`printservice` EventCode=316 category = "Adding a printer driver" Message
+  = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" | stats  count
+  min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName
+  Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `print_spooler_adding_a_printer_driver_filter`'
+how_to_implement: You will need to ensure PrintService Admin and Operational logs
+  are being logged to Splunk from critical or all systems.
 known_false_positives: Unknown. This may require filtering.
 references:
-  - https://twitter.com/MalwareJake/status/1410421445608476679?s=20
-  - https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
-  - https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
-  - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+- https://twitter.com/MalwareJake/status/1410421445608476679?s=20
+- https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+- https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+- https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-1675
-  dataset: []
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -43,15 +51,15 @@ tags:
   - Message
   security_domain: endpoint
   impact: 80
-  confidence: 90 
-  # (impact * confidence)/100
+  confidence: 90
   risk_score: 72
   context:
   - Source: Endpoint
   - Stage: Persistence, Privilege Escalation, Defense Evasion
-  message: Suspicious print driver was loaded on endpoint $ComputerName$. 
+  message: Suspicious print driver was loaded on endpoint $ComputerName$.
   observable:
   - name: ComputerName
     type: Endpoint
     role:
     - Victim
+  automated_detection_testing: passed
