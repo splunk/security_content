@@ -1,0 +1,25 @@
+name: Revil Ransomware
+id: 817cae42-f54b-457a-8a36-fbf45521e29e
+version: 1
+date: '2021-06-04'
+author: Teoderick Contreras, Splunk
+type: batch
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to the Revil ransomware, including looking for file writes associated
+  with Revil, encrypting network shares, deleting shadow volume storage, registry key modification,
+  deleting of security logs, and more.
+narrative: Revil ransomware is a RaaS,that a single group may operates and manges the development of this ransomware.
+  It involve the use of ransomware payloads along with exfiltration of data. Malicious actors demand payment for
+  ransome of data and threaten deletion and exposure of exfiltrated data.
+references:
+- https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+- https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+tags:
+  analytic_story: Revil Ransomware
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

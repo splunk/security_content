@@ -30,6 +30,7 @@ def load_file(file_path):
 
 
 def main(args):
+    print("generated reporting information for our detections")
 
     # process all detections
     REPO_PATH = os.path.join(os.path.dirname(__file__), '../')
@@ -41,11 +42,15 @@ def main(args):
     detections.extend(load_objects("detections/web/*.yml", REPO_PATH))
 
     detections_all = detections.copy()
-    detections_all.extend(load_objects("detections/deprecated/*.yml", REPO_PATH))
-    detections_all.extend(load_objects("detections/experimental/*/*.yml", REPO_PATH))
+
+    #lets exclude all deprecated detections from our reporting and experimental
+    # detections_all.extend(load_objects("detections/deprecated/*.yml", REPO_PATH))
+    # detections_all.extend(load_objects("detections/experimental/*/*.yml", REPO_PATH))
     count_detections_all = len(detections_all)
+    print("detection count: {}".format(count_detections_all))
 
     tests = load_objects("tests/*/*.yml", REPO_PATH)
+    print("test count: {}".format(len(tests)))
 
     counter_tests=0
     counter_detection=0
@@ -56,8 +61,9 @@ def main(args):
     for test in tests:
         counter_tests=counter_tests+1
 
-    
-    detection_coverage = "{:.0%}".format(counter_tests/counter_detection)
+    detection_coverage = "{:.0%}".format(counter_detection/counter_tests)
+
+    print("detection_coverage {}".format(detection_coverage))
 
     TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'jinja2_templates')
     OUTPUT_PATH = os.path.join(os.path.dirname(__file__), 'reporting')
@@ -67,12 +73,14 @@ def main(args):
     output = template.render(detection_coverage=detection_coverage)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
+    print("writting detection coverage report: {}".format(output_path))
 
     template = j2_env.get_template('detection_count.j2')
     output_path = path.join(OUTPUT_PATH, 'detection_count.svg')
     output = template.render(detection_count=count_detections_all)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
+    print("writting detection count report: {}".format(output_path))
 
 
 if __name__ == "__main__":

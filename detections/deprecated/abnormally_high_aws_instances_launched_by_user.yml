@@ -5,9 +5,9 @@ date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where a user successfully launches
-  an abnormally high number of instances. This search is deprecated and have been
-  translated to use the latest Change Datamodel
+description: This search looks for AWS CloudTrail events where a user successfully
+  launches an abnormally high number of instances. This search is deprecated and have
+  been translated to use the latest Change Datamodel
 search: '`cloudtrail` eventName=RunInstances errorCode=success | bucket span=10m _time
   | stats count AS instances_launched by _time userName | eventstats avg(instances_launched)
   as total_launched_avg, stdev(instances_launched) as total_launched_stdev | eval
@@ -17,7 +17,7 @@ search: '`cloudtrail` eventName=RunInstances errorCode=success | bucket span=10m
   / total_launched_stdev, 2) | table _time, userName, instances_launched, num_standard_deviations_away,
   total_launched_avg, total_launched_stdev | `abnormally_high_aws_instances_launched_by_user_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. The threshold value should be tuned to your environment.
 known_false_positives: Many service accounts configured within an AWS infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter

@@ -5,7 +5,7 @@ date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events wherein a console login event
+description: This search looks for AWS CloudTrail events wherein a console login event
   by a user was recorded within the last hour, then compares the event to a lookup
   file of previously seen users (by ARN values) who have logged into the console.
   The alert is fired if the user has logged into the console for the first time within
@@ -17,11 +17,11 @@ search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user |
   "-70m@m"), "First Time Logging into AWS Console","Previously Seen User") | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
   where userStatus ="First Time Logging into AWS Console"  | `detect_new_user_aws_console_login_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
-  inputs. Run the "Previously seen users in CloudTrail" support search only once to
-  create a baseline of previously seen IAM users within the last 30 days. Run "Update
-  previously seen users in CloudTrail" hourly (or more frequently depending on how
-  often you run the detection searches) to refresh the baselines.
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
+  inputs. Run the "Previously seen users in AWS CloudTrail" support search only once
+  to create a baseline of previously seen IAM users within the last 30 days. Run "Update
+  previously seen users in AWS CloudTrail" hourly (or more frequently depending on
+  how often you run the detection searches) to refresh the baselines.
 known_false_positives: When a legitimate new user logins for the first time, this
   activity will be detected. Check how old the account is and verify that the user
   activity is legitimate.

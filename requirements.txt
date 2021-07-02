@@ -29,7 +29,7 @@ lockfile==0.12.2
 MarkupSafe==2.0.0
 more-itertools==8.7.0
 msgpack==1.0.2
-nodeenv==1.5.0
+nodeenv==1.6.0
 packaging==20.9
 pathlib2==2.3.5
 pendulum==1.2.5
@@ -38,7 +38,6 @@ Pillow==8.2.0
 pre-commit==2.12.1
 progress==1.5
 prompt-toolkit==1.0.14
-pyattck==3.0.1
 pyfiglet==0.8.post1
 Pygments==2.9.0
 PyInquirer==1.0.3
@@ -65,7 +64,7 @@ termcolor==1.1.0
 toml==0.10.2
 typing==3.7.4.3
 tzlocal==2.1
-urllib3==1.26.4
+urllib3==1.26.5
 virtualenv==20.4.6
 wcwidth==0.2.5
 webencodings==0.5.1

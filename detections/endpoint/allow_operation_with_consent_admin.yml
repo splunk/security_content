@@ -1,0 +1,50 @@
+name: Allow Operation with Consent Admin
+id: 7de17d7a-c9d8-11eb-a812-acde48001122
+version: 1
+date: '2021-06-10'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: this search is to detect a potential privilege escalation attempt to
+  do malicious task. This registry modification is designed to  allows the Consent
+  Admin to perform an operation that requires elevation without consent or credentials.
+  We also found this in some attacker to gain privilege escalation to the compromise
+  machine.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*"
+  Registry.registry_key_name = ConsentPromptBehaviorAdmin Registry.registry_value_name
+  = "DWORD (0x00000000)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `allow_operation_with_consent_admin_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: unknown
+references:
+- https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/341747f5-6b5d-4d30-85fc-fa1cc04038d4
+- https://www.trendmicro.com/vinfo/no/threat-encyclopedia/malware/Ransom.Win32.MRDEC.MRA/
+tags:
+  analytic_story:
+  - Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1548
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  security_domain: endpoint

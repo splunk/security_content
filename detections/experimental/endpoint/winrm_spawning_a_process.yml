@@ -6,23 +6,27 @@ author: Drew Church, Michael Haag, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic identifies suspicious processes spawning from WinRM (wsmprovhost.exe). This analytic is related to potential exploitation of CVE-2021-31166. which is a kernel-mode device driver http.sys vulnerability. Current proof of concept code will blue-screen the operating system. However, http.sys used by many different Windows processes, including WinRM. In this case, identifying suspicious process create (child processes) from `wsmprovhost.exe` is what this analytic is identifying.
+description: The following analytic identifies suspicious processes spawning from
+  WinRM (wsmprovhost.exe). This analytic is related to potential exploitation of CVE-2021-31166.
+  which is a kernel-mode device driver http.sys vulnerability. Current proof of concept
+  code will blue-screen the operating system. However, http.sys used by many different
+  Windows processes, including WinRM. In this case, identifying suspicious process
+  create (child processes) from `wsmprovhost.exe` is what this analytic is identifying.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wsmprovhost.exe
-  Processes.process_name IN ("cmd.exe","sh.exe","bash.exe","powershell.exe","pwsh.exe","schtasks.exe","certutil.exe","whoami.exe","bitsadmin.exe","scp.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `winrm_spawning_a_process_filter`'
+  Processes.process_name IN ("cmd.exe","sh.exe","bash.exe","powershell.exe","pwsh.exe","schtasks.exe","certutil.exe","whoami.exe","bitsadmin.exe","scp.exe")
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `winrm_spawning_a_process_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: Unknown. Add new processes or filter as needed. It is possible system management software may spawn processes from `wsmprovhost.exe`.
+known_false_positives: Unknown. Add new processes or filter as needed. It is possible
+  system management software may spawn processes from `wsmprovhost.exe`.
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml
-  - https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys
-  - https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py
+- https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_access/win_susp_shell_spawn_from_winrm.yml
+- https://www.zerodayinitiative.com/blog/2021/5/17/cve-2021-31166-a-wormable-code-execution-bug-in-httpsys
+- https://github.com/0vercl0k/CVE-2021-31166/blob/main/cve-2021-31166.py
 tags:
   analytic_story:
   - Unusual Processes

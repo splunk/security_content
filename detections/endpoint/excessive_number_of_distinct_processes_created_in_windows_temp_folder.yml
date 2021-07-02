@@ -1,0 +1,47 @@
+name: Excessive number of distinct processes created in Windows Temp folder
+id: 23587b6a-c479-11eb-b671-acde48001122
+version: 1
+date: '2021-06-03'
+author: Michael Hart, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic will identify suspicious series of process executions.  We
+  have observed that post exploit framework tools like Koadic and Meterpreter will
+  launch an excessive number of processes with distinct file paths from Windows\Temp
+  to execute actions on objective.  This behavior is extremely anomalous compared
+  to typical application behaviors that use Windows\Temp.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process
+  distinct_count(Processes.process) as distinct_process_count  min(_time) as firstTime
+  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process
+  = "*\\Windows\\Temp\\*" by Processes.dest Processes.user  _time span=20m | where
+  distinct_process_count > 37 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `excessive_number_of_distinct_processes_created_in_windows_temp_folder_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the full process path in the process field of CIM's Process data model.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Tune and filter known instances where renamed sc.exe may be used.
+known_false_positives: Many benign applications will create processes from executables
+  in Windows\Temp, although unlikely to exceed the given threshold.  Filter as needed.
+references:
+- https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/
+tags:
+  analytic_story:
+  - meterpreter
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1059
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  security_domain: endpoint

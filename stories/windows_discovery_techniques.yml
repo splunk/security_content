@@ -15,6 +15,7 @@ narrative: Attackers may not have much if any insight into their target's enviro
 references:
   - https://attack.mitre.org/tactics/TA0007/
   - https://cyberd.us/penetration-testing
+  - https://attack.mitre.org/software/S0521/
 tags:
   analytic_story:
     - Windows Discovery Techniques
@@ -22,4 +23,7 @@ tags:
     - Adversary Tactics
   product:
     - Splunk Behavioral Analytics
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   usecase: Advanced Threat Detection

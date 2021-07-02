@@ -1,4 +1,4 @@
-ansible==3.1.0
+ansible==3.4.0
 ansible-runner==1.4.7
 apipkg==1.5
 aspy.yaml==1.3.0
@@ -10,11 +10,11 @@ azure-core==1.14.0
 azure-identity==1.6.0
 azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
-azure-mgmt-network==16.0.0
-azure-mgmt-resource==16.1.0
+azure-mgmt-network==19.0.0
+azure-mgmt-resource==17.0.0
 bcrypt==3.2.0
 boto3==1.17.74
-botocore==1.20.30
+botocore==1.20.74
 certifi==2020.12.5
 cffi==1.14.5
 cfgv==3.3.0
@@ -36,8 +36,8 @@ lockfile==0.12.2
 MarkupSafe==1.1.1
 mock==4.0.3
 more-itertools==8.7.0
-mysql-connector-python==8.0.24
-nodeenv==1.3.4
+nodeenv==1.6.0
+mysql-connector-python==8.0.25
 ntlm-auth==1.5.0
 packaging==20.9
 path==15.1.2
@@ -70,7 +70,7 @@ splunk-sdk==1.6.15
 tabulate==0.8.9
 termcolor==1.1.0
 toml==0.10.2
-urllib3==1.26.4
+urllib3==1.26.5
 virtualenv==20.4.6
 wcwidth==0.2.5
 wget==3.2

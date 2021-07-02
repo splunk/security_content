@@ -44,11 +44,13 @@ action.escu.providing_technologies = []
 {% endif %}
 {% if detection.tags.analytic_story is defined %}
 action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
-{% if detection.tags.risk_object is defined %}
+{% if detection.risk_score is defined %}
 action.risk = 1
-action.risk.param._risk_object = {{ detection.tags.risk_object }}
-action.risk.param._risk_object_type = {{ detection.tags.risk_object_type }}
-action.risk.param._risk_score = {{ detection.tags.risk_score }}
+action.risk.param._risk_object = {{ detection.risk_object }}
+action.risk.param._risk_object_type = {{ detection.risk_object_type }}
+action.risk.param._risk_score = {{ detection.risk_score }}
+action.risk.param._risk_message = {{ detection.risk_message }}
+action.risk.param._risk = {{ detection.risk | tojson }}
 action.risk.param.verbose = 0
 {% endif %}
 {% else %}
@@ -58,7 +60,11 @@ cron_schedule = {{ detection.deployment.scheduling.cron_schedule }}
 dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
 dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
+{% if detection.deprecated is defined %}
+action.correlationsearch.label = ESCU - Deprecated - {{ detection.name }} - Rule
+{% else %}
 action.correlationsearch.label = ESCU - {{ detection.name }} - Rule
+{% endif %}
 action.correlationsearch.annotations = {{ detection.savedsearch_annotations | tojson }}
 {% if detection.deployment.scheduling.schedule_window is defined %}
 schedule_window = {{ detection.deployment.scheduling.schedule_window }}
@@ -84,11 +90,11 @@ action.email.useNSSubject = 1
 alert.digest_mode = 1
 {% if detection.disabled is defined %}
 disabled = false
-allow_skew = 100%
 {% else %}
 disabled = true
 {% endif %}
 enableSched = 1
+allow_skew = 100%
 counttype = number of events
 relation = greater than
 quantity = 0

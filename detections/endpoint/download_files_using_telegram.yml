@@ -6,9 +6,11 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic will identify a suspicious download by the Telegram application
-  on a Windows system. This behavior was identified on a honeypot where the adversary gained access, installed Telegram and followed through with
-  downloading different network scanners (port, bruteforcer, masscan) to the system and later used to mapped the whole network and further move laterally.
+description: The following analytic will identify a suspicious download by the Telegram
+  application on a Windows system. This behavior was identified on a honeypot where
+  the adversary gained access, installed Telegram and followed through with downloading
+  different network scanners (port, bruteforcer, masscan) to the system and later
+  used to mapped the whole network and further move laterally.
 search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
   |stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode
   Image process_id TargetFilename Hash | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -25,6 +27,9 @@ references:
 tags:
   analytic_story:
   - XMRig
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -42,6 +47,3 @@ tags:
   - TargetFilename
   - Hash
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
