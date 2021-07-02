@@ -1,10 +1,10 @@
-name: PrintNightmare CVE-2021-1675
+name: PrintNightmare CVE-2021-34527
 id: fd79470a-da88-11eb-b803-acde48001122
 version: 1
 date: '2021-07-01'
 author: Splunk Threat Research Team
 type: batch
-description: The following analytic story identifies behaviors related PrintNightmare, or CVE-2021-1675, to gain privilege escalation on the vulnerable machine.
+description: The following analytic story identifies behaviors related PrintNightmare, or CVE-2021-34527 previously known as (CVE-2021-1675), to gain privilege escalation on the vulnerable machine.
 narrative: 'This vulnerability affects the Print Spooler service, enabled by default on Windows systems, and allows adversaries to trick this service into installing a remotely hosted print driver using a low privileged user account. Successful exploitation effectively allows adversaries to execute code in the target system (Remote Code Execution) in the context of the Print Spooler service which runs with the highest privileges (Privilege Escalation). \
 
   The prerequisites for successful exploitation consist of: \
@@ -23,7 +23,7 @@ references:
   - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 tags:
   analytic_story:
-  - PrintNightmare CVE-2021-1675
+  - PrintNightmare CVE-2021-34527
   category:
   - Lateral Movement
   - Privilege Escalation

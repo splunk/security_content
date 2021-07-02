@@ -2,7 +2,7 @@ name: Spoolsv Suspicious Process Access
 id: 799b606e-da81-11eb-93f8-acde48001122
 version: 1
 date: '2021-07-01'
-author: Mauricio Velazco, Michael Haag, Splunk
+author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -28,7 +28,7 @@ references:
 - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 tags:
   analytic_story:
-  - PrintNightmare CVE-2021-1675
+  - PrintNightmare CVE-2021-34527
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

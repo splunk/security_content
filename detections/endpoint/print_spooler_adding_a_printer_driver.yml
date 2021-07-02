@@ -2,7 +2,7 @@ name: Print Spooler Adding A Printer Driver
 id: 313681a2-da8e-11eb-adad-acde48001122
 version: 1
 date: '2021-07-01'
-author: Mauricio Velazco, Michael Haag, Splunk
+author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -32,7 +32,7 @@ references:
 - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 tags:
   analytic_story:
-  - PrintNightmare CVE-2021-1675
+  - PrintNightmare CVE-2021-34527
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
   kill_chain_phases:

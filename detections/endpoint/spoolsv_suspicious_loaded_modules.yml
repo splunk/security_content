@@ -2,7 +2,7 @@ name: Spoolsv Suspicious Loaded Modules
 id: a5e451f8-da81-11eb-b245-acde48001122
 version: 1
 date: '2021-07-01'
-author: Mauricio Velazco, Michael Haag, Splunk
+author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -21,7 +21,7 @@ references:
 - https://raw.githubusercontent.com/hieuttmmo/sigma/dceb13fe3f1821b119ae495b41e24438bd97e3d0/rules/windows/image_load/sysmon_cve_2021_1675_print_nightmare.yml
 tags:
   analytic_story:
-  - PrintNightmare CVE-2021-1675
+  - PrintNightmare CVE-2021-34527
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

@@ -28,7 +28,7 @@ references:
 - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 tags:
   analytic_story:
-  - PrintNightmare CVE-2021-1675
+  - PrintNightmare CVE-2021-34527
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
   kill_chain_phases:
