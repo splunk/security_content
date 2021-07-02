@@ -1,0 +1,61 @@
+name: Print Spooler Failed to Load a Plug-in
+id: 1adc9548-da7c-11eb-8f13-acde48001122
+version: 1
+date: '2021-07-01'
+author: Mauricio Velazco, Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: 'The following analytic identifies driver load errors utilizing the Windows PrintService Admin logs. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
+  
+  Within the proof of concept code, the following error will occur - "The print spooler failed to load a plug-in module C:\Windows\system32\spool\DRIVERS\x64\3\meterpreter.dll, error code 0x45A. See the event user data for context information." \
+
+  The analytic is based on file path and failure to load the plug-in. \
+
+  During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.'
+search: '`printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) 
+  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `print_spooler_failed_to_load_a_plug_in_filter`'
+how_to_implement: You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems. 
+known_false_positives: False positives are unknown and filtering may be required.
+references:
+  - https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+  - https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+  - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+tags:
+  analytic_story:
+  - PrintNightmare CVE-2021-34527
+  dataset: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1547.012
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - OpCode
+  - EventCode
+  - ComputerName
+  - Message
+  security_domain: endpoint
+  impact: 80
+  confidence: 90 
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Persistence, 
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
+  message: Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. 
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
