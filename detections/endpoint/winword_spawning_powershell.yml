@@ -52,8 +52,8 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
-  impact: 5000
-  confidence: 1
+  impact: 50
+  confidence: 10
   # (impact * confidence)/100
   risk_score: 50
   context:
