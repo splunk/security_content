@@ -1,0 +1,66 @@
+name: Spoolsv Suspicious Loaded Modules
+id: a5e451f8-da81-11eb-b245-acde48001122
+version: 1
+date: '2021-07-01'
+author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect suspicious loading of dll in specific path relative
+  to printnightmare exploitation. In this search we try to detect the loaded modules
+  made by spoolsv.exe after the exploitation.
+search: '`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*"
+  ImageLoaded = "*.dll" | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded)
+  as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer process_id EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `spoolsv_suspicious_loaded_modules_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and imageloaded executions from your endpoints. If you
+  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://raw.githubusercontent.com/hieuttmmo/sigma/dceb13fe3f1821b119ae495b41e24438bd97e3d0/rules/windows/image_load/sysmon_cve_2021_1675_print_nightmare.yml
+tags:
+  analytic_story:
+  - PrintNightmare CVE-2021-34527
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1547.012
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - Computer
+  - EventCode
+  - ImageLoaded
+  security_domain: endpoint
+  impact: 80
+  confidence: 90
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Local
+  message: $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$ on endpoint $Computer$.
+    This behavior is suspicious and related to PrintNightmare.
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_id
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
+  - name: ImageLoaded
+    type: File
+    role:
+    - Other
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
