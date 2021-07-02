@@ -54,7 +54,7 @@ def test_baseline_search(splunk_host, splunk_password, search, pass_condition, b
         return test_results
 
 
-def run_modified_splunk_search(splunk_host, splunk_password, search, detection_name, detection_file, earliest_time, latest_time):
+def run_modified_splunk_search(splunk_host, splunk_password, search1, search2, detection_name, detection_file, earliest_time, latest_time):
     try:
         service = client.connect(
             host=splunk_host,
@@ -66,34 +66,40 @@ def run_modified_splunk_search(splunk_host, splunk_password, search, detection_n
         print("Unable to connect to Splunk instance: " + str(e))
         return 1, {}
 
-    if search.startswith('|'):
-        search = search
-    else:
-        search = 'search ' + search
+    if not search1.startswith('|'):
+        search1 = 'search ' + search1
+
+    if not search2.startswith('|'):
+        search2 = 'search ' + search2
 
     kwargs = {"dispatch.earliest_time": "-1d",
               "dispatch.latest_time": "now"}
 
-    splunk_search = search
-
     try:
-        job = service.jobs.export(splunk_search, **kwargs)
+        job = service.jobs.export(search1, **kwargs)
     except Exception as e:
         print("Unable to execute detection: " + str(e))
         return 1, {}
 
-    # Get the results and display them using the ResultsReader
     reader = results.ResultsReader(job)
-    results = []
+    results_search_malicious = []
     for result in reader:
         if isinstance(result, dict):
-            #print('Result: ' + str(str(result).encode('utf-8')))
-            results.append(result)
-        elif isinstance(result, results.Message):
-            # Diagnostic messages may be returned in the results
-            #print("Message: " + str(str(result).encode('utf-8')))
+            results_search_malicious.append(result)
 
-    return results
+    try:
+        job = service.jobs.export(search2, **kwargs)
+    except Exception as e:
+        print("Unable to execute detection: " + str(e))
+        return 1, {}
+
+    reader = results.ResultsReader(job)
+    results_search_not_malicious = []
+    for result in reader:
+        if isinstance(result, dict):
+            results_search_not_malicious.append(result)
+
+    return results_search_malicious, results_search_not_malicious
 
 
 def test_detection_search(splunk_host, splunk_password, search, pass_condition, detection_name, detection_file, earliest_time, latest_time):
