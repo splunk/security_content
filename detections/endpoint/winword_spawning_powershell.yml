@@ -52,3 +52,24 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
+  impact: 5000
+  confidence: 1
+  # (impact * confidence)/100
+  risk_score: 50
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: "$parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in phishing attacks."
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Target
