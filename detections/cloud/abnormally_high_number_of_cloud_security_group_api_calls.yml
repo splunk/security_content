@@ -53,6 +53,7 @@ tags:
   - All_Changes.object_category
   - All_Changes.status
   - All_Changes.user
+  security_domain: network
   impact: 30
   confidence: 50
   # (impact * confidence)/100

@@ -5,7 +5,7 @@ date: '2021-03-02'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where a user A who has already
+description: This search looks for AWS CloudTrail events where a user A who has already
   permission to update login profile, makes an API call to update login profile for
   another user B . Attackers have been know to use this technique for Privilege Escalation
   in case new victim(user B) has more permissions than old victim(user B)
@@ -15,7 +15,7 @@ search: '`cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazona
   eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userName
   user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_updateloginprofile_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with cloudtrail logs.
+  search works with AWS CloudTrail logs.
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has legitimately created keys for another user.
 references:
@@ -51,25 +51,5 @@ tags:
   - requestParameters.userName
   risk_object: src
   risk_object_type: system
-  risk_score: 25
-  impact: 
-  confidence: 
-  # (impact * confidence)/100
-  risk_score: 
-  context:
-  - Source: Cloud Data
-  - Scope: Internal, External, Inbound, Outbound, Local, Network
-  - Outcome: Blocked, Allowed
-  - Stage: Recon, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Exfiltration, Command And Control
-  - Rares: Rare Process, Rare Device, Rare Domain, Rare Network, Rare Location
-  - Other: Policy Violation
-
-  message: 
-  observable:
-  - name: 
-    type: Other, Unknown, Device, Container, Endpoint, Hostname, IP Address, User, Username,Email, Email Address , URL , URL Domain, File , File Name ,File Hash ,Process ,Process Name, Location
-
-    role:
-    - Other, Unknown, Actor, Target, Attacker, Victim, Parent Process, Child Process, Known Bad, Data Loss
-
+  risk_score: 20
   security_domain: network
