@@ -1,0 +1,80 @@
+name: Spoolsv Writing a DLL
+id: d5bf5cf2-da71-11eb-92c2-acde48001122
+version: 1
+date: '2021-07-01'
+author: Mauricio Velazco, Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies a `.dll` being written by `spoolsv.exe`.
+  This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. Typically,
+  this is not normal behavior for `spoolsv.exe` to write a `.dll`. Current POC code
+  used will write the suspicious DLL to disk within a path of `\spool\drivers\x64\`.
+  During triage, isolate the endpoint and review for source of exploitation. Capture
+  any additional file modification events.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=spoolsv.exe by _time Processes.process_id Processes.process_name
+  Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
+  tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\spool\\drivers\\x64\\*"
+  Filesystem.file_name="*.dll" by _time Filesystem.dest Filesystem.file_create_time
+  Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` |
+  fields _time dest file_create_time file_name file_path process_name process_path
+  process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
+  process_name | `spoolsv_writing_a_dll_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
+  node.
+known_false_positives: Unknown.
+references:
+- https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+- https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+- https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+tags:
+  analytic_story:
+  - PrintNightmare CVE-2021-34527
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1547.012
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.file_path
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.dest
+  security_domain: endpoint
+  impact: 80
+  confidence: 90
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  message: $process_name$ has been identified writing dll's to $file_path$ on endpoint
+    $dest$. This behavior is suspicious and related to PrintNightmare.
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_id
+    type: Process
+    role:
+    - Process
+  - name: file_path
+    type: File
+    role:
+    - Other
+  automated_detection_testing: passed
