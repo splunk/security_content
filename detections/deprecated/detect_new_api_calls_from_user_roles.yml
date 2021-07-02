@@ -18,9 +18,9 @@ search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=A
   as earliest latest(_time) as latest by user | `security_content_ctime(earliest)`
   | `security_content_ctime(latest)` | `detect_new_api_calls_from_user_roles_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. This search works best when you run the "Previously seen API call per user
-  roles in CloudTrail" support search once to create a history of previously seen
+  roles in AWS CloudTrail" support search once to create a history of previously seen
   user roles.
 known_false_positives: It is possible that there are legitimate user roles making
   new or infrequently used API calls in your infrastructure, causing the search to

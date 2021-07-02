@@ -5,7 +5,7 @@ date: '2021-02-22'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where a user created a policy
+description: This search looks for AWS CloudTrail events where a user created a policy
   version that allows them to access any resource in their account
 search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com
   errorCode = success | spath input=requestParameters.policyDocument output=key_policy_statements
@@ -16,7 +16,7 @@ search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.
   awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`|`aws_create_policy_version_to_allow_all_resources_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with cloudtrail logs.
+  search works with AWS CloudTrail logs.
 known_false_positives: While this search has no known false positives, it is possible
   that an AWS admin has legitimately created a policy to allow a user to access all
   resources. That said, AWS strongly advises against granting full control to all

@@ -1,0 +1,14 @@
+name: WevtUtil Usage To Clear Logs Unit Test
+tests:
+  - name: WevtUtil Usage To Clear Logs
+    file: endpoint/ssa___wevtutil_usage_to_clear_logs.yml
+    pass_condition: '@count_gt(0)'
+    description: Test for wevtutil clear logs command
+    attack_data:
+      - file_name: clear_evt.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
+        source: WinEventLog:Security
+
+
+
+
