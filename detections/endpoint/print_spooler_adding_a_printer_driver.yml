@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: 'The following analytic identifies new printer drivers being load by
   utilizing the Windows PrintService operational logs, EventCode 316. This was identified
-  during our testing of CVE-2021-1675 or PrintNightmare. \
+  during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
 
   Within the proof of concept code, the following event will occur - "Printer driver
   1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll,
