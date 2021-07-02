@@ -36,3 +36,16 @@ tags:
   required_fields:
   - _time
   security_domain: {{security_domain}}
+  impact: {{impact}}
+  confidence: {{ confidence }}
+  # (impact * confidence)/100
+  risk_score: {{risk_score}}
+  context:
+  {% for context in contexts -%}
+  - {{contexts}}
+  {% endfor -%}
+  message: {{risk_message}}
+  observable:
+  {% for observable in observables -%}
+  - {{observable}}
+  {% endfor -%}
