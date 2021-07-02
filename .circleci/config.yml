@@ -271,6 +271,11 @@ jobs:
             source venv/bin/activate
             pip install -q -r requirements.txt
       - run:
+          name: get cti repo for mitre context
+          command: |
+            cd security-content
+            git clone https://github.com/mitre/cti.git
+      - run:
           name: run doc-gen
           command: |
             cd security-content
@@ -282,11 +287,6 @@ jobs:
             cd security-content
             source venv/bin/activate
             python bin/pretty_yaml.py --path . -v
-      - run:
-          name: get cti repo for mitre context
-          command: |
-            cd security-content
-            git clone https://github.com/mitre/cti.git
       - run:
           name: run generate-actors-map
           command: |
