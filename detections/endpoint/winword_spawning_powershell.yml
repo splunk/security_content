@@ -59,7 +59,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Execution
-  message: "$parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in phishing attacks."
+  message: "$parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in spearphishing attacks."
   observable:
   - name: dest
     type: Endpoint
