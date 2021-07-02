@@ -1,0 +1,34 @@
+name: PrintNightmare CVE-2021-34527
+id: fd79470a-da88-11eb-b803-acde48001122
+version: 1
+date: '2021-07-01'
+author: Splunk Threat Research Team
+type: batch
+description: The following analytic story identifies behaviors related PrintNightmare, or CVE-2021-34527 previously known as (CVE-2021-1675), to gain privilege escalation on the vulnerable machine.
+narrative: 'This vulnerability affects the Print Spooler service, enabled by default on Windows systems, and allows adversaries to trick this service into installing a remotely hosted print driver using a low privileged user account. Successful exploitation effectively allows adversaries to execute code in the target system (Remote Code Execution) in the context of the Print Spooler service which runs with the highest privileges (Privilege Escalation). \
+
+  The prerequisites for successful exploitation consist of: \
+
+  1. Print Spooler service enabled on the target system \
+
+  1. Network connectivity to the target system (initial access has been obtained) \ 
+  
+  1. Hash or password for a low privileged user ( or computer ) account. \
+
+  In the most impactful scenario, an attacker would be able to leverage this vulnerability to obtain a SYSTEM shell on a domain controller and so escalate their privileges from a low privileged domain account to full domain access in the target environment as shown below.'
+references:
+  - https://github.com/cube0x0/CVE-2021-1675/
+  - https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+  - https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+  - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+tags:
+  analytic_story:
+  - PrintNightmare CVE-2021-34527
+  category:
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
