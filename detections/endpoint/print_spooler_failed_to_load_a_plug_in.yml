@@ -56,6 +56,6 @@ tags:
   message: Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. 
   observable:
   - name: ComputerName
-    type: Endpoint
+    type: Hostname
     role:
     - Victim
