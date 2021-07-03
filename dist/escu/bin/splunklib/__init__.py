@@ -14,6 +14,7 @@
 
 """Python library for Splunk."""
 
-__version_info__ = (1, 6, 2)
+from __future__ import absolute_import
+from splunklib.six.moves import map
+__version_info__ = (1, 6, 16)
 __version__ = ".".join(map(str, __version_info__))
-

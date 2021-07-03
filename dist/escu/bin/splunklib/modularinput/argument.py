@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from __future__ import absolute_import
 try:
     import xml.etree.ElementTree as ET
 except ImportError:
@@ -20,7 +21,7 @@ except ImportError:
 class Argument(object):
     """Class representing an argument to a modular input kind.
 
-    ``Argument`` is meant to be used with ``Scheme`` to generate an XML
+    ``Argument`` is meant to be used with ``Scheme`` to generate an XML 
     definition of the modular input kind that Splunk understands.
 
     ``name`` is the only required parameter for the constructor.
@@ -53,9 +54,9 @@ class Argument(object):
         :param name: ``string``, identifier for this argument in Splunk.
         :param description: ``string``, human-readable description of the argument.
         :param validation: ``string`` specifying how the argument should be validated, if using internal validation.
-        If using external validation, this will be ignored.
+               If using external validation, this will be ignored.
         :param data_type: ``string``, data type of this field; use the class constants.
-        "data_type_boolean", "data_type_number", or "data_type_string".
+               "data_type_boolean", "data_type_number", or "data_type_string".
         :param required_on_edit: ``Boolean``, whether this arg is required when editing an existing modular input of this kind.
         :param required_on_create: ``Boolean``, whether this arg is required when creating a modular input of this kind.
         :param title: ``String``, a human-readable title for the argument.

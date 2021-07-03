@@ -12,18 +12,20 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from __future__ import absolute_import
 import sys
 
+from io import TextIOWrapper, TextIOBase
+from splunklib.six import ensure_str
 from .event import ET
 
 try:
-    from cStringIO import StringIO
+    from splunklib.six.moves import cStringIO as StringIO
 except ImportError:
-    from StringIO import StringIO
+    from splunklib.six import StringIO
 
 class EventWriter(object):
     """``EventWriter`` writes events and error messages to Splunk from a modular input.
-
     Its two important methods are ``writeEvent``, which takes an ``Event`` object,
     and ``log``, which takes a severity and an error message.
     """
@@ -76,9 +78,10 @@ class EventWriter(object):
 
         :param document: An ``ElementTree`` object.
         """
-        self._out.write(ET.tostring(document))
+        self._out.write(ensure_str(ET.tostring(document)))
         self._out.flush()
 
     def close(self):
         """Write the closing </stream> tag to make this XML well formed."""
         self._out.write("</stream>")
+        self._out.flush()
