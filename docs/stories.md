@@ -259,7 +259,7 @@ Adversaries may abuse BITS jobs to persistently execute or clean up after malici
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 
 #### Kill Chain Phase
 
@@ -375,20 +375,20 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | T1059.003 | Windows Command Shell | Execution |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1218.010 | Regsvr32 | Defense Evasion |
 | T1218.005 | Mshta | Defense Evasion |
 | T1569.002 | Service Execution | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1203 | Exploitation for Client Execution | Execution |
 | T1505.003 | Web Shell | Persistence |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 | T1018 | Remote System Discovery | Discovery |
 
 #### Kill Chain Phase
@@ -525,15 +525,15 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1095 | Non-Application Layer Protocol | Command and Control |
+| T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -645,12 +645,12 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1003.001 | LSASS Memory | Credential Access |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1554 | Compromise Client Software Binary | Persistence |
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
@@ -767,15 +767,15 @@ The stealing of data by an adversary.
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1095 | Non-Application Layer Protocol | Command and Control |
+| T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -1151,7 +1151,7 @@ Adversaries may transfer tools or other files from an external system into a com
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1003 | OS Credential Dumping | Credential Access |
 | T1021 | Remote Services | Lateral Movement |
 | T1113 | Screen Capture | Collection |
@@ -1159,7 +1159,7 @@ Adversaries may transfer tools or other files from an external system into a com
 | T1563 | Remote Service Session Hijacking | Lateral Movement |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
@@ -1320,7 +1320,7 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1003 | OS Credential Dumping | Credential Access |
 | T1021 | Remote Services | Lateral Movement |
 | T1113 | Screen Capture | Collection |
@@ -1328,7 +1328,7 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | T1563 | Remote Service Session Hijacking | Lateral Movement |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
@@ -1509,20 +1509,20 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 | T1059.003 | Windows Command Shell | Execution |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1218.010 | Regsvr32 | Defense Evasion |
 | T1218.005 | Mshta | Defense Evasion |
 | T1569.002 | Service Execution | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1203 | Exploitation for Client Execution | Execution |
 | T1505.003 | Web Shell | Persistence |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 | T1018 | Remote System Discovery | Discovery |
 
 #### Kill Chain Phase
@@ -1667,7 +1667,7 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1543.001 | Launch Agent | Persistence, Privilege Escalation |
 | T1074 | Data Staged | Collection |
 
@@ -1891,15 +1891,15 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1095 | Non-Application Layer Protocol | Command and Control |
+| T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -2053,7 +2053,7 @@ Monitor your Okta environment for suspicious activities. Due to the Covid outbre
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.001 | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -2261,7 +2261,7 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.003 | Windows Management Instrumentation Event Subscription | Persistence, Privilege Escalation |
+| T1546.003 | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
 | T1047 | Windows Management Instrumentation | Execution |
 
 #### Kill Chain Phase
@@ -2311,11 +2311,11 @@ Monitor and detect registry changes initiated from remote locations, which can b
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 | T1547.010 | Port Monitors | Persistence, Privilege Escalation |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+| T1546.012 | Image File Execution Options Injection | Privilege Escalation, Persistence |
+| T1546.011 | Application Shimming | Privilege Escalation, Persistence |
 
 #### Kill Chain Phase
 
@@ -2556,6 +2556,8 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 * [Eventvwr UAC Bypass](detections.md#eventvwr-uac-bypass)
 
+* [Excessive number of service control start as disabled](detections.md#excessive-number-of-service-control-start-as-disabled)
+
 * [FodHelper UAC Bypass](detections.md#fodhelper-uac-bypass)
 
 * [Hiding Files And Directories With Attrib exe](detections.md#hiding-files-and-directories-with-attrib-exe)
@@ -2577,7 +2579,7 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 | ----------- | ----------- |--------------|
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1564.001 | Hidden Files and Directories | Defense Evasion |
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 | T1112 | Modify Registry | Defense Evasion |
 | T1222.001 | Windows File and Directory Permissions Modification | Defense Evasion |
 | T1036 | Masquerading | Defense Evasion |
@@ -2651,7 +2653,7 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1087 | Account Discovery | Discovery |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
 | T1199 | Trusted Relationship | Initial Access |
@@ -2675,7 +2677,7 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-| T1574 | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+| T1574 | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 | T1589.001 | Credentials | Reconnaissance |
 | T1590.001 | Domain Properties | Reconnaissance |
 | T1590.003 | Network Trust Dependencies | Reconnaissance |
@@ -2725,6 +2727,10 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 
 * [USN Journal Deletion](detections.md#usn-journal-deletion)
 
+* [WevtUtil Usage To Clear Logs](detections.md#wevtutil-usage-to-clear-logs)
+
+* [Wevtutil Usage To Disable Logs](detections.md#wevtutil-usage-to-disable-logs)
+
 * [Windows Event Log Cleared](detections.md#windows-event-log-cleared)
 
 
@@ -2739,6 +2745,8 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Exploitation
 
 
 #### Reference
@@ -2821,20 +2829,20 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1574.009 | Path Interception by Unquoted Path | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.009 | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
 | T1222.001 | Windows File and Directory Permissions Modification | Defense Evasion |
 | T1585 | Establish Accounts | Resource Development |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 | T1207 | Rogue Domain Controller | Defense Evasion |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1547.010 | Port Monitors | Persistence, Privilege Escalation |
-| T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.011 | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+| T1546.011 | Application Shimming | Privilege Escalation, Persistence |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
@@ -2898,11 +2906,11 @@ Monitor for and investigate activities that may be associated with a Windows pri
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
-| T1546.008 | Accessibility Features | Persistence, Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+| T1546.008 | Accessibility Features | Privilege Escalation, Persistence |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
+| T1546.012 | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 #### Kill Chain Phase
 
@@ -3038,7 +3046,7 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 | T1021 | Remote Services | Lateral Movement |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -3095,8 +3103,8 @@ Validate the security configuration of network infrastructure and verify that on
 | ----------- | ----------- |--------------|
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
-| T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
-| T1557 | Man-in-the-Middle | Collection, Credential Access |
+| T1557.002 | ARP Cache Poisoning | Credential Access, Collection |
+| T1557 | Man-in-the-Middle | Credential Access, Collection |
 | T1542.005 | TFTP Boot | Defense Evasion, Persistence |
 | T1020.001 | Traffic Duplication | Exfiltration |
 
@@ -3195,7 +3203,7 @@ Track when a user assumes an IAM role in another AWS account to obtain cross-acc
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1550 | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 #### Kill Chain Phase
@@ -3249,7 +3257,7 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1136.003 | Cloud Account | Persistence |
 | T1580 | Cloud Infrastructure Discovery | Discovery |
 | T1110 | Brute Force | Credential Access |
@@ -3425,7 +3433,7 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
 
 #### Kill Chain Phase
@@ -3481,11 +3489,11 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1003.001 | LSASS Memory | Credential Access |
 | T1136.003 | Cloud Account | Persistence |
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
+| T1546.012 | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 #### Kill Chain Phase
 
@@ -3567,7 +3575,7 @@ Track when a user assumes an IAM role in another GCP account to obtain cross-acc
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -3926,7 +3934,7 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -3969,7 +3977,7 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -4011,8 +4019,8 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1580 | Cloud Infrastructure Discovery | Discovery |
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -4076,6 +4084,75 @@ _version_: 1
 
 </details>
 
+## Lateral Movement
+<details>
+  <summary>details</summary>
+
+### PrintNightmare CVE-2021-34527
+The following analytic story identifies behaviors related PrintNightmare, or CVE-2021-34527 previously known as (CVE-2021-1675), to gain privilege escalation on the vulnerable machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1547.012](https://attack.mitre.org/techniques/T1547.012/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Print Spooler Adding A Printer Driver](detections.md#print-spooler-adding-a-printer-driver)
+
+* [Print Spooler Failed to Load a Plug-in](detections.md#print-spooler-failed-to-load-a-plug-in)
+
+* [Rundll32 with no Command Line Arguments with Network](detections.md#rundll32-with-no-command-line-arguments-with-network)
+
+* [Spoolsv Spawning Rundll32](detections.md#spoolsv-spawning-rundll32)
+
+* [Spoolsv Suspicious Loaded Modules](detections.md#spoolsv-suspicious-loaded-modules)
+
+* [Spoolsv Suspicious Process Access](detections.md#spoolsv-suspicious-process-access)
+
+* [Spoolsv Writing a DLL](detections.md#spoolsv-writing-a-dll)
+
+* [Spoolsv Writing a DLL - Sysmon](detections.md#spoolsv-writing-a-dll---sysmon)
+
+* [Suspicious Rundll32 no Command Line Arguments](detections.md#suspicious-rundll32-no-command-line-arguments)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exploitation
+
+
+#### Reference
+
+* https://github.com/cube0x0/CVE-2021-1675/
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+
+
+_version_: 1
+</details>
+
+---
+
+</details>
+
 ## Malware
 <details>
   <summary>details</summary>
@@ -4118,6 +4195,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Suspicious Event Log Service Behavior](detections.md#suspicious-event-log-service-behavior)
 
 * [Suspicious wevtutil Usage](detections.md#suspicious-wevtutil-usage)
+
+* [WevtUtil Usage To Clear Logs](detections.md#wevtutil-usage-to-clear-logs)
 
 * [Windows Event Log Cleared](detections.md#windows-event-log-cleared)
 
@@ -4248,7 +4327,7 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.001 | Local Account | Persistence |
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1569.002 | Service Execution | Execution |
 | T1059.001 | PowerShell | Execution |
@@ -4336,7 +4415,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ----------- | ----------- |--------------|
 | T1003.002 | Security Account Manager | Credential Access |
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1218.003 | CMSTP | Defense Evasion |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1490 | Inhibit System Recovery | Impact |
@@ -4345,7 +4424,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1020 | Automated Exfiltration | Exfiltration |
 | T1569.002 | Service Execution | Execution |
 | T1486 | Data Encrypted for Impact | Impact |
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 #### Kill Chain Phase
 
@@ -4399,15 +4478,15 @@ Detect and investigate hosts in your environment that may be communicating with 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1095 | Non-Application Layer Protocol | Command and Control |
+| T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -4536,9 +4615,9 @@ Monitor for and investigate activities, including the creation or deletion of hi
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1070.005 | Network Share Connection Removal | Defense Evasion |
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1021.001 | Remote Desktop Protocol | Lateral Movement |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 
@@ -4587,7 +4666,7 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
-| T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.011 | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
@@ -4702,6 +4781,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Wbemprox COM Object Execution](detections.md#wbemprox-com-object-execution)
 
+* [WevtUtil Usage To Clear Logs](detections.md#wevtutil-usage-to-clear-logs)
+
+* [Wevtutil Usage To Disable Logs](detections.md#wevtutil-usage-to-disable-logs)
+
 * [WinEvent Scheduled Task Created Within Public Path](detections.md#winevent-scheduled-task-created-within-public-path)
 
 * [WinEvent Scheduled Task Created to Spawn Shell](detections.md#winevent-scheduled-task-created-to-spawn-shell)
@@ -4713,7 +4796,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1490 | Inhibit System Recovery | Impact |
 | T1218.003 | CMSTP | Defense Evasion |
 | T1070.004 | File Deletion | Defense Evasion |
@@ -4736,7 +4819,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
 | T1036.003 | Rename System Utilities | Defense Evasion |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 | T1070 | Indicator Removal on Host | Defense Evasion |
 
 #### Kill Chain Phase
@@ -5160,7 +5243,7 @@ Quickly identify systems running new or unusual processes in your environment th
 | T1003 | OS Credential Dumping | Credential Access |
 | T1016 | System Network Configuration Discovery | Discovery |
 | T1059 | Command and Scripting Interpreter | Execution |
-|  |  |  |
+| T1117 | Regsvr32 |  |
 | T1202 | Indirect Command Execution | Defense Evasion |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1203 | Exploitation for Client Execution | Execution |
@@ -5273,7 +5356,7 @@ Windows services are often used by attackers for persistence and the ability to 
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
-| T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.011 | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
@@ -5310,6 +5393,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Deleting Of Net Users](detections.md#deleting-of-net-users)
 
+* [Deny Permission using Cacls Utility](detections.md#deny-permission-using-cacls-utility)
+
 * [Disable Windows App Hotkeys](detections.md#disable-windows-app-hotkeys)
 
 * [Disabling Net User Account](detections.md#disabling-net-user-account)
@@ -5330,6 +5415,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Executables Or Script Creation In Suspicious Path](detections.md#executables-or-script-creation-in-suspicious-path)
 
+* [Grant Permission Using Cacls Utility](detections.md#grant-permission-using-cacls-utility)
+
 * [Hide User Account From Sign-In Screen](detections.md#hide-user-account-from-sign-in-screen)
 
 * [ICACLS Grant Command](detections.md#icacls-grant-command)
@@ -5337,6 +5424,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Icacls Deny Command](detections.md#icacls-deny-command)
 
 * [Modify ACL permission To Files Or Folder](detections.md#modify-acl-permission-to-files-or-folder)
+
+* [Modify ACLs Permission Of Files Or Folders](detections.md#modify-acls-permission-of-files-or-folders)
 
 * [Process Kill Base On File Path](detections.md#process-kill-base-on-file-path)
 
@@ -5354,11 +5443,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1531 | Account Access Removal | Impact |
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1087 | Account Discovery | Discovery |
 | T1489 | Service Stop | Impact |
-| T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1036 | Masquerading | Defense Evasion |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
