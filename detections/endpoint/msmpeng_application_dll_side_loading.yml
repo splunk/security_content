@@ -6,17 +6,17 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in non default windows defender folder. 
-  This technique was seen couple days ago with revil ransomware in Kaseya Supply chain. The approach is to drop an old version of msmpeng.exe to load the
-  actual payload name as mspvc.dll which will load the revil ransomware to the compromise machine
+description: This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll
+  in non default windows defender folder. This technique was seen couple days ago
+  with revil ransomware in Kaseya Supply chain. The approach is to drop an old version
+  of msmpeng.exe to load the actual payload name as mspvc.dll which will load the
+  revil ransomware to the compromise machine
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
-  where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND Filesystem.file_path != "*\\Program Files\\windows defender\\*"
-  by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `msmpeng_application_dll_side_loading_filter`'
+  where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND
+  Filesystem.file_path != "*\\Program Files\\windows defender\\*" by Filesystem.file_create_time
+  Filesystem.process_id  Filesystem.file_name Filesystem.user | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `msmpeng_application_dll_side_loading_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
@@ -37,9 +37,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Filesystem.file_create_time 
-  - Filesystem.process_id  
-  - Filesystem.file_name 
+  - Filesystem.file_create_time
+  - Filesystem.process_id
+  - Filesystem.file_name
   - Filesystem.user
-  - Filesystem.file_path 
+  - Filesystem.file_path
   security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log
