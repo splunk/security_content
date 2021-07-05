@@ -12,7 +12,7 @@ description: This search is to detect a suspicious modification to the firewall 
   more files.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe
-  Processes.process= "*firewall*" Processes.process= "*group=\"Network Discovery\"*"  Processes.process="*enable=Yes*"
+  Processes.process= "*firewall*" Processes.process= "*group=\"Network Discovery\"*"  Processes.process="*enable*" Processes.process="*Yes*"
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
