@@ -7,10 +7,10 @@ type: batch
 datamodel:
 - Endpoint
 description: This analytic identifies a suspicious behavior related to PrintNightmare,
-  or CVE-2021-34527 previously (CVE-2021-1675),  to gain privilege escalation on the vulnerable machine. This
-  exploit attacks a critical Windows Print Spooler Vulnerability to elevate privilege.
-  This detection is to look for suspicious process access made by the spoolsv.exe
-  that may related to the attack.
+  or CVE-2021-34527 previously (CVE-2021-1675),  to gain privilege escalation on the
+  vulnerable machine. This exploit attacks a critical Windows Print Spooler Vulnerability
+  to elevate privilege. This detection is to look for suspicious process access made
+  by the spoolsv.exe that may related to the attack.
 search: '`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*"
   TargetImage IN ("*\\rundll32.exe", "*\\spoolsv.exe") GrantedAccess = 0x1fffff |
   stats  count min(_time) as firstTime max(_time) as lastTime by Computer SourceImage
@@ -29,31 +29,22 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1068
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - SourceImage
-  - TargetImage
-  - GrantedAccess
-  - CallTrace
-  - EventCode
-  security_domain: endpoint
-  impact: 80
+  automated_detection_testing: passed
   confidence: 90
-  risk_score: 72
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Local
-  message: $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint
+    $Computer$. This behavior is suspicious and related to PrintNightmare.
+  mitre_attack_id:
+  - T1068
   observable:
   - name: Computer
     type: Endpoint
@@ -67,6 +58,16 @@ tags:
     type: Process Name
     role:
     - Target
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - SourceImage
+  - TargetImage
+  - GrantedAccess
+  - CallTrace
+  - EventCode
+  risk_score: 72
+  security_domain: endpoint
