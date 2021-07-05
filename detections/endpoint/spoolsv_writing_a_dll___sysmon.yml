@@ -7,11 +7,11 @@ type: batch
 datamodel:
 - Endpoint
 description: The following analytic identifies a `.dll` being written by `spoolsv.exe`.
-  This was identified during our testing of CVE-2021-34527 previously(CVE-2021-1675) or PrintNightmare. Typically,
-  this is not normal behavior for `spoolsv.exe` to write a `.dll`. Current POC code
-  used will write the suspicious DLL to disk within a path of `\spool\drivers\x64\`.
-  During triage, isolate the endpoint and review for source of exploitation. Capture
-  any additional file modification events.
+  This was identified during our testing of CVE-2021-34527 previously(CVE-2021-1675)
+  or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to write
+  a `.dll`. Current POC code used will write the suspicious DLL to disk within a path
+  of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source
+  of exploitation. Capture any additional file modification events.
 search: '`sysmon` EventID=11 process_name=spoolsv.exe file_path="*\\spool\\drivers\\x64\\*"
   file_name=*.dll | stats count min(_time) as firstTime max(_time) as lastTime by
   dest, UserID, process_name, file_path, file_name, TargetFilename, process_id | `security_content_ctime(firstTime)`
@@ -29,35 +29,22 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1547.012
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - UserID
-  - process_name
-  - file_path
-  - file_name
-  - TargetFilename
-  security_domain: endpoint
-  impact: 80
+  automated_detection_testing: passed
   confidence: 90
-  risk_score: 72
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Local
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
   message: $process_name$ has been identified writing dll's to $file_path$ on endpoint
     $dest$. This behavior is suspicious and related to PrintNightmare.
+  mitre_attack_id:
+  - T1547.012
   observable:
   - name: dest
     type: Endpoint
@@ -71,4 +58,17 @@ tags:
     type: File
     role:
     - Other
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - UserID
+  - process_name
+  - file_path
+  - file_name
+  - TargetFilename
+  risk_score: 72
+  security_domain: endpoint

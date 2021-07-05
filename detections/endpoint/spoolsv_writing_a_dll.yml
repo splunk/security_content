@@ -7,11 +7,11 @@ type: batch
 datamodel:
 - Endpoint
 description: The following analytic identifies a `.dll` being written by `spoolsv.exe`.
-  This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. Typically,
-  this is not normal behavior for `spoolsv.exe` to write a `.dll`. Current POC code
-  used will write the suspicious DLL to disk within a path of `\spool\drivers\x64\`.
-  During triage, isolate the endpoint and review for source of exploitation. Capture
-  any additional file modification events.
+  This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675)
+  or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to write
+  a `.dll`. Current POC code used will write the suspicious DLL to disk within a path
+  of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source
+  of exploitation. Capture any additional file modification events.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=spoolsv.exe by _time Processes.process_id Processes.process_name
   Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
@@ -34,12 +34,34 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
+  automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: $process_name$ has been identified writing dll's to $file_path$ on endpoint
+    $dest$. This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:
   - T1547.012
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_id
+    type: Process
+    role:
+    - Process
+  - name: file_path
+    type: File
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,27 +76,5 @@ tags:
   - Processes.process_id
   - Processes.process_name
   - Processes.dest
-  security_domain: endpoint
-  impact: 80
-  confidence: 90
   risk_score: 72
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Defense Evasion
-  message: $process_name$ has been identified writing dll's to $file_path$ on endpoint
-    $dest$. This behavior is suspicious and related to PrintNightmare.
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: process_id
-    type: Process
-    role:
-    - Process
-  - name: file_path
-    type: File
-    role:
-    - Other
-  automated_detection_testing: passed
+  security_domain: endpoint
