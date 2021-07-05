@@ -267,6 +267,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Detect AWS Console Login by New User](#detect-aws-console-login-by-new-user)
 
 
@@ -549,11 +551,15 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [GCP Detect gcploit framework](#gcp-detect-gcploit-framework)
 
 
 
 - [GCP Kubernetes cluster pod scan detection](#gcp-kubernetes-cluster-pod-scan-detection)
+
+
 
 
 
@@ -602,6 +608,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Kubernetes AWS detect suspicious kubectl calls](#kubernetes-aws-detect-suspicious-kubectl-calls)
+
+
 
 
 
@@ -706,6 +714,24 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [O365 Suspicious User Email Forwarding](#o365-suspicious-user-email-forwarding)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1368,6 +1394,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Deny Permission using Cacls Utility](#deny-permission-using-cacls-utility)
+
+
+
 
 
 
@@ -1778,6 +1808,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Excessive number of service control start as disabled](#excessive-number-of-service-control-start-as-disabled)
+
+
+
 - [Excessive number of taskhost processes](#excessive-number-of-taskhost-processes)
 
 
@@ -1819,6 +1853,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [GPUpdate with no Command Line Arguments with Network](#gpupdate-with-no-command-line-arguments-with-network)
+
+
+
+- [Grant Permission Using Cacls Utility](#grant-permission-using-cacls-utility)
 
 
 
@@ -1935,6 +1973,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Modify ACL permission To Files Or Folder](#modify-acl-permission-to-files-or-folder)
+
+
+
+- [Modify ACLs Permission Of Files Or Folders](#modify-acls-permission-of-files-or-folders)
 
 
 
@@ -2115,6 +2157,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Prevent Automatic Repair Mode using Bcdedit](#prevent-automatic-repair-mode-using-bcdedit)
+
+
+
+- [Print Spooler Adding A Printer Driver](#print-spooler-adding-a-printer-driver)
+
+
+
+- [Print Spooler Failed to Load a Plug-in](#print-spooler-failed-to-load-a-plug-in)
 
 
 
@@ -2386,6 +2436,26 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Spoolsv Spawning Rundll32](#spoolsv-spawning-rundll32)
+
+
+
+- [Spoolsv Suspicious Loaded Modules](#spoolsv-suspicious-loaded-modules)
+
+
+
+- [Spoolsv Suspicious Process Access](#spoolsv-suspicious-process-access)
+
+
+
+- [Spoolsv Writing a DLL](#spoolsv-writing-a-dll)
+
+
+
+- [Spoolsv Writing a DLL - Sysmon](#spoolsv-writing-a-dll---sysmon)
+
+
+
 - [Start Up During Safe Mode Boot](#start-up-during-safe-mode-boot)
 
 
@@ -2591,6 +2661,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Wermgr Process Spawned CMD Or Powershell Process](#wermgr-process-spawned-cmd-or-powershell-process)
+
+
+
+- [WevtUtil Usage To Clear Logs](#wevtutil-usage-to-clear-logs)
+
+
+
+- [Wevtutil Usage To Disable Logs](#wevtutil-usage-to-disable-logs)
 
 
 
@@ -2840,6 +2918,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [DNS Query Length With High Standard Deviation](#dns-query-length-with-high-standard-deviation)
+
+
 
 
 
@@ -3155,6 +3235,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Hosts receiving high volume of network traffic from email server](#hosts-receiving-high-volume-of-network-traffic-from-email-server)
 
 
@@ -3190,6 +3274,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Large Volume of DNS ANY Queries](#large-volume-of-dns-any-queries)
+
+
 
 
 
@@ -3304,6 +3390,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Plain HTTP POST Exfiltrated Data](#plain-http-post-exfiltrated-data)
+
+
+
+
 
 
 
@@ -3551,6 +3641,16 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 - [TOR Traffic](#tor-traffic)
 
 
@@ -3630,11 +3730,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 </details>
 
 ## Application
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -4160,6 +4266,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Monitor Email For Brand Abuse](#monitor-email-for-brand-abuse)
 
 
@@ -4261,6 +4373,20 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Phishing Email Detection by Machine Learning Method - SSA](#phishing-email-detection-by-machine-learning-method---ssa)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4577,11 +4703,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 </details>
 
 ## Web
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -5109,7 +5241,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
+
+
 
 
 
@@ -5367,7 +5509,21 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 - [Supernova Webshell](#supernova-webshell)
+
+
+
+
 
 
 
@@ -5514,7 +5670,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 ### AWS Create Policy Version to allow all resources
-This search looks for CloudTrail events where a user created a policy version that allows them to access any resource in their account
+This search looks for AWS CloudTrail events where a user created a policy version that allows them to access any resource in their account
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -5542,7 +5698,7 @@ This search looks for CloudTrail events where a user created a policy version th
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 
@@ -5562,7 +5718,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -5593,7 +5749,7 @@ _version_: 2
 ---
 
 ### AWS CreateAccessKey
-This search looks for CloudTrail events where a user A who has already permission to create access keys, makes an API call to create access keys for another user B. Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
+This search looks for AWS CloudTrail events where a user A who has already permission to create access keys, makes an API call to create access keys for another user B. Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -5618,7 +5774,7 @@ This search looks for CloudTrail events where a user A who has already permissio
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 
@@ -5669,7 +5825,7 @@ _version_: 1
 ---
 
 ### AWS CreateLoginProfile
-This search looks for CloudTrail events where a user A(victim A) creates a login profile for user B, followed by a AWS Console login event from user B from the same src_ip as user B. This correlated event can be indicative of privilege escalation since both events happened from the same src_ip
+This search looks for AWS CloudTrail events where a user A(victim A) creates a login profile for user B, followed by a AWS Console login event from user B from the same src_ip as user B. This correlated event can be indicative of privilege escalation since both events happened from the same src_ip
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -5698,7 +5854,7 @@ This search looks for CloudTrail events where a user A(victim A) creates a login
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 
@@ -5852,7 +6008,7 @@ This search provides detection of KMS keys which action kms:Encrypt is accessibl
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Required field
 
@@ -5932,7 +6088,7 @@ This search provides detection of users with KMS keys performing encryption spec
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Required field
 
@@ -5989,7 +6145,7 @@ _version_: 1
 ---
 
 ### AWS Excessive Security Scanning
-This search looks for CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
+This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -6014,7 +6170,7 @@ This search looks for CloudTrail events and analyse the amount of eventNames whi
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 
@@ -6447,7 +6603,7 @@ _version_: 1
 ---
 
 ### AWS Network Access Control List Created with All Open Ports
-The search looks for CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
+The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -6475,7 +6631,7 @@ The search looks for CloudTrail events to detect if any network ACLs were create
 
 
 #### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your CloudTrail inputs.
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your AWS CloudTrail inputs.
 
 #### Required field
 
@@ -6532,7 +6688,7 @@ _version_: 2
 ---
 
 ### AWS Network Access Control List Deleted
-Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the AWS console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the CloudTrail logs to detect users deleting network ACLs.
+Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the AWS console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the AWS CloudTrail logs to detect users deleting network ACLs.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -6557,7 +6713,7 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 
 
 #### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs.
 
 #### Required field
 
@@ -6630,7 +6786,7 @@ This search provides specific SAML access from specific Service Provider, user a
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Required field
 
@@ -6658,7 +6814,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -6715,7 +6871,7 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 
@@ -6741,7 +6897,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -6774,7 +6930,7 @@ _version_: 1
 ---
 
 ### AWS SetDefaultPolicyVersion
-This search looks for CloudTrail events where a user has set a default policy versions. Attackers have been know to use this technique for Privilege Escalation in case the previous versions of the policy had permissions to access more resources than the current version of the policy
+This search looks for AWS CloudTrail events where a user has set a default policy versions. Attackers have been know to use this technique for Privilege Escalation in case the previous versions of the policy had permissions to access more resources than the current version of the policy
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -6798,7 +6954,7 @@ This search looks for CloudTrail events where a user has set a default policy ve
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 
@@ -6820,7 +6976,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -6851,7 +7007,7 @@ _version_: 1
 ---
 
 ### AWS UpdateLoginProfile
-This search looks for CloudTrail events where a user A who has already permission to update login profile, makes an API call to update login profile for another user B . Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
+This search looks for AWS CloudTrail events where a user A who has already permission to update login profile, makes an API call to update login profile for another user B . Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -6876,7 +7032,7 @@ This search looks for CloudTrail events where a user A who has already permissio
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs.
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
 #### Required field
 
@@ -6981,7 +7137,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -7063,7 +7219,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -7145,7 +7301,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -7224,7 +7380,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -7615,7 +7771,7 @@ To successfully implement this search, you must be ingesting data that records r
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -8120,12 +8276,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ----------- | ----------- |--------------|
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1554 | Compromise Client Software Binary | Persistence |
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
@@ -8206,12 +8362,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ----------- | ----------- |--------------|
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1554 | Compromise Client Software Binary | Persistence |
 | T1555 | Credentials from Password Stores | Credential Access |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
@@ -8288,7 +8444,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 | T1087 | Account Discovery | Discovery |
 | T1201 | Password Policy Discovery | Discovery |
@@ -8824,7 +8980,7 @@ To successfully implement this search you need to be ingesting information on pr
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 
 
 #### Kill Chain Phase
@@ -9146,7 +9302,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 
 
 #### Kill Chain Phase
@@ -9228,7 +9384,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 
 
 #### Kill Chain Phase
@@ -9779,7 +9935,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -9852,7 +10008,7 @@ You must be ingesting the appropriate cloud-infrastructure logs Run the "Previou
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -10142,7 +10298,7 @@ This search has a dependency on other searches to create and update a baseline o
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -10221,7 +10377,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -10301,7 +10457,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -10379,7 +10535,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -10459,7 +10615,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -12522,7 +12678,7 @@ Detailed documentation on how to create a new field within Incident Review may b
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 
 
 #### Kill Chain Phase
@@ -12937,6 +13093,84 @@ _version_: 4
 
 ---
 
+### Deny Permission using Cacls Utility
+This analytic identifies a potential adversary that changes the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft, ransomware or coinminer scripts. This behavior is meant to evade detection and prevent access to their component files.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
+- **Last Updated**: 2021-06-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)deny/)=true AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed icacls.exe may be used.
+
+#### Required field
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+network administrator may use this windows utility but this is not a common practice.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Detect ARP Poisoning
 By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organization's network devices, we will be able to detect ARP Poisoning attacks in the Infrastructure.
 
@@ -12991,7 +13225,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | ----------- | ----------- |--------------|
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
-| T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
+| T1557.002 | ARP Cache Poisoning | Credential Access, Collection |
 
 
 #### Kill Chain Phase
@@ -13018,7 +13252,7 @@ _version_: 1
 ---
 
 ### Detect AWS Console Login by New User
-This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
+This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
@@ -13047,7 +13281,7 @@ This search looks for CloudTrail events wherein a console login event by a user 
 
 
 #### How To Implement
-You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines.
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in AWS CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines.
 
 #### Required field
 
@@ -13082,7 +13316,7 @@ _version_: 1
 ---
 
 ### Detect AWS Console Login by User from New City
-This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
+This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
@@ -13119,7 +13353,7 @@ This search looks for CloudTrail events wherein a console login event by a user 
 
 
 #### How To Implement
-You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_city_filter` macro.
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in AWS CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_city_filter` macro.
 
 #### Required field
 
@@ -13162,7 +13396,7 @@ _version_: 1
 ---
 
 ### Detect AWS Console Login by User from New Country
-This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
+This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
@@ -13199,7 +13433,7 @@ This search looks for CloudTrail events wherein a console login event by a user 
 
 
 #### How To Implement
-You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_country_filter` macro.
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in AWS CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_country_filter` macro.
 
 #### Required field
 
@@ -13242,7 +13476,7 @@ _version_: 1
 ---
 
 ### Detect AWS Console Login by User from New Region
-This search looks for CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
+This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
@@ -13279,7 +13513,7 @@ This search looks for CloudTrail events wherein a console login event by a user 
 
 
 #### How To Implement
-You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_region_filter` macro.
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in AWS CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_region_filter` macro.
 
 #### Required field
 
@@ -14116,7 +14350,7 @@ If Splunk>Phantom is also configured in your environment, a Playbook called "Exc
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.002 | Domain Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.002 | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -14186,7 +14420,7 @@ ou must ingest your Windows security event logs in the `Change` datamodel under 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.003 | Local Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.003 | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -14855,7 +15089,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | ----------- | ----------- |--------------|
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
-| T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
+| T1557.002 | ARP Cache Poisoning | Credential Access, Collection |
 
 
 #### Kill Chain Phase
@@ -15029,7 +15263,7 @@ In order to run this search effectively, we highly recommend that you leverage t
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1095 | Non-Application Layer Protocol | Command and Control |
+| T1095 | Non-Application Layer Protocol | Command And Control |
 
 
 #### Kill Chain Phase
@@ -15522,7 +15756,7 @@ _version_: 1
 ---
 
 ### Detect New Open S3 Buckets over AWS CLI
-This search looks for CloudTrail events where a user has created an open/public S3 bucket over the aws cli.
+This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket over the aws cli.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -15607,7 +15841,7 @@ _version_: 1
 ---
 
 ### Detect New Open S3 buckets
-This search looks for CloudTrail events where a user has created an open/public S3 bucket.
+This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -15748,7 +15982,7 @@ In order to run this search effectively, we highly recommend that you leverage t
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 
 
 #### Kill Chain Phase
@@ -15992,7 +16226,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1574.009 | Path Interception by Unquoted Path | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.009 | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -16080,7 +16314,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | ----------- | ----------- |--------------|
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
-| T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
+| T1557.002 | ARP Cache Poisoning | Credential Access, Collection |
 
 
 #### Kill Chain Phase
@@ -17514,7 +17748,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | ----------- | ----------- |--------------|
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
-| T1557 | Man-in-the-Middle | Collection, Credential Access |
+| T1557 | Man-in-the-Middle | Credential Access, Collection |
 
 
 #### Kill Chain Phase
@@ -18554,7 +18788,7 @@ This search detects users creating spikes in API activity related to deletion of
 
 
 #### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the minimum number of data points required to have a statistically significant amount of data to determine. The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the "Baseline of S3 Bucket deletion activity by ARN" support search once to create a baseline of previously seen S3 bucket-deletion activity.
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the minimum number of data points required to have a statistically significant amount of data to determine. The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the "Baseline of S3 Bucket deletion activity by ARN" support search once to create a baseline of previously seen S3 bucket-deletion activity.
 
 #### Required field
 
@@ -18930,7 +19164,7 @@ To successfully implement this search, you need to be ingesting logs with that p
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.003 | Windows Management Instrumentation Event Subscription | Persistence, Privilege Escalation |
+| T1546.003 | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
 
 
 #### Kill Chain Phase
@@ -20730,7 +20964,7 @@ To successfully implement this search, you must be ingesting data that records r
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -20965,7 +21199,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 
 
 #### Kill Chain Phase
@@ -21659,7 +21893,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -21985,7 +22219,7 @@ To successfully implement this search you must ensure that DNS data is populatin
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 
 
 #### Kill Chain Phase
@@ -22481,6 +22715,89 @@ Many benign applications will create processes from executables in Windows\Temp,
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Excessive number of service control start as disabled
+This detection targets behaviors observed when threat actors have used sc.exe to modify services. We observed malware in a honey pot spawning numerous sc.exe processes in a short period of time, presumably to impair defenses, possibly to block others from compromising the same machine.  This detection will alert when we see both an excessive number of sc.exe processes launched with specific commandline arguments to disable the start of certain services.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
+- **Last Updated**: 2021-06-25
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` distinct_count(Processes.process) as distinct_cmdlines values(Processes.process_id) as process_ids min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name = "sc.exe" AND Processes.process="*start= disabled*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.parent_process_id, _time span=30m 
+| where distinct_cmdlines >= 8 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_number_of_service_control_start_as_disabled_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must be ingesting logs with both the process name and command line from your endpoints. The complete process name with command-line arguments are mapped to the "process" field in the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Legitimate programs and administrators will execute sc.exe with the start disabled flag.  It is possible, but unlikely from the telemetry of normal Windows operation we observed, that sc.exe will be called more than seven times in a short period of time.
+
+#### Reference
+
+
+* https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
+
+* https://attack.mitre.org/techniques/T1562/001/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
 
 
 _version_: 1
@@ -23069,7 +23386,7 @@ You must be populating the endpoint data model for SSA and specifically the proc
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059 | Command and Scripting Interpreter | Execution |
-|  |  |  |
+| T1117 | Regsvr32 |  |
 | T1202 | Indirect Command Execution | Defense Evasion |
 
 
@@ -23153,7 +23470,7 @@ To successfully implement this search you need to be ingesting information on pr
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1112 | Modify Registry | Defense Evasion |
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -23240,7 +23557,7 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -23422,6 +23739,84 @@ Limited false positives may be present in small environments. Tuning may be requ
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Grant Permission Using Cacls Utility
+This analytic identifies potential adversaries that modify the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft, ransomware and coinminer scripts to evade detections and restrict access to their component files.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
+- **Last Updated**: 2021-06-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)grant/)=true AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed icacls.exe may be used.
+
+#### Required field
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+network administrator may use this windows utility but this is not a common practice.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
 
 
 _version_: 1
@@ -24309,7 +24704,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 
 
@@ -24541,7 +24936,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ----------- | ----------- |--------------|
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -24616,7 +25011,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -25788,6 +26183,84 @@ _version_: 1
 
 ---
 
+### Modify ACLs Permission Of Files Or Folders
+This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone or to a specific user. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
+- **Last Updated**: 2021-06-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%/G%") AND (match_regex(cmd_line, /(?i)everyone:/)=true OR match_regex(cmd_line, /(?i)SYSTEM:/)=true) AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* XMRig
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
+
+#### Required field
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+network administrator may use this windows utility. filter is needed.
+
+#### Reference
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Monitor Email For Brand Abuse
 This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.
 
@@ -26446,7 +26919,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.001 | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -27017,7 +27490,7 @@ This searches show information on uploaded containers including source user, ima
 
 
 #### How To Implement
-You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_aws_detection_filter` macro to filter out the false positives.
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You must also install Cloud Infrastructure data model. Please also customize the `container_implant_aws_detection_filter` macro to filter out the false positives.
 
 #### Required field
 
@@ -28942,7 +29415,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.001 | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -29009,7 +29482,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.001 | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -29075,7 +29548,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.001 | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -29141,7 +29614,7 @@ You must be ingesting data that records the filesystem activity from your hosts 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.008 | Accessibility Features | Persistence, Privilege Escalation |
+| T1546.008 | Accessibility Features | Privilege Escalation, Persistence |
 
 
 #### Kill Chain Phase
@@ -30218,6 +30691,165 @@ _version_: 1
 
 ---
 
+### Print Spooler Adding A Printer Driver
+The following analytic identifies new printer drivers being load by utilizing the Windows PrintService operational logs, EventCode 316. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
+Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
+During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1547.012](https://attack.mitre.org/techniques/T1547/012/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" 
+| stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `print_spooler_adding_a_printer_driver_filter`
+```
+#### Associated Analytic Story
+
+* PrintNightmare CVE-2021-34527
+
+
+#### How To Implement
+You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
+
+#### Required field
+
+* _time
+
+* OpCode
+
+* EventCode
+
+* ComputerName
+
+* Message
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown. This may require filtering.
+
+#### Reference
+
+
+* https://twitter.com/MalwareJake/status/1410421445608476679?s=20
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Print Spooler Failed to Load a Plug-in
+The following analytic identifies driver load errors utilizing the Windows PrintService Admin logs. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
+Within the proof of concept code, the following error will occur - "The print spooler failed to load a plug-in module C:\Windows\system32\spool\DRIVERS\x64\3\meterpreter.dll, error code 0x45A. See the event user data for context information." \
+The analytic is based on file path and failure to load the plug-in. \
+During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1547.012](https://attack.mitre.org/techniques/T1547/012/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) 
+| stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `print_spooler_failed_to_load_a_plug_in_filter`
+```
+#### Associated Analytic Story
+
+* PrintNightmare CVE-2021-34527
+
+
+#### How To Implement
+You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
+
+#### Required field
+
+* _time
+
+* OpCode
+
+* EventCode
+
+* ComputerName
+
+* Message
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+False positives are unknown and filtering may be required.
+
+#### Reference
+
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Probing Access with Stolen Credentials via PowerSploit modules
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
@@ -30264,7 +30896,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 
 
@@ -31350,7 +31982,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1087 | Account Discovery | Discovery |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
 
@@ -31424,7 +32056,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1087 | Account Discovery | Discovery |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
 
@@ -32023,10 +32655,10 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ----------- | ----------- |--------------|
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-| T1574 | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+| T1574 | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -32176,7 +32808,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | T1590.001 | Domain Properties | Reconnaissance |
 | T1590.003 | Network Trust Dependencies | Reconnaissance |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 
 
@@ -32323,7 +32955,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 
 
@@ -32398,7 +33030,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ----------- | ----------- |--------------|
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
-| T1574 | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+| T1574 | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -32478,7 +33110,7 @@ To successfully implement this search, you must be ingesting data that records r
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.011 | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -32634,7 +33266,7 @@ To successfully implement this search, you must be ingesting data that records r
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
+| T1546.012 | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 
 #### Kill Chain Phase
@@ -32710,7 +33342,7 @@ To successfully implement this search, you must populate the Change_Analysis dat
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+| T1546.011 | Application Shimming | Privilege Escalation, Persistence |
 
 
 #### Kill Chain Phase
@@ -33459,6 +34091,8 @@ The following analytic identifies rundll32.exe with no command line arguments an
 
 * Cobalt Strike
 
+* PrintNightmare CVE-2021-34527
+
 
 #### How To Implement
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
@@ -33729,7 +34363,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -33819,7 +34453,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -34988,7 +35622,7 @@ To successfully implement this search, you will need to ensure that DNS data is 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -35151,7 +35785,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 
 
@@ -35227,7 +35861,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 
 
@@ -35303,7 +35937,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 
 
@@ -35378,7 +36012,7 @@ You must be ingesting data that records the filesystem activity from your hosts 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+| T1546.011 | Application Shimming | Privilege Escalation, Persistence |
 
 
 #### Kill Chain Phase
@@ -35448,7 +36082,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+| T1546.011 | Application Shimming | Privilege Escalation, Persistence |
 
 
 #### Kill Chain Phase
@@ -35678,6 +36312,418 @@ It is important to understand that if you happen to install any new applications
 
 
 _version_: 3
+</details>
+
+---
+
+### Spoolsv Spawning Rundll32
+The following analytic identifies a suspicious child process, `rundll32.exe`, with no command-line arguments being spawned from `spoolsv.exe`. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to spawn a process. During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1547.012](https://attack.mitre.org/techniques/T1547/012/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe Processes.process_name=rundll32.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `spoolsv_spawning_rundll32_filter`
+```
+#### Associated Analytic Story
+
+* PrintNightmare CVE-2021-34527
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives have been identified. There are limited instances where `rundll32.exe` may be spawned by a legitimate print driver.
+
+#### Reference
+
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Spoolsv Suspicious Loaded Modules
+This search is to detect suspicious loading of dll in specific path relative to printnightmare exploitation. In this search we try to detect the loaded modules made by spoolsv.exe after the exploitation.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1547.012](https://attack.mitre.org/techniques/T1547/012/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*" ImageLoaded = "*.dll" 
+| stats dc(ImageLoaded) as countImgloaded values(ImageLoaded) as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer process_id EventCode 
+| where countImgloaded >= 3 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `spoolsv_suspicious_loaded_modules_filter`
+```
+#### Associated Analytic Story
+
+* PrintNightmare CVE-2021-34527
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Image
+
+* Computer
+
+* EventCode
+
+* ImageLoaded
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://raw.githubusercontent.com/hieuttmmo/sigma/dceb13fe3f1821b119ae495b41e24438bd97e3d0/rules/windows/image_load/sysmon_cve_2021_1675_print_nightmare.yml
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Spoolsv Suspicious Process Access
+This analytic identifies a suspicious behavior related to PrintNightmare, or CVE-2021-34527 previously (CVE-2021-1675),  to gain privilege escalation on the vulnerable machine. This exploit attacks a critical Windows Print Spooler Vulnerability to elevate privilege. This detection is to look for suspicious process access made by the spoolsv.exe that may related to the attack.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*" TargetImage IN ("*\\rundll32.exe", "*\\spoolsv.exe") GrantedAccess = 0x1fffff 
+| stats  count min(_time) as firstTime max(_time) as lastTime by Computer SourceImage TargetImage GrantedAccess CallTrace  EventCode ProcessID
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `spoolsv_suspicious_process_access_filter`
+```
+#### Associated Analytic Story
+
+* PrintNightmare CVE-2021-34527
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with process access event where SourceImage, TargetImage, GrantedAccess and CallTrace executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of spoolsv.exe.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* TargetImage
+
+* GrantedAccess
+
+* CallTrace
+
+* EventCode
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown. Filter as needed.
+
+#### Reference
+
+
+* https://github.com/cube0x0/impacket/commit/73b9466c17761384ece11e1028ec6689abad6818
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Spoolsv Writing a DLL
+The following analytic identifies a `.dll` being written by `spoolsv.exe`. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to write a `.dll`. Current POC code used will write the suspicious DLL to disk within a path of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1547.012](https://attack.mitre.org/techniques/T1547/012/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=spoolsv.exe by _time Processes.process_id Processes.process_name Processes.dest 
+| `drop_dm_object_name(Processes)` 
+| join process_guid, _time [
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\spool\\drivers\\x64\\*" Filesystem.file_name="*.dll" by _time Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path 
+| `drop_dm_object_name(Filesystem)` 
+| fields _time dest file_create_time file_name file_path process_name process_path process] 
+| dedup file_create_time 
+| table dest file_create_time, file_name, file_path, process_name 
+| `spoolsv_writing_a_dll_filter`
+```
+#### Associated Analytic Story
+
+* PrintNightmare CVE-2021-34527
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
+
+#### Required field
+
+* _time
+
+* Filesystem.dest
+
+* Filesystem.file_create_time
+
+* Filesystem.file_name
+
+* Filesystem.file_path
+
+* Processes.process_name
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Unknown.
+
+#### Reference
+
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Spoolsv Writing a DLL - Sysmon
+The following analytic identifies a `.dll` being written by `spoolsv.exe`. This was identified during our testing of CVE-2021-34527 previously(CVE-2021-1675) or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to write a `.dll`. Current POC code used will write the suspicious DLL to disk within a path of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1547.012](https://attack.mitre.org/techniques/T1547/012/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventID=11 process_name=spoolsv.exe file_path="*\\spool\\drivers\\x64\\*" file_name=*.dll 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, UserID, process_name, file_path, file_name, TargetFilename, process_id 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `spoolsv_writing_a_dll___sysmon_filter`
+```
+#### Associated Analytic Story
+
+* PrintNightmare CVE-2021-34527
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* dest
+
+* UserID
+
+* process_name
+
+* file_path
+
+* file_name
+
+* TargetFilename
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives. Filter as needed.
+
+#### Reference
+
+
+* https://github.com/cube0x0/impacket/commit/73b9466c17761384ece11e1028ec6689abad6818
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -35957,7 +37003,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 
 
 #### Kill Chain Phase
@@ -37351,6 +38397,8 @@ The following analytic identifies rundll32.exe with no command line arguments. I
 
 * Cobalt Strike
 
+* PrintNightmare CVE-2021-34527
+
 
 #### How To Implement
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -38559,7 +39607,7 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 
 
 #### Kill Chain Phase
@@ -38900,7 +39948,7 @@ _version_: 3
 
 ### Unloading AMSI via Reflection
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
-This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")` taken from Powershell-Empire. \
+This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")` taken from Powershell-Empire. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -39551,7 +40599,7 @@ To successfully implement this search, you must be collecting Sysmon data using 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1546.003 | Windows Management Instrumentation Event Subscription | Persistence, Privilege Escalation |
+| T1546.003 | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
 
 
 #### Kill Chain Phase
@@ -40128,6 +41176,168 @@ unknown
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### WevtUtil Usage To Clear Logs
+The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, powershell, sysmon, or system event logs.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070/001/)
+- **Last Updated**: 2021-06-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "% cl %") AND (match_regex(cmd_line, /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line, /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line, /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name="wevtutil.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* Windows Log Manipulation
+
+* Ransomware
+
+* Clop Ransomware
+
+
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1070.001 | Clear Windows Event Logs | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+The wevtutil.exe application is a legitimate Windows event log utility. Administrators may use it to manage Windows event logs.
+
+#### Reference
+
+
+* https://www.splunk.com/en_us/blog/security/detecting-clop-ransomware.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Wevtutil Usage To Disable Logs
+This search is to detect execution of wevtutil.exe to disable logs. This technique was seen in several ransomware to disable the event logs to evade alerts and detections in compromised host.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070/001/)
+- **Last Updated**: 2021-06-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "% sl %") AND like(cmd_line, "%/e:false%") AND process_name="wevtutil.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* Windows Log Manipulation
+
+* Ransomware
+
+
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1070.001 | Clear Windows Event Logs | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+network operator may disable audit event logs for debugging purposes.
+
+#### Reference
+
+
+* https://www.bleepingcomputer.com/news/security/new-ransom-x-ransomware-used-in-texas-txdot-cyberattack/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log
 
 
 _version_: 1
@@ -41152,7 +42362,7 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -41231,7 +42441,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -41322,7 +42532,7 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
@@ -41367,7 +42577,7 @@ This search provides detection of suspicious use of sts:AssumeRole. These tokens
 
 
 #### How To Implement
-You must install splunk AWS add on and Splunk App for AWS. This search works with cloudtrail logs
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 
 #### Required field
 
@@ -41401,7 +42611,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Kill Chain Phase
