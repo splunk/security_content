@@ -1,0 +1,59 @@
+name: Allow Network Discovery in Firewall
+id: 7a7cef9e-db75-11eb-bd87-acde48001122
+version: 1
+date: '2021-07-02'
+author: Michael Haag, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: 'The following analytic identifies the use of `netsh.exe` to enable the group of "Network Discovery" inbound on one or many endpoints. \
+
+	This particular behavior has been found in more recent Revil ransomware events. Many features may be enabled on the command-line with `netsh.exe`, currently limited sets are being used by adversaries. \
+  
+  When executed, it will have the following appearance on the command-line - "netsh.exe advfirewall firewall set rule group=Network Discovery new enable=Yes" \ 
+  
+  During triage, review parallel processes for further suspicious commands. In addition to process execution, review file modifications before and after on the endpoint to determine anything else requiring further review. Isolate and eradicate the threat.'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe
+  Processes.process="*firewall*" Processes.process="*group=\"Network Discovery\"*" Processes.process="*enable=yes*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `allow_network_discovery_in_firewall_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Unknown. May need to be filtered based on organization script execution.
+references:
+  - https://medium.com/@bellaawilliammss/how-to-enable-network-discovery-in-windows-10-aa8263d9ea78
+  - https://kb.fortinet.com/kb/documentLink.do?externalID=FD52469
+tags:
+  analytic_story:
+  - Ransomware
+  - Revil
+  dataset: []
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1003.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
+  impact: 
+  confidence: 
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  message: 
+  observable:
+  

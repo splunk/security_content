@@ -1,0 +1,12 @@
+name: Powershell Disable Security Monitoring Unit Test
+tests:
+- name: Powershell Disable Security Monitoring
+  file: detections/endpoint/powershell_disable_security_monitoring.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: UPDATE_FILE_NAME
+    data: UPDATE_DATASET_URL
+    source: UPDATE_SPLUNK_SOURCE
+    sourcetype: UPDATE_SPLUNK_SOURCETYPE
