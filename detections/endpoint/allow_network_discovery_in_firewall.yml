@@ -29,7 +29,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
-  - Revil
+  - Revil Ransomware
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
