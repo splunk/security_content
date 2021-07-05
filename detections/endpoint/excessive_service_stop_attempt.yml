@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "net.exe"
   OR  Processes.process_name = "sc.exe" OR  Processes.process_name = "net1.exe" AND
-  Processes.process="*stop*" OR Processes.process="*/delete*" by Processes.process_name
+  Processes.process="*stop*" OR Processes.process="*delete*" by Processes.process_name
   Processes.parent_process_name Processes.dest Processes.user _time span=1m | where
   count >=5 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `excessive_service_stop_attempt_filter`'
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - Ransomware
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
