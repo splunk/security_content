@@ -10,18 +10,17 @@ description: This search is to identifies a modification in registry to disable 
   windows denfender real time behavior monitoring. This event or technique is commonly
   seen in RAT, bot, or Trojan to disable AV to evade detections.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("powershell.exe", "pwsh.exe", "sqlps.exe", "sqltoolsps.exe")
-  Processes.process="*set-mppreference*" AND 
-  Processes.process IN ("*disablerealtimemonitoring*","*disableioavprotection*","*disableintrusionpreventionsystem*","*disablescriptscanning*","*disableblockatfirstseen*") 
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `powershell_disable_security_monitoring_filter`'
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("powershell.exe",
+  "pwsh.exe", "sqlps.exe", "sqltoolsps.exe") Processes.process="*set-mppreference*"
+  AND Processes.process IN ("*disablerealtimemonitoring*","*disableioavprotection*","*disableintrusionpreventionsystem*","*disablescriptscanning*","*disableblockatfirstseen*")
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_disable_security_monitoring_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: Limited false positives. However, tune based on scripts that may perform this action.
+known_false_positives: Limited false positives. However, tune based on scripts that
+  may perform this action.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-15---tamper-with-windows-defender-atp-powershell
 tags:
@@ -46,5 +45,6 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
-
-  
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/pwh_defender_disabling/windows-sysmon.log
