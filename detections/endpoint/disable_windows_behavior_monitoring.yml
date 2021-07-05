@@ -29,6 +29,8 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - Ransomware
+  - Revil
   automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
