@@ -44,8 +44,13 @@ def main(args):
             }
         )        
 
+
         test_done = True
         for item in response['Items']:
+            if item['status']['S'] == 'nothing to test':
+                print('No new or changed detections to test.')
+                sys.exit(0)
+
             if item['status']['S'] == 'running':
                 test_done = False
 
