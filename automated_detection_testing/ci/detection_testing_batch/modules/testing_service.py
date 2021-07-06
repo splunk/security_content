@@ -98,9 +98,6 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
     detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
     result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
 
-    # for testing
-    splunk_sdk.run_modified_splunk_search(splunk_ip, splunk_password, detection['search'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
-
     result_detection['detection_name'] = test['name']
     result_detection['detection_file'] = test['file']
     result_test['detection_result'] = result_detection

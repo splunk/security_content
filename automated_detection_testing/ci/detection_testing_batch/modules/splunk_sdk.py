@@ -54,48 +54,6 @@ def test_baseline_search(splunk_host, splunk_password, search, pass_condition, b
         return test_results
 
 
-def run_modified_splunk_search(splunk_host, splunk_password, search, detection_name, detection_file, earliest_time, latest_time):
-    try:
-        service = client.connect(
-            host=splunk_host,
-            port=8089,
-            username='admin',
-            password=splunk_password
-        )
-    except Exception as e:
-        print("Unable to connect to Splunk instance: " + str(e))
-        return 1, {}
-
-    if search.startswith('|'):
-        search = search
-    else:
-        search = 'search ' + search
-
-    kwargs = {"dispatch.earliest_time": "-1d",
-              "dispatch.latest_time": "now"}
-
-    splunk_search = search
-
-    try:
-        job = service.jobs.export(splunk_search, **kwargs)
-    except Exception as e:
-        print("Unable to execute detection: " + str(e))
-        return 1, {}
-
-    # Get the results and display them using the ResultsReader
-    reader = results.ResultsReader(job)
-    results = []
-    for result in reader:
-        if isinstance(result, dict):
-            #print('Result: ' + str(str(result).encode('utf-8')))
-            results.append(result)
-        elif isinstance(result, results.Message):
-            # Diagnostic messages may be returned in the results
-            #print("Message: " + str(str(result).encode('utf-8')))
-
-    return results
-
-
 def test_detection_search(splunk_host, splunk_password, search, pass_condition, detection_name, detection_file, earliest_time, latest_time):
     try:
         service = client.connect(

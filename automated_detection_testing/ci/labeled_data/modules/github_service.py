@@ -37,10 +37,12 @@ class GithubService:
         # for testing
         #test_files = ['security_content/tests/endpoint/certutil_exe_certificate_extraction.test.yml']
 
-        # test_files.remove('security_content/tests/endpoint/account_discovery_with_net_app.test.yml')
+        test_files.remove('security_content/tests/endpoint/winword_spawning_windows_script_host.test.yml')
+        test_files.remove('security_content/tests/endpoint/winword_spawning_powershell.test.yml')
+        test_files.remove('security_content/tests/endpoint/winword_spawning_cmd.test.yml')
         # test_files.remove('security_content/tests/endpoint/bitsadmin_download_file.test.yml')
         # test_files.remove('security_content/tests/endpoint/bcdedit_failure_recovery_modification.test.yml')
-        return sorted(test_files)[58:]
+        return sorted(test_files, reverse=True)[61:]
 
 
     # def get_changed_test_files(self):

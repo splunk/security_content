@@ -166,7 +166,7 @@ def delete_attack_data(splunk_host, splunk_password):
     splunk_search = 'search index=test* | delete'
 
     kwargs = {"exec_mode": "blocking",
-              "dispatch.earliest_time": "-1d",
+              "dispatch.earliest_time": "-360d",
               "dispatch.latest_time": "now"}
 
     try:

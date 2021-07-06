@@ -103,8 +103,8 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
         else:
             test_index = test_index + 1
 
-    # delete test data
-    splunk_sdk.delete_attack_data(splunk_ip, splunk_password)
+        # delete test data
+        splunk_sdk.delete_attack_data(splunk_ip, splunk_password)
 
 
 def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index):
@@ -265,7 +265,7 @@ def modify_detection(splunk_search):
             else:
                 search1 = "ERROR" 
 
-            regex2 = r'where (.*)by([^\|]+)'
+            regex2 = r'where (.*)by ([^\|]+)'
             b = re.search(regex2, splunk_search)
             search2 = ""
             if b:
